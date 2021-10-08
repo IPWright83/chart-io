@@ -1,0 +1,144 @@
+<!--- Columns.stories.mdx --->
+
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+
+import { defaultArgTypes } from "./defaultArgTypes";
+import { defaultArgs } from "./defaultArgs";
+import { seriesArgTypes } from "../seriesArgTypes";
+import { sales_records_dataset } from "../sales_records_dataset";
+import { Chart, XAxis, YAxis, Column, Columns } from "../../src/components";
+
+export const columnArgTypes = {
+    ...defaultArgTypes,
+};
+
+<Meta title="XYCharts/1. Column" component={Column} argTypes={columnArgTypes} />
+
+export const ColumnTemplate = (args) => (
+    <Chart {...args} data={sales_records_dataset}>
+        <Column x={args.x} y={args.y} color={args.color} animationDuration={args.animationDuration} />
+        <YAxis fields={[args.y]} />
+        <XAxis fields={[args.x]} />
+    </Chart>
+);
+
+# Column Component
+
+The `<Column>` component allows us to define a column plot on our chart.
+
+<Story
+    name="Basic Column"
+    args={{
+        ...defaultArgs,
+        width: 800,
+    }}
+>
+    {ColumnTemplate.bind({})}
+</Story>
+
+#### Scale
+
+When you are using a Column chart you may need help the chart by specifying the type of scale. You can do this by configuring your `<XAxis>` like so `<XAxis ... scaleType="band" />`
+
+## Visual Styling
+
+Most of the configuration for a `<Column>` is similar to other plots. Currently the only styling property avaliable is the colour option.
+
+<Story
+    name="Column Color configuration"
+    args={{
+        ...defaultArgs,
+        width: 800,
+        color: "orange",
+    }}
+>
+    {ColumnTemplate.bind({})}
+</Story>
+
+## Multiple Series
+
+There are three ways to go about defining multiple column plots, depending on the type of column chart you wish to produce.
+
+-   Ratio Columns
+-   Stacked Columns
+-   Grouped Columns
+
+### Ratio Charts
+
+One way of combining Column plots is to display one over the top of the other. This is useful if you want to show one value as a ratio of another.
+
+export const RatioColumnTemplate = (args) => (
+    <div>
+        <Chart {...args} data={sales_records_dataset}>
+            <Column x={args.x} y={args.y} color={args.color} animationDuration={args.animationDuration} />
+            <Column x={args.x} y={args.y2} color={args.color2} animationDuration={args.animationDuration} />
+            <YAxis fields={[args.y, args.y2]} />
+            <XAxis fields={[args.x]} scaleType="band" />
+        </Chart>
+    </div>
+);
+
+<Story
+    name="Ratio Columns"
+    args={{
+        ...defaultArgs,
+        width: 800,
+        color: "#0076B3",
+        color2: "#FF7F28",
+        y2: "Unit Cost",
+    }}
+>
+    {RatioColumnTemplate.bind({})}
+</Story>
+
+### Stacked Charts
+
+Another way to to combine column plots is to stack them on top of each other. To stack column plots you **must** use the `<Columns>` (plural) component and ensure that you set stacked field `<Columns ... stacked={true} />`.
+
+The chart will attempt to warn you, but you should also set the `aggregate` field on your Y Axis/Scale as otherwise the data will overflow of the top of the scale `<YAxis ... aggregate={true} />`.
+
+export const StackedColumnTemplate = (args) => (
+    <div>
+        <Chart {...args} data={sales_records_dataset}>
+            <Columns x={args.x} ys={[args.y, args.y2]} animationDuration={args.animationDuration} stacked={true} />
+            <YAxis fields={[args.y, args.y2]} aggregate={true} />
+            <XAxis fields={[args.x]} scaleType="band" />
+        </Chart>
+    </div>
+);
+
+<Story
+    name="Stacked Columns"
+    args={{
+        ...defaultArgs,
+        width: 800,
+        y2: "Unit Cost",
+    }}
+>
+    {StackedColumnTemplate.bind({})}
+</Story>
+
+### Grouped Charts
+
+Another way to to combine column plots is to group them together in multiple series. To group column plots you **must** use the `<Columns>` (plural) component and ensure that you set grouped field `<Columns ... grouped={true} />`.
+
+export const GroupedColumnTemplate = (args) => (
+    <div>
+        <Chart {...args} data={sales_records_dataset}>
+            <Columns x={args.x} ys={[args.y, args.y2]} animationDuration={args.animationDuration} grouped={true} />
+            <YAxis fields={[args.y, args.y2]} />
+            <XAxis fields={[args.x]} scaleType="band" />
+        </Chart>
+    </div>
+);
+
+<Story
+    name="Grouped Columns"
+    args={{
+        ...defaultArgs,
+        width: 900,
+        y2: "Unit Cost",
+    }}
+>
+    {GroupedColumnTemplate.bind({})}
+</Story>

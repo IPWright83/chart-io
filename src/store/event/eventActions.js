@@ -1,0 +1,81 @@
+/**
+ * Sets the mouse move event as being active in the store
+ * @param  {Object} mouseEventArgs  The event arguments from the mouse event
+ * @return {Object}                 A redux store action
+ */
+const mouseMove = (mouseEventArgs) => ({
+    type: "EVENT.MOUSE_MOVE",
+    payload: mouseEventArgs,
+});
+
+/**
+ * Sets the mouse enter event as being active in the store
+ * @param  {Object} mouseEventArgs  The event arguments from the mouse event
+ * @return {Object}                 A redux store action
+ */
+const mouseEnter = (mouseEventArgs) => ({
+    type: "EVENT.MOUSE_ENTER",
+    payload: mouseEventArgs,
+});
+
+/**
+ * Sets the mouse exit event as being active in the store
+ * @param  {Object} mouseEventArgs  The event arguments from the mouse event
+ * @return {Object}                 A redux store action
+ */
+const mouseExit = (mouseEventArgs) => ({
+    type: "EVENT.MOUSE_EXIT",
+    payload: mouseEventArgs,
+});
+
+/**
+ * Adds a dropline to the store
+ * @param  {Object} dropline    The dropline to add
+ * @return {Object}             A redux store action
+ */
+const addDropline = (dropline) => ({
+    type: "EVENT.ADD_DROPLINE",
+    payload: dropline,
+});
+
+/**
+ * Removes a dropline from the store
+ * @param  {Object} dropline    The dropline to remove
+ * @return {Object}             A redux store action
+ */
+const removeDropline = (dropline) => ({
+    type: "EVENT.REMOVE_DROPLINE",
+    payload: dropline,
+});
+
+/**
+ * Adds a marker to the store
+ * @param  {Object} marker      The marker to add
+ * @return {Object}             A redux store action
+ */
+const addMarker = (marker) => ({
+    type: "EVENT.ADD_MARKER",
+    payload: marker,
+});
+
+/**
+ * Removes a marker from the store
+ * @param  {Object} marker      The marker to remove
+ * @return {Object}             A redux store action
+ */
+const removeMarker = (marker) => ({
+    type: "EVENT.REMOVE_MARKER",
+    payload: marker,
+});
+
+const eventActions = {
+    mouseMove,
+    mouseExit,
+    mouseEnter,
+    addDropline,
+    removeDropline,
+    addMarker,
+    removeMarker,
+};
+
+export { eventActions };
