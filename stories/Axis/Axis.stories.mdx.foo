@@ -1,4 +1,4 @@
-<!--- Axis.stories.mdx --->
+<!-- <!--- Axis.stories.mdx --->
 
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 
@@ -11,9 +11,9 @@ export const defaultArgTypes = {
     ...commonDefaultArgTypes,
 };
 
-<Meta title="Axis" component={Axis} argTypes={defaultArgTypes} />
+<Meta title="Axis/Axis" component={Axis} argTypes={defaultArgTypes} />
 
-export const XAxisTemplate = (args) => (
+export const AxisTemplate = (args) => (
     <Chart {...args} data={axisData}>
         <XAxis fields={[args.x]} />
     </Chart>
@@ -45,7 +45,7 @@ Discrete scales are best suited for `<Bar>` or `<Column>` plots but can also be 
         width: 800,
     }}
 >
-    {XAxisTemplate.bind({})}
+    {AxisTemplate.bind({})}
 </Story>
 
 <Story
@@ -57,7 +57,7 @@ Discrete scales are best suited for `<Bar>` or `<Column>` plots but can also be 
         width: 800,
     }}
 >
-    {XAxisTemplate.bind({})}
+    {AxisTemplate.bind({})}
 </Story>
 
 ## Numerical Axis
@@ -76,7 +76,7 @@ Numerical continuous scales are best for plotting `<Area>`, `<Line>` and `<Scatt
         width: 800,
     }}
 >
-    {XAxisTemplate.bind({})}
+    {AxisTemplate.bind({})}
 </Story>
 
 <Story
@@ -88,7 +88,7 @@ Numerical continuous scales are best for plotting `<Area>`, `<Line>` and `<Scatt
         width: 800,
     }}
 >
-    {XAxisTemplate.bind({})}
+    {AxisTemplate.bind({})}
 </Story>
 
 <Story
@@ -100,7 +100,7 @@ Numerical continuous scales are best for plotting `<Area>`, `<Line>` and `<Scatt
         width: 800,
     }}
 >
-    {XAxisTemplate.bind({})}
+    {AxisTemplate.bind({})}
 </Story>
 
 <Story
@@ -112,7 +112,7 @@ Numerical continuous scales are best for plotting `<Area>`, `<Line>` and `<Scatt
         width: 800,
     }}
 >
-    {XAxisTemplate.bind({})}
+    {AxisTemplate.bind({})}
 </Story>
 
 ### Aggregate
@@ -156,7 +156,7 @@ Time scales are best for plotting `<Area>`, `<Line>` and showing data across tim
         width: 800,
     }}
 >
-    {XAxisTemplate.bind({})}
+    {AxisTemplate.bind({})}
 </Story>
 
 <Story
@@ -168,5 +168,6 @@ Time scales are best for plotting `<Area>`, `<Line>` and showing data across tim
         width: 800,
     }}
 >
-    {XAxisTemplate.bind({})}
+    {AxisTemplate.bind({})}
 </Story>
+-->

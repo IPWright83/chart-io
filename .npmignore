@@ -2,3 +2,4 @@ src
 .storybook
 tsconfig.json
 rollup.config.js
+out*
