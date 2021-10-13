@@ -7,4 +7,4 @@ import "../../dark.css";
  */
 const Theme = () => <React.Fragment></React.Fragment>;
 
-export { Theme };
+export default Theme;
