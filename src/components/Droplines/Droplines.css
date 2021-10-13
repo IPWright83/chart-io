@@ -1,5 +1,5 @@
 .g-droplines .dropline {
-   stroke-width: 1;
+   stroke-width: 2;
    stroke-dasharray: 4;
    pointer-events: none;
 }

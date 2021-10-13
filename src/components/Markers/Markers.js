@@ -1,3 +1,5 @@
+import "./Markers.css";
+
 import * as d3 from "d3";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
@@ -27,8 +29,6 @@ const Markers = ({ layer }) => {
             .attr("class", "marker")
             .style("stroke", (d) => d.stroke || "none")
             .style("fill", (d) => d.fill || "none")
-            .style("stroke-width", 2)
-            .style("pointer-events", "none")
             .attr("r", (d) => d.r1)
             .attr("cx", (d) => d.cx)
             .attr("cy", (d) => d.cy);
