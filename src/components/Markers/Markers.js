@@ -37,7 +37,8 @@ const Markers = ({ layer }) => {
             .merge(join)
             .attr("cx", (d) => d.cx)
             .attr("cy", (d) => d.cy)
-            .transition(animationDuration)
+            .transition()
+            .duration(animationDuration)
             .attr("r", (d) => d.r2);
     }, [animationDuration, layer, markers]);
 
