@@ -1,3 +1,5 @@
+import "./VirtualCanvas.css";
+
 import emptyFunction from "emptyfunction";
 import debounce from "lodash.debounce";
 import PropTypes from "prop-types";
@@ -96,19 +98,11 @@ const VirtualCanvas = (props) => {
     return (
         <React.Fragment>
             {childrenWithProps}
-            <foreignObject width={width} height={height}>
-                <canvas width={width} height={height} ref={canvas} style={styles.canvas}></canvas>
+            <foreignObject className="fo" width={width} height={height}>
+                <canvas className="virtual-canvas" width={width} height={height} ref={canvas}></canvas>
             </foreignObject>
         </React.Fragment>
     );
-};
-
-const styles = {
-    canvas: {
-        position: "absolute",
-        opacity: 0,
-        zIndex: 10000,
-    },
 };
 
 VirtualCanvas.propTypes = {
