@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { Axis } from "../Axis";
-import { XScale } from "../Scale";
+import { XScale } from "../../Scale";
 
 /**
  * Represents an XAxis component
- * @return {ReactDOMComponent}  The X Axis component
+ * @return {ReactElement}  The X Axis component
  */
 const XAxis = ({ position, fields, scaleType, aggregate }) => {
     return (
@@ -21,7 +21,7 @@ XAxis.propTypes = {
      * The position of the axis [top, bottom]
      * @type {String}
      */
-    position: PropTypes.string,
+    position: PropTypes.oneOf(["top", "bottom"]),
     /**
      * The keys of the fields that will share this scale
      * @type {String[]}
