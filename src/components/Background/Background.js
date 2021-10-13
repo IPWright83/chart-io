@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import { throttle } from "lodash";
-import React, { useEffect, useRef } from "react";
+import PropTypes from "prop-types";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { chartSelectors, eventActions } from "../../store";
@@ -9,35 +10,15 @@ import { chartSelectors, eventActions } from "../../store";
  * Creates a background layer which is used to capture mouse events
  * @return {ReactDOMComponent}  The Background component
  */
-const Background = () => {
+const Background = ({ layer }) => {
     const dispatch = useDispatch();
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
 
-    // React will own the background container, but D3 will manage the events
-    const background = useRef(null);
-
-    // Runs once on first load
-    useEffect(() => {
-        if (!background.current) {
-            return;
-        }
-
-        // prettier-ignore
-        d3.select(background.current)
-          .append("rect")
-          .attr("fill", "none")
-          .attr("pointer-events", "all");
-    }, []);
-
     // Runs whenever the dimensions change
     useEffect(() => {
-        if (!background.current) {
-            return;
-        }
-
-        if (!width || !height) {
+        if (!layer.current || !width || !height) {
             return;
         }
 
@@ -50,8 +31,10 @@ const Background = () => {
         );
 
         // prettier-ignore
-        d3.select(background.current)
+        d3.select(layer.current)
             .select("rect")
+            .attr("fill", "none")
+            .attr("pointer-events", "all")
             .attr("width", width - margin.left - margin.right)
             .attr("height", height - margin.top - margin.bottom)
             .on("mouseout", (e) => { dispatch(eventActions.mouseExit(e)); })
@@ -59,10 +42,19 @@ const Background = () => {
             .on("mousemove", mouseMove);
 
         // Wire up events
-    }, [dispatch, background, width, height, margin]);
+    }, [dispatch, layer, width, height, margin]);
 
     const transform = `translate(${margin.left || 0}, ${margin.top || 0})`;
-    return <g ref={background} transform={transform} />;
+    return <rect transform={transform} />;
+};
+
+Background.propTypes = {
+    /**
+     * The layer to be rendered upon. Typically this is an `<svg:g>` or a fake HTMLElement when using canvas.
+     * @default undefined
+     * @type {HTMLElement}
+     */
+    layer: PropTypes.object,
 };
 
 export { Background };
