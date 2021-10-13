@@ -5,7 +5,7 @@ import { Scale } from "./Scale";
 /**
  * Represents an XScale
  * @param  {Object} props   Props for the scale
- * @return {ReactElement}   A scale component
+ * @return {ReactDOMComponent}   A scale component
  */
 const ZScale = ({ fields, scaleType, range }) => {
     return <Scale fields={fields} range={range} scaleType={scaleType} />;

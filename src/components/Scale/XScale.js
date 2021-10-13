@@ -8,7 +8,7 @@ import { Scale } from "./Scale";
 /**
  * Represents an XScale
  * @param  {Object} props   Props for the scale
- * @return {ReactElement}   A scale component
+ * @return {ReactDOMComponent}   A scale component
  */
 const XScale = ({ fields, scaleType, aggregate }) => {
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
