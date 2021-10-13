@@ -14,7 +14,7 @@ import { chartSelectors } from "../../../store";
  * Represents an Axis component
  * @return {ReactElement}  The Axis component
  */
-const Axis = ({ position, fields, tickSizeInner, tickSizeOuter, tickPadding, showGridlines = true }) => {
+const Axis = ({ position, fields, tickSizeInner, tickSizeOuter, tickPadding, showGridlines }) => {
     if (fields.length === 0) {
         throw new Error(
             "Unable to render an Axis without a field. Ensure that you have provided at least one field in the 'fields' prop."
@@ -78,12 +78,15 @@ Axis.propTypes = {
     tickSizeOuter: PropTypes.number,
     /** @type {Number} https://github.com/d3/d3-axis#axis_tickPadding */
     tickPadding: PropTypes.number,
+    /** @type {Boolean} Should gridlines be drawn? */
+    showGridlines: PropTypes.bool,
 };
 
 Axis.defaultProps = {
     tickSizeInner: 6,
     tickSizeOuter: 6,
     tickPadding: 3,
+    showGridlines: true,
 };
 
 export { Axis };
