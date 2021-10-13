@@ -13,7 +13,7 @@ import { chartSelectors } from "../../../../store";
 
 /**
  * Represents an Axis component
- * @return {ReactDOMComponent}  The Axis component
+ * @return {ReactElement}  The Axis component
  */
 const Gridlines = ({ layer, position, scale, tickPadding }) => {
     const width = useSelector((s) => chartSelectors.dimensions.width(s));

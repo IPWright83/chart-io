@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
 
-const LightTheme = React.lazy(() => import("./lightTheme"));
-const DarkTheme = React.lazy(() => import("./darkTheme"));
+const LightTheme = React.lazy(() => import("./lightTheme").Theme);
+const DarkTheme = React.lazy(() => import("./darkTheme").Theme);
 
 /**
  * Include either the light or dark theme dynamically
