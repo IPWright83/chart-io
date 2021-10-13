@@ -1,3 +1,5 @@
+import "./Droplines.css";
+
 import * as d3 from "d3";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
@@ -7,7 +9,7 @@ import { chartSelectors, eventSelectors } from "../../store";
 
 /**
  * This component renders the droplines that are triggered from various plots
- * @return {ReactDOMComponent}  The Background component
+ * @return {ReactElement}  The Background component
  */
 const Droplines = ({ layer, showVertical = true, showHorizontal = true }) => {
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
@@ -30,9 +32,6 @@ const Droplines = ({ layer, showVertical = true, showHorizontal = true }) => {
             .append("line")
             .attr("class", "dropline")
             .style("stroke", (d) => d.color)
-            .style("stroke-width", 1)
-            .style("stroke-dasharray", 4)
-            .style("pointer-events", "none")
             .attr("x1", (d) => d.x1)
             .attr("x2", (d) => d.x1)
             .attr("y1", (d) => d.y1)
