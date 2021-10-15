@@ -29,6 +29,7 @@ const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onMous
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
     const fillColor = d3.color(color || theme.colors[0]);
+    const strokeColor = "#fff";
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     useEffect(() => {
@@ -40,7 +41,7 @@ const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onMous
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", undefined);
+            selection.style("opacity", 0.8);
             dispatch(eventActions.removeDropline(dropline));
         };
     }, [dispatch, focused, yScale]);
@@ -67,7 +68,9 @@ const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onMous
             .attr("y", (d) => yScale(d[y]))
             .attr("width", () => 0)
             .attr("height", () => yScale.bandwidth())
-            .style("fill", () => fillColor);
+            .style("stroke", strokeColor)
+            .style("fill", () => fillColor)
+            .style("opacity", 0.8);
 
         // Update new and existing points
         const update = enter

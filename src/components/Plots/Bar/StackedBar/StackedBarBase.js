@@ -1,5 +1,3 @@
-import "./StackedBar.css";
-
 import * as d3 from "d3";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
@@ -30,6 +28,8 @@ const StackedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
     const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
+    const strokeColor = "#fff";
+
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     useEffect(() => {
         if (!focused) return;
@@ -40,7 +40,7 @@ const StackedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", undefined);
+            selection.style("opacity", 0.8);
             dispatch(eventActions.removeDropline(dropline));
         };
     }, [dispatch, focused, yScale, theme.opacity, theme.selectedOpacity]);
@@ -77,7 +77,9 @@ const StackedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
             .attr("y", (d) => yScale(d.data[y]))
             .attr("height", yScale.bandwidth())
             .attr("width", 0)
-            .style("fill", (d, i, elements) => d3.select(elements[i].parentNode).attr("fill"));
+            .style("stroke", strokeColor)
+            .style("fill", (d, i, elements) => d3.select(elements[i].parentNode).attr("fill"))
+            .style("opacity", 0.8);
 
         const update = join
             .merge(enter)
