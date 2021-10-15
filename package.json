@@ -80,7 +80,8 @@
       "jest"
     ],
     "ignorePatterns": [
-      "lib"
+      "lib",
+      "rollup.config.js"
     ],
     "env": {
       "jest/globals": true,
