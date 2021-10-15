@@ -3,7 +3,7 @@ import "./gridlines.css";
 import * as d3 from "d3";
 
 import PropTypes from "prop-types";
-import React, { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import { getTickSize } from "./getTickSize";
@@ -33,8 +33,7 @@ const Gridlines = ({ layer, position, scale, tickPadding }) => {
             // Set some scale props
             d3Axis.scale(scale).tickPadding(tickPadding).tickSize();
 
-            const selection = d3
-                .select(layer.current)
+            d3.select(layer.current)
                 .attr("class", `g-gridlines ${position}`)
                 .transition()
                 .duration(animationDuration)

@@ -30,7 +30,7 @@ const usePathCreator = (layer, x, y, xScale, yScale) => {
             .area()
             .curve(d3.curveLinear)
             .x((d) => xScale(d[x]))
-            .y0((d) => yScale.range()[0])
+            .y0(() => yScale.range()[0])
             .y1((d) => yScale(d[y]));
 
         // Only ever add the path once on first render when
