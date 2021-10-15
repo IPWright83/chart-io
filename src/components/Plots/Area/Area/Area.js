@@ -1,13 +1,11 @@
 import PropTypes from "prop-types";
 import React from "react";
 
+import { AreaBase } from "./AreaBase";
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
-import { CanvasArea } from "./CanvasArea";
-import { SVGArea } from "./SVGArea";
-
-const WrappedCanvasArea = withCanvas(withXYPlot(CanvasArea));
-const WrappedSVGArea = withSVG(withXYPlot(SVGArea));
+const WrappedCanvasArea = withCanvas(withXYPlot(AreaBase), "plot area");
+const WrappedSVGArea = withSVG(withXYPlot(AreaBase), "plot area");
 
 /**
  * Represents a Area plot
@@ -23,7 +21,7 @@ const Area = ({ useCanvas, ...props }) => {
 };
 
 Area.propTypes = {
-    ...SVGArea.propTypes,
+    ...AreaBase.propTypes,
 
     /**
      * The key of the field used for the y2 position for a stream graph

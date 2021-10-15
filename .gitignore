@@ -11,6 +11,9 @@
 /dist
 /lib
 
+# storybook
+out*
+
 # misc
 .DS_Store
 .env.local

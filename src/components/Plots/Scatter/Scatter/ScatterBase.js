@@ -38,14 +38,17 @@ const ScatterBase = ({
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
-    const seriesColor = color || theme.colors[0];
+    const fillColor = d3.color(color || theme.colors[0]);
+    fillColor.opacity = 0.8;
+    const strokeColor = fillColor.darker();
+
     const [focused, setFocused] = useState(null);
 
     useEffect(() => {
         if (!focused) return;
 
         // Get the appropriate attributes
-        const { element, event, datum } = focused;
+        const { element } = focused;
         const selection = d3.select(element);
         const r = +selection.attr("r");
         const cx = +selection.attr("cx");
@@ -102,8 +105,9 @@ const ScatterBase = ({
             .attr("cx", (d) => xScale(d[x]))
             .attr("cy", (d) => yScale(d[y]))
             .attr("r", 0)
-            .style("stroke", (d) => d3.color(seriesColor).darker())
-            .style("fill", (d) => seriesColor);
+            .style("stroke", () => strokeColor)
+            .style("fill", () => fillColor)
+            .style("opacity", 0.8);
 
         // Update new and existing points
         const update = enter
@@ -124,7 +128,7 @@ const ScatterBase = ({
             .attr("cx", (d) => xScale(d[x]))
             .attr("cy", (d) => yScale(d[y]))
             .attr("r", (d) => (z ? zScale(d[z]) : radius))
-            .style("fill", (d) => seriesColor);
+            .style("fill", () => fillColor);
 
         renderCanvas({ canvas, renderVirtualCanvas, width, height, exit, update });
     }, [

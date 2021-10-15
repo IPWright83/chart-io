@@ -28,17 +28,19 @@ const GroupedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
     const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
+    const strokeColor = "#fff";
+
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     useEffect(() => {
         if (!focused) return;
 
-        const selection = d3.select(focused.element).style("opacity", theme.selectedOpacity);
+        const selection = d3.select(focused.element).style("opacity", 1);
         const dropline = getDropline(selection, yScale, true);
         dispatch(eventActions.addDropline(dropline));
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", theme.opacity);
+            selection.style("opacity", 0.8);
             dispatch(eventActions.removeDropline(dropline));
         };
     }, [dispatch, focused, yScale, theme.opacity, theme.selectedOpacity]);
@@ -68,12 +70,12 @@ const GroupedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
             .append("rect")
             .attr("class", "bar")
             .attr("y", (d) => yScale(d[y]) + y1Scale(d.key))
-            .attr("x", (d) => xScale.range()[0])
+            .attr("x", () => xScale.range()[0])
             .attr("width", 0)
             .attr("height", y1Scale.bandwidth())
+            .style("stroke", strokeColor)
             .style("fill", (d) => colorScale(d.key))
-            .style("stroke", (d) => "#fff")
-            .style("opacity", theme.opacity);
+            .style("opacity", 0.8);
 
         const update = join
             .merge(enter)
@@ -93,12 +95,11 @@ const GroupedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
             .attr("y", (d) => yScale(d[y]) + y1Scale(d.key))
             .attr("height", y1Scale.bandwidth())
             .style("fill", (d) => colorScale(d.key))
-            .style("stroke", (d) => "#fff")
             .transition("width")
             .duration(animationDuration / 2)
             .delay(animationDuration / 2)
             .attr("width", (d) => xScale(d.value) - xScale.range()[0])
-            .attr("x", (d) => xScale.range()[0]);
+            .attr("x", () => xScale.range()[0]);
 
         renderCanvas({ canvas, renderVirtualCanvas, width, height, update });
     }, [y, xs, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);

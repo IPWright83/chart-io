@@ -4,8 +4,8 @@ import React from "react";
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 import { ScatterBase } from "./ScatterBase";
 
-const CanvasScatter = withCanvas(withXYPlot(ScatterBase));
-const SVGScatter = withSVG(withXYPlot(ScatterBase));
+const CanvasScatter = withCanvas(withXYPlot(ScatterBase), "plot scatter");
+const SVGScatter = withSVG(withXYPlot(ScatterBase), "plot scatter");
 
 /**
  * Represents a Scatter plot

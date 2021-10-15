@@ -64,7 +64,7 @@ const Chart = ({
 
     return (
         <div className="chart" style={{ backgroundColor: currentTheme.background }}>
-            <svg width={width} height={height}>
+            <svg className="chart-svg" width={width} height={height}>
                 <Background />
                 {useCanvas ? (
                     <VirtualCanvas onMouseOver={onMouseOver} onMouseOut={onMouseOut} onClick={onClick}>

@@ -5,8 +5,8 @@ import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
 import { GroupedColumnBase } from "./GroupedColumnBase";
 
-const GroupedCanvasColumn = withCanvas(withXYPlot(GroupedColumnBase));
-const GroupedSVGColumn = withSVG(withXYPlot(GroupedColumnBase));
+const GroupedCanvasColumn = withCanvas(withXYPlot(GroupedColumnBase), "plot grouped-column");
+const GroupedSVGColumn = withSVG(withXYPlot(GroupedColumnBase), "plot grouped-column");
 
 /**
  * Represents a Column plot

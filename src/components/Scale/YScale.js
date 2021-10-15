@@ -8,7 +8,7 @@ import { Scale } from "./Scale";
 /**
  * Represents a YScale
  * @param  {Object} props   Props for the scale
- * @return {ReactElement}   A scale component
+ * @return {ReactDOMComponent}   A scale component
  */
 const YScale = ({ fields, scaleType, aggregate }) => {
     const height = useSelector((s) => chartSelectors.dimensions.height(s));

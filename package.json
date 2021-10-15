@@ -10,6 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",
+    "deploy-storybook": "storybook-to-ghpages",
     "build-storybook": "build-storybook",
     "build": "rollup -c",
     "prepublishOnly": "yarn build"
@@ -38,24 +39,27 @@
     "@storybook/addon-essentials": "^6.1.9",
     "@storybook/addon-links": "^6.1.9",
     "@storybook/react": "^6.1.9",
+    "@storybook/storybook-deployer": "^2.8.10",
     "@types/react": "^17.0.0",
     "babel-loader": "^8.2.2",
+    "eslint": "^8.0.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jest": "^25.2.1",
+    "eslint-plugin-react": "^7.26.1",
     "postcss": "^8.2.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "rollup": "^2.34.2",
-    "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-postcss": "^4.0.0",
-    "rollup-plugin-typescript2": "^0.29.0",
-    "typescript": "^4.1.2",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "rollup": "^2.34.2",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.0",
+    "rollup-plugin-typescript2": "^0.29.0",
+    "typescript": "^4.1.2"
   },
   "peerDependencies": {
     "prop-types": "^15.7.2",
@@ -68,10 +72,21 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest",
+      "eslint:recommended",
+      "plugin:react/recommended",
       "plugin:import/recommended"
     ],
+    "plugins": [
+      "jest"
+    ],
+    "ignorePatterns": [
+      "lib",
+      "rollup.config.js"
+    ],
+    "env": {
+      "jest/globals": true,
+      "browser": true
+    },
     "overrides": [
       {
         "files": [
@@ -91,31 +106,17 @@
           "requireReturnType": true
         }
       ],
-      "import/order": [
-        1,
+      "import/no-unresolved": "off",
+      "no-console": [
+        "error",
         {
-          "groups": [
-            "builtin",
-            "external",
-            "internal",
-            "parent",
-            "sibling",
-            "index"
-          ],
-          "alphabetize": {
-            "order": "asc",
-            "caseInsensitive": true
-          },
-          "pathGroups": [
-            {
-              "pattern": "^/**",
-              "group": "internal"
-            }
-          ],
-          "newlines-between": "ignore"
+          "allow": [
+            "error",
+            "warn",
+            "debug"
+          ]
         }
-      ],
-      "import/no-unresolved": "off"
+      ]
     }
   }
 }

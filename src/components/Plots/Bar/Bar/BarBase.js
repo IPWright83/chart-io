@@ -27,22 +27,24 @@ const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onMous
     const yScale = useSelector((s) => chartSelectors.scales.getScale(s, y));
     const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
-    const seriesColor = color || theme.colors[0];
+
+    const fillColor = d3.color(color || theme.colors[0]);
+    const strokeColor = "#fff";
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     useEffect(() => {
         if (!focused) return;
 
-        const selection = d3.select(focused.element).style("opacity", theme.selectedOpacity);
+        const selection = d3.select(focused.element).style("opacity", 1);
         const dropline = getDropline(selection, yScale, false);
         dispatch(eventActions.addDropline(dropline));
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", theme.opacity);
+            selection.style("opacity", 0.8);
             dispatch(eventActions.removeDropline(dropline));
         };
-    }, [dispatch, focused, yScale, theme.opacity, theme.selectedOpacity]);
+    }, [dispatch, focused, yScale]);
 
     useRender(() => {
         if (ensureBandScale(yScale, "Bar") === false) return null;
@@ -62,13 +64,13 @@ const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onMous
             .enter()
             .append("rect")
             .attr("class", "bar")
-            .attr("x", (d) => xScale.range()[0])
+            .attr("x", () => xScale.range()[0])
             .attr("y", (d) => yScale(d[y]))
-            .attr("width", (d) => 0)
-            .attr("height", (d) => yScale.bandwidth())
-            .style("stroke", theme.background)
-            .style("opacity", theme.opacity)
-            .style("fill", (d) => seriesColor);
+            .attr("width", () => 0)
+            .attr("height", () => yScale.bandwidth())
+            .style("stroke", strokeColor)
+            .style("fill", () => fillColor)
+            .style("opacity", 0.8);
 
         // Update new and existing points
         const update = enter
@@ -87,13 +89,12 @@ const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onMous
             .transition("position")
             .duration(animationDuration / 2)
             .attr("y", (d) => yScale(d[y]))
-            .attr("height", (d) => yScale.bandwidth())
-            .style("stroke", "#fff")
-            .style("fill", (d) => seriesColor)
+            .attr("height", () => yScale.bandwidth())
+            .style("fill", () => fillColor)
             .transition("width")
             .duration(animationDuration / 2)
             .delay(animationDuration / 2)
-            .attr("x", (d) => xScale.range()[0])
+            .attr("x", () => xScale.range()[0])
             .attr("width", (d) => xScale(d[x]) - xScale.range()[0]);
 
         renderCanvas({ canvas, renderVirtualCanvas, width, height, update });

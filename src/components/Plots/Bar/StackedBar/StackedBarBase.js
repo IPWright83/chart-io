@@ -28,17 +28,19 @@ const StackedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
     const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
+    const strokeColor = "#fff";
+
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     useEffect(() => {
         if (!focused) return;
 
-        const selection = d3.select(focused.element).style("opacity", theme.selectedOpacity);
+        const selection = d3.select(focused.element).style("opacity", 1);
         const dropline = getDropline(selection, yScale, false);
         dispatch(eventActions.addDropline(dropline));
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", theme.opacity);
+            selection.style("opacity", 0.8);
             dispatch(eventActions.removeDropline(dropline));
         };
     }, [dispatch, focused, yScale, theme.opacity, theme.selectedOpacity]);
@@ -71,13 +73,13 @@ const StackedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
             .enter()
             .append("rect")
             .attr("class", "bar")
-            .attr("x", (d) => xScale.range()[0])
+            .attr("x", () => xScale.range()[0])
             .attr("y", (d) => yScale(d.data[y]))
             .attr("height", yScale.bandwidth())
             .attr("width", 0)
+            .style("stroke", strokeColor)
             .style("fill", (d, i, elements) => d3.select(elements[i].parentNode).attr("fill"))
-            .style("stroke", "#fff")
-            .style("opacity", theme.opacity);
+            .style("opacity", 0.8);
 
         const update = join
             .merge(enter)
@@ -95,9 +97,8 @@ const StackedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
             .transition("position")
             .duration(animationDuration / 2)
             .style("fill", (d, i, elements) => d3.select(elements[i].parentNode).attr("fill"))
-            .style("stroke", "#fff")
             .attr("y", (d) => yScale(d.data[y]))
-            .attr("height", (d) => yScale.bandwidth())
+            .attr("height", () => yScale.bandwidth())
             .transition("width")
             .duration(animationDuration / 2)
             .delay(animationDuration / 2)

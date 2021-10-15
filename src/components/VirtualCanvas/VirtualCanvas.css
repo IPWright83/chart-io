@@ -1,0 +1,5 @@
+.fo .virtual-canvas {
+        position: absolute;
+        opacity: 0;
+        zindex: 10000;
+}

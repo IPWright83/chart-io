@@ -7,7 +7,7 @@ import { calculateScale } from "./calculateScale";
 
 /**
  * Represents a Scale component
- * @return {ReactElement}   A scale component
+ * @return {ReactDOMComponent}   A scale component
  */
 const Scale = ({ fields, range, scaleType, aggregate }) => {
     const dispatch = useDispatch();

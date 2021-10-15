@@ -5,8 +5,8 @@ import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
 import { GroupedBarBase } from "./GroupedBarBase";
 
-const GroupedCanvasBar = withCanvas(withXYPlot(GroupedBarBase));
-const GroupedSVGBar = withSVG(withXYPlot(GroupedBarBase));
+const GroupedCanvasBar = withCanvas(withXYPlot(GroupedBarBase), "plot grouped-bar");
+const GroupedSVGBar = withSVG(withXYPlot(GroupedBarBase), "plot grouped-bar");
 
 /**
  * Represents a Bar plot

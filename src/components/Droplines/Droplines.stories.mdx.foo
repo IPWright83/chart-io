@@ -1,0 +1,67 @@
+<!--- Droplines.stories.mdx --->
+
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+
+import { Droplines } from "./index";
+import { Chart } from "../Chart";
+
+<Meta title="Components/Droplines" component={Droplines} />
+
+export const DroplinesTemplate = (args) => (
+    <Chart
+        onStoreCreated={(store) => {
+            store.dispatch({
+                type: "EVENT.ADD_DROPLINE",
+                payload: {
+                    isHorizontal: true,
+                    color: "steelblue",
+                    x1: 150,
+                    x2: 0,
+                    y1: 150,
+                    y2: 150,
+                }
+            });
+
+            store.dispatch({
+                type: "EVENT.ADD_DROPLINE",
+                payload: {
+                    isVertical: true,
+                    color: "steelblue",
+                    x1: 150,
+                    x2: 150,
+                    y1: 150,
+                    y2: 0,
+                }
+            });
+        }}
+    >
+        <Droplines />
+    </Chart>
+
+);
+
+# Droplines Component
+
+The droplines component is a designed to show visual feedback when someone hovers over a data point within a chart. It allows both horizontal and/or vertical lines to be drawn by updating the internal redux store.
+
+<!-- const onStoreCreated = (store) => {
+   // The store can now be acccessed. If you need dynamic access store
+   // this value using a React useState hook.
+};
+
+<Chart onStoreCreated={onStoreCreated} ...>
+  ...
+</Chart> -->
+
+<Story name="Droplines" args={{}}>
+    {DroplinesTemplate.bind({})}
+</Story>
+
+### Props
+
+| Prop             | Type      | Default | Note                                    |
+| ---------------- | --------- | ------- | --------------------------------------- |
+| `showVertical`   | `boolean` | true    | Wether vertical lines should be drawn   |
+| `showHorizontal` | `boolean` | true    | Wether horizontal lines should be drawn |
+
+<br />

@@ -3,11 +3,10 @@ import React from "react";
 
 import { withSVG, withCanvas, withXYPlot } from "../../../../hoc";
 import { plotsPropTypes, eventPropTypes, eventDefaultProps, plotsDefaultProps } from "../../../../types";
-import { StackedCanvasArea } from "./StackedCanvasArea";
-import { StackedSVGArea } from "./StackedSVGArea";
+import { StackedAreaBase } from "./StackedAreaBase";
 
-const WrappedStackedCanvasArea = withCanvas(withXYPlot(StackedCanvasArea));
-const WrappedStackedSVGArea = withSVG(withXYPlot(StackedSVGArea));
+const StackedCanvasArea = withCanvas(withXYPlot(StackedAreaBase), "plot stacked-area");
+const StackedSVGArea = withSVG(withXYPlot(StackedAreaBase), "plot stacked-area");
 
 /**
  * Represents a Column plot
@@ -16,10 +15,10 @@ const WrappedStackedSVGArea = withSVG(withXYPlot(StackedSVGArea));
  */
 const StackedArea = ({ useCanvas, ...props }) => {
     if (useCanvas) {
-        return <WrappedStackedCanvasArea {...props} />;
+        return <StackedCanvasArea {...props} />;
     }
 
-    return <WrappedStackedSVGArea {...props} />;
+    return <StackedSVGArea {...props} />;
 };
 
 StackedArea.propTypes = {
