@@ -5,8 +5,8 @@ import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
 import { StackedBarBase } from "./StackedBarBase";
 
-const StackedCanvasBar = withCanvas(withXYPlot(StackedBarBase));
-const StackedSVGBar = withSVG(withXYPlot(StackedBarBase));
+const StackedCanvasBar = withCanvas(withXYPlot(StackedBarBase), "plot stacked-bar");
+const StackedSVGBar = withSVG(withXYPlot(StackedBarBase), "plot stacked-bar");
 
 /**
  * Represents a Bar plot

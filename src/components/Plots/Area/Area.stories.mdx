@@ -58,6 +58,8 @@ The `<Area>` component allows us to define an area plot on our chart.
 
 export const StreamAreaTemplate = (args) => (
     <Chart {...args} data={sales_records_dataset}>
+        <YAxis fields={[args.y, args.y2]} />
+        <XAxis fields={[args.x]} showGridlines={false} />
         <Area
             x={args.x}
             y={args.y}
@@ -66,8 +68,6 @@ export const StreamAreaTemplate = (args) => (
             color={args.color}
             animationDuration={args.animationDuration}
         />
-        <YAxis fields={[args.y, args.y2]} />
-        <XAxis fields={[args.x]} />
     </Chart>
 );
 
@@ -116,19 +116,19 @@ The results of either approach, render in exactly the same way:
 
 export const AreasTemplate = (args) => (
     <Chart {...args} data={sales_records_dataset}>
-        <Areas x={args.x} ys={[args.y, args.y2, args.y3]} animationDuration={args.animationDuration} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
-        <XAxis fields={[args.x]} />
+        <XAxis fields={[args.x]} showGridlines={false} />
+        <Areas x={args.x} ys={[args.y, args.y2, args.y3]} animationDuration={args.animationDuration} />
     </Chart>
 );
 
 export const MultipleAreaTemplate = (args) => (
     <Chart {...args} data={sales_records_dataset}>
+        <YAxis fields={[args.y, args.y2, args.y3]} />
+        <XAxis fields={[args.x]} showGridlines={false} />
         <Area x={args.x} y={args.y} color={args.color} animationDuration={args.animationDuration} />
         <Area x={args.x} y={args.y2} color={args.color2} animationDuration={args.animationDuration} />
         <Area x={args.x} y={args.y3} color={args.color3} animationDuration={args.animationDuration} />
-        <YAxis fields={[args.y, args.y2, args.y3]} />
-        <XAxis fields={[args.x]} />
     </Chart>
 );
 
@@ -168,14 +168,14 @@ The chart will attempt to warn you, but you should also set the `aggregate` fiel
 export const StackedAreaTemplate = (args) => (
     <div>
         <Chart {...args} data={sales_records_dataset}>
+            <YAxis fields={[args.y, args.y2, args.y3]} aggregate={true} />
+            <XAxis fields={[args.x]} showGridlines={false} />
             <Areas
                 x={args.x}
                 ys={[args.y, args.y2, args.y3]}
                 animationDuration={args.animationDuration}
                 stacked={args.stacked}
             />
-            <YAxis fields={[args.y, args.y2, args.y3]} aggregate={true} />
-            <XAxis fields={[args.x]} />
         </Chart>
     </div>
 );

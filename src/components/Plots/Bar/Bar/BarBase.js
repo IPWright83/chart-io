@@ -29,19 +29,18 @@ const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onMous
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
     const fillColor = d3.color(color || theme.colors[0]);
-    const strokeColor = fillColor.darker();
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     useEffect(() => {
         if (!focused) return;
 
-        const selection = d3.select(focused.element).style("opacity", undefined);
+        const selection = d3.select(focused.element).style("opacity", 1);
         const dropline = getDropline(selection, yScale, false);
         dispatch(eventActions.addDropline(dropline));
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", 0.8);
+            selection.style("opacity", undefined);
             dispatch(eventActions.removeDropline(dropline));
         };
     }, [dispatch, focused, yScale]);
@@ -68,8 +67,6 @@ const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onMous
             .attr("y", (d) => yScale(d[y]))
             .attr("width", () => 0)
             .attr("height", () => yScale.bandwidth())
-            .style("stroke", strokeColor)
-            .attr("opacity", 0.8)
             .style("fill", () => fillColor);
 
         // Update new and existing points
@@ -90,7 +87,6 @@ const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onMous
             .duration(animationDuration / 2)
             .attr("y", (d) => yScale(d[y]))
             .attr("height", () => yScale.bandwidth())
-            .style("stroke", strokeColor)
             .style("fill", () => fillColor)
             .transition("width")
             .duration(animationDuration / 2)

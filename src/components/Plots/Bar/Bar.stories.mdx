@@ -83,10 +83,10 @@ One way of combining Bars plots is to display one over the top of the other. Thi
 export const RatioBarTemplate = (args) => (
     <div>
         <Chart {...args} data={sales_records_dataset}>
+            <XAxis fields={[args.x, args.x2, args.x3]} />
+            <YAxis fields={[args.y]} showGridlines={false} />
             <Bar x={args.x} y={args.y} color={args.color} animationDuration={args.animationDuration} />
             <Bar x={args.x2} y={args.y} color={args.color2} animationDuration={args.animationDuration} />
-            <XAxis fields={[args.x, args.x2, args.x3]} />
-            <YAxis fields={[args.y]} />
         </Chart>
     </div>
 );
@@ -113,9 +113,9 @@ The chart will attempt to warn you, but you should also set the `aggregate` fiel
 export const StackedBarTemplate = (args) => (
     <div>
         <Chart {...args} data={sales_records_dataset}>
-            <Bars y={args.y} xs={[args.x, args.x2]} animationDuration={args.animationDuration} stacked={true} />
             <XAxis fields={[args.x, args.x2, args.x3]} aggregate={true} />
-            <YAxis fields={[args.y]} scaleType="band" />
+            <YAxis fields={[args.y]} scaleType="band" showGridlines={false} />
+            <Bars y={args.y} xs={[args.x, args.x2]} animationDuration={args.animationDuration} stacked={true} />
         </Chart>
     </div>
 );
@@ -138,9 +138,9 @@ Another way to to combine bar plots is to group them together in multiple series
 export const GroupedBarTemplate = (args) => (
     <div>
         <Chart {...args} data={sales_records_dataset}>
-            <Bars y={args.y} xs={[args.x, args.x2]} animationDuration={args.animationDuration} grouped={true} />
             <XAxis fields={[args.x, args.x2, args.x3]} aggregate={true} />
-            <YAxis fields={[args.y]} scaleType="band" />
+            <YAxis fields={[args.y]} scaleType="band" showGridlines={false} />
+            <Bars y={args.y} xs={[args.x, args.x2]} animationDuration={args.animationDuration} grouped={true} />
         </Chart>
     </div>
 );

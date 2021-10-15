@@ -1,3 +1,5 @@
+import "./StackedBar.css";
+
 import * as d3 from "d3";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
@@ -32,13 +34,13 @@ const StackedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
     useEffect(() => {
         if (!focused) return;
 
-        const selection = d3.select(focused.element).style("opacity", theme.selectedOpacity);
+        const selection = d3.select(focused.element).style("opacity", 1);
         const dropline = getDropline(selection, yScale, false);
         dispatch(eventActions.addDropline(dropline));
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", theme.opacity);
+            selection.style("opacity", undefined);
             dispatch(eventActions.removeDropline(dropline));
         };
     }, [dispatch, focused, yScale, theme.opacity, theme.selectedOpacity]);
@@ -71,13 +73,11 @@ const StackedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
             .enter()
             .append("rect")
             .attr("class", "bar")
-            .attr("x", (d) => xScale.range()[0])
+            .attr("x", () => xScale.range()[0])
             .attr("y", (d) => yScale(d.data[y]))
             .attr("height", yScale.bandwidth())
             .attr("width", 0)
-            .style("fill", (d, i, elements) => d3.select(elements[i].parentNode).attr("fill"))
-            .style("stroke", "#fff")
-            .style("opacity", theme.opacity);
+            .style("fill", (d, i, elements) => d3.select(elements[i].parentNode).attr("fill"));
 
         const update = join
             .merge(enter)
@@ -95,9 +95,8 @@ const StackedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
             .transition("position")
             .duration(animationDuration / 2)
             .style("fill", (d, i, elements) => d3.select(elements[i].parentNode).attr("fill"))
-            .style("stroke", "#fff")
             .attr("y", (d) => yScale(d.data[y]))
-            .attr("height", (d) => yScale.bandwidth())
+            .attr("height", () => yScale.bandwidth())
             .transition("width")
             .duration(animationDuration / 2)
             .delay(animationDuration / 2)
