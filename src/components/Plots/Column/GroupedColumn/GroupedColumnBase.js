@@ -24,23 +24,24 @@ const GroupedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, la
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
     const yScale = useSelector((s) => chartSelectors.scales.getScale(s, ys[0]));
-    const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
+
+    const strokeColor = "#fff";
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     useEffect(() => {
         if (!focused) return;
 
-        const selection = d3.select(focused.element).style("opacity", theme.selectedOpacity);
+        const selection = d3.select(focused.element).style("opacity", 1);
         const dropline = getDropline(selection, xScale, true);
         dispatch(eventActions.addDropline(dropline));
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", theme.opacity);
+            selection.style("opacity", 0.8);
             dispatch(eventActions.removeDropline(dropline));
         };
-    }, [dispatch, focused, xScale, theme.opacity, theme.selectedOpacity]);
+    }, [dispatch, focused, xScale]);
 
     useRender(() => {
         if (ensureBandScale(xScale, "GroupedColumn") === false) return null;
@@ -67,12 +68,12 @@ const GroupedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, la
             .append("rect")
             .attr("class", "column")
             .attr("x", (d) => xScale(d[x]) + x1Scale(d.key))
-            .attr("y", (d) => yScale.range()[0])
+            .attr("y", () => yScale.range()[0])
             .attr("height", 0)
             .attr("width", x1Scale.bandwidth())
             .style("fill", (d) => colorScale(d.key))
-            .style("stroke", "#fff")
-            .style("opacity", theme.opacity);
+            .style("stroke", strokeColor)
+            .style("opacity", 0.8);
 
         const update = join
             .merge(enter)
@@ -92,7 +93,6 @@ const GroupedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, la
             .attr("x", (d) => xScale(d[x]) + x1Scale(d.key))
             .attr("width", x1Scale.bandwidth())
             .style("fill", (d) => colorScale(d.key))
-            .style("stroke", "#fff")
             .transition("height")
             .duration(animationDuration / 2)
             .delay(animationDuration / 2)

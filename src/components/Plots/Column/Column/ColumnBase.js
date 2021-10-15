@@ -27,21 +27,22 @@ const ColumnBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onM
     const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
-    const seriesColor = color || theme.colors[0];
+    const fillColor = color || theme.colors[0];
+    const strokeColor = "#fff";
 
     useEffect(() => {
         if (!focused) return;
 
-        const selection = d3.select(focused.element).style("opacity", theme.selectedOpacity);
+        const selection = d3.select(focused.element).style("opacity", 1);
         const dropline = getDropline(selection, xScale, true);
         dispatch(eventActions.addDropline(dropline));
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", theme.opacity);
+            selection.style("opacity", 0.8);
             dispatch(eventActions.removeDropline(dropline));
         };
-    }, [dispatch, focused, xScale, theme.opacity, theme.selectedOpacity]);
+    }, [dispatch, focused, xScale]);
 
     useRender(() => {
         if (ensureBandScale(xScale, "Column") === false) return null;
@@ -62,12 +63,12 @@ const ColumnBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onM
             .append("rect")
             .attr("class", "column")
             .attr("x", (d) => xScale(d[x]))
-            .attr("y", (d) => yScale.range()[0])
-            .attr("width", (d) => xScale.bandwidth())
+            .attr("y", () => yScale.range()[0])
+            .attr("width", () => xScale.bandwidth())
             .attr("height", 0)
-            .style("stroke", theme.background)
-            .style("opacity", theme.opacity)
-            .style("fill", (d) => seriesColor);
+            .style("stroke", strokeColor)
+            .style("opacity", 0.8)
+            .style("fill", fillColor);
 
         // Update new and existing points
         const update = enter
@@ -86,9 +87,8 @@ const ColumnBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onM
             .transition("position")
             .duration(animationDuration / 2)
             .attr("x", (d) => xScale(d[x]))
-            .attr("width", (d) => xScale.bandwidth())
-            .style("stroke", "#fff")
-            .style("fill", (d) => seriesColor)
+            .attr("width", () => xScale.bandwidth())
+            .style("fill", fillColor)
             .transition("height")
             .duration(animationDuration / 2)
             .delay(animationDuration / 2)

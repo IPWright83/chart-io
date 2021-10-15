@@ -5,8 +5,8 @@ import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
 import { StackedColumnBase } from "./StackedColumnBase";
 
-const StackedCanvasColumn = withCanvas(withXYPlot(StackedColumnBase));
-const StackedSVGColumn = withSVG(withXYPlot(StackedColumnBase));
+const StackedCanvasColumn = withCanvas(withXYPlot(StackedColumnBase), "plot stacked-column");
+const StackedSVGColumn = withSVG(withXYPlot(StackedColumnBase), "plot stacked-column");
 
 /**
  * Represents a Column plot
