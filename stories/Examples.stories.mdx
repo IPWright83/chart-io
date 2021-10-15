@@ -2,10 +2,9 @@
 
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 
-import { defaultArgTypes } from "./Scatter/defaultArgTypes";
-import { defaultArgs } from "./Scatter/defaultArgs";
 import { seriesArgTypes } from "./seriesArgTypes";
-import { sales_records_dataset } from "./sales_records_dataset";
+import { commonDefaultArgTypes } from "./commonDefaultArgTypes";
+import { sales_records_dataset } from "../data/sales_records_dataset";
 import { Chart, XAxis, YAxis, Scatter, Scatters, Foo } from "../src";
 
 <Meta title="Examples" />
@@ -13,7 +12,14 @@ import { Chart, XAxis, YAxis, Scatter, Scatters, Foo } from "../src";
 # Basic Examples
 
 export const scatterArgTypes = {
-    ...defaultArgTypes,
+    ...commonDefaultArgTypes,
+    x: seriesArgTypes,
+    y: seriesArgTypes,
+    radius: {
+        description: "The radius of each point",
+        control: { type: "range", min: 1, max: 25 },
+        defaultValue: { summary: 5 },
+    },
 };
 
 export const ScatterTemplate = (args) => (
