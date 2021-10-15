@@ -7,37 +7,37 @@ import { Chart } from "../Chart";
 
 <Meta title="Components/Droplines" component={Droplines} />
 
-<!-- export const onStoreCreated = (store) => {
-    store.dispatch({
-        type: "EVENT.ADD_DROPLINE",
-        payload: {
-            isHorizontal: true,
-            color: "steelblue",
-            x1: 150,
-            x2: 0,
-            y1: 150,
-            y2: 150,
-        }
-    });
-
-    store.dispatch({
-        type: "EVENT.ADD_DROPLINE",
-        payload: {
-            isVertical: true,
-            color: "steelblue",
-            x1: 150,
-            x2: 150,
-            y1: 150,
-            y2: 0,
-        }
-    });
-
-};
-
 export const DroplinesTemplate = (args) => (
-    <Chart onStoreCreated={onStoreCreated}>
+    <Chart
+        onStoreCreated={(store) => {
+            store.dispatch({
+                type: "EVENT.ADD_DROPLINE",
+                payload: {
+                    isHorizontal: true,
+                    color: "steelblue",
+                    x1: 150,
+                    x2: 0,
+                    y1: 150,
+                    y2: 150,
+                }
+            });
+
+            store.dispatch({
+                type: "EVENT.ADD_DROPLINE",
+                payload: {
+                    isVertical: true,
+                    color: "steelblue",
+                    x1: 150,
+                    x2: 150,
+                    y1: 150,
+                    y2: 0,
+                }
+            });
+        }}
+    >
         <Droplines />
     </Chart>
+
 );
 
 # Droplines Component
@@ -65,4 +65,3 @@ The droplines component is a designed to show visual feedback when someone hover
 | `showHorizontal` | `boolean` | true    | Wether horizontal lines should be drawn |
 
 <br />
--->
