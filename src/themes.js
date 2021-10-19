@@ -1,7 +1,8 @@
 const light = {
+    background: "#FFFFFF",
+
     opacity: 0.7,
     selectedOpacity: 1,
-    background: "#FFFFFF",
     foreground: "#000000",
     colors: [
         "#99C1DC",
@@ -20,9 +21,10 @@ const light = {
 };
 
 const dark = {
+    background: "#333333",
+
     opacity: 1,
     selectedOpacity: 0.7,
-    background: "#333333",
     foreground: "#DDDDDD",
     colors: [
         "#51CBDF",

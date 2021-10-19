@@ -1,3 +1,5 @@
+import { themes } from "../../themes";
+
 /**
  * Sets the dimensions in the Redux store
  * @param  {Number} width   The width of the chart
@@ -30,10 +32,30 @@ const setScales = (fields, scale) => (dispatch) => {
  * @param  {Object} theme   The theme object
  * @return {Object}                 A redux action object
  */
-const setTheme = (theme) => ({
-    type: "CHART.SET_THEME",
-    payload: { theme },
-});
+const setTheme = (theme) => (dispatch) => {
+    if (theme === "light") {
+        dispatch({
+            type: "CHART.SET_THEME",
+            payload: themes.light,
+        });
+
+        return;
+    }
+
+    if (theme === "dark") {
+        dispatch({
+            type: "CHART.SET_THEME",
+            payload: themes.dark,
+        });
+
+        return;
+    }
+
+    dispatch({
+        type: "CHART.SET_THEME",
+        payload: theme,
+    });
+};
 
 /**
  * Sets the duration for animations in the Redux store

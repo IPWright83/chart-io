@@ -1,3 +1,11 @@
+.chart {
+    background-color: #ffffff;
+}
+
+.chart-svg {
+    background: #ffffff;
+}
+
 .g-gridlines {
     color: lightgray;
     stroke-opacity: 0.8;

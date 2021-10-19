@@ -24,11 +24,10 @@ const Chart = ({
     onMouseOver,
     onMouseOut,
     onClick,
-    theme,
+    theme = "light",
     ...props
 }) => {
     const dispatch = useDispatch();
-    const currentTheme = useSelector((s) => chartSelectors.theme(s));
 
     // Ensure that the store is updated whenever the dimensions change. This typically
     // triggers scale recalculations which should trigger cascading updates
@@ -63,7 +62,7 @@ const Chart = ({
     });
 
     return (
-        <div className="chart" style={{ backgroundColor: currentTheme.background }}>
+        <div className="chart">
             <svg className="chart-svg" width={width} height={height}>
                 <Background />
                 {useCanvas ? (
@@ -169,6 +168,12 @@ Chart.propTypes = {
      * @type {Function}
      */
     onClick: PropTypes.func,
+
+    /**
+     * The name of the theme to use
+     * @type {[type]}
+     */
+    theme: PropTypes.oneOfType(PropTypes.oneOf[("light", "dark")], PropTypes.object),
 };
 
 Chart.defaultProps = {

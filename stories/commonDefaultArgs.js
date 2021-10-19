@@ -9,6 +9,7 @@ const commonDefaultArgs = {
     onClick: console.debug,
     onMouseOver: console.debug,
     onMouseOut: console.debug,
+    theme: "light",
 };
 
 export { commonDefaultArgs };

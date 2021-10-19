@@ -37,6 +37,13 @@ const commonDefaultArgTypes = {
             disable: true,
         },
     },
+    theme: {
+        control: {
+            type: "select",
+            options: ["light", "dark"],
+        },
+        defaultValue: { summary: "light" },
+    },
 };
 
 export { commonDefaultArgTypes };
