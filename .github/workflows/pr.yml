@@ -57,6 +57,4 @@ jobs:
       - name: NPM Install
         run: npm ci
       - name: Chromatic
-        run: npx chromatic --project-token <your-project-token>
-        env:
-          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        run: npx chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
