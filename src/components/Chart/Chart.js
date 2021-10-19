@@ -12,6 +12,7 @@ import { getColumnInfos } from "../../detection";
 import { chartActions, chartSelectors } from "../../store";
 
 import { getChildrenWithProps } from "./getChildrenWithProps";
+import { getThemeName } from "./getThemeName";
 
 const Chart = ({
     children,
@@ -28,6 +29,7 @@ const Chart = ({
     ...props
 }) => {
     const dispatch = useDispatch();
+    const themeName = getThemeName(theme);
 
     // Ensure that the store is updated whenever the dimensions change. This typically
     // triggers scale recalculations which should trigger cascading updates
@@ -62,7 +64,7 @@ const Chart = ({
     });
 
     return (
-        <div className="chart">
+        <div className={`chart ${themeName}`}>
             <svg className="chart-svg" width={width} height={height}>
                 <Background />
                 {useCanvas ? (

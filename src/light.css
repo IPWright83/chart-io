@@ -1,12 +1,12 @@
-.chart {
+.light .chart {
     background-color: #ffffff;
 }
 
-.chart-svg {
+.light .chart-svg {
     background: #ffffff;
 }
 
-.g-gridlines {
+.light .g-gridlines {
     color: lightgray;
     stroke-opacity: 0.8;
 }
