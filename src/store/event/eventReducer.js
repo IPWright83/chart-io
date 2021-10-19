@@ -1,5 +1,6 @@
-// https://stackoverflow.com/questions/54099633/filter-out-actions-in-redux-devtool-extension#:~:text=In%20the%20Redux%20DevTools%20Extension,the%20Chrome%20Extension%20details%20screen.
+import isEqual from "lodash/isEqual";
 
+// https://stackoverflow.com/questions/54099633/filter-out-actions-in-redux-devtool-extension#:~:text=In%20the%20Redux%20DevTools%20Extension,the%20Chrome%20Extension%20details%20screen.
 const defaultState = {
     droplines: [],
     markers: [],
@@ -43,7 +44,7 @@ const eventReducer = (state = defaultState, action) => {
         case "EVENT.REMOVE_DROPLINE":
             return {
                 ...state,
-                droplines: state.droplines.slice(0, payload),
+                droplines: state.droplines.filter((d) => !isEqual(d, payload)),
             };
 
         case "EVENT.ADD_MARKER":
@@ -55,7 +56,7 @@ const eventReducer = (state = defaultState, action) => {
         case "EVENT.REMOVE_MARKER":
             return {
                 ...state,
-                markers: state.markers.slice(0, payload),
+                markers: state.markers.filter((m) => !isEqual(m, payload)),
             };
 
         default:
