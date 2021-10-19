@@ -10,3 +10,4 @@
 | `tickSizeInner` | `number`        | 6       | See https://github.com/d3/d3-axis#axis_tickSizeInner.                                                                                                                     |
 | `tickSizeOuter` | `number`        | 6       | See https://github.com/d3/d3-axis#axis_tickSizeOuter.                                                                                                                     |
 | `tickPadding`   | `number`        | 3       | See https://github.com/d3/d3-axis#axis_tickPadding.                                                                                                                       |
+| `title`         | `string`        | null    | The title of the axis. This will default to the value in field(s)                                                                                                         |
