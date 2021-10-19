@@ -1,6 +1,6 @@
 module.exports = {
     collectCoverageFrom: ["src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.ts"],
-    coveragePathIgnorePatterns: ["stories/*.*", "types/*.*", "index.js"],
+    coveragePathIgnorePatterns: ["stories/*.*", "types/*.*", "index.js", "uuidv4.js", "interpolateMultiPath.js"],
     moduleFileExtensions: ["web.js", "js", "web.ts", "ts", "web.tsx", "tsx", "json", "web.jsx", "jsx", "node"],
     moduleNameMapper: {
         "^react-native$": "react-native-web",

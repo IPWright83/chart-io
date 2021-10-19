@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Title component with no explicit title renders fields as horizontal title 1`] = `null`;
+
+exports[`Title component with no explicit title renders fields as vertical title 1`] = `null`;
+
+exports[`Title component with title set renders horizontal title 1`] = `null`;
+
+exports[`Title component with title set renders vertical title 1`] = `null`;
