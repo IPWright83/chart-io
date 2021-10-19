@@ -19,7 +19,6 @@ const Gridlines = ({ layer, position, scale, tickPadding }) => {
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
-    const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
     const tickSize = getTickSize(position, width, height, margin);
@@ -39,17 +38,28 @@ const Gridlines = ({ layer, position, scale, tickPadding }) => {
                 .duration(animationDuration)
                 .call(d3Axis.tickSize(-tickSize).tickFormat(""));
         }
-    }, [theme.foreground, position, scale, animationDuration, tickPadding]);
+    }, [position, scale, animationDuration, tickPadding]);
 
     return null;
 };
 
 Gridlines.propTypes = {
-    /** @type {String} The position of the axis [top, bottom, left, right] */
+    /**
+     * The position of the axis [top, bottom, left, right]
+     * @type {String}
+     */
     position: PropTypes.oneOf(["top", "bottom", "left", "right"]),
-    /** @type {Function} The D3 scale object used for the axis */
+
+    /**
+     * The D3 scale object used for the axis
+     * @type {Function}
+     */
     scale: PropTypes.func,
-    /** @type {Number} https://github.com/d3/d3-axis#axis_tickPadding */
+
+    /**
+     * https://github.com/d3/d3-axis#axis_tickPadding
+     * @type {Number}
+     */
     tickPadding: PropTypes.number,
 };
 

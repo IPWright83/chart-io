@@ -8,12 +8,14 @@
   "module": "lib/index.esm.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "lint": "eslint -c .eslintrc.json .",
     "storybook": "start-storybook -p 6006",
     "deploy-storybook": "storybook-to-ghpages",
     "build-storybook": "build-storybook",
     "build": "rollup -c",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "chromatic": "npx chromatic --project-token=c88bb0cc9630"
   },
   "np": {
     "publish": false,
@@ -32,6 +34,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@babel/plugin-transform-runtime": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
@@ -41,16 +45,25 @@
     "@storybook/react": "^6.1.9",
     "@storybook/storybook-deployer": "^2.8.10",
     "@types/react": "^17.0.0",
+    "babel-jest": "^27.3.1",
     "babel-loader": "^8.2.2",
+    "chromatic": "^6.0.4",
+    "crypto": "^1.0.1",
     "eslint": "^8.0.1",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-jest": "^25.2.1",
     "eslint-plugin-react": "^7.26.1",
+    "jest": "^27.3.1",
+    "jest-circus": "^27.3.1",
+    "jest-resolve": "^27.3.1",
+    "jest-watch-typeahead": "^1.0.0",
     "postcss": "^8.2.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
+    "react-app-polyfill": "^2.0.0",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.2",
+    "react-test-renderer": "^17.0.2",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
@@ -69,54 +82,5 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "react-redux": "^7.2.2"
-  },
-  "eslintConfig": {
-    "extends": [
-      "eslint:recommended",
-      "plugin:react/recommended",
-      "plugin:import/recommended"
-    ],
-    "plugins": [
-      "jest"
-    ],
-    "ignorePatterns": [
-      "lib",
-      "rollup.config.js"
-    ],
-    "env": {
-      "jest/globals": true,
-      "browser": true
-    },
-    "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
-    ],
-    "rules": {
-      "valid-jsdoc": [
-        1,
-        {
-          "requireReturn": false,
-          "requireParamType": true,
-          "requireReturnType": true
-        }
-      ],
-      "import/no-unresolved": "off",
-      "no-console": [
-        "error",
-        {
-          "allow": [
-            "error",
-            "warn",
-            "debug"
-          ]
-        }
-      ]
-    }
   }
 }
