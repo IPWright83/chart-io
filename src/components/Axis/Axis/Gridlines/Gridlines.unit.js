@@ -14,10 +14,12 @@ describe("Gridlines", () => {
 
     const store = {
         getState: () => ({
-            dimensions: {
-                width,
-                height,
-                margin,
+            chart: {
+                dimensions: {
+                    width,
+                    height,
+                    margin,
+                },
             },
         }),
         dispatch: () => {},
