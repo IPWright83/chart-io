@@ -29,7 +29,13 @@ const withCanvas = (WrappedComponent, className) =>
         return (
             <React.Fragment>
                 <foreignObject width={width} height={height} style={styles.foreignObject}>
-                    <canvas width={width} height={height} ref={canvas} style={styles.canvas}></canvas>
+                    <canvas
+                        className={className}
+                        width={width}
+                        height={height}
+                        ref={canvas}
+                        style={styles.canvas}
+                    ></canvas>
                 </foreignObject>
                 <WrappedComponent {...props} layer={layer} canvas={canvas.current} />
             </React.Fragment>

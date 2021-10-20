@@ -7,7 +7,7 @@ import React from "react";
  * @return {Array}                                      The new children
  */
 const getChildrenWithProps = ({ children, renderVirtualCanvas }) =>
-    children.map((child, index) => {
+    children.map((child) => {
         if (React.isValidElement(child)) {
             return React.cloneElement(child, { renderVirtualCanvas });
         }

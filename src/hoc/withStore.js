@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useMemo } from "react";
 import { Provider } from "react-redux";
 
@@ -8,8 +9,7 @@ import { createStore } from "../store";
  * @param  {ReactDOMComponent} WrappedComponent     The component to render
  * @return {ReactDOMComponent}                      The wrapped component
  */
-const withStore =
-    (WrappedComponent) =>
+const withStore = (WrappedComponent) =>
     /**
      * Wraps a component within a Redux store provider
      * @param  {...any}    options.props        All the props
