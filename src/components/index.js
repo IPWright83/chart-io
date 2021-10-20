@@ -7,3 +7,4 @@ export * from "./Background";
 export * from "./Droplines";
 export * from "./Markers";
 export * from "./Legend";
+export * from "./XYChart";
