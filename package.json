@@ -1,12 +1,13 @@
 {
   "name": "@chart-it/react-d3",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "chart-it is a react-d3 charting library",
   "repository": "git@github.com:IPWright83/chart-it.git",
   "author": "\"Ian Wright\" <\"ipwright83+dev@gmail.com\">",
   "main": "lib/index.js",
   "module": "lib/index.esm.js",
   "types": "lib/index.d.ts",
+  "homepage": "http://localhost:6006/?path=/story/introduction--page",
   "scripts": {
     "test": "jest",
     "lint": "eslint -c .eslintrc.json .",
@@ -66,6 +67,7 @@
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.2",
     "react-test-renderer": "^17.0.2",
+    "react-use-compare-debugger": "^1.0.5",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
