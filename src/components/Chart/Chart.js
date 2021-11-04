@@ -66,7 +66,6 @@ const Chart = ({
     return (
         <div className={`chart ${themeName}`}>
             <svg className="chart-svg" width={width} height={height}>
-                <Background />
                 {useCanvas ? (
                     <VirtualCanvas onMouseOver={onMouseOver} onMouseOut={onMouseOut} onClick={onClick}>
                         {childrenWithProps}
@@ -74,8 +73,6 @@ const Chart = ({
                 ) : (
                     childrenWithProps
                 )}
-                <Markers />
-                <Droplines />
             </svg>
         </div>
     );

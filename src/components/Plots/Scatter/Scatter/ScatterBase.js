@@ -74,6 +74,7 @@ const ScatterBase = ({
             y2: yScale.range()[0],
         };
 
+        console.log(marker);
         dispatch(eventActions.addMarker(marker));
         dispatch(eventActions.addDropline(horizontalDropline));
         dispatch(eventActions.addDropline(verticalDropline));

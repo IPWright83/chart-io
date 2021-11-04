@@ -4,7 +4,7 @@ import { argTypes } from "../../../../stories/argTypes";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
 import { Bar } from "./Bar";
 import { Bars } from "./Bars";
-import { Chart } from "../../Chart";
+import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
 
 import mdx from "./Bar.mdx";
@@ -18,19 +18,8 @@ export default {
         docs: {
             page: mdx,
             transformSource: (src) => {
-                src = src.replace(/No Display Name/, "Chart");
-                src = src.replace(/No Display Name/, "Chart");
                 src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
-                src = src.replace(/leftMargin={.*?}/gs, "\r");
-                src = src.replace(/rightMargin={.*?}/gs, "");
-                src = src.replace(/topMargin={.*?}/gs, "");
-                src = src.replace(/bottomMargin={.*?}/gs, "");
-                src = src.replace(/x=".*?"/gs, "");
-                src = src.replace(/x2=".*?"/gs, "");
-                src = src.replace(/x3=".*?"/gs, "");
-                src = src.replace(/y=".*?"/gs, "");
-                src = src.replace(/y2=".*?"/gs, "");
-                src = src.replace(/y3=".*?"/gs, "");
+                src = src.replaceAll(/undefined,?/g, "");
                 src = src.replace(/^\s*\n/gm, "");
                 return src;
             },
@@ -51,40 +40,32 @@ export default {
 };
 
 const BarTemplate = (args) => (
-    <Chart
+    <XYChart
         data={sales_records_dataset}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
-        ys={[args.y, args.y2, args.y3]}
-        xs={[args.x]}
-        {...args}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
     >
         <YAxis fields={[args.y]} scaleType="band" showGridlines={false} />
         <XAxis fields={[args.x, args.x2, args.x3]} />
-        <Bar x={args.x} y={args.y} color={args.color} animationDuration={args.animationDuration} />
-        {args.x2 ? (
-            <Bar x={args.x2} y={args.y} color={args.color2} animationDuration={args.animationDuration} />
-        ) : undefined}
-    </Chart>
+        <Bar x={args.x} y={args.y} color={args.color} />
+        {args.x2 ? <Bar x={args.x2} y={args.y} color={args.color2} /> : undefined}
+    </XYChart>
 );
 
 const BarsTemplate = (args) => (
-    <Chart
+    <XYChart
         data={sales_records_dataset}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
-        ys={[args.y, args.y2, args.y3]}
-        xs={[args.x]}
-        {...args}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
     >
         <YAxis fields={[args.y]} scaleType="band" showGridlines={false} />
         <XAxis fields={[args.x, args.x2, args.x3]} aggregate={args.stacked} />
-        <Bars
-            y={args.y}
-            xs={[args.x, args.x2]}
-            animationDuration={args.animationDuration}
-            grouped={args.grouped}
-            stacked={args.stacked}
-        />
-    </Chart>
+        <Bars y={args.y} xs={[args.x, args.x2]} grouped={args.grouped} stacked={args.stacked} />
+    </XYChart>
 );
 
 export const Basic = BarTemplate.bind({});
