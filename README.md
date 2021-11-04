@@ -20,6 +20,8 @@ It aims to provide high-level components that require minial configuration to pr
 
 The best way to get started is to take a look at some of the examples in this Storybook https://ipwright83.github.io/chart-it/?path=/story/introduction--page.
 
+Here is an example of a very basic Scatter chart
+
 ```
 <XYChart data={[{ x: 10, y: 10 }, { x: 20, y: 20 }]}>
     <Scatter x="x" y="y"/>
