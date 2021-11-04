@@ -22,8 +22,8 @@ describe("eventSelectors", () => {
             expect(eventSelectors.position(state)).toEqual({ x: 5, y: 10 });
         });
 
-        it("returns null with no position", () => {
-            expect(eventSelectors.position({})).toBe(null);
+        it("returns empty with no position", () => {
+            expect(eventSelectors.position({})).toEqual({});
         });
     });
 
@@ -40,5 +40,27 @@ describe("eventSelectors", () => {
             };
             expect(eventSelectors.mode(state)).toBe("ENTER");
         });
+    });
+
+    it("droplines", () => {
+        const state = {
+            event: {
+                droplines: [{ isHorizontal: true, color: "red", x1: 0, x2: 1, y1: 2, y2: 3 }],
+            },
+        };
+
+        expect(eventSelectors.droplines(state)).toEqual([
+            { isHorizontal: true, color: "red", x1: 0, x2: 1, y1: 2, y2: 3 },
+        ]);
+    });
+
+    it("markers", () => {
+        const state = {
+            event: {
+                markers: [{ fill: "red", r1: 5, r2: 10, cx: 3, cy: 4 }],
+            },
+        };
+
+        expect(eventSelectors.markers(state)).toEqual([{ fill: "red", r1: 5, r2: 10, cx: 3, cy: 4 }]);
     });
 });

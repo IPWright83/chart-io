@@ -80,7 +80,7 @@ const VirtualCanvas = (props) => {
 
     // Many layers don't require the virtual canvas. If
     // they are all of these types then disable the canvas
-    const childTypes = children.map((c) => c.props.mdxType);
+    const childTypes = children.filter((c) => !!c).map((c) => c.props.mdxType);
     const typesNeedingCanvas = childTypes.filter((type) => !ignoreTypes.includes(type));
     const includeVirtualCanvas = typesNeedingCanvas.length > 0;
 
@@ -106,6 +106,12 @@ const VirtualCanvas = (props) => {
 };
 
 VirtualCanvas.propTypes = {
+    /**
+     * The plots that are children of the virtual canvas
+     * @type {Array}
+     */
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+
     /**
      * A function that will be triggered whenever the mouse moves over an element for the first time
      * @default `() => {}`

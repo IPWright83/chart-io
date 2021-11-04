@@ -7,10 +7,10 @@ import { XScale } from "../../Scale";
  * Represents an XAxis component
  * @return {ReactElement}  The X Axis component
  */
-const XAxis = ({ position, fields, scaleType, aggregate, showGridlines }) => {
+const XAxis = ({ position, fields, scaleType, aggregate, showGridlines, title }) => {
     return (
         <React.Fragment>
-            <Axis position={position} fields={fields} showGridlines={showGridlines} />
+            <Axis position={position} fields={fields} showGridlines={showGridlines} title={title} />
             <XScale fields={fields} scaleType={scaleType} aggregate={aggregate} />
         </React.Fragment>
     );
@@ -42,6 +42,11 @@ XAxis.propTypes = {
      * @type {Boolean}
      */
     showGridlines: PropTypes.bool,
+    /**
+     * A title for the Axis
+     * @type {String}
+     */
+    title: PropTypes.string,
 };
 
 XAxis.defaultProps = {

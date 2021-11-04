@@ -1,3 +1,4 @@
+import { PROGRESSIVE_RENDER_THRESHOLD } from "../../../constants";
 import { chartSelectors } from "../chartSelectors";
 
 describe("chartSelectors", () => {
@@ -89,6 +90,42 @@ describe("chartSelectors", () => {
 
         it("margin returns the value from the store", () => {
             expect(chartSelectors.dimensions.margin(state)).toBe(margin);
+        });
+    });
+
+    it("theme", () => {
+        const state = {
+            chart: {
+                theme: {
+                    foo: "bar",
+                },
+            },
+        };
+
+        expect(chartSelectors.theme(state)).toEqual({ foo: "bar" });
+    });
+
+    describe("animationDuration", () => {
+        it("returns value", () => {
+            const state = {
+                chart: {
+                    animationDuration: 185,
+                },
+            };
+
+            expect(chartSelectors.animationDuration(state)).toBe(185);
+        });
+
+        it("returns 0 for large data set", () => {
+            const state = {
+                chart: {
+                    animationDuration: 350,
+                    // Note this is a faked array interface
+                    data: { length: PROGRESSIVE_RENDER_THRESHOLD + 10 },
+                },
+            };
+
+            expect(chartSelectors.animationDuration(state)).toBe(0);
         });
     });
 });

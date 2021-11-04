@@ -28,9 +28,11 @@ const canvasRenderLoop = async (canvas, width, height, exit, update) => {
 
     try {
         await exit.end();
+        // eslint-disable-next-line no-empty
     } catch (e) {}
     try {
         await update.end();
+        // eslint-disable-next-line no-empty
     } catch (e) {}
 
     // Run 1 final render after animations have finished, but

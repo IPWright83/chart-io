@@ -32,7 +32,7 @@ const usePathCreator = (layer, x, y, xScale, yScale) => {
                 { [x]: xScale.domain()[1], [y]: yScale.domain()[0] },
             ])
             .attr("class", "line")
-            .style("fill", (d) => "none")
+            .style("fill", "none")
             .style("pointer-events", "none")
             .attr("d", line);
 

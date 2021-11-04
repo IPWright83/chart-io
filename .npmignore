@@ -3,3 +3,7 @@ src
 tsconfig.json
 rollup.config.js
 out*
+*.mdx
+*.jsx
+.unit.js
+__snapshots__

@@ -1,0 +1,83 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+
+# Area Component
+
+The `<Area>` component allows us to define an area plot on our chart.
+
+<Canvas>
+    <Story id="xycharts-area--basic" />
+</Canvas>
+
+### Props
+
+Also includes all props from [XY Plot Components API](XYPlot.md)
+
+| Prop           | Type          | Default            | Note                                                                                                         |
+| -------------- | ------------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `color`        | `string`      | Derived from Theme | The colour of the data.                                                                                      |
+| `layer`\*      | `HTMLElement` |                    | This is an _internal_ field and should not need setting manually. It is populated `withSVG` or `withCanvas`. |
+| `x`\*          | `string`      | null               | The key of the field that contains the value along the x-axis.                                               |
+| `y`\*          | `string`      | null               | The key of the field that contains the value along the y-axis.                                               |
+| `onMouseOver`  | `Function`    | `() => {}`         | Event handler to call when the mouse enter a DataPoint.                                                      |
+| `onMouseOut`   | `Function`    | `() => {}`         | Event handler to call when the mouse exits a DataPoint.                                                      |
+| `onMouseClick` | `Function`    | `() => {}`         | Event handler to call when the mouse clicks a DataPoint.                                                     |
+
+### Stream Graph
+
+export const StreamAreaTemplate = (args) => (
+    <Chart {...args} data={sales_records_dataset}>
+        <YAxis fields={[args.y, args.y2]} />
+        <XAxis fields={[args.x]} showGridlines={false} />
+        <Area
+            x={args.x}
+            y={args.y}
+            y2={args.y2}
+            radius={args.radius}
+            color={args.color}
+            animationDuration={args.animationDuration}
+        />
+    </Chart>
+);
+
+The `<Area>` component also allows us to represent a Stream plot.
+
+<Canvas>
+    <Story id="xycharts-area--stream" />
+</Canvas>
+
+## Visual Styling
+
+Most of the configuration for a `<Area>` is similar to other plots. Currently the only styling property avaliable is the colour option.
+
+<Canvas>
+    <Story id="xycharts-area--color" />
+</Canvas>
+
+## Multiple Series
+
+There are two ways to combine multiple area plots, either:
+
+-   Overlapping Areas
+-   Stacked Areas
+
+### Overlapping Areas
+
+There are two ways to go about defining multiple area plots for overlapping. The simplest way is to use the `<Areas>` (plural) component. The `<Areas>` component allows us to define multiple series at once and takes care of automaticallying layering and assigning colors.
+
+The long hand way is to define each `<Area>`, and configure with a colour manually. The only advantage to this approach is if you wish to control other settings (such as events) differently between the plots.
+
+The results of either approach, render in exactly the same way:
+
+<Canvas>
+    <Story id="xycharts-area--multiple-areas" />
+</Canvas>
+
+### Stacked Charts
+
+Another way to to combine area plots is to stack them on top of each other. To stack area plots you **must** use the `<Areas>` (plural) component and ensure that you set stacked field `<Areas ... stacked={true} />`.
+
+The chart will attempt to warn you, but you should also set the `aggregate` field on your X Axis/Scale as otherwise the data will overflow of the top of the scale `<XAxis ... aggregate={true} />`.
+
+<Canvas>
+    <Story id="xycharts-area--stacked-areas" />
+</Canvas>

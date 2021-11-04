@@ -4,9 +4,8 @@
  * @return {Object}              The x,y offsets
  */
 const getXYFromTransform = (transform) => {
-    if (transform) {
-    
-        const result = transform.match(/translate\(([\d.]+),([\d.]+)\)/);
+    if (transform && transform.match) {
+        const result = transform.match(/translate\(([\d.]+),\s?([\d.]+)\)/);
         if (result) {
             return { x: +result[1], y: +result[2] };
         }

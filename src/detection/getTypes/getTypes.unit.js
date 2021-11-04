@@ -1,6 +1,7 @@
-import { Types, getDataType, typeEnumToName } from "../src";
+import { Types } from "../Types";
+import { getDataType } from "./getDataType";
 
-describe("getDataType", () => {
+describe("/detection/getTypes", () => {
     // Helper to call on an array
     const detectType = (values) =>
         values.reduce((previousType, value) => getDataType(value, previousType), Types.Unknown);
@@ -16,7 +17,7 @@ describe("getDataType", () => {
     });
 
     it("should detect booleans", () => {
-        const values = [true, false, false, null, true];
+        const values = [true, "Yes", "NO", null, true];
         expect(detectType(values)).toBe(Types.Boolean);
     });
 
@@ -50,18 +51,5 @@ describe("getDataType", () => {
     it("should detect datestimes", () => {
         const values = ["2021-05-15T09:59:54.378Z", "2021-05-16T09:59:54.378Z", null, "2021-05-17T09:59:54.378Z"];
         expect(detectType(values)).toBe(Types.DateTime);
-    });
-});
-
-describe("typeEnumToName", () => {
-    it("should return the correct name for each type", () => {
-        expect(typeEnumToName(Types.Unknown)).toBe("Unknown");
-        expect(typeEnumToName(Types.Null)).toBe("Null");
-        expect(typeEnumToName(Types.Date)).toBe("Date");
-        expect(typeEnumToName(Types.DateTime)).toBe("DateTime");
-        expect(typeEnumToName(Types.Integer)).toBe("Integer");
-        expect(typeEnumToName(Types.Double)).toBe("Double");
-        expect(typeEnumToName(Types.Boolean)).toBe("Boolean");
-        expect(typeEnumToName(Types.String)).toBe("String");
     });
 });

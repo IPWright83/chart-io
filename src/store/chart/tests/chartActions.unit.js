@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 
+import { themes } from "../../../themes";
 import { chartActions } from "../chartActions";
 
 describe("chartActions", () => {
@@ -49,6 +50,48 @@ describe("chartActions", () => {
             expect(chartActions.setData(undefined)).toEqual({
                 type: "CHART.SET_DATA",
                 payload: [],
+            });
+        });
+    });
+
+    it("setAnimationDuration returns the correct action", () => {
+        expect(chartActions.setAnimationDuration(500)).toEqual({
+            type: "CHART.SET_ANIMATION_DURATION",
+            payload: 500,
+        });
+    });
+
+    describe("setTheme", () => {
+        it("for light theme returns correct action", () => {
+            const dispatch = jest.fn();
+
+            chartActions.setTheme("light")(dispatch);
+
+            expect(dispatch).toHaveBeenCalledWith({
+                type: "CHART.SET_THEME",
+                payload: themes.light,
+            });
+        });
+
+        it("for dark theme returns correct action", () => {
+            const dispatch = jest.fn();
+
+            chartActions.setTheme("dark")(dispatch);
+
+            expect(dispatch).toHaveBeenCalledWith({
+                type: "CHART.SET_THEME",
+                payload: themes.dark,
+            });
+        });
+
+        it("for custom theme returns correct action", () => {
+            const dispatch = jest.fn();
+
+            chartActions.setTheme({ foo: "bar" })(dispatch);
+
+            expect(dispatch).toHaveBeenCalledWith({
+                type: "CHART.SET_THEME",
+                payload: { foo: "bar" },
             });
         });
     });

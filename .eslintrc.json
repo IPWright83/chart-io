@@ -1,0 +1,37 @@
+{
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:import/recommended"],
+  "plugins": ["jest"],
+  "ignorePatterns": ["lib", "rollup.config.js", "storybook-static", "babel.config.js", "jest.config.js", "config/**"],
+  "env": {
+    "jest/globals": true,
+    "browser": true,
+    "es6": true
+  },
+  "overrides": [
+    {
+      "files": ["**/*.stories.*"],
+      "rules": {
+        "import/no-anonymous-default-export": "off"
+      }
+    }
+  ],
+  "rules": {
+    "valid-jsdoc": [
+      1,
+      {
+        "requireReturn": false,
+        "requireParamType": true,
+        "requireReturnType": true
+      }
+    ],
+    "react/display-name": "off",
+    "import/no-unresolved": "off",
+    "no-console": [
+      "error",
+      {
+        "allow": ["error", "warn", "debug"]
+      }
+    ]
+  },
+  "parser": "@babel/eslint-parser"
+}

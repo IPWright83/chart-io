@@ -1,13 +1,12 @@
-import {
-    Types,
-    getColumnInfos,
-    getDataCardinality,
-    getDataPointCount,
-    getMaxStringLength,
-    getNullCount,
-} from "../src";
+import { Types } from "../Types";
 
-describe("lib/detection", () => {
+import { getColumnInfos } from "./getColumnInfos";
+import { getDataCardinality } from "./getDataCardinality";
+import { getDataPointCount } from "./getDataPointCount";
+import { getMaxStringLength } from "./getMaxStringLength";
+import { getNullCount } from "./getNullCount";
+
+describe("/detection/getInfos", () => {
     it("getDataPointCount returns correct count", () => {
         expect(getDataPointCount([])).toBe(0);
         expect(getDataPointCount([1, 2, 3])).toBe(3);
@@ -33,6 +32,11 @@ describe("lib/detection", () => {
     });
 
     describe("getColumnInfos", () => {
+        it("returns nothing for an empty dataset", () => {
+            const result = getColumnInfos([]);
+            expect(result).toEqual([]);
+        });
+
         it("returns correct info for a String column", () => {
             const data = [{ s: "abc" }, { s: "qwerty" }, { s: "ag" }, { s: null }];
             const result = getColumnInfos(data);

@@ -7,10 +7,10 @@ import { YScale } from "../../Scale";
  * Represents a YAxis component
  * @return {ReactElement}  The Y Axis component
  */
-const YAxis = ({ position, fields, scaleType, aggregate, showGridlines }) => {
+const YAxis = ({ position, fields, scaleType, aggregate, showGridlines, title }) => {
     return (
         <React.Fragment>
-            <Axis position={position} fields={fields} showGridlines={showGridlines} />
+            <Axis position={position} fields={fields} showGridlines={showGridlines} title={title} />
             <YScale fields={fields} scaleType={scaleType} aggregate={aggregate} />
         </React.Fragment>
     );
@@ -42,6 +42,11 @@ YAxis.propTypes = {
      * @type {Boolean}
      */
     showGridlines: PropTypes.bool,
+    /**
+     * A title for the Axis
+     * @type {String}
+     */
+    title: PropTypes.string,
 };
 
 YAxis.defaultProps = {
