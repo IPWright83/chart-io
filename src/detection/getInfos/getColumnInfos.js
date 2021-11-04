@@ -5,7 +5,6 @@ import { getDataSample } from "./getDataSample";
 import { getNullCount } from "./getNullCount";
 import { getTypeSpecificColumnInfo } from "./getTypeSpecificColumnInfo";
 
-
 /**
  * Gets information about each of the columns in the dataset
  * @param  {Array<Object>}  data     The complete dataset
@@ -15,7 +14,7 @@ const getColumnInfos = (data) => {
     // Obtain the number of points in the data
     const dataPointCount = getDataPointCount(data);
     if (dataPointCount === 0) {
-        return {};
+        return [];
     }
 
     // Sample the data to speed up the operations
