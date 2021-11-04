@@ -17,6 +17,23 @@ export default {
     parameters: {
         docs: {
             page: mdx,
+            transformSource: (src) => {
+                src = src.replace(/No Display Name/, "Chart");
+                src = src.replace(/No Display Name/, "Chart");
+                src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
+                src = src.replace(/leftMargin={.*?}/gs, "\r");
+                src = src.replace(/rightMargin={.*?}/gs, "");
+                src = src.replace(/topMargin={.*?}/gs, "");
+                src = src.replace(/bottomMargin={.*?}/gs, "");
+                src = src.replace(/x=".*?"/gs, "");
+                src = src.replace(/x2=".*?"/gs, "");
+                src = src.replace(/x3=".*?"/gs, "");
+                src = src.replace(/y=".*?"/gs, "");
+                src = src.replace(/y2=".*?"/gs, "");
+                src = src.replace(/y3=".*?"/gs, "");
+                src = src.replace(/^\s*\n/gm, "");
+                return src;
+            },
         },
         chromatic: { delay: 300 },
     },
