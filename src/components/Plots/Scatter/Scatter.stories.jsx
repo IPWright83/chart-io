@@ -52,6 +52,7 @@ const ScatterTemplate = (args) => (
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
         <Scatter x={args.x} y={args.y} radius={args.radius} color={args.color} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
@@ -66,6 +67,7 @@ const ScattersTemplate = (args) => (
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
         <Scatters x={args.x} ys={[args.y, args.y2, args.y3]} radius={args.radius} />
         <YAxis fields={[args.y, args.y2, args.y3]} />

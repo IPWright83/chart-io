@@ -46,6 +46,7 @@ const BarTemplate = (args) => (
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
         <YAxis fields={[args.y]} scaleType="band" showGridlines={false} />
         <XAxis fields={[args.x, args.x2, args.x3]} />
@@ -61,6 +62,7 @@ const BarsTemplate = (args) => (
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
         <YAxis fields={[args.y]} scaleType="band" showGridlines={false} />
         <XAxis fields={[args.x, args.x2, args.x3]} aggregate={args.stacked} />

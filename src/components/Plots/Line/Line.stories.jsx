@@ -46,6 +46,7 @@ const LineTemplate = (args) => (
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
         <Line x={args.x} y={args.y} color={args.color} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
@@ -60,6 +61,7 @@ const LinesTemplate = (args) => (
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
