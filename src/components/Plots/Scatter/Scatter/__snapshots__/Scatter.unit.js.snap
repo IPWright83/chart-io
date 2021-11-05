@@ -1,6 +1,100 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Scatter should render correctly 1`] = `
+exports[`Scatter using SVG should handle event mouseexit correctly: REMOVE_DROPLINE action 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "color": "rgba(153, 193, 220, 0.8)",
+      "isHorizontal": true,
+      "x1": 21,
+      "x2": 0,
+      "y1": 25,
+      "y2": 25,
+    },
+    "type": "EVENT.REMOVE_DROPLINE",
+  },
+]
+`;
+
+exports[`Scatter using SVG should handle event mouseexit correctly: REMOVE_DROPLINE action 2`] = `
+Array [
+  Object {
+    "payload": Object {
+      "color": "rgba(153, 193, 220, 0.8)",
+      "isVertical": true,
+      "x1": 25,
+      "x2": 25,
+      "y1": 29,
+      "y2": 0,
+    },
+    "type": "EVENT.REMOVE_DROPLINE",
+  },
+]
+`;
+
+exports[`Scatter using SVG should handle event mouseexit correctly: REMOVE_MARKER action 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "cx": 25,
+      "cy": 25,
+      "r1": 0,
+      "r2": 4,
+      "stroke": "rgba(153, 193, 220, 0.8)",
+    },
+    "type": "EVENT.REMOVE_MARKER",
+  },
+]
+`;
+
+exports[`Scatter using SVG should handle event mouseover correctly: ADD_DROPLINE action 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "color": "rgba(153, 193, 220, 0.8)",
+      "isHorizontal": true,
+      "x1": 21,
+      "x2": 0,
+      "y1": 25,
+      "y2": 25,
+    },
+    "type": "EVENT.ADD_DROPLINE",
+  },
+]
+`;
+
+exports[`Scatter using SVG should handle event mouseover correctly: ADD_DROPLINE action 2`] = `
+Array [
+  Object {
+    "payload": Object {
+      "color": "rgba(153, 193, 220, 0.8)",
+      "isVertical": true,
+      "x1": 25,
+      "x2": 25,
+      "y1": 29,
+      "y2": 0,
+    },
+    "type": "EVENT.ADD_DROPLINE",
+  },
+]
+`;
+
+exports[`Scatter using SVG should handle event mouseover correctly: ADD_MARKER action 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "cx": 25,
+      "cy": 25,
+      "r1": 0,
+      "r2": 4,
+      "stroke": "rgba(153, 193, 220, 0.8)",
+    },
+    "type": "EVENT.ADD_MARKER",
+  },
+]
+`;
+
+exports[`Scatter using SVG should render correctly 1`] = `
 <DocumentFragment>
   <svg>
     <g
@@ -25,7 +119,7 @@ exports[`Scatter should render correctly 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Scatter should skip rendering if there is no x scale avaliable 1`] = `
+exports[`Scatter using SVG should skip rendering if there is no x scale avaliable 1`] = `
 <DocumentFragment>
   <svg>
     <g
@@ -35,7 +129,7 @@ exports[`Scatter should skip rendering if there is no x scale avaliable 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Scatter should skip rendering if there is no y scale avaliable 1`] = `
+exports[`Scatter using SVG should skip rendering if there is no y scale avaliable 1`] = `
 <DocumentFragment>
   <svg>
     <g

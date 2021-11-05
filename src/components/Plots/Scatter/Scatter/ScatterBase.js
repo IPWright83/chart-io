@@ -112,15 +112,15 @@ const ScatterBase = ({
         const update = enter
             .merge(join)
             .on("mouseover", function (event, datum) {
-                onMouseOver && onMouseOver(datum, this, event);
+                onMouseOver(datum, this, event);
                 setFocused({ element: this, event, datum });
             })
             .on("mouseout", function (event, datum) {
-                onMouseOut && onMouseOut(datum, this, event);
+                onMouseOut(datum, this, event);
                 setFocused(null);
             })
             .on("click", function (event, datum) {
-                onClick && onClick(datum, this, event);
+                onClick(datum, this, event);
             })
             .transition("scatter")
             .duration(animationDuration)
