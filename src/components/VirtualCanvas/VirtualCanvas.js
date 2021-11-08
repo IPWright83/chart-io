@@ -1,6 +1,5 @@
 import "./VirtualCanvas.css";
 
-import emptyFunction from "emptyfunction";
 import debounce from "lodash.debounce";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef } from "react";
@@ -80,7 +79,11 @@ const VirtualCanvas = (props) => {
 
     // Many layers don't require the virtual canvas. If
     // they are all of these types then disable the canvas
-    const childTypes = children.filter((c) => !!c).map((c) => c.props.mdxType);
+    const childTypes = children
+        // Fix for storybook
+        .filter((c) => !!c && !!c.props)
+        .map((c) => c.props.mdxType);
+
     const typesNeedingCanvas = childTypes.filter((type) => !ignoreTypes.includes(type));
     const includeVirtualCanvas = typesNeedingCanvas.length > 0;
 
@@ -135,9 +138,9 @@ VirtualCanvas.propTypes = {
 };
 
 VirtualCanvas.defaultProps = {
-    onMouseOver: emptyFunction,
-    onMouseOut: emptyFunction,
-    onClick: emptyFunction,
+    onMouseOver: () => {},
+    onMouseOut: () => {},
+    onClick: () => {},
 };
 
 export { VirtualCanvas };

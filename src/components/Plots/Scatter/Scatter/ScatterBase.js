@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useRender } from "../../../../hooks";
 import { chartSelectors, eventActions } from "../../../../store";
 import { eventDefaultProps, eventPropTypes, plotDefaultProps, plotPropTypes } from "../../../../types";
 
@@ -87,7 +86,7 @@ const ScatterBase = ({
     }, [dispatch, xScale, yScale, focused]);
 
     // This is the main render function
-    useRender(() => {
+    useEffect(() => {
         // D3 data join
         const join = d3
             .select(layer.current)
@@ -113,15 +112,15 @@ const ScatterBase = ({
         const update = enter
             .merge(join)
             .on("mouseover", function (event, datum) {
-                onMouseOver && onMouseOver(datum, this, event);
+                onMouseOver(datum, this, event);
                 setFocused({ element: this, event, datum });
             })
             .on("mouseout", function (event, datum) {
-                onMouseOut && onMouseOut(datum, this, event);
+                onMouseOut(datum, this, event);
                 setFocused(null);
             })
             .on("click", function (event, datum) {
-                onClick && onClick(datum, this, event);
+                onClick(datum, this, event);
             })
             .transition("scatter")
             .duration(animationDuration)

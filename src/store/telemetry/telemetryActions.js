@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // import { getColumnInfos } from "lib/detection";
 // import { telemetrySelectors } from "./telemetrySelectors";
 
@@ -27,18 +29,16 @@ const generateDataAnalytics = (data) => (dispatch, getState) => {
  * @param  {Number} options.children            The child components of the chart
  * @return {Object}                 A redux action object
  */
-const generateChartAnalytics =
-    ({ height, width, margin, useCanvas, animationDuration, children }) =>
-    () => {
-        // console.log({
-        //     height,
-        //     width,
-        //     margin,
-        //     useCanvas,
-        //     animationDuration,
-        //     children: children.map((c) => ({ name: c.type.name, props: c.props })),
-        // });
-    };
+const generateChartAnalytics = ({ height, width, margin, useCanvas, animationDuration, children }) => () => {
+    // console.log({
+    //     height,
+    //     width,
+    //     margin,
+    //     useCanvas,
+    //     animationDuration,
+    //     children: children.map((c) => ({ name: c.type.name, props: c.props })),
+    // });
+};
 
 const telemetryActions = {
     generateDataAnalytics,

@@ -11,3 +11,6 @@ window.crypto = {
         return nodeCrypto.randomFillSync(buffer);
     },
 };
+
+// Dump debug messages to the void
+console.debug = () => {};

@@ -4,7 +4,7 @@ import { argTypes } from "../../../../stories/argTypes";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
 import { Column } from "./Column";
 import { Columns } from "./Columns";
-import { Chart } from "../../Chart";
+import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
 
 import mdx from "./Column.mdx";
@@ -17,6 +17,12 @@ export default {
     parameters: {
         docs: {
             page: mdx,
+            transformSource: (src) => {
+                src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
+                src = src.replaceAll(/undefined,?/g, "");
+                src = src.replace(/^\s*\n/gm, "");
+                return src;
+            },
         },
         chromatic: { delay: 300 },
     },
@@ -34,40 +40,34 @@ export default {
 };
 
 const ColumnTemplate = (args) => (
-    <Chart
+    <XYChart
         data={sales_records_dataset}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
-        ys={[args.y, args.y2, args.y3]}
-        xs={[args.x]}
-        {...args}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} scaleType="band" showGridlines={false} />
-        <Column x={args.x} y={args.y} color={args.color} animationDuration={args.animationDuration} />
-        {args.y2 ? (
-            <Column x={args.x} y={args.y2} color={args.color2} animationDuration={args.animationDuration} />
-        ) : undefined}
-    </Chart>
+        <Column x={args.x} y={args.y} color={args.color} />
+        {args.y2 ? <Column x={args.x} y={args.y2} color={args.color2} /> : undefined}
+    </XYChart>
 );
 
 const ColumnsTemplate = (args) => (
-    <Chart
+    <XYChart
         data={sales_records_dataset}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
-        ys={[args.y, args.y2, args.y3]}
-        xs={[args.x]}
-        {...args}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} aggregate={args.stacked} />
         <XAxis fields={[args.x]} scaleType="band" showGridlines={false} />
-        <Columns
-            x={args.x}
-            ys={[args.y, args.y2]}
-            animationDuration={args.animationDuration}
-            grouped={args.grouped}
-            stacked={args.stacked}
-        />
-    </Chart>
+        <Columns x={args.x} ys={[args.y, args.y2]} grouped={args.grouped} stacked={args.stacked} />
+    </XYChart>
 );
 
 export const Basic = ColumnTemplate.bind({});

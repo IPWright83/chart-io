@@ -5,7 +5,7 @@ import { sales_records_dataset } from "../../../../data/sales_records_dataset";
 import { huge_data_set } from "../../../../data/huge_data_set";
 import { Scatter } from "./Scatter";
 import { Scatters } from "./Scatters";
-import { Chart } from "../../Chart";
+import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
 
 import mdx from "./Scatter.mdx";
@@ -18,6 +18,12 @@ export default {
     parameters: {
         docs: {
             page: mdx,
+            transformSource: (src) => {
+                src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
+                src = src.replaceAll(/undefined,?/g, "");
+                src = src.replace(/^\s*\n/gm, "");
+                return src;
+            },
         },
         chromatic: { delay: 300 },
     },
@@ -40,40 +46,33 @@ export default {
 };
 
 const ScatterTemplate = (args) => (
-    <Chart
+    <XYChart
         data={sales_records_dataset}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
-        ys={[args.y, args.y2, args.y3]}
-        xs={[args.x]}
-        {...args}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
-        <Scatter
-            x={args.x}
-            y={args.y}
-            radius={args.radius}
-            color={args.color}
-            animationDuration={args.animationDuration}
-        />
+        <Scatter x={args.x} y={args.y} radius={args.radius} color={args.color} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
-    </Chart>
+    </XYChart>
 );
 
 const ScattersTemplate = (args) => (
-    <Chart
-        {...args}
+    <XYChart
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         data={sales_records_dataset}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
-        <Scatters
-            x={args.x}
-            ys={[args.y, args.y2, args.y3]}
-            radius={args.radius}
-            animationDuration={args.animationDuration}
-        />
+        <Scatters x={args.x} ys={[args.y, args.y2, args.y3]} radius={args.radius} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
-    </Chart>
+    </XYChart>
 );
 
 export const Basic = ScatterTemplate.bind({});

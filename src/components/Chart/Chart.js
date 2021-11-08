@@ -1,15 +1,11 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { Background } from "../Background";
-import { Droplines } from "../Droplines";
-import { Legend } from "../Legend";
-import { Markers } from "../Markers";
 import { VirtualCanvas } from "../VirtualCanvas";
 
-import { getColumnInfos } from "../../detection";
-import { chartActions, chartSelectors } from "../../store";
+// import { getColumnInfos } from "../../detection";
+import { chartActions } from "../../store";
 
 import { getChildrenWithProps } from "./getChildrenWithProps";
 import { getThemeName } from "./getThemeName";
@@ -26,7 +22,6 @@ const Chart = ({
     onMouseOut,
     onClick,
     theme = "light",
-    ...props
 }) => {
     const dispatch = useDispatch();
     const themeName = getThemeName(theme);
@@ -66,7 +61,6 @@ const Chart = ({
     return (
         <div className={`chart ${themeName}`}>
             <svg className="chart-svg" width={width} height={height}>
-                <Background />
                 {useCanvas ? (
                     <VirtualCanvas onMouseOver={onMouseOver} onMouseOut={onMouseOut} onClick={onClick}>
                         {childrenWithProps}
@@ -74,14 +68,18 @@ const Chart = ({
                 ) : (
                     childrenWithProps
                 )}
-                <Markers />
-                <Droplines />
             </svg>
         </div>
     );
 };
 
 Chart.propTypes = {
+    /**
+     * The child components for the chart
+     * @type {Array<Node> || Node}
+     */
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+
     /**
      * The width of the chart
      * @default 500

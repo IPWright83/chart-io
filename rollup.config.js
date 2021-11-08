@@ -29,6 +29,7 @@ export default {
     babel({
       exclude: "node_modules/**",
       presets: ["@babel/env", "@babel/preset-react"],
+      runtimeHelpers: true,
     }),
     commonjs(),
     //typescript({ useTsconfigDeclarationDir: true }),

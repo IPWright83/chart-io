@@ -16,6 +16,20 @@ It aims to provide high-level components that require minial configuration to pr
 
 `yarn add @chart-it/react-d3`
 
+# Getting Started
+
+The best way to get started is to take a look at some of the examples in this Storybook https://ipwright83.github.io/chart-it/?path=/story/introduction--page.
+
+Here is an example of a very basic Scatter chart
+
+```
+<XYChart data={[{ x: 10, y: 10 }, { x: 20, y: 20 }]}>
+    <Scatter x="x" y="y"/>
+    <YAxis fields={["y"]} />
+    <XAxis fields={["x"]} />
+</XYChart>
+```
+
 ## Run Locally
 
 Clone the project

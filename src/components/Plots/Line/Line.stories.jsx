@@ -4,7 +4,7 @@ import { argTypes } from "../../../../stories/argTypes";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
 import { Line } from "./Line";
 import { Lines } from "./Lines";
-import { Chart } from "../../Chart";
+import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
 
 import mdx from "./Line.mdx";
@@ -17,6 +17,12 @@ export default {
     parameters: {
         docs: {
             page: mdx,
+            transformSource: (src) => {
+                src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
+                src = src.replaceAll(/undefined,?/g, "");
+                src = src.replace(/^\s*\n/gm, "");
+                return src;
+            },
         },
         chromatic: { delay: 300 },
     },
@@ -34,29 +40,33 @@ export default {
 };
 
 const LineTemplate = (args) => (
-    <Chart
+    <XYChart
         data={sales_records_dataset}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
-        ys={[args.y, args.y2, args.y3]}
-        xs={[args.x]}
-        {...args}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
-        <Line x={args.x} y={args.y} color={args.color} animationDuration={args.animationDuration} />
+        <Line x={args.x} y={args.y} color={args.color} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
-    </Chart>
+    </XYChart>
 );
 
 const LinesTemplate = (args) => (
-    <Chart
+    <XYChart
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         data={sales_records_dataset}
-        {...args}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
-        <Lines x={args.x} ys={[args.y, args.y2, args.y3]} animationDuration={args.animationDuration} />
-    </Chart>
+        <Lines x={args.x} ys={[args.y, args.y2, args.y3]} />
+    </XYChart>
 );
 
 export const Basic = LineTemplate.bind({});

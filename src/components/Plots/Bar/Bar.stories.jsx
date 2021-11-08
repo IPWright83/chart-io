@@ -4,7 +4,7 @@ import { argTypes } from "../../../../stories/argTypes";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
 import { Bar } from "./Bar";
 import { Bars } from "./Bars";
-import { Chart } from "../../Chart";
+import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
 
 import mdx from "./Bar.mdx";
@@ -17,6 +17,12 @@ export default {
     parameters: {
         docs: {
             page: mdx,
+            transformSource: (src) => {
+                src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
+                src = src.replaceAll(/undefined,?/g, "");
+                src = src.replace(/^\s*\n/gm, "");
+                return src;
+            },
         },
         chromatic: { delay: 300 },
     },
@@ -34,40 +40,34 @@ export default {
 };
 
 const BarTemplate = (args) => (
-    <Chart
+    <XYChart
         data={sales_records_dataset}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
-        ys={[args.y, args.y2, args.y3]}
-        xs={[args.x]}
-        {...args}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
         <YAxis fields={[args.y]} scaleType="band" showGridlines={false} />
         <XAxis fields={[args.x, args.x2, args.x3]} />
-        <Bar x={args.x} y={args.y} color={args.color} animationDuration={args.animationDuration} />
-        {args.x2 ? (
-            <Bar x={args.x2} y={args.y} color={args.color2} animationDuration={args.animationDuration} />
-        ) : undefined}
-    </Chart>
+        <Bar x={args.x} y={args.y} color={args.color} />
+        {args.x2 ? <Bar x={args.x2} y={args.y} color={args.color2} /> : undefined}
+    </XYChart>
 );
 
 const BarsTemplate = (args) => (
-    <Chart
+    <XYChart
         data={sales_records_dataset}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
-        ys={[args.y, args.y2, args.y3]}
-        xs={[args.x]}
-        {...args}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
         <YAxis fields={[args.y]} scaleType="band" showGridlines={false} />
         <XAxis fields={[args.x, args.x2, args.x3]} aggregate={args.stacked} />
-        <Bars
-            y={args.y}
-            xs={[args.x, args.x2]}
-            animationDuration={args.animationDuration}
-            grouped={args.grouped}
-            stacked={args.stacked}
-        />
-    </Chart>
+        <Bars y={args.y} xs={[args.x, args.x2]} grouped={args.grouped} stacked={args.stacked} />
+    </XYChart>
 );
 
 export const Basic = BarTemplate.bind({});
