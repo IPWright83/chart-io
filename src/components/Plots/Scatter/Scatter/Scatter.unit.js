@@ -3,14 +3,22 @@ import React from "react";
 import { Provider } from "react-redux";
 import { render, fireEvent } from "@testing-library/react";
 import { themes } from "../../../../themes";
+import canvasSerializer from "jest-canvas-snapshot-serializer";
 
 import { Scatter } from "./Scatter";
+
+expect.addSnapshotSerializer(canvasSerializer);
 
 describe("Scatter", () => {
     let chartState;
 
     beforeEach(() => {
         chartState = {
+            animationDuration: 0,
+            dimensions: {
+                height: 200,
+                width: 200,
+            },
             data: [
                 { x: 5, y: 5 },
                 { x: 10, y: 10 },
@@ -152,6 +160,26 @@ describe("Scatter", () => {
 
                 expect(asFragment()).toMatchSnapshot();
             });
+        });
+    });
+
+    describe("using Canvas", () => {
+        it("should render correctly", async () => {
+            const { container } = render(
+                <Provider store={store}>
+                    <svg>
+                        <Scatter x="x" y="y" useCanvas={true} />
+                    </svg>
+                </Provider>
+            );
+
+            await new Promise((resolve) => {
+                setTimeout(resolve, 250);
+            });
+
+            console.log("Taking snapshot");
+            const canvas = container.querySelector("canvas");
+            expect(canvas).toMatchSnapshot();
         });
     });
 });

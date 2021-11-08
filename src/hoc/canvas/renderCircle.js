@@ -8,13 +8,13 @@ import * as d3 from "d3";
  */
 const renderCircle = (context, node, overrideColor) => {
     const selection = d3.select(node);
-    const cx = selection.attr("cx");
-    const cy = selection.attr("cy");
-    const r = selection.attr("r");
+    const cx = Number(selection.attr("cx"));
+    const cy = Number(selection.attr("cy"));
+    const r = Number(selection.attr("r"));
     const fill = selection.style("fill");
     const opacity = Number(selection.style("opacity")) || 1;
     const stroke = selection.style("stroke");
-    const strokeWidth = selection.style("stroke-width") || 1;
+    const strokeWidth = Number(selection.style("stroke-width")) || 1;
 
     context.beginPath();
     context.arc(cx, cy, r, 0, 2 * Math.PI);
