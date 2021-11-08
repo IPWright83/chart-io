@@ -1,11 +1,13 @@
 ---
-name: Publish to NPM
+name: Publish Storybook to Github Pages
 
 on:
-  release:
-    types: [created]
+  - release:
+      types: [created]
+  - workflow_dispatch
+
 jobs:
-  npm_publish:
+  deploy_storybook:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,6 +17,4 @@ jobs:
           node-version: "14.x"
           registry-url: "https://registry.npmjs.org"
       - run: npm ci
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm run deploy-storybook -- --ci --host-token-env-variable=GITHUB_TOKEN
