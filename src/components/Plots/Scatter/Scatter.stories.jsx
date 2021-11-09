@@ -47,7 +47,7 @@ export default {
 
 const ScatterTemplate = (args) => (
     <XYChart
-        data={sales_records_dataset}
+        data={args.data}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
@@ -92,6 +92,7 @@ Basic.args = {
     onClick: console.debug,
     onMouseOver: console.debug,
     onMouseOut: console.debug,
+    data: sales_records_dataset,
     y: "Total Profit",
     x: "Units Sold",
 };

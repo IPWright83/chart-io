@@ -46,7 +46,7 @@ When dealing with large datasets, it's important to ensure that the browser rema
 This kicks in, only when the `useCanvas` flag is set to true and the count of data points is over a set threshold. Animations are disabled, and instead points are rendered progressively in batches.
 
 export const ProgressiveScatterTemplate = (args) => (
-    <Chart {...args} data={huge_data_set}>
+    <XYChart {...args} data={huge_data_set}>
         <Scatter
             x={args.x}
             y={args.y}
@@ -56,7 +56,7 @@ export const ProgressiveScatterTemplate = (args) => (
         />
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
-    </Chart>
+    </XYChart>
 );
 
 <Canvas>
@@ -64,6 +64,8 @@ export const ProgressiveScatterTemplate = (args) => (
         name="Progressive Rendering"
         args={{
             ...defaultArgs,
+            height: 250,
+            animationDuration: 0,
             useCanvas: true,
             width: 400,
             radius: 3,

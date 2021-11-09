@@ -5,6 +5,7 @@
 
 # testing
 /coverage
+*.dirty.png
 
 # production
 /build

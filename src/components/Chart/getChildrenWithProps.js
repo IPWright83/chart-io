@@ -10,21 +10,15 @@ import React from "react";
  * @param  {Function} options.onClick                       A function that will be triggered whenever the mouse clicks on an element
  * @return {Array}                                          The new children
  */
-const getChildrenWithProps = ({
-    children,
-    useCanvas,
-    animationDuration,
-    onMouseOver,
-    onMouseOut,
-    onClick,
-}) => {
+const getChildrenWithProps = ({ children, useCanvas, animationDuration, onMouseOver, onMouseOut, onClick }) => {
     // Looks like a single child which is an object
     if (children.props && children.type) {
         children = [children];
     }
 
-    // React children is usually an array
-    return children.map((child, index) => {
+    // Children can contain arrays within there, so we want to flatten
+    // out the structure so that cloning works correctly
+    return children.flat().map((child, index) => {
         const extendedProps = { useCanvas, animationDuration };
 
         // Allow event handlers to be defined once at the chart level, but
