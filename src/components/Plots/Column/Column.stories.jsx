@@ -47,6 +47,7 @@ const ColumnTemplate = (args) => (
         height={args.height}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        theme={args.theme}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} scaleType="band" showGridlines={false} />
@@ -63,6 +64,7 @@ const ColumnsTemplate = (args) => (
         height={args.height}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        theme={args.theme}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} aggregate={args.stacked} />
         <XAxis fields={[args.x]} scaleType="band" showGridlines={false} />
@@ -126,4 +128,17 @@ Grouped.args = {
     ...Basic.args,
     y2: "Unit Cost",
     grouped: true,
+};
+
+export const CustomTheme = ColumnsTemplate.bind({});
+CustomTheme.storyName = "Custom Theme";
+CustomTheme.args = {
+    ...Basic.args,
+    y2: "Unit Cost",
+    grouped: true,
+    theme: {
+        background: "#F3F1E5",
+        foreground: "#969495",
+        colors: ["#2FC2AF", "#433F3E"],
+    },
 };
