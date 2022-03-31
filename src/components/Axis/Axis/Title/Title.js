@@ -14,7 +14,7 @@ const Title = ({ position, title, fields }) => {
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
 
     const transform = getTransform(position, width, height, margin);
-    const text = title || fields.filter((f) => !!f).join(",");
+    const text = title || (fields || []).filter((f) => !!f).join(",");
 
     return (
         <text className="axis-title" transform={transform}>
@@ -33,7 +33,7 @@ Title.propTypes = {
      * The keys of the fields that will share this scale
      * @type {String[]}
      */
-    fields: PropTypes.arrayOf(PropTypes.string).isRequired,
+    fields: PropTypes.arrayOf(PropTypes.string),
     /**
      * A title for the Axis
      * @type {String}
