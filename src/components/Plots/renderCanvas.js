@@ -17,8 +17,7 @@ const renderCanvas = async ({ canvas, renderVirtualCanvas, width, height, exit, 
     }
 
     // If the dataset is large then we'll progressively render it. This means we're going
-    // to render it in batches, to keep the browser performant, at the expense of supporting
-    // events
+    // to render it in batches, to keep the browser performant, at the expense of supporting events
     if (update.size() > PROGRESSIVE_RENDER_THRESHOLD) {
         return await progressiveCanvasRenderLoop(canvas, width, height, exit, update);
     }

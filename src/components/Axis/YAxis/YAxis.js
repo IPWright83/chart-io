@@ -7,7 +7,17 @@ import { YScale } from "../../Scale";
  * Represents a YAxis component
  * @return {ReactElement}  The Y Axis component
  */
-const YAxis = ({ position, fields, scaleType, aggregate, showGridlines, title }) => {
+const YAxis = ({
+    position,
+    fields,
+    scaleType,
+    aggregate,
+    showGridlines,
+    title,
+    tickSizeInner,
+    tickSizeOuter,
+    tickPadding,
+}) => {
     return (
         <React.Fragment>
             <Axis position={position} fields={fields} showGridlines={showGridlines} title={title} />
@@ -47,6 +57,21 @@ YAxis.propTypes = {
      * @type {String}
      */
     title: PropTypes.string,
+    /**
+     * https://github.com/d3/d3-axis#axis_tickSizeInner
+     * @type {Number}
+     */
+    tickSizeInner: PropTypes.number,
+    /**
+     * https://github.com/d3/d3-axis#axis_tickSizeOuter
+     * @type {Number}
+     */
+    tickSizeOuter: PropTypes.number,
+    /**
+     * https://github.com/d3/d3-axis#axis_tickPadding
+     * @type {Number}
+     */
+    tickPadding: PropTypes.number,
 };
 
 YAxis.defaultProps = {

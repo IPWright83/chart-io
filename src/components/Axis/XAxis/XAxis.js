@@ -7,10 +7,28 @@ import { XScale } from "../../Scale";
  * Represents an XAxis component
  * @return {ReactElement}  The X Axis component
  */
-const XAxis = ({ position, fields, scaleType, aggregate, showGridlines, title }) => {
+const XAxis = ({
+    position,
+    fields,
+    scaleType,
+    aggregate,
+    showGridlines,
+    title,
+    tickSizeInner,
+    tickSizeOuter,
+    tickPadding,
+}) => {
     return (
         <React.Fragment>
-            <Axis position={position} fields={fields} showGridlines={showGridlines} title={title} />
+            <Axis
+                position={position}
+                fields={fields}
+                showGridlines={showGridlines}
+                title={title}
+                tickSizeInner={tickSizeInner}
+                tickSizeOuter={tickSizeOuter}
+                tickPadding={tickPadding}
+            />
             <XScale fields={fields} scaleType={scaleType} aggregate={aggregate} />
         </React.Fragment>
     );
@@ -47,6 +65,21 @@ XAxis.propTypes = {
      * @type {String}
      */
     title: PropTypes.string,
+    /**
+     * https://github.com/d3/d3-axis#axis_tickSizeInner
+     * @type {Number}
+     */
+    tickSizeInner: PropTypes.number,
+    /**
+     * https://github.com/d3/d3-axis#axis_tickSizeOuter
+     * @type {Number}
+     */
+    tickSizeOuter: PropTypes.number,
+    /**
+     * https://github.com/d3/d3-axis#axis_tickPadding
+     * @type {Number}
+     */
+    tickPadding: PropTypes.number,
 };
 
 XAxis.defaultProps = {
