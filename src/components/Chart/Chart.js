@@ -58,8 +58,10 @@ const Chart = ({
         animationDuration,
     });
 
+    const styles = getStyles(theme);
+
     return (
-        <div className={`chart ${themeName}`}>
+        <div className={`chart ${themeName}`} style={styles.container}>
             <svg className="chart-svg" width={width} height={height}>
                 {useCanvas ? (
                     <VirtualCanvas onMouseOver={onMouseOver} onMouseOut={onMouseOut} onClick={onClick}>
@@ -72,6 +74,15 @@ const Chart = ({
         </div>
     );
 };
+
+const getStyles = (theme) => ({
+    container: {
+        backgroundColor: theme.background,
+    },
+    svg: {
+        background: theme.background,
+    },
+});
 
 Chart.propTypes = {
     /**
