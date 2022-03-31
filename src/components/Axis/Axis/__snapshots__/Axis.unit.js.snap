@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Axis component renders a bottom axis 1`] = `<custom />`;
+
+exports[`Axis component renders a left axis 1`] = `<custom />`;
+
+exports[`Axis component renders a right axis 1`] = `<custom />`;
+
+exports[`Axis component renders a top axis 1`] = `<custom />`;
