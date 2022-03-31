@@ -18,7 +18,9 @@ const renderVirtualCanvas = async (canvas, width, height, update) => {
 
     let lookup = {};
     for (let i = 0; i < update.length; i++) {
-        const results = await renderVirtualElements(context, update[i], true);
+        const { selection } = update[i];
+
+        const results = await renderVirtualElements(context, selection);
         lookup = { ...lookup, ...results };
     }
 

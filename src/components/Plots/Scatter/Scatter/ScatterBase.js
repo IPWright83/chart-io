@@ -1,10 +1,10 @@
 import * as d3 from "d3";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useFocused } from "./useFocused";
-import { chartSelectors, eventActions } from "../../../../store";
+import { chartSelectors } from "../../../../store";
 import { eventDefaultProps, eventPropTypes, plotDefaultProps, plotPropTypes } from "../../../../types";
 
 import { renderCanvas } from "../../renderCanvas";
@@ -88,7 +88,14 @@ const ScatterBase = ({
             .attr("r", (d) => (z ? zScale(d[z]) : radius))
             .style("fill", () => fillColor);
 
-        renderCanvas({ canvas, renderVirtualCanvas, width, height, exit, update });
+        renderCanvas({
+            canvas,
+            renderVirtualCanvas,
+            width,
+            height,
+            exit,
+            update,
+        });
     }, [
         x,
         y,
