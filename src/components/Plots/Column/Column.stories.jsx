@@ -7,6 +7,7 @@ import { Columns } from "./Columns";
 import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
 
+import { uniqBy } from "lodash";
 import mdx from "./Column.mdx";
 
 const { width, height, margin, useCanvas, theme, color } = argTypes;
@@ -42,9 +43,11 @@ export default {
     },
 };
 
+const data = uniqBy(sales_records_dataset, (d) => d["Item Type"]);
+
 const ColumnTemplate = (args) => (
     <XYChart
-        data={sales_records_dataset}
+        data={data}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
@@ -64,7 +67,7 @@ const ColumnTemplate = (args) => (
 
 const ColumnsTemplate = (args) => (
     <XYChart
-        data={sales_records_dataset}
+        data={data}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
