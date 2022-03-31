@@ -42,6 +42,9 @@ export default {
             control: { type: "range", min: 1, max: 100 },
             defaultValue: { summary: 5 },
         },
+        onClick: { action: "clicked" },
+        onMouseOver: { action: "onMouseOver" },
+        onMouseOut: { action: "onMouseOut" },
     },
 };
 
@@ -53,6 +56,9 @@ const ScatterTemplate = (args) => (
         height={args.height}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
     >
         <Scatter x={args.x} y={args.y} radius={args.radius} color={args.color} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
@@ -68,6 +74,9 @@ const ScattersTemplate = (args) => (
         height={args.height}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
     >
         <Scatters x={args.x} ys={[args.y, args.y2, args.y3]} radius={args.radius} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
@@ -79,7 +88,7 @@ export const Basic = ScatterTemplate.bind({});
 Basic.storyName = "Basic Plot";
 Basic.args = {
     useCanvas: false,
-    width: 500,
+    width: 800,
     height: 400,
     animationDuration: 250,
     color: "#99C1DC",
@@ -89,9 +98,6 @@ Basic.args = {
     rightMargin: 40,
     topMargin: 40,
     bottomMargin: 40,
-    onClick: console.debug,
-    onMouseOver: console.debug,
-    onMouseOut: console.debug,
     data: sales_records_dataset,
     y: "Total Profit",
     x: "Units Sold",

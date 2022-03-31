@@ -1,9 +1,10 @@
 import * as d3 from "d3";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { chartSelectors, eventActions } from "../../../../store";
+import { useFocused } from "./useFocused";
+import { chartSelectors } from "../../../../store";
 import { eventDefaultProps, eventPropTypes, plotDefaultProps, plotPropTypes } from "../../../../types";
 
 import { renderCanvas } from "../../renderCanvas";
@@ -41,49 +42,7 @@ const ScatterBase = ({
     fillColor.opacity = 0.8;
     const strokeColor = fillColor.darker();
 
-    const [focused, setFocused] = useState(null);
-
-    useEffect(() => {
-        if (!focused) return;
-
-        // Get the appropriate attributes
-        const { element } = focused;
-        const selection = d3.select(element);
-        const r = +selection.attr("r");
-        const cx = +selection.attr("cx");
-        const cy = +selection.attr("cy");
-        const fill = selection.style("fill");
-        const markerRadius = r + 4;
-
-        const marker = { stroke: fill, r1: r, r2: markerRadius, cx, cy };
-        const horizontalDropline = {
-            isHorizontal: true,
-            color: fill,
-            x1: cx - markerRadius,
-            x2: xScale.range()[0],
-            y1: cy,
-            y2: cy,
-        };
-        const verticalDropline = {
-            isVertical: true,
-            color: fill,
-            x1: cx,
-            x2: cx,
-            y1: cy + markerRadius,
-            y2: yScale.range()[0],
-        };
-
-        dispatch(eventActions.addMarker(marker));
-        dispatch(eventActions.addDropline(horizontalDropline));
-        dispatch(eventActions.addDropline(verticalDropline));
-
-        // Clean up operations on exit
-        return () => {
-            dispatch(eventActions.removeMarker(marker));
-            dispatch(eventActions.removeDropline(horizontalDropline));
-            dispatch(eventActions.removeDropline(verticalDropline));
-        };
-    }, [dispatch, xScale, yScale, focused]);
+    const setFocused = useFocused({ dispatch, xScale, yScale });
 
     // This is the main render function
     useEffect(() => {
@@ -129,7 +88,14 @@ const ScatterBase = ({
             .attr("r", (d) => (z ? zScale(d[z]) : radius))
             .style("fill", () => fillColor);
 
-        renderCanvas({ canvas, renderVirtualCanvas, width, height, exit, update });
+        renderCanvas({
+            canvas,
+            renderVirtualCanvas,
+            width,
+            height,
+            exit,
+            update,
+        });
     }, [
         x,
         y,

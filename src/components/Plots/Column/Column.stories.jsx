@@ -7,6 +7,7 @@ import { Columns } from "./Columns";
 import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
 
+import { uniqBy } from "lodash";
 import mdx from "./Column.mdx";
 
 const { width, height, margin, useCanvas, theme, color } = argTypes;
@@ -36,17 +37,26 @@ export default {
         rightMargin: margin,
         topMargin: margin,
         bottomMargin: margin,
+        onClick: { action: "clicked" },
+        onMouseOver: { action: "onMouseOver" },
+        onMouseOut: { action: "onMouseOut" },
     },
 };
 
+const data = uniqBy(sales_records_dataset, (d) => d["Item Type"]);
+
 const ColumnTemplate = (args) => (
     <XYChart
-        data={sales_records_dataset}
+        data={data}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        theme={args.theme}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} scaleType="band" showGridlines={false} />
@@ -57,12 +67,16 @@ const ColumnTemplate = (args) => (
 
 const ColumnsTemplate = (args) => (
     <XYChart
-        data={sales_records_dataset}
+        data={data}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        theme={args.theme}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} aggregate={args.stacked} />
         <XAxis fields={[args.x]} scaleType="band" showGridlines={false} />
@@ -84,9 +98,6 @@ Basic.args = {
     rightMargin: 40,
     topMargin: 40,
     bottomMargin: 40,
-    onClick: console.debug,
-    onMouseOver: console.debug,
-    onMouseOut: console.debug,
     y: "Unit Price",
     x: "Item Type",
 };
@@ -126,4 +137,17 @@ Grouped.args = {
     ...Basic.args,
     y2: "Unit Cost",
     grouped: true,
+};
+
+export const CustomTheme = ColumnsTemplate.bind({});
+CustomTheme.storyName = "Custom Theme";
+CustomTheme.args = {
+    ...Basic.args,
+    y2: "Unit Cost",
+    grouped: true,
+    theme: {
+        background: "#F3F1E5",
+        foreground: "#969495",
+        colors: ["#2FC2AF", "#433F3E"],
+    },
 };

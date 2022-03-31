@@ -24,7 +24,7 @@ const ThemeSelector = ({ theme, children }) => {
 
 ThemeSelector.propTypes = {
     /** @type {String} The name of the theme to use */
-    theme: PropTypes.oneOf(["light", "dark"]),
+    theme: PropTypes.oneOfType([PropTypes.oneOf(["light", "dark"]), PropTypes.object]),
     /**
      * The child components
      * @type {Array<Node>}

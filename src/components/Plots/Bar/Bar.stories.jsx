@@ -7,6 +7,7 @@ import { Bars } from "./Bars";
 import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
 
+import { uniqBy } from "lodash";
 import mdx from "./Bar.mdx";
 
 const { width, height, margin, useCanvas, theme, color } = argTypes;
@@ -36,17 +37,25 @@ export default {
         rightMargin: margin,
         topMargin: margin,
         bottomMargin: margin,
+        onClick: { action: "clicked" },
+        onMouseOver: { action: "onMouseOver" },
+        onMouseOut: { action: "onMouseOut" },
     },
 };
 
+const data = uniqBy(sales_records_dataset, (d) => d["Item Type"]);
+
 const BarTemplate = (args) => (
     <XYChart
-        data={sales_records_dataset}
+        data={data}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
     >
         <YAxis fields={[args.y]} scaleType="band" showGridlines={false} />
         <XAxis fields={[args.x, args.x2, args.x3]} />
@@ -57,12 +66,15 @@ const BarTemplate = (args) => (
 
 const BarsTemplate = (args) => (
     <XYChart
-        data={sales_records_dataset}
+        data={data}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
     >
         <YAxis fields={[args.y]} scaleType="band" showGridlines={false} />
         <XAxis fields={[args.x, args.x2, args.x3]} aggregate={args.stacked} />
@@ -84,9 +96,6 @@ Basic.args = {
     rightMargin: 40,
     topMargin: 40,
     bottomMargin: 40,
-    onClick: console.debug,
-    onMouseOver: console.debug,
-    onMouseOut: console.debug,
     x: "Unit Price",
     y: "Item Type",
 };

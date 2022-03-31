@@ -1,86 +1,4 @@
-<!--- Axis.stories.mdx --->
-
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
-
-import { Axis } from "./Axis";
-import { XAxis } from "../XAxis";
-import { Chart } from "../../Chart";
-
-<Meta title="Components/Axis/Axis" component={Axis} />
-
-export const axisData = [
-    {
-        stringValue: "aardvark",
-        integerValue: 5,
-        doubleValue: 5.5,
-        negativeDoubleValue: -5.5,
-        positiveAndNegativeDoubleValue: 5,
-        dateValue: new Date("2021-02-15"),
-        dateTimeValue: new Date("2021-05-15T09:59:54.378Z"),
-        boolValue: true,
-    },
-    {
-        stringValue: "badger",
-        integerValue: 13,
-        doubleValue: 96.3,
-        negativeDoubleValue: -9.15,
-        positiveAndNegativeDoubleValue: -12.5,
-        dateValue: new Date("2021-02-16"),
-        dateTimeValue: new Date("2021-05-16T09:59:54.378Z"),
-        boolValue: false,
-    },
-    {
-        stringValue: "cat",
-        integerValue: 9,
-        doubleValue: 27.9,
-        negativeDoubleValue: -11.2,
-        positiveAndNegativeDoubleValue: 8.009,
-        dateValue: new Date("2021-02-17T00:00:00.000Z"),
-        dateTimeValue: new Date("2021-05-17T09:59:54.378Z"),
-        boolValue: true,
-    },
-    {
-        stringValue: "dog",
-        integerValue: 14,
-        doubleValue: 54.1245,
-        negativeDoubleValue: -19.22,
-        positiveAndNegativeDoubleValue: -11,
-        dateValue: new Date("2021-02-18"),
-        dateTimeValue: new Date("2021-05-18T09:59:54.378Z"),
-        boolValue: false,
-    },
-    {
-        stringValue: "elephant",
-        integerValue: 18,
-        doubleValue: 31.646,
-        negativeDoubleValue: -22.3333,
-        positiveAndNegativeDoubleValue: 18,
-        dateValue: new Date("2021-02-19"),
-        dateTimeValue: new Date("2021-05-19T09:59:54.378Z"),
-        boolValue: true,
-    },
-    {
-        stringValue: null,
-        integerValue: null,
-        doubleValue: null,
-        negativeDoubleValue: null,
-        positiveAndNegativeDoubleValue: null,
-        dateValue: null,
-        dateTimeValue: null,
-        boolValue: null,
-    },
-];
-
-export const AxisTemplate = (args) => (
-    <Chart {...args} data={axisData}>
-        <XAxis
-            fields={args.fields}
-            tickSizeInner={args.tickSizeInner}
-            tickSizeOuter={args.tickSizeOuter}
-            tickPadding={args.tickPadding}
-        />
-    </Chart>
-);
 
 # Axis Component
 
@@ -113,33 +31,13 @@ Discrete scales are best suited for `<Bar>` or `<Column>` plots but can also be 
 -   String
 -   Boolean
 
-<Story
-    name="String Axis"
-    args={{
-        fields: ["stringValue"],
-        height: 100,
-        width: 800,
-        tickSizeInner: 6,
-        tickSizeOuter: 6,
-        tickPadding: 3,
-    }}
->
-    {AxisTemplate.bind({})}
-</Story>
+<Canvas>
+    <Story id="components-axis-types--string-axis" />
+</Canvas>
 
-<Story
-    name="Boolean Axis"
-    args={{
-        fields: ["boolValue"],
-        height: 100,
-        width: 800,
-        tickSizeInner: 6,
-        tickSizeOuter: 6,
-        tickPadding: 3,
-    }}
->
-    {AxisTemplate.bind({})}
-</Story>
+<Canvas>
+    <Story id="components-axis-types--boolean-axis" />
+</Canvas>
 
 ## Numerical Axis
 
@@ -148,61 +46,21 @@ Numerical continuous scales are best for plotting `<Area>`, `<Line>` and `<Scatt
 -   Integer
 -   Double
 
-<Story
-    name="Integer Axis"
-    args={{
-        fields: ["integerValue"],
-        height: 100,
-        width: 800,
-        tickSizeInner: 6,
-        tickSizeOuter: 6,
-        tickPadding: 3,
-    }}
->
-    {AxisTemplate.bind({})}
-</Story>
+<Canvas>
+    <Story id="components-axis-types--integer-axis" />
+</Canvas>
 
-<Story
-    name="Double Axis"
-    args={{
-        fields: ["doubleValue"],
-        height: 100,
-        width: 800,
-        tickSizeInner: 6,
-        tickSizeOuter: 6,
-        tickPadding: 3,
-    }}
->
-    {AxisTemplate.bind({})}
-</Story>
+<Canvas>
+    <Story id="components-axis-types--double-axis" />
+</Canvas>
 
-<Story
-    name="Double Axis (with exclusive negative values)"
-    args={{
-        fields: ["negativeDoubleValue"],
-        height: 100,
-        width: 800,
-        tickSizeInner: 6,
-        tickSizeOuter: 6,
-        tickPadding: 3,
-    }}
->
-    {AxisTemplate.bind({})}
-</Story>
+<Canvas>
+    <Story id="components-axis-types--double-axis-only-negative-axis" />
+</Canvas>
 
-<Story
-    name="Double Axis (with mixed positive and negative values)"
-    args={{
-        fields: ["positiveAndNegativeDoubleValue"],
-        height: 100,
-        width: 800,
-        tickSizeInner: 6,
-        tickSizeOuter: 6,
-        tickPadding: 3,
-    }}
->
-    {AxisTemplate.bind({})}
-</Story>
+<Canvas>
+    <Story id="components-axis-types--double-axis-mixed-sign-axis" />
+</Canvas>
 
 ### Aggregate
 
@@ -236,30 +94,69 @@ Time scales are best for plotting `<Area>`, `<Line>` and showing data across tim
 -   Date
 -   DateTime
 
-<Story
-    name="Date Axis"
-    args={{
-        fields: ["dateValue"],
-        height: 100,
-        width: 800,
-        tickSizeInner: 6,
-        tickSizeOuter: 6,
-        tickPadding: 3,
-    }}
->
-    {AxisTemplate.bind({})}
-</Story>
+<Canvas>
+    <Story id="components-axis-types--date-axis" />
+</Canvas>
 
-<Story
-    name="DateTime Axis"
-    args={{
-        fields: ["dateTimeValue"],
-        height: 100,
-        width: 800,
-        tickSizeInner: 6,
-        tickSizeOuter: 6,
-        tickPadding: 3,
-    }}
->
-    {AxisTemplate.bind({})}
-</Story>
+<Canvas>
+    <Story id="components-axis-types--date-time-axis" />
+</Canvas>
+
+## Customization
+
+There are a number of customizations that can be used to customize the apperance of an axis. One of the most common is the insertion of gridlines:
+
+<Canvas>
+    <Story id="components-axis-customization--gridlines" />
+</Canvas>
+
+However you can also adjust:
+
+-   `tickPadding`
+-   `tickSizeOuter`
+-   `tickSizeInner`
+-   `title`
+
+It is also relatively easy to build a custom Axis that hooks directly into the chart. Note that if you're not using an `XAxis` or `YAxis` you may need to manually define a `<Scale>` for your chart.
+
+<Canvas>
+    <Story id="components-axis-customization--fully-custom-axis" />
+</Canvas>
+
+The above can be produced with:
+
+```
+const CustomTimeAxis = ({ fields }) => {
+    const axis = useRef(null);
+
+    const field = fields[0];
+    const scale = useSelector((s) => chartSelectors.scales.getScale(s, field));
+
+    useEffect(() => {
+        if (axis.current && scale) {
+            const selection = d3.select(axis.current);
+
+            const timeFormat = d3.timeFormat("%H:%M");
+            const d3Axis = d3
+                .axisBottom(scale)
+                .ticks(d3.timeHour.every(1))
+                .tickSizeInner(30)
+                .tickSizeOuter(30)
+                .tickFormat((value, index) => (index % 3 === 0 ? timeFormat(value) : null));
+
+            d3Axis.scale(scale);
+
+            selection.call(d3Axis);
+        }
+    }, [scale]);
+
+    return <g className="customAxis" ref={axis} />;
+};
+
+const CustomAxisTemplate = (args) => (
+    <Chart {...args} data={axisData}>
+        <XScale fields={args.fields} scaleType="time" />
+        <CustomTimeAxis fields={args.fields} />
+    </Chart>
+);
+```

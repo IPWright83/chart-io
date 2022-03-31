@@ -14,7 +14,7 @@ function getColor(index) {
         .rgb(
             (index & 0b111111110000000000000000) >> 16,
             (index & 0b000000001111111100000000) >> 8,
-            index & 0b000000000000000011111111
+            index & 0b000000000000000011111111,
         )
         .toString();
 }
@@ -23,31 +23,27 @@ function getColor(index) {
  * Renders the virtual canvas elements based on the join
  * @param  {Object} context         The Canvas context object to render to
  * @param  {Object} join            The D3 data join to render
+ * @param  {Number} index           The index to start at for color generation
  * @return {Object}
  */
 
-const renderVirtualElements = (context, join) => {
+const renderVirtualElements = (context, join, index) => {
     const colorToData = {};
     const colors = [];
 
-    // Used a manual index, as the `i` parameter for `.each` resets
-    // when dealing with a nested selection. Start at 1 to avoid choosing black
-    let index = 1;
-
-    join.each((d) => {
+    join.each((d, i, elements) => {
         // Get a unique color for each node so we can map from
         // the color back to a datum. +1 to ignore white as
         // this will be the background color of the canvas
         const color = getColor(index);
-
         colors.push(color);
-        colorToData[color] = d;
+        colorToData[color] = { datum: d, node: elements[i] };
         index++;
     });
 
     renderElements(context, join, colors);
 
-    return colorToData;
+    return { index, colorToData };
 };
 
 export { renderVirtualElements };

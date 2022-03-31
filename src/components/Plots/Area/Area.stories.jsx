@@ -36,6 +36,9 @@ export default {
         rightMargin: margin,
         topMargin: margin,
         bottomMargin: margin,
+        onClick: { action: "clicked" },
+        onMouseOver: { action: "onMouseOver" },
+        onMouseOut: { action: "onMouseOut" },
     },
 };
 
@@ -62,6 +65,9 @@ const AreasTemplate = (args) => (
         width={args.width}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
@@ -77,6 +83,9 @@ const StackedAreasTemplate = (args) => (
         width={args.width}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} aggregate={true} />
         <XAxis fields={[args.x]} />
@@ -97,9 +106,6 @@ Basic.args = {
     rightMargin: 40,
     topMargin: 40,
     bottomMargin: 40,
-    onClick: console.debug,
-    onMouseOver: console.debug,
-    onMouseOut: console.debug,
     y: "Total Profit",
     x: "Order Date",
     y2: undefined,

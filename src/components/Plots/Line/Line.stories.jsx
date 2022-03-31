@@ -2,6 +2,7 @@ import React from "react";
 
 import { argTypes } from "../../../../stories/argTypes";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
+import { example_dataset } from "../../../../data/example_dataset";
 import { Line } from "./Line";
 import { Lines } from "./Lines";
 import { XYChart } from "../../XYChart";
@@ -36,17 +37,52 @@ export default {
         rightMargin: margin,
         topMargin: margin,
         bottomMargin: margin,
+        onClick: { action: "clicked" },
+        onMouseOver: { action: "onMouseOver" },
+        onMouseOut: { action: "onMouseOut" },
     },
+};
+
+const processData = (rawData) => {
+    const keyField = "Month";
+
+    const aggregated = rawData
+        .filter((r) => ["Aperture", "Black Mesa"].includes(r.Owner))
+        .reduce((result, value) => {
+            const current = result[value[keyField]] || {};
+
+            for (let field in value) {
+                if (typeof value[field] === "number") {
+                    current[field] = current[field] || 0;
+                    current[field] += value[field];
+                } else {
+                    current[field] = value[field];
+                }
+            }
+
+            result[value[keyField]] = current;
+            return result;
+        }, {});
+
+    const result = Object.keys(aggregated).flatMap((key) => ({
+        [keyField]: new Date(key),
+        ...aggregated[key],
+    }));
+
+    return result;
 };
 
 const LineTemplate = (args) => (
     <XYChart
-        data={sales_records_dataset}
+        data={processData(example_dataset)}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
     >
         <Line x={args.x} y={args.y} color={args.color} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
@@ -56,12 +92,15 @@ const LineTemplate = (args) => (
 
 const LinesTemplate = (args) => (
     <XYChart
+        data={processData(example_dataset)}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
-        data={sales_records_dataset}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
@@ -75,18 +114,15 @@ Basic.args = {
     useCanvas: false,
     width: 500,
     height: 400,
-    animationDuration: 250,
+    animationDuration: 500,
     color: "#99C1DC",
     theme: "light",
     leftMargin: 70,
     rightMargin: 40,
     topMargin: 40,
     bottomMargin: 40,
-    onClick: console.debug,
-    onMouseOver: console.debug,
-    onMouseOut: console.debug,
-    y: "Total Profit",
-    x: "Order Date",
+    y: "Unit Sales",
+    x: "Month",
 };
 
 export const Color = LineTemplate.bind({});
@@ -107,6 +143,7 @@ export const MultipleLines = LinesTemplate.bind({});
 MultipleLines.storyName = "Mutiple Line Plots";
 MultipleLines.args = {
     ...Basic.args,
-    y2: "Total Revenue",
-    y3: "Total Cost",
+    y: "Operating Profit",
+    y2: "Sales Value",
+    y3: "Gross Profit",
 };

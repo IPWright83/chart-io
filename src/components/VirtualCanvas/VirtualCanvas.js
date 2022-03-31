@@ -1,6 +1,6 @@
 import "./VirtualCanvas.css";
 
-import debounce from "lodash.debounce";
+import { debounce } from "lodash";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,8 +48,15 @@ const VirtualCanvas = (props) => {
     // Whenever a child (canvas layer) renders it'll call this renderVirtual function
     // at the end of its render loop. We need to ensure that all nodes (virtual dom elements)
     // exist within the dataset and then render the virtual canvas
-    const renderVirtual = (update) => {
-        nodes = [...nodes, update];
+    const renderVirtual = (update, events) => {
+        nodes = [
+            ...nodes,
+            {
+                selection: update,
+                events,
+            },
+        ];
+
         renderAllVirtualNodes();
     };
 
@@ -60,16 +67,7 @@ const VirtualCanvas = (props) => {
             return;
         }
 
-        const { clickHandler, moveHandler } = addEventHandlers(
-            canvasElement,
-            colorToData,
-            {
-                onMouseOver,
-                onMouseOut,
-                onClick,
-            },
-            dispatch
-        );
+        const { clickHandler, moveHandler } = addEventHandlers(canvasElement, colorToData, dispatch);
 
         // Ensure we clean up the handlers otherwise they'll double fire
         return () => {

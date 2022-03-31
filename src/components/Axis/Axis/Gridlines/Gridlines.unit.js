@@ -36,6 +36,15 @@ describe("Gridlines", () => {
             });
         });
 
+        describe("should return 0", () => {
+            it("for 0 width", () => {
+                expect(getTickSize("right", 0, height, margin)).toBe(0);
+            });
+            it("for 0 height", () => {
+                expect(getTickSize("right", width, 0, margin)).toBe(0);
+            });
+        });
+
         describe("should return full height", () => {
             it("for top axis", () => {
                 expect(getTickSize("top", width, height, margin)).toBe(430);

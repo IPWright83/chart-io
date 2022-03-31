@@ -49,7 +49,8 @@ const SVGLine = ({ x, y, color, layer, canvas }) => {
                 const current = line(d);
                 return interpolateMultiPath(previous, current);
             })
-            .style("stroke", seriesColor);
+            .style("stroke", seriesColor)
+            .style("stroke-width", "2px");
     }, [x, y, sortedData, xScale, yScale, layer, animationDuration, canvas]);
 
     // If possible respond to global mouse events for tooltips etc

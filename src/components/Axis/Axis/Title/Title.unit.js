@@ -44,6 +44,15 @@ describe("Title", () => {
             });
         });
 
+        describe("should return no translation", () => {
+            it("for a 0 width", () => {
+                expect(getTransform("top", 0, height, margin)).toBe("translate(0, 0)");
+            });
+            it("for a 0 height", () => {
+                expect(getTransform("top", width, 0, margin)).toBe("translate(0, 0)");
+            });
+        });
+
         it("throws an error with an invalid position", () => {
             expect(() => getTransform("invalid", width, height, margin)).toThrow();
         });
