@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useFocused } from "./useFocused";
+import { useTooltip } from "./useTooltip";
 import { chartSelectors } from "../../../../store";
 import { eventDefaultProps, eventPropTypes, plotDefaultProps, plotPropTypes } from "../../../../types";
 
@@ -43,6 +44,7 @@ const ScatterBase = ({
     const strokeColor = fillColor.darker();
 
     const setFocused = useFocused({ dispatch, xScale, yScale });
+    const setTooltip = useTooltip({ dispatch, fillColor, x, y });
 
     // This is the main render function
     useEffect(() => {
@@ -72,10 +74,12 @@ const ScatterBase = ({
             .merge(join)
             .on("mouseover", function (event, datum) {
                 onMouseOver(datum, this, event);
+                setTooltip({ dispatch, datum, fillColor, event, key: x, value: y, type: "scatter" });
                 setFocused({ element: this, event, datum });
             })
             .on("mouseout", function (event, datum) {
                 onMouseOut(datum, this, event);
+                setTooltip(null);
                 setFocused(null);
             })
             .on("click", function (event, datum) {

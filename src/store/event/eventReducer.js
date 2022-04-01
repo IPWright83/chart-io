@@ -4,6 +4,9 @@ import { isEqual } from "lodash";
 const defaultState = {
     droplines: [],
     markers: [],
+    tooltip: {
+        tooltipItems: [],
+    },
 };
 
 /**
@@ -57,6 +60,31 @@ const eventReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 markers: state.markers.filter((m) => !isEqual(m, payload)),
+            };
+
+        case "EVENT.SET_TOOLTIP_COLOR":
+            return {
+                ...state,
+                tooltip: {
+                    ...state.tooltip,
+                    color: payload,
+                },
+            };
+
+        case "EVENT.ADD_TOOLTIP_ITEM":
+            return {
+                ...state,
+                tooltip: {
+                    tooltipItems: [...state.tooltip.tooltipItems, payload],
+                },
+            };
+
+        case "EVENT.REMOVE_TOOLTIP_ITEM":
+            return {
+                ...state,
+                tooltip: {
+                    tooltipItems: state.tooltip.tooltipItems.filter((t) => !isEqual(t, payload)),
+                },
             };
 
         default:

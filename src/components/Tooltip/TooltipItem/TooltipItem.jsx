@@ -10,7 +10,7 @@ const TooltipItem = ({ name, value, seriesType, fill }) => {
 
     return (
         <div className="chart-it tooltip-item">
-            <Shape fill={fill} />
+            {Shape ? <Shape fill={fill} /> : null}
             <div className="chart-it tooltip-values">
                 <span className="chart-it tooltip-series-name">{name}:</span>
                 <span className="chart-it tooltip-series-value">{value}</span>

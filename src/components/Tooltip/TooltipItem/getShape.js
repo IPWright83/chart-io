@@ -16,8 +16,9 @@ const getShape = (seriesType) => {
         case "area":
             return Square;
         case "line":
-        default:
             return Line;
+        default:
+            return null;
     }
 };
 
