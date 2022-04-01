@@ -2,7 +2,7 @@ import * as d3 from "d3";
 import React from "react";
 import { Provider } from "react-redux";
 
-import TestRenderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { Gridlines } from "./Gridlines";
 import { getTickSize } from "./getTickSize";
@@ -62,20 +62,19 @@ describe("Gridlines", () => {
     describe("component", () => {
         it("renders horizontal gridlines", async () => {
             const layer = { current: document.createElement("custom") };
+
             const scale = d3
                 .scaleLinear()
                 .domain([0, 100])
                 .range([0, width - margin.left - margin.right]);
 
-            TestRenderer.act(() => {
-                TestRenderer.create(
-                    <Provider store={store}>
-                        <Gridlines layer={layer} position="bottom" scale={scale} />
-                    </Provider>
-                ).toJSON();
-            });
+            render(
+                <Provider store={store}>
+                    <Gridlines layer={layer} position="bottom" scale={scale} />
+                </Provider>,
+            );
 
-            expect(layer.current).toMatchSnapshot();
+            expect(layer).toMatchSnapshot();
         });
 
         it("renders vertical gridlines", async () => {
@@ -85,15 +84,13 @@ describe("Gridlines", () => {
                 .domain([0, 10])
                 .range([0, height - margin.top - margin.bottom]);
 
-            TestRenderer.act(() => {
-                TestRenderer.create(
-                    <Provider store={store}>
-                        <Gridlines layer={layer} position="left" scale={scale} />
-                    </Provider>
-                ).toJSON();
-            });
+            render(
+                <Provider store={store}>
+                    <Gridlines layer={layer} position="left" scale={scale} />
+                </Provider>,
+            );
 
-            expect(layer.current).toMatchSnapshot();
+            expect(layer).toMatchSnapshot();
         });
     });
 });

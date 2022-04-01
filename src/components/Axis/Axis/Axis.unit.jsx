@@ -3,8 +3,12 @@ import TestRenderer from "react-test-renderer";
 import React from "react";
 import { Provider } from "react-redux";
 
+import { render } from "@testing-library/react";
+
 import { getTransform } from "./getTransform";
 import { Axis } from "./Axis";
+
+import { createNodeMock } from "../../../testUtils";
 
 describe("Axis", () => {
     const width = 1000;
@@ -30,60 +34,52 @@ describe("Axis", () => {
     };
 
     describe("component", () => {
-        it("renders a left axis", () => {
+        it("renders a left axis", async () => {
             const layer = { current: document.createElement("custom") };
 
-            TestRenderer.act(() => {
-                TestRenderer.create(
-                    <Provider store={store}>
-                        <Axis layer={layer} position="left" fields={["y"]} showGridlines={false} />
-                    </Provider>
-                ).toJSON();
-            });
+            const { asFragment } = render(
+                <Provider store={store}>
+                    <Axis layer={layer} position="left" fields={["y"]} showGridlines={false} />
+                </Provider>,
+            );
 
-            expect(layer.current).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("renders a right axis", () => {
             const layer = { current: document.createElement("custom") };
 
-            TestRenderer.act(() => {
-                TestRenderer.create(
-                    <Provider store={store}>
-                        <Axis layer={layer} position="right" fields={["y"]} showGridlines={false} />
-                    </Provider>
-                ).toJSON();
-            });
+            const { asFragment } = render(
+                <Provider store={store}>
+                    <Axis layer={layer} position="right" fields={["y"]} showGridlines={false} />
+                </Provider>,
+            );
 
-            expect(layer.current).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("renders a top axis", () => {
             const layer = { current: document.createElement("custom") };
 
-            TestRenderer.act(() => {
-                TestRenderer.create(
-                    <Provider store={store}>
-                        <Axis layer={layer} position="top" fields={["x"]} showGridlines={false} />
-                    </Provider>
-                ).toJSON();
-            });
+            const { asFragment } = render(
+                <Provider store={store}>
+                    <Axis layer={layer} position="top" fields={["x"]} showGridlines={false} />
+                </Provider>,
+            );
 
-            expect(layer.current).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("renders a bottom axis", () => {
             const layer = { current: document.createElement("custom") };
 
-            TestRenderer.act(() => {
-                TestRenderer.create(
-                    <Provider store={store}>
-                        <Axis layer={layer} position="left" fields={["x"]} showGridlines={false} />
-                    </Provider>
-                ).toJSON();
-            });
+            const { asFragment } = render(
+                <Provider store={store}>
+                    <Axis layer={layer} position="left" fields={["x"]} showGridlines={false} />
+                </Provider>,
+            );
 
-            expect(layer.current).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 
