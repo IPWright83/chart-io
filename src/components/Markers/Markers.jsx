@@ -26,7 +26,7 @@ const Markers = ({ layer }) => {
         const enter = join
             .enter()
             .append("circle")
-            .attr("class", "marker")
+            .attr("class", "chart-it marker")
             .style("stroke", (d) => d.stroke || "none")
             .style("fill", (d) => d.fill || "none")
             .style("point-events", "none")

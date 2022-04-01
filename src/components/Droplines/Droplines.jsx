@@ -14,7 +14,7 @@ import { chartSelectors, eventSelectors } from "../../store";
 const Droplines = ({ layer, showVertical = true, showHorizontal = true }) => {
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
     const droplines = useSelector((s) => eventSelectors.droplines(s)).filter(
-        (dl) => (dl.isVertical && showVertical) || (dl.isHorizontal && showHorizontal)
+        (dl) => (dl.isVertical && showVertical) || (dl.isHorizontal && showHorizontal),
     );
 
     useEffect(() => {
@@ -30,7 +30,7 @@ const Droplines = ({ layer, showVertical = true, showHorizontal = true }) => {
         // Add any new droplines
         join.enter()
             .append("line")
-            .attr("class", "dropline")
+            .attr("class", "chart-it dropline")
             .style("point-events", "none")
             .style("stroke", (d) => d.color)
             .attr("x1", (d) => d.x1)

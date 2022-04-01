@@ -1,4 +1,4 @@
-.g-droplines .dropline {
+.chart-it.dropline {
    stroke-width: 2;
    stroke-dasharray: 4;
    pointer-events: none;
