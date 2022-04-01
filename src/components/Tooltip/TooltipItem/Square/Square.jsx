@@ -1,17 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import "./Square.css";
+
 const Square = ({ fill }) => {
     const style = {
-        height: 10,
-        width: 10,
-        marginTop: 4,
-        marginRight: 5,
-        marginLeft: 5,
         background: fill,
     };
 
-    return <div style={style} />;
+    return <div className="chart-it indicator-square" style={style} />;
 };
 
 Square.propTypes = {

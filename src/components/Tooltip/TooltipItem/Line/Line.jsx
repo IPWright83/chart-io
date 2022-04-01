@@ -1,17 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import "./Line.css";
+
 const Line = ({ fill }) => {
     const style = {
-        height: 3,
-        width: 10,
-        marginTop: 7,
-        marginRight: 5,
-        marginLeft: 5,
         background: fill,
     };
 
-    return <div style={style} />;
+    return <div className="chart-it indicator-line" style={style} />;
 };
 
 Line.propTypes = {
