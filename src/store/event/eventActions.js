@@ -98,6 +98,16 @@ const removeTooltipItem = (tooltipItem) => ({
     payload: tooltipItem,
 });
 
+/**
+ * Updates the position of the tooltip based on the given mouse event
+ * @param {Object} event    The moust event
+ * @return {Object}                 A redux store action
+ */
+const setPositionEvent = (event) => ({
+    type: "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
+    payload: event,
+});
+
 const eventActions = {
     mouseMove,
     mouseExit,
@@ -109,6 +119,7 @@ const eventActions = {
     setTooltipBorderColor,
     addTooltipItem,
     removeTooltipItem,
+    setPositionEvent,
 };
 
 export { eventActions };

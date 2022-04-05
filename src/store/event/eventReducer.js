@@ -75,6 +75,7 @@ const eventReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 tooltip: {
+                    ...state.tooltip,
                     tooltipItems: [...state.tooltip.tooltipItems, payload],
                 },
             };
@@ -83,6 +84,7 @@ const eventReducer = (state = defaultState, action) => {
             return {
                 ...state,
                 tooltip: {
+                    ...state.tooltip,
                     tooltipItems: state.tooltip.tooltipItems.filter((t) => !isEqual(t, payload)),
                 },
             };

@@ -21,7 +21,7 @@ export default {
     },
 };
 
-const TooltipTemplate = (args) => <Tooltip items={args.items} />;
+const TooltipTemplate = (args) => <Tooltip items={args.items} borderColor={args.borderColor} />;
 
 export const Default = TooltipTemplate.bind({});
 Default.storyName = "All Series Types";
@@ -46,4 +46,5 @@ Scatter.args = {
         { name: "x", seriesType: "value", value: 5 },
         { name: "y", seriesType: "value", value: 150000 },
     ],
+    borderColor: "steelblue",
 };

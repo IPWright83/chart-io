@@ -5,6 +5,7 @@ import { Background } from "../Background";
 import { Droplines } from "../Droplines";
 import { Markers } from "../Markers";
 import { Chart } from "../Chart";
+import { TooltipOverlay } from "../TooltipOverlay";
 
 const XYChart = ({ children, ...props }) => {
     return (
@@ -13,6 +14,7 @@ const XYChart = ({ children, ...props }) => {
             {children}
             <Markers />
             <Droplines />
+            <TooltipOverlay />
         </Chart>
     );
 };
