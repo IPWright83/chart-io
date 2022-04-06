@@ -8,8 +8,8 @@ import { Scale } from "./Scale";
  * @param  {Object} props   Props for the scale
  * @return {ReactDOMComponent}   A scale component
  */
-const ZScale = ({ fields, scaleType, range }) => {
-    return <Scale fields={fields} range={range} scaleType={scaleType} />;
+const ZScale = ({ fields, scaleType, range, domain }) => {
+    return <Scale fields={fields} range={range} domain={domain} scaleType={scaleType} />;
 };
 
 ZScale.propTypes = {
@@ -29,6 +29,13 @@ ZScale.propTypes = {
      * @type {String}
      */
     scaleType: PropTypes.oneOf(["linear", "time", "power", "log", "band", "point"]),
+    /**
+     * (Optional) An override of the domain to use with the d3 scale
+     * @type {Array}
+     */
+    domain: PropTypes.arrayOf(
+        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.boolean]),
+    ),
 };
 
 ZScale.defaultProps = {
