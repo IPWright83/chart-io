@@ -26,7 +26,6 @@ const Gridlines = ({ layer, position, scale, tickPadding, ticks }) => {
     // Render the x-axis using D3
     useEffect(() => {
         if (layer.current && scale) {
-            console.log(layer.current, scale);
             // Create the D3 axis renderer
             const d3Axis = getD3Axis(position);
 
