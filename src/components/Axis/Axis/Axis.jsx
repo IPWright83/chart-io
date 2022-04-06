@@ -69,7 +69,7 @@ const Axis = ({
 
     return (
         <React.Fragment>
-            <Title position={position} title={title} fields={fields} className={`axis-title-${position}`} />
+            <Title position={position} title={title} className={`axis-title-${position}`} />
             <g transform={transform}>
                 {showGridlines ? <Gridlines position={position} scale={scale} ticks={ticks} /> : null}
                 <g className={`chart-it axis axis-${position}`} ref={axis} />
