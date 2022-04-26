@@ -3,3 +3,8 @@ export * from "./plots";
 export * from "./IPrimitive";
 export * from "./ICoordinate";
 export * from "./IColumnInfo";
+export * from "./IMargin";
+export * from "./ITheme";
+export * from "./IData";
+export * from "./IDropline";
+export * from "./IMarker";

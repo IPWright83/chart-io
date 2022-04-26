@@ -19,7 +19,9 @@ const Scale = ({ fields, range, scaleType, aggregate }) => {
 
         // Use the fixed range if one was provided
         const scale = calculateScale(data, fields, range, aggregate, scaleType);
-        dispatch(chartActions.setScales(fields, scale));
+        if (scale) {
+            dispatch(chartActions.setScales(fields, scale));
+        }
     }, [fields, data, range, scaleType, aggregate, dispatch]);
 
     return <React.Fragment />;
