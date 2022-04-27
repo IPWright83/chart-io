@@ -11,6 +11,8 @@ import { getTransform } from "./getTransform";
 import { Gridlines } from "./Gridlines";
 import { Title } from "./Title";
 
+import { IPosition } from "../../../types";
+
 import { chartSelectors } from "../../../store";
 
 export interface IAxis {
@@ -21,13 +23,13 @@ export interface IAxis {
     tickPadding: number;
     showGridlines: boolean;
     title?: string;
-    tickFormat?: function;
+    tickFormat?: Function;
     ticks: any[];
 }
 
 /**
  * Represents an Axis component
- * @return {ReactElement}  The Axis component
+ * @return The Axis component
  */
 const Axis = ({
     position,
@@ -63,11 +65,10 @@ const Axis = ({
             const selection = d3.select(axis.current).transition().duration(animationDuration);
 
             // Create the D3 axis renderer
-            const d3Axis = getD3Axis(position);
+            const d3Axis = getD3Axis(position, scale);
 
             // Set some scale props
             d3Axis
-                .scale(scale)
                 .tickSizeInner(tickSizeInner)
                 .tickSizeOuter(tickSizeOuter)
                 .tickPadding(tickPadding)
