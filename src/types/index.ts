@@ -8,3 +8,4 @@ export * from "./ITheme";
 export * from "./IData";
 export * from "./IDropline";
 export * from "./IMarker";
+export * from "./IPosition";

@@ -13,6 +13,18 @@ import { Title } from "./Title";
 
 import { chartSelectors } from "../../../store";
 
+export interface IAxis {
+    position: IPosition;
+    fields: string[];
+    tickSizeInner: number;
+    tickSizeOuter: number;
+    tickPadding: number;
+    showGridlines: boolean;
+    title?: string;
+    tickFormat?: function;
+    ticks: any[];
+}
+
 /**
  * Represents an Axis component
  * @return {ReactElement}  The Axis component
@@ -20,14 +32,14 @@ import { chartSelectors } from "../../../store";
 const Axis = ({
     position,
     fields,
-    tickSizeInner,
-    tickSizeOuter,
-    tickPadding,
+    tickSizeInner = 6,
+    tickSizeOuter = 6,
+    tickPadding = 3,
     ticks,
-    showGridlines,
+    showGridlines = true,
     title,
     tickFormat,
-}) => {
+}: IAxis) => {
     if (fields.length === 0) {
         throw new Error(
             "Unable to render an Axis without a field. Ensure that you have provided at least one field in the 'fields' prop.",
@@ -78,59 +90,59 @@ const Axis = ({
     );
 };
 
-Axis.propTypes = {
-    /**
-     * The position of the axis [top, bottom, left, right]
-     * @type {String}
-     */
-    position: PropTypes.oneOf(["top", "bottom", "left", "right"]),
-    /**
-     * The keys of the fields that will share this scale
-     * @type {String[]}
-     */
-    fields: PropTypes.arrayOf(PropTypes.string).isRequired,
-    /**
-     * https://github.com/d3/d3-axis#axis_tickSizeInner
-     * @type {Number}
-     */
-    tickSizeInner: PropTypes.number,
-    /**
-     * https://github.com/d3/d3-axis#axis_tickSizeOuter
-     * @type {Number}
-     */
-    tickSizeOuter: PropTypes.number,
-    /**
-     * https://github.com/d3/d3-axis#axis_tickPadding
-     * @type {Number}
-     */
-    tickPadding: PropTypes.number,
-    /**
-     * https://github.com/d3/d3-axis#axis_ticks
-     * @type {Number}
-     */
-    ticks: PropTypes.number,
-    /**
-     * https://github.com/d3/d3-axis#axis_tickFormat
-     * @type {Function}
-     */
-    tickFormat: PropTypes.func,
-    /**
-     * Should gridlines be drawn?
-     * @type {Boolean}
-     */
-    showGridlines: PropTypes.bool,
-    /**
-     * A title for the Axis
-     * @type {String}
-     */
-    title: PropTypes.string,
-};
+// Axis.propTypes = {
+//     /**
+//      * The position of the axis [top, bottom, left, right]
+//      * @type {String}
+//      */
+//     position: PropTypes.oneOf(["top", "bottom", "left", "right"]),
+//     /**
+//      * The keys of the fields that will share this scale
+//      * @type {String[]}
+//      */
+//     fields: PropTypes.arrayOf(PropTypes.string).isRequired,
+//     /**
+//      * https://github.com/d3/d3-axis#axis_tickSizeInner
+//      * @type {Number}
+//      */
+//     tickSizeInner: PropTypes.number,
+//     /**
+//      * https://github.com/d3/d3-axis#axis_tickSizeOuter
+//      * @type {Number}
+//      */
+//     tickSizeOuter: PropTypes.number,
+//     /**
+//      * https://github.com/d3/d3-axis#axis_tickPadding
+//      * @type {Number}
+//      */
+//     tickPadding: PropTypes.number,
+//     /**
+//      * https://github.com/d3/d3-axis#axis_ticks
+//      * @type {Number}
+//      */
+//     ticks: PropTypes.number,
+//     /**
+//      * https://github.com/d3/d3-axis#axis_tickFormat
+//      * @type {Function}
+//      */
+//     tickFormat: PropTypes.func,
+//     /**
+//      * Should gridlines be drawn?
+//      * @type {Boolean}
+//      */
+//     showGridlines: PropTypes.bool,
+//     /**
+//      * A title for the Axis
+//      * @type {String}
+//      */
+//     title: PropTypes.string,
+// };
 
-Axis.defaultProps = {
-    tickSizeInner: 6,
-    tickSizeOuter: 6,
-    tickPadding: 3,
-    showGridlines: true,
-};
+// Axis.defaultProps = {
+//     tickSizeInner: 6,
+//     tickSizeOuter: 6,
+//     tickPadding: 3,
+//     showGridlines: true,
+// };
 
 export { Axis };
