@@ -1,1 +1,3 @@
-export type IData = Record<string, unknown>[];
+import { IValue } from "./IValue";
+
+export type IData = Record<string, IValue>[];

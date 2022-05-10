@@ -6,7 +6,7 @@ export interface IChartStore_Dimensions {
     margin?: IMargin;
 }
 
-export type IChartStore_Scales = Record<string, Function>;
+export type IChartStore_Scales = Record<string, d3.AxisScale<d3.AxisDomain>>;
 
 export interface IChartStore {
     data: IData;

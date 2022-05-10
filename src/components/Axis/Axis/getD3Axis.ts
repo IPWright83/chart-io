@@ -8,7 +8,7 @@ import { IPosition } from "../../../types";
  * @param  {String}         position            The position of the axis [left, right, top, bottom]
  * @return {Function}                           The D3 selection Axis - https://github.com/d3/d3-axis
  */
-const getD3Axis = (position: IPosition, scale: d3.AxisScale<unknown>): d3.Axis<unknown> => {
+const getD3Axis = (position: IPosition, scale: d3.AxisScale<d3.AxisDomain>): d3.Axis<d3.AxisDomain> => {
     switch (position) {
         case "left":
             return d3.axisLeft(scale);

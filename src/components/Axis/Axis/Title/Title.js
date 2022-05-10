@@ -17,7 +17,7 @@ const Title = ({ position, title, fields }) => {
     const text = title || (fields || []).filter((f) => !!f).join(",");
 
     return (
-        <text className="axis-title" transform={transform}>
+        <text className={`axis-title-${position}`} transform={transform}>
             {text}
         </text>
     );

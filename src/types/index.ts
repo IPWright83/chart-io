@@ -9,3 +9,4 @@ export * from "./IData";
 export * from "./IDropline";
 export * from "./IMarker";
 export * from "./IPosition";
+export * from "./IValue";

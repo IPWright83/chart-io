@@ -48,7 +48,7 @@ const chartSelectors = {
          * @param  field           The field to get the scale of
          * @return                 The d3.Scale function
          */
-        getScale: (state: IStore, field: string): Function => chartSelectors.scales.store(state)[field],
+        getScale: (state: IStore, field: string): d3.AxisScale<d3.AxisDomain> => chartSelectors.scales.store(state)[field],
     },
 
     /**
