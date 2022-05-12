@@ -46,7 +46,7 @@ describe("Scatter", () => {
                     <svg>
                         <Scatter x="x" y="y" />
                     </svg>
-                </Provider>
+                </Provider>,
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -62,7 +62,7 @@ describe("Scatter", () => {
                         <svg>
                             <Scatter x="x" y="y" onMouseOver={onMouseOver} />
                         </svg>
-                    </Provider>
+                    </Provider>,
                 );
 
                 fireEvent.mouseOver(container.querySelector("circle"));
@@ -72,7 +72,7 @@ describe("Scatter", () => {
                         y: 5,
                     },
                     expect.anything(),
-                    expect.anything()
+                    expect.anything(),
                 );
 
                 expect(store.dispatch.mock.calls[0]).toMatchSnapshot("ADD_MARKER action");
@@ -89,7 +89,7 @@ describe("Scatter", () => {
                         <svg>
                             <Scatter x="x" y="y" onMouseOut={onMouseOut} />
                         </svg>
-                    </Provider>
+                    </Provider>,
                 );
 
                 fireEvent.mouseOver(container.querySelector("circle"));
@@ -100,12 +100,12 @@ describe("Scatter", () => {
                         y: 5,
                     },
                     expect.anything(),
-                    expect.anything()
+                    expect.anything(),
                 );
 
-                expect(store.dispatch.mock.calls[3]).toMatchSnapshot("REMOVE_MARKER action");
-                expect(store.dispatch.mock.calls[4]).toMatchSnapshot("REMOVE_DROPLINE action");
-                expect(store.dispatch.mock.calls[5]).toMatchSnapshot("REMOVE_DROPLINE action");
+                expect(store.dispatch.mock.calls[7]).toMatchSnapshot("REMOVE_MARKER action");
+                expect(store.dispatch.mock.calls[8]).toMatchSnapshot("REMOVE_DROPLINE action");
+                expect(store.dispatch.mock.calls[9]).toMatchSnapshot("REMOVE_DROPLINE action");
             });
 
             it("click correctly", () => {
@@ -117,7 +117,7 @@ describe("Scatter", () => {
                         <svg>
                             <Scatter x="x" y="y" onClick={onClick} />
                         </svg>
-                    </Provider>
+                    </Provider>,
                 );
 
                 fireEvent.click(container.querySelector("circle"));
@@ -127,7 +127,7 @@ describe("Scatter", () => {
                         y: 5,
                     },
                     expect.anything(),
-                    expect.anything()
+                    expect.anything(),
                 );
             });
         });
@@ -141,7 +141,7 @@ describe("Scatter", () => {
                         <svg>
                             <Scatter x="x" y="y" />
                         </svg>
-                    </Provider>
+                    </Provider>,
                 );
 
                 expect(asFragment()).toMatchSnapshot();
@@ -155,7 +155,7 @@ describe("Scatter", () => {
                         <svg>
                             <Scatter x="x" y="y" />
                         </svg>
-                    </Provider>
+                    </Provider>,
                 );
 
                 expect(asFragment()).toMatchSnapshot();
@@ -170,7 +170,7 @@ describe("Scatter", () => {
                     <svg>
                         <Scatter x="x" y="y" useCanvas={true} />
                     </svg>
-                </Provider>
+                </Provider>,
             );
 
             await new Promise((resolve) => {

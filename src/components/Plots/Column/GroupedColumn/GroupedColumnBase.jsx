@@ -9,6 +9,7 @@ import { ensureBandScale } from "../../../../utils";
 
 import { renderCanvas } from "../../renderCanvas";
 import { getDropline } from "../getDropline";
+import { useTooltip } from "../useTooltip";
 
 /**
  * Represents a Groupled Column Plot
@@ -27,6 +28,7 @@ const GroupedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, la
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
     const strokeColor = "#fff";
+    const setTooltip = useTooltip({ dispatch, x });
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     useEffect(() => {
@@ -80,10 +82,17 @@ const GroupedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, la
             .on("mouseover", function (event, datum) {
                 onMouseOver && onMouseOver(datum, this, event);
                 setFocused({ element: this, event, datum });
+                setTooltip({ 
+                    datum, 
+                    event, 
+                    fillColors: [colorScale(datum.key)], 
+                    ys: [datum.key] 
+                });
             })
             .on("mouseout", function (event, datum) {
                 onMouseOut && onMouseOut(datum, this, event);
                 setFocused(null);
+                setTooltip(null);
             })
             .on("click", function (event, datum) {
                 onClick && onClick(datum, this, event);

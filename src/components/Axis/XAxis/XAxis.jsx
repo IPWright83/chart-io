@@ -34,7 +34,7 @@ const XAxis = ({
                 tickFormat={tickFormat}
                 ticks={ticks}
             />
-            <XScale fields={fields} scaleType={scaleType} aggregate={aggregate} domain={domain} />
+            <XScale fields={fields} scaleType={scaleType} aggregate={aggregate} domain={domain} fromAxis={true} />
         </React.Fragment>
     );
 };
@@ -60,7 +60,7 @@ XAxis.propTypes = {
      * @type {Array}
      */
     domain: PropTypes.arrayOf(
-        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.boolean]),
+        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool]),
     ),
     /**
      * Whether this scale is an aggregate (of multiple y values)

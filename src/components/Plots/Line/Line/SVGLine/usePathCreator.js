@@ -17,11 +17,20 @@ const usePathCreator = (layer, x, y, xScale, yScale) => {
             return;
         }
 
+        // Cleanup the DOM if the scales have been removed as we
+        // have no idea where to draw a line
+        if (!xScale || !yScale) {
+            d3.select(current).selectAll("*").remove();
+            return;
+        }
+
         const current = layer.current;
         const line = d3
             .line()
-            .x((d) => xScale(d[x]))
+            .x((d) => xScale(d[x]) + bandwidth)
             .y((d) => yScale(d[y]));
+
+        const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
         // Only ever add the path once on first render when
         // we've got the minimum bits required
@@ -29,7 +38,7 @@ const usePathCreator = (layer, x, y, xScale, yScale) => {
             .append("path")
             .datum([
                 { [x]: xScale.domain()[0], [y]: yScale.domain()[0] },
-                { [x]: xScale.domain()[1], [y]: yScale.domain()[0] },
+                { [x]: xScale.domain()[xScale.domain().length - 1], [y]: yScale.domain()[0] },
             ])
             .attr("class", "line")
             .style("fill", "none")
@@ -42,7 +51,7 @@ const usePathCreator = (layer, x, y, xScale, yScale) => {
         //
         // The fact that the plot is called via an withXYPlot provides
         // enough safety around the scales being null on first render
-    }, [layer, x, y, xScale, yScale]);
+    }, [layer, x, y]);
 };
 
 export { usePathCreator };

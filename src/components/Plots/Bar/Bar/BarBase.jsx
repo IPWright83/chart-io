@@ -10,17 +10,16 @@ import { ensureBandScale, ensureValuesAreUnique } from "../../../../utils";
 
 import { renderCanvas } from "../../renderCanvas";
 import { getDropline } from "../getDropline";
+import { useTooltip } from "../useTooltip";
 
 /**
  * Represents a Bar Plot
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Bar plot component
  */
-const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onMouseOut, onClick, layer }) => {
+const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, opacity, onMouseOver, onMouseOut, onClick, layer }) => {
     const [focused, setFocused] = useState(null);
     const dispatch = useDispatch();
-
-    console.log(onClick.toString());
 
     const data = useSelector((s) => chartSelectors.data(s));
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
@@ -31,7 +30,9 @@ const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onMous
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
     const fillColor = d3.color(color || theme.colors[0]);
+    fillColor.opacity = opacity;
     const strokeColor = "#fff";
+    const setTooltip = useTooltip({ dispatch, y });
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     useEffect(() => {
@@ -80,6 +81,7 @@ const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onMous
             .on("mouseover", function (event, datum) {
                 onMouseOver && onMouseOver(datum, this, event);
                 setFocused({ element: this, event, datum });
+                setTooltip({ datum, event, fillColors: [fillColor], xs: [x] });
             })
             .on("mouseout", function (event, datum) {
                 onMouseOut && onMouseOut(datum, this, event);

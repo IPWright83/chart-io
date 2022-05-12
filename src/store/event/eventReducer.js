@@ -89,6 +89,15 @@ const eventReducer = (state = defaultState, action) => {
                 },
             };
 
+        case "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT":
+            return {
+                ...state,
+                tooltip: {
+                    ...state.tooltip,
+                    event: payload,
+                },
+            };
+
         default:
             return state;
     }

@@ -29,6 +29,8 @@ const CanvasLine = ({ x, y, color, layer, canvas }) => {
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
     const seriesColor = color || theme.colors[0];
 
+    const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
+
     /* On future renders we want to update the path */
     useRender(() => {
         if (!canvas) {
@@ -42,7 +44,7 @@ const CanvasLine = ({ x, y, color, layer, canvas }) => {
         // we use the generator provided by D3
         const line = d3
             .line()
-            .x((d) => xScale(d[x]))
+            .x((d) => xScale(d[x]) + bandwidth)
             .y((d) => yScale(d[y]))
             .defined((d) => !isNullOrUndefined(d[y]))
             .context(context);

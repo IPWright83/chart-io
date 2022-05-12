@@ -48,6 +48,13 @@ const eventSelectors = {
          * @return {Array}          The array of tooltip items
          */
         items: (state) => eventSelectors.tooltip.store(state).tooltipItems || [],
+
+        /**
+         * A moust event that triggered
+         * @param  {Object} state   The application state
+         * @return {MouseEvent}     The mouse event that triggered the tooltip
+         */
+        event: (state) => eventSelectors.tooltip.store(state).event || {},
     },
 
     /**

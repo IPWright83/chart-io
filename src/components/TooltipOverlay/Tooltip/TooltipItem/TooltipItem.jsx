@@ -14,10 +14,10 @@ const TooltipItem = ({ name, value, seriesType, fill }) => {
 
     return (
         <div className="chart-it tooltip-item">
-            {Shape ? <Shape fill={fill} /> : null}
+            {Shape && <Shape fill={fill} />}
             <div className="chart-it tooltip-values">
                 <span className="chart-it tooltip-series-name">{name}:</span>
-                <span className="chart-it tooltip-series-value">{value}</span>
+                <span className="chart-it tooltip-series-value">{`${value}`}</span>
             </div>
         </div>
     );

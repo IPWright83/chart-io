@@ -27,6 +27,8 @@ const SVGLine = ({ x, y, color, layer, canvas }) => {
     const seriesColor = color || theme.colors[0];
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
 
+    const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
+
     // Used to create our initial path
     usePathCreator(layer, x, y, xScale, yScale);
 
@@ -35,7 +37,7 @@ const SVGLine = ({ x, y, color, layer, canvas }) => {
         // Line renderer that starts at the 0 point
         const line = d3
             .line()
-            .x((d) => xScale(d[x]))
+            .x((d) => xScale(d[x]) + bandwidth)
             .y((d) => yScale(d[y]))
             .defined((d) => !isNullOrUndefined(d[y]));
 

@@ -9,6 +9,8 @@ import { ensureBandScale, ensureNoScaleOverflow, ensureValuesAreUnique } from ".
 
 import { renderCanvas } from "../../renderCanvas";
 import { getDropline } from "../getDropline";
+import { useTooltip } from "../useTooltip";
+import { getParentKey } from "./getParentKey";
 
 /**
  * Represents a Column Plot
@@ -27,6 +29,7 @@ const StackedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, la
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
     const strokeColor = "#fff";
+    const setTooltip = useTooltip({ dispatch, x });
 
     useEffect(() => {
         if (!focused) return;
@@ -60,7 +63,6 @@ const StackedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, la
         const join = groupJoin
             .enter()
             .append("g")
-            .attr("fill", (d) => colorScale(d.key))
             .merge(groupJoin)
             .selectAll(".column")
             .data((d) => d);
@@ -74,7 +76,10 @@ const StackedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, la
             .attr("y", () => yScale.range()[0])
             .attr("height", 0)
             .attr("width", xScale.bandwidth())
-            .style("fill", (d, i, elements) => d3.select(elements[i].parentNode).attr("fill"))
+            .style("fill", (_d, i, elements) => {
+                const key = getParentKey(elements[i]);
+                return colorScale(key);
+            })
             .style("stroke", strokeColor)
             .style("opacity", 0.8);
 
@@ -83,10 +88,18 @@ const StackedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, la
             .on("mouseover", function (event, d) {
                 onMouseOver && onMouseOver(d.data, this, event);
                 setFocused({ element: this, event, datum: d.data });
+
+                setTooltip({ 
+                    datum: d.data, 
+                    event, 
+                    fillColors: ys.map(y => colorScale(y)),
+                    ys,
+                });
             })
             .on("mouseout", function (event, d) {
                 onMouseOut && onMouseOut(d.data, this, event);
                 setFocused(null);
+                setTooltip(null);
             })
             .on("click", function (event, d) {
                 onClick && onClick(d.data, this, event);
@@ -95,7 +108,10 @@ const StackedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, la
             .duration(animationDuration / 2)
             .attr("x", (d) => xScale(d.data[x]))
             .attr("width", xScale.bandwidth())
-            .style("fill", (d, i, elements) => d3.select(elements[i].parentNode).attr("fill"))
+            .style("fill", (_d, i, elements) => {
+                const key = getParentKey(elements[i]);
+                return colorScale(key);
+            })
             .transition("height")
             .duration(animationDuration / 2)
             .delay(animationDuration / 2)
