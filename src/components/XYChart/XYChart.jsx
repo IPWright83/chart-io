@@ -5,15 +5,22 @@ import { Background } from "../Background";
 import { Droplines } from "../Droplines";
 import { Markers } from "../Markers";
 import { Chart } from "../Chart";
+import { Crosshair } from "../Crosshair";
 import { TooltipOverlay } from "../TooltipOverlay";
 
+import { shouldShowDroplines } from "./shouldShowDroplines";
+
 const XYChart = ({ children, ...props }) => {
+    const showDroplines = shouldShowDroplines(children);
+    const showCrosshair = !showDroplines;
+
     return (
         <Chart {...props}>
             <Background />
             {children}
             <Markers />
-            <Droplines />
+            {showDroplines && <Droplines />}
+            {showCrosshair && <Crosshair />}
             <TooltipOverlay />
         </Chart>
     );

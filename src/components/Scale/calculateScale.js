@@ -15,7 +15,8 @@ const getScaleTypeFromType = (scaleType, values, range, domain) => {
         return d3
             .scaleBand()
             .domain(domain ?? values)
-            .range(range);
+            .range(range)
+            .paddingOuter(0.05);
     }
 
     if (scaleType === "point") {

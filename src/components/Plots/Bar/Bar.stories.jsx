@@ -52,6 +52,7 @@ const BarTemplate = (args) => (
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
+        theme={args.theme}
         useCanvas={args.useCanvas}
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
@@ -60,7 +61,7 @@ const BarTemplate = (args) => (
         <YAxis fields={[args.y]} scaleType="band" showGridlines={false} />
         <XAxis fields={[args.x, args.x2, args.x3]} />
         <Bar x={args.x} y={args.y} color={args.color} />
-        {args.x2 ? <Bar x={args.x2} y={args.y} color={args.color2} /> : undefined}
+        {args.x2 && <Bar x={args.x2} y={args.y} color={args.color2} />}
     </XYChart>
 );
 
@@ -72,6 +73,7 @@ const BarsTemplate = (args) => (
         height={args.height}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        theme={args.theme}
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
@@ -87,7 +89,7 @@ Basic.storyName = "Basic Plot";
 Basic.args = {
     useCanvas: false,
     width: 800,
-    height: 400,
+    height: 500,
     animationDuration: 250,
     color: "#99C1DC",
     color2: "#FF7F28",

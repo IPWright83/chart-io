@@ -39,6 +39,7 @@ const Axis = ({
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
     const scale = useSelector((s) => chartSelectors.scales.getAxisScale(s, field));
+    const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
     const transform = getTransform(position, width, height, margin);
 
@@ -48,7 +49,13 @@ const Axis = ({
     // Render the x-axis using D3
     useEffect(() => {
         if (axis.current && scale) {
-            const selection = d3.select(axis.current).transition().duration(animationDuration);
+            const selection = d3
+                .select(axis.current)
+                .style("color", theme.axis.stroke)
+                .style("stroke-opacity", theme.axis.strokeOpacity)
+                .style("stroke-width", theme.axis.strokeWidth)
+                .transition()
+                .duration(animationDuration);
 
             // Create the D3 axis renderer
             const d3Axis = getD3Axis(position);

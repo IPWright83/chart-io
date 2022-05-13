@@ -19,6 +19,7 @@ const Gridlines = ({ layer, position, scale, tickPadding, ticks }) => {
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
+    const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
     const tickSize = getTickSize(position, width, height, margin);
@@ -34,6 +35,9 @@ const Gridlines = ({ layer, position, scale, tickPadding, ticks }) => {
 
             d3.select(layer.current)
                 .attr("class", `g-gridlines ${position}`)
+                .style("color", theme.gridlines.stroke)
+                .style("stroke-opacity", theme.gridlines.strokeOpacity)
+                .style("stroke-width", theme.gridlines.strokeWidth)
                 .transition()
                 .duration(animationDuration)
                 .call(d3Axis.tickSize(-tickSize).ticks(ticks).tickFormat(""));

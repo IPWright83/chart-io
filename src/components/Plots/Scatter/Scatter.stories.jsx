@@ -55,14 +55,15 @@ const ScatterTemplate = (args) => (
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
+        theme={args.theme}
         useCanvas={args.useCanvas}
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
     >
-        <Scatter x={args.x} y={args.y} radius={args.radius} color={args.color} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
+        <Scatter x={args.x} y={args.y} radius={args.radius} color={args.color} />
     </XYChart>
 );
 
@@ -73,14 +74,15 @@ const ScattersTemplate = (args) => (
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
+        theme={args.theme}
         useCanvas={args.useCanvas}
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
     >
-        <Scatters x={args.x} ys={[args.y, args.y2, args.y3]} radius={args.radius} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
+        <Scatters x={args.x} ys={[args.y, args.y2, args.y3]} radius={args.radius} />
     </XYChart>
 );
 
@@ -89,7 +91,7 @@ Basic.storyName = "Basic Plot";
 Basic.args = {
     useCanvas: false,
     width: 800,
-    height: 400,
+    height: 500,
     animationDuration: 250,
     color: "#99C1DC",
     theme: "light",

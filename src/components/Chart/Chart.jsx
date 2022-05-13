@@ -8,7 +8,7 @@ import { VirtualCanvas } from "../VirtualCanvas";
 import { chartActions } from "../../store";
 
 import { getChildrenWithProps } from "./getChildrenWithProps";
-import { getThemeName } from "./getThemeName";
+import { getTheme } from "./getTheme";
 
 const Chart = ({
     children,
@@ -24,7 +24,6 @@ const Chart = ({
     theme = "light",
 }) => {
     const dispatch = useDispatch();
-    const themeName = getThemeName(theme);
 
     // Ensure that the store is updated whenever the dimensions change. This typically
     // triggers scale recalculations which should trigger cascading updates
@@ -58,31 +57,20 @@ const Chart = ({
         animationDuration,
     });
 
-    const styles = getStyles(theme);
+    const themeOrCustom = getTheme(theme);
 
     return (
-        <div className={`chart ${themeName}`} style={styles.container}>
-            <svg className="chart-svg" width={width} height={height}>
-                {useCanvas ? (
-                    <VirtualCanvas onMouseOver={onMouseOver} onMouseOut={onMouseOut} onClick={onClick}>
-                        {childrenWithProps}
-                    </VirtualCanvas>
-                ) : (
-                    childrenWithProps
-                )}
-            </svg>
-        </div>
+        <svg className="chart-svg" width={width} height={height} style={{ backgroundColor: themeOrCustom.background }}>
+            {useCanvas ? (
+                <VirtualCanvas onMouseOver={onMouseOver} onMouseOut={onMouseOut} onClick={onClick}>
+                    {childrenWithProps}
+                </VirtualCanvas>
+            ) : (
+                childrenWithProps
+            )}
+        </svg>
     );
 };
-
-const getStyles = (theme) => ({
-    container: {
-        backgroundColor: theme.background,
-    },
-    svg: {
-        background: theme.background,
-    },
-});
 
 Chart.propTypes = {
     /**

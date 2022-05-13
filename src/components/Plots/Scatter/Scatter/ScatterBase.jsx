@@ -24,6 +24,7 @@ const ScatterBase = ({
     radius,
     color,
     opacity,
+    interactive,
     onMouseOver,
     onMouseOut,
     onClick,
@@ -41,8 +42,8 @@ const ScatterBase = ({
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     const fillColor = d3.color(color || theme.colors[0]);
-    fillColor.opacity = opacity;
     const strokeColor = fillColor.darker();
+    fillColor.opacity = opacity ?? theme.opacity;
 
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
@@ -58,7 +59,13 @@ const ScatterBase = ({
             .data(data.filter((d) => d[y] !== null && d[y] !== undefined));
 
         // Exit points
-        const exit = join.exit().transition("scatter").duration(animationDuration).attr("r", 0).remove();
+        // prettier-ignore
+        const exit = join
+            .exit()
+            .transition("scatter")
+            .duration(animationDuration)
+            .attr("r", 0)
+            .remove();
 
         // Enter in new points
         const enter = join
@@ -70,22 +77,28 @@ const ScatterBase = ({
             .attr("r", 0)
             .style("stroke", () => strokeColor)
             .style("fill", () => fillColor)
-            .style("opacity", 0.8);
+            .style("opacity", opacity);
 
         // Update new and existing points
         const update = enter
             .merge(join)
             .on("mouseover", function (event, datum) {
+                if (!interactive) return;
+
                 onMouseOver(datum, this, event);
                 setTooltip({ datum, event, fillColor });
                 setFocused({ element: this, event, datum });
             })
             .on("mouseout", function (event, datum) {
+                if (!interactive) return;
+
                 onMouseOut(datum, this, event);
                 setTooltip(null);
                 setFocused(null);
             })
             .on("click", function (event, datum) {
+                if (!interactive) return;
+
                 onClick(datum, this, event);
             })
             .transition("scatter")

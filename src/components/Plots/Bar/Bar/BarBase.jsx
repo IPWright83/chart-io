@@ -17,7 +17,19 @@ import { useTooltip } from "../useTooltip";
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Bar plot component
  */
-const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, opacity, onMouseOver, onMouseOut, onClick, layer }) => {
+const BarBase = ({
+    x,
+    y,
+    canvas,
+    renderVirtualCanvas,
+    color,
+    opacity,
+    interactive,
+    onMouseOver,
+    onMouseOut,
+    onClick,
+    layer,
+}) => {
     const [focused, setFocused] = useState(null);
     const dispatch = useDispatch();
 
@@ -30,7 +42,7 @@ const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, opacity, onMouseOve
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
     const fillColor = d3.color(color || theme.colors[0]);
-    fillColor.opacity = opacity;
+    fillColor.opacity = opacity ?? theme.opacity;
     const strokeColor = "#fff";
     const setTooltip = useTooltip({ dispatch, y });
 
@@ -79,15 +91,21 @@ const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, opacity, onMouseOve
         const update = enter
             .merge(join)
             .on("mouseover", function (event, datum) {
+                if (!interactive) return;
+
                 onMouseOver && onMouseOver(datum, this, event);
                 setFocused({ element: this, event, datum });
                 setTooltip({ datum, event, fillColors: [fillColor], xs: [x] });
             })
             .on("mouseout", function (event, datum) {
+                if (!interactive) return;
+
                 onMouseOut && onMouseOut(datum, this, event);
                 setFocused(null);
             })
             .on("click", function (event, datum) {
+                if (!interactive) return;
+
                 onClick(datum, this, event);
             })
             .transition("position")

@@ -1,5 +1,5 @@
 import React from "react";
-import "../../light.css";
+// import "../../light.css";
 
 /**
  * Dummy component to import the light.css theme

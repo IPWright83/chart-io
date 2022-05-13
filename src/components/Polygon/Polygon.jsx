@@ -1,32 +1,18 @@
-import { useEffect } from "react";
-import * as d3 from "d3";
-
+import React from "react";
 import PropTypes from "prop-types";
+
+import "./Polygon.css";
 
 /**
  * Renders a Polygon
  * @return {ReactElement}  The Background component
  */
-const Polygon = ({ layer, points, opacity, fill, stroke }) => {
-    useEffect(() => {
-        if (!layer.current || !points) {
-            return;
-        }
+const Polygon = ({ points, opacity, fill, stroke }) => {
+    if (!points) {
+        return null;
+    }
 
-        const join = d3.select(layer.current).selectAll(".custom-path").data([""]);
-
-        join.exit().remove();
-        join.enter()
-            .append("polygon")
-            .attr("class", "polygon")
-            .style("fill", fill)
-            .style("stroke", stroke)
-            .style("opacity", opacity)
-            .merge(join)
-            .attr("points", points);
-    });
-
-    return null;
+    return <polygon className="polygon" style={{ stroke, opacity, fill }} points={points} />;
 };
 
 Polygon.propTypes = {
