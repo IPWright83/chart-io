@@ -21,7 +21,6 @@ const StackedColumnBase = ({
     x,
     ys,
     colors,
-    opacity,
     interactive,
     onMouseOver,
     onMouseOut,
@@ -53,7 +52,7 @@ const StackedColumnBase = ({
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", opacity ?? theme.opacity);
+            selection.style("opacity", theme.opacity);
             dispatch(eventActions.removeDropline(dropline));
         };
     }, [dispatch, focused, xScale, theme.opacity, theme.selectedOpacity]);
@@ -94,7 +93,7 @@ const StackedColumnBase = ({
                 return colorScale(key);
             })
             .style("stroke", strokeColor)
-            .style("opacity", opacity ?? theme.opacity);
+            .style("opacity", theme.opacity);
 
         const update = join
             .merge(enter)

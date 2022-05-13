@@ -17,7 +17,7 @@ import { usePathCreator } from "./usePathCreator";
  * @param  {Object} props       The set of React properties
  * @return {ReactElement}  The Line plot component
  */
-const AreaBase = ({ x, y, y2, color, opacity, interactive, layer, canvas }) => {
+const AreaBase = ({ x, y, y2, color, interactive, layer, canvas }) => {
     const dispatch = useDispatch();
     const data = useSelector((s) => chartSelectors.data(s));
     const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
@@ -31,7 +31,7 @@ const AreaBase = ({ x, y, y2, color, opacity, interactive, layer, canvas }) => {
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
 
     const fillColor = d3.color(color || theme.colors[0]);
-    fillColor.opacity = opacity ?? theme.opacity;
+    fillColor.opacity = theme.opacity;
     const strokeColor = fillColor.darker();
 
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;

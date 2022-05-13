@@ -23,7 +23,6 @@ const ScatterBase = ({
     renderVirtualCanvas,
     radius,
     color,
-    opacity,
     interactive,
     onMouseOver,
     onMouseOut,
@@ -43,7 +42,7 @@ const ScatterBase = ({
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     const fillColor = d3.color(color || theme.colors[0]);
     const strokeColor = fillColor.darker();
-    fillColor.opacity = opacity ?? theme.opacity;
+    fillColor.opacity = theme.opacity;
 
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
@@ -77,7 +76,7 @@ const ScatterBase = ({
             .attr("r", 0)
             .style("stroke", () => strokeColor)
             .style("fill", () => fillColor)
-            .style("opacity", opacity);
+            .style("opacity", theme.opacity);
 
         // Update new and existing points
         const update = enter

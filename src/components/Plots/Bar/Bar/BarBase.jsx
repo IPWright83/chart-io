@@ -23,7 +23,6 @@ const BarBase = ({
     canvas,
     renderVirtualCanvas,
     color,
-    opacity,
     interactive,
     onMouseOver,
     onMouseOut,
@@ -42,7 +41,7 @@ const BarBase = ({
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
     const fillColor = d3.color(color || theme.colors[0]);
-    fillColor.opacity = opacity ?? theme.opacity;
+    fillColor.opacity = theme.opacity;
     const strokeColor = "#fff";
     const setTooltip = useTooltip({ dispatch, y });
 
@@ -50,13 +49,13 @@ const BarBase = ({
     useEffect(() => {
         if (!focused) return;
 
-        const selection = d3.select(focused.element).style("opacity", 1);
+        const selection = d3.select(focused.element).style("opacity", theme.selectedOpacity);
         const dropline = getDropline(selection, yScale, false);
         dispatch(eventActions.addDropline(dropline));
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", 0.8);
+            selection.style("opacity", theme.opacity);
             dispatch(eventActions.removeDropline(dropline));
         };
     }, [dispatch, focused, yScale]);
