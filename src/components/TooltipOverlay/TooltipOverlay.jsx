@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
 import { Tooltip } from "./Tooltip";
@@ -9,7 +10,7 @@ import { getTooltipPosition } from "./getTooltipPosition";
  * Represents a Tooltip overlay layer
  * @return {ReactElement}  The Tooltip overlay component
  */
-const TooltipOverlay = () => {
+const TooltipOverlay = ({ offset = 20 }) => {
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
     const showTooltip = useSelector((s) => eventSelectors.tooltip.show(s));
@@ -21,7 +22,7 @@ const TooltipOverlay = () => {
         return null;
     }
 
-    const positionStyle = getTooltipPosition(mouseEvent, width, height);
+    const positionStyle = getTooltipPosition(mouseEvent, width, height, offset);
 
     const style = {
         width: "100%",
@@ -34,6 +35,15 @@ const TooltipOverlay = () => {
             <Tooltip borderColor={borderColor} items={tooltipItems} positionStyle={positionStyle} />
         </foreignObject>
     );
+};
+
+TooltipOverlay.propTypes = {
+    /**
+     * Controls the number of pixels that the tooltip offsets from the cursor
+     * @default 20
+     * @type {number}
+     */
+    offset: PropTypes.number,
 };
 
 export { TooltipOverlay };
