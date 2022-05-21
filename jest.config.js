@@ -1,6 +1,13 @@
 module.exports = {
     collectCoverageFrom: ["src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.ts"],
-    coveragePathIgnorePatterns: ["stories/*.*", "types/*.*", "index.js", "uuidv4.js", "interpolateMultiPath.js"],
+    coveragePathIgnorePatterns: [
+        "stories/*.*",
+        "types/*.*",
+        "index.js",
+        "uuidv4.js",
+        "interpolateMultiPath.js",
+        "infogrid/*.*",
+    ],
     moduleFileExtensions: ["web.js", "js", "web.ts", "ts", "web.tsx", "tsx", "json", "web.jsx", "jsx", "node"],
     moduleNameMapper: {
         "^react-native$": "react-native-web",
@@ -11,7 +18,7 @@ module.exports = {
     setupFiles: ["react-app-polyfill/jsdom"],
     setupFilesAfterEnv: ["<rootDir>/config/jest/setupTests.js"],
     testEnvironment: "jsdom",
-    testMatch: ["**/*.unit.js"],
+    testMatch: ["**/*.unit.js", "**/*.unit.jsx"],
     transformIgnorePatterns: [
         "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
         "^.+\\.module\\.(css|sass|scss)$",

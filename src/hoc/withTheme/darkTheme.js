@@ -1,5 +1,5 @@
 import React from "react";
-import "../../dark.css";
+// import "../../dark.css";
 
 /**
  * Dummy component to import the dark.css theme

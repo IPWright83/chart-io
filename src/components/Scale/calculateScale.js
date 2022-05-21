@@ -7,15 +7,23 @@ import { getDataType, typeEnumToName, Types } from "../../detection";
  * @param  {String} scaleType   The scaletype, one of [linear, time, power, log, band, point]
  * @param  {Any[]} values       The set of values
  * @param  {Number[]}  range    The physical screen space avaliable for this scale
+ * @param  {Array} domain       Override the domain for the scale
  * @return {d3.Scale}           A d3.Scale function
  */
-const getScaleTypeFromType = (scaleType, values, range) => {
+const getScaleTypeFromType = (scaleType, values, range, domain) => {
     if (scaleType === "band") {
-        return d3.scaleBand().domain(values).range(range);
+        return d3
+            .scaleBand()
+            .domain(domain ?? values)
+            .range(range)
+            .paddingOuter(0.05);
     }
 
     if (scaleType === "point") {
-        return d3.scalePoint().domain(values).range(range);
+        return d3
+            .scalePoint()
+            .domain(domain ?? values)
+            .range(range);
     }
 
     const min = d3.min(values);
@@ -24,13 +32,26 @@ const getScaleTypeFromType = (scaleType, values, range) => {
 
     switch (scaleType) {
         case "power":
-            return d3.scalePow().domain([zeroOrMin, max]).range(range);
+            return d3
+                .scalePow()
+                .domain(domain ?? [zeroOrMin, max])
+                .range(range);
         case "linear":
-            return d3.scaleLinear().domain([zeroOrMin, max]).range(range).nice();
+            return d3
+                .scaleLinear()
+                .domain(domain ?? [zeroOrMin, max])
+                .range(range)
+                .nice();
         case "time":
-            return d3.scaleTime().domain([min, max]).range(range);
+            return d3
+                .scaleTime()
+                .domain(domain ?? [min, max])
+                .range(range);
         case "log":
-            return d3.scaleLog().domain([zeroOrMin, max]).range(range);
+            return d3
+                .scaleLog()
+                .domain(domain ?? [zeroOrMin, max])
+                .range(range);
         default:
             throw new Error(`Unknown scale type: ${scaleType}`);
     }
@@ -49,7 +70,7 @@ const getValues = (data, fields, aggregate) => {
             fields.reduce((sum, key) => {
                 const value = d[key];
                 return value ? sum + value : sum;
-            }, 0)
+            }, 0),
         );
     }
 
@@ -61,38 +82,38 @@ const getValues = (data, fields, aggregate) => {
  * @param  {Object[]}  data        The chart data set
  * @param  {String[]} fields       The fields to use for the scale
  * @param  {Number[]}  range       The physical screen space avaliable for this scale
+ * @param  {Array} domain          Override the domain for the scale
  * @param  {Boolean} aggregate     Should the values be aggregated?
- * @param  {String} scaleType   Override the type of scale to use rather than determing dynamically. One of [linear, time, power, log, band, point]
- * @return {d3.Scale}           A d3.Scale function
+ * @param  {String} scaleType      Override the type of scale to use rather than determing dynamically. One of [linear, time, power, log, band, point]
+ * @return {d3.Scale}              A d3.Scale function
  */
-const calculateScale = (data, fields, range, aggregate, scaleType) => {
+const calculateScale = (data, fields, range, domain, aggregate, scaleType) => {
     // Grab all the values
     const values = getValues(data, fields, aggregate);
 
     // Use the specified scale type if provided
     if (scaleType) {
         console.debug(`Manually assigning scale ${scaleType}`, fields);
-        return getScaleTypeFromType(scaleType, values, range);
+        return getScaleTypeFromType(scaleType, values, range, domain);
     }
 
     // Otherwise attempt to determine the types of the values
     const type = values.reduce((previousType, value) => getDataType(value, previousType), undefined);
-
     switch (type) {
         case Types.Integer:
         case Types.Double:
             console.debug(`Automatically assigning scale (linear) for data type (${typeEnumToName(type)})`, fields);
-            return getScaleTypeFromType("linear", values, range);
+            return getScaleTypeFromType("linear", values, range, domain);
 
         case Types.Date:
         case Types.DateTime:
             console.debug(`Automatically assigning scale (time) for data type (${typeEnumToName(type)})`, fields);
-            return getScaleTypeFromType("time", values, range);
+            return getScaleTypeFromType("time", values, range, domain);
 
         case Types.String:
         case Types.Boolean:
             console.debug(`Automatically assigning scale (band) for data type (${typeEnumToName(type)})`, fields);
-            return getScaleTypeFromType("band", values, range);
+            return getScaleTypeFromType("band", values, range, domain);
 
         default:
             return null;

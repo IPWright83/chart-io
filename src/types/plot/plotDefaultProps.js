@@ -4,6 +4,7 @@
  */
 const plotDefaultProps = {
     animationDuration: 500,
+    interactive: true,
 };
 
 export { plotDefaultProps };

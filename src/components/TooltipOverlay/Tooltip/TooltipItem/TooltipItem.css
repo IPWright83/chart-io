@@ -1,0 +1,22 @@
+.chart-it.tooltip-item {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    user-select: none;
+    pointer-events: none;
+}
+
+.chart-it.tooltip-values {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.chart-it.tooltip-series-name {
+    margin-right: 15px;
+    max-width: 215px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

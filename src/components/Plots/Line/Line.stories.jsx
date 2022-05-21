@@ -79,6 +79,7 @@ const LineTemplate = (args) => (
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
+        theme={args.theme}
         useCanvas={args.useCanvas}
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
@@ -97,6 +98,7 @@ const LinesTemplate = (args) => (
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
+        theme={args.theme}
         useCanvas={args.useCanvas}
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
@@ -112,8 +114,8 @@ export const Basic = LineTemplate.bind({});
 Basic.storyName = "Basic Plot";
 Basic.args = {
     useCanvas: false,
-    width: 500,
-    height: 400,
+    width: 800,
+    height: 500,
     animationDuration: 500,
     color: "#99C1DC",
     theme: "light",

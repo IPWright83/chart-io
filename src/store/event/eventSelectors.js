@@ -20,6 +20,43 @@ const eventSelectors = {
      */
     markers: (state) => eventSelectors.store(state).markers || [],
 
+    tooltip: {
+        /**
+         * Returns the tooltip part of the sub-state tree
+         * @param  {Object} state   The application state
+         * @return {Object}         The sub-state for the tooltip
+         */
+        store: (state) => eventSelectors.store(state).tooltip || {},
+
+        /**
+         * Should the tooltip currently be shown?
+         * @param  {Object} state   The application state
+         * @return {Boolean}        True if the tooltip should be shown
+         */
+        show: (state) => eventSelectors.tooltip.items(state).length > 0,
+
+        /**
+         * The colour that the tooltip should take
+         * @param  {Object} state   The application state
+         * @return {String}         The colour of the tooltip item
+         */
+        color: (state) => eventSelectors.tooltip.store(state).color,
+
+        /**
+         * The set of tooltip tiems
+         * @param  {Object} state   The application state
+         * @return {Array}          The array of tooltip items
+         */
+        items: (state) => eventSelectors.tooltip.store(state).tooltipItems || [],
+
+        /**
+         * A moust event that triggered
+         * @param  {Object} state   The application state
+         * @return {MouseEvent}     The mouse event that triggered the tooltip
+         */
+        position: (state) => eventSelectors.tooltip.store(state).position || {},
+    },
+
     /**
      * The current position of the mouse events
      * @param  {Object} state The application state

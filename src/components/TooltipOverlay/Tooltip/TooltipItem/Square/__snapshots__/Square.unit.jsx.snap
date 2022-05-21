@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Square renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="chart-it indicator-square"
+    style="background: steelblue;"
+  />
+</DocumentFragment>
+`;

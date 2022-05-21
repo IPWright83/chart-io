@@ -12,12 +12,13 @@ This API is common across all the plots that have an XY component such as:
 
 These props are avaliable for all plots.
 
-| Prop    | Type          | Default            | Note                                                                                                                                       |
-| ------- | ------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `layer` | `HTMLElement` |                    | This is an internal field and should not need setting manually. It is populated by the `withSVG` and `withCanvas` higher order components. |
-| `x`     | `string`      | null               | The key of the field that contains the value along the x-axis                                                                              |
-| `y`     | `string`      | null               | The key of the field that contains the value along the y-axis                                                                              |
-| `color` | `string`      | Derived from Theme | The colour of the data                                                                                                                     |
+| Prop      | Type          | Default            | Note                                                                                                                                       |
+| --------- | ------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `layer`   | `HTMLElement` |                    | This is an internal field and should not need setting manually. It is populated by the `withSVG` and `withCanvas` higher order components. |
+| `x`       | `string`      | null               | The key of the field that contains the value along the x-axis                                                                              |
+| `y`       | `string`      | null               | The key of the field that contains the value along the y-axis                                                                              |
+| `color`   | `string`      | Derived from Theme | The colour of the data                                                                                                                     |
+| `opacity` | `number`      | 1 (0.8 AreaPlot)   | The opacity to use for the data points                                                                                                     |
 
 ## Event Props
 

@@ -27,10 +27,12 @@ const usePathCreator = (layer, x, y, xScale, yScale, canvas) => {
             return;
         }
 
+        const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
+
         const area = d3
             .area()
             .curve(d3.curveLinear)
-            .x((d) => xScale(d[x]))
+            .x((d) => xScale(d[x]) + bandwidth)
             .y0(() => yScale.range()[0])
             .y1((d) => yScale(d[y]));
 
@@ -40,7 +42,7 @@ const usePathCreator = (layer, x, y, xScale, yScale, canvas) => {
             .append("path")
             .datum([
                 { [x]: xScale.domain()[0], [y]: yScale.domain()[0] },
-                { [x]: xScale.domain()[1], [y]: yScale.domain()[0] },
+                { [x]: xScale.domain()[xScale.domain().length - 1], [y]: yScale.domain()[0] },
             ])
             .attr("class", "area")
             .attr("d", area);
