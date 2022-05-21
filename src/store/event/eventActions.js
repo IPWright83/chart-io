@@ -100,12 +100,13 @@ const removeTooltipItem = (tooltipItem) => ({
 
 /**
  * Updates the position of the tooltip based on the given mouse event
- * @param {Object} event    The moust event
- * @return {Object}                 A redux store action
+ * @param {Number} x        The mouse x location
+ * @param {Number} y        The mouse y location
+ * @return {Object}         A redux store action
  */
-const setPositionEvent = (event) => ({
+const setPositionEvent = (x, y) => ({
     type: "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
-    payload: event,
+    payload: { x, y },
 });
 
 const eventActions = {

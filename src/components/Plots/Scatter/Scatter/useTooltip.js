@@ -23,7 +23,7 @@ const useTooltip = ({ dispatch, x, y }) => {
             name: x,
             value: datum[x],
         };
-        
+
         const tooltipItemY = {
             datum,
             name: y,
@@ -35,7 +35,7 @@ const useTooltip = ({ dispatch, x, y }) => {
         dispatch(eventActions.setTooltipBorderColor(color));
         dispatch(eventActions.addTooltipItem(tooltipItemX));
         dispatch(eventActions.addTooltipItem(tooltipItemY));
-        dispatch(eventActions.setPositionEvent(positionEvent));
+        dispatch(eventActions.setPositionEvent(positionEvent?.offsetX, positionEvent?.offsetY));
 
         return () => {
             dispatch(eventActions.setTooltipBorderColor(undefined));

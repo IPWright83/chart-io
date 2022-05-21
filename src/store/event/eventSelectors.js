@@ -54,7 +54,7 @@ const eventSelectors = {
          * @param  {Object} state   The application state
          * @return {MouseEvent}     The mouse event that triggered the tooltip
          */
-        event: (state) => eventSelectors.tooltip.store(state).event || {},
+        position: (state) => eventSelectors.tooltip.store(state).position || {},
     },
 
     /**
