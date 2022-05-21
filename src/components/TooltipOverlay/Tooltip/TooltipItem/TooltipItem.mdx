@@ -1,0 +1,32 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+
+import { TooltipItem } from "./index";
+
+<Meta title="Components/TooltipOverlay/TooltipItem" component={TooltipItem} />
+
+# TooltipItem Component
+
+A TooltipItem components represents an entry within the Tooltip. Typically this is a value from a series in a chart. For a known series a shape will be returned, with appropraite styling to reflect the current entry. For example:
+
+<Canvas>
+    <Story id="components-tooltip-tooltipitem--scatter" />
+</Canvas>
+
+There are a number of different shapes avaliable for use:
+
+<Canvas>
+    <Story id="components-tooltip-tooltipitem-line--default" />
+    <Story id="components-tooltip-tooltipitem-square--default" />
+    <Story id="components-tooltip-tooltipitem-circle--default" />
+</Canvas>
+
+### Props
+
+| Prop         | Type      | Default | Note                                                             |
+| ------------ | --------- | ------- | ---------------------------------------------------------------- |
+| `name*`      | `string`  |         | The name of the value/series being shown in the tooltip          |
+| `value`      | primitive |         | The value of the point to display in the tooltip                 |
+| `seriesType` | `string`  |         | The type of the series, such as scatter, line, area, bar, column |
+| `fill`       | `string`  |         | The colour of the series                                         |
+
+<br />

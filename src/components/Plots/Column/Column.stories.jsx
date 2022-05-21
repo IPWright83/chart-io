@@ -2,6 +2,7 @@ import React from "react";
 
 import { argTypes } from "../../../../stories/argTypes";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
+import { themes } from "../../../themes";
 import { Column } from "./Column";
 import { Columns } from "./Columns";
 import { XYChart } from "../../XYChart";
@@ -146,8 +147,14 @@ CustomTheme.args = {
     y2: "Unit Cost",
     grouped: true,
     theme: {
+        ...themes.dark,
         background: "#F3F1E5",
-        foreground: "#969495",
+        axis: {
+            stroke: "#969495",
+        },
+        gridlines: {
+            stroke: "#969495",
+        },
         colors: ["#2FC2AF", "#433F3E"],
     },
 };
