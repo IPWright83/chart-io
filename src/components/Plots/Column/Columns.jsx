@@ -65,4 +65,6 @@ Columns.defaultProps = {
     ...eventDefaultProps,
 };
 
+Columns.requiresVirtualCanvas = true;
+
 export { Columns };

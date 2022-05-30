@@ -6,13 +6,20 @@ import React from "react";
  * @param  {Function} options.renderVirtualCanvas       Function to call to update the virtual canvas
  * @return {Array}                                      The new children
  */
-const getChildrenWithProps = ({ children, renderVirtualCanvas }) =>
-    children.map((child) => {
-        if (React.isValidElement(child)) {
-            return React.cloneElement(child, { renderVirtualCanvas });
-        }
+export const getChildrenWithProps = ({ children, renderVirtualCanvas }) => {
+    if (children.length > 0) {
+        return children.map((child) => {
+            if (React.isValidElement(child)) {
+                return React.cloneElement(child, { renderVirtualCanvas });
+            }
 
-        return child;
-    });
+            return child;
+        });
+    }
 
-export { getChildrenWithProps };
+    if (React.isValidElement(children)) {
+        return React.cloneElement(children, { renderVirtualCanvas });
+    }
+
+    return children;
+};

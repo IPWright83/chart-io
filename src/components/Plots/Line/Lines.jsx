@@ -27,4 +27,6 @@ const Lines = ({ ys, colors, ...props }) => {
 Lines.propTypes = plotsPropTypes;
 Lines.defaultProps = plotsDefaultProps;
 
+Lines.requiresVirtualCanvas = false;
+
 export { Lines };

@@ -36,4 +36,6 @@ StackedColumn.defaultProps = {
     useCanvas: false,
 };
 
+StackedColumn.requiresVirtualCanvas = true;
+
 export { StackedColumn };

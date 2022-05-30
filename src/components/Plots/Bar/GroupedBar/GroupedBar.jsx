@@ -36,4 +36,6 @@ GroupedBar.defaultProps = {
     useCanvas: false,
 };
 
+GroupedBar.requiresVirtualCanvas = true;
+
 export { GroupedBar };

@@ -78,4 +78,6 @@ Bars.defaultProps = {
     ...eventDefaultProps,
 };
 
+Bars.requiresVirtualCanvas = true;
+
 export { Bars };
