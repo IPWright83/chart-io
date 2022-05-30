@@ -1,6 +1,8 @@
 import { throttle } from "lodash";
 import { eventActions } from "../../../store";
 
+export const MOUSE_MOVE_THROTTLE = 10;
+
 /**
  * Fire the Click event if it exists on the node
  * @param  {Object} datum          The datum
@@ -53,7 +55,7 @@ const triggerOnMouseOut = (datum, node, e) => {
  * @param  {Function}    dispatch            The redux dispatch function
  * @returns {Object}                         The set of handlers for cleaning up { clickHandler, moveHandler }
  */
-const addEventHandlers = (canvas, colorToData, dispatch) => {
+export const addEventHandlers = (canvas, colorToData, dispatch) => {
     let lastDatum = undefined;
     let lastNode = undefined;
 
@@ -120,7 +122,7 @@ const addEventHandlers = (canvas, colorToData, dispatch) => {
             lastDatum = datum;
             lastNode = node;
         }
-    }, 10);
+    }, MOUSE_MOVE_THROTTLE);
 
     // Register the events
     canvas.addEventListener("click", clickHandler);
@@ -131,5 +133,3 @@ const addEventHandlers = (canvas, colorToData, dispatch) => {
     // Return the events so they can be cleaned up, to prevent double registration
     return { clickHandler, moveHandler };
 };
-
-export { addEventHandlers };

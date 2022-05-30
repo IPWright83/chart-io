@@ -16,13 +16,15 @@ import { getChildrenWithProps } from "./getChildrenWithProps";
 
 import { isVirtualCanvasRequired } from "./isVirtualCanvasRequired";
 
+export const VIRTUAL_CANVAS_DEBOUNCE = 100;
+
 /**
  * The virtual canvas, draws elements to a non dom canvas and is used to
  * simulate mouse events on these elements
  * @param  {Object} props   The react props
  * @return {ReactElement}   A virtual canvas to add mouse events to canvas layers
  */
-const VirtualCanvas = (props) => {
+export const VirtualCanvas = (props) => {
     const { children, onMouseOver, onMouseOut, onClick } = props;
 
     // This is going to be used for the main color -> datum lookup.
@@ -40,7 +42,7 @@ const VirtualCanvas = (props) => {
         clearVirtualCanvas(canvas.current, width, height);
         colorToData.current = await renderVirtualCanvas(canvas.current, width, height, nodes);
         nodes = [];
-    }, 100);
+    }, VIRTUAL_CANVAS_DEBOUNCE);
 
     // Whenever a child (canvas layer) renders it'll call this renderVirtual function
     // at the end of its render loop. We need to ensure that all nodes (virtual dom elements)
@@ -130,5 +132,3 @@ VirtualCanvas.defaultProps = {
     onMouseOut: () => {},
     onClick: () => {},
 };
-
-export { VirtualCanvas };
