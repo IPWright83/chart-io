@@ -2,14 +2,18 @@ import * as d3 from "d3";
 import React from "react";
 import { Provider } from "react-redux";
 import { render, fireEvent } from "@testing-library/react";
-import { themes } from "../../../../themes";
-import canvasSerializer from "jest-canvas-snapshot-serializer";
+import { toMatchImageSnapshot } from "jest-image-snapshot";
 
+import { VirtualCanvas } from "../../../VirtualCanvas";
+import { themes } from "../../../../themes";
 import { Scatter } from "./Scatter";
 
-expect.addSnapshotSerializer(canvasSerializer);
+expect.extend({ toMatchImageSnapshot });
+
+import { FakeMouseEvent, createMockStore, getBuffer, wait } from "../../../../testUtils";
 
 describe("Scatter", () => {
+    let store;
     let chartState;
 
     beforeEach(() => {
@@ -29,15 +33,11 @@ describe("Scatter", () => {
             },
             theme: themes.light,
         };
-    });
 
-    const store = {
-        getState: () => ({
-            chart: chartState,
-        }),
-        dispatch: () => {},
-        subscribe: () => {},
-    };
+        store = createMockStore({
+            chartState,
+        });
+    });
 
     describe("using SVG", () => {
         it("should render correctly", () => {
@@ -168,17 +168,180 @@ describe("Scatter", () => {
             const { container } = render(
                 <Provider store={store}>
                     <svg>
-                        <Scatter x="x" y="y" useCanvas={true} />
+                        <VirtualCanvas>
+                            <Scatter x="x" y="y" useCanvas={true} />
+                        </VirtualCanvas>
                     </svg>
                 </Provider>,
             );
 
-            await new Promise((resolve) => {
-                setTimeout(resolve, 250);
+            await wait();
+
+            const canvasBuffer = getBuffer(container.querySelector(".canvas"));
+            expect(canvasBuffer).toMatchImageSnapshot();
+
+            const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));
+            expect(virtualCanvasBuffer).toMatchImageSnapshot();
+        });
+
+        describe("should skip rendering if", () => {
+            it("there is no x scale avaliable", async () => {
+                delete chartState.scales.x;
+
+                const { container } = render(
+                    <Provider store={store}>
+                        <svg>
+                            <Scatter x="x" y="y" useCanvas={true} />
+                        </svg>
+                    </Provider>,
+                );
+
+                await wait();
+
+                const canvasBuffer = getBuffer(container.querySelector(".canvas"));
+                expect(canvasBuffer).toMatchImageSnapshot();
             });
 
-            const canvas = container.querySelector("canvas");
-            expect(canvas).toMatchSnapshot();
+            it("there is no y scale avaliable", async () => {
+                delete chartState.scales.y;
+
+                const { container } = render(
+                    <Provider store={store}>
+                        <svg>
+                            <Scatter x="x" y="y" useCanvas={true} />
+                        </svg>
+                    </Provider>,
+                );
+
+                await wait();
+
+                const canvasBuffer = getBuffer(container.querySelector(".canvas"));
+                expect(canvasBuffer).toMatchImageSnapshot();
+            });
+        });
+
+        describe("should handle event", () => {
+            it("mouseover correctly", async () => {
+                const onMouseOver = jest.fn();
+                jest.spyOn(store, "dispatch");
+
+                const { container } = render(
+                    <Provider store={store}>
+                        <svg>
+                            <VirtualCanvas onMouseOver={onMouseOver}>
+                                <Scatter x="x" y="y" onMouseOver={onMouseOver} useCanvas={true} />
+                            </VirtualCanvas>
+                        </svg>
+                    </Provider>,
+                );
+
+                await wait();
+
+                fireEvent(
+                    container.querySelector(".virtual-canvas"),
+                    new FakeMouseEvent("mousemove", {
+                        bubbles: true,
+                        pageX: 25,
+                        pageY: 25,
+                    }),
+                );
+
+                expect(onMouseOver).toHaveBeenCalledWith(
+                    {
+                        x: 5,
+                        y: 5,
+                    },
+                    expect.anything(),
+                    expect.anything(),
+                );
+
+                expect(store.dispatch.mock.calls[0]).toMatchSnapshot("ADD_MARKER action");
+                expect(store.dispatch.mock.calls[1]).toMatchSnapshot("ADD_DROPLINE action");
+                expect(store.dispatch.mock.calls[2]).toMatchSnapshot("ADD_DROPLINE action");
+            });
+
+            it("mouseexit correctly", async () => {
+                const onMouseOut = jest.fn();
+                jest.spyOn(store, "dispatch");
+
+                const { container } = render(
+                    <Provider store={store}>
+                        <svg>
+                            <VirtualCanvas onMouseOut={onMouseOut}>
+                                <Scatter x="x" y="y" onMouseOut={onMouseOut} useCanvas={true} />
+                            </VirtualCanvas>
+                        </svg>
+                    </Provider>,
+                );
+
+                await wait();
+
+                fireEvent(
+                    container.querySelector(".virtual-canvas"),
+                    new FakeMouseEvent("mousemove", {
+                        bubbles: true,
+                        pageX: 25,
+                        pageY: 25,
+                    }),
+                );
+                fireEvent(
+                    container.querySelector(".virtual-canvas"),
+                    new FakeMouseEvent("mousemove", {
+                        bubbles: true,
+                        pageX: 95,
+                        pageY: 95,
+                    }),
+                );
+
+                expect(onMouseOut).toHaveBeenCalledWith(
+                    {
+                        x: 5,
+                        y: 5,
+                    },
+                    expect.anything(),
+                    expect.anything(),
+                );
+
+                expect(store.dispatch.mock.calls[7]).toMatchSnapshot("REMOVE_MARKER action");
+                expect(store.dispatch.mock.calls[8]).toMatchSnapshot("REMOVE_DROPLINE action");
+                expect(store.dispatch.mock.calls[9]).toMatchSnapshot("REMOVE_DROPLINE action");
+            });
+
+            it("click correctly", async () => {
+                const onClick = jest.fn();
+                jest.spyOn(store, "dispatch");
+
+                const { container } = render(
+                    <Provider store={store}>
+                        <svg>
+                            <VirtualCanvas onClick={onClick}>
+                                <Scatter x="x" y="y" onClick={onClick} useCanvas={true} />
+                            </VirtualCanvas>
+                        </svg>
+                    </Provider>,
+                );
+
+                // Need to wait for longer than the debounce timeout in VirtualCanvas
+                await wait();
+
+                fireEvent(
+                    container.querySelector(".virtual-canvas"),
+                    new FakeMouseEvent("click", {
+                        bubbles: true,
+                        pageX: 25,
+                        pageY: 25,
+                    }),
+                );
+
+                expect(onClick).toHaveBeenCalledWith(
+                    {
+                        x: 5,
+                        y: 5,
+                    },
+                    expect.anything(),
+                    expect.anything(),
+                );
+            });
         });
     });
 });
