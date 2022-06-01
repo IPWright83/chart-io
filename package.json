@@ -32,7 +32,6 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "jest-image-snapshot": "^4.5.1",
     "@babel/core": "^7.12.9",
     "@babel/eslint-parser": "^7.15.8",
     "@babel/plugin-transform-runtime": "^7.15.8",
@@ -59,6 +58,7 @@
     "eslint-plugin-react": "^7.26.1",
     "jest": "^27.3.1",
     "jest-circus": "^27.3.1",
+    "jest-image-snapshot": "^4.5.1",
     "jest-resolve": "^27.3.1",
     "jest-watch-typeahead": "^1.0.0",
     "postcss": "^8.2.1",

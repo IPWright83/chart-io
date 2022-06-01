@@ -3,12 +3,10 @@
  * @param  {Object} state     The initial state of the store
  * @return {Object}           A mock store
  */
-export const createMockStore = ({ chartState }) => {
+export const createMockStore = (state) => {
     return {
-        getState: () => ({
-            chart: chartState,
-        }),
-        dispatch: () => {},
-        subscribe: () => {},
+        getState: () => state,
+        dispatch: jest.fn(),
+        subscribe: jest.fn(),
     };
 };

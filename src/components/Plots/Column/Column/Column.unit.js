@@ -3,30 +3,32 @@ import React from "react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
 import { VirtualCanvas, VIRTUAL_CANVAS_DEBOUNCE } from "../../../VirtualCanvas";
-import { Scatter } from "./Scatter";
+import { Column } from "./Column";
 
 expect.extend({ toMatchImageSnapshot });
 
 import { getBuffer, wait, renderChart, testMouseClick, testMouseOver, testMouseExit } from "../../../../testUtils";
 
-describe("Scatter", () => {
-    const data = [
-        { x: 5, y: 5 },
-        { x: 10, y: 10 },
-    ];
-    const scales = {
-        x: d3.scaleLinear().domain([0, 20]).range([0, 100]),
-        y: d3.scaleLinear().domain([0, 20]).range([0, 100]),
-    };
+describe("Column", () => {
     const expectedDatum = {
-        x: 5,
+        x: "A",
         y: 5,
+    };
+
+    const data = [
+        { x: "A", y: 5 },
+        { x: "B", y: 10 },
+    ];
+
+    const scales = {
+        x: d3.scaleBand().domain(["A", "B"]).range([0, 100]),
+        y: d3.scaleLinear().domain([0, 20]).range([100, 0]),
     };
 
     describe("using SVG", () => {
         it("should render correctly", async () => {
             const { asFragment } = await renderChart({
-                children: <Scatter x="x" y="y" />,
+                children: <Column x="x" y="y" />,
                 data,
                 scales,
             });
@@ -39,24 +41,22 @@ describe("Scatter", () => {
                 const onMouseOver = jest.fn();
 
                 const { container, store } = await renderChart({
-                    children: <Scatter x="x" y="y" onMouseOver={onMouseOver} />,
+                    children: <Column x="x" y="y" onMouseOver={onMouseOver} />,
                     data,
                     scales,
                 });
 
                 jest.spyOn(store, "dispatch");
-                await testMouseOver(container, "circle", onMouseOver, expectedDatum);
+                testMouseOver(container, "rect", onMouseOver, expectedDatum);
 
                 const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
 
                 expect(dispatchCalls).toEqual([
-                    "EVENT.ADD_MARKER",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.ADD_DROPLINE",
                     "EVENT.SET_TOOLTIP_COLOR",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
+                    "EVENT.ADD_DROPLINE",
                 ]);
             });
 
@@ -64,30 +64,27 @@ describe("Scatter", () => {
                 const onMouseOut = jest.fn();
 
                 const { container, store } = await renderChart({
-                    children: <Scatter x="x" y="y" onMouseOut={onMouseOut} />,
+                    children: <Column x="x" y="y" onMouseOut={onMouseOut} />,
                     data,
                     scales,
                 });
 
                 jest.spyOn(store, "dispatch");
-                await testMouseExit(container, "circle", onMouseOut, expectedDatum);
+                testMouseExit(container, "rect", onMouseOut, expectedDatum);
 
                 const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
 
                 expect(dispatchCalls).toEqual([
-                    "EVENT.ADD_MARKER",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.ADD_DROPLINE",
+                    // Mouseexit
                     "EVENT.SET_TOOLTIP_COLOR",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
-                    "EVENT.REMOVE_MARKER",
-                    "EVENT.REMOVE_DROPLINE",
-                    "EVENT.REMOVE_DROPLINE",
+                    "EVENT.ADD_DROPLINE",
                     "EVENT.SET_TOOLTIP_COLOR",
                     "EVENT.REMOVE_TOOLTIP_ITEM",
                     "EVENT.REMOVE_TOOLTIP_ITEM",
+                    "EVENT.REMOVE_DROPLINE",
                 ]);
             });
 
@@ -95,21 +92,20 @@ describe("Scatter", () => {
                 const onClick = jest.fn();
 
                 const { container, store } = await renderChart({
-                    children: <Scatter x="x" y="y" onClick={onClick} />,
+                    children: <Column x="x" y="y" onClick={onClick} />,
                     data,
                     scales,
                 });
 
                 jest.spyOn(store, "dispatch");
-
-                await testMouseClick(container, "circle", onClick, expectedDatum);
+                testMouseClick(container, "rect", onClick, expectedDatum);
             });
         });
 
         describe("should skip rendering if", () => {
             it("there is no x scale avaliable", async () => {
                 const { asFragment } = await renderChart({
-                    children: <Scatter x="x" y="y" />,
+                    children: <Column x="x" y="y" />,
                     data,
                     scales: { y: scales.y },
                 });
@@ -119,7 +115,7 @@ describe("Scatter", () => {
 
             it("there is no y scale avaliable", async () => {
                 const { asFragment } = await renderChart({
-                    children: <Scatter x="x" y="y" />,
+                    children: <Column x="x" y="y" />,
                     data,
                     scales: { x: scales.x },
                 });
@@ -134,7 +130,7 @@ describe("Scatter", () => {
             const { container } = await renderChart({
                 children: (
                     <VirtualCanvas>
-                        <Scatter x="x" y="y" useCanvas={true} />
+                        <Column x="x" y="y" useCanvas={true} />
                     </VirtualCanvas>
                 ),
                 data,
@@ -153,7 +149,7 @@ describe("Scatter", () => {
         describe("should skip rendering if", () => {
             it("there is no x scale avaliable", async () => {
                 const { container } = await renderChart({
-                    children: <Scatter x="x" y="y" useCanvas={true} />,
+                    children: <Column x="x" y="y" useCanvas={true} />,
                     data,
                     scales: { y: scales.y },
                 });
@@ -166,7 +162,7 @@ describe("Scatter", () => {
 
             it("there is no y scale avaliable", async () => {
                 const { container } = await renderChart({
-                    children: <Scatter x="x" y="y" useCanvas={true} />,
+                    children: <Column x="x" y="y" useCanvas={true} />,
                     data,
                     scales: { x: scales.x },
                 });
@@ -185,7 +181,7 @@ describe("Scatter", () => {
                 const { container, store } = await renderChart({
                     children: (
                         <VirtualCanvas onMouseOver={onMouseOver}>
-                            <Scatter x="x" y="y" onMouseOver={onMouseOver} useCanvas={true} />
+                            <Column x="x" y="y" onMouseOver={onMouseOver} useCanvas={true} />
                         </VirtualCanvas>
                     ),
                     data,
@@ -198,20 +194,18 @@ describe("Scatter", () => {
                 await testMouseOver(container, ".virtual-canvas", onMouseOver, expectedDatum, {
                     bubbles: true,
                     pageX: 25,
-                    pageY: 25,
+                    pageY: 90,
                 });
 
                 const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
 
                 expect(dispatchCalls).toEqual([
                     "EVENT.MOUSE_MOVE",
-                    "EVENT.ADD_MARKER",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.ADD_DROPLINE",
                     "EVENT.SET_TOOLTIP_COLOR",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
+                    "EVENT.ADD_DROPLINE",
                 ]);
             });
 
@@ -221,7 +215,7 @@ describe("Scatter", () => {
                 const { container, store } = await renderChart({
                     children: (
                         <VirtualCanvas onMouseOut={onMouseOut}>
-                            <Scatter x="x" y="y" onMouseOut={onMouseOut} useCanvas={true} />
+                            <Column x="x" y="y" onMouseOut={onMouseOut} useCanvas={true} />
                         </VirtualCanvas>
                     ),
                     data,
@@ -234,7 +228,7 @@ describe("Scatter", () => {
                 await testMouseExit(container, ".virtual-canvas", onMouseOut, expectedDatum, {
                     bubbles: true,
                     pageX: 25,
-                    pageY: 25,
+                    pageY: 90,
                 });
 
                 const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
@@ -242,22 +236,23 @@ describe("Scatter", () => {
                 expect(dispatchCalls).toEqual([
                     // Mouseover
                     "EVENT.MOUSE_MOVE",
-                    "EVENT.ADD_MARKER",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.ADD_DROPLINE",
                     "EVENT.SET_TOOLTIP_COLOR",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
+                    "EVENT.ADD_DROPLINE",
 
-                    // MouseExit
+                    // Mouseexit
                     "EVENT.MOUSE_MOVE",
-                    "EVENT.REMOVE_MARKER",
-                    "EVENT.REMOVE_DROPLINE",
-                    "EVENT.REMOVE_DROPLINE",
                     "EVENT.SET_TOOLTIP_COLOR",
                     "EVENT.REMOVE_TOOLTIP_ITEM",
                     "EVENT.REMOVE_TOOLTIP_ITEM",
+                    "EVENT.REMOVE_DROPLINE",
+                    "EVENT.SET_TOOLTIP_COLOR",
+                    "EVENT.ADD_TOOLTIP_ITEM",
+                    "EVENT.ADD_TOOLTIP_ITEM",
+                    "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
+                    "EVENT.ADD_DROPLINE",
                 ]);
             });
 
@@ -267,7 +262,7 @@ describe("Scatter", () => {
                 const { container, store } = await renderChart({
                     children: (
                         <VirtualCanvas onClick={onClick}>
-                            <Scatter x="x" y="y" onClick={onClick} useCanvas={true} />
+                            <Column x="x" y="y" onClick={onClick} useCanvas={true} />
                         </VirtualCanvas>
                     ),
                     data,
@@ -280,7 +275,7 @@ describe("Scatter", () => {
                 await testMouseClick(container, ".virtual-canvas", onClick, expectedDatum, {
                     bubbles: true,
                     pageX: 25,
-                    pageY: 25,
+                    pageY: 90,
                 });
             });
         });
