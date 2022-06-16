@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { useSelector } from "react-redux";
 
+import { chartSelectors } from "../../../../store";
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
 import { GroupedColumnBase } from "./GroupedColumnBase";
@@ -13,12 +15,15 @@ const GroupedSVGColumn = withSVG(withXYPlot(GroupedColumnBase), "plot grouped-co
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Column plot component
  */
-const GroupedColumn = ({ useCanvas, ...props }) => {
+const GroupedColumn = ({ useCanvas, colors, ...props }) => {
+    const theme = useSelector((s) => chartSelectors.theme(s));
+    const palette = colors || theme.colors;
+
     if (useCanvas) {
-        return <GroupedCanvasColumn {...props} />;
+        return <GroupedCanvasColumn {...props} colors={palette} />;
     }
 
-    return <GroupedSVGColumn {...props} />;
+    return <GroupedSVGColumn {...props} colors={palette} />;
 };
 
 GroupedColumn.propTypes = {

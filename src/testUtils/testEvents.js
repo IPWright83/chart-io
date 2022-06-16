@@ -37,21 +37,30 @@ export const testMouseOver = async (container, selector, callback, expected, fak
     expect(callback).toHaveBeenCalledWith(expected, expect.anything(), expect.anything());
 };
 
-export const testMouseExit = async (container, selector, callback, expected, fakeMouseEventData) => {
+export const testMouseExit = async (
+    container,
+    selector,
+    callback,
+    expected,
+    fakeMouseEnterEventData,
+    fakeMouseExitEventData,
+) => {
     const element = container.querySelector(selector);
 
-    if (fakeMouseEventData) {
-        fireEvent(element, new FakeMouseEvent("mousemove", fakeMouseEventData));
+    if (fakeMouseEnterEventData) {
+        fireEvent(element, new FakeMouseEvent("mousemove", fakeMouseEnterEventData));
 
         await wait(MOUSE_MOVE_THROTTLE * 2);
 
         fireEvent(
             element,
-            new FakeMouseEvent("mousemove", {
-                bubbles: true,
-                pageX: 95,
-                pageY: 95,
-            }),
+            new FakeMouseEvent(
+                "mousemove",
+                fakeMouseExitEventData ?? {
+                    pageX: 95,
+                    pageY: 95,
+                },
+            ),
         );
     } else {
         fireEvent.mouseOver(element);

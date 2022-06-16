@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bar using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot bar"
+    >
+      <rect
+        class="bar"
+        height="50"
+        style="stroke: #fff; fill: rgba(153, 193, 220, 0.7); opacity: 0.8;"
+        width="0"
+        x="0"
+        y="0"
+      />
+      <rect
+        class="bar"
+        height="50"
+        style="stroke: #fff; fill: rgba(153, 193, 220, 0.7); opacity: 0.8;"
+        width="0"
+        x="0"
+        y="50"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`Bar using SVG should skip rendering if there is no x scale avaliable 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot bar"
+    />
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`Bar using SVG should skip rendering if there is no y scale avaliable 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot bar"
+    />
+  </svg>
+</DocumentFragment>
+`;

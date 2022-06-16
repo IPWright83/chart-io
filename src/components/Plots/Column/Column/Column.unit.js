@@ -146,34 +146,6 @@ describe("Column", () => {
             expect(virtualCanvasBuffer).toMatchImageSnapshot();
         });
 
-        describe("should skip rendering if", () => {
-            it("there is no x scale avaliable", async () => {
-                const { container } = await renderChart({
-                    children: <Column x="x" y="y" useCanvas={true} />,
-                    data,
-                    scales: { y: scales.y },
-                });
-
-                await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
-
-                const canvasBuffer = getBuffer(container.querySelector(".canvas"));
-                expect(canvasBuffer).toMatchImageSnapshot();
-            });
-
-            it("there is no y scale avaliable", async () => {
-                const { container } = await renderChart({
-                    children: <Column x="x" y="y" useCanvas={true} />,
-                    data,
-                    scales: { x: scales.x },
-                });
-
-                await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
-
-                const canvasBuffer = getBuffer(container.querySelector(".canvas"));
-                expect(canvasBuffer).toMatchImageSnapshot();
-            });
-        });
-
         describe("should handle event", () => {
             it("mouseover correctly", async () => {
                 const onMouseOver = jest.fn();
@@ -225,11 +197,20 @@ describe("Column", () => {
                 jest.spyOn(store, "dispatch");
                 await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
 
-                await testMouseExit(container, ".virtual-canvas", onMouseOut, expectedDatum, {
-                    bubbles: true,
-                    pageX: 25,
-                    pageY: 90,
-                });
+                await testMouseExit(
+                    container,
+                    ".virtual-canvas",
+                    onMouseOut,
+                    expectedDatum,
+                    {
+                        pageX: 25,
+                        pageY: 90,
+                    },
+                    {
+                        pageX: 195,
+                        pageY: 95,
+                    },
+                );
 
                 const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
 
@@ -248,11 +229,6 @@ describe("Column", () => {
                     "EVENT.REMOVE_TOOLTIP_ITEM",
                     "EVENT.REMOVE_TOOLTIP_ITEM",
                     "EVENT.REMOVE_DROPLINE",
-                    "EVENT.SET_TOOLTIP_COLOR",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
-                    "EVENT.ADD_DROPLINE",
                 ]);
             });
 
