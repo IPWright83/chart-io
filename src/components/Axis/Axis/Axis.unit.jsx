@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import React from "react";
 import { Provider } from "react-redux";
+import { themes } from "../../../themes";
 
 import { render } from "@testing-library/react";
 
@@ -15,6 +16,7 @@ describe("Axis", () => {
     const store = {
         getState: () => ({
             chart: {
+                theme: themes.light,
                 dimensions: {
                     width,
                     height,
@@ -36,7 +38,9 @@ describe("Axis", () => {
 
             const { asFragment } = render(
                 <Provider store={store}>
-                    <Axis layer={layer} title="y" position="left" fields={["y"]} showGridlines={false} />
+                    <svg>
+                        <Axis layer={layer} title="y" position="left" fields={["y"]} showGridlines={false} />
+                    </svg>
                 </Provider>,
             );
 
@@ -48,7 +52,9 @@ describe("Axis", () => {
 
             const { asFragment } = render(
                 <Provider store={store}>
-                    <Axis layer={layer} title="y" position="right" fields={["y"]} showGridlines={false} />
+                    <svg>
+                        <Axis layer={layer} title="y" position="right" fields={["y"]} showGridlines={false} />
+                    </svg>
                 </Provider>,
             );
 
@@ -60,7 +66,9 @@ describe("Axis", () => {
 
             const { asFragment } = render(
                 <Provider store={store}>
-                    <Axis layer={layer} title="x" position="top" fields={["x"]} showGridlines={false} />
+                    <svg>
+                        <Axis layer={layer} title="x" position="top" fields={["x"]} showGridlines={false} />
+                    </svg>
                 </Provider>,
             );
 
@@ -72,7 +80,9 @@ describe("Axis", () => {
 
             const { asFragment } = render(
                 <Provider store={store}>
-                    <Axis layer={layer} title="x" position="left" fields={["x"]} showGridlines={false} />
+                    <svg>
+                        <Axis layer={layer} title="x" position="left" fields={["x"]} showGridlines={false} />
+                    </svg>
                 </Provider>,
             );
 
