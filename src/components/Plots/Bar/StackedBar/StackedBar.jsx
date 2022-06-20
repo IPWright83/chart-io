@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { useSelector } from "react-redux";
 
+import { chartSelectors } from "../../../../store";
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
 import { StackedBarBase } from "./StackedBarBase";
@@ -13,12 +15,15 @@ const StackedSVGBar = withSVG(withXYPlot(StackedBarBase), "plot stacked-bar");
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Bar plot component
  */
-const StackedBar = ({ useCanvas, ...props }) => {
+const StackedBar = ({ useCanvas, colors, ...props }) => {
+    const theme = useSelector((s) => chartSelectors.theme(s));
+    const palette = colors || theme.colors;
+
     if (useCanvas) {
-        return <StackedCanvasBar {...props} />;
+        return <StackedCanvasBar {...props} colors={palette} />;
     }
 
-    return <StackedSVGBar {...props} />;
+    return <StackedSVGBar {...props} colors={palette} />;
 };
 
 StackedBar.propTypes = {
