@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Column using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot column"
+    >
+      <rect
+        class="column"
+        height="0"
+        style="stroke: #fff; opacity: 0.8; fill: rgba(153, 193, 220, 0.7);"
+        width="50"
+        x="0"
+        y="100"
+      />
+      <rect
+        class="column"
+        height="0"
+        style="stroke: #fff; opacity: 0.8; fill: rgba(153, 193, 220, 0.7);"
+        width="50"
+        x="50"
+        y="100"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`Column using SVG should skip rendering if there is no x scale avaliable 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot column"
+    />
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`Column using SVG should skip rendering if there is no y scale avaliable 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot column"
+    />
+  </svg>
+</DocumentFragment>
+`;

@@ -36,4 +36,6 @@ Area.propTypes = {
     useCanvas: PropTypes.bool,
 };
 
+Area.requiresVirtualCanvas = false;
+
 export { Area };

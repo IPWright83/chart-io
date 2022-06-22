@@ -101,6 +101,7 @@ const BarBase = ({
 
                 onMouseOut && onMouseOut(datum, this, event);
                 setFocused(null);
+                setTooltip(null);
             })
             .on("click", function (event, datum) {
                 if (!interactive) return;

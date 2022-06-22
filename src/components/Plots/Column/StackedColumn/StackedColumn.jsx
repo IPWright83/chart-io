@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { useSelector } from "react-redux";
 
+import { chartSelectors } from "../../../../store";
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
 import { StackedColumnBase } from "./StackedColumnBase";
@@ -13,12 +15,15 @@ const StackedSVGColumn = withSVG(withXYPlot(StackedColumnBase), "plot stacked-co
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Column plot component
  */
-const StackedColumn = ({ useCanvas, ...props }) => {
+const StackedColumn = ({ useCanvas, colors, ...props }) => {
+    const theme = useSelector((s) => chartSelectors.theme(s));
+    const palette = colors || theme.colors;
+
     if (useCanvas) {
-        return <StackedCanvasColumn {...props} />;
+        return <StackedCanvasColumn {...props} colors={palette} />;
     }
 
-    return <StackedSVGColumn {...props} />;
+    return <StackedSVGColumn {...props} colors={palette} />;
 };
 
 StackedColumn.propTypes = {
@@ -35,5 +40,7 @@ StackedColumn.defaultProps = {
     ...StackedColumnBase.defaultProps,
     useCanvas: false,
 };
+
+StackedColumn.requiresVirtualCanvas = true;
 
 export { StackedColumn };

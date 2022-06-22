@@ -42,4 +42,6 @@ Scatters.defaultProps = {
     radius: 5,
 };
 
+Scatters.requiresVirtualCanvas = true;
+
 export { Scatters };

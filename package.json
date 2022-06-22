@@ -57,8 +57,8 @@
     "eslint-plugin-jest": "^25.2.1",
     "eslint-plugin-react": "^7.26.1",
     "jest": "^27.3.1",
-    "jest-canvas-snapshot-serializer": "^1.0.1",
     "jest-circus": "^27.3.1",
+    "jest-image-snapshot": "^4.5.1",
     "jest-resolve": "^27.3.1",
     "jest-watch-typeahead": "^1.0.0",
     "postcss": "^8.2.1",
@@ -84,9 +84,9 @@
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0",
-    "react-redux": "^7.2.2"
+    "redux-thunk": "^2.3.0"
   }
 }

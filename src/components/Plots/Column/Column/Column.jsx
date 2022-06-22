@@ -36,4 +36,6 @@ Column.defaultProps = {
     useCanvas: false,
 };
 
+Column.requiresVirtualCanvas = true;
+
 export { Column };

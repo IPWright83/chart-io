@@ -86,7 +86,7 @@ const chartSelectors = {
             }
 
             return undefined;
-        }
+        },
     },
 
     /**

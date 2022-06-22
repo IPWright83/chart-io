@@ -1,109 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Scatter using Canvas should render correctly 1`] = `
-<canvas
-  class="plot scatter"
-  data-snapshot-image="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAYAAACtWK6eAAAABmJLR0QA/wD/AP+gvaeTAAAC2UlEQVR4nO3cP4sUZwAG8Hf3ztvM7NxuTALRi1YWQY5gE2IgrZ2kzCdI4NKlSCGKwhSCSJo0gRiS+wp+BK9VLOMhSXGFeKdI0Nud2cmd+ydVQCKixTsjQ36/dl7ep3qandknBAAAAAAAAAAAAAAAAAAA+F/r1HVxnt9aftS7/0mn010LIYTFYr47f6/7+y8bG8/ryoTYainIt1d//SzJVi4k2bvDtJ8thRDCpCxmVfFsvyoOr/98+Zs7deRCbNEL8t0Pm2d7af/a2qmP95N0tXjxWVWMst2dP4bl/rOLP13auB07G2JbinnZV3m+Msw++PHkqdMHSX9Q/Pf5kZXeYdLPFsX46RcnPz9zc3traxYzH2LrxrzsWO/EepoOB0n2cjn+lWSDIk2Hg/d7H67HzIY6RC3IdD5bS1f7r70z6afdpUXneMxsqEPUgnQ73cVivniDk50wX3Tf5CC8VVELMutM96pyMn/duaosZp0Q9mJmQx2iFuSvg8f3JuVov5qMs1edqYpRNinHoyfPd7djZkMdov6Ktb21NTt77sudyWh8Ps2ysLzSO3zx+WQ8Wt3d+XMwLcf55pXvH8TMhjrU8qJw4+pvn6b93oUky44m/cFSCCFU5WhWFcXTSXlw/cblr+/WkQux1fipSb68986x9eV5+CiEEKbd8PD434/u5Xk+rSsTAAAAAAAAAAAAAFqltq95m2Ccjrq1tiDG6WhCKwtinI6mRP3LbROM09GkqKMNTTBOR5NaVxDjdDSpdQUxTkeTWlcQ43Q0qXUFMU5Hk1r3K5ZxOprUyvcgIRinoxmtLUgIxukAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA3oZ/ADyDMlSRC8hDAAAAAElFTkSuQmCC"
-  height="200"
-  style="position: absolute;"
-  width="200"
-/>
-`;
-
-exports[`Scatter using SVG should handle event mouseexit correctly: REMOVE_DROPLINE action 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "color": "rgba(153, 193, 220, 0.8)",
-      "isHorizontal": true,
-      "x1": 21,
-      "x2": 0,
-      "y1": 25,
-      "y2": 25,
-    },
-    "type": "EVENT.REMOVE_DROPLINE",
-  },
-]
-`;
-
-exports[`Scatter using SVG should handle event mouseexit correctly: REMOVE_DROPLINE action 2`] = `
-Array [
-  Object {
-    "payload": Object {
-      "color": "rgba(153, 193, 220, 0.8)",
-      "isVertical": true,
-      "x1": 25,
-      "x2": 25,
-      "y1": 29,
-      "y2": 0,
-    },
-    "type": "EVENT.REMOVE_DROPLINE",
-  },
-]
-`;
-
-exports[`Scatter using SVG should handle event mouseexit correctly: REMOVE_MARKER action 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "cx": 25,
-      "cy": 25,
-      "r1": 0,
-      "r2": 4,
-      "stroke": "rgba(153, 193, 220, 0.8)",
-    },
-    "type": "EVENT.REMOVE_MARKER",
-  },
-]
-`;
-
-exports[`Scatter using SVG should handle event mouseover correctly: ADD_DROPLINE action 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "color": "rgba(153, 193, 220, 0.8)",
-      "isHorizontal": true,
-      "x1": 21,
-      "x2": 0,
-      "y1": 25,
-      "y2": 25,
-    },
-    "type": "EVENT.ADD_DROPLINE",
-  },
-]
-`;
-
-exports[`Scatter using SVG should handle event mouseover correctly: ADD_DROPLINE action 2`] = `
-Array [
-  Object {
-    "payload": Object {
-      "color": "rgba(153, 193, 220, 0.8)",
-      "isVertical": true,
-      "x1": 25,
-      "x2": 25,
-      "y1": 29,
-      "y2": 0,
-    },
-    "type": "EVENT.ADD_DROPLINE",
-  },
-]
-`;
-
-exports[`Scatter using SVG should handle event mouseover correctly: ADD_MARKER action 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "cx": 25,
-      "cy": 25,
-      "r1": 0,
-      "r2": 4,
-      "stroke": "rgba(153, 193, 220, 0.8)",
-    },
-    "type": "EVENT.ADD_MARKER",
-  },
-]
-`;
-
 exports[`Scatter using SVG should render correctly 1`] = `
 <DocumentFragment>
   <svg>
@@ -115,14 +11,14 @@ exports[`Scatter using SVG should render correctly 1`] = `
         cx="25"
         cy="25"
         r="0"
-        style="stroke: rgba(107, 135, 154, 0.8); fill: rgba(153, 193, 220, 0.8); opacity: 0.8;"
+        style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
       />
       <circle
         class="scatter-point"
         cx="50"
         cy="50"
         r="0"
-        style="stroke: rgba(107, 135, 154, 0.8); fill: rgba(153, 193, 220, 0.8); opacity: 0.8;"
+        style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
       />
     </g>
   </svg>

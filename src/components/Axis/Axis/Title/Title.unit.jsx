@@ -63,7 +63,9 @@ describe("Title", () => {
             it("renders horizontal title", async () => {
                 const { asFragment } = render(
                     <Provider store={store}>
-                        <Title position="bottom" title="horizontal" fields={["a", "b"]} />
+                        <svg>
+                            <Title position="bottom" title="horizontal" fields={["a", "b"]} />
+                        </svg>
                     </Provider>,
                 );
 
@@ -73,7 +75,9 @@ describe("Title", () => {
             it("renders vertical title", async () => {
                 const { asFragment } = render(
                     <Provider store={store}>
-                        <Title position="left" title="vertical" fields={["a", "b"]} />
+                        <svg>
+                            <Title position="left" title="vertical" fields={["a", "b"]} />
+                        </svg>
                     </Provider>,
                 );
 
@@ -85,7 +89,9 @@ describe("Title", () => {
             it("renders fields as horizontal title", async () => {
                 const { asFragment } = render(
                     <Provider store={store}>
-                        <Title position="bottom" fields={["a", "b"]} />
+                        <svg>
+                            <Title position="bottom" fields={["a", "b"]} />
+                        </svg>
                     </Provider>,
                 );
 
@@ -95,7 +101,9 @@ describe("Title", () => {
             it("renders fields as vertical title", async () => {
                 const { asFragment } = render(
                     <Provider store={store}>
-                        <Title position="left" fields={["a", "b"]} />
+                        <svg>
+                            <Title position="left" fields={["a", "b"]} />
+                        </svg>
                     </Provider>,
                 );
 

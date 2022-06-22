@@ -14,10 +14,9 @@ import {
 import { chartSelectors } from "../../store";
 import { getChildrenWithProps } from "./getChildrenWithProps";
 
-// These types of layers don't need a virtual canvas
-// as they don't/can't support events in the same way
-// a layer with physical elements can
-const ignoreTypes = ["XAxis", "YAxis", "Axis", "XScale", "YScale", "ZScale", "Scale", "Line", "Lines", "Area", "Areas"];
+import { isVirtualCanvasRequired } from "./isVirtualCanvasRequired";
+
+export const VIRTUAL_CANVAS_DEBOUNCE = 100;
 
 /**
  * The virtual canvas, draws elements to a non dom canvas and is used to
@@ -25,7 +24,7 @@ const ignoreTypes = ["XAxis", "YAxis", "Axis", "XScale", "YScale", "ZScale", "Sc
  * @param  {Object} props   The react props
  * @return {ReactElement}   A virtual canvas to add mouse events to canvas layers
  */
-const VirtualCanvas = (props) => {
+export const VirtualCanvas = (props) => {
     const { children, onMouseOver, onMouseOut, onClick } = props;
 
     // This is going to be used for the main color -> datum lookup.
@@ -43,7 +42,7 @@ const VirtualCanvas = (props) => {
         clearVirtualCanvas(canvas.current, width, height);
         colorToData.current = await renderVirtualCanvas(canvas.current, width, height, nodes);
         nodes = [];
-    }, 100);
+    }, VIRTUAL_CANVAS_DEBOUNCE);
 
     // Whenever a child (canvas layer) renders it'll call this renderVirtual function
     // at the end of its render loop. We need to ensure that all nodes (virtual dom elements)
@@ -77,14 +76,7 @@ const VirtualCanvas = (props) => {
 
     // Many layers don't require the virtual canvas. If
     // they are all of these types then disable the canvas
-    const childTypes = children
-        // Fix for storybook
-        .filter((c) => !!c && !!c.props)
-        .map((c) => c.props.mdxType);
-
-    const typesNeedingCanvas = childTypes.filter((type) => !ignoreTypes.includes(type));
-    const includeVirtualCanvas = typesNeedingCanvas.length > 0;
-
+    const includeVirtualCanvas = isVirtualCanvasRequired(children);
     if (includeVirtualCanvas === false) {
         return <React.Fragment>{children}</React.Fragment>;
     }
@@ -140,5 +132,3 @@ VirtualCanvas.defaultProps = {
     onMouseOut: () => {},
     onClick: () => {},
 };
-
-export { VirtualCanvas };

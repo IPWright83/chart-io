@@ -1,6 +1,7 @@
 import * as d3 from "d3";
 import React from "react";
 import { Provider } from "react-redux";
+import { themes } from "../../../../themes";
 
 import { render } from "@testing-library/react";
 
@@ -15,6 +16,7 @@ describe("Gridlines", () => {
     const store = {
         getState: () => ({
             chart: {
+                theme: themes.light,
                 dimensions: {
                     width,
                     height,
