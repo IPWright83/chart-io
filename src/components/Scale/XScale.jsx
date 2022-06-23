@@ -15,7 +15,16 @@ const XScale = ({ fields, scaleType, aggregate, domain, fromAxis }) => {
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
     const range = [margin.left, width - margin.right];
 
-    return <Scale fields={fields} fromAxis={fromAxis} range={range} scaleType={scaleType} domain={domain} aggregate={aggregate} />;
+    return (
+        <Scale
+            fields={fields}
+            fromAxis={fromAxis}
+            range={range}
+            scaleType={scaleType}
+            domain={domain}
+            aggregate={aggregate}
+        />
+    );
 };
 
 XScale.propTypes = {

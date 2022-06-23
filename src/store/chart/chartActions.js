@@ -21,7 +21,6 @@ const setDimensions = (width, height, margin) => ({
  */
 const setScales = (fields, scale, fromAxis) => (dispatch) => {
     if (!scale) return;
-
     dispatch({
         type: "CHART.SET_SCALES",
         payload: { fields, scale, fromAxis },
