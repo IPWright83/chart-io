@@ -5,34 +5,29 @@ import { render } from "@testing-library/react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
 import { VirtualCanvas, VIRTUAL_CANVAS_DEBOUNCE } from "../../../VirtualCanvas";
-import { Area } from "./Area";
+import { StackedArea } from "./StackedArea";
 import { createStore } from "../../../../store";
 
 expect.extend({ toMatchImageSnapshot });
 
 import { getBuffer, wait, renderChart } from "../../../../testUtils";
 
-describe("Area", () => {
-    // const expectedDatum = {
-    //     y: 5,
-    //     x: 1,
-    // };
-
+describe("StackedArea", () => {
     const data = [
-        { y: 0, x: 0 },
-        { y: 5, x: 1 },
-        { y: 10, x: 2 },
+        { y: 0, y2: 7, x: 0 },
+        { y: 5, y2: 9, x: 1 },
+        { y: 10, y2: 12, x: 2 },
     ];
 
     const scales = {
-        y: d3.scaleLinear().domain([0, 20]).range([100, 0]),
+        y: d3.scaleLinear().domain([0, 30]).range([100, 0]),
         x: d3.scaleLinear().domain([0, 5]).range([0, 100]),
     };
 
     describe("using SVG", () => {
         it("should render correctly", async () => {
             const { asFragment } = await renderChart({
-                children: <Area x="x" y="y" />,
+                children: <StackedArea x="x" ys={["y", "y2"]} />,
                 data,
                 scales,
             });
@@ -45,7 +40,7 @@ describe("Area", () => {
         describe("should skip rendering if", () => {
             it("there is no x scale avaliable", async () => {
                 const { asFragment } = await renderChart({
-                    children: <Area x="x" y="y" />,
+                    children: <StackedArea x="x" ys={["y", "y2"]} />,
                     data,
                     scales: { y: scales.y },
                 });
@@ -55,7 +50,7 @@ describe("Area", () => {
 
             it("there is no y scale avaliable", async () => {
                 const { asFragment } = await renderChart({
-                    children: <Area x="x" y="y" />,
+                    children: <StackedArea x="x" ys={["y", "y2"]} />,
                     data,
                     scales: { x: scales.x },
                 });
@@ -71,7 +66,7 @@ describe("Area", () => {
                 render(
                     <Provider store={store}>
                         <svg>
-                            <Area x="x" y="y" />
+                            <StackedArea x="x" ys={["y", "y2"]} />
                         </svg>
                     </Provider>,
                 );
@@ -79,7 +74,7 @@ describe("Area", () => {
                 await wait(1);
 
                 store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["x"], scale: scales.x } });
-                store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["y"], scale: scales.y } });
+                store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["y", "y2"], scale: scales.y } });
                 store.dispatch({ type: "CHART.SET_DATA", payload: data });
                 store.dispatch({ type: "CHART.SET_DIMENSIONS", payload: { width: 200, height: 200 } });
 
@@ -97,8 +92,12 @@ describe("Area", () => {
                 expect(dispatchCalls).toEqual([
                     "EVENT.MOUSE_ENTER",
                     "EVENT.ADD_MARKER",
+                    "EVENT.ADD_MARKER",
                     "EVENT.ADD_DROPLINE",
                     "EVENT.ADD_DROPLINE",
+                    "EVENT.ADD_DROPLINE",
+                    "EVENT.ADD_DROPLINE",
+                    "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
@@ -112,7 +111,7 @@ describe("Area", () => {
             const { container } = await renderChart({
                 children: (
                     <VirtualCanvas>
-                        <Area x="x" y="y" useCanvas={true} />
+                        <StackedArea x="x" ys={["y", "y2"]} useCanvas={true} />
                     </VirtualCanvas>
                 ),
                 data,
@@ -136,7 +135,7 @@ describe("Area", () => {
                     <Provider store={store}>
                         <svg>
                             <VirtualCanvas>
-                                <Area x="x" y="y" useCanvas={true} />
+                                <StackedArea x="x" ys={["y", "y2"]} useCanvas={true} />
                             </VirtualCanvas>
                         </svg>
                     </Provider>,
@@ -145,7 +144,7 @@ describe("Area", () => {
                 await wait(1);
 
                 store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["x"], scale: scales.x } });
-                store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["y"], scale: scales.y } });
+                store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["y", "y2"], scale: scales.y } });
                 store.dispatch({ type: "CHART.SET_DATA", payload: data });
                 store.dispatch({ type: "CHART.SET_DIMENSIONS", payload: { width: 200, height: 200 } });
 
@@ -163,8 +162,12 @@ describe("Area", () => {
                 expect(dispatchCalls).toEqual([
                     "EVENT.MOUSE_ENTER",
                     "EVENT.ADD_MARKER",
+                    "EVENT.ADD_MARKER",
                     "EVENT.ADD_DROPLINE",
                     "EVENT.ADD_DROPLINE",
+                    "EVENT.ADD_DROPLINE",
+                    "EVENT.ADD_DROPLINE",
+                    "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
