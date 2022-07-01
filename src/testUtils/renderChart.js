@@ -12,10 +12,11 @@ import { themes } from "../themes";
  * @param  {Array} options.children     The set of React children
  * @param  {Array} options.data         The data for the chart
  * @param  {Object} options.scales      The keyed scales for the chart
+ * @param  {Object} options.store       Optional specific store to use
  * @return {Object}                     { asFragment, container }
  */
-export const renderChart = async ({ children, data, scales }) => {
-    const store = createMockStore({
+export const renderChart = async ({ children, data, scales, store }) => {
+    const mockStore = createMockStore({
         chart: {
             animationDuration: 0,
             dimensions: {
@@ -29,12 +30,12 @@ export const renderChart = async ({ children, data, scales }) => {
     });
 
     const { asFragment, container } = render(
-        <Provider store={store}>
+        <Provider store={store ?? mockStore}>
             <svg>{children}</svg>
         </Provider>,
     );
 
     await wait(1);
 
-    return { asFragment, container, store };
+    return { asFragment, container, store: store ?? mockStore };
 };
