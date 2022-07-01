@@ -1,7 +1,8 @@
 import React from "react";
 import { Provider } from "react-redux";
-
 import { render } from "@testing-library/react";
+
+import { createMockStore } from "../../../../testUtils";
 
 import { Title } from "./Title";
 import { getTransform } from "./getTransform";
@@ -11,19 +12,15 @@ describe("Title", () => {
     const height = 500;
     const margin = { left: 50, right: 60, top: 30, bottom: 40 };
 
-    const store = {
-        getState: () => ({
-            chart: {
-                dimensions: {
-                    width,
-                    height,
-                    margin,
-                },
+    const store = createMockStore({
+        chart: {
+            dimensions: {
+                width,
+                height,
+                margin,
             },
-        }),
-        dispatch: () => {},
-        subscribe: () => {},
-    };
+        },
+    });
 
     describe("getTransform", () => {
         describe("should return correct transform", () => {
