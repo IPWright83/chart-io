@@ -63,4 +63,69 @@ describe("eventSelectors", () => {
 
         expect(eventSelectors.markers(state)).toEqual([{ fill: "red", r1: 5, r2: 10, cx: 3, cy: 4 }]);
     });
+
+    describe("tooltip", () => {
+        it("show returns true if there are tooltip items", () => {
+            const state = {
+                event: {
+                    tooltip: {
+                        tooltipItems: [{ name: "A", value: 0 }],
+                    },
+                },
+            };
+
+            expect(eventSelectors.tooltip.show(state)).toBe(true);
+        });
+
+        it("show returns false if there are no tooltip items", () => {
+            const state = {
+                event: {
+                    tooltip: {
+                        tooltipItems: [],
+                    },
+                },
+            };
+
+            expect(eventSelectors.tooltip.show(state)).toBe(false);
+        });
+
+        it("color", () => {
+            const state = {
+                event: {
+                    tooltip: {
+                        tooltipItems: [{ name: "A", value: 0 }],
+                        color: "#FF0000",
+                    },
+                },
+            };
+
+            expect(eventSelectors.tooltip.color(state)).toBe("#FF0000");
+        });
+
+        it("items", () => {
+            const state = {
+                event: {
+                    tooltip: {
+                        tooltipItems: [{ name: "A", value: 0 }],
+                        color: "#FF0000",
+                    },
+                },
+            };
+
+            expect(eventSelectors.tooltip.items(state)).toEqual([{ name: "A", value: 0 }]);
+        });
+
+        it("position", () => {
+            const state = {
+                event: {
+                    tooltip: {
+                        tooltipItems: [{ name: "A", value: 0 }],
+                        position: { x: 5, y: 10 },
+                    },
+                },
+            };
+
+            expect(eventSelectors.tooltip.position(state)).toEqual({ x: 5, y: 10 });
+        });
+    });
 });

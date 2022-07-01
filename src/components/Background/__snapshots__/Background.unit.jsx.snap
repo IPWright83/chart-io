@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Background should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-background"
+    >
+      <rect
+        class="chart-it background"
+        height="330"
+        transform="translate(10, 30)"
+        width="770"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`Background should skip if there is no layer avaliable 1`] = `
+Object {
+  "current": null,
+}
+`;

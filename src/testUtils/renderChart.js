@@ -35,7 +35,7 @@ export const renderChart = async ({ children, data, scales, store }) => {
         </Provider>,
     );
 
-    await wait(1);
+    await wait(10);
 
     return { asFragment, container, store: store ?? mockStore };
 };

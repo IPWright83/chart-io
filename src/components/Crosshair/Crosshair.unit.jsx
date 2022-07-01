@@ -2,17 +2,22 @@ import React from "react";
 import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
 import { createMockStore } from "../../testUtils";
+import { themes } from "../../themes";
 
-import { Droplines } from ".";
-import { Droplines as DroplinesBase } from "./Droplines";
+import { Crosshair } from ".";
+import { Crosshair as CrosshairBase } from "./Crosshair";
 
-describe("Droplines", () => {
+describe("Crosshair", () => {
     const store = createMockStore({
+        chart: {
+            dimensions: {
+                width: 800,
+                height: 400,
+            },
+            theme: themes.light,
+        },
         event: {
-            droplines: [
-                { isHorizontal: true, color: "red", x1: 50, x2: 0, y1: 50, y2: 50 },
-                { isVertical: true, color: "red", x1: 50, x2: 50, y1: 50, y2: 0 },
-            ],
+            mouse: { x: 150, y: 200 },
         },
     });
 
@@ -20,7 +25,29 @@ describe("Droplines", () => {
         const { asFragment } = render(
             <Provider store={store}>
                 <svg>
-                    <Droplines />
+                    <Crosshair />
+                </svg>
+            </Provider>,
+        );
+
+        expect(asFragment()).toMatchSnapshot();
+    });
+
+    it("should render nothing if there is no mouse coordinate", async () => {
+        const store = createMockStore({
+            chart: {
+                dimensions: {
+                    width: 800,
+                    height: 400,
+                },
+                theme: themes.light,
+            },
+        });
+
+        const { asFragment } = render(
+            <Provider store={store}>
+                <svg>
+                    <Crosshair />
                 </svg>
             </Provider>,
         );
@@ -32,7 +59,7 @@ describe("Droplines", () => {
         const { asFragment } = render(
             <Provider store={store}>
                 <svg>
-                    <Droplines showHorizontal={false} />
+                    <Crosshair showHorizontal={false} />
                 </svg>
             </Provider>,
         );
@@ -44,7 +71,7 @@ describe("Droplines", () => {
         const { asFragment } = render(
             <Provider store={store}>
                 <svg>
-                    <Droplines showVertical={false} />
+                    <Crosshair showVertical={false} />
                 </svg>
             </Provider>,
         );
@@ -58,7 +85,7 @@ describe("Droplines", () => {
         render(
             <Provider store={store}>
                 <svg>
-                    <DroplinesBase layer={layer} />
+                    <CrosshairBase layer={layer} />
                 </svg>
             </Provider>,
         );

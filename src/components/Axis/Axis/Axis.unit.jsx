@@ -31,6 +31,10 @@ describe("Axis", () => {
     });
 
     describe("component", () => {
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
+
         it("renders a left axis", async () => {
             const { asFragment } = render(
                 <Provider store={store}>
@@ -79,14 +83,16 @@ describe("Axis", () => {
             expect(asFragment()).toMatchSnapshot();
         });
 
-        it("throws an error with no field", () => {
-            expect(() =>
+        it("throws an error with no field", async () => {
+            jest.spyOn(console, "error").mockImplementation((e) => e);
+
+            await expect(async () => {
                 render(
                     <svg>
                         <Axis title="x" position="left" fields={[]} showGridlines={false} />
                     </svg>,
-                ),
-            ).toThrow();
+                );
+            }).rejects.toThrow();
         });
     });
 

@@ -21,14 +21,16 @@ describe("Background", () => {
     it("should render correctly", async () => {
         const { asFragment } = render(
             <Provider store={store}>
-                <Background />
+                <svg>
+                    <Background />
+                </svg>
             </Provider>,
         );
 
         expect(asFragment()).toMatchSnapshot();
     });
 
-    fit("should trigger throttled mousemove event", async () => {
+    it("should trigger throttled mousemove event", async () => {
         const { container } = render(
             <Provider store={store}>
                 <svg>
