@@ -7,11 +7,11 @@
  * @return {Object}             The tooltip position style object
  */
 export const getTooltipPosition = (mouseEvent, width, height, offset) => {
-    const { x, y } = mouseEvent;
-
     if (!mouseEvent) {
         return { x: 0, y: 0 };
     }
+
+    const { x, y } = mouseEvent;
 
     // Left means we're positioning the left most edge
     // of the tooltip. Normally on the right hand side of

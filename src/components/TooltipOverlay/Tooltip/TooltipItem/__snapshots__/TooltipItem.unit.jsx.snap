@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TooltipItem should render correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="chart-it tooltip-item"
+  >
+    <div
+      class="chart-it indicator-circle"
+      style="background: red;"
+    />
+    <div
+      class="chart-it tooltip-values"
+    >
+      <span
+        class="chart-it tooltip-series-name"
+      >
+        Series1:
+      </span>
+      <span
+        class="chart-it tooltip-series-value"
+      >
+        5
+      </span>
+    </div>
+  </div>
+</DocumentFragment>
+`;

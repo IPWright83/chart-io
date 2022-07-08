@@ -1,2 +1,2 @@
 export const PROGRESSIVE_RENDER_THRESHOLD = 5000;
-export const MOUSE_MOVE_THROTTLE = 10;
+export const MOUSE_MOVE_THROTTLE = 50;

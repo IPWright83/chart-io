@@ -1,6 +1,7 @@
 import { areValuesUnique } from "./areValuesUnique";
 import { isNullOrUndefined } from "./isNullOrUndefined";
 import { getXYFromTransform } from "./getXYFromTransform";
+import { linkStores } from "./linkStores";
 
 describe("utils", () => {
     describe("areValuesUnique", () => {
@@ -56,6 +57,81 @@ describe("utils", () => {
             it("when no translation in the transform", () => {
                 expect(getXYFromTransform(null)).toEqual({ x: 0, y: 0 });
             });
+        });
+    });
+
+    describe("linkStores", () => {
+        it("correctly dispatches event from store 1 to other stores", () => {
+            const dispatch1 = jest.fn();
+            const dispatch2 = jest.fn();
+            const dispatch3 = jest.fn();
+
+            const store1 = { dispatch: dispatch1 };
+            const store2 = { dispatch: dispatch2 };
+            const store3 = { dispatch: dispatch3 };
+
+            linkStores([store1, store2, store3]);
+
+            const action = { type: "EVENT.MOUSE_MOVE" };
+            store1.dispatch(action);
+
+            expect(dispatch1).toHaveBeenCalledWith(action);
+            expect(dispatch2).toHaveBeenCalledWith(action);
+            expect(dispatch3).toHaveBeenCalledWith(action);
+        });
+
+        it("correctly dispatches event from store 2 to other stores", () => {
+            const dispatch1 = jest.fn();
+            const dispatch2 = jest.fn();
+            const dispatch3 = jest.fn();
+
+            const store1 = { dispatch: dispatch1 };
+            const store2 = { dispatch: dispatch2 };
+            const store3 = { dispatch: dispatch3 };
+
+            linkStores([store1, store2, store3]);
+
+            const action = { type: "EVENT.MOUSE_MOVE" };
+            store2.dispatch(action);
+
+            expect(dispatch1).toHaveBeenCalledWith(action);
+            expect(dispatch2).toHaveBeenCalledWith(action);
+            expect(dispatch3).toHaveBeenCalledWith(action);
+        });
+
+        it("correctly ignores an event based on the filter", () => {
+            const dispatch1 = jest.fn();
+            const dispatch2 = jest.fn();
+            const dispatch3 = jest.fn();
+
+            const store1 = { dispatch: dispatch1 };
+            const store2 = { dispatch: dispatch2 };
+            const store3 = { dispatch: dispatch3 };
+
+            linkStores([store1, store2, store3], "FOO_EVENTS");
+
+            const action = { type: "EVENT.MOUSE_MOVE" };
+            store1.dispatch(action);
+
+            expect(dispatch1).toHaveBeenCalledWith(action);
+            expect(dispatch2).not.toHaveBeenCalled();
+            expect(dispatch3).not.toHaveBeenCalled();
+        });
+
+        it("throws an error if trying to initialise a 2nd time", () => {
+            const dispatch1 = jest.fn();
+            const dispatch2 = jest.fn();
+            const dispatch3 = jest.fn();
+
+            const store1 = { dispatch: dispatch1 };
+            const store2 = { dispatch: dispatch2 };
+            const store3 = { dispatch: dispatch3 };
+
+            linkStores([store1, store2, store3]);
+
+            expect(() => {
+                linkStores([store1, store2, store3]);
+            }).toThrow(new Error("This function can strictly only be called once during initialisation"));
         });
     });
 });
