@@ -1,0 +1,189 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Columns Grouped using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot grouped-column"
+    >
+      <g>
+        <rect
+          class="column"
+          height="0"
+          style="fill: #99c1dc; stroke: #fff; opacity: 0.7;"
+          width="23"
+          x="2"
+          y="100"
+        />
+        <rect
+          class="column"
+          height="0"
+          style="fill: #fc998e; stroke: #fff; opacity: 0.7;"
+          width="23"
+          x="26"
+          y="100"
+        />
+      </g>
+      <g>
+        <rect
+          class="column"
+          height="0"
+          style="fill: #99c1dc; stroke: #fff; opacity: 0.7;"
+          width="23"
+          x="52"
+          y="100"
+        />
+        <rect
+          class="column"
+          height="0"
+          style="fill: #fc998e; stroke: #fff; opacity: 0.7;"
+          width="23"
+          x="76"
+          y="100"
+        />
+      </g>
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`Columns Stacked using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot stacked-column"
+    >
+      <g>
+        <rect
+          class="column"
+          height="0"
+          style="fill: #99c1dc; stroke: #fff; opacity: 0.7;"
+          width="50"
+          x="0"
+          y="100"
+        />
+        <rect
+          class="column"
+          height="0"
+          style="fill: #99c1dc; stroke: #fff; opacity: 0.7;"
+          width="50"
+          x="50"
+          y="100"
+        />
+      </g>
+      <g>
+        <rect
+          class="column"
+          height="0"
+          style="fill: #fc998e; stroke: #fff; opacity: 0.7;"
+          width="50"
+          x="0"
+          y="100"
+        />
+        <rect
+          class="column"
+          height="0"
+          style="fill: #fc998e; stroke: #fff; opacity: 0.7;"
+          width="50"
+          x="50"
+          y="100"
+        />
+      </g>
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`Columns Stacked using SVG should render correctly 2`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot stacked-column"
+    >
+      <g>
+        <rect
+          class="column"
+          height="0"
+          style="fill: #99c1dc; stroke: #fff; opacity: 0.7;"
+          width="50"
+          x="0"
+          y="100"
+        />
+        <rect
+          class="column"
+          height="0"
+          style="fill: #99c1dc; stroke: #fff; opacity: 0.7;"
+          width="50"
+          x="50"
+          y="100"
+        />
+      </g>
+      <g>
+        <rect
+          class="column"
+          height="0"
+          style="fill: #fc998e; stroke: #fff; opacity: 0.7;"
+          width="50"
+          x="0"
+          y="100"
+        />
+        <rect
+          class="column"
+          height="0"
+          style="fill: #fc998e; stroke: #fff; opacity: 0.7;"
+          width="50"
+          x="50"
+          y="100"
+        />
+      </g>
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`Stacked Columns using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot stacked-column"
+    >
+      <g>
+        <rect
+          class="column"
+          height="0"
+          style="fill: #99c1dc; stroke: #fff; opacity: 0.7;"
+          width="50"
+          x="0"
+          y="100"
+        />
+        <rect
+          class="column"
+          height="0"
+          style="fill: #99c1dc; stroke: #fff; opacity: 0.7;"
+          width="50"
+          x="50"
+          y="100"
+        />
+      </g>
+      <g>
+        <rect
+          class="column"
+          height="0"
+          style="fill: #fc998e; stroke: #fff; opacity: 0.7;"
+          width="50"
+          x="0"
+          y="100"
+        />
+        <rect
+          class="column"
+          height="0"
+          style="fill: #fc998e; stroke: #fff; opacity: 0.7;"
+          width="50"
+          x="50"
+          y="100"
+        />
+      </g>
+    </g>
+  </svg>
+</DocumentFragment>
+`;
