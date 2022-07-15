@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TooltipOverlay should apply a custom offset correctly 1`] = `
+<DocumentFragment>
+  <g
+    class="g-tooltip-overlay"
+  />
+</DocumentFragment>
+`;
+
+exports[`TooltipOverlay should render correctly 1`] = `
+<DocumentFragment>
+  <g
+    class="g-tooltip-overlay"
+  />
+</DocumentFragment>
+`;
+
+exports[`TooltipOverlay should render nothing if there are no items 1`] = `
+<DocumentFragment>
+  <g
+    class="g-tooltip-overlay"
+  />
+</DocumentFragment>
+`;
