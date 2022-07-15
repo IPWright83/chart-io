@@ -10,14 +10,14 @@ exports[`Scatter using SVG should render correctly 1`] = `
         class="scatter-point"
         cx="25"
         cy="25"
-        r="0"
+        r="5"
         style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
       />
       <circle
         class="scatter-point"
         cx="50"
         cy="50"
-        r="0"
+        r="5"
         style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
       />
     </g>

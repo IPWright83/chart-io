@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Line using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-undefined"
+    >
+      <path
+        class="line"
+        d="M0,100L20,75L40,50                 "
+        style="fill: none; pointer-events: none; stroke: rgb(153, 193, 220); stroke-width: 2px;"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`Line using SVG should skip rendering if there is no x scale avaliable 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-undefined"
+    />
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`Line using SVG should skip rendering if there is no y scale avaliable 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-undefined"
+    />
+  </svg>
+</DocumentFragment>
+`;

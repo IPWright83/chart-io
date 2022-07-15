@@ -2,10 +2,11 @@ import * as d3 from "d3";
 import React from "react";
 import { Provider } from "react-redux";
 import { themes } from "../../../../themes";
+import { createMockStore } from "../../../../testUtils";
 
 import { render } from "@testing-library/react";
 
-import { Gridlines } from "./Gridlines";
+import { Gridlines } from ".";
 import { getTickSize } from "./getTickSize";
 
 describe("Gridlines", () => {
@@ -13,20 +14,16 @@ describe("Gridlines", () => {
     const height = 500;
     const margin = { left: 10, right: 20, top: 30, bottom: 40 };
 
-    const store = {
-        getState: () => ({
-            chart: {
-                theme: themes.light,
-                dimensions: {
-                    width,
-                    height,
-                    margin,
-                },
+    const store = createMockStore({
+        chart: {
+            theme: themes.light,
+            dimensions: {
+                width,
+                height,
+                margin,
             },
-        }),
-        dispatch: () => {},
-        subscribe: () => {},
-    };
+        },
+    });
 
     describe("getTickSize", () => {
         describe("should return full width", () => {
@@ -63,36 +60,37 @@ describe("Gridlines", () => {
 
     describe("component", () => {
         it("renders horizontal gridlines", async () => {
-            const layer = { current: document.createElement("custom") };
-
             const scale = d3
                 .scaleLinear()
                 .domain([0, 100])
                 .range([0, width - margin.left - margin.right]);
 
-            render(
+            const { asFragment } = render(
                 <Provider store={store}>
-                    <Gridlines layer={layer} position="bottom" scale={scale} />
+                    <svg>
+                        <Gridlines position="bottom" scale={scale} />
+                    </svg>
                 </Provider>,
             );
 
-            expect(layer).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("renders vertical gridlines", async () => {
-            const layer = { current: document.createElement("custom") };
             const scale = d3
                 .scaleLinear()
                 .domain([0, 10])
                 .range([0, height - margin.top - margin.bottom]);
 
-            render(
+            const { asFragment } = render(
                 <Provider store={store}>
-                    <Gridlines layer={layer} position="left" scale={scale} />
+                    <svg>
+                        <Gridlines position="left" scale={scale} />
+                    </svg>
                 </Provider>,
             );
 
-            expect(layer).toMatchSnapshot();
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 });

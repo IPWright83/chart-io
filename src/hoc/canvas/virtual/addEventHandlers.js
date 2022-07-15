@@ -1,7 +1,7 @@
 import { throttle } from "lodash";
 import { eventActions } from "../../../store";
 
-export const MOUSE_MOVE_THROTTLE = 10;
+import { MOUSE_MOVE_THROTTLE } from "../../../constants";
 
 /**
  * Fire the Click event if it exists on the node

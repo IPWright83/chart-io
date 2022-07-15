@@ -1,31 +1,28 @@
 import React from "react";
 import { Provider } from "react-redux";
-
 import { render } from "@testing-library/react";
+import { createMockStore } from "../../testUtils";
 
-import { Markers } from "./Markers";
+import { Markers } from ".";
+import { Markers as MarkersBase } from "./Markers";
 
 describe("Markers", () => {
-    const store = {
-        getState: () => ({
-            event: {
-                markers: [{ fill: "red", stroke: "blue", r1: 5, r2: 5, cx: 50, cy: 50 }],
-            },
-        }),
-        dispatch: () => {},
-        subscribe: () => {},
-    };
+    const store = createMockStore({
+        event: {
+            markers: [{ fill: "red", stroke: "blue", r1: 5, r2: 5, cx: 50, cy: 50 }],
+        },
+    });
 
     it("should render correctly", () => {
-        const layer = { current: document.createElement("custom") };
-
-        render(
+        const { asFragment } = render(
             <Provider store={store}>
-                <Markers layer={layer} />
+                <svg>
+                    <Markers />
+                </svg>
             </Provider>,
         );
 
-        expect(layer).toMatchSnapshot();
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should skip if there is no layer avaliable", () => {
@@ -33,7 +30,9 @@ describe("Markers", () => {
 
         render(
             <Provider store={store}>
-                <Markers layer={layer} />
+                <svg>
+                    <MarkersBase layer={layer} />
+                </svg>
             </Provider>,
         );
 

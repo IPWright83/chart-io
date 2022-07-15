@@ -1,58 +1,55 @@
 import React from "react";
 import { Provider } from "react-redux";
-
 import { render } from "@testing-library/react";
+import { createMockStore } from "../../testUtils";
 
-import { Droplines } from "./Droplines";
+import { Droplines } from ".";
+import { Droplines as DroplinesBase } from "./Droplines";
 
 describe("Droplines", () => {
-    const store = {
-        getState: () => ({
-            event: {
-                droplines: [
-                    { isHorizontal: true, color: "red", x1: 50, x2: 0, y1: 50, y2: 50 },
-                    { isVertical: true, color: "red", x1: 50, x2: 50, y1: 50, y2: 0 },
-                ],
-            },
-        }),
-        dispatch: () => {},
-        subscribe: () => {},
-    };
+    const store = createMockStore({
+        event: {
+            droplines: [
+                { isHorizontal: true, color: "red", x1: 50, x2: 0, y1: 50, y2: 50 },
+                { isVertical: true, color: "red", x1: 50, x2: 50, y1: 50, y2: 0 },
+            ],
+        },
+    });
 
     it("should render correctly", async () => {
-        const layer = { current: document.createElement("custom") };
-
-        render(
+        const { asFragment } = render(
             <Provider store={store}>
-                <Droplines layer={layer} />
+                <svg>
+                    <Droplines />
+                </svg>
             </Provider>,
         );
 
-        expect(layer.current).toMatchSnapshot();
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render just vertical lines correctly", () => {
-        const layer = { current: document.createElement("custom") };
-
-        render(
+        const { asFragment } = render(
             <Provider store={store}>
-                <Droplines layer={layer} showHorizontal={false} />
+                <svg>
+                    <Droplines showHorizontal={false} />
+                </svg>
             </Provider>,
         );
 
-        expect(layer).toMatchSnapshot();
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render just horizontal lines correctly", () => {
-        const layer = { current: document.createElement("custom") };
-
-        render(
+        const { asFragment } = render(
             <Provider store={store}>
-                <Droplines layer={layer} showVertical={false} />
+                <svg>
+                    <Droplines showVertical={false} />
+                </svg>
             </Provider>,
         );
 
-        expect(layer).toMatchSnapshot();
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should skip if there is no layer avaliable", () => {
@@ -60,7 +57,9 @@ describe("Droplines", () => {
 
         render(
             <Provider store={store}>
-                <Droplines layer={layer} />
+                <svg>
+                    <DroplinesBase layer={layer} />
+                </svg>
             </Provider>,
         );
 

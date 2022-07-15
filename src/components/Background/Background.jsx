@@ -7,6 +7,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { chartSelectors, eventActions } from "../../store";
+import { MOUSE_MOVE_THROTTLE } from "../../constants";
 
 /**
  * Creates a background layer which is used to capture mouse events
@@ -28,7 +29,7 @@ const Background = ({ layer }) => {
             (e) => {
                 dispatch(eventActions.mouseMove(e));
             },
-            25,
+            MOUSE_MOVE_THROTTLE,
             { leading: true },
         );
 
