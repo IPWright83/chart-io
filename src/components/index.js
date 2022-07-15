@@ -3,7 +3,7 @@ export * from "./Axis";
 export * from "./Chart";
 export * from "./VirtualCanvas";
 export * from "./Scale";
-export * from "./Background";
+export * from "./EventReceiver";
 export * from "./Droplines";
 export * from "./Markers";
 export * from "./Legend";

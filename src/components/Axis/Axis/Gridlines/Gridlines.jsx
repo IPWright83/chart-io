@@ -12,8 +12,8 @@ import { getD3Axis } from "../getD3Axis";
 import { chartSelectors } from "../../../../store";
 
 /**
- * Represents an Axis component
- * @return {ReactElement}  The Axis component
+ * Represents an Gridlines component
+ * @return {ReactElement}  The Gridlines component
  */
 const Gridlines = ({ layer, position, scale, tickPadding, ticks }) => {
     const width = useSelector((s) => chartSelectors.dimensions.width(s));

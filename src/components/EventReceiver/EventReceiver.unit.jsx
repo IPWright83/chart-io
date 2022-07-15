@@ -4,10 +4,10 @@ import { render, fireEvent } from "@testing-library/react";
 import { createMockStore, FakeMouseEvent, wait } from "../../testUtils";
 import { MOUSE_MOVE_THROTTLE } from "../../constants";
 
-import { Background } from ".";
-import { Background as BackgroundBase } from "./Background";
+import { EventReceiver } from ".";
+import { EventReceiver as EventReceiverBase } from "./EventReceiver";
 
-describe("Background", () => {
+describe("EventReceiver", () => {
     const store = createMockStore({
         chart: {
             dimensions: {
@@ -22,7 +22,7 @@ describe("Background", () => {
         const { asFragment } = render(
             <Provider store={store}>
                 <svg>
-                    <Background />
+                    <EventReceiver />
                 </svg>
             </Provider>,
         );
@@ -34,7 +34,7 @@ describe("Background", () => {
         const { container } = render(
             <Provider store={store}>
                 <svg>
-                    <Background />
+                    <EventReceiver />
                 </svg>
             </Provider>,
         );
@@ -58,7 +58,7 @@ describe("Background", () => {
         render(
             <Provider store={store}>
                 <svg>
-                    <BackgroundBase layer={layer} />
+                    <EventReceiver layer={layer} />
                 </svg>
             </Provider>,
         );

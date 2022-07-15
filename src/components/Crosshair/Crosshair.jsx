@@ -9,7 +9,7 @@ import "./Crosshair.css";
 
 /**
  * This component renders the droplines that are triggered from various plots
- * @return {ReactElement}  The Background component
+ * @return {ReactElement}  The Crosshair component
  */
 const Crosshair = ({ showVertical = true, showHorizontal = true }) => {
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
