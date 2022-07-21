@@ -1,7 +1,4 @@
-import * as d3 from "d3";
-import React, { useRef, useEffect } from "react";
-import { useSelector } from "react-redux";
-
+import React from "react";
 import { Tooltip } from "./Tooltip";
 
 export default {

@@ -19,7 +19,8 @@ module.exports = {
     setupFiles: ["react-app-polyfill/jsdom"],
     setupFilesAfterEnv: ["<rootDir>/config/jest/setupTests.js"],
     testEnvironment: "jsdom",
-    testMatch: ["**/*.unit.js", "**/*.unit.jsx"],
+    //testMatch: ["**/*.unit.js", "**/*.unit.jsx"],
+    testMatch: ["**/*.unit.js"],
     transformIgnorePatterns: [
         "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
         "^.+\\.module\\.(css|sass|scss)$",

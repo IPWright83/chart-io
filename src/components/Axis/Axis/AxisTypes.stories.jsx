@@ -1,7 +1,6 @@
 import React from "react";
 
 import { XAxis } from "../XAxis";
-import { YAxis } from "../YAxis";
 import { Axis } from "./Axis";
 import { Chart } from "../../Chart";
 
