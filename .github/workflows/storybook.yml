@@ -14,9 +14,11 @@ jobs:
       # Setup .npmrc file to publish to npm
       - uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
+          node-version: 16
           registry-url: "https://registry.npmjs.org"
-      - run: npm ci
-      - run: npm run deploy-storybook -- --ci
+      - uses: pnpm/action-setup@v2.2.2
+      - name: pnpm Install
+        run: pnpm install
+      - run: pnpm run deploy-storybook -- --ci
         env:
           GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
