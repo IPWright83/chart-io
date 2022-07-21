@@ -12,7 +12,7 @@ module.exports = {
     moduleFileExtensions: ["web.js", "js", "web.ts", "ts", "web.tsx", "tsx", "json", "web.jsx", "jsx", "node"],
     moduleNameMapper: {
         "^react-native$": "react-native-web",
-        "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
+        "\\.(css|less)$": "identity-obj-proxy",
     },
     resetMocks: true,
     roots: ["<rootDir>/src"],

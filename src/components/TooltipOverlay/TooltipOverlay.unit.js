@@ -21,7 +21,9 @@ describe("TooltipOverlay", () => {
     it("should render correctly", async () => {
         const { asFragment } = render(
             <Provider store={store}>
-                <TooltipOverlay />
+                <svg>
+                    <TooltipOverlay />
+                </svg>
             </Provider>,
         );
 
@@ -31,7 +33,9 @@ describe("TooltipOverlay", () => {
     it("should apply a custom offset correctly", async () => {
         const { asFragment } = render(
             <Provider store={store}>
-                <TooltipOverlay offset={0} />
+                <svg>
+                    <TooltipOverlay offset={0} />
+                </svg>
             </Provider>,
         );
 
@@ -49,7 +53,9 @@ describe("TooltipOverlay", () => {
 
         const { asFragment } = render(
             <Provider store={store}>
-                <TooltipOverlay offset={0} />
+                <svg>
+                    <TooltipOverlay offset={0} />
+                </svg>
             </Provider>,
         );
 
