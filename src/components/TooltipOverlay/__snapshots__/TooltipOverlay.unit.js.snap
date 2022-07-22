@@ -2,24 +2,30 @@
 
 exports[`TooltipOverlay should apply a custom offset correctly 1`] = `
 <DocumentFragment>
-  <g
-    class="g-tooltip-overlay"
-  />
+  <svg>
+    <g
+      class="g-tooltip-overlay"
+    />
+  </svg>
 </DocumentFragment>
 `;
 
 exports[`TooltipOverlay should render correctly 1`] = `
 <DocumentFragment>
-  <g
-    class="g-tooltip-overlay"
-  />
+  <svg>
+    <g
+      class="g-tooltip-overlay"
+    />
+  </svg>
 </DocumentFragment>
 `;
 
 exports[`TooltipOverlay should render nothing if there are no items 1`] = `
 <DocumentFragment>
-  <g
-    class="g-tooltip-overlay"
-  />
+  <svg>
+    <g
+      class="g-tooltip-overlay"
+    />
+  </svg>
 </DocumentFragment>
 `;
