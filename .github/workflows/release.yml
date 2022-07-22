@@ -1,12 +1,23 @@
 ---
-name: Publish to NPM
+name: Publish Storybook to Github Pages
 
 on:
-  release:
-    types: [created]
+  push:
+    tags:
+      - "v*"
+
 jobs:
-  npm_publish:
+  auto_release:
     runs-on: ubuntu-latest
+    steps:
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: false
+
+  pnpm_publish:
+    runs-on: ubuntu-latest
+    needs: [auto_release]
     steps:
       - uses: actions/checkout@v2
       # Setup .npmrc file to publish to npm

@@ -1,10 +1,10 @@
 ---
-name: Pull Requests
+name: Publish to NPM
 
 on:
-  pull_request:
+  push:
     branches:
-      - master
+      - "master"
 
 jobs:
   lint:
@@ -49,10 +49,44 @@ jobs:
       - name: Run Unit Tests
         run: pnpm test
 
-  chromatic:
+  version_bump:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, 'ci skip') && github.event.pull_request.draft == false"
     needs: [lint, audit, unit]
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: "Automated Version Bump"
+        uses: "phips28/gh-action-bump-version@master"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          commit-message: "CI: bump version to {{version}} [skip ci]"
+
+  deploy_storybook:
+    needs: [lint, audit, unit]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: "https://registry.npmjs.org"
+      - uses: pnpm/action-setup@v2.2.2
+      - name: pnpm Install
+        run: pnpm install
+      - run: pnpm run deploy-storybook -- --ci
+        env:
+          GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
+
+  chromatic:
+    needs: [lint, audit, unit]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
@@ -64,4 +98,4 @@ jobs:
       - name: pnpm Install
         run: pnpm install
       - name: Chromatic
-        run: npx chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }} --exit-zero-on-changes
+        run: npx chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }} --exit-zero-on-changes --auto-accept-changes
