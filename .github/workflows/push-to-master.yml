@@ -1,12 +1,24 @@
 ---
-name: Publish Storybook to Github Pages
+name: Publish to NPM
 
 on:
-  release:
-    types: [created]
-  workflow_dispatch:
+  push:
+    branches:
+      - "master"
 
 jobs:
+  auto_tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: "https://registry.npmjs.org"
+      - uses: pnpm/action-setup@v2.2.2
+      - uses: phish108/autotag-action@1.1.51
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN}}
+
   deploy_storybook:
     runs-on: ubuntu-latest
     steps:
