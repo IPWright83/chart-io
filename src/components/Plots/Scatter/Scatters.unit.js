@@ -28,6 +28,8 @@ describe("Scatters", () => {
                 scales,
             });
 
+            await wait(100);
+
             expect(asFragment()).toMatchSnapshot();
         });
     });
