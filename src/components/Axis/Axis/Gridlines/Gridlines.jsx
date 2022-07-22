@@ -49,6 +49,10 @@ const Gridlines = ({ layer, position, scale, tickPadding, ticks }) => {
 
 Gridlines.propTypes = {
     /**
+     * Internal parameter - the SVG useRef layer
+     */
+    layer: PropTypes.object,
+    /**
      * The position of the axis [top, bottom, left, right]
      * @type {String}
      */

@@ -5,6 +5,12 @@ const light = {
         strokeWidth: 1,
     },
 
+    droplines: {
+        strokeDasharray: 4,
+        strokeOpacity: 1,
+        strokeWidth: 2,
+    },
+
     background: "#ffffff",
 
     crosshair: {
@@ -43,6 +49,12 @@ const dark = {
         stroke: "#cccccc",
         strokeOpacity: 0.8,
         strokeWidth: 1,
+    },
+
+    droplines: {
+        strokeDasharray: 4,
+        strokeOpacity: 1,
+        strokeWidth: 2,
     },
 
     background: "#333333",

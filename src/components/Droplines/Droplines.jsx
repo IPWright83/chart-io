@@ -1,5 +1,3 @@
-import "./Droplines.css";
-
 import * as d3 from "d3";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
@@ -13,6 +11,7 @@ import { chartSelectors, eventSelectors } from "../../store";
  */
 const Droplines = ({ layer, showVertical = true, showHorizontal = true }) => {
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
+    const theme = useSelector((s) => chartSelectors.theme(s));
     const droplines = useSelector((s) => eventSelectors.droplines(s)).filter(
         (dl) => (dl.isVertical && showVertical) || (dl.isHorizontal && showHorizontal),
     );
@@ -32,6 +31,9 @@ const Droplines = ({ layer, showVertical = true, showHorizontal = true }) => {
             .append("line")
             .attr("class", "chart-it dropline")
             .style("point-events", "none")
+            .style("stroke-dasharray", theme.droplines.strokeDasharray)
+            .style("stroke-opacity", theme.droplines.strokeOpacity)
+            .style("stroke-width", theme.droplines.strokeWidth)
             .style("stroke", (d) => d.color)
             .attr("x1", (d) => d.x1)
             .attr("x2", (d) => d.x1)

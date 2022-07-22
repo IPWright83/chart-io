@@ -10,3 +10,16 @@ export const createMockStore = (state) => {
         subscribe: jest.fn(),
     };
 };
+
+/**
+ * Creates a mock Redux store for Storybook
+ * @param  {Object} state     The initial state of the store
+ * @return {Object}           A mock store
+ */
+export const createMockStorybookStore = (state) => {
+    return {
+        getState: () => state,
+        dispatch: () => {},
+        subscribe: () => {},
+    };
+};
