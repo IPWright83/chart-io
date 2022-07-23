@@ -1,6 +1,6 @@
 {
   "name": "@chart-it/react-d3",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "packageManager": "pnpm@7.5.2",
   "description": "chart-it is a react-d3 charting library",
   "repository": "git@github.com:IPWright83/chart-it.git",
