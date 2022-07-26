@@ -63,7 +63,7 @@ jobs:
       - name: "Automated Version Bump"
         uses: "phips28/gh-action-bump-version@master"
         env:
-          GITHUB_TOKEN: ${{ secrets.deploy_key }}
+          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
         with:
           commit-message: "CI: bump version to {{version}} [skip ci]"
       - name: 'Output Step'
