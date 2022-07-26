@@ -64,7 +64,6 @@ jobs:
         uses: "phips28/gh-action-bump-version@master"
         with:
           ssh-key: "${{ secrets.deploy_key }}"
-        with:
           commit-message: "CI: bump version to {{version}} [skip ci]"
       - name: 'Output Step'
         env:
