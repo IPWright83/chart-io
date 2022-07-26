@@ -4,7 +4,7 @@ name: Publish Storybook to Github Pages
 on:
   push:
     tags:
-      - "v*"
+      - "*"
 
 jobs:
   auto_release:
