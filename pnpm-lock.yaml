@@ -1,86 +1,163 @@
 lockfileVersion: 5.4
 
-specifiers:
-  '@storybook/addon-actions': ^6.5.9
-  '@storybook/addon-essentials': ^6.5.9
-  '@storybook/addon-interactions': ^6.5.9
-  '@storybook/addon-links': ^6.5.9
-  '@storybook/builder-webpack5': ^6.5.9
-  '@storybook/manager-webpack5': ^6.5.9
-  '@storybook/node-logger': ^6.5.9
-  '@storybook/preset-create-react-app': ^4.1.2
-  '@storybook/react': ^6.5.9
-  '@storybook/storybook-deployer': ^2.8.12
-  '@storybook/testing-library': ^0.0.13
-  '@testing-library/jest-dom': ^5.16.4
-  '@testing-library/react': ^13.3.0
-  '@testing-library/user-event': ^13.5.0
-  babel-jest: ^28.1.3
-  babel-plugin-named-exports-order: ^0.0.2
-  canvas: ^2.9.3
-  chromatic: ^6.7.0
-  crypto: ^1.0.1
-  d3: ^6.2.0
-  d3-interpolate-path: ^2.2.3
-  identity-obj-proxy: ^3.0.0
-  jest: ^28.1.3
-  jest-environment-jsdom: ^28.1.3
-  jest-image-snapshot: ^5.1.0
-  lodash: ^4.17.21
-  prop-types: ^15.8.1
-  react: ^18.2.0
-  react-dom: ^18.2.0
-  react-redux: ^8.0.2
-  react-scripts: 5.0.1
-  react-test-renderer: ^18.2.0
-  redux: ^4.2.0
-  redux-devtools-extension: ^2.13.8
-  redux-thunk: ^2.4.1
-  rollup: ^2.77.2
-  web-vitals: ^2.1.4
-  webpack: '5'
+importers:
 
-dependencies:
-  d3: 6.7.0
-  d3-interpolate-path: 2.2.3
-  lodash: 4.17.21
+  .:
+    specifiers:
+      '@storybook/addon-actions': ^6.5.9
+      '@storybook/addon-essentials': ^6.5.9
+      '@storybook/addon-interactions': ^6.5.9
+      '@storybook/addon-links': ^6.5.9
+      '@storybook/builder-webpack5': ^6.5.9
+      '@storybook/manager-webpack5': ^6.5.9
+      '@storybook/node-logger': ^6.5.9
+      '@storybook/preset-create-react-app': ^4.1.2
+      '@storybook/react': ^6.5.9
+      '@storybook/storybook-deployer': ^2.8.12
+      '@storybook/testing-library': ^0.0.13
+      '@testing-library/jest-dom': ^5.16.4
+      '@testing-library/react': ^13.3.0
+      '@testing-library/user-event': ^13.5.0
+      babel-jest: ^28.1.3
+      babel-plugin-named-exports-order: ^0.0.2
+      canvas: ^2.9.3
+      chromatic: ^6.7.0
+      crypto: ^1.0.1
+      identity-obj-proxy: ^3.0.0
+      jest: ^28.1.3
+      jest-environment-jsdom: ^28.1.3
+      jest-image-snapshot: ^5.1.0
+      prop-types: ^15.8.1
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      react-redux: ^8.0.2
+      react-scripts: 5.0.1
+      react-test-renderer: ^18.2.0
+      redux: ^4.2.0
+      redux-devtools-extension: ^2.13.8
+      redux-thunk: ^2.4.1
+      rollup: ^2.77.2
+      turbo: ^1.3.4
+      web-vitals: ^2.1.4
+      webpack: '5'
+    devDependencies:
+      '@storybook/addon-actions': 6.5.9_biqbaboplfbrettd7655fr4n2y
+      '@storybook/addon-essentials': 6.5.9_cnty5as3esjm6p6nkro7caw4wu
+      '@storybook/addon-interactions': 6.5.9_biqbaboplfbrettd7655fr4n2y
+      '@storybook/addon-links': 6.5.9_biqbaboplfbrettd7655fr4n2y
+      '@storybook/builder-webpack5': 6.5.9_biqbaboplfbrettd7655fr4n2y
+      '@storybook/manager-webpack5': 6.5.9_biqbaboplfbrettd7655fr4n2y
+      '@storybook/node-logger': 6.5.9
+      '@storybook/preset-create-react-app': 4.1.2_3ugfc7mfdtzaiuayvb64wjihl4
+      '@storybook/react': 6.5.9_77qya4viz6n5uqluzf7gq77ukm
+      '@storybook/storybook-deployer': 2.8.12
+      '@storybook/testing-library': 0.0.13_biqbaboplfbrettd7655fr4n2y
+      '@testing-library/jest-dom': 5.16.4
+      '@testing-library/react': 13.3.0_biqbaboplfbrettd7655fr4n2y
+      '@testing-library/user-event': 13.5.0
+      babel-jest: 28.1.3
+      babel-plugin-named-exports-order: 0.0.2
+      canvas: 2.9.3
+      chromatic: 6.7.0
+      crypto: 1.0.1
+      identity-obj-proxy: 3.0.0
+      jest: 28.1.3
+      jest-environment-jsdom: 28.1.3_canvas@2.9.3
+      jest-image-snapshot: 5.1.0_jest@28.1.3
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-redux: 8.0.2_e42enmjmqb4imi3q3iaq2rrebm
+      react-scripts: 5.0.1_canvas@2.9.3+react@18.2.0
+      react-test-renderer: 18.2.0_react@18.2.0
+      redux: 4.2.0
+      redux-devtools-extension: 2.13.9_redux@4.2.0
+      redux-thunk: 2.4.1_redux@4.2.0
+      rollup: 2.77.2
+      turbo: 1.3.4
+      web-vitals: 2.1.4
+      webpack: 5.73.0
 
-devDependencies:
-  '@storybook/addon-actions': 6.5.9_biqbaboplfbrettd7655fr4n2y
-  '@storybook/addon-essentials': 6.5.9_cnty5as3esjm6p6nkro7caw4wu
-  '@storybook/addon-interactions': 6.5.9_biqbaboplfbrettd7655fr4n2y
-  '@storybook/addon-links': 6.5.9_biqbaboplfbrettd7655fr4n2y
-  '@storybook/builder-webpack5': 6.5.9_biqbaboplfbrettd7655fr4n2y
-  '@storybook/manager-webpack5': 6.5.9_biqbaboplfbrettd7655fr4n2y
-  '@storybook/node-logger': 6.5.9
-  '@storybook/preset-create-react-app': 4.1.2_3ugfc7mfdtzaiuayvb64wjihl4
-  '@storybook/react': 6.5.9_77qya4viz6n5uqluzf7gq77ukm
-  '@storybook/storybook-deployer': 2.8.12
-  '@storybook/testing-library': 0.0.13_biqbaboplfbrettd7655fr4n2y
-  '@testing-library/jest-dom': 5.16.4
-  '@testing-library/react': 13.3.0_biqbaboplfbrettd7655fr4n2y
-  '@testing-library/user-event': 13.5.0
-  babel-jest: 28.1.3
-  babel-plugin-named-exports-order: 0.0.2
-  canvas: 2.9.3
-  chromatic: 6.7.0
-  crypto: 1.0.1
-  identity-obj-proxy: 3.0.0
-  jest: 28.1.3
-  jest-environment-jsdom: 28.1.3_canvas@2.9.3
-  jest-image-snapshot: 5.1.0_jest@28.1.3
-  prop-types: 15.8.1
-  react: 18.2.0
-  react-dom: 18.2.0_react@18.2.0
-  react-redux: 8.0.2_e42enmjmqb4imi3q3iaq2rrebm
-  react-scripts: 5.0.1_canvas@2.9.3+react@18.2.0
-  react-test-renderer: 18.2.0_react@18.2.0
-  redux: 4.2.0
-  redux-devtools-extension: 2.13.9_redux@4.2.0
-  redux-thunk: 2.4.1_redux@4.2.0
-  rollup: 2.77.2
-  web-vitals: 2.1.4
-  webpack: 5.73.0
+  packages/react:
+    specifiers:
+      '@storybook/addon-actions': ^6.5.9
+      '@storybook/addon-essentials': ^6.5.9
+      '@storybook/addon-interactions': ^6.5.9
+      '@storybook/addon-links': ^6.5.9
+      '@storybook/builder-webpack5': ^6.5.9
+      '@storybook/manager-webpack5': ^6.5.9
+      '@storybook/node-logger': ^6.5.9
+      '@storybook/preset-create-react-app': ^4.1.2
+      '@storybook/react': ^6.5.9
+      '@storybook/storybook-deployer': ^2.8.12
+      '@storybook/testing-library': ^0.0.13
+      '@testing-library/jest-dom': ^5.16.4
+      '@testing-library/react': ^13.3.0
+      '@testing-library/user-event': ^13.5.0
+      babel-jest: ^28.1.3
+      babel-plugin-named-exports-order: ^0.0.2
+      canvas: ^2.9.3
+      chromatic: ^6.7.0
+      crypto: ^1.0.1
+      d3: ^6.2.0
+      d3-interpolate-path: ^2.2.3
+      identity-obj-proxy: ^3.0.0
+      jest: ^28.1.3
+      jest-environment-jsdom: ^28.1.3
+      jest-image-snapshot: ^5.1.0
+      lodash: ^4.17.21
+      prop-types: ^15.8.1
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      react-redux: ^8.0.2
+      react-scripts: 5.0.1
+      react-test-renderer: ^18.2.0
+      redux: ^4.2.0
+      redux-devtools-extension: ^2.13.8
+      redux-thunk: ^2.4.1
+      rollup: ^2.77.2
+      web-vitals: ^2.1.4
+      webpack: '5'
+    dependencies:
+      d3: 6.7.0
+      d3-interpolate-path: 2.2.3
+      lodash: 4.17.21
+    devDependencies:
+      '@storybook/addon-actions': 6.5.9_biqbaboplfbrettd7655fr4n2y
+      '@storybook/addon-essentials': 6.5.9_cnty5as3esjm6p6nkro7caw4wu
+      '@storybook/addon-interactions': 6.5.9_biqbaboplfbrettd7655fr4n2y
+      '@storybook/addon-links': 6.5.9_biqbaboplfbrettd7655fr4n2y
+      '@storybook/builder-webpack5': 6.5.9_biqbaboplfbrettd7655fr4n2y
+      '@storybook/manager-webpack5': 6.5.9_biqbaboplfbrettd7655fr4n2y
+      '@storybook/node-logger': 6.5.9
+      '@storybook/preset-create-react-app': 4.1.2_3ugfc7mfdtzaiuayvb64wjihl4
+      '@storybook/react': 6.5.9_77qya4viz6n5uqluzf7gq77ukm
+      '@storybook/storybook-deployer': 2.8.12
+      '@storybook/testing-library': 0.0.13_biqbaboplfbrettd7655fr4n2y
+      '@testing-library/jest-dom': 5.16.4
+      '@testing-library/react': 13.3.0_biqbaboplfbrettd7655fr4n2y
+      '@testing-library/user-event': 13.5.0
+      babel-jest: 28.1.3
+      babel-plugin-named-exports-order: 0.0.2
+      canvas: 2.9.3
+      chromatic: 6.7.0
+      crypto: 1.0.1
+      identity-obj-proxy: 3.0.0
+      jest: 28.1.3
+      jest-environment-jsdom: 28.1.3_canvas@2.9.3
+      jest-image-snapshot: 5.1.0_jest@28.1.3
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      react-redux: 8.0.2_e42enmjmqb4imi3q3iaq2rrebm
+      react-scripts: 5.0.1_canvas@2.9.3+react@18.2.0
+      react-test-renderer: 18.2.0_react@18.2.0
+      redux: 4.2.0
+      redux-devtools-extension: 2.13.9_redux@4.2.0
+      redux-thunk: 2.4.1_redux@4.2.0
+      rollup: 2.77.2
+      web-vitals: 2.1.4
+      webpack: 5.73.0
 
 packages:
 
@@ -803,7 +880,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.12.9
-      '@babel/helper-plugin-utils': 7.10.4
+      '@babel/helper-plugin-utils': 7.18.9
       '@babel/plugin-syntax-object-rest-spread': 7.8.3_@babel+core@7.12.9
       '@babel/plugin-transform-parameters': 7.18.8_@babel+core@7.12.9
     dev: true
@@ -5318,7 +5395,7 @@ packages:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
       '@types/eslint': 8.4.5
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
     dev: true
 
   /@types/eslint/8.4.5:
@@ -5361,7 +5438,7 @@ packages:
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
     dependencies:
       '@types/minimatch': 3.0.5
-      '@types/node': 16.11.45
+      '@types/node': 18.0.6
     dev: true
 
   /@types/graceful-fs/4.1.5:
@@ -5461,7 +5538,7 @@ packages:
   /@types/node-fetch/2.6.2:
     resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
     dependencies:
-      '@types/node': 16.11.45
+      '@types/node': 18.0.6
       form-data: 3.0.1
     dev: true
 
@@ -5617,7 +5694,7 @@ packages:
   /@types/webpack-sources/3.2.0:
     resolution: {integrity: sha512-Ft7YH3lEVRQ6ls8k4Ff1oB4jN6oy/XmU6tQISKdhfh+1mR+viZFphS6WL0IrtDOzvefmJg5a0s7ZQoRXwqTEFg==}
     dependencies:
-      '@types/node': 16.11.45
+      '@types/node': 18.0.6
       '@types/source-list-map': 0.1.2
       source-map: 0.7.4
     dev: true
@@ -5625,7 +5702,7 @@ packages:
   /@types/webpack/4.41.32:
     resolution: {integrity: sha512-cb+0ioil/7oz5//7tZUSwbrSAN/NWHrQylz5cW8G0dWTcF/g+/dSdMlKVZspBYuMAN1+WnwHrkxiRrLcwd0Heg==}
     dependencies:
-      '@types/node': 16.11.45
+      '@types/node': 18.0.6
       '@types/tapable': 1.0.8
       '@types/uglify-js': 3.16.0
       '@types/webpack-sources': 3.2.0
@@ -6955,7 +7032,7 @@ packages:
     dev: true
 
   /batch/0.6.1:
-    resolution: {integrity: sha1-3DQxT05nkxgJP8dgJyUl+UvyXBY=}
+    resolution: {integrity: sha512-x+VAiMRL6UPkx+kudNvxTl6hB2XNNCG2r+7wixVfIYwu/2HKRXimwQyaumLjMveWvT2Hkd/cAJw+QBMfJ/EKVw==}
     dev: true
 
   /better-opn/2.1.1:
@@ -7809,7 +7886,7 @@ packages:
     dev: true
 
   /cookie-signature/1.0.6:
-    resolution: {integrity: sha1-4wOogrNCzD7oylE6eZmXNNqzriw=}
+    resolution: {integrity: sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==}
     dev: true
 
   /cookie/0.5.0:
@@ -8917,7 +8994,7 @@ packages:
     dev: true
 
   /ee-first/1.1.1:
-    resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
+    resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: true
 
   /ejs/3.1.8:
@@ -10097,7 +10174,7 @@ packages:
     dev: true
 
   /fresh/0.5.2:
-    resolution: {integrity: sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=}
+    resolution: {integrity: sha512-zJ2mQYM18rEFOudeV4GShTGIQ7RbzA7ozbU9I/XBpm7kqgMywgmylMwXHxZJmkVoYkna9d2pVXVXPdYTP9ej8Q==}
     engines: {node: '>= 0.6'}
     dev: true
 
@@ -13044,7 +13121,7 @@ packages:
     dev: true
 
   /media-typer/0.3.0:
-    resolution: {integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=}
+    resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
     engines: {node: '>= 0.6'}
     dev: true
 
@@ -13102,7 +13179,7 @@ packages:
     optional: true
 
   /merge-descriptors/1.0.1:
-    resolution: {integrity: sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=}
+    resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==}
     dev: true
 
   /merge-stream/2.0.0:
@@ -17376,7 +17453,7 @@ packages:
     dev: true
 
   /trim/0.0.1:
-    resolution: {integrity: sha1-WFhUf2spB1fulczMZm+1AITEYN0=}
+    resolution: {integrity: sha512-YzQV+TZg4AxpKxaTHK3c3D+kRDCGVEE7LemdlQZoQXn0iennk10RsIoY6ikzAqJTc9Xjl9C1/waHom/J86ziAQ==}
     dev: true
 
   /trough/1.0.5:
@@ -17429,7 +17506,140 @@ packages:
     dev: true
 
   /tty-browserify/0.0.0:
-    resolution: {integrity: sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY=}
+    resolution: {integrity: sha512-JVa5ijo+j/sOoHGjw0sxw734b1LhBkQ3bvUGNdxnVXDCX81Yx7TFgnZygxrIIWn23hbfTaMYLwRmAxFyDuFmIw==}
+    dev: true
+
+  /turbo-android-arm64/1.3.4:
+    resolution: {integrity: sha512-rAbfiw5dT2rKV7L8XCL6nKwBxSz0TNknUT8F64pE+h3ESiT4y6Ow/hCdNxlb+hcee6lvZ8tB0cynXCVM5bthAA==}
+    cpu: [arm64]
+    os: [android]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-darwin-64/1.3.4:
+    resolution: {integrity: sha512-DZbRwVHH3nKOzVtijKWzkiKLLY+pBjawK90po7VRKMwdN2Db+JkWdu9+6wIqaxQ4WEYnYpwnTm0Aiyua0U/dNg==}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-darwin-arm64/1.3.4:
+    resolution: {integrity: sha512-Qfe7iBad/XM4G22G0XAnEQnHiSUO1WR4MgvyHV022WABIf7CgGDsW6DUu/4DOWFlfTO+xCC0Qgu93w6Kli/9uw==}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-freebsd-64/1.3.4:
+    resolution: {integrity: sha512-lXFViR0fnoTRtnRtkeSA/10Q41h+fLgnYC62wzHNzPsq/kCYmiaXBg+gWRJom8Ka2nh+xWQdLG2Dh/uxK/+1Og==}
+    cpu: [x64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-freebsd-arm64/1.3.4:
+    resolution: {integrity: sha512-VN9gPZcRaYhQOIo+NlIDIDNlJjhnyM7i+3WvWAK8y5p5GoZoDAahM36GDX05JNjVdPq95WJPnWcxoiQvwnctxg==}
+    cpu: [arm64]
+    os: [freebsd]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-linux-32/1.3.4:
+    resolution: {integrity: sha512-h1oVx85jovYnAaP+KxSmFIPhlKFQmBwVkJBngALnHNU7HTN9+1t/VJ1WKjHEeLXrQ7ujeCMd/+TBm9XRd73RdA==}
+    cpu: [ia32]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-linux-64/1.3.4:
+    resolution: {integrity: sha512-QJJeksggK9/s3VzS+iMTQh8gO6JLDxKBSc3qnpP1Kaq8hF+M1upfP9KhDFNguz8UEFlOvTblplNdqZdk/wtkXQ==}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-linux-arm/1.3.4:
+    resolution: {integrity: sha512-vCVDcO4KNJak//UKsss/TnJw0ywYc8OyV88ZlSWyP3WtA+9D8DJNPOKodcR8IbKuV7Tqpr+f7cP+J9jGDkHjQw==}
+    cpu: [arm]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-linux-arm64/1.3.4:
+    resolution: {integrity: sha512-SSyUvBxZmlS44LQ2hzX5gfDlQueH1Hx5/rFS9mJZKFdgMnAB2g7btxxEvnpm0lgpfP/c3LH0VRks3xYEoQvILg==}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-linux-mips64le/1.3.4:
+    resolution: {integrity: sha512-w7Ib7i/GZhyJRdvQSLA1Be7AOIPgJpuLLjrtT2gUl3wXd4JuiHDvhOS7E0B9izaxeD/2iygU2kQjqD4o9tejlw==}
+    cpu: [mips64el]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-linux-ppc64le/1.3.4:
+    resolution: {integrity: sha512-xATyouJSGmfgQM6lLk4Da5HrsAw8qoPUArrBuDK1p3Rw1gcRnmlJL10mr6ZmZyRu+3o4M8UlThfus5q8eETmBw==}
+    cpu: [ppc64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-windows-32/1.3.4:
+    resolution: {integrity: sha512-1oXgiGxkWuC/7rlBZTng7qC2zjAZ7lYLDDh3ePAycZzp6BprlxqT5+xA0kFJo+WqGRdAQVhanlET2bLGOdBQBQ==}
+    cpu: [ia32]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-windows-64/1.3.4:
+    resolution: {integrity: sha512-k7K/oC+399Gtwol42ALvt0espWmZZR7qlRwfgFS3BF4pEetxjGFJMXKNWUMDkOqsHhMxvLIiDbWPmY3fTIWL7g==}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-windows-arm64/1.3.4:
+    resolution: {integrity: sha512-jHBuTvQ3t/OElxn//kwHZR2mlPdmpcV7BZy+n18+wwx6ydGj5QDOrer7Dwk81YbA5KtOkp086Xpgr75T73wsSA==}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo/1.3.4:
+    resolution: {integrity: sha512-MsjlfAL29leQaIMdHGnIpK6IKZA4HwSAwDSIoBAs9EAKfAXIsnjLoF50dKDnBlaq5d4aVmiHsT6RYVcTKhSgBQ==}
+    hasBin: true
+    requiresBuild: true
+    optionalDependencies:
+      turbo-android-arm64: 1.3.4
+      turbo-darwin-64: 1.3.4
+      turbo-darwin-arm64: 1.3.4
+      turbo-freebsd-64: 1.3.4
+      turbo-freebsd-arm64: 1.3.4
+      turbo-linux-32: 1.3.4
+      turbo-linux-64: 1.3.4
+      turbo-linux-arm: 1.3.4
+      turbo-linux-arm64: 1.3.4
+      turbo-linux-mips64le: 1.3.4
+      turbo-linux-ppc64le: 1.3.4
+      turbo-windows-32: 1.3.4
+      turbo-windows-64: 1.3.4
+      turbo-windows-arm64: 1.3.4
     dev: true
 
   /type-check/0.3.2:
@@ -17770,7 +17980,7 @@ packages:
     dev: true
 
   /utils-merge/1.0.1:
-    resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
+    resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
     dev: true
 
