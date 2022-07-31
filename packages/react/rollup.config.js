@@ -7,6 +7,10 @@ import babel from "rollup-plugin-babel";
 
 const packageJson = require("./package.json");
 
+const globals = {
+  lodash: "lodash",
+};
+
 export default {
   input: "src/index.js",
   output: [
@@ -25,7 +29,9 @@ export default {
   ],
   plugins: [
     peerDepsExternal(),
-    resolve(),
+    resolve({
+      extensions: [".js", ".jsx"],
+    }),
     babel({
       exclude: "node_modules/**",
       presets: ["@babel/env", "@babel/preset-react"],
@@ -37,4 +43,8 @@ export default {
       extensions: [".css"],
     }),
   ],
+  external: Object.keys(globals),
+  output: {
+    globals,
+  },
 };
