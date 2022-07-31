@@ -26,4 +26,6 @@ build-storybook.log
 .env.production.local
 .eslintcache
 
+**/*.log
 .log
+lib

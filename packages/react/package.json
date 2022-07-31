@@ -11,14 +11,13 @@
   "homepage": "http://localhost:6006/?path=/story/introduction--page",
   "scripts": {
     "test": "jest",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf lib",
     "lint": "eslint -c .eslintrc.json .",
     "storybook": "start-storybook -p 6006",
     "deploy-storybook": "storybook-to-ghpages",
     "build-storybook": "build-storybook",
-    "prepare": "rm -rf lib/* && pnpm run build",
     "dev": "pnpm run build",
-    "build": "babel src/ --out-dir lib --copy-files --no-copy-ignored --ignore src/**/*.stories.js",
-    "prepublishOnly": "pnpm run build"
+    "build": "babel src/ --out-dir lib --copy-files --no-copy-ignored --ignore src/**/*.stories.js"
   },
   "np": {
     "publish": false,
