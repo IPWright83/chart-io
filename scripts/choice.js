@@ -3,7 +3,7 @@ import { spawn } from "child_process";
 
 import inquirer from "inquirer";
 
-const packageFolders = ["packages"];
+const packageFolders = ["demos", "packages"];
 
 /**
  * Gets a list of all the package names that contain the given script name
