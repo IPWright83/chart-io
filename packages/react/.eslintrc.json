@@ -1,7 +1,7 @@
 {
   "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:import/recommended"],
   "plugins": ["jest"],
-  "ignorePatterns": ["lib", "rollup.config.js", "storybook-static", "babel.config.js", "jest.config.js", "config/**"],
+  "ignorePatterns": ["lib", "rollup.config.js", "storybook-static", "babel.config.js", "jest.config.js", "**/jest/**"],
   "env": {
     "jest/globals": true,
     "browser": true,

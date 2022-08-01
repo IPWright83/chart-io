@@ -1,30 +1,44 @@
 {
-  "name": "@chart-it",
-  "version": "1.0.0",
+  "name": "@chart-it/react-d3",
+  "version": "0.1.31",
   "packageManager": "pnpm@7.5.2",
-  "type": "module",
+  "description": "chart-it is a react-d3 charting library",
+  "repository": "git@github.com:IPWright83/chart-it.git",
   "author": "\"Ian Wright\" <\"ipwright83+dev@gmail.com\">",
+  "main": "lib/index.js",
+  "module": "lib/index.esm.js",
+  "types": "lib/index.d.ts",
+  "homepage": "http://localhost:6006/?path=/story/introduction--page",
   "scripts": {
-    "test": "turbo run test -- --watchAll=false",
-    "testw": "node scripts/choice test --watchAll=true",
-    "testp": "node scripts/choice test --watchAll=false",
-    "storybookw": "node scripts/choice storybook",
-    "storybookp": "node scripts/choice build-storybook",
-    "clean": "rm -rf node_modules && pnpm -r clean",
-    "refresh": "pnpm clean && pnpm install",
-    "build": "turbo run build",
-    "buildw": "turbo run build --scope=@iw* --no-deps -- -- -w",
-    "graph": "turbo run build --graph=graph.html",
-    "buildp": "node scripts/choice build",
-    "dev": "turbo run build --scope=@iw* --no-deps && turbo run dev --no-cache --parallel --continue",
-    "lint": "turbo run lint",
-    "lintp": "node scripts/choice lint"
+    "test": "jest",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf lib",
+    "lint": "eslint -c .eslintrc.json .",
+    "storybook": "start-storybook -p 6006",
+    "deploy-storybook": "storybook-to-ghpages",
+    "build-storybook": "build-storybook",
+    "dev": "pnpm run build",
+    "build": "babel src/ --out-dir lib --copy-files --no-copy-ignored --ignore src/**/*.stories.js"
   },
   "np": {
     "publish": false,
     "tests": false
   },
+  "keywords": [
+    "d3",
+    "react",
+    "chart"
+  ],
+  "dependencies": {
+    "d3": "^6.2.0",
+    "d3-interpolate-path": "^2.2.3",
+    "lodash": "^4.17.21",
+    "uuid": "^8.3.2"
+  },
   "devDependencies": {
+    "@babel/cli": "^7.18.9",
+    "@babel/plugin-transform-react-jsx": "^7.18.6",
+    "@babel/preset-env": "^7.18.9",
+    "@babel/preset-react": "^7.18.6",
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^6.5.9",
     "@storybook/addon-interactions": "^6.5.9",
@@ -40,12 +54,10 @@
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
     "babel-jest": "27.5.1",
-    "babel-plugin-named-exports-order": "^0.0.2",
     "canvas": "^2.9.3",
     "chromatic": "^6.7.0",
     "crypto": "^1.0.1",
     "identity-obj-proxy": "^3.0.0",
-    "inquirer": "^9.0.2",
     "jest": "27.5.1",
     "jest-environment-jsdom": "27.5.1",
     "jest-image-snapshot": "^5.1.0",
@@ -58,9 +70,15 @@
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.4.1",
-    "rollup": "^2.77.2",
-    "turbo": "^1.3.4",
     "web-vitals": "^2.1.4",
     "webpack": "5"
+  },
+  "peerDependencies": {
+    "prop-types": "^15.8.1",
+    "react": "^16.8.3 | ^17 | ^18",
+    "react-dom": "^16.8 | ^17 | ^18",
+    "react-redux": "^7.1 | ^8",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.4.0"
   }
 }

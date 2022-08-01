@@ -1,4 +1,4 @@
-import { max, min } from "d3-array";
+import * as d3 from "d3";
 
 import { Types } from "../Types";
 import { getMaxStringLength } from "./getMaxStringLength";
@@ -29,7 +29,7 @@ const getTypeSpecificColumnInfo = (values, type) => {
     // Get additioanl date fields
     if (type === Types.Date || type === Types.DateTime) {
         const valuesAsDates = values.map((v) => Date.parse(v));
-        const range = [min(valuesAsDates), max(valuesAsDates)];
+        const range = [d3.min(valuesAsDates), d3.max(valuesAsDates)];
 
         return {
             range,
