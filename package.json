@@ -25,6 +25,7 @@
     "tests": false
   },
   "devDependencies": {
+    "@changesets/cli": "^2.24.2",
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^6.5.9",
     "@storybook/addon-interactions": "^6.5.9",

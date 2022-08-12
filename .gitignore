@@ -1,17 +1,17 @@
-# dependencies
 node_modules
-/.pnp
-.pnp.js
 
-# testing
-/coverage
+# tuborepo
+.turbo
+
+# jest
+coverage
 *.dirty.png
 __diff_output__
 
 # production
-/build
-/dist
-/lib
+build
+dist
+lib
 
 # storybook
 out*
@@ -19,13 +19,5 @@ storybook-static
 build-storybook.log
 
 # misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
 .env.production.local
 .eslintcache
-
-**/*.log
-.log
-lib
