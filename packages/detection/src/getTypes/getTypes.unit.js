@@ -1,7 +1,7 @@
 import { Types } from "../Types";
 import { getDataType } from "./getDataType";
 
-describe("/detection/getTypes", () => {
+describe("getTypes", () => {
     // Helper to call on an array
     const detectType = (values) =>
         values.reduce((previousType, value) => getDataType(value, previousType), Types.Unknown);

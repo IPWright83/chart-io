@@ -1,7 +1,7 @@
 import { Types } from "./Types";
 import { typeEnumToName } from "./typeEnumToName";
 
-describe("/detection", () => {
+describe("detection", () => {
     describe("typeEnumToName", () => {
         it("should return the correct name for each type", () => {
             expect(typeEnumToName(Types.Unknown)).toBe("Unknown");

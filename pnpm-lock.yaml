@@ -107,12 +107,38 @@ importers:
       jest: 27.5.1
       jest-environment-jsdom: 27.5.1
 
+  packages/detection:
+    specifiers:
+      '@babel/cli': ^7.18.9
+      '@babel/plugin-transform-react-jsx': ^7.18.6
+      '@babel/preset-env': ^7.18.9
+      '@babel/preset-react': ^7.18.6
+      '@testing-library/jest-dom': ^5.16.4
+      babel-jest: 27.5.1
+      d3: ^6.2.0
+      identity-obj-proxy: ^3.0.0
+      jest: 27.5.1
+      webpack: '5'
+    dependencies:
+      d3: 6.7.0
+    devDependencies:
+      '@babel/cli': 7.18.9
+      '@babel/plugin-transform-react-jsx': 7.18.6
+      '@babel/preset-env': 7.18.9
+      '@babel/preset-react': 7.18.6
+      '@testing-library/jest-dom': 5.16.4
+      babel-jest: 27.5.1
+      identity-obj-proxy: 3.0.0
+      jest: 27.5.1
+      webpack: 5.73.0
+
   packages/react:
     specifiers:
       '@babel/cli': ^7.18.9
       '@babel/plugin-transform-react-jsx': ^7.18.6
       '@babel/preset-env': ^7.18.9
       '@babel/preset-react': ^7.18.6
+      '@chart-it/detection': workspace:^0.1.31
       '@storybook/addon-actions': ^6.5.9
       '@storybook/addon-essentials': ^6.5.9
       '@storybook/addon-interactions': ^6.5.9
@@ -151,6 +177,7 @@ importers:
       web-vitals: ^2.1.4
       webpack: '5'
     dependencies:
+      '@chart-it/detection': link:../detection
       d3: 6.7.0
       d3-interpolate-path: 2.2.3
       lodash: 4.17.21
@@ -4782,7 +4809,7 @@ packages:
       '@types/babel__core': 7.1.19
       babel-plugin-react-docgen: 4.2.1
       pnp-webpack-plugin: 1.7.0
-      react-scripts: 5.0.1_canvas@2.9.3+react@18.2.0
+      react-scripts: 5.0.1_x5ssodrr4lgfnf62onlhi2tasa
       semver: 7.3.7
     transitivePeerDependencies:
       - '@types/webpack'

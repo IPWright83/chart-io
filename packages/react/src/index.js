@@ -1,5 +1,4 @@
 export * from "./components";
-export * from "./detection";
 export * from "./hoc";
 export * from "./hooks";
 export * from "./store";
