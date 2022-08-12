@@ -141,8 +141,7 @@ jobs:
       - name: Build
         run: pnpm run build
       - name: Release packages
-        with:
-          publish: pnpm changeset publish
+        run: pnpm changeset publish
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
