@@ -62,7 +62,7 @@ jobs:
           node-version: 16
       - uses: pnpm/action-setup@v2.2.2
       - name: Version command
-        run: echo ::set-output name=changes::$(pnpm bump version 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
+        run: echo ::set-output name=changes::$(pnpm bump 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
       - name: Push changes
         if: steps.version.outputs.changes == 'true'
         run: |
