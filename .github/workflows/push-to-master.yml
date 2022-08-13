@@ -53,6 +53,8 @@ jobs:
     runs-on: ubuntu-latest
     # needs: [lint, unit]
     if: "!contains(github.event.head_commit.message, 'ci skip')"
+    outputs:
+      changes: ${{ steps.version.outputs.changes }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -66,8 +68,6 @@ jobs:
       - name: Version command
         id: version
         run: echo ::set-output name=changes::$(pnpm bump 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
-      - name: check_foo
-        run: echo $(steps.version.outputs.changes)
       - name: Update lockfile
         if: steps.version.outputs.changes == 'true'
         run: pnpm install
@@ -83,10 +83,10 @@ jobs:
   test_run:
     runs-on: ubuntu-latest
     needs: changesets_version
-    if: always() && needs.changesets_version.steps.version.outputs.changes == 'false'
+    # if: always() && needs.changesets_version.steps.version.outputs.changes == 'false'
     steps:
       - name: foo
-        run: echo needs.changesets_version.outputs.changes == 'true'
+        run: echo ${{needs.changesets_version.outputs.changes}}
 
   publish:
     runs-on: ubuntu-latest
