@@ -57,7 +57,7 @@ jobs:
         with:
           node-version: 16
       - name: Setup PNPM
-        uses: IPWright83/pnpm-setup-cache-action@v4
+        uses: IPWright83/pnpm-setup-cache-action@v5
 
   changesets_version:
     runs-on: ubuntu-latest
