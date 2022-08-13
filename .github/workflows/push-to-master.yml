@@ -102,7 +102,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
   deploy_storybook:
-    needs: version
+    needs: changesets_version
     if: "!contains(github.event.head_commit.message, 'skip storybook') && needs.version.outputs.changes == 'false'"
     runs-on: ubuntu-latest
     steps:
@@ -122,7 +122,7 @@ jobs:
           GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
 
   update_chromatic_baseline:
-    needs: version
+    needs: changesets_version
     if: "!contains(github.event.head_commit.message, 'skip chromatic') && needs.version.outputs.changes == 'false'"
     runs-on: ubuntu-latest
     steps:
