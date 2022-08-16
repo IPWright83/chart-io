@@ -110,7 +110,7 @@ jobs:
       - name: Build
         run: pnpm run build
       - name: Release packages
-        run: pnpm changeset publish --access public
+        run: pnpm changeset publish --access=public
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
