@@ -1,24 +1,27 @@
+const EMPTY_OBJECT = {};
+const EMPTY_ARRAY = [];
+
 const eventSelectors = {
     /**
      * Returns the store for the chart part of state
      * @param  {Object} state The application state
      * @return {Object}       The state
      */
-    store: (state) => state.event || {},
+    store: (state) => state.event || EMPTY_OBJECT,
 
     /**
      * Returns the set of droplines
      * @param  {Object} state   The application state
      * @return {Array<Object>}  The droplines
      */
-    droplines: (state) => eventSelectors.store(state).droplines || [],
+    droplines: (state) => eventSelectors.store(state).droplines || EMPTY_ARRAY,
 
     /**
      * Returns the set of markers
      * @param  {Object} state   The application state
      * @return {Array<Object>}  The markers
      */
-    markers: (state) => eventSelectors.store(state).markers || [],
+    markers: (state) => eventSelectors.store(state).markers || EMPTY_ARRAY,
 
     tooltip: {
         /**
@@ -26,7 +29,7 @@ const eventSelectors = {
          * @param  {Object} state   The application state
          * @return {Object}         The sub-state for the tooltip
          */
-        store: (state) => eventSelectors.store(state).tooltip || {},
+        store: (state) => eventSelectors.store(state).tooltip || EMPTY_OBJECT,
 
         /**
          * Should the tooltip currently be shown?
@@ -47,14 +50,14 @@ const eventSelectors = {
          * @param  {Object} state   The application state
          * @return {Array}          The array of tooltip items
          */
-        items: (state) => eventSelectors.tooltip.store(state).tooltipItems || [],
+        items: (state) => eventSelectors.tooltip.store(state).tooltipItems || EMPTY_ARRAY,
 
         /**
          * A moust event that triggered
          * @param  {Object} state   The application state
          * @return {MouseEvent}     The mouse event that triggered the tooltip
          */
-        position: (state) => eventSelectors.tooltip.store(state).position || {},
+        position: (state) => eventSelectors.tooltip.store(state).position || EMPTY_OBJECT,
     },
 
     /**

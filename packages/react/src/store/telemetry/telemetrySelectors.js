@@ -1,10 +1,13 @@
+const EMPTY_OBJECT = {};
+const EMPTY_ARRAY = [];
+
 const telemetrySelectors = {
     /**
      * Returns the store for the telemetry part of state
      * @param  {Object} state The application state
      * @return {Object}       The state
      */
-    store: (state) => state.telemetry || {},
+    store: (state) => state.telemetry || EMPTY_OBJECT,
 
     /**
      * Returns the id of the chart

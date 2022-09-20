@@ -1,19 +1,22 @@
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
 
+const EMPTY_OBJECT = {};
+const EMPTY_ARRAY = [];
+
 const chartSelectors = {
     /**
      * Returns the store for the chart part of state
      * @param  {Object} state The application state
      * @return {Object}       The state
      */
-    store: (state) => state.chart || {},
+    store: (state) => state.chart || EMPTY_OBJECT,
 
     /**
      * Returns the data for the chart
      * @param  {Object} state The application state
      * @return {Object}       The chart data
      */
-    data: (state) => chartSelectors.store(state).data || [],
+    data: (state) => chartSelectors.store(state).data || EMPTY_ARRAY,
 
     /**
      * Returns the duration to run animations for
@@ -93,7 +96,7 @@ const chartSelectors = {
      * Returns dimension based information for the chart
      */
     dimensions: {
-        store: (state) => chartSelectors.store(state).dimensions || {},
+        store: (state) => chartSelectors.store(state).dimensions || EMPTY_OBJECT,
 
         /**
          * Returns the width of the chart
