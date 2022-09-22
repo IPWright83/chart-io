@@ -6,12 +6,12 @@ import { wait } from "./wait";
 import { MOUSE_MOVE_THROTTLE } from "../constants";
 
 /**
- * [description]
- * @param  {[type]}   container [description]
- * @param  {[type]}   selector  [description]
- * @param  {Function} callback  [description]
- * @param  {[type]}   expected  [description]
- * @return {[type]}             [description]
+ * Simulates a click on an element
+ * @param  {HTMLElement}  container             The container to apply a css selector to
+ * @param  {String}       selector              The css selector to apply to find the element
+ * @param  {Function}     callback              The callback that we expect to have been called
+ * @param  {Array}        expected              The arguments that we expect the callback to have been called with
+ * @param  {Object}       fakeMouseEventData    A fake mouse event data object
  */
 export const testMouseClick = async (container, selector, callback, expected, fakeMouseEventData) => {
     const element = container.querySelector(selector);
@@ -25,6 +25,14 @@ export const testMouseClick = async (container, selector, callback, expected, fa
     expect(callback).toHaveBeenCalledWith(expected, expect.anything(), expect.anything());
 };
 
+/**
+ * Simulates a mouse over on an element
+ * @param  {HTMLElement}  container             The container to apply a css selector to
+ * @param  {String}       selector              The css selector to apply to find the element
+ * @param  {Function}     callback              The callback that we expect to have been called
+ * @param  {Array}        expected              The arguments that we expect the callback to have been called with
+ * @param  {Object}       fakeMouseEventData    A fake mouse event data object
+ */
 export const testMouseOver = async (container, selector, callback, expected, fakeMouseEventData) => {
     const element = container.querySelector(selector);
 
@@ -36,14 +44,22 @@ export const testMouseOver = async (container, selector, callback, expected, fak
 
     expect(callback).toHaveBeenCalledWith(expected, expect.anything(), expect.anything());
 };
-
+/**
+ * Simulates a mouse exit on an element
+ * @param  {HTMLElement}  container                 The container to apply a css selector to
+ * @param  {String}       selector                  The css selector to apply to find the element
+ * @param  {Function}     callback                  The callback that we expect to have been called
+ * @param  {Array}        expected                  The arguments that we expect the callback to have been called with
+ * @param  {Object}       fakeMouseEnterEventData   A fake mouse event data object to use during the enter event
+ * @param  {Object}       fakeMouseExitEventData    A fake mouse event data object to use during the exit event
+ */
 export const testMouseExit = async (
     container,
     selector,
     callback,
     expected,
     fakeMouseEnterEventData,
-    fakeMouseExitEventData,
+    fakeMouseExitEventData
 ) => {
     const element = container.querySelector(selector);
 
@@ -59,8 +75,8 @@ export const testMouseExit = async (
                 fakeMouseExitEventData ?? {
                     pageX: 95,
                     pageY: 95,
-                },
-            ),
+                }
+            )
         );
     } else {
         fireEvent.mouseOver(element);

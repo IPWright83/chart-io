@@ -1,5 +1,4 @@
 const EMPTY_OBJECT = {};
-const EMPTY_ARRAY = [];
 
 const telemetrySelectors = {
     /**
