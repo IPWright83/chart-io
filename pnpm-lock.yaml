@@ -84,7 +84,7 @@ importers:
 
   demos/react-demo:
     specifiers:
-      '@chart-it/react-d3': workspace:^0.1.31
+      '@chart-it/react-d3': workspace:*
       '@testing-library/jest-dom': ^5.16.4
       '@testing-library/react': ^13.3.0
       '@testing-library/user-event': ^13.5.0
@@ -138,7 +138,7 @@ importers:
       '@babel/plugin-transform-react-jsx': ^7.18.6
       '@babel/preset-env': ^7.18.9
       '@babel/preset-react': ^7.18.6
-      '@chart-it/detection': workspace:^0.1.33
+      '@chart-it/detection': workspace:*
       '@storybook/addon-actions': ^6.5.9
       '@storybook/addon-essentials': ^6.5.9
       '@storybook/addon-interactions': ^6.5.9
@@ -3399,8 +3399,10 @@ packages:
       - supports-color
     dev: true
 
-  /@mdx-js/react/1.6.22:
+  /@mdx-js/react/1.6.22_react@18.2.0:
     resolution: {integrity: sha512-TDoPum4SHdfPiGSAaRBw7ECyI8VaHpK8GJugbJIJuqyh6kzw9ZLJZW3HGL3NNrJGxcAixUvqROm+YuQOo5eXtg==}
+    peerDependencies:
+      react: ^16.13.1 || ^17.0.0
     dependencies:
       react: 18.2.0
     dev: true
@@ -3669,7 +3671,7 @@ packages:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-inspector: 5.1.1
+      react-inspector: 5.1.1_react@18.2.0
       regenerator-runtime: 0.13.9
       telejson: 6.0.8
       ts-dedent: 2.2.0
@@ -3756,7 +3758,7 @@ packages:
       '@babel/plugin-transform-react-jsx': 7.18.6
       '@babel/preset-env': 7.18.9
       '@jest/transform': 26.6.2
-      '@mdx-js/react': 1.6.22
+      '@mdx-js/react': 1.6.22_react@18.2.0
       '@storybook/addons': 6.5.9_biqbaboplfbrettd7655fr4n2y
       '@storybook/api': 6.5.9_biqbaboplfbrettd7655fr4n2y
       '@storybook/components': 6.5.9_biqbaboplfbrettd7655fr4n2y
@@ -4930,7 +4932,7 @@ packages:
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-element-to-jsx-string: 14.3.4
+      react-element-to-jsx-string: 14.3.4_biqbaboplfbrettd7655fr4n2y
       react-refresh: 0.11.0
       read-pkg-up: 7.0.1
       regenerator-runtime: 0.13.9
@@ -14720,6 +14722,12 @@ packages:
   /react-dev-utils/12.0.1_mdqwc3o2qmuzq6vsdae6egxrdi:
     resolution: {integrity: sha512-84Ivxmr17KjUupyqzFode6xKhjwuEJDROWKJy/BthkL7Wn6NJ8h4WE6k/exAv6ImS+0oZLRRW5j/aINMHyeGeQ==}
     engines: {node: '>=14'}
+    peerDependencies:
+      typescript: '>=2.7'
+      webpack: '>=4'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
     dependencies:
       '@babel/code-frame': 7.18.6
       address: 1.2.0
@@ -14745,12 +14753,11 @@ packages:
       shell-quote: 1.7.3
       strip-ansi: 6.0.1
       text-table: 0.2.0
+      webpack: 5.73.0
     transitivePeerDependencies:
       - eslint
       - supports-color
-      - typescript
       - vue-template-compiler
-      - webpack
 
   /react-docgen-typescript/2.2.2:
     resolution: {integrity: sha512-tvg2ZtOpOi6QDwsb3GZhOjDkkX0h8Z2gipvTg6OVMUyoYoURhEiRNePT8NZItTVCDh39JJHnLdfCOkzoLbFnTg==}
@@ -14786,8 +14793,11 @@ packages:
       react: 18.2.0
       scheduler: 0.23.0
 
-  /react-element-to-jsx-string/14.3.4:
+  /react-element-to-jsx-string/14.3.4_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-t4ZwvV6vwNxzujDQ+37bspnLwA4JlgUPWhLjBJWsNIDceAf6ZKUTCjdm08cN6WeZ5pTMKiCJkmAYnpmR4Bm+dg==}
+    peerDependencies:
+      react: ^0.14.8 || ^15.0.1 || ^16.0.0 || ^17.0.1
+      react-dom: ^0.14.8 || ^15.0.1 || ^16.0.0 || ^17.0.1
     dependencies:
       '@base2/pretty-print-object': 1.0.1
       is-plain-object: 5.0.0
@@ -14799,8 +14809,10 @@ packages:
   /react-error-overlay/6.0.11:
     resolution: {integrity: sha512-/6UZ2qgEyH2aqzYZgQPxEnz33NJ2gNsnHA2o5+o4wW9bLM/JYQitNP9xPhsXwC08hMMovfGe/8retsdDsczPRg==}
 
-  /react-inspector/5.1.1:
+  /react-inspector/5.1.1_react@18.2.0:
     resolution: {integrity: sha512-GURDaYzoLbW8pMGXwYPDBIv6nqei4kK7LPRZ9q9HCZF54wqXz/dnylBp/kfE9XmekBhHvLDdcYeyIwSrvtOiWg==}
+    peerDependencies:
+      react: ^16.8.4 || ^17.0.0
     dependencies:
       '@babel/runtime': 7.18.9
       is-dom: 1.1.0
@@ -17185,6 +17197,7 @@ packages:
   /unified/9.2.0:
     resolution: {integrity: sha512-vx2Z0vY+a3YoTj8+pttM3tiJHCwY5UFbYdiWrwBEbHmK8pvsPj2rtAX2BFfgXen8T39CJWblWRDT4L5WGXtDdg==}
     dependencies:
+      '@types/unist': 2.0.6
       bail: 1.0.5
       extend: 3.0.2
       is-buffer: 2.0.5
