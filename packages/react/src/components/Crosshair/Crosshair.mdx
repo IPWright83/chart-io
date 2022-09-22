@@ -1,0 +1,42 @@
+import { Story, Canvas } from "@storybook/addon-docs/blocks";
+
+# Crosshair Component
+
+The `<Crosshair>` component allows us to define a layer to render a crosshair at the mouse position. It is normally used in conjunction with the `<Background>` component to provide mouse events.
+
+<Canvas>
+    <Story id="components-crosshair--default" />
+</Canvas>
+
+### `<Crosshair>` Props
+
+| Prop             | Type      | Default | Note                                  |
+| ---------------- | --------- | ------- | ------------------------------------- |
+| `showHorizontal` | `boolean` | true    | Should horizontal droplines be shown? |
+| `showVertical`   | `boolean` | true    | Should vertical droplines be shown?   |
+
+<br />
+
+## Adding a Crosshair Programatically
+
+To adjust the crosshair programatically you should call the `eventActions.mouseEnter` function or the `eventActions.mouseMove` function:
+
+```
+eventActions.mouseEnter({ offsetX: 50, offsetY: 100 });
+eventActions.mouseMove({ offsetX: 52, offsetY: 102 });
+```
+
+<br />
+
+## Visual Styling
+
+The colour and styles of the Crosshair comes straight from the theme object.
+
+It is possible to style the following properties by changing the `theme.droplines` object:
+
+| Property            | Type     | Default   | Note                                            |
+| ------------------- | -------- | --------- | ----------------------------------------------- |
+| `stroke`\*          | `string` | `#000000` | The color of the crosshair                      |
+| `strokeDasharray`\* | `number` | 0         | The dash array pattern to use for the crosshair |
+| `strokeOpacity`     | `number` | 1         | The opacity to use for the crosshair            |
+| `strokeWidth`       | `number` | 2         | The stroke width to use for the crosshair       |

@@ -17,6 +17,7 @@ const light = {
         stroke: "#000000",
         strokeOpacity: 0.5,
         strokeWidth: 1,
+        strokeDasharray: 0,
     },
 
     gridlines: {
@@ -63,6 +64,7 @@ const dark = {
         stroke: "#cccccc",
         strokeOpacity: 0.8,
         strokeWidth: 1,
+        strokeDasharray: 0,
     },
 
     gridlines: {

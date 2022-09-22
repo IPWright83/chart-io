@@ -35,6 +35,7 @@ const Crosshair = ({ showVertical = true, showHorizontal = true }) => {
                     stroke={theme.crosshair.stroke}
                     strokeOpacity={theme.crosshair.strokeOpacity}
                     strokeWidth={theme.crosshair.strokeWidth}
+                    stroke-dasharray={theme.crosshair.strokeDasharray}
                 />
             )}
             {showVertical && (
@@ -46,6 +47,7 @@ const Crosshair = ({ showVertical = true, showHorizontal = true }) => {
                     stroke={theme.crosshair.stroke}
                     strokeOpacity={theme.crosshair.strokeOpacity}
                     strokeWidth={theme.crosshair.strokeWidth}
+                    stroke-dasharray={theme.crosshair.strokeDasharray}
                 />
             )}
         </>
