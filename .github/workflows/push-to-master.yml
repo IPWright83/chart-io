@@ -1,5 +1,5 @@
 ---
-name: Publish to NPM
+name: On Push to Master
 
 on:
   push:
@@ -16,6 +16,19 @@ jobs:
         with:
           node-version: 16
       - uses: pnpm/action-setup@v2.2.2
+        with:
+          run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
       - name: pnpm Install
         run: pnpm install
       - name: Lint
@@ -30,6 +43,19 @@ jobs:
         with:
           node-version: 16
       - uses: pnpm/action-setup@v2.2.2
+        with:
+          run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
       - name: pnpm Install
         run: pnpm install
       - name: Run Linting
@@ -44,54 +70,118 @@ jobs:
         with:
           node-version: 16
       - uses: pnpm/action-setup@v2.2.2
+        with:
+          run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
       - name: pnpm Install
         run: pnpm install
       - name: Run Unit Tests
         run: pnpm test
 
-  version_bump:
+  changesets_version:
     runs-on: ubuntu-latest
-    needs: [lint, audit, unit]
+    needs: [lint, unit]
     if: "!contains(github.event.head_commit.message, 'ci skip')"
+    outputs:
+      changes: ${{ steps.version.outputs.changes }}
     steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.DEPLOY_TOKEN }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: pnpm Install
+        run: pnpm install
+      - name: changeset version
+        id: version
+        run: echo ::set-output name=changes::$(pnpm bump 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
+      - name: Update lockfile
+        if: steps.version.outputs.changes == 'true'
+        run: pnpm install --no-frozen-lockfile
+      - name: Create Tags
+        if: steps.version.outputs.changes == 'true'
+        run: pnpm changeset tag
+      - name: Push changes
+        if: steps.version.outputs.changes == 'true'
+        run: |
+          git config user.email ipwright83+dev@gmail.com
+          git config user.name "Ian Wright"
+          git add -A
+          git commit -m "Version packages" || echo "No changes to commit"
+          git push --follow-tags
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: changesets_version
+    # This will only run if there were no changesets.
+    ## the next triggered build from the push will then pass this step and continue with the release
+    if: always() && needs.changesets_version.outputs.changes == 'false'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          registry-url: "https://registry.npmjs.org"
+          scope: "@<scope>"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: setup pnpm
+        uses: IPWright83/pnpm-setup-cache-action@v5
+      - name: Build
+        run: pnpm run build
+      - name: Release packages
+        run: pnpm publish -r --access=public
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+
+  deploy_storybook:
+    needs: changesets_version
+    if: "!contains(github.event.head_commit.message, 'skip storybook') && needs.changesets_version.outputs.changes == 'false'"
+    runs-on: ubuntu-latest
+    steps:
+      # Setup .npmrc file to publish to npm
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: "Automated Version Bump"
-        uses: "phips28/gh-action-bump-version@master"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag-prefix: 'v'
-          commit-message: "CI: bump version to {{version}} [skip ci]"
-      - name: 'Output Step'
-        env:
-          NEW_TAG: ${{ steps.version-bump.outputs.newTag }}
-        run: echo "new tag $NEW_TAG"
-
-  deploy_storybook:
-    needs: [lint, audit, unit]
-    if: "!contains(github.event.head_commit.message, 'skip storybook')"
-    runs-on: ubuntu-latest
-    steps:
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
           registry-url: "https://registry.npmjs.org"
-      - uses: pnpm/action-setup@v2.2.2
-      - name: pnpm Install
-        run: pnpm install
+      - name: setup pnpm
+        uses: IPWright83/pnpm-setup-cache-action@v5
       - run: pnpm run deploy-storybook -- --ci
         env:
           GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
 
-  chromatic:
-    needs: [lint, audit, unit]
-    if: "!contains(github.event.head_commit.message, 'skip chromatic')"
+  update_chromatic_baseline:
+    needs: changesets_version
+    if: "!contains(github.event.head_commit.message, 'skip chromatic') && needs.changesets_version.outputs.changes == 'false'"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -100,37 +190,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - uses: pnpm/action-setup@v2.2.2
-      - name: pnpm Install
-        run: pnpm install
+      - name: setup pnpm
+        uses: IPWright83/pnpm-setup-cache-action@v5
       - name: Chromatic
         run: npx chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }} --exit-zero-on-changes --auto-accept-changes
-    
-  auto_release:
-    needs: [version_bump]
-    runs-on: ubuntu-latest
-    steps:
-      - name: echo version
-        run: echo ${{ steps.version_bump.outputs.newTag }}
-      - uses: "marvinpinto/action-automatic-releases@latest"
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          prerelease: false
-          automatic_release_tag: ${{ steps.version_bump.outputs.newTag }}
-
-  pnpm_publish:
-    runs-on: ubuntu-latest
-    needs: [auto_release]
-    steps:
-      - uses: actions/checkout@v2
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          registry-url: "https://registry.npmjs.org"
-      - uses: pnpm/action-setup@v2.2.2
-      - name: pnpm Install
-        run: pnpm install
-      - run: pnpm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
