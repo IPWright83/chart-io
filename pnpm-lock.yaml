@@ -173,6 +173,7 @@ importers:
       redux: ^4.2.0
       redux-devtools-extension: ^2.13.8
       redux-thunk: ^2.4.1
+      reselect: ^4.1.6
       uuid: ^8.3.2
       web-vitals: ^2.1.4
       webpack: '5'
@@ -181,6 +182,7 @@ importers:
       d3: 6.7.0
       d3-interpolate-path: 2.2.3
       lodash: 4.17.21
+      reselect: 4.1.6
       uuid: 8.3.2
     devDependencies:
       '@babel/cli': 7.18.9
@@ -4809,7 +4811,7 @@ packages:
       '@types/babel__core': 7.1.19
       babel-plugin-react-docgen: 4.2.1
       pnp-webpack-plugin: 1.7.0
-      react-scripts: 5.0.1_canvas@2.9.3+react@18.2.0
+      react-scripts: 5.0.1_x5ssodrr4lgfnf62onlhi2tasa
       semver: 7.3.7
     transitivePeerDependencies:
       - '@types/webpack'
@@ -15513,6 +15515,10 @@ packages:
 
   /requires-port/1.0.0:
     resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
+
+  /reselect/4.1.6:
+    resolution: {integrity: sha512-ZovIuXqto7elwnxyXbBtCPo9YFEr3uJqj2rRbcOOog1bmu2Ag85M4hixSwFWyaBMKXNgvPaJ9OSu9SkBPIeJHQ==}
+    dev: false
 
   /resolve-cwd/3.0.0:
     resolution: {integrity: sha512-OrZaX2Mb+rJCpH/6CpSqt9xFVpN++x01XnN2ie9g6P5/3xelLAkXWVADpdz1IHD/KFfEXyE6V0U01OQ3UO2rEg==}

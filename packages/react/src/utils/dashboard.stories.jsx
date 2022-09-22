@@ -56,12 +56,15 @@ const DashboardTemplate = (args) => {
     const [store1, setStore1] = useState();
     const [store2, setStore2] = useState();
     const [store3, setStore3] = useState();
+    const [store4, setStore4] = useState();
+    const [store5, setStore5] = useState();
+    const [store6, setStore6] = useState();
 
     useEffect(() => {
-        if (store1 && store2 && store3) {
-            linkStores([store1, store2, store3]);
+        if (store1 && store2 && store3 && store4 && store5 && store6) {
+            linkStores([store1, store2, store3, store4, store5, store6]);
         }
-    }, [store1, store2, store3]);
+    }, [store1, store2, store3, store4, store5, store6]);
 
     return (
         <div>
@@ -76,6 +79,21 @@ const DashboardTemplate = (args) => {
                 <XAxis fields={[args.x]} />
             </XYChart>
             <XYChart data={processData(example_dataset)} width={width} height={height} onStoreCreated={setStore3}>
+                <Line x={args.x} y={args.y} color={args.color} />
+                <YAxis fields={[args.y, args.y2, args.y3]} />
+                <XAxis fields={[args.x]} />
+            </XYChart>
+            <XYChart data={processData(example_dataset)} width={width} height={height} onStoreCreated={setStore4}>
+                <Line x={args.x} y={args.y} color={args.color} />
+                <YAxis fields={[args.y, args.y2, args.y3]} />
+                <XAxis fields={[args.x]} />
+            </XYChart>
+            <XYChart data={processData(example_dataset)} width={width} height={height} onStoreCreated={setStore5}>
+                <Line x={args.x} y={args.y} color={args.color} />
+                <YAxis fields={[args.y, args.y2, args.y3]} />
+                <XAxis fields={[args.x]} />
+            </XYChart>
+            <XYChart data={processData(example_dataset)} width={width} height={height} onStoreCreated={setStore6}>
                 <Line x={args.x} y={args.y} color={args.color} />
                 <YAxis fields={[args.y, args.y2, args.y3]} />
                 <XAxis fields={[args.x]} />

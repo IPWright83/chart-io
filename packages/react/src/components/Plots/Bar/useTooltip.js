@@ -5,7 +5,6 @@ import { eventActions } from "../../../store";
 /**
  * Handles the user interacting with a DataPoint on the Column chart and the need to display a tooltip
  * @param  {Function} options.dispatch     The redux store dispatch function
- 
  * @param  {String} options.y              The key for the y value
  * @return {Function}                      A function to set the tooltip datum
  */
@@ -56,11 +55,17 @@ const useTooltip = ({ dispatch, y }) => {
     }, [dispatch, colors, xs, y, datum, positionEvent]);
 
     /**
+     * Represents the information required for a tooltip
+     * @typedef {Object}  TooltipParams
+     * @property {object} datum          The datum that triggered the tooltip event
+     * @property {Array}  fillColors     The fill colors for each series
+     * @property {Object} event          The MouseEvent that triggered the tooltip
+     * @property {Array}  xs             The keys for the x value
+     */
+
+    /**
      * A function to set the tooltip parameters
-     * @param  {String} options.datum      The datum that triggered the tooltip event
-     * @param  {Array} options.fillColors  The fill colors for each series
-     * @param  {Object} options.event      The MouseEvent that triggered the tooltip
-     * @param  {Array} options.xs          The keys for the x value
+     * @param  {TooltipParams} tooltipParams    The configuration for the tooltip
      */
     return (tooltipParams) => {
         if (!tooltipParams) {

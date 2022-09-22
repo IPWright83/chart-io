@@ -45,10 +45,16 @@ const useTooltip = ({ dispatch, x, y }) => {
     }, [dispatch, color, x, y, positionEvent]);
 
     /**
+     * Represents the information required for a tooltip
+     * @typedef {Object}  TooltipParams
+     * @property {object} datum          The datum that triggered the tooltip event
+     * @property {Array}  fillColors     The fill colors for each series
+     * @property {Object} event          The MouseEvent that triggered the tooltip
+     */
+
+    /**
      * A function to set the tooltip parameters
-     * @param  {String} options.datum      The datum that triggered the tooltip event
-     * @param  {String} options.fillColor  The border color of the tooltip
-     * @param  {Object} options.event      The MouseEvent that triggered the tooltip
+     * @param  {TooltipParams} tooltipParams    The configuration for the tooltip
      */
     return (tooltipParams) => {
         if (!tooltipParams) {
