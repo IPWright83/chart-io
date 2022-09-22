@@ -122,7 +122,7 @@ jobs:
         run: echo ::set-output name=changes::$(pnpm bump 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
       - name: Update lockfile
         if: steps.version.outputs.changes == 'true'
-        run: pnpm install
+        run: pnpm install --no-frozen-lockfile
       - name: Create Tags
         if: steps.version.outputs.changes == 'true'
         run: pnpm changeset tag
