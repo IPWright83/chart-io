@@ -1,7 +1,10 @@
+import { createSelector } from "reselect";
+
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
 
 const EMPTY_OBJECT = {};
 const EMPTY_ARRAY = [];
+const EMPTY_MARGIN = { left: 0, right: 0, top: 0, bottom: 0 };
 
 const chartSelectors = {
     /**
@@ -41,7 +44,7 @@ const chartSelectors = {
      * @type {Object}
      */
     scales: {
-        store: (state) => chartSelectors.store(state).scales || {},
+        store: (state) => chartSelectors.store(state).scales || EMPTY_OBJECT,
 
         /**
          * Return a scale based on the field
@@ -117,7 +120,7 @@ const chartSelectors = {
          * @param  {Object} state The application state
          * @return {Object}       The margin
          */
-        margin: (state) => chartSelectors.dimensions.store(state).margin || { left: 0, right: 0, top: 0, bottom: 0 },
+        margin: (state) => chartSelectors.dimensions.store(state).margin || EMPTY_MARGIN,
     },
 
     /**
@@ -127,5 +130,14 @@ const chartSelectors = {
      */
     theme: (state) => chartSelectors.store(state).theme,
 };
+
+/**
+ * Returns the margin of the chart
+ * @param  {Object} state The application state
+ * @return {Object}       The margin
+ */
+chartSelectors.dimensions.margin = createSelector(chartSelectors.dimensions.store, (dimensions) => {
+    return dimensions?.margin || EMPTY_MARGIN;
+});
 
 export { chartSelectors };

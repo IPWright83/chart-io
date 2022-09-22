@@ -1,3 +1,5 @@
+import { createSelector } from "reselect";
+
 const EMPTY_OBJECT = {};
 const EMPTY_ARRAY = [];
 
@@ -61,20 +63,6 @@ const eventSelectors = {
     },
 
     /**
-     * The current position of the mouse events
-     * @param  {Object} state The application state
-     * @return {Object}       An object with { x, y } positions or null
-     */
-    position: (state) => {
-        const { mouse } = eventSelectors.store(state);
-        if (!mouse) {
-            return {};
-        }
-
-        return { x: mouse.x, y: mouse.y };
-    },
-
-    /**
      * The current mode for the chart events. This will depend on the last
      * event fired. If the cursor isn't over the chart then this should be "NONE"
      * otherwise it will be either "ENTER" for the first event, or "MOVE" for all future
@@ -91,5 +79,19 @@ const eventSelectors = {
         return mouse.mode;
     },
 };
+
+/**
+ * The current position of the mouse events
+ * @param  {Object} state The application state
+ * @return {Object}       An object with { x, y } positions or null
+ */
+eventSelectors.position = createSelector(eventSelectors.store, (event) => {
+    const { mouse } = event;
+    if (!mouse) {
+        return EMPTY_OBJECT;
+    }
+
+    return { x: mouse.x, y: mouse.y };
+});
 
 export { eventSelectors };
