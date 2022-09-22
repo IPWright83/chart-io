@@ -20,6 +20,8 @@ Each individual chart has it's own unique [Redux](https://redux.js.org/) store. 
 
 The store is designed such that you can listen to state changes if you wish, but you can also inject your own reducers into the store.
 
+> **Important Note**: This Redux store currently doesn't follow best practise, in that it's not guaranteed to serializeable. Currently the store may contain `Functions` and `Date` objects, neither of which can be serialized to JSON. This means you should not try to persist the store.
+
 ### Listening to state changes
 
 If you wish to listen to state changes within a visualization, or simply obtain the state for some reason then you'll first need access to the store. To do this you need to register for the `onStoreCreated` callback. This will be triggered once during the initialisation of the chart.
@@ -46,8 +48,8 @@ The customReducers prop takes the form of a keyed object, where each key represe
 > **Note:** The following reducer names are reserved: `chart`, `event`, `telemetry`
 
 ```
-// You typically want to define these outside of a React component, as if the
-// component were to re-render, the customReducers would take a new reference
+// You typically want to define these outside of a React component or memoize them
+// as if the component were to re-render, the customReducers would take a new reference
 // value and cause the store to be re-initialised
 const customReducers = {
   tooltips: (state = {}, action) => {
