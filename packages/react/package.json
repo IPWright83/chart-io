@@ -29,7 +29,7 @@
     "chart"
   ],
   "dependencies": {
-    "@chart-it/detection": "workspace:^0.1.33",
+    "@chart-it/detection": "workspace:*",
     "d3": "^6.2.0",
     "d3-interpolate-path": "^2.2.3",
     "lodash": "^4.17.21",
