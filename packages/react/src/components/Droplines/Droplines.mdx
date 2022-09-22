@@ -8,15 +8,15 @@ The `<Droplines>` component allows us to define a layer to render drop lines on 
     <Story id="components-droplines--default" />
 </Canvas>
 
-### Props
-
-Also includes all props from [XY Plot Components API](XYPlot.md)
+### `<Droplines>` Props
 
 | Prop             | Type          | Default | Note                                                                                                         |
 | ---------------- | ------------- | ------- | ------------------------------------------------------------------------------------------------------------ |
 | `layer`\*        | `HTMLElement` |         | This is an _internal_ field and should not need setting manually. It is populated `withSVG` or `withCanvas`. |
 | `showHorizontal` | `boolean`     | true    | Should horizontal droplines be shown?                                                                        |
 | `showVertical`   | `boolean`     | true    | Should vertical droplines be shown?                                                                          |
+
+<br />
 
 ## Adding Droplines Programatically
 
@@ -48,6 +48,8 @@ eventActions.removeDropline(dropline);
 | `x2`           | `number`  | The end x-coordinate of the dropline   |
 | `y1`           | `number`  | The start y-coordinate of the dropline |
 | `y2`           | `number`  | The end y-coordinate of the dropline   |
+
+<br />
 
 ## Visual Styling
 

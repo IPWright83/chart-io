@@ -18,7 +18,7 @@ export default {
     },
 };
 
-const MarkersTemplate = (args) => {
+const MarkersTemplate = () => {
     const store = createMockStorybookStore({
         chart: {
             theme: themes.light,
