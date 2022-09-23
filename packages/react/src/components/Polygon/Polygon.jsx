@@ -5,7 +5,7 @@ import "./Polygon.css";
 
 /**
  * Renders a Polygon
- * @return {ReactElement}  The Background component
+ * @return {ReactElement}  The Polygon component
  */
 const Polygon = ({ points, opacity, fill, stroke }) => {
     if (!points) {

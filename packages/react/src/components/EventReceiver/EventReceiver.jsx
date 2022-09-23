@@ -1,4 +1,4 @@
-import "./Background.css";
+import "./EventReceiver.css";
 
 import * as d3 from "d3";
 import { throttle } from "lodash";
@@ -11,9 +11,9 @@ import { MOUSE_MOVE_THROTTLE } from "../../constants";
 
 /**
  * Creates a background layer which is used to capture mouse events
- * @return {ReactElement}  The Background component
+ * @return {ReactElement}  The EventReceiver component
  */
-const Background = ({ layer }) => {
+const EventReceiver = ({ layer }) => {
     const dispatch = useDispatch();
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
@@ -30,7 +30,7 @@ const Background = ({ layer }) => {
                 dispatch(eventActions.mouseMove(e));
             },
             MOUSE_MOVE_THROTTLE,
-            { leading: true },
+            { leading: true }
         );
 
         // prettier-ignore
@@ -46,10 +46,10 @@ const Background = ({ layer }) => {
     }, [dispatch, layer, width, height, margin]);
 
     const transform = `translate(${margin.left || 0}, ${margin.top || 0})`;
-    return <rect className="chart-it background" transform={transform} />;
+    return <rect className="chart-it event-receiver" transform={transform} />;
 };
 
-Background.propTypes = {
+EventReceiver.propTypes = {
     /**
      * The layer to be rendered upon. Typically this is an `<svg:g>` or a fake HTMLElement when using canvas.
      * @default undefined
@@ -58,4 +58,4 @@ Background.propTypes = {
     layer: PropTypes.object,
 };
 
-export { Background };
+export { EventReceiver };

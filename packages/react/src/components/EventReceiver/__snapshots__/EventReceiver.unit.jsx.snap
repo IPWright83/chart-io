@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Background should render correctly 1`] = `
+exports[`EventReceiver should render correctly 1`] = `
 <DocumentFragment>
   <svg>
     <g
-      class="g-background"
+      class="g-event-receiver"
     >
       <rect
-        class="chart-it background"
+        class="chart-it event-receiver"
         height="330"
         transform="translate(10, 30)"
         width="770"
@@ -17,7 +17,7 @@ exports[`Background should render correctly 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Background should skip if there is no layer avaliable 1`] = `
+exports[`EventReceiver should skip if there is no layer avaliable 1`] = `
 Object {
   "current": null,
 }
