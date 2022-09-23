@@ -1,12 +1,7 @@
-import isChromatic from "chromatic/isChromatic";
 import React from "react";
-import { Provider } from "react-redux";
 
-import { themes } from "../../themes";
 import { Polygon } from ".";
 import mdx from "./Polygon.mdx";
-
-import { createMockStorybookStore } from "../../testUtils";
 
 export default {
     title: "Components/Polygon",

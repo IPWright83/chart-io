@@ -19,14 +19,14 @@ export default {
     },
 };
 
-const MarkersTemplate = () => {
+const MarkersTemplate = (args) => {
     const store = createMockStorybookStore({
         chart: {
             animationDuration: isChromatic() ? 0 : 1000,
             theme: themes.light,
         },
         event: {
-            markers: [{ fill: "steelblue", stroke: "lightblue", r1: 10, r2: 50, cx: 50, cy: 50 }],
+            markers: [{ fill: args.fill, stroke: args.stroke, r1: 10, r2: 40, cx: 50, cy: 50 }],
         },
     });
 
@@ -41,3 +41,14 @@ const MarkersTemplate = () => {
 
 export const Default = MarkersTemplate.bind({});
 Default.storyName = "Markers";
+Default.args = {
+    fill: "steelblue",
+    stroke: "red",
+};
+
+export const Outline = MarkersTemplate.bind({});
+Outline.storyName = "Outline";
+Outline.args = {
+    stroke: "steelblue",
+    fill: null,
+};

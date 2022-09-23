@@ -18,7 +18,10 @@ const Markers = ({ layer }) => {
     useEffect(() => {
         if (!layer.current) return;
 
-        const join = d3.select(layer.current).selectAll(".marker").data(markers);
+        const join = d3
+            .select(layer.current)
+            .selectAll(".marker")
+            .data(markers);
 
         join.exit().remove();
 
@@ -30,7 +33,7 @@ const Markers = ({ layer }) => {
             .style("stroke", (d) => d.stroke || "none")
             .style("fill", (d) => d.fill || "none")
             .style("point-events", "none")
-            .attr("r", (d) => d.r1)
+            .attr("r", (d) => d.r1 ?? d.r2)
             .attr("cx", (d) => d.cx)
             .attr("cy", (d) => d.cy);
 
