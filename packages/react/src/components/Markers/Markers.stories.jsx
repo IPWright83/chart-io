@@ -1,3 +1,4 @@
+import isChromatic from "chromatic/isChromatic";
 import React from "react";
 import { Provider } from "react-redux";
 
@@ -21,6 +22,7 @@ export default {
 const MarkersTemplate = () => {
     const store = createMockStorybookStore({
         chart: {
+            animationDuration: isChromatic() ? 0 : 1000,
             theme: themes.light,
         },
         event: {
