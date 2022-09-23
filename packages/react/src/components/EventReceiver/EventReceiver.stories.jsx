@@ -36,7 +36,7 @@ const EventReceiverTemplate = (args) => {
 
     return (
         <div>
-            <p>Move your cursor over the blue box and check the "Actions" tab to see events</p>
+            <p>Move your cursor over the blue box and check the Storybook Actions tab to see events</p>
             <div style={{ backgroundColor: "steelblue" }}>
                 <Provider store={store}>
                     <svg>
