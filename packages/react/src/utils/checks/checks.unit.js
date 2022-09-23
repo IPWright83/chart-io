@@ -14,7 +14,7 @@ describe("/utils/checks", () => {
 
             expect(ensureBandScale(d3.scaleLinear(), "unit_test")).toBe(false);
             expect(console.error).toHaveBeenCalledWith(
-                `Incompatible scale for a <unit_test />. Are you missing the 'scaleType="band"' in your <Axis /> or <Scale /> component?`
+                `E001 - Incompatible scale for a <unit_test />. Are you missing the 'scaleType="band"' in your <Axis /> or <Scale /> component?`
             );
         });
 
@@ -36,7 +36,7 @@ describe("/utils/checks", () => {
 
             expect(ensureNoScaleOverflow(scale, data, fields)).toBe(false);
             expect(console.warn).toHaveBeenCalledWith(
-                "The scale appears too small for the dataset. Are you missing the `aggregate={true}` in your <Axis /> or <Scale /> component?"
+                "W001 - The scale appears too small for the dataset. Are you missing the `aggregate={true}` in your <Axis /> or <Scale /> component?"
             );
         });
 
@@ -68,7 +68,7 @@ describe("/utils/checks", () => {
 
             expect(ensureValuesAreUnique(data, field, "unit_test")).toBe(false);
             expect(console.warn).toHaveBeenCalledWith(
-                `There are duplicate values in the x field. This may cause rendering artifacts with a <unit_test>.`
+                `W002 - There are duplicate values in the x field. This may cause rendering artifacts with a <unit_test>.`
             );
         });
     });
