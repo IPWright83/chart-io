@@ -14,9 +14,10 @@ Typically you should use the `<XAxis>` or `<YAxis>` component depending on the o
 
 | Prop            | Type            | Default | Note                                                                                                                                                                      |
 | --------------- | --------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `position`      | `string`        |         | The position of the axis. One of `top`, `bottom`, `left` or `right`. This will use the appropriate [d3.axis](https://github.com/d3/d3-axis#axisTop) orientation function. |
 | `fields`        | `Array<string>` |         | The set of fields that this axis represents. These should correspond to the fields being displayed on this Axis within the data.                                          |
+| `position`      | `string`        |         | The position of the axis. One of `top`, `bottom`, `left` or `right`. This will use the appropriate [d3.axis](https://github.com/d3/d3-axis#axisTop) orientation function. |
 | `showGridlines` | `boolean`       | true    | Determines whether gridlines should be shown against this axis.                                                                                                           |
+| `tickFormat`    | `function`      | null    | See https://github.com/d3/d3-axis#axis_tickFormat                                                                                                                         |
 | `tickSizeInner` | `number`        | 6       | See https://github.com/d3/d3-axis#axis_tickSizeInner.                                                                                                                     |
 | `tickSizeOuter` | `number`        | 6       | See https://github.com/d3/d3-axis#axis_tickSizeOuter.                                                                                                                     |
 | `tickPadding`   | `number`        | 3       | See https://github.com/d3/d3-axis#axis_tickPadding.                                                                                                                       |
@@ -34,7 +35,6 @@ Discrete scales are best suited for `<Bar>` or `<Column>` plots but can also be 
 <Canvas>
     <Story id="components-axis-types--string-axis" />
 </Canvas>
-
 <Canvas>
     <Story id="components-axis-types--boolean-axis" />
 </Canvas>
@@ -49,15 +49,12 @@ Numerical continuous scales are best for plotting `<Area>`, `<Line>` and `<Scatt
 <Canvas>
     <Story id="components-axis-types--integer-axis" />
 </Canvas>
-
 <Canvas>
     <Story id="components-axis-types--double-axis" />
 </Canvas>
-
 <Canvas>
     <Story id="components-axis-types--double-axis-only-negative-axis" />
 </Canvas>
-
 <Canvas>
     <Story id="components-axis-types--double-axis-mixed-sign-axis" />
 </Canvas>
@@ -72,7 +69,7 @@ Sometimes when using multiple fields, rather than sharing an Axis, you instead w
 
 ### ScaleType
 
-There are occasions where you may want to speicfy the type of d3.Scale that is used underneath. To do this you can specify the `scaleType` explicitly. Currently you can choose one of the following options:
+There are occasions where you may want to specify the type of d3.Scale that is used underneath. To do this you can specify the `scaleType` explicitly. Currently you can choose one of the following options:
 
 -   power
 -   linear
@@ -97,7 +94,6 @@ Time scales are best for plotting `<Area>`, `<Line>` and showing data across tim
 <Canvas>
     <Story id="components-axis-types--date-axis" />
 </Canvas>
-
 <Canvas>
     <Story id="components-axis-types--date-time-axis" />
 </Canvas>
