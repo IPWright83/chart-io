@@ -26,23 +26,24 @@ const light = {
         strokeWidth: 1,
     },
 
-    opacity: 0.7,
-    selectedOpacity: 1,
-    foreground: "#000000",
-    colors: [
-        "#99c1dc",
-        "#fc998e",
-        "#fdc381",
-        "#c2e587",
-        "#fff18c",
-        "#c999ca",
-        "#a4dcd2",
-        "#d6efd1",
-        "#ffffc2",
-        "#cbc8e1",
-        "#fdd7ea",
-        "#e1e1e1",
-    ],
+    series: {
+        opacity: 0.7,
+        selectedOpacity: 1,
+        colors: [
+            "#99c1dc",
+            "#fc998e",
+            "#fdc381",
+            "#c2e587",
+            "#fff18c",
+            "#c999ca",
+            "#a4dcd2",
+            "#d6efd1",
+            "#ffffc2",
+            "#cbc8e1",
+            "#fdd7ea",
+            "#e1e1e1",
+        ],
+    },
 };
 
 const dark = {
@@ -73,21 +74,22 @@ const dark = {
         strokeWidth: 1,
     },
 
-    opacity: 1,
-    selectedOpacity: 0.7,
-    foreground: "#dddddd",
-    colors: [
-        "#51cbdf",
-        "#ee709d",
-        "#f8c86c",
-        "#677be7",
-        "#90e5a4",
-        "#91564b",
-        "#ec73c1",
-        "#7f7f7f",
-        "#bdbf2f",
-        "#00becf",
-    ],
+    series: {
+        opacity: 1,
+        selectedOpacity: 0.7,
+        colors: [
+            "#51cbdf",
+            "#ee709d",
+            "#f8c86c",
+            "#677be7",
+            "#90e5a4",
+            "#91564b",
+            "#ec73c1",
+            "#7f7f7f",
+            "#bdbf2f",
+            "#00becf",
+        ],
+    },
 };
 
 const themes = {

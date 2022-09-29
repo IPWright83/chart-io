@@ -68,7 +68,7 @@ const StackedAreaBase = ({ x, ys, colors, interactive, layer, canvas }) => {
             join.enter().each((d) => {
                 const color = colorScale(d.key);
                 const fillColor = d3.color(color);
-                fillColor.opacity = theme.opacity;
+                fillColor.opacity = theme.series.opacity;
                 const strokeColor = fillColor.darker();
 
                 context.beginPath();
@@ -90,7 +90,7 @@ const StackedAreaBase = ({ x, ys, colors, interactive, layer, canvas }) => {
 
         join.style("fill", (d) => colorScale(d.key))
             .style("stroke", (d) => d3.color(colorScale(d.key)).darker())
-            .style("opacity", theme.opacity)
+            .style("opacity", theme.series.opacity)
             .style("pointer-events", "none")
             .transition("area")
             .duration(animationDuration)
@@ -103,7 +103,7 @@ const StackedAreaBase = ({ x, ys, colors, interactive, layer, canvas }) => {
                     return a.x === b.x && a.x === xScale.range()[1];
                 });
             });
-    }, [x, ys, sortedData, xScale, yScale, layer, animationDuration, theme.opacity]);
+    }, [x, ys, sortedData, xScale, yScale, layer, animationDuration, theme.series.opacity]);
 
     // If possible respond to global mouse events for tooltips etc
     if (interactive) {

@@ -25,7 +25,7 @@ const SVGLine = ({ x, y, color, interactive, layer, canvas }) => {
     const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
-    const seriesColor = color || theme.colors[0];
+    const seriesColor = color || theme.series.colors[0];
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
 
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
@@ -47,7 +47,7 @@ const SVGLine = ({ x, y, color, interactive, layer, canvas }) => {
             .datum(sortedData)
             .transition("line")
             .duration(animationDuration)
-            .attrTween("d", function (d) {
+            .attrTween("d", function(d) {
                 const previous = d3.select(this).attr("d");
                 const current = line(d);
                 return interpolateMultiPath(previous, current);

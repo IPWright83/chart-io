@@ -17,7 +17,7 @@ const StackedSVGBar = withSVG(withXYPlot(StackedBarBase), "plot stacked-bar");
  */
 const StackedBar = ({ useCanvas, colors, ...props }) => {
     const theme = useSelector((s) => chartSelectors.theme(s));
-    const palette = colors || theme.colors;
+    const palette = colors || theme.series.colors;
 
     if (useCanvas) {
         return <StackedCanvasBar {...props} colors={palette} />;

@@ -14,7 +14,7 @@ import { Scatter } from "./Scatter";
  */
 const Scatters = ({ ys, colors, ...props }) => {
     const theme = useSelector((s) => chartSelectors.theme(s));
-    const palette = colors || theme.colors;
+    const palette = colors || theme.series.colors;
 
     return (
         <React.Fragment>

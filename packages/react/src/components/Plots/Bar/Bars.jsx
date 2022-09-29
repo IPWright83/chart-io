@@ -16,7 +16,7 @@ import { StackedBar } from "./StackedBar";
  */
 const Bars = ({ xs, colors, stacked, grouped, ...props }) => {
     const theme = useSelector((s) => chartSelectors.theme(s));
-    const palette = colors || theme.colors;
+    const palette = colors || theme.series.colors;
 
     if (stacked && grouped) {
         throw new Error("Bar plots currently do not support both being stacked and grouped");

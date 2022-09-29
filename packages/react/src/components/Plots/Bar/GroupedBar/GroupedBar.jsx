@@ -17,7 +17,7 @@ const GroupedSVGBar = withSVG(withXYPlot(GroupedBarBase), "plot grouped-bar");
  */
 const GroupedBar = ({ useCanvas, colors, ...props }) => {
     const theme = useSelector((s) => chartSelectors.theme(s));
-    const palette = colors || theme.colors;
+    const palette = colors || theme.series.colors;
 
     if (useCanvas) {
         return <GroupedCanvasBar {...props} colors={palette} />;
