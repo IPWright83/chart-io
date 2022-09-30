@@ -4,7 +4,7 @@ import { Square } from "./Square";
 import mdx from "../TooltipItem.mdx";
 
 export default {
-    title: "Components/Tooltip/TooltipItem/Square",
+    title: "Components/TooltipOverlay/Tooltip/TooltipItem/Square",
     component: Square,
     parameters: {
         docs: {

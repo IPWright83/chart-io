@@ -15,7 +15,7 @@ const TooltipOverlay = ({ offset = 20 }) => {
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
     const showTooltip = useSelector((s) => eventSelectors.tooltip.show(s));
     const borderColor = useSelector((s) => eventSelectors.tooltip.color(s));
-    const tooltipItems = useSelector((s) => eventSelectors.tooltip.items(s));
+    const items = useSelector((s) => eventSelectors.tooltip.items(s));
     const position = useSelector((s) => eventSelectors.tooltip.position(s));
 
     if (!showTooltip) {
@@ -32,7 +32,7 @@ const TooltipOverlay = ({ offset = 20 }) => {
 
     return (
         <foreignObject style={style}>
-            <Tooltip borderColor={borderColor} items={tooltipItems} positionStyle={positionStyle} />
+            <Tooltip borderColor={borderColor} items={items} positionStyle={positionStyle} />
         </foreignObject>
     );
 };

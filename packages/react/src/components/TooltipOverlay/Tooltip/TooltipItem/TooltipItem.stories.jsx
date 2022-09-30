@@ -4,7 +4,7 @@ import { TooltipItem } from "./TooltipItem";
 import mdx from "./TooltipItem.mdx";
 
 export default {
-    title: "Components/Tooltip/TooltipItem",
+    title: "Components/TooltipOverlay/Tooltip/TooltipItem",
     component: TooltipItem,
     parameters: {
         docs: {
