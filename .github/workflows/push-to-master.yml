@@ -175,7 +175,7 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - name: setup pnpm
         uses: IPWright83/pnpm-setup-cache-action@v5
-      - run: pnpm run deploy-storybook -- --ci
+      - run: cd packages/react && pnpm run deploy-storybook -- --ci
         env:
           GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
 
