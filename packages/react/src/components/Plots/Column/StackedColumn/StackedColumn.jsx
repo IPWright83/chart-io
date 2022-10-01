@@ -17,7 +17,7 @@ const StackedSVGColumn = withSVG(withXYPlot(StackedColumnBase), "plot stacked-co
  */
 const StackedColumn = ({ useCanvas, colors, ...props }) => {
     const theme = useSelector((s) => chartSelectors.theme(s));
-    const palette = colors || theme.colors;
+    const palette = colors || theme.series.colors;
 
     if (useCanvas) {
         return <StackedCanvasColumn {...props} colors={palette} />;

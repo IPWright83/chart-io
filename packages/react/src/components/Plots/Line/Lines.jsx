@@ -13,7 +13,7 @@ import { Line } from "./Line";
  */
 const Lines = ({ ys, colors, ...props }) => {
     const theme = useSelector((s) => chartSelectors.theme(s));
-    const palette = colors || theme.colors;
+    const palette = colors || theme.series.colors;
 
     return (
         <React.Fragment>

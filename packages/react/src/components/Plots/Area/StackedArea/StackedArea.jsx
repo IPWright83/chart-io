@@ -17,7 +17,7 @@ const StackedSVGArea = withSVG(withXYPlot(StackedAreaBase), "plot stacked-area")
  */
 const StackedArea = ({ useCanvas, colors, ...props }) => {
     const theme = useSelector((s) => chartSelectors.theme(s));
-    const palette = colors || theme.colors;
+    const palette = colors || theme.series.colors;
 
     if (useCanvas) {
         return <StackedCanvasArea {...props} colors={palette} />;

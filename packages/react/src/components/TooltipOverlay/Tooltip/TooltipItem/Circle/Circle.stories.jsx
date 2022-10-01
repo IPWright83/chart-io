@@ -4,7 +4,7 @@ import { Circle } from "./Circle";
 import mdx from "../TooltipItem.mdx";
 
 export default {
-    title: "Components/Tooltip/TooltipItem/Circle",
+    title: "Components/TooltipOverlay/Tooltip/TooltipItem/Circle",
     component: Circle,
     parameters: {
         docs: {

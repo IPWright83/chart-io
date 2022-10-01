@@ -10,10 +10,12 @@ import { Line } from "./Line";
 const getShape = (seriesType) => {
     switch (seriesType) {
         case "scatter":
+        case "circle":
             return Circle;
         case "bar":
         case "column":
         case "area":
+        case "square":
             return Square;
         case "line":
             return Line;

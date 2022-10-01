@@ -5,7 +5,7 @@ const defaultState = {
     droplines: [],
     markers: [],
     tooltip: {
-        tooltipItems: [],
+        items: [],
     },
 };
 
@@ -84,7 +84,7 @@ const eventReducer = (state = defaultState, action) => {
 
         case "EVENT.ADD_TOOLTIP_ITEM":
             // Don't add duplicate items (e.g. the x for multiple series)
-            if (state?.tooltip?.tooltipItems?.map((item) => item.name).includes(payload.name)) {
+            if (state?.tooltip?.items?.map((item) => item.name).includes(payload.name)) {
                 return state;
             }
 
@@ -92,7 +92,7 @@ const eventReducer = (state = defaultState, action) => {
                 ...state,
                 tooltip: {
                     ...state.tooltip,
-                    tooltipItems: [...state.tooltip.tooltipItems, payload],
+                    items: [...state.tooltip.items, payload],
                 },
             };
 
@@ -101,7 +101,7 @@ const eventReducer = (state = defaultState, action) => {
                 ...state,
                 tooltip: {
                     ...state.tooltip,
-                    tooltipItems: state.tooltip.tooltipItems.filter((t) => !isEqual(t, payload)),
+                    items: state.tooltip.items.filter((t) => !isEqual(t, payload)),
                 },
             };
 

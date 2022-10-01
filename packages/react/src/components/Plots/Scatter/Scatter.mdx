@@ -1,8 +1,15 @@
 import { Story, Canvas } from "@storybook/addon-docs/blocks";
 
-# Scatter Component
+# Scatter Plots
 
-The `<Scatter>` component allows us to define a scatter plot on our chart.
+There are two different Scatter based components, these include:
+
+-   `<Scatter>` - allows us to define a scatter plot on our chart
+-   `<Scatters>` - allows us to define multiple scatter series
+
+## `<Scatter>` Component
+
+The `<Scatter>` component should be used when you want to plot a single scatter plot on a chart.
 
 <Canvas>
     <Story id="xycharts-scatter--basic" />
@@ -10,18 +17,13 @@ The `<Scatter>` component allows us to define a scatter plot on our chart.
 
 ### Props
 
-Also includes all props from [XY Plot Components API](XYPlot.md)
-
-| Prop           | Type          | Default            | Note                                                                                                         |
-| -------------- | ------------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
-| `color`        | `string`      | Derived from Theme | The colour of the data.                                                                                      |
-| `layer`\*      | `HTMLElement` |                    | This is an _internal_ field and should not need setting manually. It is populated `withSVG` or `withCanvas`. |
-| `radius`       | `number`      | 5                  | The radius to use for each data point on the Scatter chart.                                                  |
-| `x`\*          | `string`      | null               | The key of the field that contains the value along the x-axis.                                               |
-| `y`\*          | `string`      | null               | The key of the field that contains the value along the y-axis.                                               |
-| `onMouseOver`  | `Function`    | `() => {}`         | Event handler to call when the mouse enter a DataPoint.                                                      |
-| `onMouseOut`   | `Function`    | `() => {}`         | Event handler to call when the mouse exits a DataPoint.                                                      |
-| `onMouseClick` | `Function`    | `() => {}`         | Event handler to call when the mouse clicks a DataPoint.                                                     |
+| Prop          | Type      | Default            | Note                                                                                                         |
+| ------------- | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `color`       | `string`  | Derived from Theme | Override the colour of the series                                                                            |
+| **`x`\***     | `string`  | null               | The key of the field that contains the value along the x-axis.                                               |
+| **`y`\***     | `string`  | null               | The key of the field that contains the value along the y-axis.                                               |
+| `radius`      | `number`  | 5                  | The radius to use for each data point on the Scatter chart.                                                  |
+| `interactive` | `boolean` | true               | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot |
 
 ## Visual Styling
 
@@ -31,20 +33,19 @@ Most of the configuration for a `<Scatter>` is similar to other plots. The main 
     <Story id="xycharts-scatter--radius" />
 </Canvas>
 
-## Multiple Series
+## `<Scatters> Component`
 
-There are two ways to go about defining multiple scatter plots. The simplest way is to use the `<Scatters>` (plural) component. The `<Scatters>` component allows us to define multiple series at once and takes care of automaticallying layering and assigning colors.
-
-The long hand way is to define each `<Scatter>`, and configure with a colour manually. The only advantage to this approach is if you wish to control other settings (such as radius or events) differently between the plots.
-
-The results of either approach, render in exactly the same way:
+The `<Scatters>` component allows us to define multiple scatter series.
 
 <Canvas>
     <Story id="xycharts-scatter--multiple-scatter" />
 </Canvas>
 
-#### Scale
+### Props
 
-It is however important to remember whichever approach you use to insert any additional keys that you are using into your `<YAxis>` or `<YScale>` component.
-
-`<YAxis fields={["Total Profit", "Total Revenue", "Total Cost"]} />`
+| Prop       | Type       | Default            | Note                                                           |
+| ---------- | ---------- | ------------------ | -------------------------------------------------------------- |
+| `colors`   | `string[]` | Derived from Theme | Override the colours for the series                            |
+| **`x`\***  | `string`   | null               | The key of the field that contains the value along the x-axis. |
+| **`ys`\*** | `string[]` | null               | The keys of the fields that contains values along the y-axis.  |
+| `radius`   | `number`   | 5                  | The radius to use for each data point on the Scatter chart.    |

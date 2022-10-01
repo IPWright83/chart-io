@@ -1,0 +1,51 @@
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+
+<Meta title="Theming" />
+
+# Theming Charts
+
+Chart-it provides a theme object which allows you to consistenly style your charts while also exposing some slightly more advanced styling configuration. Through the use of the theme object it is possible to create a wide variety of differently styled charts in a consistent way.
+
+## Configuration
+
+You can simply pass a `theme` object into your chart `<XYChart theme={theme}>` to customize the theme. There are 2 built in themes that you can extend if required:
+
+```
+import { themes } from "@chart-it/react";
+
+console.log(themes.dark);
+console.log(themes.light);
+```
+
+## Schema
+
+The current schema for the theme object is as follows:
+
+| Category     | Property          | Type     | Note                                                                                                                                                     |
+| ------------ | ----------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `axis`       | `stroke`          | string   | The [stroke](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke) color of the axis domain line and text                                   |
+| `axis`       | `strokeOpacity`   | number   | The [opacity](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-opacity) of the axis domain line                                         |
+| `axis`       | `strokeWidth`     | number   | The [width](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-width) of the axis domain line                                             |
+| `background` |                   | string   | The [fill](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/fill) of the background of the chart                                               |
+| `crosshair`  | `stroke`          | string   | The [stroke](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke) color of the of the crosshair horizontal and vertical lines              |
+| `crosshair`  | `strokeOpacity`   | number   | The [opacity](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-opacity) of the crosshair horizontal and vertical lines                  |
+| `crosshair`  | `strokeWidth`     | number   | The [width](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-width) of the crosshair horizontal and vertical lines                      |
+| `crosshair`  | `strokeDasharray` | number   | The [stroke-dasharray](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray) of the crosshair horizontal and vertical lines       |
+| `droplines`  | `strokeOpacity`   | number   | The [opacity](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-opacity) of the horizontal and vertical droplines                        |
+| `droplines`  | `strokeWidth`     | number   | The [width](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-width) of the horizontal and vertical droplines                            |
+| `droplines`  | `strokeDasharray` | number   | The [stroke-dasharray](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray) of the horizontal and vertical droplines             |
+| `gridlines`  | `stroke`          | string   | The [stroke](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke) color of the horizontal and vertical gridlines                           |
+| `gridlines`  | `strokeOpacity`   | number   | The [opacity](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-opacity) of the horizontal and vertical gridlines                        |
+| `gridlines`  | `strokeWidth`     | number   | The [width](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-width) of the horizontal and vertical gridlines                            |
+| `series`     | `opacity`         | number   | The [opacity](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-opacity) of the series fill (e.g. points, bars, areas)                   |
+| `series`     | `selectedOpacity` | number   | The [opacity](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-opacity) of the series fill when hovered over (e.g. points, bars, areas) |
+| `series`     | `colors`          | string[] | The hex or rgb colors to use for the different series                                                                                                    |
+
+## Examples
+
+<Canvas>
+    <Story id="theming--light-theme" />
+    <Story id="theming--dark-theme" />
+    <Story id="theming--theme-1" />
+    <Story id="theming--theme-2" />
+</Canvas>

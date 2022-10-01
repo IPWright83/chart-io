@@ -28,7 +28,7 @@ const CanvasLine = ({ x, y, color, layer, canvas }) => {
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
 
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
-    const seriesColor = color || theme.colors[0];
+    const seriesColor = color || theme.series.colors[0];
 
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 

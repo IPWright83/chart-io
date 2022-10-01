@@ -4,7 +4,7 @@ import { Line } from "./Line";
 import mdx from "../TooltipItem.mdx";
 
 export default {
-    title: "Components/Tooltip/TooltipItem/Line",
+    title: "Components/TooltipOverlay/Tooltip/TooltipItem/Line",
     component: Line,
     parameters: {
         docs: {

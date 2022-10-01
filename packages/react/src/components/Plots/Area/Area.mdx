@@ -1,8 +1,17 @@
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 
-# Area Component
+# Area Plots
 
-The `<Area>` component allows us to define an area plot on our chart.
+There are two different Area based components, these include:
+
+-   `<Area>` - allows us to define an area plot on our chart
+-   `<Areas>` - allows us to define multiple area series, or a stacked plot
+
+> **Note**: To ensure interactivity this component should be used with the `<EventRecorder>` component which picks up events on the background and pipes them to the plot.
+
+## `<Area>` Component
+
+The `<Area>` component should be used when you want to plot a single area plot on a chart.
 
 <Canvas>
     <Story id="xycharts-area--basic" />
@@ -10,17 +19,13 @@ The `<Area>` component allows us to define an area plot on our chart.
 
 ### Props
 
-Also includes all props from [XY Plot Components API](XYPlot.md)
-
-| Prop           | Type          | Default            | Note                                                                                                         |
-| -------------- | ------------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
-| `color`        | `string`      | Derived from Theme | The colour of the data.                                                                                      |
-| `layer`\*      | `HTMLElement` |                    | This is an _internal_ field and should not need setting manually. It is populated `withSVG` or `withCanvas`. |
-| `x`\*          | `string`      | null               | The key of the field that contains the value along the x-axis.                                               |
-| `y`\*          | `string`      | null               | The key of the field that contains the value along the y-axis.                                               |
-| `onMouseOver`  | `Function`    | `() => {}`         | Event handler to call when the mouse enter a DataPoint.                                                      |
-| `onMouseOut`   | `Function`    | `() => {}`         | Event handler to call when the mouse exits a DataPoint.                                                      |
-| `onMouseClick` | `Function`    | `() => {}`         | Event handler to call when the mouse clicks a DataPoint.                                                     |
+| Prop          | Type      | Default            | Note                                                                                                         |
+| ------------- | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `color`       | `string`  | Derived from Theme | Override the colour of the series                                                                            |
+| **`x`\***     | `string`  | null               | The key of the field that contains the value along the x-axis.                                               |
+| **`y`\***     | `string`  | null               | The key of the field that contains the value along the y-axis.                                               |
+| `y2`          | `string`  | null               | The key of the field that contains the y2 value for a stream graph style.                                    |
+| `interactive` | `boolean` | true               | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot |
 
 ### Stream Graph
 
@@ -45,7 +50,7 @@ The `<Area>` component also allows us to represent a Stream plot.
     <Story id="xycharts-area--stream" />
 </Canvas>
 
-## Visual Styling
+### Visual Styling
 
 Most of the configuration for a `<Area>` is similar to other plots. Currently the only styling property avaliable is the colour option.
 
@@ -53,18 +58,25 @@ Most of the configuration for a `<Area>` is similar to other plots. Currently th
     <Story id="xycharts-area--color" />
 </Canvas>
 
-## Multiple Series
+## `<Areas> Component`
 
-There are two ways to combine multiple area plots, either:
+The `<Areas>` component allows us to define multiple area series. There are two ways to combine multiple area plots, either:
 
 -   Overlapping Areas
 -   Stacked Areas
 
+## Props
+
+| Prop       | Type       | Default            | Note                                                                 |
+| ---------- | ---------- | ------------------ | -------------------------------------------------------------------- |
+| `colors`   | `string[]` | Derived from Theme | Override the colours for the series                                  |
+| **`x`\***  | `string`   | null               | The key of the field that contains the value along the x-axis.       |
+| **`ys`\*** | `string[]` | null               | The keys of the fields that contains values along the y-axis.        |
+| `stacked`  | `boolean`  | false              | Whether the plots should be stacked. If false they will be overlayed |
+
 ### Overlapping Areas
 
-There are two ways to go about defining multiple area plots for overlapping. The simplest way is to use the `<Areas>` (plural) component. The `<Areas>` component allows us to define multiple series at once and takes care of automaticallying layering and assigning colors.
-
-The long hand way is to define each `<Area>`, and configure with a colour manually. The only advantage to this approach is if you wish to control other settings (such as events) differently between the plots.
+The simplest way is to use the `<Areas>` (plural) component. The `<Areas>` component allows us to define multiple series at once and takes care of automaticallying layering and assigning colors. It is however possible to do this manually if required by defining multiple `<Area>` components, configuring with a colour manually.
 
 The results of either approach, render in exactly the same way:
 

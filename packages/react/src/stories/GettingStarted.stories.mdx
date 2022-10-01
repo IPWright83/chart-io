@@ -1,0 +1,73 @@
+import { Story, Canvas } from "@storybook/addon-docs/blocks";
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Getting Started" />
+
+# Getting Started
+
+To get started with `@chart-it` first ensure that you've installed the package using one of the following commands:
+
+```
+npm install @chart-it/react-d3  //npm
+yarn add @chart-it/react-d3     // yarn
+pnpm add @chart-it/react-d3     // pnpm
+```
+
+## Deciding on your chart type
+
+Then you can start building your first chart. There are two ways to go about doing this, you can either use:
+
+-   `<XYChart>` - simpler setup for charts with 2 Axis
+-   `<Chart>` - allows other chart types, or provides more granular control for charts with 2 Axis
+
+Typically the process of building a chart then involves:
+
+-   Deciding on the fields you wish to plot
+-   Define some Scales or Axis for these components
+-   Creating a "Plot" for each series
+
+## Basic Example using `<XYChart>` component
+
+Here is a basic example of a column chart using the `<XYChart>` component:
+
+<Canvas>
+    <Story id="xycharts-column--basic" />
+</Canvas>
+
+In the code below we can see that we do a few things:
+
+-   Provide the data to the chart as an array of objects
+-   Set some margins (this provides space for the axis labels)
+-   Set the x/y fields
+
+```
+const data = [{ itemType: "Baby Food", price: 255 }, { itemType: "Cereal", price: 205 }, ...]
+const margin = { left: 70, top: 40, right: 40, bottom: 40 };
+
+<XYChart data={data} margin={margin} width={800} height={500}>
+    <YAxis fields={["price"]} />
+    <XAxis fields={["itemType"]} scaleType="band" />
+    <Column x="itemType" y="price" />
+</XYChart>
+```
+
+## Using the `<Chart>` component
+
+You can also build a visualization using the `<Chart>` component, including the column chart above. However it's a little more complex. The `<XYChart>` component takes care of adding a number of the core components that you typically want.
+
+To build the example above you would use the following code. You can read about the different components and what they do in the **Components** section of this Storybook.
+
+```
+const data = [{ itemType: "Baby Food", price: 255 }, { itemType: "Cereal", price: 205 }, ...]
+const margin = { left: 70, top: 40, right: 40, bottom: 40 };
+
+<Chart {...props}>
+    <EventReceiver />
+    <YAxis fields={["price"]} />
+    <XAxis fields={["itemType"]} scaleType="band" />
+    <Column x="itemType" y="price" />
+    <Markers />
+    <Droplines />
+    <TooltipOverlay />
+</Chart>
+```

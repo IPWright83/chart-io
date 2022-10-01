@@ -15,7 +15,7 @@ import { StackedArea } from "./StackedArea";
  */
 const Areas = ({ ys, colors, stacked, ...props }) => {
     const theme = useSelector((s) => chartSelectors.theme(s));
-    const palette = colors || theme.colors;
+    const palette = colors || theme.series.colors;
 
     if (stacked) {
         return <StackedArea ys={ys} colors={palette} {...props} />;

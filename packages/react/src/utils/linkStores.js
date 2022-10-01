@@ -1,9 +1,9 @@
 /**
  * Links 2 or more Redux stores together, piping events between them
- * @param  {Array}  stores          The set of stores to link
- * @param  {String} typeFilter      The event prefix that should be used (CHART or EVENT)
+ * @param  {Array} stores          The set of stores to link
+ * @param  {Regex} actionFilter    A regex to match against redux actions
  */
-export const linkStores = (stores = [], typeFilter = "EVENT") => {
+export const linkStores = (stores = [], actionFilter = /EVENT\.MOUSE*/) => {
     // Grab the dispatch function for each store
     const dispatches = [];
 
@@ -22,7 +22,7 @@ export const linkStores = (stores = [], typeFilter = "EVENT") => {
 
         // If the filter matches then call the dispatch
         // function on each of the stores
-        if (type && type.startsWith(typeFilter)) {
+        if (type && type.match(actionFilter)) {
             dispatches.forEach((d) => d(event));
             return;
         }

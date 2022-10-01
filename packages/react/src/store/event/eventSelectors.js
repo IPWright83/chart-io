@@ -52,7 +52,7 @@ const eventSelectors = {
          * @param  {Object} state   The application state
          * @return {Array}          The array of tooltip items
          */
-        items: (state) => eventSelectors.tooltip.store(state).tooltipItems || EMPTY_ARRAY,
+        items: (state) => eventSelectors.tooltip.store(state).items || EMPTY_ARRAY,
 
         /**
          * A moust event that triggered

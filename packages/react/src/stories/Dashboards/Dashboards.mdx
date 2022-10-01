@@ -1,0 +1,27 @@
+import { Story, Canvas } from "@storybook/addon-docs/blocks";
+
+# Dashboards
+
+One of the benefits of `@chart-it`'s extensibility is that it is simple to customize behaviour, including linking multiple charts together.
+
+The example below shows a number of different charts, that all have linked tooltips and markers. To link these together we "link" the redux stores together using a helper function provided.
+
+> **Note**: It is only possible to call this function once, so ensure all your charts have been initialised before linking them.
+
+To link 2 stores together.
+
+```
+ useEffect(() => {
+        if (store1 && store2) {
+            linkStores([store1,store2]);
+        }
+    }, [store1, store2,
+```
+
+By default linking a store only links moust events, however the `linkStores` function takes a second parameter, which is a Regex that can be used to match other events. For example to include all tooltip values across charts you could use:
+
+`linkStores([store1, store2], /EVENT.(MOUSE|ADD_TOOLTIP_ITEM|REMOVE_TOOLTIP_ITEM)/);`
+
+<Canvas>
+    <Story id="dashboards--dashboard" />
+</Canvas>

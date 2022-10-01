@@ -1,32 +1,32 @@
 import { Story, Canvas } from "@storybook/addon-docs/blocks";
 
-# Bar Component
+# Bar Plots
 
-The `<Bar>` component allows us to define a bar plot on our chart.
+There are two different Bar based components, these include:
+
+-   `<Bar>` - allows us to define a bar plot on our chart
+-   `<Bars>` - allows us to define multiple bar series, or a stacked bar plot
+
+> **Note**: When you are using a Bar plot you may need help the chart by specifying the type of scale. You can do this by configuring your `<XAxis>` like so `<XAxis ... scaleType="band" />`
 
 <Canvas>
     <Story id="xycharts-bar--basic" />
 </Canvas>
 
+## `<Bar>` Component
+
+The `<Bar>` component should be used when you want to plot a single bar plot (horizontal) on a chart.
+
 ### Props
 
-Also includes all props from [XY Plot Components API](XYPlot.md)
+| Prop          | Type      | Default            | Note                                                                                                         |
+| ------------- | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `color`       | `string`  | Derived from Theme | Override the colour of the series                                                                            |
+| **`x`\***     | `string`  | null               | The key of the field that contains the value along the x-axis.                                               |
+| **`y`\***     | `string`  | null               | The key of the field that contains the value along the y-axis.                                               |
+| `interactive` | `boolean` | true               | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot |
 
-| Prop           | Type          | Default            | Note                                                                                                         |
-| -------------- | ------------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
-| `color`        | `string`      | Derived from Theme | The colour of the data.                                                                                      |
-| `layer`\*      | `HTMLElement` |                    | This is an _internal_ field and should not need setting manually. It is populated `withSVG` or `withCanvas`. |
-| `x`\*          | `string`      | null               | The key of the field that contains the value along the x-axis.                                               |
-| `y`\*          | `string`      | null               | The key of the field that contains the value along the y-axis.                                               |
-| `onMouseOver`  | `Function`    | `() => {}`         | Event handler to call when the mouse enter a DataPoint.                                                      |
-| `onMouseOut`   | `Function`    | `() => {}`         | Event handler to call when the mouse exits a DataPoint.                                                      |
-| `onMouseClick` | `Function`    | `() => {}`         | Event handler to call when the mouse clicks a DataPoint.                                                     |
-
-#### Scale
-
-When you are using a Bar chart you may need help the chart by specifying the type of scale. You can do this by configuring your `<YAxis>` like so `<YAxis ... scaleType="band" />`
-
-## Visual Styling
+### Visual Styling
 
 Most of the configuration for a `<Bar>` is similar to other plots. Currently the only styling property avaliable is the colour option.
 
@@ -34,13 +34,23 @@ Most of the configuration for a `<Bar>` is similar to other plots. Currently the
     <Story id="xycharts-bar--color" />
 </Canvas>
 
-## Multiple Series
+## `<Bars>` Component
 
-There are three ways to go about defining multiple bar plots, depending on the type of bar chart you wish to produce.
+The `<Bars>` component allows us to define multiple bar series. There are three ways to combine multiple bar plots, depending on the type of bar chart you wish to produce:
 
 -   Ratio Bars
 -   Stacked Bars
 -   Grouped Bars
+
+### Props
+
+| Prop       | Type       | Default            | Note                                                              |
+| ---------- | ---------- | ------------------ | ----------------------------------------------------------------- |
+| `colors`   | `string[]` | Derived from Theme | Override the colours for the series                               |
+| **`xs`\*** | `string[]` | null               | The keys of the fields that contains the values along the x-axis. |
+| **`y`\***  | `string`   | null               | The key of the field that contains value along the y-axis.        |
+| `stacked`  | `boolean`  | false              | Whether the plots should be stacked.                              |
+| `grouped`  | `boolean`  | false              | Whether the plots should be grouped together.                     |
 
 ### Ratio Charts
 

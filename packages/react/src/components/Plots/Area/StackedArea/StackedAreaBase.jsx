@@ -40,7 +40,10 @@ const StackedAreaBase = ({ x, ys, colors, interactive, layer, canvas }) => {
 
         const keys = ys;
         const stackedData = d3.stack().keys(keys)(sortedData);
-        const colorScale = d3.scaleOrdinal().domain(keys).range(colors);
+        const colorScale = d3
+            .scaleOrdinal()
+            .domain(keys)
+            .range(colors);
 
         // Line renderer
         const area = d3
@@ -56,13 +59,16 @@ const StackedAreaBase = ({ x, ys, colors, interactive, layer, canvas }) => {
             area.context(context);
 
             // Create the join to work out the areas we care about
-            const join = d3.select(layer.current).selectAll("path").data(stackedData);
+            const join = d3
+                .select(layer.current)
+                .selectAll("path")
+                .data(stackedData);
             context.clearRect(0, 0, width, height);
 
             join.enter().each((d) => {
                 const color = colorScale(d.key);
                 const fillColor = d3.color(color);
-                fillColor.opacity = theme.opacity;
+                fillColor.opacity = theme.series.opacity;
                 const strokeColor = fillColor.darker();
 
                 context.beginPath();
@@ -77,23 +83,27 @@ const StackedAreaBase = ({ x, ys, colors, interactive, layer, canvas }) => {
         }
 
         // Handle SVG rendering
-        const join = d3.select(layer.current).selectAll("path").data(stackedData);
+        const join = d3
+            .select(layer.current)
+            .selectAll("path")
+            .data(stackedData);
 
         join.style("fill", (d) => colorScale(d.key))
             .style("stroke", (d) => d3.color(colorScale(d.key)).darker())
-            .style("opacity", theme.opacity)
+            .style("opacity", theme.series.opacity)
+            .style("pointer-events", "none")
             .transition("area")
             .duration(animationDuration)
             .delay((d, i) => (animationDuration / keys.length) * i)
             .ease(d3.easeCubicInOut)
-            .attrTween("d", function (d) {
+            .attrTween("d", function(d) {
                 const previous = d3.select(this).attr("d");
                 const current = area(d);
                 return interpolatePath(previous, current, (a, b) => {
                     return a.x === b.x && a.x === xScale.range()[1];
                 });
             });
-    }, [x, ys, sortedData, xScale, yScale, layer, animationDuration, theme.opacity]);
+    }, [x, ys, sortedData, xScale, yScale, layer, animationDuration, theme.series.opacity]);
 
     // If possible respond to global mouse events for tooltips etc
     if (interactive) {

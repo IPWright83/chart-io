@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Background } from "../Background";
+import { EventReceiver } from "../EventReceiver";
 import { Droplines } from "../Droplines";
 import { Markers } from "../Markers";
 import { Chart } from "../Chart";
@@ -16,7 +16,7 @@ const XYChart = ({ children, ...props }) => {
 
     return (
         <Chart {...props}>
-            <Background />
+            <EventReceiver />
             {children}
             <Markers />
             {showDroplines && <Droplines />}

@@ -12,8 +12,8 @@ import { getD3Axis } from "../getD3Axis";
 import { chartSelectors } from "../../../../store";
 
 /**
- * Represents an Axis component
- * @return {ReactElement}  The Axis component
+ * Represents a Gridlines component
+ * @return {ReactElement}  The Gridlines component
  */
 const Gridlines = ({ layer, position, scale, tickPadding, ticks }) => {
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
@@ -31,7 +31,10 @@ const Gridlines = ({ layer, position, scale, tickPadding, ticks }) => {
             const d3Axis = getD3Axis(position);
 
             // Set some scale props
-            d3Axis.scale(scale).tickPadding(tickPadding).tickSize();
+            d3Axis
+                .scale(scale)
+                .tickPadding(tickPadding)
+                .tickSize();
 
             d3.select(layer.current)
                 .attr("class", `g-gridlines ${position}`)
@@ -40,7 +43,12 @@ const Gridlines = ({ layer, position, scale, tickPadding, ticks }) => {
                 .style("stroke-width", theme.gridlines.strokeWidth)
                 .transition()
                 .duration(animationDuration)
-                .call(d3Axis.tickSize(-tickSize).ticks(ticks).tickFormat(""));
+                .call(
+                    d3Axis
+                        .tickSize(-tickSize)
+                        .ticks(ticks)
+                        .tickFormat("")
+                );
         }
     }, [position, scale, animationDuration, tickPadding]);
 

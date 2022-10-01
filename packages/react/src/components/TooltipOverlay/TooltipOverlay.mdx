@@ -1,0 +1,50 @@
+import { Story, Canvas } from "@storybook/addon-docs/blocks";
+import LinkTo from "@storybook/addon-links/react";
+
+# TooltipOverlay Component
+
+The `<TooltipOverlay>` component allows us to overlay a <LinkTo kind="components-tooltip--default#tooltip-component">`<Tooltip>`</LinkTo> component containing multiple entries, which is useful for showing the information behind a data point when interacting with a chart.
+
+The `<TooltipOverlay>` extracts out tooltip item information from the Redux store to determine when the tooltip should be shown, and the content that should be presented.
+
+<Canvas>
+    <Story id="components-tooltipoverlay--default" />
+</Canvas>
+
+### `<TooltipOverlay>` Props
+
+| Prop     | Type     | Default | Note                                                                   |
+| -------- | -------- | ------- | ---------------------------------------------------------------------- |
+| `offset` | `number` | 20      | The number of pixels from the cursor that the tooltip should be offset |
+
+<br />
+
+## Adding Tooltip items Programatically
+
+To add a TooltipItem programatically, typically each plot that wishes to display an item in the tooltip dispatches an action to to the redux store, and is responsible for removing it later using the following pattern;
+
+```
+useEffect(() => {
+    // Add the tooltip item
+    dispatch(eventActions.addTooltipItem(tooltipItem));
+
+    // Remove the tooltip item next time the useEffect is called.
+    return () => {
+        dispatch(eventActions.removeTooltipItem(tooltipItem));
+    }
+})
+```
+
+### TooltipItem Schema:
+
+> **Note**: This is referring to the shape of the data in the Redux store. Not the `<TooltipItem>` component.
+
+| Prop         | Type      | Note                                                                    |
+| ------------ | --------- | ----------------------------------------------------------------------- |
+| **`datum*`** | `object`  | The datum from the dataset that triggered the tooltip                   |
+| **`name*`**  | `boolean` | The name of the value/series being shown in the tooltip                 |
+| `value`      | primitive | The value of the point to display in the tooltip                        |
+| `seriesType` | `string`  | One of ["scatter", "bar", "column", "area", "line", "circle", "square"] |
+| `fill`       | `string`  | The colour of the series                                                |
+
+<br />

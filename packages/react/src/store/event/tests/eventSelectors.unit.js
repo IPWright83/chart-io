@@ -69,7 +69,7 @@ describe("eventSelectors", () => {
             const state = {
                 event: {
                     tooltip: {
-                        tooltipItems: [{ name: "A", value: 0 }],
+                        items: [{ name: "A", value: 0 }],
                     },
                 },
             };
@@ -81,7 +81,7 @@ describe("eventSelectors", () => {
             const state = {
                 event: {
                     tooltip: {
-                        tooltipItems: [],
+                        items: [],
                     },
                 },
             };
@@ -93,7 +93,7 @@ describe("eventSelectors", () => {
             const state = {
                 event: {
                     tooltip: {
-                        tooltipItems: [{ name: "A", value: 0 }],
+                        items: [{ name: "A", value: 0 }],
                         color: "#FF0000",
                     },
                 },
@@ -106,7 +106,7 @@ describe("eventSelectors", () => {
             const state = {
                 event: {
                     tooltip: {
-                        tooltipItems: [{ name: "A", value: 0 }],
+                        items: [{ name: "A", value: 0 }],
                         color: "#FF0000",
                     },
                 },
@@ -119,7 +119,7 @@ describe("eventSelectors", () => {
             const state = {
                 event: {
                     tooltip: {
-                        tooltipItems: [{ name: "A", value: 0 }],
+                        items: [{ name: "A", value: 0 }],
                         position: { x: 5, y: 10 },
                     },
                 },

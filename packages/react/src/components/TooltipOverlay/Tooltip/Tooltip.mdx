@@ -1,0 +1,24 @@
+import { Story, Canvas } from "@storybook/addon-docs/blocks";
+import LinkTo from "@storybook/addon-links/react";
+
+# Tooltip Component
+
+The `<Tooltip>` component allows us to create a tooltip containing multiple entries, which is useful for showing the information behind a data point when interacting with a chart.
+
+<Canvas>
+    <Story id="components-tooltip--default" />
+</Canvas>
+
+The tooltip itself displays rows of <LinkTo kind="components-tooltip-tooltipitem--scatter#tooltipitem-component">`<TooltipItem>`</LinkTo> components which offer their own configuration.
+
+### `<Tooltip>` Props
+
+> **Note:** Normally you don't interact with the Tooltip component directly, instead letting the <LinkTo kind="components-tooltipoverlay--default#tooltip-component">`<TooltipOverlay>`</LinkTo> component handle the displaying of the tooltip which provides all the required props.
+
+| Prop            | Type     | Default                     | Note                                                                                                          |
+| --------------- | -------- | --------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `borderColor`   | `string` | Derived from selected datum | Controls the border color of the tooltip                                                                      |
+| `items`         | `array`  | undefined                   | The list if items that should be renders as `<TooltipItem>`s                                                  |
+| `positionStyle` | `object` | {}                          | Additional css to control the position, typically containing just the top, left, bottom, right css properties |
+
+<br />

@@ -16,7 +16,7 @@ import { StackedColumn } from "./StackedColumn";
  */
 const Columns = ({ ys, colors, stacked, grouped, ...props }) => {
     const theme = useSelector((s) => chartSelectors.theme(s));
-    const palette = colors || theme.colors;
+    const palette = colors || theme.series.colors;
 
     if (stacked && grouped) {
         throw new Error("Column plots currently do not support both being stacked and grouped");
