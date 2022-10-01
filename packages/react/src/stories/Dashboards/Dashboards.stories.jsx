@@ -4,11 +4,14 @@ import { example_dataset } from "../../../data/example_dataset";
 import { Line, Area, XYChart, XAxis, YAxis } from "../../components";
 import { linkStores } from "../../utils";
 
+import mdx from "./Dashboards.mdx";
+
 export default {
     title: "Dashboards",
     component: Line,
     parameters: {
         docs: {
+            page: mdx,
             transformSource: (src) => {
                 src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
                 src = src.replaceAll(/undefined,?/g, "");
@@ -50,7 +53,7 @@ const processData = (rawData) => {
 };
 
 const DashboardTemplate = (args) => {
-    const width = 500;
+    const width = 400;
     const height = 300;
 
     const [store1, setStore1] = useState();
