@@ -5,7 +5,61 @@ exports[`TooltipOverlay should apply a custom offset correctly 1`] = `
   <svg>
     <g
       class="g-tooltip-overlay"
-    />
+    >
+      <foreignobject
+        style="width: 100%; height: 100%; pointer-events: none;"
+      >
+        <div
+          class="chart-it tooltip"
+          style="display: inline-block; position: absolute;"
+        >
+          <div
+            class="chart-it tooltip-item"
+          >
+            <div
+              class="chart-it indicator-circle"
+              style="background: blue;"
+            />
+            <div
+              class="chart-it tooltip-values"
+            >
+              <span
+                class="chart-it tooltip-series-name"
+              >
+                a:
+              </span>
+              <span
+                class="chart-it tooltip-series-value"
+              >
+                3
+              </span>
+            </div>
+          </div>
+          <div
+            class="chart-it tooltip-item"
+          >
+            <div
+              class="chart-it indicator-square"
+              style="background: orange;"
+            />
+            <div
+              class="chart-it tooltip-values"
+            >
+              <span
+                class="chart-it tooltip-series-name"
+              >
+                b:
+              </span>
+              <span
+                class="chart-it tooltip-series-value"
+              >
+                8
+              </span>
+            </div>
+          </div>
+        </div>
+      </foreignobject>
+    </g>
   </svg>
 </DocumentFragment>
 `;
@@ -15,7 +69,61 @@ exports[`TooltipOverlay should render correctly 1`] = `
   <svg>
     <g
       class="g-tooltip-overlay"
-    />
+    >
+      <foreignobject
+        style="width: 100%; height: 100%; pointer-events: none;"
+      >
+        <div
+          class="chart-it tooltip"
+          style="display: inline-block; position: absolute;"
+        >
+          <div
+            class="chart-it tooltip-item"
+          >
+            <div
+              class="chart-it indicator-circle"
+              style="background: blue;"
+            />
+            <div
+              class="chart-it tooltip-values"
+            >
+              <span
+                class="chart-it tooltip-series-name"
+              >
+                a:
+              </span>
+              <span
+                class="chart-it tooltip-series-value"
+              >
+                3
+              </span>
+            </div>
+          </div>
+          <div
+            class="chart-it tooltip-item"
+          >
+            <div
+              class="chart-it indicator-square"
+              style="background: orange;"
+            />
+            <div
+              class="chart-it tooltip-values"
+            >
+              <span
+                class="chart-it tooltip-series-name"
+              >
+                b:
+              </span>
+              <span
+                class="chart-it tooltip-series-value"
+              >
+                8
+              </span>
+            </div>
+          </div>
+        </div>
+      </foreignobject>
+    </g>
   </svg>
 </DocumentFragment>
 `;
