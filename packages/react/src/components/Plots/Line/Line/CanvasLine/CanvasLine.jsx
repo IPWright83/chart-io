@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import PropTypes from "prop-types";
 import React, { useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useStore, useSelector } from "react-redux";
 
 import { useRender } from "../../../../../hooks";
 import { chartSelectors, eventSelectors } from "../../../../../store";
@@ -16,7 +16,7 @@ import { useTooltip } from "../useTooltip";
  * @return {ReactDOMComponent}  The Line plot component
  */
 const CanvasLine = ({ x, y, color, layer, canvas }) => {
-    const dispatch = useDispatch();
+    const store = useStore();
     const gRef = useRef(null);
     const data = useSelector((s) => chartSelectors.data(s));
     const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
@@ -64,8 +64,8 @@ const CanvasLine = ({ x, y, color, layer, canvas }) => {
     }, [x, y, sortedData, xScale, yScale, layer, canvas, width, height]);
 
     // If possible respond to global mouse events for tooltips etc
-    useDatumFocus(dispatch, gRef, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
-    useTooltip(dispatch, gRef, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
+    useDatumFocus(store.dispatch, gRef, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
+    useTooltip(store.dispatch, gRef, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
 
     return <g ref={gRef} />;
 };

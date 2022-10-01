@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useStore, useSelector } from "react-redux";
 
 import { useFocused } from "./useFocused";
 import { useTooltip } from "./useTooltip";
@@ -29,7 +29,7 @@ const ScatterBase = ({
     onClick,
     layer,
 }) => {
-    const dispatch = useDispatch();
+    const store = useStore();
     const data = useSelector((s) => chartSelectors.data(s));
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
@@ -46,8 +46,8 @@ const ScatterBase = ({
 
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
-    const setFocused = useFocused({ dispatch, xScale, yScale });
-    const setTooltip = useTooltip({ dispatch, x, y });
+    const setFocused = useFocused({ dispatch: store.dispatch, xScale, yScale });
+    const setTooltip = useTooltip({ dispatch: store.dispatch, x, y });
 
     // This is the main render function
     useEffect(() => {
