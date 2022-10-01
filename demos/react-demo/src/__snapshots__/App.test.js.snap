@@ -27,10 +27,10 @@ exports[`renders learn react link 1`] = `
         width="500"
       >
         <g
-          class="g-background"
+          class="g-event-receiver"
         >
           <rect
-            class="chart-it background"
+            class="chart-it event-receiver"
             height="420"
             transform="translate(40, 40)"
             width="420"
