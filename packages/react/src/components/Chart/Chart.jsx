@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useStore } from "react-redux";
 
 import { VirtualCanvas } from "../VirtualCanvas";
 
@@ -23,28 +23,28 @@ const Chart = ({
     onClick,
     theme = "light",
 }) => {
-    const dispatch = useDispatch();
+    const store = useStore();
 
     // Ensure that the store is updated whenever the dimensions change. This typically
     // triggers scale recalculations which should trigger cascading updates
     useEffect(() => {
-        dispatch(chartActions.setDimensions(width, height, margin));
-    }, [dispatch, width, height, margin]);
+        store.dispatch(chartActions.setDimensions(width, height, margin));
+    }, [store.dispatch, width, height, margin]);
 
     // Ensure that the data used by all plots is updated in the store
     useEffect(() => {
-        dispatch(chartActions.setData(data));
-    }, [dispatch, data]);
+        store.dispatch(chartActions.setData(data));
+    }, [store.dispatch, data]);
 
     useEffect(() => {
-        dispatch(chartActions.setAnimationDuration(animationDuration));
-    }, [dispatch, animationDuration]);
+        store.dispatch(chartActions.setAnimationDuration(animationDuration));
+    }, [store.dispatch, animationDuration]);
 
     useEffect(() => {
         if (theme) {
-            dispatch(chartActions.setTheme(theme));
+            store.dispatch(chartActions.setTheme(theme));
         }
-    }, [dispatch, theme]);
+    }, [store.dispatch, theme]);
 
     // We need to extend the child components to provide the common props. We do this by
     // cloning them and piping the common props down

@@ -105,62 +105,146 @@ const DashboardTemplate = (args) => {
 
     return (
         <div>
-            <XYChart data={data} margin={args.margin} width={width} height={height} onStoreCreated={setStore1}>
+            <XYChart
+                data={data}
+                useCanvas={args.useCanvas}
+                margin={args.margin}
+                width={width}
+                height={height}
+                onStoreCreated={setStore1}
+            >
                 <Line x="Month" y="Unit Sales" />
                 <YAxis fields={["Unit Sales"]} />
                 <XAxis fields={["Month"]} />
             </XYChart>
-            <XYChart data={data} margin={args.margin} width={width} height={height} onStoreCreated={setStore2}>
+            <XYChart
+                data={data}
+                useCanvas={args.useCanvas}
+                margin={args.margin}
+                width={width}
+                height={height}
+                onStoreCreated={setStore2}
+            >
                 <Area x="Month" y="Sales Value" />
                 <YAxis fields={["Sales Value"]} />
                 <XAxis fields={["Month"]} />
             </XYChart>
-            <XYChart data={data} margin={args.margin} width={width} height={height} onStoreCreated={setStore3}>
+            <XYChart
+                data={data}
+                useCanvas={args.useCanvas}
+                margin={args.margin}
+                width={width}
+                height={height}
+                onStoreCreated={setStore3}
+            >
                 <Line x="Month" y="Cost of Sales" />
                 <YAxis fields={["Cost of Sales"]} />
                 <XAxis fields={["Month"]} />
             </XYChart>
-            <XYChart data={data} margin={args.margin} width={width} height={height} onStoreCreated={setStore4}>
+            <XYChart
+                data={data}
+                useCanvas={args.useCanvas}
+                margin={args.margin}
+                width={width}
+                height={height}
+                onStoreCreated={setStore4}
+            >
                 <Area x="Month" y="Price" />
                 <YAxis fields={["Price"]} />
                 <XAxis fields={["Month"]} />
             </XYChart>
-            <XYChart data={data} margin={args.margin} width={width} height={height} onStoreCreated={setStore5}>
+            <XYChart
+                data={data}
+                useCanvas={args.useCanvas}
+                margin={args.margin}
+                width={width}
+                height={height}
+                onStoreCreated={setStore5}
+            >
                 <Line x="Month" y="Gross Profit" />
                 <YAxis fields={["Gross Profit"]} />
                 <XAxis fields={["Month"]} />
             </XYChart>
-            <XYChart data={data} margin={args.margin} width={width} height={height} onStoreCreated={setStore6}>
+            <XYChart
+                data={data}
+                useCanvas={args.useCanvas}
+                margin={args.margin}
+                width={width}
+                height={height}
+                onStoreCreated={setStore6}
+            >
                 <Area x="Month" y="Indirect Costs" />
                 <YAxis fields={["Indirect Costs"]} />
                 <XAxis fields={["Month"]} />
             </XYChart>
-            <XYChart data={data} margin={args.margin} width={width} height={height} onStoreCreated={setStore7}>
+            <XYChart
+                data={data}
+                useCanvas={args.useCanvas}
+                margin={args.margin}
+                width={width}
+                height={height}
+                onStoreCreated={setStore7}
+            >
                 <Area x="Month" y="Operating Profit" />
                 <YAxis fields={["Operating Profit"]} />
                 <XAxis fields={["Month"]} />
             </XYChart>
-            <XYChart data={data} margin={args.margin} width={width} height={height} onStoreCreated={setStore8}>
+            <XYChart
+                data={data}
+                useCanvas={args.useCanvas}
+                margin={args.margin}
+                width={width}
+                height={height}
+                onStoreCreated={setStore8}
+            >
                 <Line x="Month" y="Unit Sales Monthly Change" />
                 <YAxis fields={["Unit Sales Monthly Change"]} />
                 <XAxis fields={["Month"]} />
             </XYChart>
-            <XYChart data={data} margin={args.margin} width={width} height={height} onStoreCreated={setStore9}>
+            <XYChart
+                data={data}
+                useCanvas={args.useCanvas}
+                margin={args.margin}
+                width={width}
+                height={height}
+                onStoreCreated={setStore9}
+            >
                 <Area x="Month" y="Sales Value Monthly Change" />
                 <YAxis fields={["Sales Value Monthly Change"]} />
                 <XAxis fields={["Month"]} />
             </XYChart>
-            <XYChart data={data} margin={args.margin} width={width} height={height} onStoreCreated={setStore10}>
+            <XYChart
+                data={data}
+                useCanvas={args.useCanvas}
+                margin={args.margin}
+                width={width}
+                height={height}
+                onStoreCreated={setStore10}
+            >
                 <Line x="Month" y="Distribution Monthly Change" />
                 <YAxis fields={["Distribution Monthly Change"]} />
                 <XAxis fields={["Month"]} />
             </XYChart>
-            <XYChart data={data} margin={args.margin} width={width} height={height} onStoreCreated={setStore11}>
+            <XYChart
+                data={data}
+                useCanvas={args.useCanvas}
+                margin={args.margin}
+                width={width}
+                height={height}
+                onStoreCreated={setStore11}
+            >
                 <Area x="Month" y="Price Monthly Change" />
                 <YAxis fields={["Price Monthly Change"]} />
                 <XAxis fields={["Month"]} />
             </XYChart>
-            <XYChart data={data} margin={args.margin} width={width} height={height} onStoreCreated={setStore12}>
+            <XYChart
+                data={data}
+                useCanvas={args.useCanvas}
+                margin={args.margin}
+                width={width}
+                height={height}
+                onStoreCreated={setStore12}
+            >
                 <Line x="Month" y="Gross Profit Monthly Change" />
                 <YAxis fields={["Gross Profit Monthly Change"]} />
                 <XAxis fields={["Month"]} />
