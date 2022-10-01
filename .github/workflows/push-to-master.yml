@@ -142,8 +142,9 @@ jobs:
     ## the next triggered build from the push will then pass this step and continue with the release
     if: always() && needs.changesets_version.outputs.changes == 'false'
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.DEPLOY_TOKEN }}
       - uses: actions/setup-node@v3
         with:
           node-version: 16
@@ -151,8 +152,22 @@ jobs:
           scope: "@<scope>"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: setup pnpm
-        uses: IPWright83/pnpm-setup-cache-action@v5
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: pnpm Install
+        run: pnpm install
       - name: Build
         run: pnpm run build
       - name: Release packages
@@ -185,7 +200,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - name: pnpm Install
         run: pnpm install
-      - run: cd packages/react && pnpm run deploy-storybook -- --ci
+      - run: pnpm deploy-storybook -- --ci
         env:
           GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
 
@@ -196,11 +211,25 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          token: ${{ secrets.DEPLOY_TOKEN }}
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: setup pnpm
-        uses: IPWright83/pnpm-setup-cache-action@v5
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: pnpm Install
+        run: pnpm install
       - name: Chromatic
         run: npx chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }} --exit-zero-on-changes --auto-accept-changes
