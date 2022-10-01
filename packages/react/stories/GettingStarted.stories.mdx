@@ -26,13 +26,19 @@ Typically the process of building a chart then involves:
 -   Define some Scales or Axis for these components
 -   Creating a "Plot" for each series
 
-## Basic Example
+## Basic Example using `<XYChart>` component
 
-Here is a basic example of a column chart:
+Here is a basic example of a column chart using the `<XYChart>` component:
 
 <Canvas>
     <Story id="xycharts-column--basic" />
 </Canvas>
+
+In the code below we can see that we do a few things:
+
+-   Provide the data to the chart as an array of objects
+-   Set some margins (this provides space for the axis labels)
+-   Set the x/y fields
 
 ```
 const data = [{ itemType: "Baby Food", price: 255 }, { itemType: "Cereal", price: 205 }, ...]
@@ -43,4 +49,25 @@ const margin = { left: 70, top: 40, right: 40, bottom: 40 };
     <XAxis fields={["itemType"]} scaleType="band" />
     <Column x="itemType" y="price" />
 </XYChart>
+```
+
+## Using the `<Chart>` component
+
+You can also build a visualization using the `<Chart>` component, including the column chart above. However it's a little more complex. The `<XYChart>` component takes care of adding a number of the core components that you typically want.
+
+To build the example above you would use the following code. You can read about the different components and what they do in the **Components** section of this Storybook.
+
+```
+const data = [{ itemType: "Baby Food", price: 255 }, { itemType: "Cereal", price: 205 }, ...]
+const margin = { left: 70, top: 40, right: 40, bottom: 40 };
+
+<Chart {...props}>
+    <EventReceiver />
+    <YAxis fields={["price"]} />
+    <XAxis fields={["itemType"]} scaleType="band" />
+    <Column x="itemType" y="price" />
+    <Markers />
+    <Droplines />
+    <TooltipOverlay />
+</Chart>
 ```
