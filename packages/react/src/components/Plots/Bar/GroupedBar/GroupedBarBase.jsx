@@ -41,7 +41,7 @@ const GroupedBarBase = ({
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
     const strokeColor = "#fff";
-    const setTooltip = useTooltip({ dispatch: store.dispatch, y });
+    const setTooltip = useTooltip(store.dispatch, y);
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     useEffect(() => {
