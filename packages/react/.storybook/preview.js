@@ -5,6 +5,7 @@ export const parameters = {
     storySort: {
       order: [
         "Introduction",
+        "Getting Started",
         "XYCharts",
         "Components",
         "Errors & Warnings",
