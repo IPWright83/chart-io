@@ -4,6 +4,7 @@ import { argTypes } from "../../../../stories/argTypes";
 import { example_dataset } from "../../../../data/example_dataset";
 import { Line } from "./Line";
 import { Lines } from "./Lines";
+import { Scatter } from "../Scatter";
 import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
 
@@ -84,7 +85,8 @@ const LineTemplate = (args) => (
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
     >
-        <Line x={args.x} y={args.y} color={args.color} />
+        <Line x={args.x} y={args.y} color={args.color} interactive={!args.withScatter} />
+        {args.withScatter ? <Scatter x={args.x} y={args.y} /> : null}
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
     </XYChart>
@@ -124,6 +126,13 @@ Basic.args = {
     bottomMargin: 40,
     y: "Unit Sales",
     x: "Month",
+};
+
+export const LineWithPoints = LineTemplate.bind({});
+LineWithPoints.storyName = "Line with Points";
+LineWithPoints.args = {
+    ...Basic.args,
+    withScatter: true,
 };
 
 export const Color = LineTemplate.bind({});
