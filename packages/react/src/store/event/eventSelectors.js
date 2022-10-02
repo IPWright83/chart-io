@@ -45,7 +45,7 @@ const eventSelectors = {
          * @param  {Object} state   The application state
          * @return {String}         The colour of the tooltip item
          */
-        color: (state) => eventSelectors.tooltip.store(state).color,
+        color: (state) => eventSelectors.tooltip.store(state).color?.toString(),
 
         /**
          * The set of tooltip tiems
