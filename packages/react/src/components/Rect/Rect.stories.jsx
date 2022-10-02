@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 import { Rect } from ".";
 import mdx from "./Rect.mdx";
@@ -60,6 +61,12 @@ const ScatterWithRectsTemplate = () => {
                 opacity={0.1}
             />
         );
+    };
+
+    RectUsingScale.propTypes = {
+        start: PropTypes.number,
+        stop: PropTypes.number,
+        fill: PropTypes.string,
     };
 
     return (
