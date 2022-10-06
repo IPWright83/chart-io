@@ -10,3 +10,4 @@ export * from "./Legend";
 export * from "./XYChart";
 export * from "./Polygon";
 export * from "./Crosshair";
+export * from "./Bands";

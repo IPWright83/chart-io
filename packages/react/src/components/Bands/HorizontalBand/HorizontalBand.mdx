@@ -1,0 +1,36 @@
+import { Story, Canvas } from "@storybook/addon-docs/blocks";
+
+# HorizontalBand Component
+
+The `<HorizontalBand>` component allows us to define a layer to render a custom horizontal rectangle either underneath or on top of the plots. This can be useful for defining threshold bands in the background, along with a variety of other use cases.
+
+You could do this manully using an `<svg:rect>` however the `<HorizontalBand>` reduces the amount of code required by giving you access to the scale. Simply passing the value (according to the scale rather than pixel co-ordinates) the band will render across the full width between the given calculated y-coordinates.
+
+<Canvas>
+    <Story id="components-bands-horizontalband--default" />
+</Canvas>
+
+This can be especially useful when combined with plots for creating threshold bands. Here the bands are defined as:
+
+-   yStart: `undefined`, yStop: `350000`
+-   yStart: `350000`, yStop: `900000`
+-   yStart: `900000`, yStop: `undefined`
+
+> Note: When passing `undefined` the band will move to the start of the scale (for `yStart`) or the end of the scale (for `yStop`) appropriately.
+
+<Canvas>
+    <Story id="components-bands-horizontalband--thresholds-example" />
+</Canvas>
+
+### Props
+
+| Prop      | Type        | Default | Note                                                        |
+| --------- | ----------- | ------- | ----------------------------------------------------------- |
+| **`y`\*** | `string`    |         | The key, used to access the scale to calculate the y values |
+| `yStart`  | `primitive` |         | The y value to start drawing the rectangle from             |
+| `yStop`   | `primitive` |         | The y value to stop drawing the rectangle at                |
+| `fill`    | `string`    |         | An optional fill colour to apply to the polygon             |
+| `stroke`  | `string`    |         | An optional stroke color to apply to the polygon            |
+| `opacity` | `number`    |         | The opacity of the polygon                                  |
+
+<br />
