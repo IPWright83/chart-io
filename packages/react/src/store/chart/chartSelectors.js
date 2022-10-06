@@ -57,7 +57,6 @@ const chartSelectors = {
 
             // Manually defined scales take precent
             const scales = store.scales || {};
-            console.log(state, scales, scales[field], field);
             if (scales[field]) {
                 return scales[field];
             }

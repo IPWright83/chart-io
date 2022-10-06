@@ -17,7 +17,9 @@ const withSVG = (WrappedComponent, className) =>
 
         return (
             <g ref={layer} className={`g-${className}`}>
-                <WrappedComponent {...props} layer={layer} />
+                <React.StrictMode>
+                    <WrappedComponent {...props} layer={layer} />
+                </React.StrictMode>
             </g>
         );
     };
