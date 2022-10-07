@@ -1,7 +1,5 @@
 import * as d3 from "d3";
 import React from "react";
-import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
 import { Provider } from "react-redux";
 
 import { HorizontalBand } from ".";
@@ -11,7 +9,6 @@ import { sales_records_dataset } from "../../../../../data/sales_records_dataset
 import { Scatter } from "../../../Plots";
 import { XYChart } from "../../../XYChart";
 import { XAxis, YAxis } from "../../../Axis";
-import { chartSelectors } from "../../../../store";
 import { themes } from "../../../../themes";
 
 import { createMockStorybookStore } from "../../../../testUtils";
