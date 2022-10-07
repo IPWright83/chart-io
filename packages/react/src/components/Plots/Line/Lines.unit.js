@@ -11,14 +11,24 @@ import { getBuffer, wait, renderChart } from "../../../testUtils";
 
 describe("Lines", () => {
     const data = [
-        { y: 0, x: 0 },
-        { y: 5, x: 1 },
-        { y: 10, x: 2 },
+        { y2: 5, y: 0, x: 0 },
+        { y2: 10, y: 5, x: 1 },
+        { y2: 0, y: 10, x: 2 },
     ];
 
     const scales = {
-        y: d3.scaleLinear().domain([0, 20]).range([100, 0]),
-        x: d3.scaleLinear().domain([0, 5]).range([0, 100]),
+        y: d3
+            .scaleLinear()
+            .domain([0, 20])
+            .range([100, 0]),
+        y2: d3
+            .scaleLinear()
+            .domain([0, 20])
+            .range([100, 0]),
+        x: d3
+            .scaleLinear()
+            .domain([0, 5])
+            .range([0, 100]),
     };
 
     describe("Multiple Series", () => {
@@ -29,6 +39,10 @@ describe("Lines", () => {
                     data,
                     scales,
                 });
+
+                // Wait for the second render of the line, as
+                // first render we put in a placeholder to animate
+                await wait(10);
 
                 expect(asFragment()).toMatchSnapshot();
             });
@@ -45,6 +59,10 @@ describe("Lines", () => {
                     data,
                     scales,
                 });
+
+                // Wait for the second render of the line, as
+                // first render we put in a placeholder to animate
+                await wait(10);
 
                 await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
 
