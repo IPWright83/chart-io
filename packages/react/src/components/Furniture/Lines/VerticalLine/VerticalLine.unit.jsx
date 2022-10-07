@@ -26,31 +26,7 @@ describe("VerticalLine", () => {
         const { asFragment } = render(
             <Provider store={store}>
                 <svg>
-                    <VerticalLine xStart={250} xStop={750} x="x" fill="steelblue" stroke="red" opacity={0.3} />
-                </svg>
-            </Provider>
-        );
-
-        expect(asFragment()).toMatchSnapshot();
-    });
-
-    it("should render correctly with no xStart", async () => {
-        const { asFragment } = render(
-            <Provider store={store}>
-                <svg>
-                    <VerticalLine xStop={500} x="x" fill="steelblue" stroke="red" opacity={0.3} />
-                </svg>
-            </Provider>
-        );
-
-        expect(asFragment()).toMatchSnapshot();
-    });
-
-    it("should render correctly with no xStop", async () => {
-        const { asFragment } = render(
-            <Provider store={store}>
-                <svg>
-                    <VerticalLine xStart={500} x="x" fill="steelblue" stroke="red" opacity={0.3} />
+                    <VerticalLine value={500} x="x" stroke="steelblue" />
                 </svg>
             </Provider>
         );
@@ -62,7 +38,7 @@ describe("VerticalLine", () => {
         const { asFragment } = render(
             <Provider store={store}>
                 <svg>
-                    <VerticalLine x="foo" />
+                    <VerticalLine value={500} x="foo" />
                 </svg>
             </Provider>
         );

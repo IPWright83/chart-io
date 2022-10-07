@@ -26,31 +26,7 @@ describe("HorizontalLine", () => {
         const { asFragment } = render(
             <Provider store={store}>
                 <svg>
-                    <HorizontalLine yStart={250} yStop={750} y="y" fill="steelblue" stroke="red" opacity={0.3} />
-                </svg>
-            </Provider>
-        );
-
-        expect(asFragment()).toMatchSnapshot();
-    });
-
-    it("should render correctly with no yStart", async () => {
-        const { asFragment } = render(
-            <Provider store={store}>
-                <svg>
-                    <HorizontalLine yStop={500} y="y" fill="steelblue" stroke="red" opacity={0.3} />
-                </svg>
-            </Provider>
-        );
-
-        expect(asFragment()).toMatchSnapshot();
-    });
-
-    it("should render correctly with no yStop", async () => {
-        const { asFragment } = render(
-            <Provider store={store}>
-                <svg>
-                    <HorizontalLine yStart={250} yStop={750} y="y" fill="steelblue" stroke="red" opacity={0.3} />
+                    <HorizontalLine value={500} y="y" stroke="steelblue" />
                 </svg>
             </Provider>
         );
@@ -62,7 +38,7 @@ describe("HorizontalLine", () => {
         const { asFragment } = render(
             <Provider store={store}>
                 <svg>
-                    <HorizontalLine y="foo" />
+                    <HorizontalLine value={500} y="foo" />
                 </svg>
             </Provider>
         );
