@@ -62,7 +62,7 @@ describe("VerticalBand", () => {
         const { asFragment } = render(
             <Provider store={store}>
                 <svg>
-                    <VerticalBand key="foo" />
+                    <VerticalBand x="foo" />
                 </svg>
             </Provider>
         );
