@@ -13,20 +13,22 @@ expect.extend({ toMatchImageSnapshot });
 import { getBuffer, wait, renderChart } from "../../../../testUtils";
 
 describe("Area", () => {
-    // const expectedDatum = {
-    //     y: 5,
-    //     x: 1,
-    // };
-
     const data = [
         { y: 0, x: 0 },
         { y: 5, x: 1 },
         { y: 10, x: 2 },
+        { y: 5, x: 3 },
     ];
 
     const scales = {
-        y: d3.scaleLinear().domain([0, 20]).range([100, 0]),
-        x: d3.scaleLinear().domain([0, 5]).range([0, 100]),
+        y: d3
+            .scaleLinear()
+            .domain([0, 20])
+            .range([100, 0]),
+        x: d3
+            .scaleLinear()
+            .domain([0, 5])
+            .range([0, 100]),
     };
 
     describe("using SVG", () => {
@@ -37,7 +39,9 @@ describe("Area", () => {
                 scales,
             });
 
-            await wait(200);
+            // Wait for the second render of the area, as
+            // first render we put in a placeholder to animate
+            await wait(10);
 
             expect(asFragment()).toMatchSnapshot();
         });
@@ -73,10 +77,12 @@ describe("Area", () => {
                         <svg>
                             <Area x="x" y="y" />
                         </svg>
-                    </Provider>,
+                    </Provider>
                 );
 
-                await wait(1);
+                // Wait for the second render of the area, as
+                // first render we put in a placeholder to animate
+                await wait(10);
 
                 act(() => {
                     store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["x"], scale: scales.x } });
@@ -124,6 +130,10 @@ describe("Area", () => {
                 scales,
             });
 
+            // Wait for the second render of the area, as
+            // first render we put in a placeholder to animate
+            await wait(10);
+
             await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
 
             const canvasBuffer = getBuffer(container.querySelector(".canvas"));
@@ -144,10 +154,12 @@ describe("Area", () => {
                                 <Area x="x" y="y" useCanvas={true} />
                             </VirtualCanvas>
                         </svg>
-                    </Provider>,
+                    </Provider>
                 );
 
-                await wait(1);
+                // Wait for the second render of the area, as
+                // first render we put in a placeholder to animate
+                await wait(10);
 
                 act(() => {
                     store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["x"], scale: scales.x } });
