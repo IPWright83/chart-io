@@ -11,7 +11,7 @@ exports[`Markers should render correctly 1`] = `
         cx="50"
         cy="50"
         r="5"
-        style="stroke: blue; fill: red;"
+        style="stroke: blue; stroke-width: 2; fill: red;"
       />
     </g>
   </svg>

@@ -2,12 +2,16 @@ import React from "react";
 import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
 import { createMockStore } from "../../testUtils";
+import { themes } from "../../themes";
 
 import { Droplines } from ".";
 import { Droplines as DroplinesBase } from "./Droplines";
 
 describe("Droplines", () => {
     const store = createMockStore({
+        chart: {
+            theme: themes.light,
+        },
         event: {
             droplines: [
                 { isHorizontal: true, color: "red", x1: 50, x2: 0, y1: 50, y2: 50 },
@@ -22,7 +26,7 @@ describe("Droplines", () => {
                 <svg>
                     <Droplines />
                 </svg>
-            </Provider>,
+            </Provider>
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -34,7 +38,7 @@ describe("Droplines", () => {
                 <svg>
                     <Droplines showHorizontal={false} />
                 </svg>
-            </Provider>,
+            </Provider>
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -46,7 +50,7 @@ describe("Droplines", () => {
                 <svg>
                     <Droplines showVertical={false} />
                 </svg>
-            </Provider>,
+            </Provider>
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -60,7 +64,7 @@ describe("Droplines", () => {
                 <svg>
                     <DroplinesBase layer={layer} />
                 </svg>
-            </Provider>,
+            </Provider>
         );
 
         // Should be empty

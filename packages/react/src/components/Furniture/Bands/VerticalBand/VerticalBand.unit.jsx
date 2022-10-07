@@ -1,14 +1,58 @@
+import * as d3 from "d3";
 import React from "react";
+import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
+import { createMockStore } from "../../../../testUtils";
 
 import { VerticalBand } from ".";
 
 describe("VerticalBand", () => {
+    const store = createMockStore({
+        chart: {
+            dimensions: {
+                width: 800,
+                height: 400,
+            },
+            scales: {
+                x: d3
+                    .scaleLinear()
+                    .domain([0, 1000])
+                    .range([0, 200]),
+            },
+        },
+    });
+
     it("should render correctly", async () => {
         const { asFragment } = render(
-            <svg>
-                <VerticalBand x={20} y={50} width={150} height={70} fill="red" opacity={0.05} />
-            </svg>
+            <Provider store={store}>
+                <svg>
+                    <VerticalBand xStart={250} xStop={750} x="x" fill="steelblue" stroke="red" opacity={0.3} />
+                </svg>
+            </Provider>
+        );
+
+        expect(asFragment()).toMatchSnapshot();
+    });
+
+    it("should render correctly with no xStart", async () => {
+        const { asFragment } = render(
+            <Provider store={store}>
+                <svg>
+                    <VerticalBand xStop={500} x="x" fill="steelblue" stroke="red" opacity={0.3} />
+                </svg>
+            </Provider>
+        );
+
+        expect(asFragment()).toMatchSnapshot();
+    });
+
+    it("should render correctly with no xStop", async () => {
+        const { asFragment } = render(
+            <Provider store={store}>
+                <svg>
+                    <VerticalBand xStart={500} x="x" fill="steelblue" stroke="red" opacity={0.3} />
+                </svg>
+            </Provider>
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -16,9 +60,11 @@ describe("VerticalBand", () => {
 
     it("should render nothing if missing scale", () => {
         const { asFragment } = render(
-            <svg>
-                <VerticalBand key="foo" />
-            </svg>
+            <Provider store={store}>
+                <svg>
+                    <VerticalBand key="foo" />
+                </svg>
+            </Provider>
         );
 
         expect(asFragment()).toMatchSnapshot();
