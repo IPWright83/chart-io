@@ -1,0 +1,20 @@
+import { Story, Canvas } from "@storybook/addon-docs/blocks";
+
+# Polygon Component
+
+The `<Polygon>` component allows us to define a layer to render a custom polygon either underneath or on top of the plots. This can be useful for defining threshold bands in the background, along with a variety of other use cases.
+
+<Canvas>
+    <Story id="components-polygon--default" />
+</Canvas>
+
+### Props
+
+| Prop           | Type     | Default | Note                                                                                                 |
+| -------------- | -------- | ------- | ---------------------------------------------------------------------------------------------------- |
+| **`points`\*** | `string` |         | The set of points as a string. See https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/points |
+| `fill`         | `string` |         | An optional fill colour to apply to the polygon                                                      |
+| `stroke`       | `string` |         | An optional stroke color to apply to the polygon                                                     |
+| `opacity`      | `number` |         | The opacity of the polygon                                                                           |
+
+<br />

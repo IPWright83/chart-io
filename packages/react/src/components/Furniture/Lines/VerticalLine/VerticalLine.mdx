@@ -1,0 +1,25 @@
+import { Story, Canvas } from "@storybook/addon-docs/blocks";
+
+# VerticalLine Component
+
+The `<VerticalLine>` component allows us to define a layer to render a custom vertical line either underneath or on top of the plots. This can be useful for defining a constant line such as the current date or a key threshold.
+
+You could do this manully using an `<svg:line>` however the `<VerticalLine>` reduces the amount of code required by giving you access to the scale. Simply passing the value (according to the scale rather than pixel co-ordinates) the band will render across the full height at the given calculated x-coordinate.
+
+<Canvas>
+    <Story id="components-lines-verticalline--default" />
+</Canvas>
+<Canvas>
+    <Story id="components-lines-verticalline--thresholds-example" />
+</Canvas>
+
+### Props
+
+| Prop          | Type        | Default | Note                                                        |
+| ------------- | ----------- | ------- | ----------------------------------------------------------- |
+| **`x`\***     | `string`    |         | The key, used to access the scale to calculate the x values |
+| **`value`\*** | `primitive` |         | The y value to draw the line at                             |
+| `stroke`      | `string`    |         | An optional stroke color to apply to the polygon            |
+| `opacity`     | `number`    |         | The opacity of the polygon                                  |
+
+<br />

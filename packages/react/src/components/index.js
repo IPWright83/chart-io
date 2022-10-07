@@ -8,5 +8,5 @@ export * from "./Droplines";
 export * from "./Markers";
 export * from "./Legend";
 export * from "./XYChart";
-export * from "./Polygon";
 export * from "./Crosshair";
+export * from "./Furniture";

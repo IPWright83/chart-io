@@ -11,6 +11,12 @@ const light = {
         strokeWidth: 2,
     },
 
+    markers: {
+        size: 6,
+        stroke: "white",
+        strokeWidth: 2,
+    },
+
     background: "#ffffff",
 
     crosshair: {
@@ -66,6 +72,12 @@ const dark = {
         strokeOpacity: 0.8,
         strokeWidth: 1,
         strokeDasharray: 0,
+    },
+
+    markers: {
+        size: 6,
+        stroke: "white",
+        strokeWidth: 2,
     },
 
     gridlines: {

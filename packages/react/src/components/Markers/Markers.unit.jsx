@@ -2,12 +2,16 @@ import React from "react";
 import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
 import { createMockStore } from "../../testUtils";
+import { themes } from "../../themes";
 
 import { Markers } from ".";
 import { Markers as MarkersBase } from "./Markers";
 
 describe("Markers", () => {
     const store = createMockStore({
+        chart: {
+            theme: themes.light,
+        },
         event: {
             markers: [{ fill: "red", stroke: "blue", r1: 5, r2: 5, cx: 50, cy: 50 }],
         },
@@ -19,7 +23,7 @@ describe("Markers", () => {
                 <svg>
                     <Markers />
                 </svg>
-            </Provider>,
+            </Provider>
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -33,7 +37,7 @@ describe("Markers", () => {
                 <svg>
                     <MarkersBase layer={layer} />
                 </svg>
-            </Provider>,
+            </Provider>
         );
 
         // Should be empty

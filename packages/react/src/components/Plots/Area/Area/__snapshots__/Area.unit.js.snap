@@ -8,8 +8,12 @@ exports[`Area using SVG should render correctly 1`] = `
     >
       <path
         class="area"
-        d="M0,100L20,75L40,50L40,100L20,100L0,100Z                                      "
+        d="M0,100L20,75L40,50L60,75L60,100L40,100L20,100L0,100Z                                                                                                      "
         style="fill: rgba(153, 193, 220, 0.7); stroke: rgba(107, 135, 154, 0.7);"
+      />
+      <path
+        class="area"
+        d="M0,100L100,100L100,100L0,100Z"
       />
     </g>
   </svg>
