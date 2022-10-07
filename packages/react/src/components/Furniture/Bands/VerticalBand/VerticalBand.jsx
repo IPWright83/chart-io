@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-import { chartSelectors } from "../../../store";
+import { chartSelectors } from "../../../../store";
 
 import "./VerticalBand.css";
 
