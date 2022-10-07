@@ -1,5 +1,12 @@
 # @chart-it/react-d3
 
+## 0.5.0
+
+### Minor Changes
+
+- 4d17cab: Added a Rect component
+- 4d17cab: Allowed more marker styling
+
 ## 0.4.0
 
 ### Minor Changes
