@@ -32,8 +32,8 @@ const VerticalBand = ({ xStart, xStop, x, opacity, fill, stroke }) => {
 
     return (
         <rect
-            y={margin.bottom}
-            height={height - margin.top - margin.bottom}
+            y={margin.top}
+            height={height - margin.bottom - margin.top}
             width={stopX - startX}
             x={startX}
             className="rect"

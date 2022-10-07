@@ -1,0 +1,25 @@
+import { Story, Canvas } from "@storybook/addon-docs/blocks";
+
+# HorizontalLine Component
+
+The `<HorizontalLine>` component allows us to define a layer to render a horizontal line either underneath or on top of the plots. This can be useful for defining a constant line such as the current date or a key threshold.
+
+You could do this manully using an `<svg:line>` however the `<HorizontalLine>` reduces the amount of code required by giving you access to the scale. Simply passing the value (according to the scale rather than pixel co-ordinates) the line will render across the full width at the given calculated y-coordinate.
+
+<Canvas>
+    <Story id="components-lines-horizontalline--default" />
+</Canvas>
+<Canvas>
+    <Story id="components-lines-horizontalline--thresholds-example" />
+</Canvas>
+
+### Props
+
+| Prop          | Type        | Default | Note                                                        |
+| ------------- | ----------- | ------- | ----------------------------------------------------------- |
+| **`y`\***     | `string`    |         | The key, used to access the scale to calculate the y values |
+| **`value`\*** | `primitive` |         | The y value to draw the line at                             |
+| `stroke`      | `string`    |         | An optional stroke color to apply to the polygon            |
+| `opacity`     | `number`    |         | The opacity of the polygon                                  |
+
+<br />

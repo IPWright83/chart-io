@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { Provider } from "react-redux";
 
-import { VerticalBand } from ".";
-import mdx from "./VerticalBand.mdx";
+import { HorizontalLine } from ".";
+import mdx from "./HorizontalLine.mdx";
 
 import { sales_records_dataset } from "../../../../../data/sales_records_dataset";
 import { Scatter } from "../../../Plots";
@@ -17,8 +17,8 @@ import { themes } from "../../../../themes";
 import { createMockStorybookStore } from "../../../../testUtils";
 
 export default {
-    title: "Components/Bands/VerticalBand",
-    component: VerticalBand,
+    title: "Components/Lines/HorizontalLine",
+    component: HorizontalLine,
     parameters: {
         docs: {
             page: mdx,
@@ -27,7 +27,7 @@ export default {
     },
 };
 
-const VerticalBandTemplate = () => {
+const HorizontalLineTemplate = () => {
     const store = createMockStorybookStore({
         chart: {
             theme: themes.light,
@@ -36,10 +36,10 @@ const VerticalBandTemplate = () => {
                 height: 200,
             },
             scales: {
-                "Units Sold": d3
+                "Total Profit": d3
                     .scaleLinear()
                     .domain([0, 1000])
-                    .range([0, 200]),
+                    .range([200, 0]),
             },
         },
     });
@@ -47,7 +47,7 @@ const VerticalBandTemplate = () => {
     return (
         <Provider store={store}>
             <svg width="500" height="200">
-                <VerticalBand xStop={500} x="Units Sold" fill="steelblue" stroke="red" opacity={0.3} />
+                <HorizontalLine value={500} y="Total Profit" stroke="steelblue" />
             </svg>
         </Provider>
     );
@@ -60,22 +60,22 @@ const ScatterWithRectsTemplate = () => {
     return (
         <XYChart
             data={sales_records_dataset}
-            margin={{ left: 70, top: 20, bottom: 40, right: 20 }}
+            margin={{ left: 70, top: 20, bottom: 20, right: 20 }}
             width={800}
             height={400}
         >
             <YAxis fields={[y]} />
             <XAxis fields={[x]} />
-            <VerticalBand x={x} xStop={2000} fill="red" opacity={0.1} />
-            <VerticalBand x={x} xStart={2000} xStop={7000} fill="orange" opacity={0.1} />
-            <VerticalBand x={x} xStart={7000} fill="green" opacity={0.1} />
+            <HorizontalLine y={y} value={300000} stroke="steelblue" />
+            <HorizontalLine y={y} value={700000} stroke="steelblue" />
+            <HorizontalLine y={y} value={900000} stroke="steelblue" />
             <Scatter x={x} y={y} />
         </XYChart>
     );
 };
 
-export const Default = VerticalBandTemplate.bind({});
-Default.storyName = "VerticalBand";
+export const Default = HorizontalLineTemplate.bind({});
+Default.storyName = "HorizontalLine";
 
 export const ThresholdsExample = ScatterWithRectsTemplate.bind({});
 ThresholdsExample.storyName = "Thresholds Example";
