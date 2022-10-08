@@ -167,10 +167,12 @@ jobs:
         run: pnpm install
       - name: Build
         run: pnpm run build
+      - name: Setup Git Config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
       - name: Create Tags
         run: pnpm changeset tag
-      - name: Tag debug
-        run: git tag
       - name: Push tags
         run: git push --follow-tags
       - name: Release packages
