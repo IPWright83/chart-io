@@ -1,5 +1,11 @@
 # @chart-it/react-d3
 
+## 0.7.0
+
+### Minor Changes
+
+- 71eaab3: Tag Test 2
+
 ## 0.6.0
 
 ### Minor Changes
