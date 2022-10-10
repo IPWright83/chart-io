@@ -205,6 +205,8 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - name: pnpm Install
         run: pnpm install
+      - name: Debugging
+        run: ls packages/react/node_modules
       - run: pnpm storybook:deploy -- --ci
         env:
           GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
