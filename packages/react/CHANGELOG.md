@@ -1,5 +1,16 @@
 # @chart-it/react-d3
 
+## 0.8.0
+
+### Minor Changes
+
+- bc7e7f3: Trying to fix publishing CI
+
+### Patch Changes
+
+- Updated dependencies [bc7e7f3]
+  - @chart-it/detection@0.2.0
+
 ## 0.7.0
 
 ### Minor Changes
