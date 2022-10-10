@@ -11,3 +11,7 @@ __snapshots__
 .storybook
 .cache
 stories
+
+# Dependencies
+storybook-static
+node_modules
