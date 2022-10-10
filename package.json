@@ -1,5 +1,5 @@
 {
-  "name": "@chart-it",
+  "name": "monorepo-root",
   "version": "1.0.0",
   "packageManager": "pnpm@7.12.1",
   "type": "module",

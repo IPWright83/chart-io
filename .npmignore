@@ -1,5 +1,4 @@
 src
-.storybook
 tsconfig.json
 rollup.config.js
 out*
@@ -7,3 +6,27 @@ out*
 *.jsx
 .unit.js
 __snapshots__
+
+# Storybook
+.storybook
+.cache
+stories
+
+# Dependencies
+storybook-static
+node_modules
+
+# Changesets
+.github
+.changeset
+.
+
+# Project
+docs
+demos
+*.unit.js
+*.stories.js
+__snapshots__
+__image_snapshots__
+scripts
+turbo.json
