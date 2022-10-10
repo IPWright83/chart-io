@@ -17,18 +17,9 @@ describe("Areas", () => {
     ];
 
     const scales = {
-        y: d3
-            .scaleLinear()
-            .domain([0, 20])
-            .range([100, 0]),
-        y2: d3
-            .scaleLinear()
-            .domain([0, 20])
-            .range([100, 0]),
-        x: d3
-            .scaleLinear()
-            .domain([0, 5])
-            .range([0, 100]),
+        y: d3.scaleLinear().domain([0, 20]).range([100, 0]),
+        y2: d3.scaleLinear().domain([0, 20]).range([100, 0]),
+        x: d3.scaleLinear().domain([0, 5]).range([0, 100]),
     };
 
     describe("Multiple Series", () => {

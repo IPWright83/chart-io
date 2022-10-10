@@ -11,7 +11,7 @@
   "types": "lib/index.d.ts",
   "homepage": "http://localhost:6006/?path=/story/introduction--page",
   "scripts": {
-    "test": "jest",
+    "test": "jest --config jest.config.js",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf lib",
     "lint": "eslint -c .eslintrc.json .",
     "storybook": "start-storybook -p 6006",
@@ -83,5 +83,19 @@
     "react-redux": "^7.1 | ^8",
     "redux": "^4.0.0",
     "redux-thunk": "^2.4.0"
+  },
+  "jest": {
+    "testMatch": [
+      "**/*.unit.js",
+      "**/*.unit.jsx"
+    ],
+    "coveragePathIgnorePatterns": [
+      "stories/*.*",
+      "types/*.*",
+      "index.js",
+      "uuidv4.js",
+      "interpolateMultiPath.js",
+      "hoc/withTheme/*.*"
+    ]
   }
 }
