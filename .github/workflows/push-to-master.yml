@@ -176,7 +176,7 @@ jobs:
       - name: Push tags
         run: git push --follow-tags
       - name: Release packages
-        run: pnpm publish -r --access=public
+        run: pnpm publish -r --access=public --filter "@chart-it/*"
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 

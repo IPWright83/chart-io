@@ -24,3 +24,9 @@ node_modules
 # Project
 docs
 demos
+*.unit.js
+*.stories.js
+__snapshots__
+__image_snapshots__
+scripts
+turbo.json
