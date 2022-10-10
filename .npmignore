@@ -7,3 +7,31 @@ out*
 *.jsx
 .unit.js
 __snapshots__
+<<<<<<< Updated upstream
+=======
+
+# Storybook
+.storybook
+.cache
+stories
+
+# Dependencies
+storybook-static
+node_modules
+
+# Changesets
+.github
+.changeset
+.
+
+# Project
+docs
+demos
+*.unit.js
+*.stories.js
+__snapshots__
+__image_snapshots__
+scripts
+turbo.json
+setupTests.js
+>>>>>>> Stashed changes
