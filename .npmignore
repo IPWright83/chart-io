@@ -15,3 +15,12 @@ stories
 # Dependencies
 storybook-static
 node_modules
+
+# Changesets
+.github
+.changeset
+.
+
+# Project
+docs
+demos
