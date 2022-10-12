@@ -206,8 +206,10 @@ jobs:
       - name: pnpm Install
         run: pnpm install
       - name: Debugging
-        run: ls packages/react/node_modules/@chart-it
-      - run: pnpm storybook:deploy -- --ci
+        run: |
+          ls packages/react/node_modules/@chart-it
+          cd packages/react
+      - run: pnpm deploy-storybook -- --ci
         env:
           GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
 
