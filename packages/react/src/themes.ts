@@ -1,4 +1,6 @@
-const light = {
+import { Theme } from "./types";
+
+const light: Theme = {
     axis: {
         stroke: "#333333",
         strokeOpacity: 0.8,
@@ -13,7 +15,7 @@ const light = {
 
     markers: {
         size: 6,
-        stroke: "white",
+        stroke: "#ffffff",
         strokeWidth: 2,
     },
 
@@ -52,7 +54,7 @@ const light = {
     },
 };
 
-const dark = {
+const dark: Theme = {
     axis: {
         stroke: "#cccccc",
         strokeOpacity: 0.8,
@@ -76,7 +78,7 @@ const dark = {
 
     markers: {
         size: 6,
-        stroke: "white",
+        stroke: "#ffffff",
         strokeWidth: 2,
     },
 
@@ -100,6 +102,8 @@ const dark = {
             "#7f7f7f",
             "#bdbf2f",
             "#00becf",
+            "#99c1dc",
+            "#fc998e",
         ],
     },
 };

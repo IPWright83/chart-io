@@ -1,12 +1,14 @@
+import { Position, Margin } from "../../../../types";
+
 /**
  * Obtain the tick size used for gridlines
- * @param  {String} position     The position of the axis [left, right, top, bottom]
- * @param  {Number} width        The width for the chart
- * @param  {Number} height       The height for the chart
- * @param  {Number} margin       The margin object for the chart
- * @return {String}              The transform
+ * @param  position     The position of the axis [left, right, top, bottom]
+ * @param  width        The width for the chart
+ * @param  height       The height for the chart
+ * @param  margin       The margin object for the chart
+ * @return              The transform
  */
-const getTickSize = (position, width, height, margin) => {
+const getTickSize = (position: Position, width: number, height: number, margin: Margin): number => {
     if (width === 0 || height === 0) {
         return 0;
     }

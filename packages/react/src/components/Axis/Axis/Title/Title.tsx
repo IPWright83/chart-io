@@ -7,8 +7,20 @@ import { useSelector } from "react-redux";
 import { getTransform } from "./getTransform";
 
 import { chartSelectors } from "../../../../store";
+import { Position } from "../../../../types";
 
-const Title = ({ position, title }) => {
+export interface TitleProps {
+    /**
+     * The position of the axis [top, bottom, left, right]
+     */
+    position: Position;
+    /**
+     * A title for the Axis
+     */
+    title: string;
+}
+
+export function Title({ position, title }: TitleProps) {
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
@@ -20,23 +32,8 @@ const Title = ({ position, title }) => {
     }
 
     return (
-        <text className="chart-it axis-title" transform={transform}>
+        <text className={`chart-it axis-title axis-title-${position}`} transform={transform}>
             {title}
         </text>
     );
-};
-
-Title.propTypes = {
-    /**
-     * The position of the axis [top, bottom, left, right]
-     * @type {String}
-     */
-    position: PropTypes.oneOf(["top", "bottom", "left", "right"]),
-    /**
-     * A title for the Axis
-     * @type {String}
-     */
-    title: PropTypes.string,
-};
-
-export { Title };
+}

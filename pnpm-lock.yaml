@@ -157,6 +157,7 @@ importers:
       '@testing-library/jest-dom': ^5.16.4
       '@testing-library/react': ^13.3.0
       '@testing-library/user-event': ^13.5.0
+      '@types/d3-axis': ^3.0.1
       babel-jest: 27.5.1
       canvas: ^2.9.3
       chromatic: ^6.7.0
@@ -186,6 +187,7 @@ importers:
       webpack: '5'
     dependencies:
       '@chart-it/detection': link:../detection
+      '@types/d3-axis': 3.0.1
       d3: 6.7.0
       d3-interpolate-path: 2.2.3
       lodash: 4.17.21
@@ -3940,7 +3942,7 @@ packages:
       '@pmmmwh/react-refresh-webpack-plugin': 0.5.7_aumhct55s6lhceplyc622fxoum
       '@storybook/node-logger': 6.5.12
       '@storybook/react': 6.5.12_zkroqw6cuw2auyww2xuiiwjl6m
-      '@storybook/react-docgen-typescript-plugin': 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0_pfhymta45wkqia6xzv764wgtky
+      '@storybook/react-docgen-typescript-plugin': 1.0.2--canary.7.324a727c65a1819f7f3ede5abc1f32d440e4530a.0_pfhymta45wkqia6xzv764wgtky
       '@types/babel__core': 7.1.19
       babel-plugin-react-docgen: 4.2.1
       pnp-webpack-plugin: 1.7.0_typescript@4.8.4
@@ -3983,6 +3985,25 @@ packages:
       ts-dedent: 2.2.0
       unfetch: 4.2.0
       util-deprecate: 1.0.2
+    dev: true
+
+  /@storybook/react-docgen-typescript-plugin/1.0.2--canary.7.324a727c65a1819f7f3ede5abc1f32d440e4530a.0_pfhymta45wkqia6xzv764wgtky:
+    resolution: {integrity: sha512-tnaT0VqSGhmMi/I880aMOToSrNd7XCr1avS/M1tk/+FDO+0GqHXo9abC5sos705ly3Hmi1FxFvHnzV/cvU1JTg==}
+    peerDependencies:
+      typescript: '>= 3.x'
+      webpack: '>= 4'
+    dependencies:
+      debug: 4.3.4
+      endent: 2.1.0
+      find-cache-dir: 3.3.2
+      flat-cache: 3.0.4
+      micromatch: 4.0.5
+      react-docgen-typescript: 2.2.2_typescript@4.8.4
+      tslib: 2.4.0
+      typescript: 4.8.4
+      webpack: 5.73.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@storybook/react-docgen-typescript-plugin/1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0_pfhymta45wkqia6xzv764wgtky:
@@ -4470,6 +4491,16 @@ packages:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
       '@types/node': 18.0.6
+
+  /@types/d3-axis/3.0.1:
+    resolution: {integrity: sha512-zji/iIbdd49g9WN0aIsGcwcTBUkgLsCSwB+uH+LPVDAiKWENMtI3cJEWt+7/YYwelMoZmbBfzA3qCdrZ2XFNnw==}
+    dependencies:
+      '@types/d3-selection': 3.0.3
+    dev: false
+
+  /@types/d3-selection/3.0.3:
+    resolution: {integrity: sha512-Mw5cf6nlW1MlefpD9zrshZ+DAWL4IQ5LnWfRheW6xwsdaWOb6IRRu2H7XPAQcyXEx1D7XQWgdoKR83ui1/HlEA==}
+    dev: false
 
   /@types/eslint-scope/3.7.4:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}

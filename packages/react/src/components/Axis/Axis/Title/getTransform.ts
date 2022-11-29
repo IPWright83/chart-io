@@ -1,12 +1,14 @@
+import { Position, Margin } from "../../../../types";
+
 /**
  * Obtain the transform for the Axis title
- * @param  {String} position     The position of the axis [left, right, top, bottom]
- * @param  {Number} width        The width for the chart
- * @param  {Number} height       The height for the chart
- * @param  {Number} margin       The margin object for the chart
- * @return {String}              The transform
+ * @param  position     The position of the axis [left, right, top, bottom]
+ * @param  width        The width for the chart
+ * @param  height       The height for the chart
+ * @param  margin       The margin object for the chart
+ * @return              The transform
  */
-const getTransform = (position, width, height, margin) => {
+const getTransform = (position: Position, width: number, height: number, margin: Margin): string => {
     if (width === 0 || height === 0) {
         return "translate(0, 0)";
     }

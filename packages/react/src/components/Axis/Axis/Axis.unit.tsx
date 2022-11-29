@@ -41,7 +41,7 @@ describe("Axis", () => {
                     <svg>
                         <Axis title="y" position="left" fields={["y"]} showGridlines={false} />
                     </svg>
-                </Provider>,
+                </Provider>
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -53,7 +53,7 @@ describe("Axis", () => {
                     <svg>
                         <Axis title="y" position="right" fields={["y"]} showGridlines={false} />
                     </svg>
-                </Provider>,
+                </Provider>
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -65,7 +65,7 @@ describe("Axis", () => {
                     <svg>
                         <Axis title="x" position="top" fields={["x"]} showGridlines={false} />
                     </svg>
-                </Provider>,
+                </Provider>
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -77,7 +77,7 @@ describe("Axis", () => {
                     <svg>
                         <Axis title="x" position="left" fields={["x"]} showGridlines={false} />
                     </svg>
-                </Provider>,
+                </Provider>
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -90,7 +90,7 @@ describe("Axis", () => {
                 render(
                     <svg>
                         <Axis title="x" position="left" fields={[]} showGridlines={false} />
-                    </svg>,
+                    </svg>
                 );
             }).rejects.toThrow();
         });
@@ -125,6 +125,7 @@ describe("Axis", () => {
         });
 
         it("throws an error with an invalid position", () => {
+            // @ts-expect-error Testing the case of an invalid value
             expect(() => getTransform("invalid", width, height, margin)).toThrow();
         });
     });

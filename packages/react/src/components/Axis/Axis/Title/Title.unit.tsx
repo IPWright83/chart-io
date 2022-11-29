@@ -51,6 +51,7 @@ describe("Title", () => {
         });
 
         it("throws an error with an invalid position", () => {
+            // @ts-expect-error Testing the case of an invalid value
             expect(() => getTransform("invalid", width, height, margin)).toThrow();
         });
     });
@@ -61,9 +62,9 @@ describe("Title", () => {
                 const { asFragment } = render(
                     <Provider store={store}>
                         <svg>
-                            <Title position="bottom" title="horizontal" fields={["a", "b"]} />
+                            <Title position="bottom" title="horizontal" />
                         </svg>
-                    </Provider>,
+                    </Provider>
                 );
 
                 expect(asFragment()).toMatchSnapshot();
@@ -73,35 +74,9 @@ describe("Title", () => {
                 const { asFragment } = render(
                     <Provider store={store}>
                         <svg>
-                            <Title position="left" title="vertical" fields={["a", "b"]} />
+                            <Title position="left" title="vertical" />
                         </svg>
-                    </Provider>,
-                );
-
-                expect(asFragment()).toMatchSnapshot();
-            });
-        });
-
-        describe("with no explicit title", () => {
-            it("renders fields as horizontal title", async () => {
-                const { asFragment } = render(
-                    <Provider store={store}>
-                        <svg>
-                            <Title position="bottom" fields={["a", "b"]} />
-                        </svg>
-                    </Provider>,
-                );
-
-                expect(asFragment()).toMatchSnapshot();
-            });
-
-            it("renders fields as vertical title", async () => {
-                const { asFragment } = render(
-                    <Provider store={store}>
-                        <svg>
-                            <Title position="left" fields={["a", "b"]} />
-                        </svg>
-                    </Provider>,
+                    </Provider>
                 );
 
                 expect(asFragment()).toMatchSnapshot();
