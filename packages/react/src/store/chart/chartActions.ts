@@ -1,7 +1,7 @@
 import { themes } from "../../themes";
-import { Margin, Theme, Data } from "../../types";
+import type { Margin, Theme, Data } from "../../types";
 
-import { SetDimensionAction, SetAnimationDurationAction, SetDataAction } from "./types";
+import type { SetDimensionAction, SetAnimationDurationAction, SetDataAction } from "./types";
 
 /**
  * Sets the dimensions in the Redux store

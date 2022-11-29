@@ -1,4 +1,4 @@
-import { Color } from "./Color";
+import type { Color } from "./Color";
 
 /**
  * Used to represent the general theme of charts

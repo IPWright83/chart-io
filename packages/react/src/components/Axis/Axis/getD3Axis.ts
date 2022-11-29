@@ -2,7 +2,7 @@
 
 import * as d3 from "d3";
 
-import { Position } from "../../../types";
+import type { Position } from "../../../types";
 
 /**
  * Return a D3 Axis function

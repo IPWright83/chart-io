@@ -12,7 +12,7 @@ import { Gridlines } from "./Gridlines";
 import { Title } from "./Title";
 
 import { chartSelectors } from "../../../store";
-import { Position } from "../../../types";
+import type { Position } from "../../../types";
 
 export interface AxisProps {
     /**

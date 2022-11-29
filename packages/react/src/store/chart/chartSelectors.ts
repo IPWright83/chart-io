@@ -1,8 +1,8 @@
 import * as d3 from "d3";
 import { createSelector } from "reselect";
 
-import { Data, Margin, Theme } from "../../types";
-import { Store, ChartStore, ChartStoreDimensions, ChartStoreScales } from "../types";
+import type { Data, Margin, Theme } from "../../types";
+import type { Store, ChartStore, ChartStoreDimensions, ChartStoreScales } from "../types";
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
 
 const EMPTY_OBJECT = {};

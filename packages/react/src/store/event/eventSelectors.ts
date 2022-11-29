@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
-import { Dropline, Marker, Color, TooltipItem, MouseMode, Coordinate } from "../../types";
-import { Store, EventStore, EventStoreTooltip } from "../types";
+import type { Dropline, Marker, Color, TooltipItem, MouseMode, Coordinate } from "../../types";
+import type { Store, EventStore, EventStoreTooltip } from "../types";
 
 const EMPTY_OBJECT = {};
 const EMPTY_ARRAY = [];

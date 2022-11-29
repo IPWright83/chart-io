@@ -1,4 +1,4 @@
-import { Marker, Dropline, Color, TooltipItem, Coordinate } from "../../types";
+import type { Marker, Dropline, Color, TooltipItem, Coordinate } from "../../types";
 
 export interface MouseMoveAction {
   type: "EVENT.MOUSE_MOVE";

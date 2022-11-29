@@ -1,4 +1,4 @@
-import { Margin, Position } from "../../../types";
+import type { Margin, Position } from "../../../types";
 
 /**
  * Obtain the transform for the Axis group

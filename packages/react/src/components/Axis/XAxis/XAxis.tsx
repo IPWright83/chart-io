@@ -3,7 +3,7 @@ import React from "react";
 import { Axis } from "../Axis";
 import { XScale } from "../../Scale";
 
-import { VerticalPosition, Primitive, ScaleType } from "../../../types";
+import type { VerticalPosition, Primitive, ScaleType } from "../../../types";
 
 export interface XAxisProps {
     /**

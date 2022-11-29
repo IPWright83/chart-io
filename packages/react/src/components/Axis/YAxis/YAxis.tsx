@@ -3,13 +3,13 @@ import React from "react";
 import { Axis } from "../Axis";
 import { YScale } from "../../Scale";
 
-import { HorizontalPosition, Primitive, ScaleType } from "../../../types";
+import type { HorizontalPosition, Primitive, ScaleType } from "../../../types";
 
 export interface YAxisProps {
     /**
      * The position of the axis [left, right]
      */
-    position: IHorizontalPosition;
+    position: HorizontalPosition;
     /**
      * (Optional) An override of the domain to use with the d3 scale
      */

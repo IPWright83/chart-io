@@ -1,7 +1,7 @@
 import { themes } from "../../themes";
 
-import { ChartAction } from "./types";
-import { ChartStore } from "../types";
+import type { ChartAction } from "./types";
+import type { ChartStore } from "../types";
 
 const defaultState = {
     animationDuration: 1000,

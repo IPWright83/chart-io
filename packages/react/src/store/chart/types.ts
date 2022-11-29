@@ -1,4 +1,4 @@
-import { Margin, Theme, Data } from "../../types";
+import type { Margin, Theme, Data } from "../../types";
 
 export interface SetDimensionAction {
   type: "CHART.SET_DIMENSIONS";

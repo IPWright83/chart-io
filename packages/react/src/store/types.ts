@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-import { Margin, Theme, Data, Marker, Dropline, TooltipItem, Color, Coordinate, MouseMode } from "../types";
+import type { Margin, Theme, Data, Marker, Dropline, TooltipItem, Color, Coordinate, MouseMode } from "../types";
 
 export interface ChartStoreDimensions {
   width?: number;

@@ -1,4 +1,4 @@
-import { Position, Margin } from "../../../../types";
+import type { Position, Margin } from "../../../../types";
 
 /**
  * Obtain the tick size used for gridlines

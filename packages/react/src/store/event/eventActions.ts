@@ -1,4 +1,4 @@
-import { Marker, Dropline, Color, TooltipItem } from "../../types";
+import type { Marker, Dropline, Color, TooltipItem } from "../../types";
 
 import {
     MouseMoveAction,

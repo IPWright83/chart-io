@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { getTransform } from "./getTransform";
 
 import { chartSelectors } from "../../../../store";
-import { Position } from "../../../../types";
+import type { Position } from "../../../../types";
 
 export interface TitleProps {
     /**
