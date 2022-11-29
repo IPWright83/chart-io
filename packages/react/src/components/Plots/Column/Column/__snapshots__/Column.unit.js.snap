@@ -9,7 +9,7 @@ exports[`Column using SVG should render correctly 1`] = `
       <rect
         class="column"
         height="0"
-        style="stroke: #fff; opacity: 0.8; fill: rgba(153, 193, 220, 0.7);"
+        style="stroke: #fff; fill: rgba(153, 193, 220, 0.7);"
         width="50"
         x="0"
         y="100"
@@ -17,7 +17,7 @@ exports[`Column using SVG should render correctly 1`] = `
       <rect
         class="column"
         height="0"
-        style="stroke: #fff; opacity: 0.8; fill: rgba(153, 193, 220, 0.7);"
+        style="stroke: #fff; fill: rgba(153, 193, 220, 0.7);"
         width="50"
         x="50"
         y="100"

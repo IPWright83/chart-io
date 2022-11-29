@@ -4,6 +4,7 @@
     width: 100%;
     user-select: none;
     pointer-events: none;
+    font-family: sans serif;
 }
 
 .chart-it.tooltip-values {

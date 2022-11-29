@@ -82,27 +82,26 @@ const ColumnBase = ({
             .attr("width", () => xScale.bandwidth())
             .attr("height", 0)
             .style("stroke", strokeColor)
-            .style("opacity", 0.8)
             .style("fill", fillColor);
 
         // Update new and existing points
         const update = enter
             .merge(join)
-            .on("mouseover", function(event, datum) {
+            .on("mouseover", function (event, datum) {
                 if (!interactive) return;
 
                 onMouseOver && onMouseOver(datum, this, event);
                 setFocused({ element: this, event, datum });
                 setTooltip({ datum, event, fillColors: [fillColor], ys: [y] });
             })
-            .on("mouseout", function(event, datum) {
+            .on("mouseout", function (event, datum) {
                 if (!interactive) return;
 
                 onMouseOut && onMouseOut(datum, this, event);
                 setFocused(null);
                 setTooltip(null);
             })
-            .on("click", function(event, datum) {
+            .on("click", function (event, datum) {
                 if (!interactive) return;
 
                 onClick && onClick(datum, this, event);

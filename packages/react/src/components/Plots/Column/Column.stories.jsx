@@ -93,8 +93,8 @@ Basic.args = {
     height: 500,
     animationDuration: 250,
     color: "#99C1DC",
-    color2: "#FF7F28",
-    theme: "light",
+    color2: "#fc998e",
+    theme: themes.light,
     leftMargin: 70,
     rightMargin: 40,
     topMargin: 40,
@@ -122,6 +122,13 @@ Ratio.storyName = "Ratio Columns";
 Ratio.args = {
     ...Basic.args,
     y2: "Unit Cost",
+    theme: {
+        ...themes.light,
+        series: {
+            ...themes.light.series,
+            opacity: 1,
+        },
+    },
 };
 
 export const Stacked = ColumnsTemplate.bind({});

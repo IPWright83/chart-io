@@ -6,6 +6,7 @@ import { Bar } from "./Bar";
 import { Bars } from "./Bars";
 import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
+import { themes } from "../../../themes";
 
 import { uniqBy } from "lodash";
 import mdx from "./Bar.mdx";
@@ -92,8 +93,8 @@ Basic.args = {
     height: 500,
     animationDuration: 250,
     color: "#99C1DC",
-    color2: "#FF7F28",
-    theme: "light",
+    color2: "#fc998e",
+    theme: themes.light,
     leftMargin: 120,
     rightMargin: 40,
     topMargin: 40,
@@ -121,6 +122,13 @@ Ratio.storyName = "Ratio Bars";
 Ratio.args = {
     ...Basic.args,
     x2: "Unit Cost",
+    theme: {
+        ...themes.light,
+        series: {
+            ...themes.light.series,
+            opacity: 1,
+        },
+    },
 };
 
 export const Stacked = BarsTemplate.bind({});
