@@ -39,6 +39,24 @@ Default.args = {
     ],
 };
 
+export const WithTitle = TooltipTemplate.bind({});
+WithTitle.storyName = "With a Title";
+WithTitle.args = {
+    items: [
+        { name: "Title", value: 5 },
+        {
+            name: "Line Series with a very long title that should be truncated at some point",
+            seriesType: "line",
+            fill: "steelblue",
+            value: 155000,
+        },
+        { name: "Scatter Series", seriesType: "scatter", fill: "steelblue", value: "foobar" },
+        { name: "Bar Series", seriesType: "bar", fill: "steelblue", value: true },
+        { name: "Column Series", seriesType: "column", fill: "steelblue", value: 1500 },
+        { name: "Area Series", seriesType: "area", fill: "steelblue", value: 1500 },
+    ],
+};
+
 export const Scatter = TooltipTemplate.bind({});
 Scatter.args = {
     items: [
