@@ -9,7 +9,7 @@ exports[`Bar using SVG should render correctly 1`] = `
       <rect
         class="bar"
         height="50"
-        style="stroke: #fff; fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        style="stroke: #fff; fill: rgba(153, 193, 220, 0.7);"
         width="0"
         x="0"
         y="0"
@@ -17,7 +17,7 @@ exports[`Bar using SVG should render correctly 1`] = `
       <rect
         class="bar"
         height="50"
-        style="stroke: #fff; fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        style="stroke: #fff; fill: rgba(153, 193, 220, 0.7);"
         width="0"
         x="0"
         y="50"
