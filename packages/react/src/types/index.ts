@@ -10,3 +10,5 @@ export * from "./Dropline";
 export * from "./TooltipItem";
 export * from "./Coordinate";
 export * from "./MouseMode";
+export * from "./ScaleFunction";
+export * from "./SimpleMouseEvent";

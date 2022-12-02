@@ -1,18 +1,18 @@
-import type { Marker, Dropline, Color, TooltipItem, Coordinate } from "../../types";
+import type { Marker, Dropline, Color, TooltipItem, Coordinate, SimpleMouseEvent } from "../../types";
 
 export interface MouseMoveAction {
   type: "EVENT.MOUSE_MOVE";
-  payload: MouseEvent;
+  payload: SimpleMouseEvent;
 }
 
 export interface MouseEnterAction {
   type: "EVENT.MOUSE_ENTER";
-  payload: MouseEvent;
+  payload: SimpleMouseEvent;
 }
 
 export interface MouseExitAction {
   type: "EVENT.MOUSE_EXIT";
-  payload: MouseEvent;
+  payload: SimpleMouseEvent;
 }
 
 export interface AddDroplineAction {

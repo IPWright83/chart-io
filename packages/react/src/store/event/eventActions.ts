@@ -1,4 +1,4 @@
-import type { Marker, Dropline, Color, TooltipItem } from "../../types";
+import type { Marker, Dropline, Color, TooltipItem, SimpleMouseEvent } from "../../types";
 
 import {
     MouseMoveAction,
@@ -19,7 +19,7 @@ import {
  * @param  mouseEventArgs  The event arguments from the mouse event
  * @return                 A redux store action
  */
-const mouseMove = (mouseEventArgs: MouseEvent): MouseMoveAction => ({
+const mouseMove = (mouseEventArgs: SimpleMouseEvent): MouseMoveAction => ({
     type: "EVENT.MOUSE_MOVE",
     payload: mouseEventArgs,
 });
@@ -29,7 +29,7 @@ const mouseMove = (mouseEventArgs: MouseEvent): MouseMoveAction => ({
  * @param  mouseEventArgs  The event arguments from the mouse event
  * @return                 A redux store action
  */
-const mouseEnter = (mouseEventArgs: MouseEvent): MouseEnterAction => ({
+const mouseEnter = (mouseEventArgs: SimpleMouseEvent): MouseEnterAction => ({
     type: "EVENT.MOUSE_ENTER",
     payload: mouseEventArgs,
 });
@@ -39,7 +39,7 @@ const mouseEnter = (mouseEventArgs: MouseEvent): MouseEnterAction => ({
  * @param  mouseEventArgs  The event arguments from the mouse event
  * @return                 A redux store action
  */
-const mouseExit = (mouseEventArgs: MouseEvent): MouseExitAction => ({
+const mouseExit = (mouseEventArgs: SimpleMouseEvent): MouseExitAction => ({
     type: "EVENT.MOUSE_EXIT",
     payload: mouseEventArgs,
 });

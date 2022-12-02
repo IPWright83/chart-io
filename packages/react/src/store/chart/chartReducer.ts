@@ -3,7 +3,7 @@ import { themes } from "../../themes";
 import type { ChartAction } from "./types";
 import type { ChartStore } from "../types";
 
-const defaultState = {
+export const defaultState = {
     animationDuration: 1000,
     theme: themes.light,
     data: [],

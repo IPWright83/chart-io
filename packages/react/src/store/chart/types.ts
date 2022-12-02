@@ -1,4 +1,4 @@
-import type { Margin, Theme, Data } from "../../types";
+import type { Margin, Theme, Data, ScaleFunction } from "../../types";
 
 export interface SetDimensionAction {
   type: "CHART.SET_DIMENSIONS";
@@ -13,7 +13,7 @@ export interface SetScaleAction {
   type: "CHART.SET_SCALES";
   payload: {
     fields: string[];
-    scale: Function;
+    scale: ScaleFunction;
     fromAxis: boolean;
   };
 }

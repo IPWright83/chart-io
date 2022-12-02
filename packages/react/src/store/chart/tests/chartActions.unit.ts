@@ -21,7 +21,7 @@ describe("chartActions", () => {
             const scale = d3.scaleLinear();
             const dispatch = jest.fn();
 
-            chartActions.setScales(fields, scale)(dispatch);
+            chartActions.setScales(fields, scale, false)(dispatch);
             expect(dispatch).toHaveBeenCalledWith({
                 type: "CHART.SET_SCALES",
                 payload: { fields, scale },
@@ -32,6 +32,7 @@ describe("chartActions", () => {
             const fields = ["a", "b", "c"];
             const dispatch = jest.fn();
 
+            // @ts-expect-error Testing the safety of the interface
             chartActions.setScales(fields, null)(dispatch);
             expect(dispatch).not.toHaveBeenCalled();
         });
@@ -87,7 +88,7 @@ describe("chartActions", () => {
         it("for custom theme returns correct action", () => {
             const dispatch = jest.fn();
 
-            chartActions.setTheme({ foo: "bar" })(dispatch);
+            chartActions.setTheme(themes.dark)(dispatch);
 
             expect(dispatch).toHaveBeenCalledWith({
                 type: "CHART.SET_THEME",
