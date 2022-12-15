@@ -9,7 +9,7 @@ exports[`HorizontalBand should render correctly 1`] = `
       <rect
         class="rect"
         height="100"
-        style="stroke: red; opacity: 0.3; fill: steelblue;"
+        style="stroke: red; opacity: 0.3; fill: steelblue; pointer-events: none;"
         width="800"
         x="0"
         y="50"
@@ -28,7 +28,7 @@ exports[`HorizontalBand should render correctly with no yStart 1`] = `
       <rect
         class="rect"
         height="100"
-        style="stroke: red; opacity: 0.3; fill: steelblue;"
+        style="stroke: red; opacity: 0.3; fill: steelblue; pointer-events: none;"
         width="800"
         x="0"
         y="100"
@@ -47,7 +47,7 @@ exports[`HorizontalBand should render correctly with no yStop 1`] = `
       <rect
         class="rect"
         height="100"
-        style="stroke: red; opacity: 0.3; fill: steelblue;"
+        style="stroke: red; opacity: 0.3; fill: steelblue; pointer-events: none;"
         width="800"
         x="0"
         y="50"

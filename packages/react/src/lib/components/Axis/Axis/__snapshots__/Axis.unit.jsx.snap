@@ -8,6 +8,7 @@ exports[`Axis component renders a bottom axis 1`] = `
     >
       <text
         class="chart-it axis-title"
+        style="text-anchor: middle; font-size: 14px; user-select: none;"
         transform="translate(-20, 230)rotate(270)"
       >
         x
@@ -20,7 +21,7 @@ exports[`Axis component renders a bottom axis 1`] = `
           fill="none"
           font-family="sans-serif"
           font-size="10"
-          style="color: rgb(51, 51, 51); stroke-opacity: 0.8; stroke-width: 1;"
+          style="user-select: none; color: rgb(51, 51, 51); stroke-opacity: 0.8; stroke-width: 1;"
           text-anchor="end"
         >
           <path
@@ -207,6 +208,7 @@ exports[`Axis component renders a left axis 1`] = `
     >
       <text
         class="chart-it axis-title"
+        style="text-anchor: middle; font-size: 14px; user-select: none;"
         transform="translate(-20, 230)rotate(270)"
       >
         y
@@ -219,7 +221,7 @@ exports[`Axis component renders a left axis 1`] = `
           fill="none"
           font-family="sans-serif"
           font-size="10"
-          style="color: rgb(51, 51, 51); stroke-opacity: 0.8; stroke-width: 1;"
+          style="user-select: none; color: rgb(51, 51, 51); stroke-opacity: 0.8; stroke-width: 1;"
           text-anchor="end"
         >
           <path
@@ -406,6 +408,7 @@ exports[`Axis component renders a right axis 1`] = `
     >
       <text
         class="chart-it axis-title"
+        style="text-anchor: middle; font-size: 14px; user-select: none;"
         transform="translate(1015, 230)rotate(270)"
       >
         y
@@ -418,7 +421,7 @@ exports[`Axis component renders a right axis 1`] = `
           fill="none"
           font-family="sans-serif"
           font-size="10"
-          style="color: rgb(51, 51, 51); stroke-opacity: 0.8; stroke-width: 1;"
+          style="user-select: none; color: rgb(51, 51, 51); stroke-opacity: 0.8; stroke-width: 1;"
           text-anchor="start"
         >
           <path
@@ -605,6 +608,7 @@ exports[`Axis component renders a top axis 1`] = `
     >
       <text
         class="chart-it axis-title"
+        style="text-anchor: middle; font-size: 14px; user-select: none;"
         transform="translate(490, 5)"
       >
         x
@@ -617,7 +621,7 @@ exports[`Axis component renders a top axis 1`] = `
           fill="none"
           font-family="sans-serif"
           font-size="10"
-          style="color: rgb(51, 51, 51); stroke-opacity: 0.8; stroke-width: 1;"
+          style="user-select: none; color: rgb(51, 51, 51); stroke-opacity: 0.8; stroke-width: 1;"
           text-anchor="middle"
         >
           <path

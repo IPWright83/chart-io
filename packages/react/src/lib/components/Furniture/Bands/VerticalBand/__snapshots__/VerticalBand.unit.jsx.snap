@@ -9,7 +9,7 @@ exports[`VerticalBand should render correctly 1`] = `
       <rect
         class="rect"
         height="400"
-        style="stroke: red; opacity: 0.3; fill: steelblue;"
+        style="stroke: red; opacity: 0.3; fill: steelblue; pointer-events: none;"
         width="100"
         x="50"
         y="0"
@@ -28,7 +28,7 @@ exports[`VerticalBand should render correctly with no xStart 1`] = `
       <rect
         class="rect"
         height="400"
-        style="stroke: red; opacity: 0.3; fill: steelblue;"
+        style="stroke: red; opacity: 0.3; fill: steelblue; pointer-events: none;"
         width="100"
         x="0"
         y="0"
@@ -47,7 +47,7 @@ exports[`VerticalBand should render correctly with no xStop 1`] = `
       <rect
         class="rect"
         height="400"
-        style="stroke: red; opacity: 0.3; fill: steelblue;"
+        style="stroke: red; opacity: 0.3; fill: steelblue; pointer-events: none;"
         width="100"
         x="100"
         y="0"

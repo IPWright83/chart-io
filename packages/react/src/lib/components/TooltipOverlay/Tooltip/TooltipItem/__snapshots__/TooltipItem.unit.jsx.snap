@@ -4,16 +4,19 @@ exports[`TooltipItem should render correctly 1`] = `
 <DocumentFragment>
   <div
     class="chart-it tooltip-item"
+    style="display: flex; flex-direction: row; width: 100%; user-select: none; pointer-events: none;"
   >
     <div
       class="chart-it indicator-circle"
-      style="background: red;"
+      style="background: red; width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%;"
     />
     <div
       class="chart-it tooltip-values"
+      style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;"
     >
       <span
         class="chart-it tooltip-series-name"
+        styles="[object Object]"
       >
         Series1:
       </span>

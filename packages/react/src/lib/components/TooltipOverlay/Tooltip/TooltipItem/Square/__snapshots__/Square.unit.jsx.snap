@@ -4,7 +4,7 @@ exports[`Square renders correctly 1`] = `
 <DocumentFragment>
   <div
     class="chart-it indicator-square"
-    style="background: steelblue;"
+    style="background: steelblue; height: 10px; width: 10px; margin-top: 4px; margin-right: 5px; margin-left: 5px;"
   />
 </DocumentFragment>
 `;

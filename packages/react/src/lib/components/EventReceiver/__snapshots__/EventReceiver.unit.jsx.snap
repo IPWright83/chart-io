@@ -9,6 +9,7 @@ exports[`EventReceiver should render correctly 1`] = `
       <rect
         class="chart-it event-receiver"
         height="330"
+        style="fill: none; pointer-events: all;"
         transform="translate(10, 30)"
         width="770"
       />

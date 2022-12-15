@@ -9,7 +9,7 @@ exports[`Polygon should render correctly 1`] = `
       <polygon
         class="polygon"
         points="0,100 50,25 50,75 100,0"
-        style="opacity: 0.05; fill: red;"
+        style="opacity: 0.05; fill: red; pointer-events: none;"
       />
     </g>
   </svg>
