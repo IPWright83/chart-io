@@ -83,27 +83,26 @@ const BarBase = ({
             .attr("width", () => 0)
             .attr("height", () => yScale.bandwidth())
             .style("stroke", strokeColor)
-            .style("fill", () => fillColor)
-            .style("opacity", theme.series.opacity);
+            .style("fill", () => fillColor);
 
         // Update new and existing points
         const update = enter
             .merge(join)
-            .on("mouseover", function(event, datum) {
+            .on("mouseover", function (event, datum) {
                 if (!interactive) return;
 
                 onMouseOver && onMouseOver(datum, this, event);
                 setFocused({ element: this, event, datum });
                 setTooltip({ datum, event, fillColors: [fillColor], xs: [x] });
             })
-            .on("mouseout", function(event, datum) {
+            .on("mouseout", function (event, datum) {
                 if (!interactive) return;
 
                 onMouseOut && onMouseOut(datum, this, event);
                 setFocused(null);
                 setTooltip(null);
             })
-            .on("click", function(event, datum) {
+            .on("click", function (event, datum) {
                 if (!interactive) return;
 
                 onClick(datum, this, event);
