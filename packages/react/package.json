@@ -6,19 +6,20 @@
   "description": "chart-it is a react-d3 charting library",
   "repository": "git@github.com:IPWright83/chart-it.git",
   "author": "\"Ian Wright\" <\"ipwright83+dev@gmail.com\">",
-  "main": "lib/index.js",
-  "module": "lib/index.esm.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/index.umd.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
   "homepage": "http://localhost:6006/?path=/story/introduction--page",
   "scripts": {
     "test": "jest --config jest.config.js",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf lib",
-    "lint": "eslint -c .eslintrc.json .",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "lint": "eslint -c .eslintrc.json . --ext .jsx --ext .js --ext .stories.jsx",
     "storybook": "start-storybook -p 6006",
     "deploy-storybook": "storybook-to-ghpages",
     "build-storybook": "ls && build-storybook",
-    "dev": "pnpm run build",
-    "build": "babel src/ --out-dir lib --copy-files --no-copy-ignored --ignore src/**/*.stories.js"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "np": {
     "publish": false,
@@ -58,26 +59,25 @@
     "@testing-library/user-event": "^13.5.0",
     "babel-jest": "27.5.1",
     "canvas": "^2.9.3",
+    "@vitejs/plugin-react": "^3.0.0",
     "chromatic": "^6.7.0",
     "crypto": "^1.0.1",
     "eslint": "^8.3.0",
     "eslint-config-react-app": "^7.0.1",
-    "eslint-webpack-plugin": "^3.1.1",
+    "eslint-webpack-plugin": "3.2.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "27.5.1",
     "jest-environment-jsdom": "27.5.1",
     "jest-image-snapshot": "^5.1.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
+    "vite": "^4.0.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
-    "react-scripts": "5.0.1",
     "react-test-renderer": "^18.2.0",
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.4.1",
-    "web-vitals": "^2.1.4",
-    "webpack": "5"
+    "redux-thunk": "^2.4.1"
   },
   "peerDependencies": {
     "prop-types": "^15.8.1",
@@ -86,19 +86,5 @@
     "react-redux": "^7.1 | ^8",
     "redux": "^4.0.0",
     "redux-thunk": "^2.4.0"
-  },
-  "jest": {
-    "testMatch": [
-      "**/*.unit.js",
-      "**/*.unit.jsx"
-    ],
-    "coveragePathIgnorePatterns": [
-      "stories/*.*",
-      "types/*.*",
-      "index.js",
-      "uuidv4.js",
-      "interpolateMultiPath.js",
-      "hoc/withTheme/*.*"
-    ]
   }
 }

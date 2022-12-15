@@ -5,16 +5,13 @@
   "description": "Provides data type detection utilities for chart-it",
   "repository": "git@github.com:IPWright83/chart-it.git",
   "author": "\"Ian Wright\" <\"ipwright83+dev@gmail.com\">",
-  "main": "lib/index.js",
-  "module": "lib/index.esm.js",
-  "types": "lib/index.d.ts",
+  "main": "src/index.js",
+  "module": "src/index.js",
   "homepage": "http://localhost:6006/?path=/story/introduction--page",
   "scripts": {
     "test": "jest",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf lib",
-    "lint": "eslint -c .eslintrc.json .",
-    "dev": "pnpm run build",
-    "build": "babel src/ --out-dir lib --copy-files --no-copy-ignored --ignore src/**/*.stories.js"
+    "clean": "rm -rf node_modules",
+    "lint": "eslint -c .eslintrc.json ."
   },
   "np": {
     "publish": false,

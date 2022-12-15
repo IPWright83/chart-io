@@ -11,7 +11,6 @@ __diff_output__
 # production
 build
 dist
-lib
 
 # storybook
 out*
