@@ -16,7 +16,7 @@ module.exports = {
     resetMocks: true,
     roots: ["<rootDir>/src"],
     setupFiles: ["react-app-polyfill/jsdom"],
-    setupFilesAfterEnv: ["<rootDir>/src/setupTests.js"],
+    setupFilesAfterEnv: ["<rootDir>/src/jest/setupTests.js"],
     testEnvironment: "jsdom",
     testMatch: ["**/*.unit.js", "**/*.unit.jsx"],
     transformIgnorePatterns: [
@@ -25,8 +25,8 @@ module.exports = {
     ],
     transform: {
         "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
-        "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-        "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js",
+        "^.+\\.css$": "<rootDir>/src/jest/cssTransform.js",
+        "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/src/jest/fileTransform.js",
     },
     watchPlugins: ["jest-watch-typeahead/filename", "jest-watch-typeahead/testname"],
 };
