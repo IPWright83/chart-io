@@ -13,7 +13,7 @@
   "scripts": {
     "test": "jest --config jest.config.js",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
-    "lint": "eslint -c .eslintrc.json .",
+    "lint": "eslint -c .eslintrc.json . --ext .jsx --ext .js --ext .stories.jsx",
     "storybook": "start-storybook -p 6006",
     "deploy-storybook": "storybook-to-ghpages",
     "build-storybook": "ls && build-storybook",
@@ -86,19 +86,5 @@
     "react-redux": "^7.1 | ^8",
     "redux": "^4.0.0",
     "redux-thunk": "^2.4.0"
-  },
-  "jest": {
-    "testMatch": [
-      "**/*.unit.js",
-      "**/*.unit.jsx"
-    ],
-    "coveragePathIgnorePatterns": [
-      "stories/*.*",
-      "types/*.*",
-      "index.js",
-      "uuidv4.js",
-      "interpolateMultiPath.js",
-      "hoc/withTheme/*.*"
-    ]
   }
 }
