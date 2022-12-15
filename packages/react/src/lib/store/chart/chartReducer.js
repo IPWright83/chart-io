@@ -3,6 +3,17 @@ import { themes } from "../../themes";
 const defaultState = {
     animationDuration: 1000,
     theme: themes.light,
+    data: [],
+    dimensions: {
+        margin: {
+            left: 30,
+            right: 30,
+            top: 30,
+            bottom: 30,
+        },
+    },
+    scales: {},
+    axisScales: {},
 };
 
 /**
@@ -34,10 +45,10 @@ const chartReducer = (state = defaultState, action) => {
                         ...payload.fields.reduce((result, field) => {
                             return { ...result, [field]: payload.scale };
                         }, {}),
-                    }
-                }
+                    },
+                };
             }
-            
+
             return {
                 ...state,
                 scales: {

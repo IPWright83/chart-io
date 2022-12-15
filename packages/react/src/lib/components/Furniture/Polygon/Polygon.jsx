@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
  * Renders a Polygon
  * @return {ReactElement}  The Polygon component
  */
-const Polygon = ({ points, opacity, fill, stroke }) => {
+const Polygon = ({ points, opacity = 0.5, fill, stroke }) => {
     if (!points) {
         return null;
     }
@@ -21,6 +21,7 @@ Polygon.propTypes = {
     points: PropTypes.string,
     /**
      * The opactity to use for the Polygon
+     * @default 0.5
      * @type {Number}
      */
     opacity: PropTypes.number,

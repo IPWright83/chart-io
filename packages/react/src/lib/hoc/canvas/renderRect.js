@@ -8,14 +8,14 @@ import * as d3 from "d3";
  */
 const renderRect = (context, node, overrideColor) => {
     const selection = d3.select(node);
-    const x = selection.attr("x");
-    const y = selection.attr("y");
-    const width = selection.attr("width");
-    const height = selection.attr("height");
+    const x = Number(selection.attr("x"));
+    const y = Number(selection.attr("y"));
+    const width = Number(selection.attr("width"));
+    const height = Number(selection.attr("height"));
     const fill = selection.style("fill");
     const opacity = Number(selection.style("opacity")) || 1;
     const stroke = selection.style("stroke");
-    const strokeWidth = selection.style("stroke-width") || 1;
+    const strokeWidth = Number(selection.style("stroke-width")) || 1;
 
     context.beginPath();
     context.rect(x, y, width, height);

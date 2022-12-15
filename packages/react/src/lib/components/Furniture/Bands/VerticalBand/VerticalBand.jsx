@@ -8,7 +8,7 @@ import { chartSelectors } from "../../../../store";
  * Renders a VerticalBand
  * @return {ReactElement}  The VerticalBand component
  */
-const VerticalBand = ({ xStart, xStop, x, opacity, fill, stroke }) => {
+const VerticalBand = ({ xStart, xStop, x, opacity = 0.5, fill, stroke }) => {
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
     const scale = useSelector((s) => chartSelectors.scales.getScale(s, x));
@@ -58,6 +58,7 @@ VerticalBand.propTypes = {
     x: PropTypes.string.isRequired,
     /**
      * The opactity to use for the Polygon
+     * @default 0.5
      * @type {Number}
      */
     opacity: PropTypes.number,

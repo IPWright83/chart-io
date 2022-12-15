@@ -8,7 +8,7 @@ import { chartSelectors } from "../../../../store";
  * Renders a VerticalLine
  * @return {ReactElement}  The VerticalLine component
  */
-const VerticalLine = ({ x, value, opacity, stroke }) => {
+const VerticalLine = ({ x, value, opacity = 1, stroke }) => {
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
     const scale = useSelector((s) => chartSelectors.scales.getScale(s, x));
@@ -44,6 +44,7 @@ VerticalLine.propTypes = {
     x: PropTypes.string.isRequired,
     /**
      * The opactity to use for the Polygon
+     * @default 1
      * @type {Number}
      */
     opacity: PropTypes.number,

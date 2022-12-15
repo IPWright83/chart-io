@@ -21,7 +21,7 @@ describe("YAxis", () => {
                 <svg>
                     <YAxis position="left" fields={["y"]} />
                 </svg>
-            </Provider>,
+            </Provider>
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -38,7 +38,7 @@ describe("YAxis", () => {
                 <svg>
                     <YAxis position="left" fields={["y"]} />
                 </svg>
-            </Provider>,
+            </Provider>
         );
 
         const scale = chartSelectors.scales.getScale(store.getState(), "y");

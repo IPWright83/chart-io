@@ -45,8 +45,8 @@ const useDatumFocus = (dispatch, layer, x, y, xScale, yScale, data, eventMode, p
         }
 
         // Get the appropriate attributes
-        const cx = xScale(datum[x]);
-        const cy = yScale(datum[y]);
+        const cx = +xScale(datum[x]);
+        const cy = +yScale(datum[y]);
         const fill = color;
 
         const marker = { fill, cx, cy };

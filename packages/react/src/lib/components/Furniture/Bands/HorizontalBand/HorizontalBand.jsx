@@ -8,7 +8,7 @@ import { chartSelectors } from "../../../../store";
  * Renders a HorizontalBand
  * @return {ReactElement}  The HorizontalBand component
  */
-const HorizontalBand = ({ yStart, yStop, y, opacity, fill, stroke }) => {
+const HorizontalBand = ({ yStart, yStop, y, opacity = 0.5, fill, stroke }) => {
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const scale = useSelector((s) => chartSelectors.scales.getScale(s, y));
@@ -58,6 +58,7 @@ HorizontalBand.propTypes = {
     y: PropTypes.string.isRequired,
     /**
      * The opactity to use for the Polygon
+     * @default 0.5
      * @type {Number}
      */
     opacity: PropTypes.number,

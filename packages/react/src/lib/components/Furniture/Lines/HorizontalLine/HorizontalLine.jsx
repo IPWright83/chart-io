@@ -8,7 +8,7 @@ import { chartSelectors } from "../../../../store";
  * Renders a HorizontalLine
  * @return {ReactElement}  The HorizontalLine component
  */
-const HorizontalLine = ({ y, value, opacity, stroke }) => {
+const HorizontalLine = ({ y, value, opacity = 1, stroke }) => {
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const scale = useSelector((s) => chartSelectors.scales.getScale(s, y));
@@ -44,6 +44,7 @@ HorizontalLine.propTypes = {
     y: PropTypes.string.isRequired,
     /**
      * The opactity to use for the Polygon
+     * @default 1
      * @type {Number}
      */
     opacity: PropTypes.number,
