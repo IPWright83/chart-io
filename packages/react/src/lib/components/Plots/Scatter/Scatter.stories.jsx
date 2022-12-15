@@ -1,6 +1,6 @@
 import React from "react";
 
-import { argTypes } from "../../../../stories/argTypes";
+import { argTypes } from "../../../../storybook/argTypes";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
 import { huge_data_set } from "../../../../data/huge_data_set";
 import { Scatter } from "./Scatter";

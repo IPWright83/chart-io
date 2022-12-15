@@ -1,6 +1,6 @@
 import React from "react";
 
-import { argTypes } from "../../../../stories/argTypes";
+import { argTypes } from "../../../../storybook/argTypes";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
 import { Area } from "./Area";
 import { Areas } from "./Areas";
