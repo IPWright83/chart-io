@@ -1,4 +1,4 @@
-import type { Marker, Dropline, Color, TooltipItem, SimpleMouseEvent } from "../../types";
+import type { IMarker, IDropline, IColor, ITooltipItem, ISimpleMouseEvent } from "../../types";
 
 import {
     MouseMoveAction,
@@ -19,7 +19,7 @@ import {
  * @param  mouseEventArgs  The event arguments from the mouse event
  * @return                 A redux store action
  */
-const mouseMove = (mouseEventArgs: SimpleMouseEvent): MouseMoveAction => ({
+const mouseMove = (mouseEventArgs: ISimpleMouseEvent): MouseMoveAction => ({
     type: "EVENT.MOUSE_MOVE",
     payload: mouseEventArgs,
 });
@@ -29,7 +29,7 @@ const mouseMove = (mouseEventArgs: SimpleMouseEvent): MouseMoveAction => ({
  * @param  mouseEventArgs  The event arguments from the mouse event
  * @return                 A redux store action
  */
-const mouseEnter = (mouseEventArgs: SimpleMouseEvent): MouseEnterAction => ({
+const mouseEnter = (mouseEventArgs: ISimpleMouseEvent): MouseEnterAction => ({
     type: "EVENT.MOUSE_ENTER",
     payload: mouseEventArgs,
 });
@@ -39,7 +39,7 @@ const mouseEnter = (mouseEventArgs: SimpleMouseEvent): MouseEnterAction => ({
  * @param  mouseEventArgs  The event arguments from the mouse event
  * @return                 A redux store action
  */
-const mouseExit = (mouseEventArgs: SimpleMouseEvent): MouseExitAction => ({
+const mouseExit = (mouseEventArgs: ISimpleMouseEvent): MouseExitAction => ({
     type: "EVENT.MOUSE_EXIT",
     payload: mouseEventArgs,
 });
@@ -49,7 +49,7 @@ const mouseExit = (mouseEventArgs: SimpleMouseEvent): MouseExitAction => ({
  * @param  dropline    The dropline to add
  * @return             A redux store action
  */
-const addDropline = (dropline: Dropline): AddDroplineAction => ({
+const addDropline = (dropline: IDropline): AddDroplineAction => ({
     type: "EVENT.ADD_DROPLINE",
     payload: dropline,
 });
@@ -59,7 +59,7 @@ const addDropline = (dropline: Dropline): AddDroplineAction => ({
  * @param  dropline    The dropline to remove
  * @return             A redux store action
  */
-const removeDropline = (dropline: Dropline): RemoveDroplineAction => ({
+const removeDropline = (dropline: IDropline): RemoveDroplineAction => ({
     type: "EVENT.REMOVE_DROPLINE",
     payload: dropline,
 });
@@ -69,7 +69,7 @@ const removeDropline = (dropline: Dropline): RemoveDroplineAction => ({
  * @param  marker      The marker to add
  * @return             A redux store action
  */
-const addMarker = (marker: Marker): AddMarkerAction => ({
+const addMarker = (marker: IMarker): AddMarkerAction => ({
     type: "EVENT.ADD_MARKER",
     payload: marker,
 });
@@ -79,7 +79,7 @@ const addMarker = (marker: Marker): AddMarkerAction => ({
  * @param  marker      The marker to remove
  * @return             A redux store action
  */
-const removeMarker = (marker: Marker): RemoveMarkerAction => ({
+const removeMarker = (marker: IMarker): RemoveMarkerAction => ({
     type: "EVENT.REMOVE_MARKER",
     payload: marker,
 });
@@ -89,7 +89,7 @@ const removeMarker = (marker: Marker): RemoveMarkerAction => ({
  * @param {String} color        The hex color to use for the tooltip border
  * @return {Object}             A redux store action
  */
-const setTooltipBorderColor = (color: Color): SetTooltipBorderColorAction => ({
+const setTooltipBorderColor = (color: IColor | undefined): SetTooltipBorderColorAction => ({
     type: "EVENT.SET_TOOLTIP_COLOR",
     payload: color,
 });
@@ -99,7 +99,7 @@ const setTooltipBorderColor = (color: Color): SetTooltipBorderColorAction => ({
  * @param  {Object} tooltipItem     The tooltip item to add
  * @return {Object}                 A redux store action
  */
-const addTooltipItem = (tooltipItem: TooltipItem): AddTooltipItemAction => ({
+const addTooltipItem = (tooltipItem: ITooltipItem): AddTooltipItemAction => ({
     type: "EVENT.ADD_TOOLTIP_ITEM",
     payload: tooltipItem,
 });
@@ -109,7 +109,7 @@ const addTooltipItem = (tooltipItem: TooltipItem): AddTooltipItemAction => ({
  * @param  {Object} tooltipItem     The tooltip item to add
  * @return {Object}                 A redux store action
  */
-const removeTooltipItem = (tooltipItem: TooltipItem): RemoveTooltipItemAction => ({
+const removeTooltipItem = (tooltipItem: ITooltipItem): RemoveTooltipItemAction => ({
     type: "EVENT.REMOVE_TOOLTIP_ITEM",
     payload: tooltipItem,
 });

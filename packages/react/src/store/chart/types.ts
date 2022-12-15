@@ -1,11 +1,11 @@
-import type { Margin, Theme, Data, ScaleFunction } from "../../types";
+import type { IMargin, ITheme, IData, IScaleFunction } from "../../types";
 
 export interface SetDimensionAction {
   type: "CHART.SET_DIMENSIONS";
   payload: {
     width: number;
     height: number;
-    margin: Margin;
+    margin: IMargin;
   };
 }
 
@@ -13,14 +13,14 @@ export interface SetScaleAction {
   type: "CHART.SET_SCALES";
   payload: {
     fields: string[];
-    scale: ScaleFunction;
+    scale: IScaleFunction;
     fromAxis: boolean;
   };
 }
 
 export interface SetThemeAction {
   type: "CHART.SET_THEME";
-  payload: Theme;
+  payload: ITheme;
 }
 
 export interface SetAnimationDurationAction {
@@ -30,7 +30,7 @@ export interface SetAnimationDurationAction {
 
 export interface SetDataAction {
   type: "CHART.SET_DATA";
-  payload: Data;
+  payload: IData;
 }
 
 export type ChartAction =

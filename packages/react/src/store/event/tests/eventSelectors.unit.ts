@@ -1,7 +1,7 @@
 import { eventSelectors } from "../eventSelectors";
-import { defaultState as defaultChartState } from "../../chart/chartReducer";
-import { defaultState as defaultEventState } from "../eventReducer";
-import type { Color, MouseMode } from "../../../types";
+import { defaultChartState } from "../../chart/chartReducer";
+import { defaultEventState } from "../eventReducer";
+import type { IMarker, IDropline, IColor, IMouseMode } from "../../../types";
 
 describe("eventSelectors", () => {
     it("store gets the correct part of state", () => {
@@ -18,7 +18,8 @@ describe("eventSelectors", () => {
             const state = {
                 chart: defaultChartState,
                 event: {
-                    mouse: { x: 5, y: 10 },
+                    ...defaultEventState,
+                    mouse: { x: 5, y: 10, mode: "NONE" as IMouseMode },
                 },
             };
 
@@ -26,6 +27,7 @@ describe("eventSelectors", () => {
         });
 
         it("returns empty with no position", () => {
+            // @ts-expect-error: Checking runtime safety
             expect(eventSelectors.position({})).toEqual({});
         });
     });
@@ -45,7 +47,7 @@ describe("eventSelectors", () => {
                 chart: defaultChartState,
                 event: {
                     ...defaultEventState,
-                    mouse: { x: 5, y: 10, mode: "ENTER" as MouseMode },
+                    mouse: { x: 5, y: 10, mode: "ENTER" as IMouseMode },
                 },
             };
             expect(eventSelectors.mode(state)).toBe("ENTER");
@@ -57,12 +59,12 @@ describe("eventSelectors", () => {
             chart: defaultChartState,
             event: {
                 ...defaultEventState,
-                droplines: [{ isHorizontal: true, color: "red", x1: 0, x2: 1, y1: 2, y2: 3 }],
+                droplines: [{ isHorizontal: true, color: "#FF0000", x1: 0, x2: 1, y1: 2, y2: 3 }] as Array<IDropline>,
             },
         };
 
         expect(eventSelectors.droplines(state)).toEqual([
-            { isHorizontal: true, color: "red", x1: 0, x2: 1, y1: 2, y2: 3 },
+            { isHorizontal: true, color: "#FF0000", x1: 0, x2: 1, y1: 2, y2: 3 },
         ]);
     });
 
@@ -71,11 +73,11 @@ describe("eventSelectors", () => {
             chart: defaultChartState,
             event: {
                 ...defaultEventState,
-                markers: [{ fill: "red", r1: 5, r2: 10, cx: 3, cy: 4 }],
+                markers: [{ fill: "#FF0000", r1: 5, r2: 10, cx: 3, cy: 4 }] as Array<IMarker>,
             },
         };
 
-        expect(eventSelectors.markers(state)).toEqual([{ fill: "red", r1: 5, r2: 10, cx: 3, cy: 4 }]);
+        expect(eventSelectors.markers(state)).toEqual([{ fill: "#FF0000", r1: 5, r2: 10, cx: 3, cy: 4 }]);
     });
 
     describe("tooltip", () => {
@@ -114,7 +116,7 @@ describe("eventSelectors", () => {
                     ...defaultEventState,
                     tooltip: {
                         items: [{ name: "A", value: 0 }],
-                        color: "#FF0000" as Color,
+                        color: "#FF0000" as IColor,
                     },
                 },
             };
@@ -129,7 +131,7 @@ describe("eventSelectors", () => {
                     ...defaultEventState,
                     tooltip: {
                         items: [{ name: "A", value: 0 }],
-                        color: "#FF0000" as Color,
+                        color: "#FF0000" as IColor,
                     },
                 },
             };

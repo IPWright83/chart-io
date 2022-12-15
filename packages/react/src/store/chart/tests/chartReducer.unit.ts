@@ -1,5 +1,5 @@
-import { defaultState, chartReducer } from "../chartReducer";
-import type { Primitive } from "../../../types";
+import { defaultChartState, chartReducer } from "../chartReducer";
+import type { IPrimitive } from "../../../types";
 import { themes } from "../../../themes";
 
 import type {
@@ -12,7 +12,7 @@ import type {
 
 describe("chartReducer", () => {
     const previousState = {
-        ...defaultState,
+        ...defaultChartState,
         dimensions: {
             width: 1000,
             height: 500,
@@ -64,7 +64,7 @@ describe("chartReducer", () => {
             type: "CHART.SET_SCALES",
             payload: {
                 fields: ["x", "y"],
-                scale: (t: Primitive) => 0,
+                scale: (t: IPrimitive) => 0,
                 fromAxis: false,
             },
         } as SetScaleAction;

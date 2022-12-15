@@ -1,4 +1,0 @@
-/**
- * Represents any one of the primitive JavaScript types with Date added
- */
-export type Primitive = string | number | boolean | bigint | Date;

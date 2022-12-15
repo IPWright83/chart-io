@@ -1,10 +1,10 @@
 import { isEqual } from "lodash";
 
 import type { EventAction } from "./types";
-import type { EventStore } from "../types";
+import type { IEventStore } from "../types";
 
 // https://stackoverflow.com/questions/54099633/filter-out-actions-in-redux-devtool-extension#:~:text=In%20the%20Redux%20DevTools%20Extension,the%20Chrome%20Extension%20details%20screen.
-export const defaultState = {
+export const defaultEventState = {
     droplines: [],
     markers: [],
     tooltip: {
@@ -18,7 +18,7 @@ export const defaultState = {
  * @param  action  The current action being triggerered
  * @return         The new state
  */
-const eventReducer = (state: EventStore = defaultState, action: EventAction): EventStore => {
+const eventReducer = (state: IEventStore = defaultEventState, action: EventAction): IEventStore => {
     switch (action.type) {
         case "EVENT.MOUSE_MOVE":
             // Ignore events if no MOUSE_ENTER was recieved. This prevents

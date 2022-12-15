@@ -1,4 +1,4 @@
-import type { Position, Margin } from "../../../../types";
+import type { IPosition, IMargin } from "../../../../types";
 
 /**
  * Obtain the tick size used for gridlines
@@ -8,7 +8,7 @@ import type { Position, Margin } from "../../../../types";
  * @param  margin       The margin object for the chart
  * @return              The transform
  */
-const getTickSize = (position: Position, width: number, height: number, margin: Margin): number => {
+const getTickSize = (position: IPosition, width: number, height: number, margin: IMargin): number => {
     if (width === 0 || height === 0) {
         return 0;
     }

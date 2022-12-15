@@ -6,24 +6,24 @@ import { useSelector } from "react-redux";
 
 import { getTransform } from "./getTransform";
 
-import { chartSelectors } from "../../../../store";
-import type { Position } from "../../../../types";
+import { chartSelectors, IStore } from "../../../../store";
+import type { IPosition } from "../../../../types";
 
-export interface TitleProps {
+export interface ITitleProps {
     /**
      * The position of the axis [top, bottom, left, right]
      */
-    position: Position;
+    position: IPosition;
     /**
      * A title for the Axis
      */
     title: string;
 }
 
-export function Title({ position, title }: TitleProps) {
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s) => chartSelectors.dimensions.height(s));
-    const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
+export function Title({ position, title }: ITitleProps) {
+    const width = useSelector((s: IStore) => chartSelectors.dimensions.width(s));
+    const height = useSelector((s: IStore) => chartSelectors.dimensions.height(s));
+    const margin = useSelector((s: IStore) => chartSelectors.dimensions.margin(s));
 
     const transform = getTransform(position, width, height, margin);
 

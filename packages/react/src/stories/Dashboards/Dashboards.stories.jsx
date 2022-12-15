@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 
+// @ts-ignore Ignore sample data
 import { example_dataset } from "../../../data/example_dataset";
 import { Line, Area, XYChart, XAxis, YAxis } from "../../components";
 import { linkStores } from "../../utils";

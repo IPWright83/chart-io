@@ -1,9 +1,10 @@
 import { eventActions } from "../eventActions";
+import type { IMarker, IDropline } from "../../../types";
 
 describe("eventActions", () => {
-    const mouseEventArgs = {};
-    const dropline = { isHorizontal: true, color: "red", x1: 0, x2: 1, y1: 2, y2: 3 };
-    const marker = { fill: "red", r1: 5, r2: 10, cx: 3, cy: 4 };
+    const mouseEventArgs = { offsetX: 5, offsetY: 5 };
+    const dropline = { isHorizontal: true, color: "#ff0000", x1: 0, x2: 1, y1: 2, y2: 3 } as IDropline;
+    const marker = { fill: "#ff0000", r1: 5, r2: 10, cx: 3, cy: 4 } as IMarker;
 
     it("mouseMove returns the correct action", () => {
         expect(eventActions.mouseMove(mouseEventArgs)).toEqual({

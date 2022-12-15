@@ -2,14 +2,14 @@
 
 import * as d3 from "d3";
 
-import type { Position } from "../../../types";
+import type { IPosition } from "../../../types";
 
 /**
  * Return a D3 Axis function
  * @param  IPosition    The position of the axis [left, right, top, bottom]
  * @return              The D3 selection Axis - https://github.com/d3/d3-axis
  */
-const getD3Axis = (position: Position, scale: d3.AxisScale<d3.AxisDomain>): d3.Axis<d3.AxisDomain> => {
+const getD3Axis = (position: IPosition, scale: d3.AxisScale<d3.AxisDomain>): d3.Axis<d3.AxisDomain> => {
     switch (position) {
         case "left":
             return d3.axisLeft(scale);

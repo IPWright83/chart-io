@@ -6,7 +6,7 @@ import { XAxis } from "../XAxis";
 import { Axis } from "./Axis";
 import { Chart } from "../../Chart";
 import { axisData } from "./axisData";
-import { chartSelectors } from "../../../store";
+import { chartSelectors, IStore } from "../../../store";
 import { XScale } from "../../Scale";
 
 import "./AxisCustomisations.css";
@@ -35,7 +35,7 @@ const CustomTimeAxis = ({ fields }) => {
     const axis = useRef(null);
 
     const field = fields[0];
-    const scale = useSelector((s) => chartSelectors.scales.getScale(s, field));
+    const scale = useSelector((s: IStore) => chartSelectors.scales.getScale(s, field));
 
     useEffect(() => {
         if (axis.current && scale) {

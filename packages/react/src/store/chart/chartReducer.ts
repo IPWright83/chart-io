@@ -1,9 +1,9 @@
 import { themes } from "../../themes";
 
 import type { ChartAction } from "./types";
-import type { ChartStore } from "../types";
+import type { IChartStore } from "../types";
 
-export const defaultState = {
+export const defaultChartState = {
     animationDuration: 1000,
     theme: themes.light,
     data: [],
@@ -25,7 +25,7 @@ export const defaultState = {
  * @param  action  The current action being triggerered
  * @return         The new state
  */
-const chartReducer = (state: ChartStore = defaultState, action: ChartAction): ChartStore => {
+const chartReducer = (state: IChartStore = defaultChartState, action: ChartAction): IChartStore => {
     switch (action.type) {
         case "CHART.SET_DIMENSIONS":
             return {

@@ -1,32 +1,47 @@
 import { createSelector } from "reselect";
 
-import type { Dropline, Marker, Color, TooltipItem, MouseMode, Coordinate } from "../../types";
-import type { Store, EventStore, EventStoreTooltip } from "../types";
+import type { IDropline, IMarker, IColor, ITooltipItem, IMouseMode, ICoordinate } from "../../types";
+import type { IStore, IEventStore, IEventStoreTooltip } from "../types";
 
 const EMPTY_OBJECT = {};
 const EMPTY_ARRAY = [];
 
-const eventSelectors = {
+interface EventSelectors {
+    store: (state: IStore) => IEventStore;
+    droplines: (state: IStore) => IDropline[];
+    markers: (state: IStore) => IMarker[];
+    tooltip: {
+        store: (state: IStore) => IEventStoreTooltip;
+        show: (state: IStore) => boolean;
+        color: (state: IStore) => IColor;
+        items: (state: IStore) => ITooltipItem[];
+        position: (state: IStore) => ICoordinate | {};
+    };
+    mode: (state: IStore) => IMouseMode;
+    position: (state: IStore) => ICoordinate | {};
+}
+
+const _eventSelectors = {
     /**
      * Returns the store for the chart part of state
      * @param  state The application state
      * @return       The state
      */
-    store: (state: Store): EventStore => state.event,
+    store: (state: IStore): IEventStore => state.event,
 
     /**
      * Returns the set of droplines
      * @param  state   The application state
      * @return         The droplines
      */
-    droplines: (state: Store): Dropline[] => eventSelectors.store(state).droplines,
+    droplines: (state: IStore): IDropline[] => _eventSelectors.store(state).droplines,
 
     /**
      * Returns the set of markers
      * @param  state   The application state
      * @return         The markers
      */
-    markers: (state: Store): Marker[] => eventSelectors.store(state).markers,
+    markers: (state: IStore): IMarker[] => _eventSelectors.store(state).markers,
 
     tooltip: {
         /**
@@ -34,35 +49,35 @@ const eventSelectors = {
          * @param  state   The application state
          * @return         The sub-state for the tooltip
          */
-        store: (state: Store): EventStoreTooltip => eventSelectors.store(state).tooltip,
+        store: (state: IStore): IEventStoreTooltip => _eventSelectors.store(state).tooltip,
 
         /**
          * Should the tooltip currently be shown?
          * @param  state   The application state
          * @return        True if the tooltip should be shown
          */
-        show: (state: Store): boolean => eventSelectors.tooltip.items(state).length > 0,
+        show: (state: IStore): boolean => _eventSelectors.tooltip.items(state).length > 0,
 
         /**
          * The colour that the tooltip should take
          * @param  state   The application state
          * @return         The colour of the tooltip item
          */
-        color: (state: Store): Color => eventSelectors.tooltip.store(state).color /*?.toString()*/,
+        color: (state: IStore): IColor => _eventSelectors.tooltip.store(state).color /*?.toString()*/,
 
         /**
          * The set of tooltip tiems
          * @param  state   The application state
          * @return          The array of tooltip items
          */
-        items: (state: Store): TooltipItem[] => eventSelectors.tooltip.store(state).items || EMPTY_ARRAY,
+        items: (state: IStore): ITooltipItem[] => _eventSelectors.tooltip.store(state).items || EMPTY_ARRAY,
 
         /**
          * A moust event that triggered
          * @param  state   The application state
          * @return         The mouse event that triggered the tooltip
          */
-        position: (state: Store): Coordinate | {} => eventSelectors.tooltip.store(state).position || EMPTY_OBJECT,
+        position: (state: IStore): ICoordinate | undefined => _eventSelectors.tooltip.store(state).position,
     },
 
     /**
@@ -73,8 +88,8 @@ const eventSelectors = {
      * @param  state The application state
      * @return       One of "NONE", "MOVE" or "ENTER"
      */
-    mode: (state: Store): MouseMode => {
-        const { mouse } = eventSelectors.store(state);
+    mode: (state: IStore): IMouseMode => {
+        const { mouse } = _eventSelectors.store(state);
         if (!mouse) {
             return "NONE";
         }
@@ -88,13 +103,15 @@ const eventSelectors = {
  * @param  {Object} state The application state
  * @return {Object}       An object with { x, y } positions or null
  */
-eventSelectors.position = createSelector(eventSelectors.store, (event) => {
-    const { mouse } = event;
-    if (!mouse) {
-        return EMPTY_OBJECT;
+const position = createSelector(_eventSelectors.store, (event: IEventStore): ICoordinate | undefined => {
+    if (!event || !event.mouse) {
+        return;
     }
 
-    return { x: mouse.x, y: mouse.y };
+    return { x: event.mouse.x, y: event.mouse.y };
 });
 
-export { eventSelectors };
+export const eventSelectors = {
+    ..._eventSelectors,
+    position,
+};

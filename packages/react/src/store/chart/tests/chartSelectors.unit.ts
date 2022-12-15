@@ -1,8 +1,8 @@
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../../constants";
 import { themes } from "../../../themes";
 import { chartSelectors } from "../chartSelectors";
-import { defaultState as defaultChartState } from "../chartReducer";
-import { defaultState as defaultEventState } from "../../event/eventReducer";
+import { defaultChartState } from "../chartReducer";
+import { defaultEventState } from "../../event/eventReducer";
 
 describe("chartSelectors", () => {
     it("store gets the correct part of state", () => {
@@ -26,6 +26,7 @@ describe("chartSelectors", () => {
         });
 
         it("returns an empty array with no data", () => {
+            // @ts-expect-error: Checking runtime safety
             expect(chartSelectors.data({})).toEqual([]);
         });
     });
@@ -62,6 +63,7 @@ describe("chartSelectors", () => {
         });
 
         it("getScale returns undefined for an missing scale", () => {
+            // @ts-expect-error: Testing a runtime error
             expect(chartSelectors.scales.getScale({}, "a")).toBe(undefined);
         });
     });

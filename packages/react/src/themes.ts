@@ -1,6 +1,6 @@
-import { Theme } from "./types";
+import { ITheme } from "./types";
 
-const light: Theme = {
+const light: ITheme = {
     axis: {
         stroke: "#333333",
         strokeOpacity: 0.8,
@@ -17,6 +17,7 @@ const light: Theme = {
         size: 6,
         stroke: "#ffffff",
         strokeWidth: 2,
+        shadow: false,
     },
 
     background: "#ffffff",
@@ -54,7 +55,7 @@ const light: Theme = {
     },
 };
 
-const dark: Theme = {
+const dark: ITheme = {
     axis: {
         stroke: "#cccccc",
         strokeOpacity: 0.8,
@@ -80,6 +81,7 @@ const dark: Theme = {
         size: 6,
         stroke: "#ffffff",
         strokeWidth: 2,
+        shadow: false,
     },
 
     gridlines: {

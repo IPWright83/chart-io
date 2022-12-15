@@ -9,6 +9,9 @@ module.exports = {
     resetMocks: true,
     roots: ["<rootDir>/src"],
     testEnvironment: "jsdom",
-    testMatch: ["**/*.unit.js"],
+    transform: {
+        "^.+\\.[tj]sx?$": "@swc/jest",
+    },
+    testMatch: ["**/*.unit.[tj]sx?"],
     watchPlugins: ["jest-watch-typeahead/filename", "jest-watch-typeahead/testname"],
 };

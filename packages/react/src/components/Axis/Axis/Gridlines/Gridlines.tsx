@@ -9,14 +9,14 @@ import { useSelector } from "react-redux";
 import { getTickSize } from "./getTickSize";
 import { getD3Axis } from "../getD3Axis";
 
-import { chartSelectors } from "../../../../store";
-import type { Position } from "../../../../types";
+import { chartSelectors, IStore } from "../../../../store";
+import type { IPosition } from "../../../../types";
 
-export interface GridlinesProps {
+export interface IGridlinesProps {
     /**
      * The position of the axis [top, bottom, left, right]
      */
-    position: Position;
+    position: IPosition;
     /**
      * The D3 scale object used for the axis
      */
@@ -39,12 +39,12 @@ export interface GridlinesProps {
  * Represents a Gridlines component
  * @return The Gridlines component
  */
-export function Gridlines({ layer, position, scale, tickPadding = 3, ticks }: GridlinesProps) {
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s) => chartSelectors.dimensions.height(s));
-    const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
-    const theme = useSelector((s) => chartSelectors.theme(s));
-    const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
+export function Gridlines({ layer, position, scale, tickPadding = 3, ticks }: IGridlinesProps) {
+    const width = useSelector((s: IStore) => chartSelectors.dimensions.width(s));
+    const height = useSelector((s: IStore) => chartSelectors.dimensions.height(s));
+    const margin = useSelector((s: IStore) => chartSelectors.dimensions.margin(s));
+    const theme = useSelector((s: IStore) => chartSelectors.theme(s));
+    const animationDuration = useSelector((s: IStore) => chartSelectors.animationDuration(s));
 
     const tickSize = getTickSize(position, width, height, margin);
 

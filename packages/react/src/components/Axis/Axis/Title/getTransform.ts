@@ -1,4 +1,4 @@
-import type { Position, Margin } from "../../../../types";
+import type { IPosition, IMargin } from "../../../../types";
 
 /**
  * Obtain the transform for the Axis title
@@ -8,7 +8,7 @@ import type { Position, Margin } from "../../../../types";
  * @param  margin       The margin object for the chart
  * @return              The transform
  */
-const getTransform = (position: Position, width: number, height: number, margin: Margin): string => {
+const getTransform = (position: IPosition, width: number, height: number, margin: IMargin): string => {
     if (width === 0 || height === 0) {
         return "translate(0, 0)";
     }

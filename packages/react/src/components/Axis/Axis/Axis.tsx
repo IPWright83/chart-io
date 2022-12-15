@@ -11,14 +11,14 @@ import { getTransform } from "./getTransform";
 import { Gridlines } from "./Gridlines";
 import { Title } from "./Title";
 
-import { chartSelectors } from "../../../store";
-import type { Position } from "../../../types";
+import { chartSelectors, IStore } from "../../../store";
+import type { IPosition } from "../../../types";
 
 export interface AxisProps {
     /**
      * The position of the axis [top, bottom, left, right]
      */
-    position: Position;
+    position: IPosition;
     /**
      * The keys of the fields that will share this scale
      */
@@ -75,12 +75,12 @@ export function Axis({
     }
 
     const field = fields[0];
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s) => chartSelectors.dimensions.height(s));
-    const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
-    const scale = useSelector((s) => chartSelectors.scales.getAxisScale(s, field));
-    const theme = useSelector((s) => chartSelectors.theme(s));
-    const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
+    const width = useSelector((s: IStore) => chartSelectors.dimensions.width(s));
+    const height = useSelector((s: IStore) => chartSelectors.dimensions.height(s));
+    const margin = useSelector((s: IStore) => chartSelectors.dimensions.margin(s));
+    const scale = useSelector((s: IStore) => chartSelectors.scales.getAxisScale(s, field));
+    const theme = useSelector((s: IStore) => chartSelectors.theme(s));
+    const animationDuration = useSelector((s: IStore) => chartSelectors.animationDuration(s));
     const transform = getTransform(position, width, height, margin);
 
     // React will own the axis containers, but D3 will own the axis themselves

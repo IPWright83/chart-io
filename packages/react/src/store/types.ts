@@ -1,44 +1,56 @@
 import * as d3 from "d3";
 
-import type { Margin, Theme, Data, Marker, Dropline, TooltipItem, Color, Coordinate, MouseMode } from "../types";
+import type {
+  IMargin,
+  ITheme,
+  IData,
+  IMarker,
+  IDropline,
+  ITooltipItem,
+  IColor,
+  ICoordinate,
+  IMouseMode,
+} from "../types";
 
-export interface ChartStoreDimensions {
+export interface IChartStoreDimensions {
   width?: number;
   height?: number;
-  margin?: Margin;
+  margin?: IMargin;
 }
 
-export type ChartStoreScales = Record<string, d3.AxisScale<d3.AxisDomain>>;
+export type IChartStoreScales = Record<string, d3.AxisScale<d3.AxisDomain>>;
 
-export interface ChartStore {
-  data: Data;
+export interface IChartStore {
+  data: IData;
   animationDuration?: number;
-  scales: ChartStoreScales;
-  axisScales: ChartStoreScales;
-  dimensions: ChartStoreDimensions;
-  theme: Theme;
+  scales: IChartStoreScales;
+  axisScales: IChartStoreScales;
+  dimensions: IChartStoreDimensions;
+  theme: ITheme;
 }
 
-export interface EventStoreMouse {
+export interface IEventStoreMouse {
   x: number;
   y: number;
-  mode: MouseMode;
+  mode: IMouseMode;
 }
 
-export interface EventStoreTooltip {
-  position?: Coordinate;
-  color?: Color;
-  items: TooltipItem[];
+export interface IEventStoreTooltip {
+  position?: ICoordinate;
+  color?: IColor;
+  items: ITooltipItem[];
 }
 
-export interface EventStore {
-  droplines: Dropline[];
-  markers: Marker[];
-  mouse?: EventStoreMouse;
-  tooltip: EventStoreTooltip;
+export interface IEventStore {
+  droplines: IDropline[];
+  markers: IMarker[];
+  mouse?: IEventStoreMouse;
+  tooltip: IEventStoreTooltip;
 }
 
-export interface Store {
-  chart: ChartStore;
-  event: EventStore;
+export interface IStore {
+  chart: IChartStore;
+  event: IEventStore;
 }
+
+export type IDispatch = (action: any) => void;
