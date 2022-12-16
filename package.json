@@ -7,7 +7,7 @@
   "scripts": {
     "version": "changeset version",
     "changeset": "changeset",
-    "test": "turbo run test -- --watchAll=false",
+    "test": "turbo run test --concurrency=1 -- --watchAll=false",
     "test:watch": "node scripts/choice test --watchAll=true",
     "test:package": "node scripts/choice test --watchAll=false",
     "storybook:watch": "node scripts/choice storybook",
