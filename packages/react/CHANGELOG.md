@@ -1,5 +1,11 @@
 # @chart-it/react-d3
 
+## 0.9.0
+
+### Minor Changes
+
+- 3254c1e: Vite build
+
 ## 0.8.0
 
 ### Minor Changes
