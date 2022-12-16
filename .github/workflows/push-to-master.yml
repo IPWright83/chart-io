@@ -249,7 +249,6 @@ jobs:
           ls packages/react/node_modules/@chart-it
       - name: Deploy
         run: pnpm storybook:deploy
-        #          npm run deploy-storybook -- --ci
         env:
           GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
 
@@ -281,4 +280,6 @@ jobs:
       - name: pnpm Install
         run: pnpm install
       - name: Chromatic
-        run: npx chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }} --exit-zero-on-changes --auto-accept-changes
+        run: |
+          cd packages/react
+          npx chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }} --exit-zero-on-changes --auto-accept-changes
