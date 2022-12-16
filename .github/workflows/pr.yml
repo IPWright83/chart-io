@@ -117,4 +117,6 @@ jobs:
       - name: pnpm Install
         run: pnpm install
       - name: Chromatic
-        run: npx chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }} --exit-zero-on-changes
+        run: |
+          cd packages/react
+          npx chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }} --exit-zero-on-changes
