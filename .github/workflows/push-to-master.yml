@@ -126,11 +126,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-  changesets_output_test:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo ${{ changesets_version.outputs.changes }}
-
   # changesets_version:
   #   runs-on: ubuntu-latest
   #   needs: [lint, unit]
@@ -225,7 +220,7 @@ jobs:
 
   deploy_storybook:
     needs: changesets_version
-    if: "!contains(github.event.head_commit.message, 'skip chromatic') && needs.changesets_version.outputs.published == 'true'"
+    if: "!contains(github.event.head_commit.message, 'skip chromatic') && needs.changesets_version.outputs.published == true"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -259,7 +254,7 @@ jobs:
 
   update_chromatic_baseline:
     needs: changesets_version
-    if: "!contains(github.event.head_commit.message, 'skip chromatic') && needs.changesets_version.outputs.published == 'true'"
+    if: "!contains(github.event.head_commit.message, 'skip chromatic') && needs.changesets_version.outputs.published == true"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
