@@ -7,7 +7,7 @@ exports[`VerticalLine should render correctly 1`] = `
       class="g-vertical-line"
     >
       <line
-        style="stroke: steelblue; pointer-events: none;"
+        style="stroke: steelblue; opacity: 1; pointer-events: none;"
         x1="100"
         x2="100"
         y1="0"

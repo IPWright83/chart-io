@@ -7,7 +7,7 @@ exports[`HorizontalLine should render correctly 1`] = `
       class="g-horizontal-line"
     >
       <line
-        style="stroke: steelblue; pointer-events: none;"
+        style="stroke: steelblue; opacity: 1; pointer-events: none;"
         x1="0"
         x2="800"
         y1="100"
