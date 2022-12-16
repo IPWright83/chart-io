@@ -11,7 +11,8 @@
   "scripts": {
     "test": "jest",
     "clean": "rm -rf node_modules",
-    "lint": "eslint -c .eslintrc.json ."
+    "lint": "eslint -c .eslintrc.json .",
+    "publish": ""
   },
   "np": {
     "publish": false,
