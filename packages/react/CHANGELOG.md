@@ -1,5 +1,11 @@
 # @chart-it/react-d3
 
+## 0.10.0
+
+### Minor Changes
+
+- 29b2703: Fixing peer dependencies
+
 ## 0.9.0
 
 ### Minor Changes
