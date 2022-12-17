@@ -1,5 +1,11 @@
 # @chart-it/detection
 
+## 0.4.0
+
+### Minor Changes
+
+- a6cc33a: Testing changesets
+
 ## 0.3.0
 
 ### Minor Changes
