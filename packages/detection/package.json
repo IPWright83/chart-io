@@ -1,6 +1,6 @@
 {
   "name": "@chart-it/detection",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "packageManager": "pnpm@7.5.2",
   "description": "Provides data type detection utilities for chart-it",
   "repository": "git@github.com:IPWright83/chart-it.git",
