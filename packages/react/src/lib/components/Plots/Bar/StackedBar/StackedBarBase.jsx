@@ -41,7 +41,7 @@ const StackedBarBase = ({
     const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
-    const strokeColor = "#fff";
+    const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, y);
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
@@ -67,15 +67,9 @@ const StackedBarBase = ({
         // Create the stacked variant of the data
         const keys = xs;
         const stackedData = d3.stack().keys(keys)(data);
-        const colorScale = d3
-            .scaleOrdinal()
-            .domain(keys)
-            .range(colors);
+        const colorScale = d3.scaleOrdinal().domain(keys).range(colors);
 
-        const groupJoin = d3
-            .select(layer.current)
-            .selectAll("g")
-            .data(stackedData);
+        const groupJoin = d3.select(layer.current).selectAll("g").data(stackedData);
 
         // Clean up old stacks
         groupJoin.exit().remove();
@@ -105,7 +99,7 @@ const StackedBarBase = ({
 
         const update = join
             .merge(enter)
-            .on("mouseover", function(event, d) {
+            .on("mouseover", function (event, d) {
                 if (!interactive) return;
 
                 onMouseOver && onMouseOver(d.data, this, event);
@@ -117,14 +111,14 @@ const StackedBarBase = ({
                     xs,
                 });
             })
-            .on("mouseout", function(event, d) {
+            .on("mouseout", function (event, d) {
                 if (!interactive) return;
 
                 onMouseOut && onMouseOut(d.data, this, event);
                 setFocused(null);
                 setTooltip(null);
             })
-            .on("click", function(event, d) {
+            .on("click", function (event, d) {
                 if (!interactive) return;
 
                 onClick && onClick(d.data, this, event);
