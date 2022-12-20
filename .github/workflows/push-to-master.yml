@@ -64,6 +64,8 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - name: pnpm Install
         run: pnpm install
+      - name: Build
+        run: pnpm build
       - name: Release
         id: release
         uses: changesets/action@v1

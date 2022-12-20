@@ -39,7 +39,7 @@ const ColumnBase = ({
     const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
-    const strokeColor = "#fff";
+    const strokeColor = theme.background;
     const fillColor = d3.color(color || theme.series.colors[0]);
     fillColor.opacity = theme.series.opacity;
 

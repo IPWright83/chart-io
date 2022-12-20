@@ -40,7 +40,7 @@ const GroupedBarBase = ({
     const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
-    const strokeColor = "#fff";
+    const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, y);
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
@@ -62,20 +62,10 @@ const GroupedBarBase = ({
         if (ensureBandScale(yScale, "GroupedBar") === false) return null;
 
         // Create a scale for each series to fit along the x-axis and the series colors
-        const colorScale = d3
-            .scaleOrdinal()
-            .domain(xs)
-            .range(colors);
-        const y1Scale = d3
-            .scaleBand()
-            .domain(xs)
-            .rangeRound([0, yScale.bandwidth()])
-            .padding(0.05);
+        const colorScale = d3.scaleOrdinal().domain(xs).range(colors);
+        const y1Scale = d3.scaleBand().domain(xs).rangeRound([0, yScale.bandwidth()]).padding(0.05);
 
-        const groupJoin = d3
-            .select(layer.current)
-            .selectAll("g")
-            .data(data);
+        const groupJoin = d3.select(layer.current).selectAll("g").data(data);
 
         // Clean up old groups
         groupJoin.exit().remove();
@@ -102,7 +92,7 @@ const GroupedBarBase = ({
 
         const update = join
             .merge(enter)
-            .on("mouseover", function(event, datum) {
+            .on("mouseover", function (event, datum) {
                 if (!interactive) return;
 
                 onMouseOver && onMouseOver(datum, this, event);
@@ -114,14 +104,14 @@ const GroupedBarBase = ({
                     xs: [datum.key],
                 });
             })
-            .on("mouseout", function(event, datum) {
+            .on("mouseout", function (event, datum) {
                 if (!interactive) return;
 
                 onMouseOut && onMouseOut(datum, this, event);
                 setFocused(null);
                 setTooltip(null);
             })
-            .on("click", function(event, datum) {
+            .on("click", function (event, datum) {
                 if (!interactive) return;
 
                 onClick && onClick(datum, this, event);

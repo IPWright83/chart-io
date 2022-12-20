@@ -10,7 +10,7 @@ exports[`Columns Grouped using SVG should render correctly 1`] = `
         <rect
           class="column"
           height="0"
-          style="fill: #99c1dc; stroke: #fff; opacity: 0.7;"
+          style="fill: #99c1dc; stroke: #ffffff; opacity: 0.7;"
           width="23"
           x="2"
           y="100"
@@ -18,7 +18,7 @@ exports[`Columns Grouped using SVG should render correctly 1`] = `
         <rect
           class="column"
           height="0"
-          style="fill: #fc998e; stroke: #fff; opacity: 0.7;"
+          style="fill: #fc998e; stroke: #ffffff; opacity: 0.7;"
           width="23"
           x="26"
           y="100"
@@ -28,7 +28,7 @@ exports[`Columns Grouped using SVG should render correctly 1`] = `
         <rect
           class="column"
           height="0"
-          style="fill: #99c1dc; stroke: #fff; opacity: 0.7;"
+          style="fill: #99c1dc; stroke: #ffffff; opacity: 0.7;"
           width="23"
           x="52"
           y="100"
@@ -36,7 +36,7 @@ exports[`Columns Grouped using SVG should render correctly 1`] = `
         <rect
           class="column"
           height="0"
-          style="fill: #fc998e; stroke: #fff; opacity: 0.7;"
+          style="fill: #fc998e; stroke: #ffffff; opacity: 0.7;"
           width="23"
           x="76"
           y="100"
@@ -57,7 +57,7 @@ exports[`Columns Stacked using SVG should render correctly 1`] = `
         <rect
           class="column"
           height="0"
-          style="fill: #99c1dc; stroke: #fff; opacity: 0.7;"
+          style="fill: #99c1dc; stroke: #ffffff; opacity: 0.7;"
           width="50"
           x="0"
           y="100"
@@ -65,7 +65,7 @@ exports[`Columns Stacked using SVG should render correctly 1`] = `
         <rect
           class="column"
           height="0"
-          style="fill: #99c1dc; stroke: #fff; opacity: 0.7;"
+          style="fill: #99c1dc; stroke: #ffffff; opacity: 0.7;"
           width="50"
           x="50"
           y="100"
@@ -75,7 +75,7 @@ exports[`Columns Stacked using SVG should render correctly 1`] = `
         <rect
           class="column"
           height="0"
-          style="fill: #fc998e; stroke: #fff; opacity: 0.7;"
+          style="fill: #fc998e; stroke: #ffffff; opacity: 0.7;"
           width="50"
           x="0"
           y="100"
@@ -83,7 +83,7 @@ exports[`Columns Stacked using SVG should render correctly 1`] = `
         <rect
           class="column"
           height="0"
-          style="fill: #fc998e; stroke: #fff; opacity: 0.7;"
+          style="fill: #fc998e; stroke: #ffffff; opacity: 0.7;"
           width="50"
           x="50"
           y="100"

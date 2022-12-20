@@ -30,7 +30,7 @@ const Droplines = ({ layer, showVertical = true, showHorizontal = true }) => {
         join.enter()
             .append("line")
             .attr("class", "chart-it dropline")
-            .style("point-events", "none")
+            .attr("point-events", "none")
             .style("stroke-dasharray", theme.droplines.strokeDasharray)
             .style("stroke-opacity", theme.droplines.strokeOpacity)
             .style("stroke-width", theme.droplines.strokeWidth)
