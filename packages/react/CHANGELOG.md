@@ -1,5 +1,12 @@
 # @chart-it/react-d3
 
+## 0.13.0
+
+### Minor Changes
+
+- 175dd66: Pick stroke color from background for bars/columns
+- 175dd66: Resolved issue with flickering tooltips due to incorrect pointer-events
+
 ## 0.12.0
 
 ### Minor Changes
