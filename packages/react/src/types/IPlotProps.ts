@@ -9,7 +9,7 @@ export interface IPlotProps {
      * @default undefined
      * @type {HTMLElement}
      */
-    layer: React.MutableRefObject<JSX.Element>;
+    layer: React.MutableRefObject<Element>;
 
     /**
      * The key of the field used for the x position

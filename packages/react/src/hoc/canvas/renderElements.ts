@@ -9,7 +9,11 @@ import type { IColor } from "../../types";
  * @param  join                The D3 data join to render
  * @param  colors              A list of colors
  */
-export const renderElements = (context: CanvasRenderingContext2D, join: ???, colors?: Array<IColor>): void => {
+export const renderElements = (
+    context: CanvasRenderingContext2D,
+    join: d3.Transition<Element, unknown, any, unknown>,
+    colors?: Array<IColor>
+): void => {
     if (!join) {
         return;
     }

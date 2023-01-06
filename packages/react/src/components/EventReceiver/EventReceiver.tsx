@@ -14,7 +14,7 @@ export interface IEventReceiverProps {
      * The layer to be rendered upon. Typically this is an `<svg:g>` or a fake HTMLElement when using canvas.
      * @default undefined
      */
-    layer: React.MutableRefObject<JSX.Element>;
+    layer: React.MutableRefObject<Element>;
 }
 
 /**

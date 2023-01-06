@@ -1,3 +1,5 @@
+import * as d3 from "d3";
+
 import { defaultChartState, chartReducer } from "../chartReducer";
 import type { IPrimitive } from "../../../types";
 import { themes } from "../../../themes";
@@ -20,8 +22,8 @@ describe("chartReducer", () => {
         },
         data: [{ a: "foo" }, { b: "bar" }],
         scales: {
-            a: { fakeScale: 1 },
-            b: { fakeScale: 2 },
+            a: d3.scaleLinear(),
+            b: d3.scaleBand(),
         },
     };
 
@@ -60,11 +62,13 @@ describe("chartReducer", () => {
     });
 
     it("CHART.SET_SCALES", () => {
+        const logScale = d3.scaleLog();
+
         const action = {
             type: "CHART.SET_SCALES",
             payload: {
                 fields: ["x", "y"],
-                scale: (t: IPrimitive) => 0,
+                scale: logScale,
                 fromAxis: false,
             },
         } as SetScaleAction;
@@ -73,10 +77,10 @@ describe("chartReducer", () => {
             dimensions: previousState.dimensions,
             data: previousState.data,
             scales: {
-                a: { fakeScale: 1 },
-                b: { fakeScale: 2 },
-                x: { fakeScale: 3 },
-                y: { fakeScale: 3 },
+                a: previousState.scales.a,
+                b: previousState.scales.b,
+                x: logScale,
+                y: logScale,
             },
         });
     });

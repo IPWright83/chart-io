@@ -13,7 +13,13 @@ import { MOUSE_MOVE_THROTTLE } from "../constants";
  * @param  {Array}        expected              The arguments that we expect the callback to have been called with
  * @param  {Object}       fakeMouseEventData    A fake mouse event data object
  */
-export const testMouseClick = async (container, selector, callback, expected, fakeMouseEventData) => {
+export const testMouseClick = async (
+    container: HTMLElement,
+    selector: string,
+    callback: () => void,
+    expected: unknown,
+    fakeMouseEventData?: unknown
+) => {
     const element = container.querySelector(selector);
 
     if (fakeMouseEventData) {
@@ -33,7 +39,13 @@ export const testMouseClick = async (container, selector, callback, expected, fa
  * @param  {Array}        expected              The arguments that we expect the callback to have been called with
  * @param  {Object}       fakeMouseEventData    A fake mouse event data object
  */
-export const testMouseOver = async (container, selector, callback, expected, fakeMouseEventData) => {
+export const testMouseOver = async (
+    container: HTMLElement,
+    selector: string,
+    callback: () => void,
+    expected: unknown,
+    fakeMouseEventData?: unknown
+) => {
     const element = container.querySelector(selector);
 
     if (fakeMouseEventData) {
@@ -54,12 +66,12 @@ export const testMouseOver = async (container, selector, callback, expected, fak
  * @param  {Object}       fakeMouseExitEventData    A fake mouse event data object to use during the exit event
  */
 export const testMouseExit = async (
-    container,
-    selector,
-    callback,
-    expected,
-    fakeMouseEnterEventData,
-    fakeMouseExitEventData
+    container: HTMLElement,
+    selector: string,
+    callback: () => void,
+    expected: unknown,
+    fakeMouseEnterEventData?: unknown,
+    fakeMouseExitEventData?: unknown
 ) => {
     const element = container.querySelector(selector);
 

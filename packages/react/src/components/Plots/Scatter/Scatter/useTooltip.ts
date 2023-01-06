@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 
-import { eventActions } from "../../../../store";
+import { eventActions, IDispatch } from "../../../../store";
+
+export interface IuseTooltipProps {
+    dispatch: IDispatch;
+    x: string;
+    y: string;
+}
 
 /**
  * Handles the user interacting with a DataPoint on the Scatter chart and the need to display a tooltip
@@ -10,7 +16,7 @@ import { eventActions } from "../../../../store";
  * @param  y              The key for the y value
  * @return                A function to set the tooltip datum
  */
-const useTooltip = ({ dispatch: IDispatch, x: string, y: string }) => {
+const useTooltip = ({ dispatch, x, y }: IuseTooltipProps) => {
     const [datum, setDatum] = useState(null);
     const [color, setColor] = useState(null);
     const [positionEvent, setPositionEvent] = useState(null);
@@ -27,7 +33,7 @@ const useTooltip = ({ dispatch: IDispatch, x: string, y: string }) => {
         const tooltipItemY = {
             datum,
             name: y,
-            seriesType: "scatter",
+            seriesType: "scatter" as const,
             fill: color,
             value: datum[y],
         };

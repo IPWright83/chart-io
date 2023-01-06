@@ -1,3 +1,5 @@
+import * as d3 from "d3";
+
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../../constants";
 import { themes } from "../../../themes";
 import { chartSelectors } from "../chartSelectors";
@@ -38,8 +40,8 @@ describe("chartSelectors", () => {
                 chart: {
                     ...defaultChartState,
                     scales: {
-                        a: { fakeScale: 1 },
-                        b: { fakeScale: 2 },
+                        a: d3.scaleLinear(),
+                        b: d3.scaleBand(),
                     },
                 },
             };
@@ -53,8 +55,8 @@ describe("chartSelectors", () => {
                 chart: {
                     ...defaultChartState,
                     scales: {
-                        a: { fakeScale: 1 },
-                        b: { fakeScale: 2 },
+                        a: d3.scaleLinear(),
+                        b: d3.scaleBand(),
                     },
                 },
             };

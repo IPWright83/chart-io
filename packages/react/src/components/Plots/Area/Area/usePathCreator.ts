@@ -14,7 +14,7 @@ import { IScaleFunction } from "../../../../types";
  * @param  canvas     If a canvas is provided this will supress the path creator in a React hook safe way
  */
 const usePathCreator = (
-    layer: React.MutableRefObject<JSX.Element>,
+    layer: React.MutableRefObject<Element>,
     x: string,
     y: string,
     xScale: IScaleFunction,

@@ -14,8 +14,8 @@ export const progressiveCanvasRenderLoop = async (
     canvas: HTMLCanvasElement,
     width: number,
     height: number,
-    exit: ???,
-    update: ???
+    exit: d3.Transition<d3.BaseType, unknown, any, unknown>,
+    update: d3.Transition<d3.BaseType, unknown, any, unknown>
 ) => {
     // If the canvas isn't ready don't do anything
     if (!canvas) {

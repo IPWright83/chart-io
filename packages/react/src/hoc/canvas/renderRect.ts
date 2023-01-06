@@ -7,7 +7,7 @@ import type { IColor } from "../../types";
  * @param  node                The virtual DOM node that represents this element
  * @param  overrideColor       A custom color to override the node color which is used for the virtual canvas
  */
-export const renderRect = (context: CanvasRenderingContext2D, node: HTMLElement, overrideColor: IColor): void => {
+export const renderRect = (context: CanvasRenderingContext2D, node: Element, overrideColor: IColor): void => {
     const selection = d3.select(node);
     const x = Number(selection.attr("x"));
     const y = Number(selection.attr("y"));

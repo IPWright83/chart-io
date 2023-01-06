@@ -4,13 +4,14 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import { chartSelectors, eventSelectors, IStore } from "../../store";
+import { IDropline } from "../../types";
 
 export interface IDroplinesProps {
     /**
      * The layer to be rendered upon. Typically this is an `<svg:g>` or a fake HTMLElement when using canvas.
      * @default undefined
      */
-    layer: React.MutableRefObject<JSX.Element>;
+    layer: React.MutableRefObject<Element>;
 
     /**
      * Should horizontal droplines be shown?
@@ -42,7 +43,7 @@ const Droplines = ({ layer, showVertical = true, showHorizontal = true }: IDropl
         const join = d3
             .select(layer.current)
             .selectAll(".dropline")
-            .data(droplines, (d) => `${d.x1}-${d.x2}-${d.y1}-${d.y2}`);
+            .data(droplines, (d: IDropline) => `${d.x1}-${d.x2}-${d.y1}-${d.y2}`);
 
         join.exit().remove();
 

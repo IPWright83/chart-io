@@ -86,8 +86,8 @@ export const ScatterBase = ({
             .attr("cx", (d) => xScale(d[x]) + bandwidth)
             .attr("cy", (d) => yScale(d[y]))
             .attr("r", 0)
-            .style("stroke", () => strokeColor)
-            .style("fill", () => fillColor)
+            .style("stroke", () => strokeColor.toString())
+            .style("fill", () => fillColor.toString())
             .style("opacity", theme.series.opacity);
 
         // Update new and existing points
@@ -117,7 +117,7 @@ export const ScatterBase = ({
             .attr("cx", (d) => xScale(d[x]))
             .attr("cy", (d) => yScale(d[y]))
             .attr("r", (d) => (z ? zScale(d[z]) : radius))
-            .style("fill", () => fillColor);
+            .style("fill", () => fillColor.toString());
 
         renderCanvas({
             canvas,

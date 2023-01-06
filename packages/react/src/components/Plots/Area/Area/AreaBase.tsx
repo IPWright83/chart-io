@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 
 import { useRender } from "../../../../hooks";
 import { chartSelectors, eventSelectors, IStore } from "../../../../store";
-import { IPlotProps } from "../../../../types";
+import { IColor, IPlotProps } from "../../../../types";
 import { interpolateMultiPath, isNullOrUndefined } from "../../../../utils";
 
 import { useDatumFocus } from "./useDatumFocus";
@@ -110,7 +110,7 @@ export const AreaBase = ({
             sortedData,
             eventMode,
             position,
-            strokeColor.toString()
+            strokeColor.toString() as IColor
         );
         useTooltip(
             store.dispatch,
@@ -122,7 +122,7 @@ export const AreaBase = ({
             sortedData,
             eventMode,
             position,
-            strokeColor.toString()
+            strokeColor.toString()  as IColor
         );
     }
 

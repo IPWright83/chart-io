@@ -20,7 +20,7 @@ import { IScaleFunction, IMouseMode, IData, ICoordinate, IColor } from "../../..
  */
 const useTooltip = (
     dispatch: IDispatch,
-    layer: React.MutableRefObject<JSX.Element>,
+    layer: React.MutableRefObject<Element>,
     x: string,
     y: string,
     xScale: IScaleFunction,
