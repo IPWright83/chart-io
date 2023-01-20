@@ -6,13 +6,17 @@ import React, { useRef } from "react";
  * @param  {String}            className            An optional class name to add to the DOM
  * @return {ReactDOMComponent}                      The wrapped layer
  */
-const withSVG = (WrappedComponent, className) =>
+const withSVG = (WrappedComponent, className) => {
+    if (!className) {
+        console.warn("W003 - className is required when using the withSVG higher order component");
+    }
+
     /**
      * Wraps a component within an SVG group
      * @param  {...any}    options.props        The rest of the props
      * @return {ReactDOMComponent}              The wrapped layer
      */
-    (props) => {
+    return (props) => {
         const layer = useRef(null);
 
         return (
@@ -23,5 +27,6 @@ const withSVG = (WrappedComponent, className) =>
             </g>
         );
     };
+};
 
 export { withSVG };

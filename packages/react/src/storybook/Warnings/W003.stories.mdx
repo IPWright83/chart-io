@@ -1,0 +1,17 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Errors & Warnings/W003 - Missing Class Name" />
+
+# W003 Missing Class Name
+
+Class names in chart-it are generally used to help identify elements within the DOM, but can also be used for CSS styling if neccessary. As we assume they are set, the lack of a value causes `g-undefined` to appear in the DOM. This warning is trying to prevent this from happening.
+
+> `"W003 - className is required when using the withCanvas higher order component"` > `"W003 - className is required when using the withSVG higher order component"`
+
+## Cause
+
+This warning indicates that you are attempting to use the `withSVG` or `withCanvas` higher order component, and that the expected class name was not provided.
+
+## Fix
+
+Pass a class name as the 2nd parameter to the `withSVG` or `withCanvas` higher order function.
