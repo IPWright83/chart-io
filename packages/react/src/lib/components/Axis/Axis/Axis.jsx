@@ -78,7 +78,9 @@ const Axis = ({
         <React.Fragment>
             <Title position={position} title={title} className={`axis-title-${position}`} />
             <g transform={transform}>
-                {showGridlines ? <Gridlines position={position} scale={scale} ticks={ticks} /> : null}
+                {showGridlines ? (
+                    <Gridlines position={position} scale={scale} ticks={ticks} tickValues={tickValues} />
+                ) : null}
                 <g className={`chart-it axis axis-${position}`} ref={axis} style={{ userSelect: "none" }} />
             </g>
         </React.Fragment>
