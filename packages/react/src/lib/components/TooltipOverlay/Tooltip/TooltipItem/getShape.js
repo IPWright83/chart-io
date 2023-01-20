@@ -7,7 +7,7 @@ import { Line } from "./Line";
  * @param {String} seriesType   The type of the series
  * @returns {ReactDOMComponent}  The appropriate shape component to display within the tooltip
  **/
-const getShape = (seriesType) => {
+export const getShape = (seriesType) => {
     switch (seriesType) {
         case "scatter":
         case "circle":
@@ -23,5 +23,3 @@ const getShape = (seriesType) => {
             return null;
     }
 };
-
-export { getShape };

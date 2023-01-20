@@ -30,7 +30,7 @@ const styles = {
  * Represents a row within a Tooltip
  * @return {ReactElement}  The TooltipItem component
  */
-const TooltipItem = ({ name, value, seriesType, fill }) => {
+const TooltipItem = ({ name, value, seriesType, fill, formatValue }) => {
     const Shape = getShape(seriesType);
 
     return (
@@ -40,7 +40,7 @@ const TooltipItem = ({ name, value, seriesType, fill }) => {
                 <span className="chart-it tooltip-series-name" style={styles.tooltipSeriesName}>
                     {name}:
                 </span>
-                <span className="chart-it tooltip-series-value">{`${value}`}</span>
+                <span className="chart-it tooltip-series-value">{formatValue(name, value)}</span>
             </div>
         </div>
     );
@@ -67,6 +67,11 @@ TooltipItem.propTypes = {
      * @type {String}
      */
     fill: PropTypes.string.isRequired,
+    /**
+     * A function that maps the value to a string
+     * @type {Function}
+     */
+    formatValue: PropTypes.func.isRequired,
 };
 
 export { TooltipItem };

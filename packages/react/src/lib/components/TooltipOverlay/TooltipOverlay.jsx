@@ -10,7 +10,7 @@ import { getTooltipPosition } from "./getTooltipPosition";
  * Represents a Tooltip overlay layer
  * @return {ReactElement}  The Tooltip overlay component
  */
-const TooltipOverlay = ({ offset = 20 }) => {
+const TooltipOverlay = ({ offset = 20, formatters = {} }) => {
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
     const showTooltip = useSelector((s) => eventSelectors.tooltip.show(s));
@@ -32,7 +32,7 @@ const TooltipOverlay = ({ offset = 20 }) => {
 
     return (
         <foreignObject style={style}>
-            <Tooltip borderColor={borderColor} items={items} positionStyle={positionStyle} />
+            <Tooltip borderColor={borderColor} items={items} positionStyle={positionStyle} formatters={formatters} />
         </foreignObject>
     );
 };
@@ -44,6 +44,11 @@ TooltipOverlay.propTypes = {
      * @type {number}
      */
     offset: PropTypes.number,
+    /**
+     * An object mapping series keys to format functions
+     * @type {Object}
+     */
+    formatters: PropTypes.object,
 };
 
 export { TooltipOverlay };
