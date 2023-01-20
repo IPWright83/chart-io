@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 
 import { TooltipItem } from "./TooltipItem";
@@ -8,7 +8,7 @@ import { getFormatValue } from "../../../utils";
  * Represents a Tooltip
  * @return {ReactElement}  The Tooltip component
  */
-const Tooltip = ({ borderColor, items, positionStyle, formatters }) => {
+const Tooltip = ({ borderColor, items, positionStyle, formatters = {} }) => {
     const style = {
         border: borderColor ? `thin solid ${borderColor}` : "thin solid #ccc",
         display: "inline-block",
@@ -26,9 +26,25 @@ const Tooltip = ({ borderColor, items, positionStyle, formatters }) => {
     return (
         <div className="chart-it tooltip" style={style}>
             {items.map((item) => {
-                const formatValue = useCallback(getFormatValue(formatters[item.name]), [item.name]);
+                /**
+                 * A format is of the shape:
+                 * {
+                 *     prefix: string
+                 *     suffix: string
+                 *     formatFunc: (name: string, value: any) => string;
+                 * }
+                 */
+                const format = formatters[item.name] || {};
 
-                return <TooltipItem key={`${item.name}`} formatValue={formatValue} {...item} />;
+                return (
+                    <TooltipItem
+                        key={`${item.name}`}
+                        prefix={format.prefix}
+                        suffix={format.suffix}
+                        formatFunc={format.formatFunc}
+                        {...item}
+                    />
+                );
             })}
         </div>
     );
