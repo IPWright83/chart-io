@@ -85,7 +85,7 @@ const chartSelectors = {
                 return axisScales[field];
             }
 
-            // Manually defined scales take precent
+            // Manually defined scales
             const scales = store.scales || {};
             if (scales[field]) {
                 return scales[field];

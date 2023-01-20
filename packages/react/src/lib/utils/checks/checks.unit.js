@@ -35,10 +35,8 @@ describe("/utils/checks", () => {
             const fields = ["x", "y"];
 
             expect(ensureNoScaleOverflow(scale, data, fields)).toBe(false);
-            expect(
-                console.warn
-            ).toHaveBeenCalledWith(
-                "W001 - The scale appears too small for the dataset. Are you missing the `aggregate={true}` in your <Axis /> or <Scale /> component?",
+            expect(console.warn).toHaveBeenCalledWith(
+                "W001 - The scale appears too small for the dataset. Are you missing the `aggregate={true}` in your <Axis /> or <AutoScale /> component?",
                 ["x", "y"]
             );
         });

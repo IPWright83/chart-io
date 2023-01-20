@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Scale } from "./Scale";
+import { AutoScale } from "./AutoScale";
 
 /**
  * Represents an XScale
@@ -9,7 +9,7 @@ import { Scale } from "./Scale";
  * @return {ReactDOMComponent}   A scale component
  */
 const ZScale = ({ fields, scaleType, range, domain, fromAxis }) => {
-    return <Scale fields={fields} fromAxis={fromAxis} range={range} domain={domain} scaleType={scaleType} />;
+    return <AutoScale fields={fields} fromAxis={fromAxis} range={range} domain={domain} scaleType={scaleType} />;
 };
 
 ZScale.propTypes = {
@@ -39,12 +39,13 @@ ZScale.propTypes = {
      * @type {Array}
      */
     domain: PropTypes.arrayOf(
-        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool]),
+        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool])
     ),
 };
 
 ZScale.defaultProps = {
     range: [5, 25],
+    fromAxis: false,
 };
 
 export { ZScale };

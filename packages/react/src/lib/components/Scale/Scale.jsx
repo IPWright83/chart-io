@@ -1,26 +1,19 @@
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
-import { useStore, useSelector } from "react-redux";
+import { useStore } from "react-redux";
 
-import { chartActions, chartSelectors } from "../../store";
-import { calculateScale } from "./calculateScale";
+import { chartActions } from "../../store";
 
 /**
- * Represents a Scale component
+ * Represents a Scale
  * @return {ReactDOMComponent}   A scale component
  */
-const Scale = ({ fields, range, scaleType, aggregate, domain, fromAxis }) => {
+const Scale = ({ fields, scale, fromAxis }) => {
     const store = useStore();
-    const data = useSelector((s) => chartSelectors.data(s));
 
     useEffect(() => {
-        if (!range) return;
-        if (isNaN(range[0]) || isNaN(range[1])) return;
-
-        // Use the fixed range if one was provided
-        const scale = calculateScale(data, fields, range, domain, aggregate, scaleType);
         store.dispatch(chartActions.setScales(fields, scale, fromAxis));
-    }, [fields, data, range, scaleType, aggregate, store.dispatch]);
+    }, [fields, scale, store.dispatch]);
 
     return <React.Fragment />;
 };
@@ -32,36 +25,19 @@ Scale.propTypes = {
      */
     fields: PropTypes.arrayOf(PropTypes.string).isRequired,
     /**
-     * Has this scale been created automatically from an Axis?
+     * (Internal) Has this scale been created automatically from an Axis?
      * @type {Boolean}
      */
     fromAxis: PropTypes.bool,
     /**
-     * Force the range of the scale, this is required if you haven't provided a type
-     * @type {number[]}
+     * The d3.scale https://github.com/d3/d3-scale
+     * @type {Function}
      */
-    range: PropTypes.arrayOf(PropTypes.number).isRequired,
-    /**
-     * (Optional) Force the type of d3 scale to use - https://github.com/d3/d3-scale
-     * @type {String}
-     */
-    scaleType: PropTypes.oneOf(["linear", "time", "power", "log", "band", "point"]),
-    /**
-     * Whether this scale is an aggregate (of multiple y values)
-     * @type {Boolean}
-     */
-    aggregate: PropTypes.bool,
-    /**
-     * (Optional) An override of the domain to use with the d3 scale
-     * @type {Array}
-     */
-    domain: PropTypes.arrayOf(
-        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool])
-    ),
+    scale: PropTypes.func,
 };
 
 Scale.defaultProps = {
-    aggregate: false,
+    fromAxis: false,
 };
 
 export { Scale };
