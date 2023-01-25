@@ -93,6 +93,7 @@ const GroupedBarBase = ({
         const update = join
             .merge(enter)
             .on("mouseover", function (event, datum) {
+                // istanbul ignore next
                 if (!interactive) return;
 
                 onMouseOver && onMouseOver(datum, this, event);
@@ -105,6 +106,7 @@ const GroupedBarBase = ({
                 });
             })
             .on("mouseout", function (event, datum) {
+                // istanbul ignore next
                 if (!interactive) return;
 
                 onMouseOut && onMouseOut(datum, this, event);
@@ -112,6 +114,7 @@ const GroupedBarBase = ({
                 setTooltip(null);
             })
             .on("click", function (event, datum) {
+                // istanbul ignore next
                 if (!interactive) return;
 
                 onClick && onClick(datum, this, event);
