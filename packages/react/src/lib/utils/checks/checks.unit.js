@@ -14,7 +14,7 @@ describe("/utils/checks", () => {
 
             expect(ensureBandScale(d3.scaleLinear(), "unit_test")).toBe(false);
             expect(console.error).toHaveBeenCalledWith(
-                `E001 - Incompatible scale for a <unit_test />. Are you missing the 'scaleType="band"' in your <Axis /> or <Scale /> component?`
+                `E001 - Incompatible scale for a <unit_test />. Are you missing the 'scaleType="band"' in your <Axis /> or <AutoScale /> component?`
             );
         });
 

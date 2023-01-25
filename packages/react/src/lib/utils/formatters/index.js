@@ -1,2 +1,2 @@
-export * from "./getFormatValue";
+export * from "./formatValue";
 export * from "./formatDate";
