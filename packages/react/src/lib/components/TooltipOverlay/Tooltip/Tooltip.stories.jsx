@@ -20,7 +20,9 @@ export default {
     },
 };
 
-const TooltipTemplate = (args) => <Tooltip items={args.items} borderColor={args.borderColor} />;
+const TooltipTemplate = (args) => (
+    <Tooltip items={args.items} borderColor={args.borderColor} formatters={args.formatters} />
+);
 
 export const Default = TooltipTemplate.bind({});
 Default.storyName = "All Series Types";
@@ -97,4 +99,19 @@ Scatter.args = {
         { name: "y", seriesType: "value", value: 150000 },
     ],
     borderColor: "steelblue",
+};
+
+export const CustomFormatters = TooltipTemplate.bind({});
+CustomFormatters.storyName = "Custom Formatting";
+CustomFormatters.args = {
+    items: [
+        { name: "x", seriesType: "value", value: 150000 },
+        { name: "y", seriesType: "value", value: 160000 },
+        { name: "z", seriesType: "value", value: 170000 },
+    ],
+    formatters: {
+        x: { prefix: "£" },
+        y: { suffix: " pounds" },
+        z: { formatFunc: (name, value) => `~~~${value}~~~` },
+    },
 };

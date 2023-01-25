@@ -6,19 +6,28 @@ import LinkTo from "@storybook/addon-links/react";
 The `<Tooltip>` component allows us to create a tooltip containing multiple entries, which is useful for showing the information behind a data point when interacting with a chart.
 
 <Canvas>
-    <Story id="components-tooltip--default" />
+    <Story id="components-tooltipoverlay-tooltip--default" />
 </Canvas>
 
-The tooltip itself displays rows of <LinkTo kind="components-tooltip-tooltipitem--scatter#tooltipitem-component">`<TooltipItem>`</LinkTo> components which offer their own configuration.
+The tooltip itself displays rows of <LinkTo kind="components-tooltipoverlay-tooltip--scatter">`<TooltipItem>`</LinkTo> components which offer their own configuration.
 
 ### `<Tooltip>` Props
 
-> **Note:** Normally you don't interact with the Tooltip component directly, instead letting the <LinkTo kind="components-tooltipoverlay--default#tooltip-component">`<TooltipOverlay>`</LinkTo> component handle the displaying of the tooltip which provides all the required props.
+> **Note:** Normally you don't interact with the Tooltip component directly, instead letting the <LinkTo kind="components-tooltipoverlay--default">`<TooltipOverlay>`</LinkTo> component handle the displaying of the tooltip which provides all the required props.
 
-| Prop            | Type     | Default                     | Note                                                                                                          |
-| --------------- | -------- | --------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| `borderColor`   | `string` | Derived from selected datum | Controls the border color of the tooltip                                                                      |
-| `items`         | `array`  | undefined                   | The list if items that should be renders as `<TooltipItem>`s                                                  |
-| `positionStyle` | `object` | {}                          | Additional css to control the position, typically containing just the top, left, bottom, right css properties |
+| Prop            | Type     | Default                     | Note                                                                                                                           |
+| --------------- | -------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `borderColor`   | `string` | Derived from selected datum | Controls the border color of the tooltip                                                                                       |
+| `items`         | `array`  | undefined                   | The list if items that should be renders as `<TooltipItem>`s                                                                   |
+| `positionStyle` | `object` | {}                          | Additional css to control the position, typically containing just the top, left, bottom, right css properties                  |
+| `formatters`    | `object` | {}                          | A keyed collection of format object. Key should align with `x` or `y` fields provided to axis/scales or plots. See table below |
+
+The contents of a format object should match:
+
+| Prop         | Type       | Note        |
+| ------------ | ---------- | ----------- | ----------------------------------------------------------------------------------------- |
+| `prefix`     | `string`   | `undefined` | A string to prefix the tooltip value with                                                 |
+| `suffix`     | `string`   | `undefined` | A string to suffix the tooltip value with                                                 |
+| `formatFunc` | `function` | `undefined` | A function that returns a custom tooltip value. `(name: string, value: string) => string` |
 
 <br />

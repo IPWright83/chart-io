@@ -23,7 +23,7 @@ exports[`TooltipItem should render correctly 1`] = `
       <span
         class="chart-it tooltip-series-value"
       >
-        5
+        5.000
       </span>
     </div>
   </div>

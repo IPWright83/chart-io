@@ -1,8 +1,7 @@
-import React, { useMemo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
 import { TooltipItem } from "./TooltipItem";
-import { getFormatValue } from "../../../utils";
 
 /**
  * Represents a Tooltip
