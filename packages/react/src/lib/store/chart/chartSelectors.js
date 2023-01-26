@@ -114,13 +114,6 @@ const chartSelectors = {
          * @return {Number}       The height
          */
         height: (state) => chartSelectors.dimensions.store(state).height || 0,
-
-        /**
-         * Returns the margin of the chart
-         * @param  {Object} state The application state
-         * @return {Object}       The margin
-         */
-        margin: (state) => chartSelectors.dimensions.store(state).margin || EMPTY_MARGIN,
     },
 
     /**

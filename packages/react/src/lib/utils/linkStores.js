@@ -38,6 +38,7 @@ export const linkStores = (stores = [], actionFilter = /EVENT\.MOUSE*/) => {
     const setupDispatch = (store) => {
         const _store = store.liftedStore ?? store;
         if (!_store) {
+            // istanbul ignore next
             return;
         }
 

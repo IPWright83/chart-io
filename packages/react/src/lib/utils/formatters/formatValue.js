@@ -1,5 +1,3 @@
-import * as d3 from "d3";
-
 import { formatNumber } from "./formatNumber";
 import { formatDate } from "./formatDate";
 

@@ -1,6 +1,21 @@
 import { themes } from "../../themes";
 
 /**
+ * Validates the the margin is correct, returning true if so
+ * @param  {number} value     The value for the margin
+ * @param  {String} side      The side of the margin we are checking [top, left, bottom, right]
+ * @return {Boolean}          True if the margin is valid, false otherwise
+ */
+const validateMargin = (value, side) => {
+    if (value === null || value === undefined) {
+        console.warn(`W005 - The ${side} of the margin was not specified and is required`);
+        return false;
+    }
+
+    return true;
+};
+
+/**
  * Sets the dimensions in the Redux store
  * @param  {Number} width   The width of the chart
  * @param  {Number} height  The height of the chart
@@ -9,9 +24,17 @@ import { themes } from "../../themes";
  */
 const setDimensions = (width, height, margin) => {
     if (!margin) {
-        // TODO: Margin is incorrect shape
-        // Margin is not provided
-        console.warn();
+        console.warn("W004 - A margin was not provided but is required");
+        return;
+    }
+
+    // prettier-ignore
+    if (!validateMargin(margin.left, "left") || 
+        !validateMargin(margin.top, "top") ||
+        !validateMargin(margin.bottom, "bottom") ||
+        !validateMargin(margin.right, "right")) 
+    {
+        return;
     }
 
     return {

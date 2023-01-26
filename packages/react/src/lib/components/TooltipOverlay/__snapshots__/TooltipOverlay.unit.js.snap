@@ -34,7 +34,7 @@ exports[`TooltipOverlay should apply a custom offset correctly 1`] = `
               <span
                 class="chart-it tooltip-series-value"
               >
-                3.000
+                3
               </span>
             </div>
           </div>
@@ -59,7 +59,7 @@ exports[`TooltipOverlay should apply a custom offset correctly 1`] = `
               <span
                 class="chart-it tooltip-series-value"
               >
-                8.000
+                8
               </span>
             </div>
           </div>
@@ -104,7 +104,7 @@ exports[`TooltipOverlay should render correctly 1`] = `
               <span
                 class="chart-it tooltip-series-value"
               >
-                3.000
+                3
               </span>
             </div>
           </div>
@@ -129,7 +129,7 @@ exports[`TooltipOverlay should render correctly 1`] = `
               <span
                 class="chart-it tooltip-series-value"
               >
-                8.000
+                8
               </span>
             </div>
           </div>

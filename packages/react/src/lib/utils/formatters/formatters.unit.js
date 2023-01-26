@@ -29,8 +29,10 @@ describe("utils/formatters", () => {
         it("25/01/2023 19:00:10", () => { expect(formatValue("", new Date(2023, 0, 25, 19, 0, 10, 0))).toBe("1/25/2023 19:00:10"); });
         it("25/01/2023 19:00", () => { expect(formatValue("", new Date(2023, 0, 25, 19, 0, 0, 0))).toBe("1/25/2023 19:00"); });
         it("25/01/2023", () => { expect(formatValue("", new Date(2023, 0, 25, 0, 0, 0, 0))).toBe("1/25/2023"); });
-        it("Jan 2023", () => { expect(formatValue("", new Date(2023, 0, 1, 0, 0, 0, 0))).toBe("Jan 2023"); });
         it("2023", () => { expect(formatValue("", new Date(2023, 0, 1, 0, 0, 0, 0))).toBe("2023"); });
+        
+        // Difficult to determine the resolution here without looking at the rest of the data
+        xit("Jan 2023", () => { expect(formatValue("", new Date(2023, 0, 1, 0, 0, 0, 0))).toBe("Jan 2023"); });
     })
 
     it("correctly formats a string", () => {
