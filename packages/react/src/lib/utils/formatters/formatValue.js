@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 
+import { formatNumber } from "./formatNumber";
 import { formatDate } from "./formatDate";
 
 /**
@@ -14,7 +15,7 @@ export const formatValue = (name, value) => {
     }
 
     if (typeof value === "number") {
-        return d3.format(".4s")(value);
+        return formatNumber(value);
     }
 
     if (value instanceof Date) {
