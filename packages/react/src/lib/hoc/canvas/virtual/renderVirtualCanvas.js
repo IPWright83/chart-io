@@ -10,6 +10,7 @@ import { renderVirtualElements } from "./renderVirtualElements";
 const renderVirtualCanvas = async (canvas, width, height, update) => {
     // If the canvas isn't ready don't do anything
     if (!canvas) {
+        // istanbul ignore next
         return;
     }
 
