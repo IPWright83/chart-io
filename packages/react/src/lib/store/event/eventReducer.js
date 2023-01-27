@@ -28,6 +28,7 @@ const eventReducer = (state = defaultState, action) => {
 
             // Optimisation
             if (state.mouse.x === payload.offsetX && state.mouse.y === payload.offsetY && state.mode === "MOVE") {
+                // istanbul ignore next
                 return state;
             }
 

@@ -13,7 +13,7 @@ import { chartSelectors } from "../../../../store";
  * Represents a Gridlines component
  * @return {ReactElement}  The Gridlines component
  */
-const Gridlines = ({ layer, position, scale, tickPadding, ticks }) => {
+const Gridlines = ({ layer, position, scale, tickPadding, ticks, tickValues }) => {
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
@@ -29,7 +29,7 @@ const Gridlines = ({ layer, position, scale, tickPadding, ticks }) => {
             const d3Axis = getD3Axis(position);
 
             // Set some scale props
-            d3Axis.scale(scale).tickPadding(tickPadding).tickSize();
+            d3Axis.scale(scale).tickPadding(tickPadding).tickValues(tickValues);
 
             d3.select(layer.current)
                 .attr("class", `g-gridlines ${position}`)
@@ -73,6 +73,11 @@ Gridlines.propTypes = {
      * @type {Number}
      */
     ticks: PropTypes.number,
+    /**
+     * https://github.com/d3/d3-axis#axis_tickValues
+     * @type {Array}
+     */
+    tickValues: PropTypes.array,
 };
 
 Gridlines.defaultProps = {

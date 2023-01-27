@@ -7,6 +7,10 @@ module.exports = {
         "uuidv4.js",
         "interpolateMultiPath.js",
         "hoc/withTheme/*.*",
+        "jest",
+        "data",
+        "lib/testUtils",
+        "storybook",
     ],
     moduleFileExtensions: ["web.js", "js", "web.ts", "ts", "web.tsx", "tsx", "json", "web.jsx", "jsx", "node"],
     moduleNameMapper: {

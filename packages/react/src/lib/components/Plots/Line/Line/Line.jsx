@@ -6,8 +6,8 @@ import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 import { CanvasLine } from "./CanvasLine";
 import { SVGLine } from "./SVGLine";
 
-const WrappedCanvasLine = withCanvas(withXYPlot(CanvasLine));
-const WrappedSVGLine = withSVG(withXYPlot(SVGLine));
+const WrappedCanvasLine = withCanvas(withXYPlot(CanvasLine), "plot line");
+const WrappedSVGLine = withSVG(withXYPlot(SVGLine), "plot line");
 
 /**
  * Represents a Line plot

@@ -27,11 +27,13 @@ const useDatumFocus = (dispatch, layer, x, ys, xScale, yScale, data, eventMode, 
     /* If possible respond to global mouse events for tooltips etc */
     useEffect(() => {
         if (!layer.current || !xScale || !yScale || !data) {
+            // istanbul ignore next
             return;
         }
 
         // We need the invert function to be able to do this
         if (!xScale.invert) {
+            // istanbul ignore next
             return;
         }
 

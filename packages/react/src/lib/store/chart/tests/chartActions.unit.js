@@ -15,6 +15,26 @@ describe("chartActions", () => {
         });
     });
 
+    it("setDimensions warns with no margin", () => {
+        const width = 1000;
+        const height = 500;
+
+        const spy = jest.spyOn(console, "warn").mockImplementation();
+        expect(chartActions.setDimensions(width, height)).toBeUndefined();
+        expect(spy).toHaveBeenCalledWith("W004 - A margin was not provided but is required");
+    });
+
+    it("setDimensions warns with invalid margin", () => {
+        const width = 1000;
+        const height = 500;
+        const margin = { left: 10, right: 10, bottom: 10 };
+
+        const spy = jest.spyOn(console, "warn").mockImplementation();
+        expect(chartActions.setDimensions(width, height, margin)).toBeUndefined();
+
+        expect(spy).toHaveBeenCalledWith("W005 - The top of the margin was not specified and is required");
+    });
+
     describe("setScales", () => {
         it("triggers dispatch correctly", () => {
             const fields = ["a", "b", "c"];

@@ -26,6 +26,14 @@ describe("chartSelectors", () => {
     });
 
     describe("scales", () => {
+        it("store returns empty object if not provided in state", () => {
+            const state = {
+                chart: {},
+            };
+
+            expect(chartSelectors.scales.store(state)).toEqual({});
+        });
+
         it("store returns all the scales", () => {
             const state = {
                 chart: {

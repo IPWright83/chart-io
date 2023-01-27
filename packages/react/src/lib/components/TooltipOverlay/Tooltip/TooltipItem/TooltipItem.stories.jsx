@@ -14,7 +14,15 @@ export default {
 };
 
 const TooltipItemTemplate = (args) => (
-    <TooltipItem name={args.name} fill={args.color} value={args.value} seriesType={args.seriesType}></TooltipItem>
+    <TooltipItem
+        name={args.name}
+        fill={args.color}
+        value={args.value}
+        seriesType={args.seriesType}
+        suffix={args.suffix}
+        prefix={args.prefix}
+        formatFunc={args.formatFunc}
+    ></TooltipItem>
 );
 
 export const Scatter = TooltipItemTemplate.bind({});
@@ -55,4 +63,39 @@ Column.args = {
     value: 5,
     color: "steelblue",
     seriesType: "column",
+};
+
+export const Value = TooltipItemTemplate.bind({});
+Value.args = {
+    name: "Value",
+    value: 5,
+    color: "steelblue",
+    seriesType: "value",
+};
+
+export const Suffix = TooltipItemTemplate.bind({});
+Suffix.args = {
+    name: "Suffix Example",
+    value: 105_000,
+    color: "sttelblue",
+    seriesType: "scatter",
+    suffix: " Dollars",
+};
+
+export const Prefix = TooltipItemTemplate.bind({});
+Prefix.args = {
+    name: "Prefix Example",
+    value: 105_000,
+    color: "sttelblue",
+    seriesType: "scatter",
+    prefix: "£",
+};
+
+export const CustomFormat = TooltipItemTemplate.bind({});
+CustomFormat.args = {
+    name: "Custom Format Example",
+    value: 105_000,
+    color: "sttelblue",
+    seriesType: "scatter",
+    formatFunc: (name, value) => `~~~${value}~~~`,
 };

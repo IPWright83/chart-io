@@ -26,7 +26,7 @@ const Markers = ({ layer }) => {
             .enter()
             .append("circle")
             .attr("class", "chart-it marker")
-            .attr("point-events", "none")
+            .attr("pointer-events", "none")
             .style("stroke", (d) => d.stroke || theme.markers.stroke)
             .style("stroke-width", theme.markers.strokeWidth)
             .style("filter", (d) => (theme.markers.shadow ? `drop-shadow(0px 0px 10px ${d.fill})` : undefined))

@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { getShape } from "./getShape";
+import { formatValue } from "../../../../utils";
 
 const styles = {
     tooltipItem: {
@@ -30,8 +31,9 @@ const styles = {
  * Represents a row within a Tooltip
  * @return {ReactElement}  The TooltipItem component
  */
-const TooltipItem = ({ name, value, seriesType, fill }) => {
+const TooltipItem = ({ name, value, seriesType, fill, prefix, suffix, formatFunc = formatValue }) => {
     const Shape = getShape(seriesType);
+    const formattedValue = `${prefix ?? ""}${formatFunc(name, value)}${suffix ?? ""}`;
 
     return (
         <div className="chart-it tooltip-item" style={styles.tooltipItem}>
@@ -40,7 +42,7 @@ const TooltipItem = ({ name, value, seriesType, fill }) => {
                 <span className="chart-it tooltip-series-name" style={styles.tooltipSeriesName}>
                     {name}:
                 </span>
-                <span className="chart-it tooltip-series-value">{`${value}`}</span>
+                <span className="chart-it tooltip-series-value">{formattedValue}</span>
             </div>
         </div>
     );
@@ -67,6 +69,21 @@ TooltipItem.propTypes = {
      * @type {String}
      */
     fill: PropTypes.string.isRequired,
+    /**
+     * Optional value to prefix the tooltip value with
+     * @type {String}
+     */
+    prefix: PropTypes.string,
+    /**
+     * Optional value to suffix the tooltip value with
+     * @type {String}
+     */
+    suffix: PropTypes.string,
+    /**
+     * A function that maps the value to a string
+     * @type {Function}
+     */
+    formatFunc: PropTypes.func,
 };
 
 export { TooltipItem };

@@ -20,6 +20,7 @@ const YAxis = ({
     tickPadding,
     ticks,
     tickFormat,
+    tickValues,
 }) => {
     return (
         <React.Fragment>
@@ -33,6 +34,7 @@ const YAxis = ({
                 tickPadding={tickPadding}
                 ticks={ticks}
                 tickFormat={tickFormat}
+                tickValues={tickValues}
             />
             <YScale fields={fields} scaleType={scaleType} aggregate={aggregate} domain={domain} fromAxis={true} />
         </React.Fragment>
@@ -60,7 +62,7 @@ YAxis.propTypes = {
      * @type {Array}
      */
     domain: PropTypes.arrayOf(
-        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool]),
+        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool])
     ),
     /**
      * Whether this scale is an aggregate (of multiple y values)
@@ -102,6 +104,11 @@ YAxis.propTypes = {
      * @type {Function}
      */
     tickFormat: PropTypes.func,
+    /**
+     * https://github.com/d3/d3-axis#axis_tickValues
+     * @type {Array}
+     */
+    tickValues: PropTypes.array,
 };
 
 YAxis.defaultProps = {

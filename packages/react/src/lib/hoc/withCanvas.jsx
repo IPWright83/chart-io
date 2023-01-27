@@ -9,13 +9,17 @@ import { chartSelectors } from "../store";
  * @param  {String}            className            An optional class name to add to the DOM
  * @return {ReactDOMComponent}                      The wrapped layer
  */
-const withCanvas = (WrappedComponent, className) =>
+const withCanvas = (WrappedComponent, className) => {
+    if (!className) {
+        console.warn("W003 - className is required when using the withCanvas higher order component");
+    }
+
     /**
      * Wraps a component within a Canvas
-     * @param  {...any}    options.props        The rest of the props
+     * @param  {...any}            props        The rest of the props
      * @return {ReactDOMComponent}              The wrapped layer
      */
-    (props) => {
+    return (props) => {
         const canvas = useRef(null);
         const [layer, setLayer] = useState({});
 
@@ -41,6 +45,7 @@ const withCanvas = (WrappedComponent, className) =>
             </React.Fragment>
         );
     };
+};
 
 const styles = {
     canvas: {

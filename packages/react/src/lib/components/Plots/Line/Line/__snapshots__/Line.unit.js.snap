@@ -4,7 +4,7 @@ exports[`Line using SVG should render correctly 1`] = `
 <DocumentFragment>
   <svg>
     <g
-      class="g-undefined"
+      class="g-plot line"
     >
       <path
         class="line"
@@ -25,7 +25,7 @@ exports[`Line using SVG should skip rendering if there is no x scale avaliable 1
 <DocumentFragment>
   <svg>
     <g
-      class="g-undefined"
+      class="g-plot line"
     />
   </svg>
 </DocumentFragment>
@@ -35,7 +35,7 @@ exports[`Line using SVG should skip rendering if there is no y scale avaliable 1
 <DocumentFragment>
   <svg>
     <g
-      class="g-undefined"
+      class="g-plot line"
     />
   </svg>
 </DocumentFragment>
