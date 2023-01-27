@@ -16,7 +16,7 @@ const withCanvas = (WrappedComponent, className) => {
 
     /**
      * Wraps a component within a Canvas
-     * @param  {...any}    options.props        The rest of the props
+     * @param  {...any}            props        The rest of the props
      * @return {ReactDOMComponent}              The wrapped layer
      */
     return (props) => {
