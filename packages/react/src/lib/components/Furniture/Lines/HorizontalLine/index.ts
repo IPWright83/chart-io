@@ -1,6 +1,6 @@
 import { withSVG } from "../../../../hoc";
-import { HorizontalLine as HorizontalLineBase } from "./HorizontalLine";
+import { HorizontalLine as HorizontalLineBase, IHorizontalLineProps } from "./HorizontalLine";
 
-const HorizontalLine = withSVG(HorizontalLineBase, "horizontal-line");
+export const HorizontalLine = withSVG(HorizontalLineBase, "horizontal-line");
 
-export { HorizontalLine };
+export type { IHorizontalLineProps };

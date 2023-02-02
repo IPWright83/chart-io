@@ -1,18 +1,38 @@
+import type { IDropline } from "@d3-chart/types";
 import * as d3 from "d3";
-import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors, eventSelectors } from "../../store";
+import { chartSelectors, eventSelectors, IState } from "../../store";
+
+export interface IDroplinesBaseProps {
+    /**
+     * The layer to be rendered upon. Typically this is an `<svg:g>` or a fake HTMLElement when using canvas.
+     * @default undefined
+     */
+    layer: React.MutableRefObject<Element>;
+
+    /**
+     * Should horizontal droplines be shown?
+     * @default true
+     */
+    showHorizontal?: boolean;
+
+    /**
+     * Should vertical droplines be shown?
+     * @default true
+     */
+    showVertical?: boolean;
+}
 
 /**
  * This component renders the droplines that are triggered from various plots
  * @return {ReactElement}  The Droplines component
  */
-const Droplines = ({ layer, showVertical = true, showHorizontal = true }) => {
-    const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
-    const theme = useSelector((s) => chartSelectors.theme(s));
-    const droplines = useSelector((s) => eventSelectors.droplines(s)).filter(
+export function Droplines({ layer, showVertical = true, showHorizontal = true }: IDroplinesBaseProps) {
+    const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
+    const droplines = useSelector((s: IState) => eventSelectors.droplines(s)).filter(
         (dl) => (dl.isVertical && showVertical) || (dl.isHorizontal && showHorizontal)
     );
 
@@ -22,7 +42,7 @@ const Droplines = ({ layer, showVertical = true, showHorizontal = true }) => {
         const join = d3
             .select(layer.current)
             .selectAll(".dropline")
-            .data(droplines, (d) => `${d.x1}-${d.x2}-${d.y1}-${d.y2}`);
+            .data(droplines, (d: IDropline) => `${d.x1}-${d.x2}-${d.y1}-${d.y2}`);
 
         join.exit().remove();
 
@@ -47,29 +67,4 @@ const Droplines = ({ layer, showVertical = true, showHorizontal = true }) => {
     }, [animationDuration, layer, droplines]);
 
     return null;
-};
-
-Droplines.propTypes = {
-    /**
-     * The layer to be rendered upon. Typically this is an `<svg:g>` or a fake HTMLElement when using canvas.
-     * @default undefined
-     * @type {HTMLElement}
-     */
-    layer: PropTypes.object,
-
-    /**
-     * Should horizontal droplines be shown?
-     * @default true
-     * @type {Boolean}
-     */
-    showHorizontal: PropTypes.bool,
-
-    /**
-     * Should vertical droplines be shown?
-     * @default true
-     * @type {Boolean}
-     */
-    showVertical: PropTypes.bool,
-};
-
-export { Droplines };
+}

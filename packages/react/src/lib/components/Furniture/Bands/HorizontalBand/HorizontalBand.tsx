@@ -1,17 +1,44 @@
+import type { IValue, IColor } from "@d3-chart/types";
 import React from "react";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-import { chartSelectors } from "../../../../store";
+import { chartSelectors, IState } from "../../../../store";
+
+export interface IHorizontalBandProps {
+    /**
+     * The start y position of the rect given in the scale co-ordinates
+     */
+    yStart: IValue;
+    /**
+     * The end y position of the rect given in the scale co-ordinates
+     */
+    yStop: IValue;
+    /**
+     * The key to use to determine which scale to use
+     */
+    y: string;
+    /**
+     * The opactity to use for the Polygon
+     */
+    opacity?: number;
+    /**
+     * The fill color of the Polygon
+     */
+    fill?: IColor;
+    /**
+     * The stroke color of the Polygon
+     */
+    stroke?: IColor;
+}
 
 /**
  * Renders a HorizontalBand
- * @return {ReactElement}  The HorizontalBand component
+ * @return The HorizontalBand component
  */
-const HorizontalBand = ({ yStart, yStop, y, opacity = 0.5, fill, stroke }) => {
-    const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const scale = useSelector((s) => chartSelectors.scales.getScale(s, y));
+export function HorizontalBand({ yStart, yStop, y, opacity = 0.5, fill, stroke }: IHorizontalBandProps) {
+    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
+    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
 
     // Scale may not yet have been initialized
     if (!scale) {
@@ -21,11 +48,13 @@ const HorizontalBand = ({ yStart, yStop, y, opacity = 0.5, fill, stroke }) => {
     // Calculate the position based on the scale. If no start was given
     // use the start of the scale "range" which are the pixel co-ordinates
     // for the start of the Y axis
+    // @ts-ignore: Not sure how to fix this one
     const startY = yStart ? scale(yStart) : scale.range()[0];
 
     // Calculate the position based on the scale. If no stop was given
     // use the end of the scale "range" which are the pixel co-ordinates
     // for the end of the Y axis
+    // @ts-ignore: Not sure how to fix this one
     const stopY = yStop ? scale(yStop) : scale.range()[1];
 
     return (
@@ -38,46 +67,4 @@ const HorizontalBand = ({ yStart, yStop, y, opacity = 0.5, fill, stroke }) => {
             style={{ stroke, opacity, fill, pointerEvents: "none" }}
         />
     );
-};
-
-HorizontalBand.propTypes = {
-    /**
-     * The start y position of the rect given in the scale co-ordinates
-     * @type {number|string|date|boolean}
-     */
-    yStart: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool]),
-    /**
-     * The end y position of the rect given in the scale co-ordinates
-     * @type {number|string|date|boolean}
-     */
-    yStop: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool]),
-    /**
-     * The key to use to determine which scale to use
-     * @type {string}
-     */
-    y: PropTypes.string.isRequired,
-    /**
-     * The opactity to use for the Polygon
-     * @default 0.5
-     * @type {Number}
-     */
-    opacity: PropTypes.number,
-    /**
-     * The fill color of the Polygon
-     * @type {String}
-     */
-    fill: PropTypes.string,
-    /**
-     * The stroke color of the Polygon
-     * @type {String}
-     */
-    stroke: PropTypes.string,
-    /**
-     * The layer to be rendered upon. Typically this is an `<svg:g>` or a fake HTMLElement when using canvas.
-     * @default undefined
-     * @type {HTMLElement}
-     */
-    layer: PropTypes.object,
-};
-
-export { HorizontalBand };
+}

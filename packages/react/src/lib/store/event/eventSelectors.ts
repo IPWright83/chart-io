@@ -15,7 +15,7 @@ interface IEventSelectors {
         show: (state: IState) => boolean;
         color: (state: IState) => IColor;
         items: (state: IState) => ITooltipItem[];
-        position: (state: IState) => ICoordinate | {};
+        position: (state: IState) => ICoordinate | undefined;
     };
     mode: (state: IState) => IMouseMode;
     position: (state: IState) => ICoordinate | {};
@@ -105,7 +105,7 @@ const _eventSelectors = {
  */
 const position = createSelector(_eventSelectors.store, (event: IEventState): ICoordinate | undefined => {
     if (!event || !event.mouse) {
-        return;
+        return undefined;
     }
 
     return { x: event.mouse.x, y: event.mouse.y };

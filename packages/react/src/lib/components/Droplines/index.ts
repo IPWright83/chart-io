@@ -1,6 +1,6 @@
 import { withSVG } from "../../hoc";
-import { Droplines as DroplinesBase } from "./Droplines";
+import { Droplines as DroplinesBase, IDroplinesBaseProps } from "./Droplines";
 
-const Droplines = withSVG(DroplinesBase, "droplines");
+export interface IDroplinesProps extends Omit<IDroplinesBaseProps, "layer"> {}
 
-export { Droplines };
+export const Droplines = withSVG(DroplinesBase, "droplines");

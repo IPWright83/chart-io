@@ -1,6 +1,6 @@
 import { withSVG } from "../../../hoc";
-import { Polygon as PolygonBase } from "./Polygon";
+import { Polygon as PolygonBase, IPolygonProps } from "./Polygon";
 
-const Polygon = withSVG(PolygonBase, "polygon");
+export const Polygon = withSVG(PolygonBase, "polygon");
 
-export { Polygon };
+export type { IPolygonProps };

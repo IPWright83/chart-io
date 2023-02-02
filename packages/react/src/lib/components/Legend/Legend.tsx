@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors } from "../../store";
+import { chartSelectors, IState } from "../../store";
 
 const Legend = () => {
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s) => chartSelectors.dimensions.height(s));
+    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
 
     // Only needed if xs or ys defined
     // chartReducer #29 - need to group scales together
@@ -21,10 +21,10 @@ const Legend = () => {
 
 const styles = {
     canvas: {
-        position: "absolute",
+        position: "absolute" as const,
     },
     foreignObject: {
-        pointerEvents: "none",
+        pointerEvents: "none" as const,
     },
 };
 

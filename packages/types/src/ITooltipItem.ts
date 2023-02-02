@@ -16,7 +16,7 @@ export interface ITooltipItem {
     /**
      * The icon type for the tooltip
      */
-    icon?: "circle" | "line" | "square";
+    icon?: "circle" | "line" | "square" | "none";
     /**
      * The colour of the icon
      */

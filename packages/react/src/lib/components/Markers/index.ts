@@ -1,6 +1,6 @@
 import { withSVG } from "../../hoc";
-import { Markers as MarkersBase } from "./Markers";
+import { Markers as MarkersBase, IMarkersBaseProps } from "./Markers";
 
-const Markers = withSVG(MarkersBase, "markers");
+export interface IMarkersProps extends Omit<IMarkersBaseProps, "layer"> {}
 
-export { Markers };
+export const Markers = withSVG<IMarkersProps>(MarkersBase, "markers");

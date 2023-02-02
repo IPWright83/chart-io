@@ -27,7 +27,7 @@ describe("Crosshair", () => {
                 <svg>
                     <Crosshair />
                 </svg>
-            </Provider>,
+            </Provider>
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -49,7 +49,7 @@ describe("Crosshair", () => {
                 <svg>
                     <Crosshair />
                 </svg>
-            </Provider>,
+            </Provider>
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -61,7 +61,7 @@ describe("Crosshair", () => {
                 <svg>
                     <Crosshair showHorizontal={false} />
                 </svg>
-            </Provider>,
+            </Provider>
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -73,7 +73,7 @@ describe("Crosshair", () => {
                 <svg>
                     <Crosshair showVertical={false} />
                 </svg>
-            </Provider>,
+            </Provider>
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -85,9 +85,10 @@ describe("Crosshair", () => {
         render(
             <Provider store={store}>
                 <svg>
+                    {/* @ts-expect-error: Validating runtime protection */}
                     <CrosshairBase layer={layer} />
                 </svg>
-            </Provider>,
+            </Provider>
         );
 
         // Should be empty

@@ -6,7 +6,7 @@ import { IState, defaultChartState, defaultEventState } from "../store";
  * @param  state     The initial state of the store
  * @return           A mock store
  */
-export function createMockStore(state: IState) {
+export function createMockStore(state: { chart?: any; event?: any }) {
     return {
         getState: () => ({
             chart: {
@@ -28,7 +28,7 @@ export function createMockStore(state: IState) {
  * @param  state     The initial state of the store
  * @return           A mock store
  */
-export function createMockStorybookStore(state: IState) {
+export function createMockStorybookStore(state: { chart?: any; event?: any }) {
     return {
         getState: () => ({
             chart: {

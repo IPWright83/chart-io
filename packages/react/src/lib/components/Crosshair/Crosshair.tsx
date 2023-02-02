@@ -1,22 +1,35 @@
 import React from "react";
 
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-import { chartSelectors, eventSelectors } from "../../store";
+import { chartSelectors, eventSelectors, IState } from "../../store";
+
+export interface ICrosshairProps {
+    /**
+     * Should horizontal droplines be shown?
+     * @default true
+     */
+    showHorizontal?: boolean;
+
+    /**
+     * Should vertical droplines be shown?
+     * @default true
+     */
+    showVertical?: boolean;
+}
 
 /**
  * This component renders the droplines that are triggered from various plots
- * @return {ReactElement}  The Crosshair component
+ * @return The Crosshair component
  */
-const Crosshair = ({ showVertical = true, showHorizontal = true }) => {
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s) => chartSelectors.dimensions.height(s));
-    const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
-    const theme = useSelector((s) => chartSelectors.theme(s));
-    const position = useSelector((s) => eventSelectors.position(s));
+export function Crosshair({ showVertical = true, showHorizontal = true }: ICrosshairProps) {
+    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
+    const position = useSelector((s: IState) => eventSelectors.position(s));
 
-    if (!position.x || !position.y) {
+    if (!position) {
         return null;
     }
 
@@ -52,22 +65,4 @@ const Crosshair = ({ showVertical = true, showHorizontal = true }) => {
             )}
         </>
     );
-};
-
-Crosshair.propTypes = {
-    /**
-     * Should horizontal droplines be shown?
-     * @default true
-     * @type {Boolean}
-     */
-    showHorizontal: PropTypes.bool,
-
-    /**
-     * Should vertical droplines be shown?
-     * @default true
-     * @type {Boolean}
-     */
-    showVertical: PropTypes.bool,
-};
-
-export { Crosshair };
+}

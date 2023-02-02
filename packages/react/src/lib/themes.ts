@@ -1,6 +1,6 @@
-import type { IColor } from "@d3-chart/types";
+import type { IColor, ITheme } from "@d3-chart/types";
 
-const light = {
+const light: ITheme = {
     axis: {
         stroke: "#333333" as IColor,
         strokeOpacity: 0.8,
@@ -55,7 +55,7 @@ const light = {
     },
 };
 
-const dark = {
+const dark: ITheme = {
     axis: {
         stroke: "#cccccc" as IColor,
         strokeOpacity: 0.8,

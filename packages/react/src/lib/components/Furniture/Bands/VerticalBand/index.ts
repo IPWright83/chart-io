@@ -1,6 +1,6 @@
 import { withSVG } from "../../../../hoc";
-import { VerticalBand as VerticalBandBase } from "./VerticalBand";
+import { VerticalBand as VerticalBandBase, IVerticalBandProps } from "./VerticalBand";
 
-const VerticalBand = withSVG(VerticalBandBase, "vertical-band");
+export const VerticalBand = withSVG(VerticalBandBase, "vertical-band");
 
-export { VerticalBand };
+export type { IVerticalBandProps };

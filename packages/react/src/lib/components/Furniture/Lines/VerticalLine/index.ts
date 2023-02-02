@@ -1,6 +1,6 @@
 import { withSVG } from "../../../../hoc";
-import { VerticalLine as VerticalLineBase } from "./VerticalLine";
+import { VerticalLine as VerticalLineBase, IVerticalLineProps } from "./VerticalLine";
 
-const VerticalLine = withSVG(VerticalLineBase, "vertical-line");
+export const VerticalLine = withSVG(VerticalLineBase, "vertical-line");
 
-export { VerticalLine };
+export type { IVerticalLineProps };

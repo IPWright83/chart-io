@@ -1,23 +1,36 @@
+import type { IMarker } from "@d3-chart/types";
 import * as d3 from "d3";
-import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors, eventSelectors } from "../../store";
+import { chartSelectors, eventSelectors, IState } from "../../store";
+
+export interface IMarkersBaseProps {
+    /**
+     * The layer to be rendered upon. Typically this is an `<svg:g>` or a fake HTMLElement when using canvas.
+     * @default undefined
+     */
+    layer: React.MutableRefObject<Element>;
+}
 
 /**
  * This component renders the markers that are triggered from various plots
- * @return {Component} The Markers component
+ * @return The Markers component
  */
-const Markers = ({ layer }) => {
+export function Markers({ layer }: IMarkersBaseProps) {
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
-    const theme = useSelector((s) => chartSelectors.theme(s));
-    const markers = useSelector((s) => eventSelectors.markers(s));
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
+    const markers = useSelector((s: IState) => eventSelectors.markers(s));
 
     useEffect(() => {
         if (!layer.current) return;
 
-        const join = d3.select(layer.current).selectAll(".marker").data(markers);
+        const join = d3.select(layer.current).selectAll(".marker").data(markers) as d3.Selection<
+            SVGCircleElement,
+            IMarker,
+            Element,
+            unknown
+        >;
 
         join.exit().remove();
 
@@ -45,15 +58,4 @@ const Markers = ({ layer }) => {
     }, [animationDuration, layer, markers]);
 
     return null;
-};
-
-Markers.propTypes = {
-    /**
-     * The layer to be rendered upon. Typically this is an `<svg:g>` or a fake HTMLElement when using canvas.
-     * @default undefined
-     * @type {HTMLElement}
-     */
-    layer: PropTypes.object,
-};
-
-export { Markers };
+}

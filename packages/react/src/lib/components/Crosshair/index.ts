@@ -1,6 +1,6 @@
 import { withSVG } from "../../hoc";
-import { Crosshair as CrosshairBase } from "./Crosshair";
+import { Crosshair as CrosshairBase, ICrosshairProps } from "./Crosshair";
 
-const Crosshair = withSVG(CrosshairBase, "crosshair");
+export const Crosshair = withSVG<ICrosshairProps>(CrosshairBase, "crosshair");
 
-export { Crosshair };
+export type { ICrosshairProps };

@@ -48,7 +48,7 @@ describe("EventReceiver", () => {
 
         await wait(2 * MOUSE_MOVE_THROTTLE);
 
-        const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
+        const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
         expect(dispatchCalls).toEqual(["EVENT.MOUSE_ENTER", "EVENT.MOUSE_MOVE", "EVENT.MOUSE_EXIT"]);
     });
 

@@ -1,23 +1,43 @@
+import type { IValue, IColor } from "@d3-chart/types";
 import React from "react";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-import { chartSelectors } from "../../../../store";
+import { chartSelectors, IState } from "../../../../store";
+
+export interface IHorizontalLineProps {
+    /**
+     * The y value to position the constant line at
+     */
+    value: IValue;
+    /**
+     * The key to use to determine which scale to use
+     */
+    y: string;
+    /**
+     * The opactity to use for the Polygon
+     */
+    opacity?: number;
+    /**
+     * The stroke color of the Polygon
+     */
+    stroke?: IColor;
+}
 
 /**
  * Renders a HorizontalLine
- * @return {ReactElement}  The HorizontalLine component
+ * @return The HorizontalLine component
  */
-const HorizontalLine = ({ y, value, opacity = 1, stroke }) => {
-    const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const scale = useSelector((s) => chartSelectors.scales.getScale(s, y));
+export function HorizontalLine({ y, value, opacity = 1, stroke }: IHorizontalLineProps) {
+    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
+    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
 
     // Scale may not yet have been initialized
     if (!scale) {
         return null;
     }
 
+    // @ts-ignore: Not sure how to fix this one
     const yValue = scale(value);
 
     return (
@@ -29,36 +49,4 @@ const HorizontalLine = ({ y, value, opacity = 1, stroke }) => {
             style={{ stroke, opacity, pointerEvents: "none" }}
         />
     );
-};
-
-HorizontalLine.propTypes = {
-    /**
-     * The y value to position the constant line at
-     * @type {number|string|date|boolean}
-     */
-    value: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool]),
-    /**
-     * The key to use to determine which scale to use
-     * @type {string}
-     */
-    y: PropTypes.string.isRequired,
-    /**
-     * The opactity to use for the Polygon
-     * @default 1
-     * @type {Number}
-     */
-    opacity: PropTypes.number,
-    /**
-     * The stroke color of the Polygon
-     * @type {String}
-     */
-    stroke: PropTypes.string,
-    /**
-     * The layer to be rendered upon. Typically this is an `<svg:g>` or a fake HTMLElement when using canvas.
-     * @default undefined
-     * @type {HTMLElement}
-     */
-    layer: PropTypes.object,
-};
-
-export { HorizontalLine };
+}
