@@ -1,9 +1,13 @@
-import type { IValue, IScaleType } from "@d3-chart/types";
+import type { IValue, IScaleType, IPosition } from "@d3-chart/types";
 import React from "react";
 import { Axis, IAxisProps } from "../Axis";
 import { XScale } from "../../Scale";
 
-export interface IXAxisProps extends IAxisProps {
+export interface IXAxisProps extends Omit<IAxisProps, "position"> {
+    /**
+     * The position of the axis [left, right]
+     */
+    position?: Omit<IPosition, "left" | "right">;
     /**
      * (Optional) An override of the domain to use with the d3 scale
      */

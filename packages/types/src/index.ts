@@ -15,3 +15,4 @@ export * from "./IScaleType";
 export * from "./ITheme";
 export * from "./ITooltipItem";
 export * from "./IValue";
+export * from "./IFormatter";

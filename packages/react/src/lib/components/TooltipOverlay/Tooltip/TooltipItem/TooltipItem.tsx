@@ -1,4 +1,4 @@
-import type { ITooltipItem } from "@d3-chart/types";
+import type { ITooltipItem, IFormatter } from "@d3-chart/types";
 import React from "react";
 
 import { getShape } from "./getShape";
@@ -27,22 +27,15 @@ const styles = {
     },
 };
 
-export interface ITooltipItemProps extends ITooltipItem {
-    /**
-     * An optional suffix
-     */
-    prefix?: string;
-    suffix?: string;
-    formatFunc: ?;
-}
+export interface ITooltipItemProps extends ITooltipItem, IFormatter {}
 
 /**
  * Represents a row within a Tooltip
  * @return {ReactElement}  The TooltipItem component
  */
-export function TooltipItem({ name, value, icon, fill, prefix, suffix, formatFunc = formatValue }: ITooltipItemProps) {
+export function TooltipItem({ name, value, icon, fill, prefix, suffix, format = formatValue }: ITooltipItemProps) {
     const Shape = getShape(icon);
-    const formattedValue = `${prefix ?? ""}${formatFunc(name, value)}${suffix ?? ""}`;
+    const formattedValue = `${prefix ?? ""}${format(name, value)}${suffix ?? ""}`;
 
     return (
         <div className="chart-it tooltip-item" style={styles.tooltipItem}>

@@ -3,15 +3,22 @@ import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
 
 /**
  * Renders to a canvas if one is provided
- * @param  {Object} options.canvas                  The HTML canvas (or null if we're not rendering to one)
- * @param  {Function} options.renderVirtualCanvas     Should a virtual canvas for events be rendered?
- * @param  {Number} options.width                   The width of the chart
- * @param  {Number} options.height                  The height of the chart
- * @param  {d3.selection} options.exit              The exit selection
- * @param  {d3.selection} options.update            The update selection
- * @return {Promise}                                A promise that resolves once the rendering has completed
+ * @param  canvas                  The HTML canvas (or null if we're not rendering to one)
+ * @param  renderVirtualCanvas     Should a virtual canvas for events be rendered?
+ * @param  width                   The width of the chart
+ * @param  height                  The height of the chart
+ * @param  exit                    The exit selection
+ * @param  update                  The update selection
+ * @return                         A promise that resolves once the rendering has completed
  */
-const renderCanvas = async ({ canvas, renderVirtualCanvas, width, height, exit, update }) => {
+export async function renderCanvas(
+    canvas: HTMLCanvasElement | null | undefined,
+    renderVirtualCanvas: any,
+    width: number,
+    height: number,
+    update: d3.Transition<Element, unknown, any, unknown>,
+    exit?: d3.Transition<Element, unknown, any, unknown>
+) {
     if (!canvas) {
         return;
     }
@@ -29,6 +36,4 @@ const renderCanvas = async ({ canvas, renderVirtualCanvas, width, height, exit, 
     if (renderVirtualCanvas) {
         renderVirtualCanvas(update);
     }
-};
-
-export { renderCanvas };
+}

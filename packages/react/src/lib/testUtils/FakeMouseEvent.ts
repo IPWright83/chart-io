@@ -5,6 +5,7 @@ export interface IFakeMouseEventValues {
     offsetY?: number;
     x?: number;
     y?: number;
+    bubbles?: boolean;
 }
 
 /**

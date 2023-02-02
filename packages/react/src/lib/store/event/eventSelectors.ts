@@ -1,4 +1,4 @@
-import type { IDropline, IMarker, IColor, ITooltipItem, IMouseMode, ICoordinate } from "@d3-chart/types";
+import type { IDropline, IMarker, IColor, ITooltipItem, IMouseEventType, ICoordinate } from "@d3-chart/types";
 import { createSelector } from "reselect";
 
 import type { IState, IEventState, IEventStateTooltip } from "../types";
@@ -17,8 +17,8 @@ interface IEventSelectors {
         items: (state: IState) => ITooltipItem[];
         position: (state: IState) => ICoordinate | undefined;
     };
-    mode: (state: IState) => IMouseMode;
-    position: (state: IState) => ICoordinate | {};
+    mode: (state: IState) => IMouseEventType;
+    position: (state: IState) => ICoordinate | undefined;
 }
 
 const _eventSelectors = {
