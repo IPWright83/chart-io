@@ -1,15 +1,26 @@
+import type { IPosition } from "@d3-chart/types";
 import React from "react";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
 import { getTransform } from "./getTransform";
 
-import { chartSelectors } from "../../../../store";
+import { chartSelectors, IState } from "../../../../store";
 
-const Title = ({ position, title }) => {
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s) => chartSelectors.dimensions.height(s));
-    const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
+export interface ITitleProps {
+    /**
+     * The position of the title [top, bottom, left, right]
+     */
+    position: IPosition;
+    /**
+     * A title for the Axis
+     */
+    title?: string;
+}
+
+export function Title({ position, title }: ITitleProps) {
+    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
 
     const transform = getTransform(position, width, height, margin);
 
@@ -17,26 +28,15 @@ const Title = ({ position, title }) => {
         return null;
     }
 
-    const style = { textAnchor: "middle", fontSize: 14, userSelect: "none" };
+    const style = {
+        textAnchor: "middle" as const,
+        fontSize: 14,
+        userSelect: "none" as const,
+    };
 
     return (
-        <text className="chart-it axis-title" transform={transform} style={style}>
+        <text className={`chart-it axis-title axis-title-${position}`} transform={transform} style={style}>
             {title}
         </text>
     );
-};
-
-Title.propTypes = {
-    /**
-     * The position of the axis [top, bottom, left, right]
-     * @type {String}
-     */
-    position: PropTypes.oneOf(["top", "bottom", "left", "right"]),
-    /**
-     * A title for the Axis
-     * @type {String}
-     */
-    title: PropTypes.string,
-};
-
-export { Title };
+}

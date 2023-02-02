@@ -1,9 +1,11 @@
 import { withSVG } from "../../../../hoc";
-import { Gridlines as GridlinesBase } from "./Gridlines";
+import { Gridlines as GridlinesBase, IGridlinesBaseProps } from "./Gridlines";
 
 import { getTickSize } from "./getTickSize";
 
-const Gridlines = withSVG(GridlinesBase, "gridlines");
-Gridlines.getTickSize = getTickSize;
+export interface IGridlinesProps extends Omit<IGridlinesBaseProps, "layer"> {}
 
-export { Gridlines };
+export const Gridlines = withSVG<IGridlinesProps>(GridlinesBase, "gridlines");
+
+// @ts-ignore: Extending the interface on purpose
+Gridlines.getTickSize = getTickSize;

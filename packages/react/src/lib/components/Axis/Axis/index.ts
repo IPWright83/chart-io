@@ -1,5 +1,5 @@
 import { withSVG } from "../../../hoc";
-import { Axis as AxisBase } from "./Axis";
+import { Axis as AxisBase, IAxisProps } from "./Axis";
 
 import { Gridlines } from "./Gridlines";
 import { Title } from "./Title";
@@ -13,3 +13,4 @@ Axis.getD3Axis = getD3Axis;
 Axis.getTransform = getTransform;
 
 export { Axis, Gridlines, Title };
+export type { IAxisProps };

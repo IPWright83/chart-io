@@ -13,7 +13,7 @@ describe("YAxis", () => {
 
     store.dispatch(chartActions.setDimensions(200, 100, { left: 0, right: 0, top: 0, bottom: 0 }));
     store.dispatch(chartActions.setData([{ y: 0 }, { y: 5 }, { y: 10 }]));
-    store.dispatch(chartActions.setScales(["y"], scale, true));
+    chartActions.setScales(["y"], scale, true)(store.dispatch);
 
     it("renders correctly", () => {
         const { asFragment } = render(

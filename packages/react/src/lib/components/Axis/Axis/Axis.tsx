@@ -1,6 +1,6 @@
+import type { IPosition } from "@d3-chart/types";
 import * as d3 from "d3";
 
-import PropTypes from "prop-types";
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
@@ -9,24 +9,67 @@ import { getTransform } from "./getTransform";
 import { Gridlines } from "./Gridlines";
 import { Title } from "./Title";
 
-import { chartSelectors } from "../../../store";
+import { chartSelectors, IState } from "../../../store";
+
+export interface IAxisProps {
+    /**
+     * The position of the axis [top, bottom, left, right]
+     */
+    position: IPosition;
+    /**
+     * The keys of the fields that will share this scale
+     */
+    fields: string[];
+    /**
+     * https://github.com/d3/d3-axis#axis_tickSizeInner
+     */
+    tickSizeInner?: number;
+    /**
+     * https://github.com/d3/d3-axis#axis_tickSizeOuter
+     */
+    tickSizeOuter?: number;
+    /**
+     * https://github.com/d3/d3-axis#axis_tickPadding
+     */
+    tickPadding?: number;
+    /**
+     * Should gridlines be drawn?
+     */
+    showGridlines?: boolean;
+    /**
+     * A title for the Axis
+     */
+    title?: string;
+    /**
+     * https://github.com/d3/d3-axis#axis_tickFormat
+     */
+    tickFormat?: Function;
+    /**
+     * https://github.com/d3/d3-axis#axis_ticks
+     */
+    ticks?: any[];
+    /**
+     * https://github.com/d3/d3-axis#axis_tickValues
+     */
+    tickValues?: string[];
+}
 
 /**
  * Represents an Axis component
- * @return {ReactElement}  The Axis component
+ * @return The Axis component
  */
-const Axis = ({
+export function Axis({
     position,
     fields,
-    tickSizeInner,
-    tickSizeOuter,
-    tickPadding,
+    tickSizeInner = 6,
+    tickSizeOuter = 6,
+    tickPadding = 3,
     ticks,
-    showGridlines,
+    showGridlines = true,
     title,
     tickFormat,
     tickValues,
-}) => {
+}: IAxisProps) {
     if (fields.length === 0) {
         throw new Error(
             "Unable to render an Axis without a field. Ensure that you have provided at least one field in the 'fields' prop."
@@ -34,12 +77,12 @@ const Axis = ({
     }
 
     const field = fields[0];
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s) => chartSelectors.dimensions.height(s));
-    const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
-    const scale = useSelector((s) => chartSelectors.scales.getAxisScale(s, field));
-    const theme = useSelector((s) => chartSelectors.theme(s));
-    const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
+    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
+    const scale = useSelector((s: IState) => chartSelectors.scales.getAxisScale(s, field));
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
+    const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
     const transform = getTransform(position, width, height, margin);
 
     // React will own the axis containers, but D3 will own the axis themselves
@@ -57,11 +100,11 @@ const Axis = ({
                 .duration(animationDuration);
 
             // Create the D3 axis renderer
-            const d3Axis = getD3Axis(position, scale);
+            const d3Axis = getD3Axis(position, scale as d3.AxisScale<d3.AxisDomain>);
 
             // Set some scale props
             d3Axis
-                .scale(scale)
+                .scale(scale as d3.AxisScale<d3.AxisDomain>)
                 .tickSizeInner(tickSizeInner)
                 .tickSizeOuter(tickSizeOuter)
                 .tickPadding(tickPadding)
@@ -76,7 +119,7 @@ const Axis = ({
 
     return (
         <React.Fragment>
-            <Title position={position} title={title} className={`axis-title-${position}`} />
+            <Title position={position} title={title} />
             <g transform={transform}>
                 {showGridlines ? (
                     <Gridlines position={position} scale={scale} ticks={ticks} tickValues={tickValues} />
@@ -85,66 +128,4 @@ const Axis = ({
             </g>
         </React.Fragment>
     );
-};
-
-Axis.propTypes = {
-    /**
-     * The position of the axis [top, bottom, left, right]
-     * @type {String}
-     */
-    position: PropTypes.oneOf(["top", "bottom", "left", "right"]),
-    /**
-     * The keys of the fields that will share this scale
-     * @type {String[]}
-     */
-    fields: PropTypes.arrayOf(PropTypes.string).isRequired,
-    /**
-     * https://github.com/d3/d3-axis#axis_tickSizeInner
-     * @type {Number}
-     */
-    tickSizeInner: PropTypes.number,
-    /**
-     * https://github.com/d3/d3-axis#axis_tickSizeOuter
-     * @type {Number}
-     */
-    tickSizeOuter: PropTypes.number,
-    /**
-     * https://github.com/d3/d3-axis#axis_tickPadding
-     * @type {Number}
-     */
-    tickPadding: PropTypes.number,
-    /**
-     * https://github.com/d3/d3-axis#axis_ticks
-     * @type {Number}
-     */
-    ticks: PropTypes.number,
-    /**
-     * https://github.com/d3/d3-axis#axis_tickFormat
-     * @type {Function}
-     */
-    tickFormat: PropTypes.func,
-    /**
-     * https://github.com/d3/d3-axis#axis_tickValues
-     * @type {Array}
-     */
-    tickValues: PropTypes.array,
-    /**
-     * Should gridlines be drawn?
-     * @type {Boolean}
-     */
-    showGridlines: PropTypes.bool,
-    /**
-     * A title for the Axis
-     * @type {String}
-     */
-    title: PropTypes.string,
-};
-
-Axis.defaultProps = {
-    tickSizeInner: 6,
-    tickSizeOuter: 6,
-    tickPadding: 3,
-    showGridlines: true,
-};
-
-export { Axis };
+}

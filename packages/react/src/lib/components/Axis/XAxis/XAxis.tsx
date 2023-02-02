@@ -1,18 +1,33 @@
-import PropTypes from "prop-types";
+import type { IValue, IScaleType } from "@d3-chart/types";
 import React from "react";
-import { Axis } from "../Axis";
+import { Axis, IAxisProps } from "../Axis";
 import { XScale } from "../../Scale";
+
+export interface IXAxisProps extends IAxisProps {
+    /**
+     * (Optional) An override of the domain to use with the d3 scale
+     */
+    domain?: IValue[];
+    /**
+     * (Optional) An override of the type of d3 scale touse
+     */
+    scaleType?: IScaleType;
+    /**
+     * Whether the underlying scale should aggregate the fields (e.g. for stacked charts)
+     */
+    aggregate?: boolean;
+}
 
 /**
  * Represents an XAxis component
- * @return {ReactElement}  The X Axis component
+ * @return The X Axis component
  */
-const XAxis = ({
-    position,
+export function XAxis({
+    position = "bottom",
     fields,
     scaleType,
-    aggregate,
-    showGridlines,
+    aggregate = false,
+    showGridlines = true,
     title,
     tickSizeInner,
     tickSizeOuter,
@@ -21,7 +36,7 @@ const XAxis = ({
     ticks,
     tickValues,
     domain,
-}) => {
+}: IXAxisProps) {
     return (
         <React.Fragment>
             <Axis
@@ -39,82 +54,4 @@ const XAxis = ({
             <XScale fields={fields} scaleType={scaleType} aggregate={aggregate} domain={domain} fromAxis={true} />
         </React.Fragment>
     );
-};
-
-XAxis.propTypes = {
-    /**
-     * The position of the axis [top, bottom]
-     * @type {String}
-     */
-    position: PropTypes.oneOf(["top", "bottom"]),
-    /**
-     * The keys of the fields that will share this scale
-     * @type {String[]}
-     */
-    fields: PropTypes.arrayOf(PropTypes.string).isRequired,
-    /**
-     * (Optional) Force the type of d3 scale to use - https://github.com/d3/d3-scale
-     * @type {String}
-     */
-    scaleType: PropTypes.oneOf(["linear", "time", "power", "log", "band", "point"]),
-    /**
-     * (Optional) An override of the domain to use with the d3 scale
-     * @type {Array}
-     */
-    domain: PropTypes.arrayOf(
-        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool])
-    ),
-    /**
-     * Whether this scale is an aggregate (of multiple y values)
-     * @type {Boolean}
-     */
-    aggregate: PropTypes.bool,
-    /**
-     * Should gridlines be drawn?
-     * @type {Boolean}
-     */
-    showGridlines: PropTypes.bool,
-    /**
-     * A title for the Axis
-     * @type {String}
-     */
-    title: PropTypes.string,
-    /**
-     * https://github.com/d3/d3-axis#axis_tickSizeInner
-     * @type {Number}
-     */
-    tickSizeInner: PropTypes.number,
-    /**
-     * https://github.com/d3/d3-axis#axis_tickSizeOuter
-     * @type {Number}
-     */
-    tickSizeOuter: PropTypes.number,
-    /**
-     * https://github.com/d3/d3-axis#axis_tickPadding
-     * @type {Number}
-     */
-    tickPadding: PropTypes.number,
-    /**
-     * https://github.com/d3/d3-axis#axis_ticks
-     * @type {Number}
-     */
-    ticks: PropTypes.number,
-    /**
-     * https://github.com/d3/d3-axis#axis_tickFormat
-     * @type {Function}
-     */
-    tickFormat: PropTypes.func,
-    /**
-     * https://github.com/d3/d3-axis#axis_tickValues
-     * @type {Array}
-     */
-    tickValues: PropTypes.array,
-};
-
-XAxis.defaultProps = {
-    aggregate: false,
-    position: "bottom",
-    showGridlines: true,
-};
-
-export { XAxis };
+}

@@ -1,15 +1,12 @@
-/* istanbul ignore file */
-
+import type { IPosition } from "@d3-chart/types";
 import * as d3 from "d3";
 
 /**
  * Return a D3 Axis function
- * @param  {String}         position            The position of the axis [left, right, top, bottom]
- * @param  {Function}       scale               The D3 scale function - https://github.com/d3/d3-scale
- * @return {Function}                           The D3 selection Axis - https://github.com/d3/d3-axis
- *
+ * @param  IPosition    The position of the axis [left, right, top, bottom]
+ * @return              The D3 selection Axis - https://github.com/d3/d3-axis
  */
-const getD3Axis = (position, scale) => {
+const getD3Axis = (position: IPosition, scale: d3.AxisScale<d3.AxisDomain>): d3.Axis<d3.AxisDomain> => {
     switch (position) {
         case "left":
             return d3.axisLeft(scale);
