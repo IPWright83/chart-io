@@ -1,35 +1,37 @@
+import type { IPlotProps } from "@d3-chart/types";
 import * as d3 from "d3";
-import PropTypes from "prop-types";
 import React, { useRef } from "react";
 import { useStore, useSelector } from "react-redux";
 
 import { useRender } from "../../../../../hooks";
-import { chartSelectors, eventSelectors } from "../../../../../store";
-import { plotDefaultProps, plotPropTypes } from "../../../../../types";
+import { chartSelectors, eventSelectors, IState } from "../../../../../store";
 import { isNullOrUndefined } from "../../../../../utils";
 import { useDatumFocus } from "../useDatumFocus";
 import { useTooltip } from "../useTooltip";
 
+export interface ICanvasLineProps extends Omit<IPlotProps, "interactive"> {}
+
 /**
  * Represents a Line Plot on a Canvas element
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Line plot component
+ * @param  props       The set of React properties
+ * @return             The Line plot component
  */
-const CanvasLine = ({ x, y, color, layer, canvas }) => {
+export function CanvasLine({ x, y, color, layer, canvas }: ICanvasLineProps) {
     const store = useStore();
     const gRef = useRef(null);
-    const data = useSelector((s) => chartSelectors.data(s));
-    const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
-    const yScale = useSelector((s) => chartSelectors.scales.getScale(s, y));
-    const eventMode = useSelector((s) => eventSelectors.mode(s));
-    const position = useSelector((s) => eventSelectors.position(s));
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const theme = useSelector((s) => chartSelectors.theme(s));
-    const height = useSelector((s) => chartSelectors.dimensions.height(s));
+    const data = useSelector((s: IState) => chartSelectors.data(s));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
+    const eventMode = useSelector((s: IState) => eventSelectors.mode(s));
+    const position = useSelector((s: IState) => eventSelectors.position(s));
+    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
+    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
 
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
     const seriesColor = color || theme.series.colors[0];
 
+    // @ts-expect-error: We handle a missing bandwidth fine
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
     /* On future renders we want to update the path */
@@ -54,6 +56,7 @@ const CanvasLine = ({ x, y, color, layer, canvas }) => {
         context.clearRect(0, 0, width, height);
         context.beginPath();
 
+        // @ts-ignore: TODO: Need to work out casting
         line(sortedData);
 
         context.strokeStyle = seriesColor;
@@ -68,18 +71,4 @@ const CanvasLine = ({ x, y, color, layer, canvas }) => {
     useTooltip(store.dispatch, gRef, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
 
     return <g ref={gRef} />;
-};
-
-CanvasLine.propTypes = {
-    ...plotPropTypes,
-
-    /**
-     * The canvas element that the line chart should render to
-     * @type {Object}
-     */
-    canvas: PropTypes.object,
-};
-
-CanvasLine.defaultProps = plotDefaultProps;
-
-export { CanvasLine };
+}

@@ -1,4 +1,2 @@
-import { CanvasLine, Line, SVGLine } from "./Line";
-import { Lines } from "./Lines";
-
-export { Line, Lines, SVGLine, CanvasLine };
+export * from "./Line";
+export * from "./Lines";

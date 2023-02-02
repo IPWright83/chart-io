@@ -1,16 +1,23 @@
+import type { IScale } from "@d3-chart/types";
 import * as d3 from "d3";
 import { useEffect } from "react";
 
 /**
  * Creates an SVG path in the DOM positioned at the bottom of the Axis
  * so we can animate smoothly from 0
- * @param  {Object} layer      The layer we're updating to from a React useRef
- * @param  {String} x          The key of the field used for the x position
- * @param  {String} y          The key of the field used for the y position
- * @param  {d3.Scale} xScale   The d3 scale for the x axis
- * @param  {d3.Scale} yScale   The d3 scale for the y axis
+ * @param  layer      The layer we're updating to from a React useRef
+ * @param  x          The key of the field used for the x position
+ * @param  y          The key of the field used for the y position
+ * @param  xScale     The d3 scale for the x axis
+ * @param  yScale     The d3 scale for the y axis
  */
-const usePathCreator = (layer, x, y, xScale, yScale) => {
+export function usePathCreator(
+    layer: React.MutableRefObject<Element>,
+    x: string,
+    y: string,
+    xScale: IScale,
+    yScale: IScale
+) {
     useEffect(() => {
         // Ensure that we've got the SVG group to render to
         if (!layer.current) {
@@ -20,7 +27,7 @@ const usePathCreator = (layer, x, y, xScale, yScale) => {
         // Cleanup the DOM if the scales have been removed as we
         // have no idea where to draw a line
         if (!xScale || !yScale) {
-            d3.select(current).selectAll("*").remove();
+            d3.select(layer.current).selectAll("*").remove();
             return;
         }
 
@@ -30,6 +37,7 @@ const usePathCreator = (layer, x, y, xScale, yScale) => {
             .x((d) => xScale(d[x]) + bandwidth)
             .y((d) => yScale(d[y]));
 
+        // @ts-expect-error: We handle a missing bandwidth fine
         const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
         // Only ever add the path once on first render when
@@ -52,6 +60,4 @@ const usePathCreator = (layer, x, y, xScale, yScale) => {
         // The fact that the plot is called via an withXYPlot provides
         // enough safety around the scales being null on first render
     }, [layer, x, y]);
-};
-
-export { usePathCreator };
+}

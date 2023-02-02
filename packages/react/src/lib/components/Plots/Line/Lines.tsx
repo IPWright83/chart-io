@@ -1,18 +1,20 @@
+import type { IPlotsProps } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors } from "../../../store";
-import { plotsDefaultProps, plotsPropTypes } from "../../../types";
+import { chartSelectors, IState } from "../../../store";
 
 import { Line } from "./Line";
+
+export interface ILinesProps extends Omit<IPlotsProps, "interactive"> {}
 
 /**
  * Represents a set of Line Plots
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Line plot component
  */
-const Lines = ({ ys, colors, ...props }) => {
-    const theme = useSelector((s) => chartSelectors.theme(s));
+export function Lines({ ys, colors, ...props }: ILinesProps) {
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const palette = colors || theme.series.colors;
 
     return (
@@ -22,11 +24,6 @@ const Lines = ({ ys, colors, ...props }) => {
             ))}
         </React.Fragment>
     );
-};
-
-Lines.propTypes = plotsPropTypes;
-Lines.defaultProps = plotsDefaultProps;
+}
 
 Lines.requiresVirtualCanvas = false;
-
-export { Lines };

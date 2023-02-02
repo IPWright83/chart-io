@@ -1,33 +1,36 @@
+import type { IPlotProps } from "@d3-chart/types";
 import * as d3 from "d3";
 import { useStore, useSelector } from "react-redux";
 
 import { useRender } from "../../../../../hooks";
-import { chartSelectors, eventSelectors } from "../../../../../store";
-import { plotDefaultProps, plotPropTypes } from "../../../../../types";
+import { chartSelectors, eventSelectors, IState } from "../../../../../store";
 import { interpolateMultiPath, isNullOrUndefined } from "../../../../../utils";
 
 import { useDatumFocus } from "../useDatumFocus";
 import { useTooltip } from "../useTooltip";
 import { usePathCreator } from "./usePathCreator";
 
+export interface ISVGLineProps extends Omit<IPlotProps, "canvas"> {}
+
 /**
  * Represents a Line Plot on an SVG Element
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Line plot component
  */
-const SVGLine = ({ x, y, color, interactive, layer, canvas }) => {
+export function SVGLine({ x, y, color, interactive, layer, canvas }: ISVGLineProps) {
     const store = useStore();
-    const data = useSelector((s) => chartSelectors.data(s));
-    const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
-    const yScale = useSelector((s) => chartSelectors.scales.getScale(s, y));
-    const eventMode = useSelector((s) => eventSelectors.mode(s));
-    const position = useSelector((s) => eventSelectors.position(s));
-    const theme = useSelector((s) => chartSelectors.theme(s));
-    const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
+    const data = useSelector((s: IState) => chartSelectors.data(s));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
+    const eventMode = useSelector((s: IState) => eventSelectors.mode(s));
+    const position = useSelector((s: IState) => eventSelectors.position(s));
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
+    const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     const seriesColor = color || theme.series.colors[0];
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
 
+    // @ts-expect-error: We handle a missing bandwidth fine
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
     // Used to create our initial path
@@ -47,7 +50,7 @@ const SVGLine = ({ x, y, color, interactive, layer, canvas }) => {
             .datum(sortedData)
             .transition("line")
             .duration(animationDuration)
-            .attrTween("d", function(d) {
+            .attrTween("d", function (d) {
                 const previous = d3.select(this).attr("d");
                 const current = line(d);
                 return interpolateMultiPath(previous, current);
@@ -63,9 +66,4 @@ const SVGLine = ({ x, y, color, interactive, layer, canvas }) => {
     }
 
     return null;
-};
-
-SVGLine.propTypes = plotPropTypes;
-SVGLine.defaultProps = plotDefaultProps;
-
-export { SVGLine };
+}
