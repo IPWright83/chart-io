@@ -12,7 +12,6 @@ export * from "./IPlotsProps";
 export * from "./IPosition";
 export * from "./IScale";
 export * from "./IScaleType";
-export * from "./ISimpleMouseEvent";
 export * from "./ITheme";
 export * from "./ITooltipItem";
 export * from "./IValue";

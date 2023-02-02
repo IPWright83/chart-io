@@ -1,6 +1,8 @@
+import type { IColor } from "@d3-chart/types";
+
 const light = {
     axis: {
-        stroke: "#333333",
+        stroke: "#333333" as IColor,
         strokeOpacity: 0.8,
         strokeWidth: 1,
     },
@@ -13,21 +15,22 @@ const light = {
 
     markers: {
         size: 6,
-        stroke: "white",
+        stroke: "white" as IColor,
         strokeWidth: 2,
+        shadow: false,
     },
 
-    background: "#ffffff",
+    background: "#ffffff" as IColor,
 
     crosshair: {
-        stroke: "#000000",
+        stroke: "#000000" as IColor,
         strokeOpacity: 0.5,
         strokeWidth: 1,
         strokeDasharray: 0,
     },
 
     gridlines: {
-        stroke: "#d3d3d3",
+        stroke: "#d3d3d3" as IColor,
         strokeOpacity: 0.8,
         strokeWidth: 1,
     },
@@ -48,13 +51,13 @@ const light = {
             "#cbc8e1",
             "#fdd7ea",
             "#e1e1e1",
-        ],
+        ] as IColor[],
     },
 };
 
 const dark = {
     axis: {
-        stroke: "#cccccc",
+        stroke: "#cccccc" as IColor,
         strokeOpacity: 0.8,
         strokeWidth: 1,
     },
@@ -65,10 +68,10 @@ const dark = {
         strokeWidth: 2,
     },
 
-    background: "#333333",
+    background: "#333333" as IColor,
 
     crosshair: {
-        stroke: "#cccccc",
+        stroke: "#cccccc" as IColor,
         strokeOpacity: 0.8,
         strokeWidth: 1,
         strokeDasharray: 0,
@@ -76,12 +79,13 @@ const dark = {
 
     markers: {
         size: 6,
-        stroke: "white",
+        stroke: "white" as IColor,
         strokeWidth: 2,
+        shadow: false,
     },
 
     gridlines: {
-        stroke: "#555555",
+        stroke: "#555555" as IColor,
         strokeOpacity: 0.8,
         strokeWidth: 1,
     },
@@ -100,7 +104,7 @@ const dark = {
             "#7f7f7f",
             "#bdbf2f",
             "#00becf",
-        ],
+        ] as IColor[],
     },
 };
 

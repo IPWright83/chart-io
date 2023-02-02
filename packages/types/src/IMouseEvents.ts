@@ -1,4 +1,12 @@
 /**
+ * Represents a MouseEvent with just the x/y position we care about
+ */
+export interface IMouseEvent {
+    offsetX: number;
+    offsetY: number;
+}
+
+/**
  * A function that will be triggered whenever the mouse moves over an element for the first time
  */
 export type IOnMouseOver = (datum: any, element: Element, event: MouseEvent) => void;

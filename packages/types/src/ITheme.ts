@@ -35,6 +35,6 @@ export interface ITheme {
     series: {
         opacity: number;
         selectedOpacity: number;
-        colors: [IColor, IColor, IColor, IColor, IColor, IColor, IColor, IColor, IColor, IColor, IColor, IColor];
+        colors: IColor[];
     };
 }

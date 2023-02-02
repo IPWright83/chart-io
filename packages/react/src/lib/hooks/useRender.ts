@@ -7,10 +7,10 @@ import { useEffect, useState } from "react";
  *
  * An example is when the data changes we calculate new a scales, which is done off the back
  * of a render. We need both the new data and new scale to reliably render a plot
- * @param {Function} callback       The actual render function
- * @param {Function} dependencies   The set of dependencies that should trigger a re-render
+ * @param callback       The actual render function
+ * @param dependencies   The set of dependencies that should trigger a re-render
  */
-const useRender = (callback, dependencies) => {
+const useRender = (callback: () => void, dependencies: any[]) => {
     const [renderID, setRenderID] = useState(null);
 
     useEffect(() => {

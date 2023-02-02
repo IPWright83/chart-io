@@ -1,10 +1,10 @@
 {
-  "name": "@chart-it/types",
+  "name": "@d3-chart/types",
   "version": "0.4.0",
   "packageManager": "pnpm@7.5.2",
-  "description": "Provides core TypeScript type definitions for chart-it",
+  "description": "Provides core type definitions for d3-chart packages",
   "repository": "git@github.com:IPWright83/chart-it.git",
-  "author": "\"Ian Wright\" <\"ipwright83+dev@gmail.com\">",
+  "author": "Ian Wright - IPWright83",
   "main": "dist/src/index.js",
   "module": "dist/src/index.js",
   "types": "dist/src/index.d.ts",
