@@ -1,4 +1,4 @@
-import { Column, ColumnBase } from "./Column";
-import { Columns } from "./Columns";
-
-export { Column, ColumnBase, Columns };
+export * from "./Column";
+export * from "./StackedColumn";
+export * from "./GroupedColumn";
+export * from "./Columns";

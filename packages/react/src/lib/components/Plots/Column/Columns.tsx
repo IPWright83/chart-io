@@ -1,21 +1,31 @@
-import PropTypes from "prop-types";
+import type { IPlotsProps } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors } from "../../../store";
-import { eventDefaultProps, eventPropTypes, plotsDefaultProps, plotsPropTypes } from "../../../types";
+import { chartSelectors, IState } from "../../../store";
 
 import { Column } from "./Column";
 import { GroupedColumn } from "./GroupedColumn";
 import { StackedColumn } from "./StackedColumn";
 
+export interface IColumnsProps extends IPlotsProps {
+    /**
+     * Should the column plots be stacked based on the x-value?
+     */
+    stacked?: boolean;
+    /**
+     * Should the column plots be grouped based on the x-value?
+     */
+    grouped?: boolean;
+}
+
 /**
  * Represents a set of Column Plots
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Column plot component
+ * @param  props       The set of React properties
+ * @return             The Column plot component
  */
-const Columns = ({ ys, colors, stacked, grouped, ...props }) => {
-    const theme = useSelector((s) => chartSelectors.theme(s));
+export function Columns({ ys, colors, stacked = false, grouped = false, ...props }: IColumnsProps) {
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const palette = colors || theme.series.colors;
 
     if (stacked && grouped) {
@@ -41,30 +51,6 @@ const Columns = ({ ys, colors, stacked, grouped, ...props }) => {
             ))}
         </React.Fragment>
     );
-};
-
-Columns.propTypes = {
-    ...plotsPropTypes,
-    ...eventPropTypes,
-
-    /**
-     * Should the columns be stacked based on the x-value?
-     * @type {Boolean}
-     */
-    stacked: PropTypes.bool,
-
-    /**
-     * Should the columns be grouped based on the x-value? Each "y" is used as a series
-     * @type {Boolean}
-     */
-    grouped: PropTypes.bool,
-};
-
-Columns.defaultProps = {
-    ...plotsDefaultProps,
-    ...eventDefaultProps,
-};
+}
 
 Columns.requiresVirtualCanvas = true;
-
-export { Columns };

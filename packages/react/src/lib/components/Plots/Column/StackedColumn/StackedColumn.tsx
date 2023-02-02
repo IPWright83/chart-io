@@ -2,21 +2,29 @@ import PropTypes from "prop-types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors } from "../../../../store";
+import { chartSelectors, IState } from "../../../../store";
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
-import { StackedColumnBase } from "./StackedColumnBase";
+import { StackedColumnBase, IStackedColumnBaseProps } from "./StackedColumnBase";
 
-const StackedCanvasColumn = withCanvas(withXYPlot(StackedColumnBase), "plot stacked-column");
-const StackedSVGColumn = withSVG(withXYPlot(StackedColumnBase), "plot stacked-column");
+export interface IStackedColumnProps extends Omit<IStackedColumnBaseProps, "interactive" | "layer"> {
+    /**
+     * Should Canvas be used instead of SVG?
+     */
+    useCanvas?: boolean;
+}
+
+const StackedCanvasColumn = withCanvas(withXYPlot<IStackedColumnProps>(StackedColumnBase), "plot stacked-column");
+const StackedSVGColumn = withSVG(withXYPlot<IStackedColumnProps>(StackedColumnBase), "plot stacked-column");
 
 /**
  * Represents a Column plot
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Column plot component
+ * @param  useCanvas   Should Canvas be used instead of SVG?
+ * @param  props       The set of React properties
+ * @return             The Column plot component
  */
-const StackedColumn = ({ useCanvas, colors, ...props }) => {
-    const theme = useSelector((s) => chartSelectors.theme(s));
+export function StackedColumn({ useCanvas, colors, ...props }: IStackedColumnProps) {
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const palette = colors || theme.series.colors;
 
     if (useCanvas) {
@@ -24,23 +32,6 @@ const StackedColumn = ({ useCanvas, colors, ...props }) => {
     }
 
     return <StackedSVGColumn {...props} colors={palette} />;
-};
-
-StackedColumn.propTypes = {
-    ...StackedColumnBase.propTypes,
-
-    /**
-     * Should this plot use an HTML Canvas instead of SVG?
-     * @type {Boolean}
-     */
-    useCanvas: PropTypes.bool,
-};
-
-StackedColumn.defaultProps = {
-    ...StackedColumnBase.defaultProps,
-    useCanvas: false,
-};
+}
 
 StackedColumn.requiresVirtualCanvas = true;
-
-export { StackedColumn };

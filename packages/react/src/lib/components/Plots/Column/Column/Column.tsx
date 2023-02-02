@@ -3,39 +3,30 @@ import React from "react";
 
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
-import { ColumnBase } from "./ColumnBase";
+import { ColumnBase, IColumnBaseProps } from "./ColumnBase";
 
-const CanvasColumn = withCanvas(withXYPlot(ColumnBase), "plot column");
-const SVGColumn = withSVG(withXYPlot(ColumnBase), "plot column");
+export interface IColumnProps extends Omit<IColumnBaseProps, "layer" | "canvas"> {
+    /**
+     * Should Canvas be used instead of SVG?
+     */
+    useCanvas?: boolean;
+}
+
+const CanvasColumn = withCanvas(withXYPlot<IColumnProps>(ColumnBase), "plot column");
+const SVGColumn = withSVG(withXYPlot<IColumnProps>(ColumnBase), "plot column");
 
 /**
  * Represents a Column plot
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Column plot component
+ * @param  useCanvas   Should Canvas be used instead of SVG?
+ * @param  props       The set of React properties
+ * @return             The Column plot component
  */
-const Column = ({ useCanvas, ...props }) => {
+export function Column({ useCanvas = false, ...props }: IColumnProps) {
     if (useCanvas) {
         return <CanvasColumn {...props} />;
     }
 
     return <SVGColumn {...props} />;
-};
-
-Column.propTypes = {
-    ...ColumnBase.propTypes,
-
-    /**
-     * Should this plot use an HTML Canvas instead of SVG?
-     * @type {Boolean}
-     */
-    useCanvas: PropTypes.bool,
-};
-
-Column.defaultProps = {
-    ...ColumnBase.defaultProps,
-    useCanvas: false,
-};
+}
 
 Column.requiresVirtualCanvas = true;
-
-export { Column };

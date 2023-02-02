@@ -1,22 +1,29 @@
+import { IEventPlotProps, IDatum } from "@d3-chart/types";
 import * as d3 from "d3";
 import { useEffect, useState } from "react";
 import { useStore, useSelector } from "react-redux";
 
 import { useRender } from "../../../../hooks";
-import { chartSelectors, eventActions } from "../../../../store";
-import { eventDefaultProps, eventPropTypes, plotDefaultProps, plotPropTypes } from "../../../../types";
+import { chartSelectors, eventActions, IState } from "../../../../store";
 import { ensureBandScale, ensureValuesAreUnique } from "../../../../utils";
 
 import { renderCanvas } from "../../renderCanvas";
 import { getDropline } from "../getDropline";
 import { useTooltip } from "../useTooltip";
 
+export interface IColumnBaseProps extends IEventPlotProps {
+    /**
+     * This is an internally used function to allow the scatter plot to render to a virtual canvas
+     */
+    renderVirtualCanvas?: (update: d3.Transition<Element, unknown, any, unknown>) => void;
+}
+
 /**
  * Represents a Column Plot
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Column plot component
+ * @param  props       The set of React properties
+ * @return             The Column plot component
  */
-const ColumnBase = ({
+export function ColumnBase({
     x,
     y,
     canvas,
@@ -27,17 +34,17 @@ const ColumnBase = ({
     onMouseOut,
     onClick,
     layer,
-}) => {
+}: IColumnBaseProps) {
     const [focused, setFocused] = useState(null);
     const store = useStore();
 
-    const data = useSelector((s) => chartSelectors.data(s));
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s) => chartSelectors.dimensions.height(s));
-    const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
-    const yScale = useSelector((s) => chartSelectors.scales.getScale(s, y));
-    const theme = useSelector((s) => chartSelectors.theme(s));
-    const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
+    const data = useSelector((s: IState) => chartSelectors.data(s));
+    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
+    const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     const strokeColor = theme.background;
     const fillColor = d3.color(color || theme.series.colors[0]);
@@ -67,7 +74,7 @@ const ColumnBase = ({
         const join = d3
             .select(layer.current)
             .selectAll(".column")
-            .data(data, (d) => d[x]);
+            .data(data, (d) => d[x]) as d3.Selection<SVGRectElement, IDatum, Element, unknown>;
 
         // Exit bars
         join.exit().remove();
@@ -77,12 +84,14 @@ const ColumnBase = ({
             .enter()
             .append("rect")
             .attr("class", "column")
+            // @ts-ignore: TODO: Need to work out casting
             .attr("x", (d) => xScale(d[x]))
             .attr("y", () => yScale.range()[0])
+            // @ts-ignore: TODO: How do we check for bandwidth?
             .attr("width", () => xScale.bandwidth())
             .attr("height", 0)
-            .style("stroke", strokeColor)
-            .style("fill", fillColor);
+            .style("stroke", strokeColor.toString())
+            .style("fill", fillColor.toString());
 
         // Update new and existing points
         const update = enter
@@ -111,16 +120,21 @@ const ColumnBase = ({
             })
             .transition("position")
             .duration(animationDuration / 2)
+            // @ts-ignore: TODO: Need to work out casting
             .attr("x", (d) => xScale(d[x]))
+            // @ts-ignore: TODO: How do we check for bandwidth?
             .attr("width", () => xScale.bandwidth())
-            .style("fill", fillColor)
+            .style("fill", fillColor.toString())
+            // @ts-expect-error: Looks like the type defs are wrong missing named transitions
             .transition("height")
             .duration(animationDuration / 2)
             .delay(animationDuration / 2)
+            // @ts-ignore: TODO: Need to work out casting
             .attr("y", (d) => yScale(d[y]))
+            // @ts-ignore: TODO: Need to work out casting
             .attr("height", (d) => yScale.range()[0] - yScale(d[y]));
 
-        renderCanvas({ canvas, renderVirtualCanvas, width, height, update });
+        renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [
         x,
         y,
@@ -140,16 +154,4 @@ const ColumnBase = ({
     ]);
 
     return null;
-};
-
-ColumnBase.propTypes = {
-    ...plotPropTypes,
-    ...eventPropTypes,
-};
-
-ColumnBase.defaultProps = {
-    ...plotDefaultProps,
-    ...eventDefaultProps,
-};
-
-export { ColumnBase };
+}
