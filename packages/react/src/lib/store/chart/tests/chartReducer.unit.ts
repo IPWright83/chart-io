@@ -1,7 +1,21 @@
-import { chartReducer } from "../chartReducer";
+import * as d3 from "d3";
+import type { IValue } from "@d3-chart/types";
+
+import { themes } from "../../../themes";
+
+import { defaultChartState, chartReducer } from "../chartReducer";
+
+import type {
+    SetDimensionAction,
+    SetDataAction,
+    SetScaleAction,
+    SetAnimationDurationAction,
+    SetThemeAction,
+} from "../types";
 
 describe("chartReducer", () => {
     const previousState = {
+        ...defaultChartState,
         dimensions: {
             width: 1000,
             height: 500,
@@ -9,8 +23,8 @@ describe("chartReducer", () => {
         },
         data: [{ a: "foo" }, { b: "bar" }],
         scales: {
-            a: { fakeScale: 1 },
-            b: { fakeScale: 2 },
+            a: d3.scaleLinear(),
+            b: d3.scaleBand(),
         },
     };
 
@@ -22,7 +36,7 @@ describe("chartReducer", () => {
                 height: 400,
                 margin: { top: 5, left: 5, right: 5, bottom: 5 },
             },
-        };
+        } as SetDimensionAction;
 
         expect(chartReducer(previousState, action)).toEqual({
             dimensions: {
@@ -39,7 +53,7 @@ describe("chartReducer", () => {
         const action = {
             type: "CHART.SET_DATA",
             payload: [{ a: "baz" }],
-        };
+        } as SetDataAction;
 
         expect(chartReducer(previousState, action)).toEqual({
             dimensions: previousState.dimensions,
@@ -49,19 +63,25 @@ describe("chartReducer", () => {
     });
 
     it("CHART.SET_SCALES", () => {
+        const logScale = d3.scaleLog();
+
         const action = {
             type: "CHART.SET_SCALES",
-            payload: { fields: ["x", "y"], scale: { fakeScale: 3 } },
-        };
+            payload: {
+                fields: ["x", "y"],
+                scale: logScale,
+                fromAxis: false,
+            },
+        } as SetScaleAction;
 
         expect(chartReducer(previousState, action)).toEqual({
             dimensions: previousState.dimensions,
             data: previousState.data,
             scales: {
-                a: { fakeScale: 1 },
-                b: { fakeScale: 2 },
-                x: { fakeScale: 3 },
-                y: { fakeScale: 3 },
+                a: previousState.scales.a,
+                b: previousState.scales.b,
+                x: logScale,
+                y: logScale,
             },
         });
     });
@@ -70,7 +90,7 @@ describe("chartReducer", () => {
         const action = {
             type: "CHART.SET_ANIMATION_DURATION",
             payload: 12549,
-        };
+        } as SetAnimationDurationAction;
 
         expect(chartReducer(previousState, action)).toEqual({
             ...previousState,
@@ -81,8 +101,8 @@ describe("chartReducer", () => {
     it("CHART.SET_THEME", () => {
         const action = {
             type: "CHART.SET_THEME",
-            payload: { foo: "bar" },
-        };
+            payload: themes.dark,
+        } as SetThemeAction;
 
         expect(chartReducer(previousState, action)).toEqual({
             ...previousState,
@@ -94,6 +114,8 @@ describe("chartReducer", () => {
         const action = {
             type: "RANDOM_ACTION",
         };
+
+        // @ts-expect-error Testing that random actions are ignored
         expect(chartReducer(previousState, action)).toEqual(previousState);
     });
 });

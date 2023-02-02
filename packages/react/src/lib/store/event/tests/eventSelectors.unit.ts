@@ -1,11 +1,14 @@
+import type { IMarker, IDropline, IColor, IMouseEventType } from "@d3-chart/types";
+
+import { defaultChartState } from "../../chart/chartReducer";
+import { defaultEventState } from "../eventReducer";
 import { eventSelectors } from "../eventSelectors";
 
 describe("eventSelectors", () => {
     it("store gets the correct part of state", () => {
         const state = {
-            event: {
-                mouse: {},
-            },
+            chart: defaultChartState,
+            event: defaultEventState,
         };
 
         expect(eventSelectors.store(state)).toEqual(state.event);
@@ -14,8 +17,10 @@ describe("eventSelectors", () => {
     describe("position", () => {
         it("returns the data", () => {
             const state = {
+                chart: defaultChartState,
                 event: {
-                    mouse: { x: 5, y: 10 },
+                    ...defaultEventState,
+                    mouse: { x: 5, y: 10, mode: "NONE" as IMouseEventType },
                 },
             };
 
@@ -23,29 +28,40 @@ describe("eventSelectors", () => {
         });
 
         it("returns empty with no position", () => {
+            // @ts-expect-error: Checking runtime safety
             expect(eventSelectors.position({})).toEqual({});
         });
     });
 
     describe("mode", () => {
         it("returns NONE if there is no mouse position", () => {
-            expect(eventSelectors.mode({})).toBe("NONE");
+            const state = {
+                chart: defaultChartState,
+                event: defaultEventState,
+            };
+
+            expect(eventSelectors.mode(state)).toBe("NONE");
         });
 
         it("returns the mode", () => {
             const state = {
+                chart: defaultChartState,
                 event: {
-                    mouse: { x: 5, y: 10, mode: "ENTER" },
+                    ...defaultEventState,
+                    mouse: { x: 5, y: 10, mode: "ENTER" as IMouseEventType },
                 },
             };
+
             expect(eventSelectors.mode(state)).toBe("ENTER");
         });
     });
 
     it("droplines", () => {
         const state = {
+            chart: defaultChartState,
             event: {
-                droplines: [{ isHorizontal: true, color: "red", x1: 0, x2: 1, y1: 2, y2: 3 }],
+                ...defaultEventState,
+                droplines: [{ isHorizontal: true, color: "#FF0000", x1: 0, x2: 1, y1: 2, y2: 3 }] as Array<IDropline>,
             },
         };
 
@@ -56,8 +72,10 @@ describe("eventSelectors", () => {
 
     it("markers", () => {
         const state = {
+            chart: defaultChartState,
             event: {
-                markers: [{ fill: "red", r1: 5, r2: 10, cx: 3, cy: 4 }],
+                ...defaultEventState,
+                markers: [{ fill: "#FF0000", r1: 5, r2: 10, cx: 3, cy: 4 }] as Array<IMarker>,
             },
         };
 
@@ -67,7 +85,9 @@ describe("eventSelectors", () => {
     describe("tooltip", () => {
         it("show returns true if there are tooltip items", () => {
             const state = {
+                chart: defaultChartState,
                 event: {
+                    ...defaultEventState,
                     tooltip: {
                         items: [{ name: "A", value: 0 }],
                     },
@@ -79,7 +99,9 @@ describe("eventSelectors", () => {
 
         it("show returns false if there are no tooltip items", () => {
             const state = {
+                chart: defaultChartState,
                 event: {
+                    ...defaultEventState,
                     tooltip: {
                         items: [],
                     },
@@ -91,10 +113,12 @@ describe("eventSelectors", () => {
 
         it("color", () => {
             const state = {
+                chart: defaultChartState,
                 event: {
+                    ...defaultEventState,
                     tooltip: {
                         items: [{ name: "A", value: 0 }],
-                        color: "#FF0000",
+                        color: "#FF0000" as IColor,
                     },
                 },
             };
@@ -104,10 +128,12 @@ describe("eventSelectors", () => {
 
         it("items", () => {
             const state = {
+                chart: defaultChartState,
                 event: {
+                    ...defaultEventState,
                     tooltip: {
                         items: [{ name: "A", value: 0 }],
-                        color: "#FF0000",
+                        color: "#FF0000" as IColor,
                     },
                 },
             };
@@ -117,7 +143,9 @@ describe("eventSelectors", () => {
 
         it("position", () => {
             const state = {
+                chart: defaultChartState,
                 event: {
+                    ...defaultEventState,
                     tooltip: {
                         items: [{ name: "A", value: 0 }],
                         position: { x: 5, y: 10 },

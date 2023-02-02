@@ -1,65 +1,83 @@
+import type { IDropline, IMarker, IColor, ITooltipItem, IMouseMode, ICoordinate } from "@d3-chart/types";
 import { createSelector } from "reselect";
+
+import type { IState, IEventState, IEventStateTooltip } from "../types";
 
 const EMPTY_OBJECT = {};
 const EMPTY_ARRAY = [];
 
-const eventSelectors = {
+interface IEventSelectors {
+    store: (state: IState) => IEventState;
+    droplines: (state: IState) => IDropline[];
+    markers: (state: IState) => IMarker[];
+    tooltip: {
+        store: (state: IState) => IEventStateTooltip;
+        show: (state: IState) => boolean;
+        color: (state: IState) => IColor;
+        items: (state: IState) => ITooltipItem[];
+        position: (state: IState) => ICoordinate | {};
+    };
+    mode: (state: IState) => IMouseMode;
+    position: (state: IState) => ICoordinate | {};
+}
+
+const _eventSelectors = {
     /**
      * Returns the store for the chart part of state
-     * @param  {Object} state The application state
-     * @return {Object}       The state
+     * @param  state The application state
+     * @return       The state
      */
-    store: (state) => state.event || EMPTY_OBJECT,
+    store: (state: IState): IEventState => state.event,
 
     /**
      * Returns the set of droplines
-     * @param  {Object} state   The application state
-     * @return {Array<Object>}  The droplines
+     * @param  state   The application state
+     * @return         The droplines
      */
-    droplines: (state) => eventSelectors.store(state).droplines || EMPTY_ARRAY,
+    droplines: (state: IState): IDropline[] => _eventSelectors.store(state).droplines,
 
     /**
      * Returns the set of markers
-     * @param  {Object} state   The application state
-     * @return {Array<Object>}  The markers
+     * @param  state   The application state
+     * @return         The markers
      */
-    markers: (state) => eventSelectors.store(state).markers || EMPTY_ARRAY,
+    markers: (state: IState): IMarker[] => _eventSelectors.store(state).markers,
 
     tooltip: {
         /**
          * Returns the tooltip part of the sub-state tree
-         * @param  {Object} state   The application state
-         * @return {Object}         The sub-state for the tooltip
+         * @param  state   The application state
+         * @return         The sub-state for the tooltip
          */
-        store: (state) => eventSelectors.store(state).tooltip || EMPTY_OBJECT,
+        store: (state: IState): IEventStateTooltip => _eventSelectors.store(state).tooltip,
 
         /**
          * Should the tooltip currently be shown?
-         * @param  {Object} state   The application state
-         * @return {Boolean}        True if the tooltip should be shown
+         * @param  state   The application state
+         * @return        True if the tooltip should be shown
          */
-        show: (state) => eventSelectors.tooltip.items(state).length > 0,
+        show: (state: IState): boolean => _eventSelectors.tooltip.items(state).length > 0,
 
         /**
          * The colour that the tooltip should take
-         * @param  {Object} state   The application state
-         * @return {String}         The colour of the tooltip item
+         * @param  state   The application state
+         * @return         The colour of the tooltip item
          */
-        color: (state) => eventSelectors.tooltip.store(state).color?.toString(),
+        color: (state: IState): IColor => _eventSelectors.tooltip.store(state).color,
 
         /**
          * The set of tooltip tiems
-         * @param  {Object} state   The application state
-         * @return {Array}          The array of tooltip items
+         * @param  state   The application state
+         * @return          The array of tooltip items
          */
-        items: (state) => eventSelectors.tooltip.store(state).items || EMPTY_ARRAY,
+        items: (state: IState): ITooltipItem[] => _eventSelectors.tooltip.store(state).items || EMPTY_ARRAY,
 
         /**
          * A moust event that triggered
-         * @param  {Object} state   The application state
-         * @return {MouseEvent}     The mouse event that triggered the tooltip
+         * @param  state   The application state
+         * @return         The mouse event that triggered the tooltip
          */
-        position: (state) => eventSelectors.tooltip.store(state).position || EMPTY_OBJECT,
+        position: (state: IState): ICoordinate | undefined => _eventSelectors.tooltip.store(state).position,
     },
 
     /**
@@ -67,11 +85,11 @@ const eventSelectors = {
      * event fired. If the cursor isn't over the chart then this should be "NONE"
      * otherwise it will be either "ENTER" for the first event, or "MOVE" for all future
      * events
-     * @param  {Object} state The application state
-     * @return {String}       One of "NONE", "MOVE" or "ENTER"
+     * @param  state The application state
+     * @return       One of "NONE", "MOVE" or "ENTER"
      */
-    mode: (state) => {
-        const { mouse } = eventSelectors.store(state);
+    mode: (state: IState): IMouseMode => {
+        const { mouse } = _eventSelectors.store(state);
         if (!mouse) {
             return "NONE";
         }
@@ -85,13 +103,15 @@ const eventSelectors = {
  * @param  {Object} state The application state
  * @return {Object}       An object with { x, y } positions or null
  */
-eventSelectors.position = createSelector(eventSelectors.store, (event) => {
-    const { mouse } = event;
-    if (!mouse) {
-        return EMPTY_OBJECT;
+const position = createSelector(_eventSelectors.store, (event: IEventState): ICoordinate | undefined => {
+    if (!event || !event.mouse) {
+        return;
     }
 
-    return { x: mouse.x, y: mouse.y };
+    return { x: event.mouse.x, y: event.mouse.y };
 });
 
-export { eventSelectors };
+export const eventSelectors: IEventSelectors = {
+    ..._eventSelectors,
+    position,
+};

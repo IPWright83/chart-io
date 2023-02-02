@@ -8,8 +8,8 @@ import { telemetryReducer } from "./telemetry";
 
 /**
  * Creates a Redux store
- * @param {Object} customReducers    A set of additional custom reducers to apply to the store
- * @return {Object} The redux store object
+ * @param customReducers       A set of additional custom reducers to apply to the store
+ * @return                     The redux store object
  */
 const createStore = (customReducers = {}) => {
     const reducer = combineReducers({

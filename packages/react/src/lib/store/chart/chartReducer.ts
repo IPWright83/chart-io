@@ -1,6 +1,9 @@
 import { themes } from "../../themes";
 
-const defaultState = {
+import type { ChartAction } from "./types";
+import type { IChartState } from "../types";
+
+export const defaultChartState = {
     animationDuration: 1000,
     theme: themes.light,
     data: [],
@@ -18,32 +21,30 @@ const defaultState = {
 
 /**
  * Defines a reducer to handle the chart settings being set
- * @param  {Object} state   The current state
- * @param  {Object} action  The current action being triggerered
- * @return {Object}         The new state
+ * @param  state   The current state
+ * @param  action  The current action being triggerered
+ * @return          The new state
  */
-const chartReducer = (state = defaultState, action) => {
-    const payload = action.payload || {};
-
+const chartReducer = (state: IChartState = defaultChartState, action: ChartAction): IChartState => {
     switch (action.type) {
         case "CHART.SET_DIMENSIONS":
             return {
                 ...state,
                 dimensions: {
-                    width: payload.width,
-                    height: payload.height,
-                    margin: payload.margin,
+                    width: action.payload.width,
+                    height: action.payload.height,
+                    margin: action.payload.margin,
                 },
             };
 
         case "CHART.SET_SCALES":
-            if (payload.fromAxis) {
+            if (action.payload.fromAxis) {
                 return {
                     ...state,
                     axisScales: {
                         ...state.axisScales,
-                        ...payload.fields.reduce((result, field) => {
-                            return { ...result, [field]: payload.scale };
+                        ...action.payload.fields.reduce((result, field) => {
+                            return { ...result, [field]: action.payload.scale };
                         }, {}),
                     },
                 };
@@ -53,8 +54,8 @@ const chartReducer = (state = defaultState, action) => {
                 ...state,
                 scales: {
                     ...state.scales,
-                    ...payload.fields.reduce((result, field) => {
-                        return { ...result, [field]: payload.scale };
+                    ...action.payload.fields.reduce((result, field) => {
+                        return { ...result, [field]: action.payload.scale };
                     }, {}),
                 },
             };
@@ -62,17 +63,17 @@ const chartReducer = (state = defaultState, action) => {
         case "CHART.SET_ANIMATION_DURATION":
             return {
                 ...state,
-                animationDuration: payload,
+                animationDuration: action.payload,
             };
 
         case "CHART.SET_THEME":
             return {
                 ...state,
-                theme: payload,
+                theme: action.payload,
             };
 
         case "CHART.SET_DATA":
-            return { ...state, data: payload };
+            return { ...state, data: action.payload };
 
         default:
             return state;

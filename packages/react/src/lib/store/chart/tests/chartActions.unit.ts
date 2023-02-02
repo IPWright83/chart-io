@@ -20,6 +20,8 @@ describe("chartActions", () => {
         const height = 500;
 
         const spy = jest.spyOn(console, "warn").mockImplementation();
+
+        // @ts-expect-error: Checking runtime validation
         expect(chartActions.setDimensions(width, height)).toBeUndefined();
         expect(spy).toHaveBeenCalledWith("W004 - A margin was not provided but is required");
     });
@@ -30,8 +32,9 @@ describe("chartActions", () => {
         const margin = { left: 10, right: 10, bottom: 10 };
 
         const spy = jest.spyOn(console, "warn").mockImplementation();
-        expect(chartActions.setDimensions(width, height, margin)).toBeUndefined();
 
+        // @ts-expect-error: Checking runtime validation
+        expect(chartActions.setDimensions(width, height, margin)).toBeUndefined();
         expect(spy).toHaveBeenCalledWith("W005 - The top of the margin was not specified and is required");
     });
 
@@ -41,7 +44,7 @@ describe("chartActions", () => {
             const scale = d3.scaleLinear();
             const dispatch = jest.fn();
 
-            chartActions.setScales(fields, scale)(dispatch);
+            chartActions.setScales(fields, scale, false)(dispatch);
             expect(dispatch).toHaveBeenCalledWith({
                 type: "CHART.SET_SCALES",
                 payload: { fields, scale },
@@ -52,6 +55,7 @@ describe("chartActions", () => {
             const fields = ["a", "b", "c"];
             const dispatch = jest.fn();
 
+            // @ts-expect-error: Checking runtime validation
             chartActions.setScales(fields, null)(dispatch);
             expect(dispatch).not.toHaveBeenCalled();
         });
@@ -107,6 +111,7 @@ describe("chartActions", () => {
         it("for custom theme returns correct action", () => {
             const dispatch = jest.fn();
 
+            // @ts-expect-error: Checking runtime validation
             chartActions.setTheme({ foo: "bar" })(dispatch);
 
             expect(dispatch).toHaveBeenCalledWith({

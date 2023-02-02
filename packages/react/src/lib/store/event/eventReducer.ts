@@ -1,7 +1,10 @@
 import { isEqual } from "lodash";
 
+import type { EventAction } from "./types";
+import type { IEventState } from "../types";
+
 // https://stackoverflow.com/questions/54099633/filter-out-actions-in-redux-devtool-extension#:~:text=In%20the%20Redux%20DevTools%20Extension,the%20Chrome%20Extension%20details%20screen.
-const defaultState = {
+export const defaultEventState = {
     droplines: [],
     markers: [],
     tooltip: {
@@ -11,12 +14,12 @@ const defaultState = {
 
 /**
  * Defines a reducer to handle the global chart events
- * @param  {Object} state   The current state
- * @param  {Object} action  The current action being triggerered
- * @return {Object}         The new state
+ * @param  state   The current state
+ * @param  action  The current action being triggerered
+ * @return         The new state
  */
-const eventReducer = (state = defaultState, action) => {
-    const payload = action.payload;
+const eventReducer = (state: IEventState = defaultEventState, action: EventAction): IEventState => {
+    // const payload = action.payload;
 
     switch (action.type) {
         case "EVENT.MOUSE_MOVE":
@@ -27,20 +30,24 @@ const eventReducer = (state = defaultState, action) => {
             }
 
             // Optimisation
-            if (state.mouse.x === payload.offsetX && state.mouse.y === payload.offsetY && state.mode === "MOVE") {
+            if (
+                state.mouse.x === action.payload.offsetX &&
+                state.mouse.y === action.payload.offsetY &&
+                state.mouse.mode === "MOVE"
+            ) {
                 // istanbul ignore next
                 return state;
             }
 
             return {
                 ...state,
-                mouse: { x: payload.offsetX, y: payload.offsetY, mode: "MOVE" },
+                mouse: { x: action.payload.offsetX, y: action.payload.offsetY, mode: "MOVE" },
             };
 
         case "EVENT.MOUSE_ENTER":
             return {
                 ...state,
-                mouse: { x: payload.offsetX, y: payload.offsetY, mode: "ENTER" },
+                mouse: { x: action.payload.offsetX, y: action.payload.offsetY, mode: "ENTER" },
             };
 
         case "EVENT.MOUSE_EXIT":
@@ -54,25 +61,25 @@ const eventReducer = (state = defaultState, action) => {
         case "EVENT.ADD_DROPLINE":
             return {
                 ...state,
-                droplines: [...state.droplines, payload],
+                droplines: [...state.droplines, action.payload],
             };
 
         case "EVENT.REMOVE_DROPLINE":
             return {
                 ...state,
-                droplines: state.droplines.filter((d) => !isEqual(d, payload)),
+                droplines: state.droplines.filter((d) => !isEqual(d, action.payload)),
             };
 
         case "EVENT.ADD_MARKER":
             return {
                 ...state,
-                markers: [...state.markers, payload],
+                markers: [...state.markers, action.payload],
             };
 
         case "EVENT.REMOVE_MARKER":
             return {
                 ...state,
-                markers: state.markers.filter((m) => !isEqual(m, payload)),
+                markers: state.markers.filter((m) => !isEqual(m, action.payload)),
             };
 
         case "EVENT.SET_TOOLTIP_COLOR":
@@ -80,13 +87,13 @@ const eventReducer = (state = defaultState, action) => {
                 ...state,
                 tooltip: {
                     ...state.tooltip,
-                    color: payload,
+                    color: action.payload,
                 },
             };
 
         case "EVENT.ADD_TOOLTIP_ITEM":
             // Don't add duplicate items (e.g. the x for multiple series)
-            if (state?.tooltip?.items?.map((item) => item.name).includes(payload.name)) {
+            if (state?.tooltip?.items?.map((item) => item.name).includes(action.payload.name)) {
                 return state;
             }
 
@@ -94,7 +101,7 @@ const eventReducer = (state = defaultState, action) => {
                 ...state,
                 tooltip: {
                     ...state.tooltip,
-                    items: [...state.tooltip.items, payload],
+                    items: [...state.tooltip.items, action.payload],
                 },
             };
 
@@ -103,7 +110,7 @@ const eventReducer = (state = defaultState, action) => {
                 ...state,
                 tooltip: {
                     ...state.tooltip,
-                    items: state.tooltip.items.filter((t) => !isEqual(t, payload)),
+                    items: state.tooltip.items.filter((t) => !isEqual(t, action.payload)),
                 },
             };
 
@@ -112,7 +119,7 @@ const eventReducer = (state = defaultState, action) => {
                 ...state,
                 tooltip: {
                     ...state.tooltip,
-                    position: payload,
+                    position: action.payload,
                 },
             };
 

@@ -1,9 +1,11 @@
+import type { IMarker, IDropline } from "@d3-chart/types";
+
 import { eventActions } from "../eventActions";
 
 describe("eventActions", () => {
     const mouseEventArgs = {};
-    const dropline = { isHorizontal: true, color: "red", x1: 0, x2: 1, y1: 2, y2: 3 };
-    const marker = { fill: "red", r1: 5, r2: 10, cx: 3, cy: 4 };
+    const dropline = { isHorizontal: true, color: "red", x1: 0, x2: 1, y1: 2, y2: 3 } as IDropline;
+    const marker = { fill: "red", r1: 5, r2: 10, cx: 3, cy: 4 } as IMarker;
 
     it("mouseMove returns the correct action", () => {
         expect(eventActions.mouseMove(mouseEventArgs)).toEqual({

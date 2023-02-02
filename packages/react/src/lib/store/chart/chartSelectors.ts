@@ -1,34 +1,54 @@
+import type { IData, IMargin, ITheme, IScale } from "@d3-chart/types";
 import { createSelector } from "reselect";
 
+import type { IState, IChartState, IChartStateDimensions, IChartStateScales } from "../types";
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
 
 const EMPTY_OBJECT = {};
 const EMPTY_ARRAY = [];
 const EMPTY_MARGIN = { left: 0, right: 0, top: 0, bottom: 0 };
 
-const chartSelectors = {
+interface ChartSelectors {
+    store: (state: IState) => IChartState;
+    data: (state: IState) => IData;
+    animationDuration: (state: IState) => number;
+    scales: {
+        store: (state: IState) => IChartStateScales;
+        getScale: (state: IState, field: string) => IScale | undefined;
+        getAxisScale: (state: IState, field: string) => IScale | undefined;
+    };
+    dimensions: {
+        store: (state: IState) => IChartStateDimensions;
+        width: (state: IState) => number;
+        height: (state: IState) => number;
+        margin: (state: IState) => IMargin;
+    };
+    theme: (state: IState) => ITheme;
+}
+
+const _chartSelectors = {
     /**
      * Returns the store for the chart part of state
-     * @param  {Object} state The application state
-     * @return {Object}       The state
+     * @param  state The application state
+     * @return       The state
      */
-    store: (state) => state.chart || EMPTY_OBJECT,
+    store: (state: IState): IChartState => state.chart,
 
     /**
      * Returns the data for the chart
-     * @param  {Object} state The application state
-     * @return {Object}       The chart data
+     * @param  state The application state
+     * @return       The chart data
      */
-    data: (state) => chartSelectors.store(state).data || EMPTY_ARRAY,
+    data: (state: IState): IData => _chartSelectors.store(state).data || EMPTY_ARRAY,
 
     /**
      * Returns the duration to run animations for
-     * @param  {Object} state The application state
-     * @return {Number}       The duration in milliseconds
+     * @param  state The application state
+     * @return       The duration in milliseconds
      */
-    animationDuration: (state) => {
-        const animationDuration = chartSelectors.store(state).animationDuration;
-        const data = chartSelectors.data(state);
+    animationDuration: (state: IState): number => {
+        const animationDuration = _chartSelectors.store(state).animationDuration;
+        const data = _chartSelectors.data(state);
 
         // If we have a large dataset, then we're going to default
         // automatically to no animations
@@ -44,16 +64,16 @@ const chartSelectors = {
      * @type {Object}
      */
     scales: {
-        store: (state) => chartSelectors.store(state).scales || EMPTY_OBJECT,
+        store: (state: IState): IChartStateScales => _chartSelectors.store(state).scales,
 
         /**
          * Return a scale based on the field
-         * @param  {Object} state           The application state
-         * @param  {String} field           The field to get the scale of
-         * @return {Function}               The d3.Scale function
+         * @param  state           The application state
+         * @param  field           The field to get the scale of
+         * @return                 The d3.Scale function
          */
-        getScale: (state, field) => {
-            const store = chartSelectors.store(state);
+        getScale: (state: IState, field: string): IScale | undefined => {
+            const store = _chartSelectors.store(state);
 
             // Manually defined scales take precent
             const scales = store.scales || {};
@@ -72,12 +92,12 @@ const chartSelectors = {
 
         /**
          * Return a scale based on the field, preferring an Axis scale
-         * @param  {Object} state           The application state
-         * @param  {String} field           The field to get the scale of
-         * @return {Function}               The d3.Scale function
+         * @param  state           The application state
+         * @param  field           The field to get the scale of
+         * @return                 The d3.Scale function
          */
-        getAxisScale: (state, field) => {
-            const store = chartSelectors.store(state);
+        getAxisScale: (state: IState, field: string): IScale | undefined => {
+            const store = _chartSelectors.store(state);
 
             // Axis scale takes precedent
             const axisScales = store.axisScales || {};
@@ -99,38 +119,51 @@ const chartSelectors = {
      * Returns dimension based information for the chart
      */
     dimensions: {
-        store: (state) => chartSelectors.store(state).dimensions || EMPTY_OBJECT,
+        store: (state: IState): IChartStateDimensions => _chartSelectors.store(state).dimensions,
 
         /**
          * Returns the width of the chart
-         * @param  {Object} state The application state
-         * @return {Number}       The width
+         * @param  state The application state
+         * @return       The width
          */
-        width: (state) => chartSelectors.dimensions.store(state).width || 0,
+        width: (state: IState): number => _chartSelectors.dimensions.store(state).width || 0,
 
         /**
          * Returns the height of the chart
-         * @param  {Object} state The application state
-         * @return {Number}       The height
+         * @param  state The application state
+         * @return       The height
          */
-        height: (state) => chartSelectors.dimensions.store(state).height || 0,
+        height: (state: IState): number => _chartSelectors.dimensions.store(state).height || 0,
+
+        /**
+         * Returns the margin of the chart
+         * @param  state The application state
+         * @return       The margin
+         */
+        margin: (state: IState): IMargin => _chartSelectors.dimensions.store(state).margin || EMPTY_MARGIN,
     },
 
     /**
      * Returns the theme for the chart
-     * @param {Object} state The application state
-     * @return {Object} The theme object
+     * @param  state The application state
+     * @return The theme object
      */
-    theme: (state) => chartSelectors.store(state).theme,
+    theme: (state: IState): ITheme => _chartSelectors.store(state).theme,
 };
 
 /**
  * Returns the margin of the chart
- * @param  {Object} state The application state
- * @return {Object}       The margin
+ * @param  state     The application state
+ * @return           The margin
  */
-chartSelectors.dimensions.margin = createSelector(chartSelectors.dimensions.store, (dimensions) => {
+const margin = createSelector(_chartSelectors.dimensions.store, (dimensions) => {
     return dimensions?.margin || EMPTY_MARGIN;
 });
 
-export { chartSelectors };
+export const chartSelectors: ChartSelectors = {
+    ..._chartSelectors,
+    dimensions: {
+        ..._chartSelectors.dimensions,
+        margin,
+    },
+};
