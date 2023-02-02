@@ -105,7 +105,8 @@ export function StackedBarBase({
             .append("rect")
             .attr("class", "bar")
             .attr("x", () => xScale.range()[0])
-            .attr("y", (d) => yScale(d.data[y])) // @ts-ignore: TODO: How do we check for bandwidth?
+            .attr("y", (d) => yScale(d.data[y]))
+            // @ts-ignore: TODO: How do we check for bandwidth?
             .attr("height", yScale.bandwidth())
             .attr("width", 0)
             .style("stroke", strokeColor.toString())
@@ -117,7 +118,7 @@ export function StackedBarBase({
 
         const update = join
             .merge(enter)
-            .on("mouseover", function (event, d) {
+            .on("mouseover", function (event: MouseEvent, d) {
                 // istanbul ignore next
                 if (!interactive) return;
 
@@ -130,7 +131,7 @@ export function StackedBarBase({
                     xs,
                 });
             })
-            .on("mouseout", function (event, d) {
+            .on("mouseout", function (event: MouseEvent, d) {
                 // istanbul ignore next
                 if (!interactive) return;
 
@@ -138,7 +139,7 @@ export function StackedBarBase({
                 setFocused(null);
                 setTooltip(null);
             })
-            .on("click", function (event, d: { data: IDatum }) {
+            .on("click", function (event: MouseEvent, d: { data: IDatum }) {
                 // istanbul ignore next
                 if (!interactive) return;
 
@@ -150,7 +151,8 @@ export function StackedBarBase({
                 const key = getParentKey(elements[i]);
                 return colorScale(key);
             })
-            .attr("y", (d) => yScale(d.data[y])) // @ts-ignore: TODO: How do we check for bandwidth?
+            .attr("y", (d) => yScale(d.data[y]))
+            // @ts-ignore: TODO: How do we check for bandwidth?
             .attr("height", () => yScale.bandwidth())
             // @ts-expect-error: Looks like the type defs are wrong missing named transitions
             .transition("width")

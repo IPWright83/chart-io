@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors } from "../../../../store";
+import { chartSelectors, IState } from "../../../../store";
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
 import { GroupedBarBase, IGroupedBarBaseProps } from "./GroupedBarBase";
@@ -23,8 +23,8 @@ const GroupedSVGBar = withSVG(withXYPlot<IGroupedBarProps>(GroupedBarBase), "plo
  * @param  props       The set of React properties
  * @return             The Bar plot component
  */
-export function GroupedBar({ useCanvas = false, colors, ...props }) {
-    const theme = useSelector((s) => chartSelectors.theme(s));
+export function GroupedBar({ useCanvas = false, colors, ...props }: IGroupedBarProps) {
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const palette = colors || theme.series.colors;
 
     if (useCanvas) {

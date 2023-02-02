@@ -80,15 +80,15 @@ export function GroupedBarBase({
         if (ensureBandScale(yScale, "GroupedBar") === false) return null;
 
         // Create a scale for each series to fit along the x-axis and the series colors
-        const colorScale = d3.scaleOrdinal().domain(xs).range(colors); // @ts-ignore: TODO: How do we check for bandwidth?
+        const colorScale = d3.scaleOrdinal().domain(xs).range(colors);
+        // @ts-ignore: TODO: How do we check for bandwidth?
         const y1Scale = d3.scaleBand().domain(xs).rangeRound([0, yScale.bandwidth()]).padding(0.05);
 
-        const groupJoin = d3.select(layer.current).selectAll("g").data(data) as d3.Selection<
-            SVGRectElement,
-            IDatum,
-            Element,
-            unknown
-        >;
+        // prettier-ignore
+        const groupJoin = d3
+            .select(layer.current)
+            .selectAll("g")
+            .data(data) as d3.Selection<SVGRectElement, IDatum, Element, unknown>;
 
         // Clean up old groups
         groupJoin.exit().remove();
@@ -150,7 +150,8 @@ export function GroupedBarBase({
             // @ts-expect-error: Looks like the type defs are wrong missing named transitions
             .transition("width")
             .duration(animationDuration / 2)
-            .delay(animationDuration / 2) // @ts-ignore: TODO: Need to work out casting
+            .delay(animationDuration / 2)
+            // @ts-ignore: TODO: Need to work out casting
             .attr("width", (d) => xScale(d.value) - xScale.range()[0])
             .attr("x", () => xScale.range()[0]);
 

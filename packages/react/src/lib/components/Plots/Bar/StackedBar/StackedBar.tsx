@@ -23,7 +23,7 @@ const StackedSVGBar = withSVG(withXYPlot<IStackedBarProps>(StackedBarBase), "plo
  * @param  props       The set of React properties
  * @return             The Bar plot component
  */
-export function StackedBar({ useCanvas = false, colors, ...props }) {
+export function StackedBar({ useCanvas = false, colors, ...props }: IStackedBarProps) {
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const palette = colors || theme.series.colors;
 

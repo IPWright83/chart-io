@@ -85,9 +85,11 @@ export function BarBase({
             .enter()
             .append("rect")
             .attr("class", "bar")
-            .attr("x", () => xScale.range()[0]) // @ts-ignore: TODO: Need to work out casting
+            .attr("x", () => xScale.range()[0])
+            // @ts-ignore: TODO: Need to work out casting
             .attr("y", (d) => yScale(d[y]))
-            .attr("width", () => 0) // @ts-ignore: TODO: How do we check for bandwidth?
+            .attr("width", () => 0)
+            // @ts-ignore: TODO: How do we check for bandwidth?
             .attr("height", () => yScale.bandwidth())
             .style("stroke", strokeColor.toString())
             .style("fill", () => fillColor.toString());
@@ -118,15 +120,18 @@ export function BarBase({
                 onClick(datum, this, event);
             })
             .transition("position")
-            .duration(animationDuration / 2) // @ts-ignore: TODO: Need to work out casting
-            .attr("y", (d) => yScale(d[y])) // @ts-ignore: TODO: How do we check for bandwidth?
+            .duration(animationDuration / 2)
+            // @ts-ignore: TODO: Need to work out casting
+            .attr("y", (d) => yScale(d[y]))
+            // @ts-ignore: TODO: How do we check for bandwidth?
             .attr("height", () => yScale.bandwidth())
             .style("fill", () => fillColor.toString())
             // @ts-expect-error: Looks like the type defs are wrong missing named transitions
             .transition("width")
             .duration(animationDuration / 2)
             .delay(animationDuration / 2)
-            .attr("x", () => xScale.range()[0]) // @ts-ignore: TODO: Need to work out casting
+            .attr("x", () => xScale.range()[0])
+            // @ts-ignore: TODO: Need to work out casting
             .attr("width", (d) => xScale(d[x]) - xScale.range()[0]);
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);

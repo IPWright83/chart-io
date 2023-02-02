@@ -21,7 +21,7 @@ const SVGBar = withSVG(withXYPlot<IBarProps>(BarBase), "plot bar");
  * @param  props       The set of React properties
  * @return             The Bar plot component
  */
-export function Bar({ useCanvas = false, ...props }) {
+export function Bar({ useCanvas = false, ...props }: IBarProps) {
     if (useCanvas) {
         return <CanvasBar {...props} />;
     }

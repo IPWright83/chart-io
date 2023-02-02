@@ -1,4 +1,4 @@
 export * from "./Bar";
-export * from "./StackedBars";
-export * from "./GroupedBars";
+export * from "./StackedBar";
+export * from "./GroupedBar";
 export * from "./Bars";
