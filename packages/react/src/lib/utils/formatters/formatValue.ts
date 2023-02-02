@@ -1,13 +1,14 @@
+import { IValue } from "@d3-chart/types";
 import { formatNumber } from "./formatNumber";
 import { formatDate } from "./formatDate";
 
 /**
  * Formats a value for a tooltip
- * @param  {String}             name      The name of the field being formatted
- * @param  {String|Number|Date} value     The value to format
- * @return {String}                       The value formatted as a string
+ * @param  name      The name of the field being formatted
+ * @param  value     The value to format
+ * @return           The value formatted as a string
  */
-export const formatValue = (name, value) => {
+export function formatValue(name: string, value: IValue | null | undefined): string {
     if (value === null || value === undefined) {
         return "-";
     }
@@ -21,4 +22,4 @@ export const formatValue = (name, value) => {
     }
 
     return `${value}`;
-};
+}

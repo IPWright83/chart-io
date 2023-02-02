@@ -1,9 +1,11 @@
+import type { Store, AnyAction } from "redux";
+
 /**
  * Links 2 or more Redux stores together, piping events between them
- * @param  {Array} stores          The set of stores to link
- * @param  {Regex} actionFilter    A regex to match against redux actions
+ * @param  stores          The set of stores to link
+ * @param  actionFilter    A regex to match against redux actions
  */
-export const linkStores = (stores = [], actionFilter = /EVENT\.MOUSE*/) => {
+export function linkStores(stores: Store<any, AnyAction>[] = [], actionFilter: RegExp = /EVENT\.MOUSE*/) {
     // Grab the dispatch function for each store
     const dispatches = [];
 
@@ -56,4 +58,4 @@ export const linkStores = (stores = [], actionFilter = /EVENT\.MOUSE*/) => {
     };
 
     stores.forEach((s) => setupDispatch(s));
-};
+}

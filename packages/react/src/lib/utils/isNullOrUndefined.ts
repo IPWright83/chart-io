@@ -1,8 +1,8 @@
 /**
  * Determine if a value is null or undefined
- * @param  {Any} value  The value to check
- * @return {Boolean}    True if the value is null or undefined, false otherwise
+ * @param  value  The value to check
+ * @return        True if the value is null or undefined, false otherwise
  */
-const isNullOrUndefined = (value) => value === null || value === undefined;
-
-export { isNullOrUndefined };
+export function isNullOrUndefined(value: any): boolean {
+    return value === null || value === undefined;
+}

@@ -12,6 +12,7 @@ describe("/utils/checks", () => {
         it("should return false if not a d3.scaleBand", () => {
             jest.spyOn(console, "error").mockImplementation(() => {});
 
+            // @ts-expect-error: Testing runtime validation
             expect(ensureBandScale(d3.scaleLinear(), "unit_test")).toBe(false);
             expect(console.error).toHaveBeenCalledWith(
                 `E001 - Incompatible scale for a <unit_test />. Are you missing the 'scaleType="band"' in your <Axis /> or <AutoScale /> component?`
@@ -34,9 +35,9 @@ describe("/utils/checks", () => {
             ];
             const fields = ["x", "y"];
 
-            expect(ensureNoScaleOverflow(scale, data, fields)).toBe(false);
+            expect(ensureNoScaleOverflow(scale, data, fields, "unit_test")).toBe(false);
             expect(console.warn).toHaveBeenCalledWith(
-                "W001 - The scale appears too small for the dataset. Are you missing the `aggregate={true}` in your <Axis /> or <AutoScale /> component?",
+                "W001 - The scale for unit_test appears too small for the dataset. Are you missing the `aggregate={true}` in your <Axis /> or <AutoScale /> component?",
                 ["x", "y"]
             );
         });
@@ -49,7 +50,7 @@ describe("/utils/checks", () => {
             ];
             const fields = ["x", "y"];
 
-            expect(ensureNoScaleOverflow(scale, data, fields)).toBe(true);
+            expect(ensureNoScaleOverflow(scale, data, fields, "unit_test")).toBe(true);
         });
     });
 

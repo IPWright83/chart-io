@@ -1,7 +1,7 @@
 import { interpolatePath } from "d3-interpolate-path";
 
 // https://codesandbox.io/s/d3-interpolate-path-multi-example-8l32q?file=/src/index.js:49-103
-const interpolateMultiPath = (a, b) => {
+export function interpolateMultiPath(a: string, b: string) {
     // Split into parts by M
     const aSubpaths = a.split(/(?=M)/g);
     const bSubpaths = b.split(/(?=M)/g);
@@ -20,6 +20,4 @@ const interpolateMultiPath = (a, b) => {
 
         return parts.join(" ");
     };
-};
-
-export { interpolateMultiPath };
+}

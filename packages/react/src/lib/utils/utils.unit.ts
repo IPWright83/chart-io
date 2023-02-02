@@ -1,3 +1,5 @@
+import type { Store, AnyAction } from "redux";
+
 import { areValuesUnique } from "./areValuesUnique";
 import { isNullOrUndefined } from "./isNullOrUndefined";
 import { getXYFromTransform } from "./getXYFromTransform";
@@ -66,9 +68,9 @@ describe("utils", () => {
             const dispatch2 = jest.fn();
             const dispatch3 = jest.fn();
 
-            const store1 = { dispatch: dispatch1 };
-            const store2 = { dispatch: dispatch2 };
-            const store3 = { dispatch: dispatch3 };
+            const store1 = { dispatch: dispatch1 } as unknown as Store<any, AnyAction>;
+            const store2 = { dispatch: dispatch2 } as unknown as Store<any, AnyAction>;
+            const store3 = { dispatch: dispatch3 } as unknown as Store<any, AnyAction>;
 
             linkStores([store1, store2, store3]);
 
@@ -85,9 +87,9 @@ describe("utils", () => {
             const dispatch2 = jest.fn();
             const dispatch3 = jest.fn();
 
-            const store1 = { dispatch: dispatch1 };
-            const store2 = { dispatch: dispatch2 };
-            const store3 = { dispatch: dispatch3 };
+            const store1 = { dispatch: dispatch1 } as unknown as Store<any, AnyAction>;
+            const store2 = { dispatch: dispatch2 } as unknown as Store<any, AnyAction>;
+            const store3 = { dispatch: dispatch3 } as unknown as Store<any, AnyAction>;
 
             linkStores([store1, store2, store3]);
 
@@ -104,11 +106,11 @@ describe("utils", () => {
             const dispatch2 = jest.fn();
             const dispatch3 = jest.fn();
 
-            const store1 = { dispatch: dispatch1 };
-            const store2 = { dispatch: dispatch2 };
-            const store3 = { dispatch: dispatch3 };
+            const store1 = { dispatch: dispatch1 } as unknown as Store<any, AnyAction>;
+            const store2 = { dispatch: dispatch2 } as unknown as Store<any, AnyAction>;
+            const store3 = { dispatch: dispatch3 } as unknown as Store<any, AnyAction>;
 
-            linkStores([store1, store2, store3], "FOO_EVENTS");
+            linkStores([store1, store2, store3], /FOO_EVENTS/);
 
             const action = { type: "EVENT.MOUSE_MOVE" };
             store1.dispatch(action);
@@ -123,9 +125,9 @@ describe("utils", () => {
             const dispatch2 = jest.fn();
             const dispatch3 = jest.fn();
 
-            const store1 = { dispatch: dispatch1 };
-            const store2 = { dispatch: dispatch2 };
-            const store3 = { dispatch: dispatch3 };
+            const store1 = { dispatch: dispatch1 } as unknown as Store<any, AnyAction>;
+            const store2 = { dispatch: dispatch2 } as unknown as Store<any, AnyAction>;
+            const store3 = { dispatch: dispatch3 } as unknown as Store<any, AnyAction>;
 
             linkStores([store1, store2, store3]);
 

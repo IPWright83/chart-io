@@ -2,10 +2,10 @@ import * as d3 from "d3";
 
 /**
  * Formats a Date, defaulting the resolution to the first non-zero part
- * @param  {Date} value     The date to format
- * @return {String}         The date formatted as a string
+ * @param  value     The date to format
+ * @return           The date formatted as a string
  */
-export const formatDate = (value) => {
+export function formatDate(value: Date): string {
     const isMilliSecondsZero = value.getMilliseconds() === 0;
     const isSecondsZero = value.getSeconds() === 0;
     const isMinutesZero = value.getMinutes() === 0;
@@ -34,4 +34,4 @@ export const formatDate = (value) => {
     }
 
     return d3.timeFormat("%Y")(value);
-};
+}
