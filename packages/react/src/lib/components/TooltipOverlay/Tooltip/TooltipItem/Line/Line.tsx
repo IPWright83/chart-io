@@ -1,7 +1,14 @@
+import type { IColor } from "@d3-chart/types";
 import React from "react";
-import PropTypes from "prop-types";
 
-const Line = ({ fill }) => {
+export interface ILineProps {
+    /**
+     * The fill color of the Line
+     */
+    fill: IColor;
+}
+
+export function Line({ fill }: ILineProps) {
     const style = {
         background: fill,
         width: 10,
@@ -12,14 +19,4 @@ const Line = ({ fill }) => {
     };
 
     return <div className="chart-it indicator-line" style={style} />;
-};
-
-Line.propTypes = {
-    /**
-     * The fill color of the Line
-     * @type {String}
-     */
-    fill: PropTypes.string.isRequired,
-};
-
-export { Line };
+}

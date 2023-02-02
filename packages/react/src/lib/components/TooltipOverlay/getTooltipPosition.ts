@@ -1,12 +1,14 @@
+import type { ICoordinate } from "@d3-chart/types";
+
 /**
  * Returns a position for the tooltip from the moust event
- * @param  {Object} mouseEvent  The mouse event that triggered the tooltip
- * @param  {Number} width       The width of the chart
- * @param  {Number} height      The height of the chart
- * @param  {Number} offset      The pixel offset that the tooltip should be from the cursor
- * @return {Object}             The tooltip position style object
+ * @param  mouseEvent  The mouse event that triggered the tooltip
+ * @param  width       The width of the chart
+ * @param  height      The height of the chart
+ * @param  offset      The pixel offset that the tooltip should be from the cursor
+ * @return             The tooltip position style object
  */
-export const getTooltipPosition = (mouseEvent, width, height, offset) => {
+export const getTooltipPosition = (mouseEvent: ICoordinate, width: number, height: number, offset: number) => {
     if (!mouseEvent) {
         return { x: 0, y: 0 };
     }

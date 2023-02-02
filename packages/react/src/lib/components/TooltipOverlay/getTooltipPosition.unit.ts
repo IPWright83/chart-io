@@ -2,6 +2,7 @@ import { getTooltipPosition } from "./getTooltipPosition";
 
 describe("getTooltipPosition", () => {
     it("returns empty with no mouse event", () => {
+        // @ts-expect-error: Checking runtime protection
         expect(getTooltipPosition(null)).toEqual({ x: 0, y: 0 });
     });
 

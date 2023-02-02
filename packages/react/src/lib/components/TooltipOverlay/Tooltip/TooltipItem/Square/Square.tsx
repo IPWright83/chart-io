@@ -1,7 +1,14 @@
+import type { IColor } from "@d3-chart/types";
 import React from "react";
-import PropTypes from "prop-types";
 
-const Square = ({ fill }) => {
+export interface ISquareProps {
+    /**
+     * The fill color of the Square
+     */
+    fill: IColor;
+}
+
+export function Square({ fill }: ISquareProps) {
     const style = {
         background: fill,
         height: 10,
@@ -12,14 +19,4 @@ const Square = ({ fill }) => {
     };
 
     return <div className="chart-it indicator-square" style={style} />;
-};
-
-Square.propTypes = {
-    /**
-     * The fill color of the Square
-     * @type {String}
-     */
-    fill: PropTypes.string.isRequired,
-};
-
-export { Square };
+}

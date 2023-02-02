@@ -4,17 +4,13 @@ import { Line } from "./Line";
 
 /**
  * Retrieve the appropriate shape for the tooltip from the seriesType
- * @param {String} seriesType   The type of the series
- * @returns {ReactDOMComponent}  The appropriate shape component to display within the tooltip
+ * @param  icon   The type of icon requested
+ * @returns       The appropriate shape component to display within the tooltip
  **/
-export const getShape = (seriesType) => {
-    switch (seriesType) {
-        case "scatter":
+export function getShape(icon?: "circle" | "line" | "square" | "none") {
+    switch (icon) {
         case "circle":
             return Circle;
-        case "bar":
-        case "column":
-        case "area":
         case "square":
             return Square;
         case "line":
@@ -22,4 +18,4 @@ export const getShape = (seriesType) => {
         default:
             return null;
     }
-};
+}

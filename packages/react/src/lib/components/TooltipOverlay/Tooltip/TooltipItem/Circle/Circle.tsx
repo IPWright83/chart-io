@@ -1,7 +1,14 @@
+import type { IColor } from "@d3-chart/types";
 import React from "react";
-import PropTypes from "prop-types";
 
-const Circle = ({ fill }) => {
+export interface ICircleProps {
+    /**
+     * The fill color of the Circle
+     */
+    fill: IColor;
+}
+
+export function Circle({ fill }: ICircleProps) {
     const style = {
         background: fill,
         width: 10,
@@ -13,14 +20,4 @@ const Circle = ({ fill }) => {
     };
 
     return <div className="chart-it indicator-circle" style={style} />;
-};
-
-Circle.propTypes = {
-    /**
-     * The fill color of the Circle
-     * @type {String}
-     */
-    fill: PropTypes.string.isRequired,
-};
-
-export { Circle };
+}

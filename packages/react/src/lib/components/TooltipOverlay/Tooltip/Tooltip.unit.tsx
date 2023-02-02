@@ -1,3 +1,4 @@
+import type { IColor } from "@d3-chart/types";
 import React from "react";
 import { render } from "@testing-library/react";
 
@@ -14,9 +15,9 @@ describe("Tooltip", () => {
         };
 
         const items = [
-            { name: "a", value: 3, seriesType: "scatter", fill: "blue" },
-            { name: "b", value: 8, seriesType: "column", fill: "orange" },
-            { name: "c", value: 15, seriesType: "line", fill: "green" },
+            { name: "a", value: 3, seriesType: "scatter", fill: "blue" as IColor },
+            { name: "b", value: 8, seriesType: "column", fill: "orange" as IColor },
+            { name: "c", value: 15, seriesType: "line", fill: "green" as IColor },
         ];
 
         const { asFragment } = render(<Tooltip borderColor="red" items={items} positionStyle={positionStyle} />);

@@ -5,7 +5,7 @@ import { TooltipItem } from ".";
 
 describe("TooltipItem", () => {
     it("should render correctly", async () => {
-        const { asFragment } = render(<TooltipItem name="Series1" value={5} seriesType="scatter" fill="red" />);
+        const { asFragment } = render(<TooltipItem name="Series1" value={5} icon="circle" fill="red" />);
 
         expect(asFragment()).toMatchSnapshot();
     });

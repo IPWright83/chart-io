@@ -1,13 +1,35 @@
+import type { IFormatter } from "@d3-chart/types";
+import type { ITooltipItem } from "@d3-chart/types";
 import React from "react";
-import PropTypes from "prop-types";
 
 import { TooltipItem } from "./TooltipItem";
 
+export interface ITooltipProps {
+    /**
+     * An optional color for the border of the tooltip - usually based on the series color
+     */
+    borderColor?: string;
+    /**
+     * A style object controling the position of the toolip
+     * @type {Object}
+     */
+    positionStyle?: Record<string, any>;
+    /**
+     * An array of tooltip items to display
+     * @type {Array<TooltipItem>}
+     */
+    items: Array<ITooltipItem>;
+    /**
+     * A set of custom formatters for the Tooltip
+     */
+    formatters?: Record<string, IFormatter>;
+}
+
 /**
  * Represents a Tooltip
- * @return {ReactElement}  The Tooltip component
+ * @return The Tooltip component
  */
-const Tooltip = ({ borderColor, items, positionStyle, formatters = {} }) => {
+export function Tooltip({ borderColor, items, positionStyle, formatters = {} }: ITooltipProps) {
     const style = {
         border: borderColor ? `thin solid ${borderColor}` : "thin solid #ccc",
         display: "inline-block",
@@ -33,43 +55,18 @@ const Tooltip = ({ borderColor, items, positionStyle, formatters = {} }) => {
                  *     formatFunc: (name: string, value: any) => string;
                  * }
                  */
-                const format = formatters[item.name] || {};
+                const formatter = formatters[item.name] || ({} as IFormatter);
 
                 return (
                     <TooltipItem
                         key={`${item.name}`}
-                        prefix={format.prefix}
-                        suffix={format.suffix}
-                        formatFunc={format.formatFunc}
+                        prefix={formatter.prefix}
+                        suffix={formatter.suffix}
+                        format={formatter.format}
                         {...item}
                     />
                 );
             })}
         </div>
     );
-};
-
-Tooltip.propTypes = {
-    /**
-     * An optional color for the border of the tooltip - usually based on the series color
-     * @type {String}
-     */
-    borderColor: PropTypes.string,
-    /**
-     * A style object controling the position of the toolip
-     * @type {Object}
-     */
-    positionStyle: PropTypes.object,
-    /**
-     * An array of tooltip items to display
-     * @type {Array<TooltipItem>}
-     */
-    items: PropTypes.arrayOf(PropTypes.object),
-    /**
-     * An object mapping series keys to format functions
-     * @type {Object}
-     */
-    formatters: PropTypes.object,
-};
-
-export { Tooltip };
+}
