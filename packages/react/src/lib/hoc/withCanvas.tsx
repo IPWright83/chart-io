@@ -5,11 +5,11 @@ import { chartSelectors } from "../store";
 
 /**
  * Wraps a D3 layer to make it work as a Canvas component
- * @param  {ReactDOMComponent} WrappedComponent     The D3 layer to render to the Canvas
- * @param  {String}            className            An optional class name to add to the DOM
- * @return {ReactDOMComponent}                      The wrapped layer
+ * @param  WrappedComponent     The D3 layer to render to the Canvas
+ * @param  className            An optional class name to add to the DOM
+ * @return                      The wrapped layer
  */
-const withCanvas = (WrappedComponent, className) => {
+const withCanvas = <P extends object>(WrappedComponent: React.ComponentType<P>, className: string) => {
     if (!className) {
         console.warn("W003 - className is required when using the withCanvas higher order component");
     }
@@ -49,10 +49,10 @@ const withCanvas = (WrappedComponent, className) => {
 
 const styles = {
     canvas: {
-        position: "absolute",
+        position: "absolute" as const,
     },
     foreignObject: {
-        pointerEvents: "none",
+        pointerEvents: "none" as const,
     },
 };
 

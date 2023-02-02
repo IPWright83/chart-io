@@ -1,13 +1,19 @@
+import type { IColor } from "@d3-chart/types";
+
 import { renderCircle } from "./renderCircle";
 import { renderRect } from "./renderRect";
 
 /**
  * Renders the canvas elements based on the join
- * @param  {Object} context             The Canvas context object to render to
- * @param  {Object} join                The D3 data join to render
- * @param  {Object} colors              A list of colors
+ * @param  context             The Canvas context object to render to
+ * @param  join                The D3 data join to render
+ * @param  colors              A list of colors
  */
-const renderElements = (context, join, colors) => {
+export function renderElements(
+    context: CanvasRenderingContext2D,
+    join: d3.Transition<Element, unknown, any, unknown>,
+    colors?: IColor[]
+) {
     if (!join) {
         return;
     }
@@ -34,6 +40,4 @@ const renderElements = (context, join, colors) => {
                 throw new Error(`Unsupported node type: ${node.nodeName}`);
         }
     });
-};
-
-export { renderElements };
+}

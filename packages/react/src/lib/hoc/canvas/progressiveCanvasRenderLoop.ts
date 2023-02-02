@@ -4,13 +4,19 @@ import { renderElements } from "./renderElements";
 
 /**
  * Start a render loop for drawing on the canvas during some animations
- * @param  {HTMLElement} canvas    The canvas element
- * @param  {Number} width          The width of the canvas
- * @param  {Number} height         The height of the canvas
- * @param  {Object} exit           The D3 data update join
- * @param  {Object} update         The D3 data exit join
+ * @param  canvas         The canvas element
+ * @param  width          The width of the canvas
+ * @param  height         The height of the canvas
+ * @param  exit           The D3 data update join
+ * @param  update         The D3 data exit join
  */
-const progressiveCanvasRenderLoop = async (canvas, width, height, exit, update) => {
+export async function progressiveCanvasRenderLoop(
+    canvas: HTMLCanvasElement | null | undefined,
+    width: number,
+    height: number,
+    exit: d3.Transition<Element, unknown, any, unknown>,
+    update: d3.Transition<Element, unknown, any, unknown>
+) {
     // If the canvas isn't ready don't do anything
     if (!canvas) {
         return;
@@ -40,10 +46,11 @@ const progressiveCanvasRenderLoop = async (canvas, width, height, exit, update) 
 
         // Grab the next batch of nodes and render them
         const batch = nodes.splice(0, 1000);
+
+        // @ts-ignore: Extending the interface on purpose
         batch.each = batch.forEach;
 
+        // @ts-ignore: Not really sure what this means
         renderElements(context, batch);
     });
-};
-
-export { progressiveCanvasRenderLoop };
+}

@@ -1,12 +1,13 @@
+import type { IColor } from "@d3-chart/types";
 import * as d3 from "d3";
 
 /**
  * Renders a rectangle to the canvas
- * @param  {Object} context             The Canvas context object to render to
- * @param  {Object} node                The virtual DOM node that represents this element
- * @param  {String} overrideColor       A custom color to override the node color which is used for the virtual canvas
+ * @param  context             The Canvas context object to render to
+ * @param  node                The virtual DOM node that represents this element
+ * @param  overrideColor       A custom color to override the node color which is used for the virtual canvas
  */
-const renderRect = (context, node, overrideColor) => {
+export function renderRect(context: CanvasRenderingContext2D, node: Element, overrideColor?: IColor) {
     const selection = d3.select(node);
     const x = Number(selection.attr("x"));
     const y = Number(selection.attr("y"));
@@ -38,6 +39,4 @@ const renderRect = (context, node, overrideColor) => {
         context.lineWidth = strokeWidth;
         context.stroke();
     }
-};
-
-export { renderRect };
+}

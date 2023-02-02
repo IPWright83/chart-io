@@ -1,15 +1,18 @@
+import type { IDatum } from "@d3-chart/types";
 import { throttle } from "lodash";
-import { eventActions } from "../../../store";
 
+import type { IColorToDataMap } from "./types";
+
+import { eventActions, IDispatch } from "../../../store";
 import { MOUSE_MOVE_THROTTLE } from "../../../constants";
 
 /**
  * Fire the Click event if it exists on the node
- * @param  {Object} datum          The datum
- * @param  {HTMLElement} node      The node that triggered the event
- * @param  {Object} e              The MouseEventArgs
+ * @param  datum          The datum
+ * @param  node           The node that triggered the event
+ * @param  e              The MouseEventArgs
  */
-const triggerOnClick = (datum, node, e) => {
+const triggerOnClick = (datum: IDatum, node: Element, e: MouseEvent) => {
     if (!node || !node.__on) {
         // istanbul ignore next
         return;
@@ -23,11 +26,11 @@ const triggerOnClick = (datum, node, e) => {
 
 /**
  * Fire the MouseOver event if it exists on the node
- * @param  {Object} datum          The datum
- * @param  {HTMLElement} node      The node that triggered the event
- * @param  {Object} e              The MouseEventArgs
+ * @param  datum          The datum
+ * @param  node           The node that triggered the event
+ * @param  e              The MouseEventArgs
  */
-const triggerOnMouseOver = (datum, node, e) => {
+const triggerOnMouseOver = (datum: IDatum, node: Element, e: MouseEvent) => {
     if (!node || !node.__on) {
         // istanbul ignore next
         return;
@@ -41,11 +44,11 @@ const triggerOnMouseOver = (datum, node, e) => {
 
 /**
  * Fire the MouseOut event if it exists on the node
- * @param  {Object} datum          The datum
- * @param  {HTMLElement} node      The node that triggered the event
- * @param  {Object} e              The MouseEventArgs
+ * @param  datum          The datum
+ * @param  node           The node that triggered the event
+ * @param  e              The MouseEventArgs
  */
-const triggerOnMouseOut = (datum, node, e) => {
+const triggerOnMouseOut = (datum: IDatum, node: Element, e: MouseEvent) => {
     if (!node || !node.__on) {
         // istanbul ignore next
         return;
@@ -64,7 +67,7 @@ const triggerOnMouseOut = (datum, node, e) => {
  * @param  {Function}    dispatch            The redux dispatch function
  * @returns {Object}                         The set of handlers for cleaning up { clickHandler, moveHandler }
  */
-export const addEventHandlers = (canvas, colorToData, dispatch) => {
+export const addEventHandlers = (canvas: HTMLCanvasElement, colorToData: IColorToDataMap, dispatch: IDispatch) => {
     let lastDatum = undefined;
     let lastNode = undefined;
 

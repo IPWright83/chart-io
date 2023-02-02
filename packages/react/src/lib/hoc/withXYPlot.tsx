@@ -2,22 +2,23 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors } from "../store";
+import { chartSelectors, IState } from "../store";
 
 /**
  * Wraps a plot and handles some of the basics such as missing layers or scales
- * @param  {ReactDOMComponent} WrappedComponent     The D3 layer to render
- * @return {ReactDOMComponent}                      The wrapped layer
+ * @param  WrappedComponent     The D3 layer to render
+ * @return                      The wrapped layer
  */
-const withXYPlot = (WrappedComponent) =>
+const withXYPlot =
+    <P extends object>(WrappedComponent: React.ComponentType<P>) =>
     /**
      * Wraps a component and handles some of the potentially missing parts
      * @param  {...any}    options.props        The rest of the props
      * @return {ReactDOMComponent}              The wrapped layer
      */
     ({ x, y, xs, ys, ...props }) => {
-        const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x || xs[0]));
-        const yScale = useSelector((s) => chartSelectors.scales.getScale(s, y || ys[0]));
+        const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x || xs[0]));
+        const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y || ys[0]));
 
         // TODO: need to do the same with the virtual canvas
 
@@ -44,7 +45,8 @@ const withXYPlot = (WrappedComponent) =>
             return null;
         }
 
-        return <WrappedComponent layer={layer} x={x} y={y} ys={ys} xs={xs} {...props} />;
+        // https://stackoverflow.com/a/54583335/21061
+        return <WrappedComponent layer={layer} x={x} y={y} ys={ys} xs={xs} {...(props as P)} />;
     };
 
 export { withXYPlot };

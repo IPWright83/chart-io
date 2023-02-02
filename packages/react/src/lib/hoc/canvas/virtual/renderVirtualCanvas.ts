@@ -2,12 +2,17 @@ import { renderVirtualElements } from "./renderVirtualElements";
 
 /**
  * Renders the canvas elements based on the join
- * @param  {HTMLElement} canvas         The Canvas context object to render to
- * @param  {Number}      width          The width of the canvas
- * @param  {Number}      height         The height of the canvas
- * @param  {Object}      update         The D3 data join update object
+ * @param  canvas         The Canvas context object to render to
+ * @param  width          The width of the canvas
+ * @param  height         The height of the canvas
+ * @param  update         The D3 data join update object
  */
-const renderVirtualCanvas = async (canvas, width, height, update) => {
+export async function renderVirtualCanvas(
+    canvas: HTMLCanvasElement | null | undefined,
+    width: number,
+    height: number,
+    update: d3.Transition<Element, unknown, any, unknown>[]
+): Promise<IColorToDataMap> {
     // If the canvas isn't ready don't do anything
     if (!canvas) {
         // istanbul ignore next
@@ -23,7 +28,7 @@ const renderVirtualCanvas = async (canvas, width, height, update) => {
     let lookup = {};
 
     for (let i = 0; i < update.length; i++) {
-        const { selection } = update[i];
+        const selection = update[i].selection as unknown as d3.Transition<Element, unknown, any, unknown>;
 
         const results = await renderVirtualElements(context, selection, index);
         lookup = { ...lookup, ...results.colorToData };
@@ -32,6 +37,4 @@ const renderVirtualCanvas = async (canvas, width, height, update) => {
 
     // Return a keyed lookup object from color -> datum
     return lookup;
-};
-
-export { renderVirtualCanvas };
+}

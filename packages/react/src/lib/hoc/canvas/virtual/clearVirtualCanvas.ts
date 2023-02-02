@@ -1,10 +1,10 @@
 /**
  * Clears the canvas completely
- * @param  {HTMLElement} canvas         The Canvas context object to render to
- * @param  {Number}      width          The width of the canvas
- * @param  {Number}      height         The height of the canvas
+ * @param  canvas         The Canvas context object to render to
+ * @param  width          The width of the canvas
+ * @param  height         The height of the canvas
  */
-const clearVirtualCanvas = async (canvas, width, height) => {
+export function clearVirtualCanvas(canvas: HTMLCanvasElement | null | undefined, width: number, height: number) {
     // If the canvas isn't ready don't do anything
     if (!canvas) {
         // istanbul ignore next
@@ -14,6 +14,4 @@ const clearVirtualCanvas = async (canvas, width, height) => {
     // Ensure we've got the contexts to draw upon
     const context = canvas.getContext("2d");
     context.clearRect(0, 0, width, height);
-};
-
-export { clearVirtualCanvas };
+}

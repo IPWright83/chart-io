@@ -1,5 +1,6 @@
 import * as d3 from "d3";
 
+import type { IColorToDataMap } from "./types";
 import { renderElements } from "../renderElements";
 
 /*
@@ -9,25 +10,29 @@ import { renderElements } from "../renderElements";
  * to see an alternative approach
  * From https://engineering.mongodb.com/post/d3-round-two-how-to-blend-html5-canvas-with-svg-to-speed-up-rendering
  */
-function getColor(index) {
+export function getColor(index: number): string {
     return d3
         .rgb(
             (index & 0b111111110000000000000000) >> 16,
             (index & 0b000000001111111100000000) >> 8,
-            index & 0b000000000000000011111111,
+            index & 0b000000000000000011111111
         )
         .toString();
 }
 
 /**
  * Renders the virtual canvas elements based on the join
- * @param  {Object} context         The Canvas context object to render to
- * @param  {Object} join            The D3 data join to render
- * @param  {Number} index           The index to start at for color generation
- * @return {Object}
+ * @param  context         The Canvas context object to render to
+ * @param  join            The D3 data join to render
+ * @param  index           The index to start at for color generation
+ * @return                 A object with the color to datum mapping
  */
 
-const renderVirtualElements = (context, join, index) => {
+export function renderVirtualElements(
+    context: CanvasRenderingContext2D,
+    join: d3.Transition<Element, unknown, any, unknown>,
+    index: number
+) {
     const colorToData = {};
     const colors = [];
 
@@ -44,6 +49,4 @@ const renderVirtualElements = (context, join, index) => {
     renderElements(context, join, colors);
 
     return { index, colorToData };
-};
-
-export { renderVirtualElements };
+}

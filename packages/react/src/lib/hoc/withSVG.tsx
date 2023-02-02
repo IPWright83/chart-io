@@ -2,11 +2,11 @@ import React, { useRef } from "react";
 
 /**
  * Wraps a D3 layer to make it work as an SVG component
- * @param  {ReactDOMComponent} WrappedComponent     The D3 layer to render to the SVG
- * @param  {String}            className            An optional class name to add to the DOM
- * @return {ReactDOMComponent}                      The wrapped layer
+ * @param  WrappedComponent     The D3 layer to render to the SVG
+ * @param  className            An optional class name to add to the DOM
+ * @return                      The wrapped layer
  */
-const withSVG = (WrappedComponent, className) => {
+const withSVG = <P extends object>(WrappedComponent: React.ComponentType<P>, className: string) => {
     if (!className) {
         console.warn("W003 - className is required when using the withSVG higher order component");
     }

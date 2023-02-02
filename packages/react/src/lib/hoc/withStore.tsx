@@ -6,10 +6,11 @@ import { createStore } from "../store";
 
 /**
  * Wraps a React component to add a redux store
- * @param  {ReactDOMComponent} WrappedComponent     The component to render
- * @return {ReactDOMComponent}                      The wrapped component
+ * @param  WrappedComponent     The component to render
+ * @return                      The wrapped component
  */
-const withStore = (WrappedComponent) =>
+const withStore =
+    <P extends object>(WrappedComponent: React.ComponentType<P>) =>
     /**
      * Wraps a component within a Redux store provider
      * @param  {...any}    options.props        All the props
@@ -24,9 +25,10 @@ const withStore = (WrappedComponent) =>
             onStoreCreated(store);
         }
 
+        // https://stackoverflow.com/a/54583335/21061
         return (
             <Provider store={store}>
-                <WrappedComponent {...props} />
+                <WrappedComponent {...(props as P)} />
             </Provider>
         );
     };

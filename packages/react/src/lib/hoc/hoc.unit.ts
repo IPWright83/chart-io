@@ -9,6 +9,7 @@ describe("Higher Order Components", () => {
             const mockElement = React.createElement("div");
 
             const spy = jest.spyOn(console, "warn").mockImplementation();
+            // @ts-expect-error: Validating a runtime warning
             withCanvas(mockElement);
 
             expect(spy).toHaveBeenCalledWith(
@@ -22,6 +23,7 @@ describe("Higher Order Components", () => {
             const mockElement = React.createElement("div");
 
             const spy = jest.spyOn(console, "warn").mockImplementation();
+            // @ts-expect-error: Validating a runtime warning
             withSVG(mockElement);
 
             expect(spy).toHaveBeenCalledWith(
