@@ -30,7 +30,7 @@ export interface IAutoScaleProps {
     /**
      * (Optional) An override of the domain to use with the d3 scale
      */
-    domain: Array<IValue>;
+    domain?: Array<IValue>;
 }
 
 /**

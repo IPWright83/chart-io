@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useStore, useSelector } from "react-redux";
 
 import { useRender } from "../../../../hooks";
-import { chartSelectors, eventActions } from "../../../../store";
+import { chartSelectors, eventActions, IState } from "../../../../store";
 import { ensureBandScale, ensureNoScaleOverflow, ensureValuesAreUnique } from "../../../../utils";
 
 import { renderCanvas } from "../../renderCanvas";
@@ -48,13 +48,13 @@ export function StackedColumnBase({
     const [focused, setFocused] = useState(null);
     const store = useStore();
 
-    const data = useSelector((s) => chartSelectors.data(s));
-    const height = useSelector((s) => chartSelectors.dimensions.height(s));
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
-    const yScale = useSelector((s) => chartSelectors.scales.getScale(s, ys[0]));
-    const theme = useSelector((s) => chartSelectors.theme(s));
-    const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
+    const data = useSelector((s: IState) => chartSelectors.data(s));
+    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, ys[0]));
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
+    const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, x);

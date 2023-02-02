@@ -50,7 +50,7 @@ describe("Bars", () => {
                 const canvases = container.querySelectorAll(".canvas");
                 expect(canvases.length).toBe(1);
 
-                const canvasBuffer1 = getBuffer(canvases[0]);
+                const canvasBuffer1 = getBuffer(canvases[0] as HTMLCanvasElement);
                 expect(canvasBuffer1).toMatchImageSnapshot();
 
                 const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));
@@ -89,7 +89,7 @@ describe("Bars", () => {
                 const canvases = container.querySelectorAll(".canvas");
                 expect(canvases.length).toBe(1);
 
-                const canvasBuffer1 = getBuffer(canvases[0]);
+                const canvasBuffer1 = getBuffer(canvases[0] as HTMLCanvasElement);
                 expect(canvasBuffer1).toMatchImageSnapshot();
 
                 const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));

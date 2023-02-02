@@ -108,6 +108,7 @@ export function Axis({
                 .tickSizeInner(tickSizeInner)
                 .tickSizeOuter(tickSizeOuter)
                 .tickPadding(tickPadding)
+                // @ts-ignore: TODO: Work out how to fix this
                 .tickFormat(tickFormat)
                 .tickValues(tickValues)
                 .ticks(ticks);

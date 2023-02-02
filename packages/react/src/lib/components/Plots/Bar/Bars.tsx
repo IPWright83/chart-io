@@ -15,6 +15,10 @@ export interface IBarsProps extends Omit<IPlotsProps, "ys" | "x"> {
      */
     xs: Array<string>;
     /**
+     * The y field to use to access the data for each plot
+     */
+    y: string;
+    /**
      * Should the column plots be stacked based on the x-value?
      */
     stacked?: boolean;
@@ -29,7 +33,7 @@ export interface IBarsProps extends Omit<IPlotsProps, "ys" | "x"> {
  * @param  props       The set of React properties
  * @return             The Bar plot component
  */
-export function Bars({ xs, colors, stacked = false, grouped = false, ...props }: IBarsProps) {
+export function Bars({ y, xs, colors, stacked = false, grouped = false, ...props }: IBarsProps) {
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const palette = colors || theme.series.colors;
 
@@ -42,17 +46,17 @@ export function Bars({ xs, colors, stacked = false, grouped = false, ...props }:
     }
 
     if (stacked) {
-        return <StackedBar xs={xs} colors={palette} {...props} />;
+        return <StackedBar y={y} xs={xs} colors={palette} {...props} />;
     }
 
     if (grouped) {
-        return <GroupedBar xs={xs} colors={palette} {...props} />;
+        return <GroupedBar y={y} xs={xs} colors={palette} {...props} />;
     }
 
     return (
         <React.Fragment>
             {xs.map((x, i) => (
-                <Bar {...props} key={x} x={x} color={palette[i]} />
+                <Bar {...props} key={x} x={x} y={y} color={palette[i]} />
             ))}
         </React.Fragment>
     );

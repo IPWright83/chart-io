@@ -17,18 +17,9 @@ describe("Lines", () => {
     ];
 
     const scales = {
-        y: d3
-            .scaleLinear()
-            .domain([0, 20])
-            .range([100, 0]),
-        y2: d3
-            .scaleLinear()
-            .domain([0, 20])
-            .range([100, 0]),
-        x: d3
-            .scaleLinear()
-            .domain([0, 5])
-            .range([0, 100]),
+        y: d3.scaleLinear().domain([0, 20]).range([100, 0]),
+        y2: d3.scaleLinear().domain([0, 20]).range([100, 0]),
+        x: d3.scaleLinear().domain([0, 5]).range([0, 100]),
     };
 
     describe("Multiple Series", () => {
@@ -69,10 +60,10 @@ describe("Lines", () => {
                 const canvases = container.querySelectorAll(".canvas");
                 expect(canvases.length).toBe(2);
 
-                const canvasBuffer1 = getBuffer(canvases[0]);
+                const canvasBuffer1 = getBuffer(canvases[0] as HTMLCanvasElement);
                 expect(canvasBuffer1).toMatchImageSnapshot();
 
-                const canvasBuffer2 = getBuffer(canvases[1]);
+                const canvasBuffer2 = getBuffer(canvases[1] as HTMLCanvasElement);
                 expect(canvasBuffer2).toMatchImageSnapshot();
 
                 const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));

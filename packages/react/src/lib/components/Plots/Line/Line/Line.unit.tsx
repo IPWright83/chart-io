@@ -21,14 +21,8 @@ describe("Line", () => {
     ];
 
     const scales = {
-        y: d3
-            .scaleLinear()
-            .domain([0, 20])
-            .range([100, 0]),
-        x: d3
-            .scaleLinear()
-            .domain([0, 5])
-            .range([0, 100]),
+        y: d3.scaleLinear().domain([0, 20]).range([100, 0]),
+        x: d3.scaleLinear().domain([0, 5]).range([0, 100]),
     };
 
     describe("using SVG", () => {
@@ -104,7 +98,7 @@ describe("Line", () => {
 
                 await wait(1);
 
-                const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
+                const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
                 expect(dispatchCalls).toEqual([
                     "EVENT.MOUSE_ENTER",
                     "EVENT.ADD_MARKER",
@@ -181,7 +175,7 @@ describe("Line", () => {
 
                 await wait(1);
 
-                const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
+                const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
                 expect(dispatchCalls).toEqual([
                     "EVENT.MOUSE_ENTER",
                     "EVENT.ADD_MARKER",

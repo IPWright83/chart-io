@@ -49,7 +49,7 @@ describe("Column", () => {
                 jest.spyOn(store, "dispatch");
                 testMouseOver(container, "rect", onMouseOver, expectedDatum);
 
-                const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
+                const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
                 expect(dispatchCalls).toEqual([
                     "EVENT.SET_TOOLTIP_COLOR",
@@ -72,7 +72,7 @@ describe("Column", () => {
                 jest.spyOn(store, "dispatch");
                 testMouseExit(container, "rect", onMouseOut, expectedDatum);
 
-                const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
+                const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
                 expect(dispatchCalls).toEqual([
                     // Mouseexit
@@ -169,7 +169,7 @@ describe("Column", () => {
                     pageY: 90,
                 });
 
-                const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
+                const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
                 expect(dispatchCalls).toEqual([
                     "EVENT.MOUSE_MOVE",
@@ -209,10 +209,10 @@ describe("Column", () => {
                     {
                         pageX: 195,
                         pageY: 95,
-                    },
+                    }
                 );
 
-                const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
+                const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
                 expect(dispatchCalls).toEqual([
                     // Mouseover

@@ -1,9 +1,9 @@
+import React from "react";
+
 import { shouldShowDroplines } from "./shouldShowDroplines";
 
 describe("shouldShowDroplines", () => {
-    const mockElement = {};
-    mockElement.props = {};
-    mockElement.type = { name: "div" };
+    const mockElement = React.createElement("div");
 
     it("should return true for a single child", () => {
         expect(shouldShowDroplines(mockElement)).toBe(true);
@@ -14,8 +14,8 @@ describe("shouldShowDroplines", () => {
     });
 
     it("should return true if a single Line plot is included", () => {
-        const mockLinePlot = {};
-        mockLinePlot.type = { name: "Line" };
+        const mockLinePlot = React.createElement("Line");
+        // mockLinePlot.type = { name: "Line" };
 
         expect(shouldShowDroplines([mockElement, mockLinePlot])).toBe(true);
     });

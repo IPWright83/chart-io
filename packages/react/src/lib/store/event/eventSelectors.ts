@@ -88,7 +88,7 @@ const _eventSelectors = {
      * @param  state The application state
      * @return       One of "NONE", "MOVE" or "ENTER"
      */
-    mode: (state: IState): IMouseMode => {
+    mode: (state: IState): IMouseEventType => {
         const { mouse } = _eventSelectors.store(state);
         if (!mouse) {
             return "NONE";
