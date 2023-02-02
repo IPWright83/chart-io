@@ -1,21 +1,36 @@
-import PropTypes from "prop-types";
+import type { IPlotsProps } from "@d3-chart/types";
+
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors } from "../../../store";
-import { eventDefaultProps, eventPropTypes, plotsDefaultProps, plotsPropTypes } from "../../../types";
+import { chartSelectors, IState } from "../../../store";
 
 import { Bar } from "./Bar";
 import { GroupedBar } from "./GroupedBar";
 import { StackedBar } from "./StackedBar";
 
+export interface IBarsProps extends Omit<IPlotsProps, "ys" | "x"> {
+    /**
+     * The set of x fields to use to access the data for each plot
+     */
+    xs: Array<string>;
+    /**
+     * Should the column plots be stacked based on the x-value?
+     */
+    stacked?: boolean;
+    /**
+     * Should the column plots be grouped based on the x-value?
+     */
+    grouped?: boolean;
+}
+
 /**
  * Represents a set of Bar Plots
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Bar plot component
+ * @param  props       The set of React properties
+ * @return             The Bar plot component
  */
-const Bars = ({ xs, colors, stacked, grouped, ...props }) => {
-    const theme = useSelector((s) => chartSelectors.theme(s));
+export function Bars({ xs, colors, stacked = false, grouped = false, ...props }: IBarsProps) {
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const palette = colors || theme.series.colors;
 
     if (stacked && grouped) {
@@ -41,43 +56,6 @@ const Bars = ({ xs, colors, stacked, grouped, ...props }) => {
             ))}
         </React.Fragment>
     );
-};
-
-const plotsPropTypesClone = {
-    ...plotsPropTypes,
-
-    /**
-     * The set of x fields to use to access the data for each plot
-     * @type {[type]}
-     */
-    xs: PropTypes.arrayOf(PropTypes.string).isRequired,
-};
-
-delete plotsPropTypesClone.ys;
-delete plotsPropTypesClone.x;
-
-Bars.propTypes = {
-    ...plotsPropTypesClone,
-    ...eventPropTypes,
-
-    /**
-     * Should the bars be stacked based on the x-value?
-     * @type {Boolean}
-     */
-    stacked: PropTypes.bool,
-
-    /**
-     * Should the bars be grouped based on the x-value? Each "y" is used as a series
-     * @type {Boolean}
-     */
-    grouped: PropTypes.bool,
-};
-
-Bars.defaultProps = {
-    ...plotsDefaultProps,
-    ...eventDefaultProps,
-};
+}
 
 Bars.requiresVirtualCanvas = true;
-
-export { Bars };

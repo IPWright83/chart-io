@@ -5,17 +5,25 @@ import { useSelector } from "react-redux";
 import { chartSelectors } from "../../../../store";
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
-import { GroupedBarBase } from "./GroupedBarBase";
+import { GroupedBarBase, IGroupedBarBaseProps } from "./GroupedBarBase";
 
-const GroupedCanvasBar = withCanvas(withXYPlot(GroupedBarBase), "plot grouped-bar");
-const GroupedSVGBar = withSVG(withXYPlot(GroupedBarBase), "plot grouped-bar");
+export interface IGroupedBarProps extends Omit<IGroupedBarBaseProps, "interactive" | "layer"> {
+    /**
+     * Should Canvas be used instead of SVG?
+     */
+    useCanvas?: boolean;
+}
+
+const GroupedCanvasBar = withCanvas(withXYPlot<IGroupedBarProps>(GroupedBarBase), "plot grouped-bar");
+const GroupedSVGBar = withSVG(withXYPlot<IGroupedBarProps>(GroupedBarBase), "plot grouped-bar");
 
 /**
  * Represents a Bar plot
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Bar plot component
+ * @param  useCanvas   Should Canvas be used instead of SVG?
+ * @param  props       The set of React properties
+ * @return             The Bar plot component
  */
-const GroupedBar = ({ useCanvas, colors, ...props }) => {
+export function GroupedBar({ useCanvas = false, colors, ...props }) {
     const theme = useSelector((s) => chartSelectors.theme(s));
     const palette = colors || theme.series.colors;
 
@@ -24,23 +32,6 @@ const GroupedBar = ({ useCanvas, colors, ...props }) => {
     }
 
     return <GroupedSVGBar {...props} colors={palette} />;
-};
-
-GroupedBar.propTypes = {
-    ...GroupedBarBase.propTypes,
-
-    /**
-     * Should this plot use an HTML Canvas instead of SVG?
-     * @type {Boolean}
-     */
-    useCanvas: PropTypes.bool,
-};
-
-GroupedBar.defaultProps = {
-    ...GroupedBarBase.defaultProps,
-    useCanvas: false,
-};
+}
 
 GroupedBar.requiresVirtualCanvas = true;
-
-export { GroupedBar };

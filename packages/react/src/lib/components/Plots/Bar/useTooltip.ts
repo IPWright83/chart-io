@@ -1,14 +1,22 @@
+import { IDatum, IColor, IMouseEvent } from "@d3-chart/types";
 import { useState, useEffect } from "react";
 
-import { eventActions } from "../../../store";
+import { eventActions, IDispatch } from "../../../store";
+
+interface ITooltipParams {
+    datum: IDatum;
+    event: IMouseEvent;
+    fillColors: IColor[];
+    xs: string[];
+}
 
 /**
  * Handles the user interacting with a DataPoint on the Column chart and the need to display a tooltip
- * @param  {Function} dispatch     The redux store dispatch function
- * @param  {String} y              The key for the y value
- * @return {Function}              A function to set the tooltip datum
+ * @param  dispatch     The redux store dispatch function
+ * @param  y            The key for the y value
+ * @return              A function to set the tooltip datum
  */
-const useTooltip = (dispatch, y) => {
+const useTooltip = (dispatch: IDispatch, y: string) => {
     const [datum, setDatum] = useState(null);
     const [colors, setColors] = useState(null);
     const [xs, setXs] = useState(null);
@@ -55,19 +63,10 @@ const useTooltip = (dispatch, y) => {
     }, [dispatch, colors, xs, y, datum, positionEvent]);
 
     /**
-     * Represents the information required for a tooltip
-     * @typedef {Object}  TooltipParams
-     * @property {object} datum          The datum that triggered the tooltip event
-     * @property {Array}  fillColors     The fill colors for each series
-     * @property {Object} event          The MouseEvent that triggered the tooltip
-     * @property {Array}  xs             The keys for the x value
-     */
-
-    /**
      * A function to set the tooltip parameters
-     * @param  {TooltipParams} tooltipParams    The configuration for the tooltip
+     * @param  tooltipParams    The configuration for the tooltip
      */
-    return (tooltipParams) => {
+    return (tooltipParams: ITooltipParams) => {
         if (!tooltipParams) {
             setDatum(undefined);
             setColors(undefined);

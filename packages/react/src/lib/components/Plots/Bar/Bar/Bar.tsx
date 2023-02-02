@@ -3,39 +3,30 @@ import React from "react";
 
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
-import { BarBase } from "./BarBase";
+import { BarBase, IBarBaseProps } from "./BarBase";
 
-const CanvasBar = withCanvas(withXYPlot(BarBase), "plot bar");
-const SVGBar = withSVG(withXYPlot(BarBase), "plot bar");
+export interface IBarProps extends Omit<IBarBaseProps, "layer" | "canvas"> {
+    /**
+     * Should Canvas be used instead of SVG?
+     */
+    useCanvas?: boolean;
+}
+
+const CanvasBar = withCanvas(withXYPlot<IBarProps>(BarBase), "plot bar");
+const SVGBar = withSVG(withXYPlot<IBarProps>(BarBase), "plot bar");
 
 /**
  * Represents a Bar plot
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Bar plot component
+ * @param  useCanvas   Should Canvas be used instead of SVG?
+ * @param  props       The set of React properties
+ * @return             The Bar plot component
  */
-const Bar = ({ useCanvas, ...props }) => {
+export function Bar({ useCanvas = false, ...props }) {
     if (useCanvas) {
         return <CanvasBar {...props} />;
     }
 
     return <SVGBar {...props} />;
-};
-
-Bar.propTypes = {
-    ...BarBase.propTypes,
-
-    /**
-     * Should this plot use an HTML Canvas instead of SVG?
-     * @type {Boolean}
-     */
-    useCanvas: PropTypes.bool,
-};
-
-Bar.defaultProps = {
-    ...BarBase.defaultProps,
-    useCanvas: false,
-};
+}
 
 Bar.requiresVirtualCanvas = true;
-
-export { Bar };

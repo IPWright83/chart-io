@@ -1,11 +1,10 @@
+import type { IEventPlotProps, IColor, IDatum } from "@d3-chart/types";
 import * as d3 from "d3";
-import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useStore, useSelector } from "react-redux";
 
 import { useRender } from "../../../../hooks";
-import { chartSelectors, eventActions } from "../../../../store";
-import { eventDefaultProps, eventPropTypes, plotsDefaultProps, plotsPropTypes } from "../../../../types";
+import { chartSelectors, eventActions, IState } from "../../../../store";
 import { ensureBandScale, ensureNoScaleOverflow, ensureValuesAreUnique } from "../../../../utils";
 
 import { renderCanvas } from "../../renderCanvas";
@@ -13,12 +12,31 @@ import { getDropline } from "../getDropline";
 import { useTooltip } from "../useTooltip";
 import { getParentKey } from "./getParentKey";
 
+export interface IStackedBarBaseProps extends Omit<IEventPlotProps, "ys" | "x"> {
+    /**
+     * This is an internally used function to allow the scatter plot to render to a virtual canvas
+     */
+    renderVirtualCanvas?: (update: d3.Transition<Element, unknown, any, unknown>) => void;
+    /**
+     * The set of x fields to use to access the data for each plot
+     */
+    xs: Array<string>;
+    /**
+     * The y field to use to access the data for each plot
+     */
+    y: string;
+    /**
+     * The set of colors to use for the different plot
+     */
+    colors?: Array<IColor>;
+}
+
 /**
  * Represents a Column Plot
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Column plot component
+ * @param  props       The set of React properties
+ * @return             The Column plot component
  */
-const StackedBarBase = ({
+export function StackedBarBase({
     xs,
     y,
     colors,
@@ -29,17 +47,17 @@ const StackedBarBase = ({
     layer,
     canvas,
     renderVirtualCanvas,
-}) => {
+}: IStackedBarBaseProps) {
     const [focused, setFocused] = useState(null);
     const store = useStore();
 
-    const data = useSelector((s) => chartSelectors.data(s));
-    const height = useSelector((s) => chartSelectors.dimensions.height(s));
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const xScale = useSelector((s) => chartSelectors.scales.getScale(s, xs[0]));
-    const yScale = useSelector((s) => chartSelectors.scales.getScale(s, y));
-    const theme = useSelector((s) => chartSelectors.theme(s));
-    const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
+    const data = useSelector((s: IState) => chartSelectors.data(s));
+    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, xs[0]));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
+    const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, y);
@@ -87,10 +105,10 @@ const StackedBarBase = ({
             .append("rect")
             .attr("class", "bar")
             .attr("x", () => xScale.range()[0])
-            .attr("y", (d) => yScale(d.data[y]))
+            .attr("y", (d) => yScale(d.data[y])) // @ts-ignore: TODO: How do we check for bandwidth?
             .attr("height", yScale.bandwidth())
             .attr("width", 0)
-            .style("stroke", strokeColor)
+            .style("stroke", strokeColor.toString())
             .style("fill", (_d, i, elements) => {
                 const key = getParentKey(elements[i]);
                 return colorScale(key);
@@ -103,7 +121,7 @@ const StackedBarBase = ({
                 // istanbul ignore next
                 if (!interactive) return;
 
-                onMouseOver && onMouseOver(d.data, this, event);
+                onMouseOver && onMouseOver(d.data, this as Element, event);
                 setFocused({ element: this, event, datum: d.data });
                 setTooltip({
                     datum: d.data,
@@ -116,15 +134,15 @@ const StackedBarBase = ({
                 // istanbul ignore next
                 if (!interactive) return;
 
-                onMouseOut && onMouseOut(d.data, this, event);
+                onMouseOut && onMouseOut(d.data, this as Element, event);
                 setFocused(null);
                 setTooltip(null);
             })
-            .on("click", function (event, d) {
+            .on("click", function (event, d: { data: IDatum }) {
                 // istanbul ignore next
                 if (!interactive) return;
 
-                onClick && onClick(d.data, this, event);
+                onClick && onClick(d.data, this as Element, event);
             })
             .transition("position")
             .duration(animationDuration / 2)
@@ -132,41 +150,17 @@ const StackedBarBase = ({
                 const key = getParentKey(elements[i]);
                 return colorScale(key);
             })
-            .attr("y", (d) => yScale(d.data[y]))
+            .attr("y", (d) => yScale(d.data[y])) // @ts-ignore: TODO: How do we check for bandwidth?
             .attr("height", () => yScale.bandwidth())
+            // @ts-expect-error: Looks like the type defs are wrong missing named transitions
             .transition("width")
             .duration(animationDuration / 2)
             .delay(animationDuration / 2)
             .attr("width", (d) => xScale(d[1]) - xScale(d[0]))
             .attr("x", (d) => xScale(d[0]));
 
-        renderCanvas({ canvas, renderVirtualCanvas, width, height, update });
+        renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [y, xs, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);
 
     return null;
-};
-
-const plotsPropTypesClone = {
-    ...plotsPropTypes,
-
-    /**
-     * The set of x fields to use to access the data for each plot
-     * @type {[type]}
-     */
-    xs: PropTypes.arrayOf(PropTypes.string).isRequired,
-};
-
-delete plotsPropTypesClone.ys;
-delete plotsPropTypesClone.x;
-
-StackedBarBase.propTypes = {
-    ...plotsPropTypesClone,
-    ...eventPropTypes,
-};
-
-StackedBarBase.defaultProps = {
-    ...plotsDefaultProps,
-    ...eventDefaultProps,
-};
-
-export { StackedBarBase };
+}

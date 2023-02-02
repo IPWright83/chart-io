@@ -1,4 +1,4 @@
-import { Bar, BarBase } from "./Bar";
-import { Bars } from "./Bars";
-
-export { Bar, BarBase, Bars };
+export * from "./Bar";
+export * from "./StackedBars";
+export * from "./GroupedBars";
+export * from "./Bars";

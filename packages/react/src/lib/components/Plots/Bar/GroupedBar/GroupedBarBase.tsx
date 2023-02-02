@@ -1,23 +1,41 @@
+import type { IEventPlotProps, IColor, IDatum } from "@d3-chart/types";
 import * as d3 from "d3";
-import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useStore, useSelector } from "react-redux";
 
 import { useRender } from "../../../../hooks";
-import { chartSelectors, eventActions } from "../../../../store";
-import { eventDefaultProps, eventPropTypes, plotsDefaultProps, plotsPropTypes } from "../../../../types";
+import { chartSelectors, eventActions, IState } from "../../../../store";
 import { ensureBandScale } from "../../../../utils";
 
 import { renderCanvas } from "../../renderCanvas";
 import { getDropline } from "../getDropline";
 import { useTooltip } from "../useTooltip";
 
+export interface IGroupedBarBaseProps extends Omit<IEventPlotProps, "ys" | "x"> {
+    /**
+     * This is an internally used function to allow the scatter plot to render to a virtual canvas
+     */
+    renderVirtualCanvas?: (update: d3.Transition<Element, unknown, any, unknown>) => void;
+    /**
+     * The set of x fields to use to access the data for each plot
+     */
+    xs: Array<string>;
+    /**
+     * The y field to use to access the data for each plot
+     */
+    y: string;
+    /**
+     * The set of colors to use for the different plot
+     */
+    colors?: Array<IColor>;
+}
+
 /**
  * Represents a Column Plot
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Column plot component
+ * @param  props       The set of React properties
+ * @return             The Column plot component
  */
-const GroupedBarBase = ({
+export function GroupedBarBase({
     xs,
     y,
     colors,
@@ -28,17 +46,17 @@ const GroupedBarBase = ({
     layer,
     canvas,
     renderVirtualCanvas,
-}) => {
+}: IGroupedBarBaseProps) {
     const [focused, setFocused] = useState(null);
     const store = useStore();
 
-    const data = useSelector((s) => chartSelectors.data(s));
-    const height = useSelector((s) => chartSelectors.dimensions.height(s));
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const xScale = useSelector((s) => chartSelectors.scales.getScale(s, xs[0]));
-    const yScale = useSelector((s) => chartSelectors.scales.getScale(s, y));
-    const theme = useSelector((s) => chartSelectors.theme(s));
-    const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
+    const data = useSelector((s: IState) => chartSelectors.data(s));
+    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, xs[0]));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
+    const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, y);
@@ -62,10 +80,15 @@ const GroupedBarBase = ({
         if (ensureBandScale(yScale, "GroupedBar") === false) return null;
 
         // Create a scale for each series to fit along the x-axis and the series colors
-        const colorScale = d3.scaleOrdinal().domain(xs).range(colors);
+        const colorScale = d3.scaleOrdinal().domain(xs).range(colors); // @ts-ignore: TODO: How do we check for bandwidth?
         const y1Scale = d3.scaleBand().domain(xs).rangeRound([0, yScale.bandwidth()]).padding(0.05);
 
-        const groupJoin = d3.select(layer.current).selectAll("g").data(data);
+        const groupJoin = d3.select(layer.current).selectAll("g").data(data) as d3.Selection<
+            SVGRectElement,
+            IDatum,
+            Element,
+            unknown
+        >;
 
         // Clean up old groups
         groupJoin.exit().remove();
@@ -87,7 +110,7 @@ const GroupedBarBase = ({
             .attr("width", 0)
             .attr("height", y1Scale.bandwidth())
             .style("stroke", strokeColor)
-            .style("fill", (d) => colorScale(d.key))
+            .style("fill", (d) => colorScale(d.key).toString())
             .style("opacity", theme.series.opacity);
 
         const update = join
@@ -96,7 +119,7 @@ const GroupedBarBase = ({
                 // istanbul ignore next
                 if (!interactive) return;
 
-                onMouseOver && onMouseOver(datum, this, event);
+                onMouseOver && onMouseOver(datum, this as Element, event);
                 setFocused({ element: this, event, datum });
                 setTooltip({
                     datum,
@@ -109,7 +132,7 @@ const GroupedBarBase = ({
                 // istanbul ignore next
                 if (!interactive) return;
 
-                onMouseOut && onMouseOut(datum, this, event);
+                onMouseOut && onMouseOut(datum, this as Element, event);
                 setFocused(null);
                 setTooltip(null);
             })
@@ -117,46 +140,22 @@ const GroupedBarBase = ({
                 // istanbul ignore next
                 if (!interactive) return;
 
-                onClick && onClick(datum, this, event);
+                onClick && onClick(datum, this as Element, event);
             })
             .transition("position")
             .duration(animationDuration / 2)
             .attr("y", (d) => yScale(d[y]) + y1Scale(d.key))
             .attr("height", y1Scale.bandwidth())
-            .style("fill", (d) => colorScale(d.key))
+            .style("fill", (d) => colorScale(d.key).toString())
+            // @ts-expect-error: Looks like the type defs are wrong missing named transitions
             .transition("width")
             .duration(animationDuration / 2)
-            .delay(animationDuration / 2)
+            .delay(animationDuration / 2) // @ts-ignore: TODO: Need to work out casting
             .attr("width", (d) => xScale(d.value) - xScale.range()[0])
             .attr("x", () => xScale.range()[0]);
 
-        renderCanvas({ canvas, renderVirtualCanvas, width, height, update });
+        renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [y, xs, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);
 
     return null;
-};
-
-const plotsPropTypesClone = {
-    ...plotsPropTypes,
-
-    /**
-     * The set of x fields to use to access the data for each plot
-     * @type {[type]}
-     */
-    xs: PropTypes.arrayOf(PropTypes.string).isRequired,
-};
-
-delete plotsPropTypesClone.x;
-delete plotsPropTypesClone.ys;
-
-GroupedBarBase.propTypes = {
-    ...plotsPropTypesClone,
-    ...eventPropTypes,
-};
-
-GroupedBarBase.defaultProps = {
-    ...plotsDefaultProps,
-    ...eventDefaultProps,
-};
-
-export { GroupedBarBase };
+}

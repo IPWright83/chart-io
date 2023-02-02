@@ -2,21 +2,29 @@ import PropTypes from "prop-types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors } from "../../../../store";
+import { chartSelectors, IState } from "../../../../store";
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
-import { StackedBarBase } from "./StackedBarBase";
+import { StackedBarBase, IStackedBarBaseProps } from "./StackedBarBase";
 
-const StackedCanvasBar = withCanvas(withXYPlot(StackedBarBase), "plot stacked-bar");
-const StackedSVGBar = withSVG(withXYPlot(StackedBarBase), "plot stacked-bar");
+export interface IStackedBarProps extends Omit<IStackedBarBaseProps, "interactive" | "layer"> {
+    /**
+     * Should Canvas be used instead of SVG?
+     */
+    useCanvas?: boolean;
+}
+
+const StackedCanvasBar = withCanvas(withXYPlot<IStackedBarProps>(StackedBarBase), "plot stacked-bar");
+const StackedSVGBar = withSVG(withXYPlot<IStackedBarProps>(StackedBarBase), "plot stacked-bar");
 
 /**
  * Represents a Bar plot
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Bar plot component
+ * @param  useCanvas   Should Canvas be used instead of SVG?
+ * @param  props       The set of React properties
+ * @return             The Bar plot component
  */
-const StackedBar = ({ useCanvas, colors, ...props }) => {
-    const theme = useSelector((s) => chartSelectors.theme(s));
+export function StackedBar({ useCanvas = false, colors, ...props }) {
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const palette = colors || theme.series.colors;
 
     if (useCanvas) {
@@ -24,23 +32,6 @@ const StackedBar = ({ useCanvas, colors, ...props }) => {
     }
 
     return <StackedSVGBar {...props} colors={palette} />;
-};
-
-StackedBar.propTypes = {
-    ...StackedBarBase.propTypes,
-
-    /**
-     * Should this plot use an HTML Canvas instead of SVG?
-     * @type {Boolean}
-     */
-    useCanvas: PropTypes.bool,
-};
-
-StackedBar.defaultProps = {
-    ...StackedBarBase.defaultProps,
-    useCanvas: false,
-};
+}
 
 StackedBar.requiresVirtualCanvas = true;
-
-export { StackedBar };
