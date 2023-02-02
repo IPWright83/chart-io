@@ -1,40 +1,31 @@
-import PropTypes from "prop-types";
 import React from "react";
 
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
-import { ScatterBase } from "./ScatterBase";
 
-const CanvasScatter = withCanvas(withXYPlot(ScatterBase), "plot scatter");
-const SVGScatter = withSVG(withXYPlot(ScatterBase), "plot scatter");
+import { ScatterBase, IScatterBaseProps } from "./ScatterBase";
+
+export interface IScatterProps extends Omit<IScatterBaseProps, "layer" | "canvas"> {
+    /**
+     * Should Canvas be used instead of SVG?
+     */
+    useCanvas?: boolean;
+}
+
+const CanvasScatter = withCanvas(withXYPlot<IScatterProps>(ScatterBase), "plot scatter");
+const SVGScatter = withSVG(withXYPlot<IScatterProps>(ScatterBase), "plot scatter");
 
 /**
  * Represents a Scatter plot
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Scatter plot component
+ * @param  useCanvas   Should Canvas be used instead of SVG?
+ * @param  props       The set of React props
+ * @return             The Scatter plot component
  */
-const Scatter = ({ useCanvas, ...props }) => {
+export function Scatter({ useCanvas = false, ...props }: IScatterProps) {
     if (useCanvas) {
         return <CanvasScatter {...props} />;
     }
 
     return <SVGScatter {...props} />;
-};
-
-Scatter.propTypes = {
-    ...ScatterBase.propTypes,
-
-    /**
-     * Should this plot use an HTML Canvas instead of SVG?
-     * @type {Boolean}
-     */
-    useCanvas: PropTypes.bool,
-};
-
-Scatter.defaultProps = {
-    ...ScatterBase.defaultProps,
-    useCanvas: false,
-};
+}
 
 Scatter.requiresVirtualCanvas = true;
-
-export { Scatter };

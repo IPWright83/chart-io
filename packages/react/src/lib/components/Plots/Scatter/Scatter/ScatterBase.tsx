@@ -1,21 +1,35 @@
+import { IEventPlotProps, IColor } from "@d3-chart/types";
 import * as d3 from "d3";
-import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useStore, useSelector } from "react-redux";
 
 import { useFocused } from "./useFocused";
 import { useTooltip } from "./useTooltip";
-import { chartSelectors } from "../../../../store";
-import { eventDefaultProps, eventPropTypes, plotDefaultProps, plotPropTypes } from "../../../../types";
 
 import { renderCanvas } from "../../renderCanvas";
+import { chartSelectors, IState } from "../../../../store";
+
+export interface IScatterBaseProps extends IEventPlotProps {
+    /**
+     * The optional key of the field used for the relative z size. This overrides the radius
+     */
+    z?: string;
+    /**
+     * The fixed radius to use for points. This is ignored if z is provided
+     */
+    radius?: number;
+    /**
+     * This is an internally used function to allow the scatter plot to render to a virtual canvas
+     */
+    renderVirtualCanvas?: (update: d3.Transition<Element, unknown, any, unknown>) => void;
+}
 
 /**
  * Represents a base Scatter plot that is common across both SVG and Canvas based charts
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Scatter plot component
+ * @param  props       The set of React properties
+ * @return             The Scatter plot component
  */
-const ScatterBase = ({
+export function ScatterBase({
     x,
     y,
     z,
@@ -28,26 +42,27 @@ const ScatterBase = ({
     onMouseOut,
     onClick,
     layer,
-}) => {
+}: IScatterBaseProps) {
     const store = useStore();
-    const data = useSelector((s) => chartSelectors.data(s));
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s) => chartSelectors.dimensions.height(s));
-    const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
-    const yScale = useSelector((s) => chartSelectors.scales.getScale(s, y));
-    const zScale = useSelector((s) => chartSelectors.scales.getScale(s, z));
-    const theme = useSelector((s) => chartSelectors.theme(s));
-    const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
+    const data = useSelector((s: IState) => chartSelectors.data(s));
+    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
+    const zScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, z));
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
+    const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     const fillColor = d3.color(color || theme.series.colors[0]);
     const strokeColor = fillColor.darker();
     fillColor.opacity = theme.series.opacity;
 
+    // @ts-ignore: TODO: How do we check for bandwidth?
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
-    const setFocused = useFocused({ dispatch: store.dispatch, xScale, yScale });
-    const setTooltip = useTooltip({ dispatch: store.dispatch, x, y });
+    const setFocused = useFocused(store.dispatch, xScale, yScale);
+    const setTooltip = useTooltip(store.dispatch, x, y);
 
     // This is the main render function
     useEffect(() => {
@@ -71,50 +86,48 @@ const ScatterBase = ({
             .enter()
             .append("circle")
             .attr("class", "scatter-point")
+            // @ts-ignore: TODO: Need to work out casting
             .attr("cx", (d) => xScale(d[x]) + bandwidth)
+            // @ts-ignore: TODO: Need to work out casting
             .attr("cy", (d) => yScale(d[y]))
             .attr("r", 0)
-            .style("stroke", () => strokeColor)
-            .style("fill", () => fillColor)
+            .style("stroke", () => strokeColor.toString())
+            .style("fill", () => fillColor.toString())
             .style("opacity", theme.series.opacity);
 
         // Update new and existing points
-        const update = enter
+        const update = enter // @ts-ignore
             .merge(join)
-            .on("mouseover", function(event, datum) {
+            .on("mouseover", function (event, datum) {
                 if (!interactive) return;
 
-                onMouseOver(datum, this, event);
-                setTooltip({ datum, event, fillColor });
+                onMouseOver && onMouseOver(datum, this, event);
+                setTooltip({ datum, event, fillColor: fillColor as unknown as IColor });
                 setFocused({ element: this, event, datum });
             })
-            .on("mouseout", function(event, datum) {
+            .on("mouseout", function (event, datum) {
                 if (!interactive) return;
 
-                onMouseOut(datum, this, event);
+                onMouseOut && onMouseOut(datum, this, event);
                 setTooltip(null);
                 setFocused(null);
             })
-            .on("click", function(event, datum) {
+            .on("click", function (event, datum) {
                 if (!interactive) return;
 
-                onClick(datum, this, event);
+                onClick && onClick(datum, this, event);
             })
             .transition("scatter")
             .duration(animationDuration)
+            // @ts-ignore: TODO: Need to work out casting
             .attr("cx", (d) => xScale(d[x]))
+            // @ts-ignore: TODO: Need to work out casting
             .attr("cy", (d) => yScale(d[y]))
+            // @ts-ignore: TODO: Need to work out casting
             .attr("r", (d) => (z ? zScale(d[z]) : radius))
-            .style("fill", () => fillColor);
+            .style("fill", () => fillColor.toString());
 
-        renderCanvas({
-            canvas,
-            renderVirtualCanvas,
-            width,
-            height,
-            exit,
-            update,
-        });
+        renderCanvas(canvas, renderVirtualCanvas, width, height, update, exit);
     }, [
         x,
         y,
@@ -131,30 +144,4 @@ const ScatterBase = ({
     ]);
 
     return null;
-};
-
-ScatterBase.propTypes = {
-    ...plotPropTypes,
-    ...eventPropTypes,
-
-    /**
-     * The optional key of the field used for the relative z size. This overrides the radius
-     * @type {String}
-     */
-    z: PropTypes.string,
-
-    /**
-     * The fixed radius to use for points. This is ignored if z is provided
-     * @type {Number}
-     */
-    radius: PropTypes.number,
-};
-
-ScatterBase.defaultProps = {
-    ...plotDefaultProps,
-    ...eventDefaultProps,
-    radius: 5,
-    opacity: 0.8,
-};
-
-export { ScatterBase };
+}

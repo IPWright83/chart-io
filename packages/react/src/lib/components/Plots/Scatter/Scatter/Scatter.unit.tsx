@@ -49,7 +49,7 @@ describe("Scatter", () => {
                 jest.spyOn(store, "dispatch");
                 await testMouseOver(container, "circle", onMouseOver, expectedDatum);
 
-                const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
+                const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
                 expect(dispatchCalls).toEqual([
                     "EVENT.ADD_MARKER",
@@ -74,7 +74,7 @@ describe("Scatter", () => {
                 jest.spyOn(store, "dispatch");
                 await testMouseExit(container, "circle", onMouseOut, expectedDatum);
 
-                const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
+                const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
                 expect(dispatchCalls).toEqual([
                     "EVENT.ADD_MARKER",
@@ -203,7 +203,7 @@ describe("Scatter", () => {
                     pageY: 25,
                 });
 
-                const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
+                const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
                 expect(dispatchCalls).toEqual([
                     "EVENT.MOUSE_MOVE",
@@ -239,7 +239,7 @@ describe("Scatter", () => {
                     pageY: 25,
                 });
 
-                const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
+                const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
                 expect(dispatchCalls).toEqual([
                     // Mouseover

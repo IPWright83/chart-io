@@ -1,16 +1,17 @@
+import { IColor, IScale } from "@d3-chart/types";
 import * as d3 from "d3";
 import { useState, useEffect } from "react";
 
-import { eventActions } from "../../../../store";
+import { eventActions, IDispatch } from "../../../../store";
 
 /**
  * Handles the user interacting with a DataPoint on the Scatter chart
- * @param  {Function} options.dispatch     The redux store dispatch function
- * @param  {d3.Scale} options.xScale       The d3 scale for the x-axis
- * @param  {d3.Scale} options.yScale       The d3 scale for the y-axis
- * @return {Function}                      A function to set the focused datum
+ * @param  dispatch     The redux store dispatch function
+ * @param  xScale       The d3 scale for the x-axis
+ * @param  yScale       The d3 scale for the y-axis
+ * @return              A function to set the focused datum
  */
-const useFocused = ({ dispatch, xScale, yScale }) => {
+export function useFocused(dispatch: IDispatch, xScale: IScale | undefined, yScale: IScale | undefined) {
     const [focused, setFocused] = useState(null);
 
     useEffect(() => {
@@ -22,7 +23,7 @@ const useFocused = ({ dispatch, xScale, yScale }) => {
         const r = +selection.attr("r");
         const cx = +selection.attr("cx");
         const cy = +selection.attr("cy");
-        const fill = selection.style("fill");
+        const fill = selection.style("fill") as IColor;
         const markerRadius = r + 4;
 
         const marker = { stroke: fill, r1: r, r2: markerRadius, cx, cy };
@@ -56,6 +57,4 @@ const useFocused = ({ dispatch, xScale, yScale }) => {
     }, [dispatch, xScale, yScale, focused]);
 
     return setFocused;
-};
-
-export { useFocused };
+}

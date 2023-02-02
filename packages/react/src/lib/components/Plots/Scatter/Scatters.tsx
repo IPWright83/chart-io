@@ -1,47 +1,29 @@
-import PropTypes from "prop-types";
+import type { IPlotsProps } from "@d3-chart@types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors } from "../../../store";
-import { eventDefaultProps, eventPropTypes, plotsDefaultProps, plotsPropTypes } from "../../../types";
+import { chartSelectors, IState } from "../../../store";
 
 import { Scatter } from "./Scatter";
 
+export interface IScattersProps extends Omit<IPlotsProps, "interactive"> {}
+
 /**
  * Represents a set of Scatter Plots
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Scatter plot component
+ * @param  props       The set of React properties
+ * @return             The Scatter plot component
  */
-const Scatters = ({ ys, colors, ...props }) => {
-    const theme = useSelector((s) => chartSelectors.theme(s));
+export function Scatters({ x, ys, colors, ...props }: IScattersProps) {
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const palette = colors || theme.series.colors;
 
     return (
         <React.Fragment>
             {ys.map((y, i) => (
-                <Scatter {...props} key={y} y={y} color={palette[i]} />
+                <Scatter {...props} key={y} y={y} x={x} color={palette[i]} />
             ))}
         </React.Fragment>
     );
-};
-
-Scatters.propTypes = {
-    ...plotsPropTypes,
-    ...eventPropTypes,
-
-    /**
-     * The fixed radius to use for points. This is ignored if z is provided
-     * @type {Number}
-     */
-    radius: PropTypes.number,
-};
-
-Scatters.defaultProps = {
-    ...plotsDefaultProps,
-    ...eventDefaultProps,
-    radius: 5,
-};
+}
 
 Scatters.requiresVirtualCanvas = true;
-
-export { Scatters };
