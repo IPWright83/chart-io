@@ -1,4 +1,3 @@
-import { Area, AreaBase } from "./Area";
-import { Areas } from "./Areas";
-
-export { Area, AreaBase, Areas };
+export * from "./Area";
+export * from "./StackedArea";
+export * from "./Areas";

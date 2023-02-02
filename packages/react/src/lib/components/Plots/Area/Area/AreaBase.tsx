@@ -1,38 +1,45 @@
+import type { IPlotProps } from "@d3-chart/types";
 import * as d3 from "d3";
 import { useStore, useSelector } from "react-redux";
-import PropTypes from "prop-types";
 
 import { useRender } from "../../../../hooks";
-import { chartSelectors, eventSelectors } from "../../../../store";
-import { plotDefaultProps, plotPropTypes } from "../../../../types";
+import { chartSelectors, eventSelectors, IState } from "../../../../store";
 import { interpolateMultiPath, isNullOrUndefined } from "../../../../utils";
 
 import { useDatumFocus } from "./useDatumFocus";
 import { usePathCreator } from "./usePathCreator";
 import { useTooltip } from "./useTooltip";
 
+export interface IAreaBaseProps extends IPlotProps {
+    /**
+     * The key of the field used for the y2 position for a stream graph
+     */
+    y2?: string;
+}
+
 /**
  * Represents an Area Plot on an SVG Element
- * @param  {Object} props       The set of React properties
- * @return {ReactElement}  The Line plot component
+ * @param  props       The set of React properties
+ * @return             The Line plot component
  */
-const AreaBase = ({ x, y, y2, color, interactive, layer, canvas }) => {
+export function AreaBase({ x, y, y2, color, interactive, layer, canvas }: IAreaBaseProps) {
     const store = useStore();
-    const data = useSelector((s) => chartSelectors.data(s));
-    const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
-    const yScale = useSelector((s) => chartSelectors.scales.getScale(s, y));
-    const eventMode = useSelector((s) => eventSelectors.mode(s));
-    const position = useSelector((s) => eventSelectors.position(s));
-    const theme = useSelector((s) => chartSelectors.theme(s));
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s) => chartSelectors.dimensions.height(s));
-    const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
+    const data = useSelector((s: IState) => chartSelectors.data(s));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
+    const eventMode = useSelector((s: IState) => eventSelectors.mode(s));
+    const position = useSelector((s: IState) => eventSelectors.position(s));
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
+    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
 
     const fillColor = d3.color(color || theme.series.colors[0]);
     fillColor.opacity = theme.series.opacity;
     const strokeColor = fillColor.darker();
 
+    // @ts-expect-error: This is a runtime check
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
     // Used to create our initial path
@@ -57,9 +64,12 @@ const AreaBase = ({ x, y, y2, color, interactive, layer, canvas }) => {
             // Clear and then re-render the path
             context.clearRect(0, 0, width, height);
             context.beginPath();
+
+            // @ts-ignore: TODO: Not sure how to fix this
             area(sortedData);
-            context.fillStyle = fillColor;
-            context.strokeStyle = strokeColor;
+
+            context.fillStyle = fillColor.toString();
+            context.strokeStyle = strokeColor.toString();
             context.fill();
             context.stroke();
 
@@ -70,13 +80,14 @@ const AreaBase = ({ x, y, y2, color, interactive, layer, canvas }) => {
         d3.select(layer.current)
             .select("path")
             .datum(sortedData)
-            .style("fill", fillColor)
-            .style("stroke", strokeColor)
+            .style("fill", fillColor.toString())
+            .style("stroke", strokeColor.toString())
             .style("pointer-events", "none")
             .transition("area")
             .duration(animationDuration)
             .attrTween("d", function (d) {
                 const previous = d3.select(this).attr("d");
+                // @ts-ignore: TODO: Not sure how to fix this
                 const current = area(d);
                 return interpolateMultiPath(previous, current);
             });
@@ -111,26 +122,4 @@ const AreaBase = ({ x, y, y2, color, interactive, layer, canvas }) => {
     }
 
     return null;
-};
-
-AreaBase.propTypes = {
-    ...plotPropTypes,
-
-    /**
-     * The key of the field used for the y2 position for a stream graph
-     * @type {String}
-     */
-    y2: PropTypes.string,
-
-    /**
-     * The canvas element that the line chart should render to
-     * @type {Object}
-     */
-    canvas: PropTypes.object,
-};
-
-AreaBase.defaultProps = {
-    ...plotDefaultProps,
-};
-
-export { AreaBase };
+}

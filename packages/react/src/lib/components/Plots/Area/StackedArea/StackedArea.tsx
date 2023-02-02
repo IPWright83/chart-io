@@ -2,21 +2,27 @@ import PropTypes from "prop-types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors } from "../../../../store";
+import { chartSelectors, IState } from "../../../../store";
 import { withSVG, withCanvas, withXYPlot } from "../../../../hoc";
-import { plotsPropTypes, eventPropTypes, eventDefaultProps, plotsDefaultProps } from "../../../../types";
-import { StackedAreaBase } from "./StackedAreaBase";
+import { StackedAreaBase, IStackedAreaBaseProps } from "./StackedAreaBase";
 
-const StackedCanvasArea = withCanvas(withXYPlot(StackedAreaBase), "plot stacked-area");
-const StackedSVGArea = withSVG(withXYPlot(StackedAreaBase), "plot stacked-area");
+export interface IStackedColumnProps extends Omit<IStackedAreaBaseProps, "interactive" | "layer"> {
+    /**
+     * Should Canvas be used instead of SVG?
+     */
+    useCanvas?: boolean;
+}
+
+const StackedCanvasArea = withCanvas(withXYPlot<IStackedColumnProps>(StackedAreaBase), "plot stacked-area");
+const StackedSVGArea = withSVG(withXYPlot<IStackedColumnProps>(StackedAreaBase), "plot stacked-area");
 
 /**
  * Represents a Column plot
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Column plot component
+ * @param  props       The set of React properties
+ * @return             The Column plot component
  */
-const StackedArea = ({ useCanvas, colors, ...props }) => {
-    const theme = useSelector((s) => chartSelectors.theme(s));
+export function StackedArea({ useCanvas = false, colors, ...props }: IStackedColumnProps) {
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const palette = colors || theme.series.colors;
 
     if (useCanvas) {
@@ -24,25 +30,6 @@ const StackedArea = ({ useCanvas, colors, ...props }) => {
     }
 
     return <StackedSVGArea {...props} colors={palette} />;
-};
-
-StackedArea.propTypes = {
-    ...plotsPropTypes,
-    ...eventPropTypes,
-
-    /**
-     * Should this plot use an HTML Canvas instead of SVG?
-     * @type {Boolean}
-     */
-    useCanvas: PropTypes.bool,
-};
-
-StackedArea.defaultProps = {
-    ...plotsDefaultProps,
-    ...eventDefaultProps,
-    useCanvas: false,
-};
+}
 
 StackedArea.requiresVirtualCanvas = false;
-
-export { StackedArea };

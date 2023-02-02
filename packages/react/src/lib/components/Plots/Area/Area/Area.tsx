@@ -1,41 +1,30 @@
-import PropTypes from "prop-types";
 import React from "react";
 
-import { AreaBase } from "./AreaBase";
+import { AreaBase, IAreaBaseProps } from "./AreaBase";
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
-const WrappedCanvasArea = withCanvas(withXYPlot(AreaBase), "plot area");
-const WrappedSVGArea = withSVG(withXYPlot(AreaBase), "plot area");
+export interface IAreaProps extends Omit<IAreaBaseProps, "layer" | "canvas"> {
+    /**
+     * Should this plot use an HTML Canvas instead of SVG?
+     */
+    useCanvas?: boolean;
+}
+
+const WrappedCanvasArea = withCanvas<IAreaProps>(withXYPlot(AreaBase), "plot area");
+const WrappedSVGArea = withSVG<IAreaProps>(withXYPlot(AreaBase), "plot area");
 
 /**
  * Represents a Area plot
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Area plot component
+ * @param  useCanvas   Should Canvas be used instead of SVG?
+ * @param  props       The set of React properties
+ * @return             The Area plot component
  */
-const Area = ({ useCanvas, ...props }) => {
+export function Area({ useCanvas = false, ...props }: IAreaProps) {
     if (useCanvas) {
         return <WrappedCanvasArea {...props} />;
     }
 
     return <WrappedSVGArea {...props} />;
-};
-
-Area.propTypes = {
-    ...AreaBase.propTypes,
-
-    /**
-     * The key of the field used for the y2 position for a stream graph
-     * @type {String}
-     */
-    y2: PropTypes.string,
-
-    /**
-     * Should this plot use an HTML Canvas instead of SVG?
-     * @type {Boolean}
-     */
-    useCanvas: PropTypes.bool,
-};
+}
 
 Area.requiresVirtualCanvas = false;
-
-export { Area };

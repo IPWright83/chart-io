@@ -1,20 +1,26 @@
-import PropTypes from "prop-types";
+import type { IPlotsProps } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors } from "../../../store";
-import { plotsDefaultProps, plotsPropTypes } from "../../../types";
+import { chartSelectors, IState } from "../../../store";
 
 import { Area } from "./Area";
 import { StackedArea } from "./StackedArea";
 
+export interface IAreasProps extends IPlotsProps {
+    /**
+     * Should the area plots be stacked based on the x-value?
+     */
+    stacked?: boolean;
+}
+
 /**
  * Represents a set of Area Plots
- * @param  {Object} props       The set of React properties
- * @return {ReactDOMComponent}  The Area plot component
+ * @param  props       The set of React properties
+ * @return             The Area plot component
  */
-const Areas = ({ ys, colors, stacked, ...props }) => {
-    const theme = useSelector((s) => chartSelectors.theme(s));
+export function Areas({ ys, colors, stacked = false, ...props }: IAreasProps) {
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const palette = colors || theme.series.colors;
 
     if (stacked) {
@@ -28,20 +34,6 @@ const Areas = ({ ys, colors, stacked, ...props }) => {
             ))}
         </React.Fragment>
     );
-};
-
-Areas.propTypes = {
-    ...plotsPropTypes,
-
-    /**
-     * Should the area plots be stacked based on the x-value?
-     * @type {Boolean}
-     */
-    stacked: PropTypes.bool,
-};
-
-Areas.defaultProps = plotsDefaultProps;
+}
 
 Areas.requiresVirtualCanvas = false;
-
-export { Areas };
