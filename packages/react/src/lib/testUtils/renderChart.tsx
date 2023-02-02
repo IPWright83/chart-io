@@ -1,3 +1,4 @@
+import type { IData, IScale } from "@d3-chart/types";
 import React from "react";
 import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
@@ -9,13 +10,23 @@ import { themes } from "../themes";
 
 /**
  * Test render function for a chart
- * @param  {Array} options.children     The set of React children
- * @param  {Array} options.data         The data for the chart
- * @param  {Object} options.scales      The keyed scales for the chart
- * @param  {Object} options.store       Optional specific store to use
- * @return {Object}                     { asFragment, container }
+ * @param  options.children     The set of React children
+ * @param  options.data         The data for the chart
+ * @param  options.scales      The keyed scales for the chart
+ * @param  options.store       Optional specific store to use
+ * @return                     { asFragment, container }
  */
-export const renderChart = async ({ children, data, scales, store }) => {
+export async function renderChart({
+    children,
+    data,
+    scales,
+    store,
+}: {
+    children: JSX.Element;
+    data: IData;
+    scales: Record<string, IScale>;
+    store?: any;
+}) {
     const mockStore = createMockStore({
         chart: {
             animationDuration: 0,
@@ -32,10 +43,10 @@ export const renderChart = async ({ children, data, scales, store }) => {
     const { asFragment, container } = render(
         <Provider store={store ?? mockStore}>
             <svg>{children}</svg>
-        </Provider>,
+        </Provider>
     );
 
     await wait(10);
 
     return { asFragment, container, store: store ?? mockStore };
-};
+}
