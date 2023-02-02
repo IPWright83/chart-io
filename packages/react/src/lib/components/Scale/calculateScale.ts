@@ -1,19 +1,20 @@
+import type { IScaleType, IValue, IScale, IData } from "@d3-chart/types";
 import * as d3 from "d3";
 
 import { getDataType, typeEnumToName, Types } from "@chart-it/detection";
 
 /**
  * Return a scale as defined by the scaleType property
- * @param  {String} scaleType   The scaletype, one of [linear, time, power, log, band, point]
- * @param  {Any[]} values       The set of values
- * @param  {Number[]}  range    The physical screen space avaliable for this scale
- * @param  {Array} domain       Override the domain for the scale
- * @return {d3.Scale}           A d3.Scale function
+ * @param  scaleType    The scaletype, one of [linear, time, power, log, band, point]
+ * @param  values       The set of values
+ * @param  range        The physical screen space avaliable for this scale
+ * @param  domain       Override the domain for the scale
+ * @return              A d3.Scale function
  */
-const getScaleTypeFromType = (scaleType, values, range, domain) => {
+const getScaleTypeFromType = (scaleType: IScaleType, values: IValue[], range: number[], domain: IValue[]): IScale => {
     if (scaleType === "band") {
         return d3
-            .scaleBand()
+            .scaleBand() // @ts-ignore
             .domain(domain ?? values)
             .range(range)
             .paddingOuter(0.05);
@@ -21,35 +22,35 @@ const getScaleTypeFromType = (scaleType, values, range, domain) => {
 
     if (scaleType === "point") {
         return d3
-            .scalePoint()
+            .scalePoint() // @ts-ignore
             .domain(domain ?? values)
             .range(range);
     }
 
-    const min = d3.min(values);
-    const max = d3.max(values);
+    const min = d3.min(values as d3.Numeric[]);
+    const max = d3.max(values as d3.Numeric[]);
     const zeroOrMin = d3.min([0, min]);
 
     switch (scaleType) {
         case "power":
             return d3
-                .scalePow()
+                .scalePow() // @ts-ignore
                 .domain(domain ?? [zeroOrMin, max])
                 .range(range);
         case "linear":
             return d3
-                .scaleLinear()
+                .scaleLinear() // @ts-ignore
                 .domain(domain ?? [zeroOrMin, max])
                 .range(range)
                 .nice();
         case "time":
             return d3
-                .scaleTime()
+                .scaleTime() // @ts-ignore
                 .domain(domain ?? [min, max])
                 .range(range);
         case "log":
             return d3
-                .scaleLog()
+                .scaleLog() // @ts-ignore
                 .domain(domain ?? [zeroOrMin, max])
                 .range(range);
         default:
@@ -59,17 +60,17 @@ const getScaleTypeFromType = (scaleType, values, range, domain) => {
 
 /**
  * Returns the set of values to aggregate
- * @param  {Object[]}  data        The chart data set
- * @param  {String[]} fields       The fields to use for the scale
- * @param  {Boolean} aggregate     Should the values be aggregated?
- * @return {Array}                 An array of the values
+ * @param  data          The chart data set
+ * @param  fields        The fields to use for the scale
+ * @param  aggregate     Should the values be aggregated?
+ * @return               An array of the values
  */
-const getValues = (data, fields, aggregate) => {
+const getValues = (data: IData, fields: string[], aggregate: boolean): IValue[] => {
     if (aggregate) {
         return data.map((d) =>
             fields.reduce((sum, key) => {
                 const value = d[key];
-                return value ? sum + value : sum;
+                return value ? sum + +value : sum;
             }, 0)
         );
     }
@@ -79,15 +80,22 @@ const getValues = (data, fields, aggregate) => {
 
 /**
  * Obtain a Scale for the particular axis
- * @param  {Object[]}  data        The chart data set
- * @param  {String[]} fields       The fields to use for the scale
- * @param  {Number[]}  range       The physical screen space avaliable for this scale
- * @param  {Array} domain          Override the domain for the scale
- * @param  {Boolean} aggregate     Should the values be aggregated?
- * @param  {String} scaleType      Override the type of scale to use rather than determing dynamically. One of [linear, time, power, log, band, point]
- * @return {d3.Scale}              A d3.Scale function
+ * @param  data        The chart data set
+ * @param  fields      The fields to use for the scale
+ * @param  range       The physical screen space avaliable for this scale
+ * @param  domain      Override the domain for the scale
+ * @param  aggregate   Should the values be aggregated?
+ * @param  scaleType   Override the type of scale to use rather than determing dynamically. One of [linear, time, power, log, band, point]
+ * @return             A d3.Scale function
  */
-const calculateScale = (data, fields, range, domain, aggregate, scaleType) => {
+const calculateScale = (
+    data: IData,
+    fields: string[],
+    range: number[],
+    domain: IValue[],
+    aggregate: boolean,
+    scaleType?: IScaleType
+): IScale => {
     // Grab all the values
     const values = getValues(data, fields, aggregate);
 
