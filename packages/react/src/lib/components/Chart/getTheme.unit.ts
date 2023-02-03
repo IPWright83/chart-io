@@ -1,3 +1,4 @@
+import type { ITheme } from "@d3-chart/types";
 import { themes } from "../../themes";
 import { getTheme } from "./getTheme";
 
@@ -11,7 +12,7 @@ describe("getTheme", () => {
     });
 
     it("should return custom theme for an object", () => {
-        const custom = {};
+        const custom = {} as ITheme;
         expect(getTheme(custom)).toBe(custom);
     });
 });

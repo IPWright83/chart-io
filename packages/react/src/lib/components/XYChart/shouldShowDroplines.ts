@@ -1,9 +1,13 @@
 /**
  * Determine if droplines should be shown based on the plots used
- * @param  {Array} children     The array of React elements
- * @return {Boolean}            True if droplines should be enabled
+ * @param  children     The array of React elements
+ * @return              True if droplines should be enabled
  */
-export const shouldShowDroplines = (children = []) => {
+export function shouldShowDroplines(children: any): boolean {
+    if (!children) {
+        return true;
+    }
+
     // Just a single child
     if (children.props && children.type) {
         return true;
@@ -21,4 +25,4 @@ export const shouldShowDroplines = (children = []) => {
 
     // Check for manually added multiple Line or Area plots
     return names.filter((n) => n === "Area" || n === "Line").length <= 1;
-};
+}

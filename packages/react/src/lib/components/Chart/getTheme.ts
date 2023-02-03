@@ -1,11 +1,12 @@
+import type { ITheme } from "@d3-chart/types";
 import { themes } from "../../themes";
 
 /**
  * Gets the theme from the name
- * @param  {String|Object} theme    Either the name of a theme, or a custom theme object
- * @return {Object}                 The theme
+ * @param  theme   Either the name of a theme, or a custom theme object
+ * @return         The theme
  */
-const getTheme = (theme) => {
+export function getTheme(theme: ITheme | "light" | "dark"): ITheme {
     switch (theme) {
         case "light":
             return themes.light;
@@ -14,6 +15,4 @@ const getTheme = (theme) => {
         default:
             return theme;
     }
-};
-
-export { getTheme };
+}

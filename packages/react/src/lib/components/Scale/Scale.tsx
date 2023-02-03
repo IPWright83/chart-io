@@ -27,6 +27,7 @@ export function Scale({ fields, scale, fromAxis }: IScaleProps) {
     const store = useStore();
 
     useEffect(() => {
+        // @ts-ignore: TODO: Fix this
         store.dispatch(chartActions.setScales(fields, scale, fromAxis));
     }, [fields, scale, store.dispatch]);
 

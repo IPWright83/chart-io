@@ -84,8 +84,8 @@ export function GroupedColumnBase({
         // prettier-ignore
         const groupJoin = d3
             .select(layer.current)
-            .selectAll("g")
-            .data(data) as d3.Selection<SVGRectElement, IDatum, Element, unknown>;
+            .selectAll<SVGGElement, IDatum>("g")
+            .data(data);
 
         // Clean up old groups
         groupJoin.exit().remove();

@@ -1,3 +1,4 @@
+import type { IOnMouseOver, IOnMouseOut, IOnClick } from "@d3-chart/types";
 import { debounce } from "lodash";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef } from "react";
@@ -8,13 +9,36 @@ import {
     clearVirtualCanvas,
     removeEventHandlers,
     renderVirtualCanvas,
+    IColorToDataMap,
 } from "../../hoc/canvas/virtual";
-import { chartSelectors } from "../../store";
-import { getChildrenWithProps } from "./getChildrenWithProps";
+import { chartSelectors, IState } from "../../store";
 
+import { getChildrenWithProps } from "./getChildrenWithProps";
 import { isVirtualCanvasRequired } from "./isVirtualCanvasRequired";
 
 export const VIRTUAL_CANVAS_DEBOUNCE = 100;
+
+export interface IVirtualCanvasProps {
+    /**
+     * The plots that are children of the virtual canvas
+     */
+    children: JSX.Element;
+    /**
+     * A function that will be triggered whenever the mouse moves over an element for the first time
+     * @default `() => {}`
+     */
+    onMouseOver?: IOnMouseOver;
+    /**
+     * A function that will be triggered whenever the mouse moves out an element
+     * @default `() => {}`
+     */
+    onMouseOut?: IOnMouseOut;
+    /**
+     * A function that will be triggered whenever the mouse clicks on an element
+     * @default `() => {}`
+     */
+    onClick?: IOnClick;
+}
 
 /**
  * The virtual canvas, draws elements to a non dom canvas and is used to
@@ -22,15 +46,13 @@ export const VIRTUAL_CANVAS_DEBOUNCE = 100;
  * @param  {Object} props   The react props
  * @return {ReactElement}   A virtual canvas to add mouse events to canvas layers
  */
-export const VirtualCanvas = (props) => {
-    const { children, onMouseOver, onMouseOut, onClick } = props;
-
+export function VirtualCanvas({ children, onMouseOver, onMouseOut, onClick }: IVirtualCanvasProps) {
     // This is going to be used for the main color -> datum lookup.
     // We need to use a useRef so dependencies (wiring up events) don't re-occur forcing a re-render loop
-    const colorToData = useRef({});
+    const colorToData = useRef<IColorToDataMap>({});
     const canvas = useRef(null);
-    const width = useSelector((s) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s) => chartSelectors.dimensions.height(s));
+    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const store = useStore();
 
     // Render all the virtual nodes - this is debounced to ensure that we only trigger it once
@@ -64,7 +86,7 @@ export const VirtualCanvas = (props) => {
             return;
         }
 
-        const { clickHandler, moveHandler } = addEventHandlers(canvasElement, colorToData, store.dispatch);
+        const { clickHandler, moveHandler } = addEventHandlers(canvasElement, colorToData.current, store.dispatch);
 
         // Ensure we clean up the handlers otherwise they'll double fire
         return () => {
@@ -81,13 +103,10 @@ export const VirtualCanvas = (props) => {
 
     // We need to extend the child components to provide the renderVirtual callback down
     // which will automatically be called by any Canvas based layers
-    const childrenWithProps = getChildrenWithProps({
-        children,
-        renderVirtualCanvas: renderVirtual,
-    });
+    const childrenWithProps = getChildrenWithProps(children, renderVirtual);
 
     const style = {
-        position: "absolute",
+        position: "absolute" as const,
         opacity: 0,
         zindex: 10000,
     };
@@ -100,39 +119,4 @@ export const VirtualCanvas = (props) => {
             </foreignObject>
         </React.Fragment>
     );
-};
-
-VirtualCanvas.propTypes = {
-    /**
-     * The plots that are children of the virtual canvas
-     * @type {Array}
-     */
-    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
-
-    /**
-     * A function that will be triggered whenever the mouse moves over an element for the first time
-     * @default `() => {}`
-     * @type {Function}
-     */
-    onMouseOver: PropTypes.func,
-
-    /**
-     * A function that will be triggered whenever the mouse moves out an element
-     * @default `() => {}`
-     * @type {Function}
-     */
-    onMouseOut: PropTypes.func,
-
-    /**
-     * A function that will be triggered whenever the mouse clicks on an element
-     * @default `() => {}`
-     * @type {Function}
-     */
-    onClick: PropTypes.func,
-};
-
-VirtualCanvas.defaultProps = {
-    onMouseOver: () => {},
-    onMouseOut: () => {},
-    onClick: () => {},
-};
+}

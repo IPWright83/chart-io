@@ -77,6 +77,7 @@ export function StackedBarBase({
         };
     }, [store.dispatch, focused, yScale, theme.series.opacity, theme.series.selectedOpacity]);
 
+    // prettier-ignore
     useRender(() => {
         if (ensureBandScale(yScale, "StackedBar") === false) return null;
         ensureValuesAreUnique(data, y, "StackedBar");
@@ -88,7 +89,10 @@ export function StackedBarBase({
         const stackedData = d3.stack().keys(keys)(data);
         const colorScale = d3.scaleOrdinal().domain(keys).range(colors);
 
-        const groupJoin = d3.select(layer.current).selectAll("g").data(stackedData);
+        const groupJoin = d3
+            .select(layer.current)
+            .selectAll<SVGGElement, IDatum>("g")
+            .data(stackedData);
 
         // Clean up old stacks
         groupJoin.exit().remove();

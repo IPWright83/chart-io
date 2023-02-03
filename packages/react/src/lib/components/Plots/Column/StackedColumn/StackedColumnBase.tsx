@@ -1,4 +1,4 @@
-import type { IEventPlotProps, IColor } from "@d3-chart/types";
+import type { IEventPlotProps, IColor, IDatum } from "@d3-chart/types";
 import * as d3 from "d3";
 import { useEffect, useState } from "react";
 import { useStore, useSelector } from "react-redux";
@@ -73,6 +73,7 @@ export function StackedColumnBase({
         };
     }, [store.dispatch, focused, xScale, theme.series.opacity, theme.series.selectedOpacity]);
 
+    // prettier-ignore
     useRender(() => {
         if (ensureBandScale(xScale, "StackedColumnBase") === false) return null;
         ensureValuesAreUnique(data, x, "StackedColumnBase");
@@ -80,10 +81,14 @@ export function StackedColumnBase({
 
         // Create the stacked variant of the data
         const keys = ys;
+        // @ts-ignore: TODO: Fix this
         const stackedData = d3.stack().keys(keys)(data);
         const colorScale = d3.scaleOrdinal().domain(keys).range(colors);
 
-        const groupJoin = d3.select(layer.current).selectAll("g").data(stackedData);
+        const groupJoin = d3
+            .select(layer.current)
+            .selectAll<SVGGElement, IDatum>("g")
+            .data(stackedData);
 
         // Clean up old stacks
         groupJoin.exit().remove();

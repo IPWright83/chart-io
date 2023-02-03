@@ -76,6 +76,7 @@ export function GroupedBarBase({
         };
     }, [store.dispatch, focused, yScale, theme.series.opacity, theme.series.selectedOpacity]);
 
+    // prettier-ignore
     useRender(() => {
         if (ensureBandScale(yScale, "GroupedBar") === false) return null;
 
@@ -114,11 +115,7 @@ export function GroupedBarBase({
         // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
         const y1Scale = d3.scaleBand().domain(xs).rangeRound([0, yScale.bandwidth()]).padding(0.05);
 
-        // prettier-ignore
-        const groupJoin = d3
-            .select(layer.current)
-            .selectAll("g")
-            .data(data) as d3.Selection<SVGRectElement, IDatum, Element, unknown>;
+        const groupJoin = d3.select(layer.current).selectAll<SVGGElement, IDatum>("g").data(data);
 
         // Clean up old groups
         groupJoin.exit().remove();
