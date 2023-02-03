@@ -18,7 +18,7 @@ export interface IMarkersBaseProps {
  * @return The Markers component
  */
 export function Markers({ layer }: IMarkersBaseProps) {
-    const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
+    const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const markers = useSelector((s: IState) => eventSelectors.markers(s));
 
@@ -40,10 +40,10 @@ export function Markers({ layer }: IMarkersBaseProps) {
             .append("circle")
             .attr("class", "chart-it marker")
             .attr("pointer-events", "none")
-            .style("stroke", (d) => d.stroke || theme.markers.stroke)
+            .style("stroke", (d) => `${d.stroke ?? theme.markers.stroke}`)
             .style("stroke-width", theme.markers.strokeWidth)
             .style("filter", (d) => (theme.markers.shadow ? `drop-shadow(0px 0px 10px ${d.fill})` : undefined))
-            .style("fill", (d) => d.fill || "none")
+            .style("fill", (d) => `${d.fill ?? "none"}`)
             .attr("r", (d) => d.r1 ?? d.r2 ?? theme.markers.size)
             .attr("cx", (d) => d.cx)
             .attr("cy", (d) => d.cy);

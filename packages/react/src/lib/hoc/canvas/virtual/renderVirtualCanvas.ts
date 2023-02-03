@@ -1,3 +1,4 @@
+import type { IColorToDataMap } from "./types";
 import { renderVirtualElements } from "./renderVirtualElements";
 
 /**

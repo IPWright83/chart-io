@@ -24,7 +24,7 @@ export function renderRect(context: CanvasRenderingContext2D, node: Element, ove
 
     if (overrideColor) {
         context.globalAlpha = 1;
-        context.fillStyle = overrideColor;
+        context.fillStyle = `${overrideColor}`;
         context.fill();
         return;
     }

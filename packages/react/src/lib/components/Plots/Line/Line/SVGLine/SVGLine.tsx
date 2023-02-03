@@ -17,7 +17,7 @@ export interface ISVGLineProps extends Omit<IPlotProps, "canvas"> {}
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Line plot component
  */
-export function SVGLine({ x, y, color, interactive, layer, canvas }: ISVGLineProps) {
+export function SVGLine({ x, y, color, interactive, layer }: ISVGLineProps) {
     const store = useStore();
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
@@ -52,12 +52,14 @@ export function SVGLine({ x, y, color, interactive, layer, canvas }: ISVGLinePro
             .duration(animationDuration)
             .attrTween("d", function (d) {
                 const previous = d3.select(this).attr("d");
+
+                // @ts-ignore: TODO: Work out how to fix this line
                 const current = line(d);
                 return interpolateMultiPath(previous, current);
             })
-            .style("stroke", seriesColor)
+            .style("stroke", `${seriesColor}`)
             .style("stroke-width", "2px");
-    }, [x, y, sortedData, xScale, yScale, layer, animationDuration, canvas]);
+    }, [x, y, sortedData, xScale, yScale, layer, animationDuration]);
 
     // If possible respond to global mouse events for tooltips etc
     if (interactive) {

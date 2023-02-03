@@ -48,7 +48,7 @@ const CustomTimeAxis = ({ fields }) => {
                 .ticks(d3.timeHour.every(1))
                 .tickSizeInner(30)
                 .tickSizeOuter(30)
-                .tickFormat((value, index) => (index % 3 === 0 ? timeFormat(value) : null));
+                .tickFormat((value: Date, index) => (index % 3 === 0 ? timeFormat(value) : null));
 
             // Set some scale props
             d3Axis.scale(scale as d3.AxisScale<d3.AxisDomain>);

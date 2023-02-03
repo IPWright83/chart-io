@@ -51,7 +51,7 @@ export function EventReceiver({ layer }: IEventReceiverBaseProps) {
     }, [store.dispatch, layer, width, height, margin]);
 
     const transform = `translate(${margin.left || 0}, ${margin.top || 0})`;
-    const style = { fill: "none", pointerEvents: "all" };
+    const style = { fill: "none", pointerEvents: "all" as const };
 
     return <rect className="chart-it event-receiver" transform={transform} style={style} />;
 }

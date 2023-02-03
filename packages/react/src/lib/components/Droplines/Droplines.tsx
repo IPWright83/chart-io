@@ -54,7 +54,7 @@ export function Droplines({ layer, showVertical = true, showHorizontal = true }:
             .style("stroke-dasharray", theme.droplines.strokeDasharray)
             .style("stroke-opacity", theme.droplines.strokeOpacity)
             .style("stroke-width", theme.droplines.strokeWidth)
-            .style("stroke", (d) => d.color)
+            .style("stroke", (d) => `${d.color}`)
             .attr("x1", (d) => d.x1)
             .attr("x2", (d) => d.x1)
             .attr("y1", (d) => d.y1)

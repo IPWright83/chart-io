@@ -64,7 +64,12 @@ export function VerticalBand({ xStart, xStop, x, opacity = 0.5, fill, stroke }: 
             width={stopX - startX}
             x={startX}
             className="rect"
-            style={{ stroke, opacity, fill, pointerEvents: "none" }}
+            style={{
+                stroke: stroke?.toString(),
+                opacity,
+                fill: fill?.toString(),
+                pointerEvents: "none" as const,
+            }}
         />
     );
 }

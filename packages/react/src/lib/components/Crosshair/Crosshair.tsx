@@ -43,7 +43,7 @@ export function Crosshair({ showVertical = true, showHorizontal = true }: ICross
                     x2={width - margin.right}
                     y1={y}
                     y2={y}
-                    stroke={theme.crosshair.stroke}
+                    stroke={`${theme.crosshair.stroke}`}
                     strokeOpacity={theme.crosshair.strokeOpacity}
                     strokeWidth={theme.crosshair.strokeWidth}
                     strokeDasharray={theme.crosshair.strokeDasharray}
@@ -56,7 +56,7 @@ export function Crosshair({ showVertical = true, showHorizontal = true }: ICross
                     x2={x}
                     y1={margin.top}
                     y2={height - margin.bottom}
-                    stroke={theme.crosshair.stroke}
+                    stroke={`${theme.crosshair.stroke}`}
                     strokeOpacity={theme.crosshair.strokeOpacity}
                     strokeWidth={theme.crosshair.strokeWidth}
                     strokeDasharray={theme.crosshair.strokeDasharray}

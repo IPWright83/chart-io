@@ -59,7 +59,7 @@ export function CanvasLine({ x, y, color, layer, canvas }: ICanvasLineProps) {
         // @ts-ignore: TODO: Need to work out casting
         line(sortedData);
 
-        context.strokeStyle = seriesColor;
+        context.strokeStyle = `${seriesColor}`;
         context.stroke();
 
         // Note that because we've drawn directly to the canvas, there is no need

@@ -47,7 +47,7 @@ export function BarBase({
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
-    const fillColor = d3.color(color || theme.series.colors[0]);
+    const fillColor = d3.color(`${color ?? theme.series.colors[0]}`);
     fillColor.opacity = theme.series.opacity;
     const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, y);

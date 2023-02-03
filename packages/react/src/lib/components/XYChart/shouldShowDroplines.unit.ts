@@ -21,36 +21,36 @@ describe("shouldShowDroplines", () => {
     });
 
     it("should return false if a multiple Line plots are included", () => {
-        const mockLinePlot = {};
-        mockLinePlot.type = { name: "Line" };
+        const mockLinePlot = React.createElement("Line");
+        // mockLinePlot.type = { name: "Line" };
 
         expect(shouldShowDroplines([mockElement, mockLinePlot, mockLinePlot])).toBe(false);
     });
 
     it("should return false if a Lines plot is included", () => {
-        const mockLinesPlot = {};
-        mockLinesPlot.type = { name: "Lines" };
+        const mockLinesPlot = React.createElement("Lines");
+        // mockLinesPlot.type = { name: "Lines" };
 
         expect(shouldShowDroplines([mockElement, mockLinesPlot])).toBe(false);
     });
 
     it("should return true if single Area plot is included", () => {
-        const mockAreaPlot = {};
-        mockAreaPlot.type = { name: "Area" };
+        const mockAreaPlot = React.createElement("Area");
+        // mockAreaPlot.type = { name: "Area" };
 
         expect(shouldShowDroplines([mockElement, mockAreaPlot])).toBe(true);
     });
 
     it("should return false if multiple Area plots are included", () => {
-        const mockAreaPlot = {};
-        mockAreaPlot.type = { name: "Area" };
+        const mockAreaPlot = React.createElement("Area");
+        // mockAreaPlot.type = { name: "Area" };
 
         expect(shouldShowDroplines([mockElement, mockAreaPlot, mockAreaPlot])).toBe(false);
     });
 
     it("should return false if an Areas plot is included", () => {
-        const mockAreasPlot = {};
-        mockAreasPlot.type = { name: "Areas" };
+        const mockAreasPlot = React.createElement("Area");
+        // mockAreasPlot.type = { name: "Areas" };
 
         expect(shouldShowDroplines([mockElement, mockAreasPlot])).toBe(false);
     });

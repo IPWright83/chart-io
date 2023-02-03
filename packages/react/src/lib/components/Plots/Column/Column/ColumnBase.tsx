@@ -47,7 +47,7 @@ export function ColumnBase({
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     const strokeColor = theme.background;
-    const fillColor = d3.color(color || theme.series.colors[0]);
+    const fillColor = d3.color(`${color && theme.series.colors[0]}`);
     fillColor.opacity = theme.series.opacity;
 
     const setTooltip = useTooltip(store.dispatch, x);

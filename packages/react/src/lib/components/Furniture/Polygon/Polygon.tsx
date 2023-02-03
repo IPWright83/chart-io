@@ -29,5 +29,16 @@ export function Polygon({ points, opacity = 0.5, fill, stroke }: IPolygonProps) 
         return null;
     }
 
-    return <polygon className="polygon" style={{ stroke, opacity, fill, pointerEvents: "none" }} points={points} />;
+    return (
+        <polygon
+            className="polygon"
+            points={points}
+            style={{
+                stroke: stroke?.toString(),
+                opacity,
+                fill: fill?.toString(),
+                pointerEvents: "none",
+            }}
+        />
+    );
 }

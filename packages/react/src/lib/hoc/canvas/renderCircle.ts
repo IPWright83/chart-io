@@ -23,7 +23,7 @@ export function renderCircle(context: CanvasRenderingContext2D, node: Element, o
 
     if (overrideColor) {
         context.globalAlpha = 1;
-        context.fillStyle = overrideColor;
+        context.fillStyle = `${overrideColor}`;
         context.fill();
         return;
     }

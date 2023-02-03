@@ -30,13 +30,17 @@ export interface IGridlinesBaseProps {
      * https://github.com/d3/d3-axis#axis_tickPadding
      */
     tickPadding: number;
+    /**
+     * https://github.com/d3/d3-axis#axis_tickValues
+     */
+    tickValues?: string[];
 }
 
 /**
  * Represents a Gridlines component
  * @return The Gridlines component
  */
-export function Gridlines({ layer, position, scale, tickPadding = 3, ticks, tickValues }: IGridlinesProps) {
+export function Gridlines({ layer, position, scale, tickPadding = 3, ticks, tickValues }: IGridlinesBaseProps) {
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
@@ -81,7 +85,7 @@ export function Gridlines({ layer, position, scale, tickPadding = 3, ticks, tick
 
             d3.select(layer.current)
                 .attr("class", `g-gridlines ${position}`)
-                .style("color", theme.gridlines.stroke)
+                .style("color", theme.gridlines.stroke?.toString())
                 .style("stroke-opacity", theme.gridlines.strokeOpacity)
                 .style("stroke-width", theme.gridlines.strokeWidth)
                 .style("pointer-events", "none")

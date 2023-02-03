@@ -45,7 +45,12 @@ export function TooltipOverlay({ offset = 20, formatters = {} }: ITooltipOverlay
 
     return (
         <foreignObject style={style}>
-            <Tooltip borderColor={borderColor} items={items} positionStyle={positionStyle} formatters={formatters} />
+            <Tooltip
+                borderColor={borderColor?.toString()}
+                items={items}
+                positionStyle={positionStyle}
+                formatters={formatters}
+            />
         </foreignObject>
     );
 }

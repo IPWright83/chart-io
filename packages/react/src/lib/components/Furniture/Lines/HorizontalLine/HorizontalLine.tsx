@@ -45,7 +45,11 @@ export function HorizontalLine({ y, value, opacity = 1, stroke }: IHorizontalLin
             x2={width - margin.right}
             y1={yValue}
             y2={yValue}
-            style={{ stroke, opacity, pointerEvents: "none" }}
+            style={{
+                stroke: stroke?.toString(),
+                opacity,
+                pointerEvents: "none" as const,
+            }}
         />
     );
 }

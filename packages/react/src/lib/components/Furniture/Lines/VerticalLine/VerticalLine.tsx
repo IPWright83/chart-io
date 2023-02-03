@@ -45,7 +45,11 @@ export function VerticalLine({ x, value, opacity = 1, stroke }: IVerticalLinePro
             y2={height - margin.bottom}
             x1={xValue}
             x2={xValue}
-            style={{ stroke, opacity, pointerEvents: "none" }}
+            style={{
+                stroke: stroke?.toString(),
+                opacity,
+                pointerEvents: "none" as const,
+            }}
         />
     );
 }

@@ -1,6 +1,6 @@
-import { withTheme, withStore } from "../../hoc";
+import { withStore } from "../../hoc";
 import { Chart as Chart_ } from "./Chart";
 
-const Chart = withTheme(withStore(Chart_));
+const Chart = withStore(Chart_);
 
 export { Chart, Chart_ };

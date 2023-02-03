@@ -13,11 +13,13 @@ import { MOUSE_MOVE_THROTTLE } from "../../../constants";
  * @param  e              The MouseEventArgs
  */
 const triggerOnClick = (datum: IDatum, node: Element, e: MouseEvent) => {
+    // @ts-ignore: How do we fix __on?
     if (!node || !node.__on) {
         // istanbul ignore next
         return;
     }
 
+    // @ts-ignore: How do we fix __on?
     const onClick = node.__on.find((handler) => handler.type === "click");
     if (onClick) {
         onClick.value.call(node, e, datum);
@@ -31,11 +33,13 @@ const triggerOnClick = (datum: IDatum, node: Element, e: MouseEvent) => {
  * @param  e              The MouseEventArgs
  */
 const triggerOnMouseOver = (datum: IDatum, node: Element, e: MouseEvent) => {
+    // @ts-ignore: How do we fix __on?
     if (!node || !node.__on) {
         // istanbul ignore next
         return;
     }
 
+    // @ts-ignore: How do we fix __on?
     const onMouseOver = node.__on.find((handler) => handler.type === "mouseover");
     if (onMouseOver) {
         onMouseOver.value.call(node, e, datum);
@@ -49,11 +53,13 @@ const triggerOnMouseOver = (datum: IDatum, node: Element, e: MouseEvent) => {
  * @param  e              The MouseEventArgs
  */
 const triggerOnMouseOut = (datum: IDatum, node: Element, e: MouseEvent) => {
+    // @ts-ignore: How do we fix __on?
     if (!node || !node.__on) {
         // istanbul ignore next
         return;
     }
 
+    // @ts-ignore: How do we fix __on?
     const onMouseOut = node.__on.find((handler) => handler.type === "mouseout");
     if (onMouseOut) {
         onMouseOut.value.call(node, e, datum);

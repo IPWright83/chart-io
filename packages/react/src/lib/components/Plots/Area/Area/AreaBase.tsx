@@ -35,7 +35,7 @@ export function AreaBase({ x, y, y2, color, interactive, layer, canvas }: IAreaB
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
 
-    const fillColor = d3.color(color || theme.series.colors[0]);
+    const fillColor = d3.color(`${color ?? theme.series.colors[0]}`);
     fillColor.opacity = theme.series.opacity;
     const strokeColor = fillColor.darker();
 

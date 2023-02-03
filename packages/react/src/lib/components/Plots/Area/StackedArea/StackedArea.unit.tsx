@@ -82,9 +82,7 @@ describe("StackedArea", () => {
 
                 // Spy on the store for the updates from the Area chart
                 const originalDispatch = store.dispatch;
-                jest.spyOn(store, "dispatch").mockImplementationOnce((action) => {
-                    originalDispatch(action);
-                });
+                jest.spyOn(store, "dispatch").mockImplementationOnce((action) => originalDispatch(action));
 
                 // Simulate a mouse move on the background
                 act(() => {
@@ -157,9 +155,7 @@ describe("StackedArea", () => {
 
                 // Spy on the store for the updates from the Area chart
                 const originalDispatch = store.dispatch;
-                jest.spyOn(store, "dispatch").mockImplementationOnce((action) => {
-                    originalDispatch(action);
-                });
+                jest.spyOn(store, "dispatch").mockImplementationOnce((action) => originalDispatch(action));
 
                 // Simulate a mouse move on the background
                 act(() => {

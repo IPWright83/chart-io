@@ -10,7 +10,7 @@ export interface ILineProps {
 
 export function Line({ fill }: ILineProps) {
     const style = {
-        background: fill,
+        background: `${fill}`,
         width: 10,
         height: 3,
         marginTop: 7,

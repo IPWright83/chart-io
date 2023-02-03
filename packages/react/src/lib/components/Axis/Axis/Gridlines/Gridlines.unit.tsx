@@ -54,6 +54,7 @@ describe("Gridlines", () => {
         });
 
         it("throws an error with an invalid position", () => {
+            // @ts-expect-error: Testing out the runtime validation
             expect(() => getTickSize("invalid", width, height, margin)).toThrow();
         });
     });
@@ -70,7 +71,7 @@ describe("Gridlines", () => {
                     <svg>
                         <Gridlines position="bottom" scale={scale} />
                     </svg>
-                </Provider>,
+                </Provider>
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -87,7 +88,7 @@ describe("Gridlines", () => {
                     <svg>
                         <Gridlines position="left" scale={scale} />
                     </svg>
-                </Provider>,
+                </Provider>
             );
 
             expect(asFragment()).toMatchSnapshot();

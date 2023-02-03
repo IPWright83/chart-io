@@ -10,7 +10,7 @@ export interface ISquareProps {
 
 export function Square({ fill }: ISquareProps) {
     const style = {
-        background: fill,
+        background: `${fill}`,
         height: 10,
         width: 10,
         marginTop: 4,

@@ -1,4 +1,4 @@
-import type { IEventPlotProps, IColor, IDatum } from "@d3-chart/types";
+import type { IEventPlotProps, IColor, IDatum, IValue, INumericValue } from "@d3-chart/types";
 import * as d3 from "d3";
 import { useEffect, useState } from "react";
 import { useStore, useSelector } from "react-redux";
@@ -79,6 +79,36 @@ export function GroupedBarBase({
     useRender(() => {
         if (ensureBandScale(yScale, "GroupedBar") === false) return null;
 
+        function _onmouseover(event, datum) {
+            // istanbul ignore next
+            if (!interactive) return;
+
+            onMouseOver && onMouseOver(datum, this as Element, event);
+            setFocused({ element: this, event, datum });
+            setTooltip({
+                datum,
+                event,
+                fillColors: [colorScale(datum.key) as IColor],
+                xs: [datum.key],
+            });
+        }
+
+        function _onmouseout(event, datum) {
+            // istanbul ignore next
+            if (!interactive) return;
+
+            onMouseOut && onMouseOut(datum, this as Element, event);
+            setFocused(null);
+            setTooltip(null);
+        }
+
+        function _onclick(event, datum) {
+            // istanbul ignore next
+            if (!interactive) return;
+
+            onClick && onClick(datum, this as Element, event);
+        }
+
         // Create a scale for each series to fit along the x-axis and the series colors
         const colorScale = d3.scaleOrdinal().domain(xs).range(colors);
         // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
@@ -109,39 +139,16 @@ export function GroupedBarBase({
             .attr("x", () => xScale.range()[0])
             .attr("width", 0)
             .attr("height", y1Scale.bandwidth())
-            .style("stroke", strokeColor)
+            .style("stroke", strokeColor?.toString())
             .style("fill", (d) => colorScale(d.key).toString())
             .style("opacity", theme.series.opacity);
 
+        // prettier-ignore
         const update = join
             .merge(enter)
-            .on("mouseover", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
-
-                onMouseOver && onMouseOver(datum, this as Element, event);
-                setFocused({ element: this, event, datum });
-                setTooltip({
-                    datum,
-                    event,
-                    fillColors: [colorScale(datum.key)],
-                    xs: [datum.key],
-                });
-            })
-            .on("mouseout", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
-
-                onMouseOut && onMouseOut(datum, this as Element, event);
-                setFocused(null);
-                setTooltip(null);
-            })
-            .on("click", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
-
-                onClick && onClick(datum, this as Element, event);
-            })
+            .on("mouseover", _onmouseover)
+            .on("mouseout", _onmouseout)
+            .on("click", _onclick)
             .transition("position")
             .duration(animationDuration / 2)
             .attr("y", (d) => yScale(d[y]) + y1Scale(d.key))
@@ -151,9 +158,8 @@ export function GroupedBarBase({
             .transition("width")
             .duration(animationDuration / 2)
             .delay(animationDuration / 2)
-            // @ts-ignore: TODO: Need to work out casting
-            .attr("width", (d) => xScale(d.value) - xScale.range()[0])
-            .attr("x", () => xScale.range()[0]);
+            .attr("width", (d) => xScale(d.value as INumericValue) - xScale.range()[0])
+            .attr("x", () => xScale.range()[0]) as d3.Transition<SVGRectElement, { key: string; value: IValue; }, SVGGElement, IDatum>;
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [y, xs, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);

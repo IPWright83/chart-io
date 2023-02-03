@@ -40,6 +40,7 @@ describe("chartSelectors", () => {
                 chart: {},
             };
 
+            // @ts-expect-error: Checking runtime safety
             expect(chartSelectors.scales.store(state)).toEqual({});
         });
 
@@ -74,7 +75,12 @@ describe("chartSelectors", () => {
         });
 
         it("getScale returns undefined for an missing scale", () => {
-            expect(chartSelectors.scales.getScale({}, "a")).toBe(undefined);
+            const state = {
+                event: defaultEventState,
+                chart: defaultChartState,
+            };
+
+            expect(chartSelectors.scales.getScale(state, "a")).toBe(undefined);
         });
     });
 

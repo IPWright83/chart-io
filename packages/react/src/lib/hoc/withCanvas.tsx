@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { useSelector } from "react-redux";
-import { chartSelectors } from "../store";
+import { chartSelectors, IState } from "../store";
 
 /**
  * Wraps a D3 layer to make it work as a Canvas component
@@ -23,8 +23,8 @@ const withCanvas = <P extends object>(WrappedComponent: React.ComponentType<P>, 
         const canvas = useRef(null);
         const [layer, setLayer] = useState({});
 
-        const width = useSelector((s) => chartSelectors.dimensions.width(s));
-        const height = useSelector((s) => chartSelectors.dimensions.height(s));
+        const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+        const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
 
         useEffect(() => {
             setLayer({ current: document.createElement("custom") });

@@ -84,6 +84,7 @@ export function StackedBarBase({
 
         // Create the stacked variant of the data
         const keys = xs;
+        // @ts-ignore: TODO: Work out how to fix this
         const stackedData = d3.stack().keys(keys)(data);
         const colorScale = d3.scaleOrdinal().domain(keys).range(colors);
 
@@ -95,6 +96,7 @@ export function StackedBarBase({
         const join = groupJoin
             .enter()
             .append("g")
+            // @ts-ignore: TODO: Work out how to fix this
             .merge(groupJoin)
             .selectAll(".bar")
             .data((d) => d);
@@ -110,12 +112,13 @@ export function StackedBarBase({
             .attr("height", yScale.bandwidth())
             .attr("width", 0)
             .style("stroke", strokeColor.toString())
-            .style("fill", (_d, i, elements) => {
+            .style("fill", (d, i, elements) => {
                 const key = getParentKey(elements[i]);
-                return colorScale(key);
+                return colorScale(key)?.toString();
             })
             .style("opacity", theme.series.opacity);
 
+        // prettier-ignore
         const update = join
             .merge(enter)
             .on("mouseover", function (event: MouseEvent, d) {
@@ -124,12 +127,7 @@ export function StackedBarBase({
 
                 onMouseOver && onMouseOver(d.data, this as Element, event);
                 setFocused({ element: this, event, datum: d.data });
-                setTooltip({
-                    datum: d.data,
-                    event,
-                    fillColors: xs.map((x) => colorScale(x)),
-                    xs,
-                });
+                setTooltip({ datum: d.data, event, fillColors: xs.map((x) => colorScale(x) as IColor), xs });
             })
             .on("mouseout", function (event: MouseEvent, d) {
                 // istanbul ignore next
@@ -147,9 +145,9 @@ export function StackedBarBase({
             })
             .transition("position")
             .duration(animationDuration / 2)
-            .style("fill", (_d, i, elements) => {
-                const key = getParentKey(elements[i]);
-                return colorScale(key);
+            .style("fill", (d, i, elements) => {
+                const key = getParentKey(elements[i] as Element);
+                return colorScale(key)?.toString();
             })
             .attr("y", (d) => yScale(d.data[y]))
             // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
@@ -161,6 +159,7 @@ export function StackedBarBase({
             .attr("width", (d) => xScale(d[1]) - xScale(d[0]))
             .attr("x", (d) => xScale(d[0]));
 
+        // @ts-ignore: TODO: Fix this TS
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [y, xs, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);
 

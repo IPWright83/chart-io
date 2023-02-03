@@ -156,4 +156,4 @@ export type NAMED_COLOR =
 /**
  * Used to represent different types of color
  */
-export type IColor = RGB | RGBA | HEX | NAMED_COLOR;
+export type IColor = RGB | RGBA | HEX | NAMED_COLOR | d3.RGBColor | d3.HSLColor;

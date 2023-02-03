@@ -9,7 +9,10 @@ import { getTransform } from "./getTransform";
 
 const Axis = withSVG(AxisBase, "axis");
 
+// @ts-expect-error: Extending the interface on purpose
 Axis.getD3Axis = getD3Axis;
+
+// @ts-expect-error: Extending the interface on purpose
 Axis.getTransform = getTransform;
 
 export { Axis, Gridlines, Title };

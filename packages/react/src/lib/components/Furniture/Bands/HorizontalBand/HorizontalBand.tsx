@@ -64,7 +64,12 @@ export function HorizontalBand({ yStart, yStop, y, opacity = 0.5, fill, stroke }
             y={stopY}
             height={startY - stopY}
             className="rect"
-            style={{ stroke, opacity, fill, pointerEvents: "none" }}
+            style={{
+                stroke: stroke?.toString(),
+                opacity,
+                fill: fill?.toString(),
+                pointerEvents: "none" as const,
+            }}
         />
     );
 }

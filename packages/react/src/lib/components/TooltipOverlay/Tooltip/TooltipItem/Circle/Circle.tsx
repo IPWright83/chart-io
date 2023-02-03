@@ -10,7 +10,7 @@ export interface ICircleProps {
 
 export function Circle({ fill }: ICircleProps) {
     const style = {
-        background: fill,
+        background: `${fill}`,
         width: 10,
         height: 10,
         marginTop: 4,

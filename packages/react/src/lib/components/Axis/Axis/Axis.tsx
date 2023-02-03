@@ -93,14 +93,14 @@ export function Axis({
         if (axis.current && scale) {
             const selection = d3
                 .select(axis.current)
-                .style("color", theme.axis.stroke)
+                .style("color", `${theme.axis.stroke}`)
                 .style("stroke-opacity", theme.axis.strokeOpacity)
                 .style("stroke-width", theme.axis.strokeWidth)
                 .transition()
                 .duration(animationDuration);
 
             // Create the D3 axis renderer
-            const d3Axis = getD3Axis(position, scale as d3.AxisScale<d3.AxisDomain>);
+            const d3Axis = getD3Axis(position, scale);
 
             // Set some scale props
             d3Axis
