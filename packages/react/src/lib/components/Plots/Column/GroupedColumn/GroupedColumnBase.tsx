@@ -110,6 +110,7 @@ export function GroupedColumnBase({
             .style("stroke", strokeColor.toString())
             .style("opacity", theme.series.opacity);
 
+        // prettier-ignore
         const update = join
             .merge(enter)
             .on("mouseover", function (event, datum) {
@@ -118,12 +119,7 @@ export function GroupedColumnBase({
 
                 onMouseOver && onMouseOver(datum, this as Element, event);
                 setFocused({ element: this, event, datum });
-                setTooltip({
-                    datum,
-                    event,
-                    fillColors: [colorScale(datum.key)],
-                    ys: [datum.key],
-                });
+                setTooltip({ datum, event, fillColors: [colorScale(datum.key) as IColor], ys: [datum.key] });
             })
             .on("mouseout", function (event, datum) {
                 // istanbul ignore next
@@ -151,6 +147,7 @@ export function GroupedColumnBase({
             .attr("height", (d) => yScale.range()[0] - yScale(d.value as INumericValue))
             .attr("y", (d) => yScale(d.value as INumericValue));
 
+        // @ts-ignore: TODO: Work out how to fix this
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [x, ys, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);
 

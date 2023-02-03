@@ -105,11 +105,11 @@ export function StackedColumnBase({
             .attr("height", 0)
             // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
             .attr("width", xScale.bandwidth())
-            .style("fill", (_d, i, elements) => {
+            .style("fill", (d, i, elements) => {
                 const key = getParentKey(elements[i]);
-                return colorScale(key);
+                return colorScale(key)?.toString();
             })
-            .style("stroke", strokeColor)
+            .style("stroke", strokeColor?.toString())
             .style("opacity", theme.series.opacity);
 
         const update = join
@@ -123,7 +123,7 @@ export function StackedColumnBase({
                 setTooltip({
                     datum: d.data,
                     event,
-                    fillColors: ys.map((y) => colorScale(y)),
+                    fillColors: ys.map((y) => colorScale(y) as IColor),
                     ys,
                 });
             })
@@ -146,9 +146,9 @@ export function StackedColumnBase({
             .attr("x", (d) => xScale(d.data[x]))
             // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
             .attr("width", xScale.bandwidth())
-            .style("fill", (_d, i, elements) => {
+            .style("fill", (d, i, elements) => {
                 const key = getParentKey(elements[i]);
-                return colorScale(key);
+                return colorScale(key)?.toString();
             })
             // @ts-expect-error: Looks like the type defs are wrong missing named transitions
             .transition("height")
@@ -157,6 +157,7 @@ export function StackedColumnBase({
             .attr("height", (d) => yScale(d[0]) - yScale(d[1]))
             .attr("y", (d) => yScale(d[1]));
 
+        // @ts-ignore: TODO: Work out how to fix this
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [x, ys, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);
 
