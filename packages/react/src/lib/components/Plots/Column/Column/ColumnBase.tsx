@@ -1,4 +1,4 @@
-import { IEventPlotProps, IDatum } from "@d3-chart/types";
+import { IEventPlotProps, IDatum, INumericValue } from "@d3-chart/types";
 import * as d3 from "d3";
 import { useEffect, useState } from "react";
 import { useStore, useSelector } from "react-redux";
@@ -87,7 +87,7 @@ export function ColumnBase({
             // @ts-ignore: TODO: Need to work out casting
             .attr("x", (d) => xScale(d[x]))
             .attr("y", () => yScale.range()[0])
-            // @ts-ignore: TODO: How do we check for bandwidth?
+            // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
             .attr("width", () => xScale.bandwidth())
             .attr("height", 0)
             .style("stroke", strokeColor.toString())
@@ -122,17 +122,15 @@ export function ColumnBase({
             .duration(animationDuration / 2)
             // @ts-ignore: TODO: Need to work out casting
             .attr("x", (d) => xScale(d[x]))
-            // @ts-ignore: TODO: How do we check for bandwidth?
+            // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
             .attr("width", () => xScale.bandwidth())
             .style("fill", fillColor.toString())
             // @ts-expect-error: Looks like the type defs are wrong missing named transitions
             .transition("height")
             .duration(animationDuration / 2)
             .delay(animationDuration / 2)
-            // @ts-ignore: TODO: Need to work out casting
-            .attr("y", (d) => yScale(d[y]))
-            // @ts-ignore: TODO: Need to work out casting
-            .attr("height", (d) => yScale.range()[0] - yScale(d[y]));
+            .attr("y", (d) => yScale(d[y] as INumericValue))
+            .attr("height", (d) => yScale.range()[0] - yScale(d[y] as INumericValue));
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [

@@ -1,4 +1,4 @@
-import { IEventPlotProps, IColor } from "@d3-chart/types";
+import { IEventPlotProps, IColor, INumericValue } from "@d3-chart/types";
 import * as d3 from "d3";
 import { useEffect } from "react";
 import { useStore, useSelector } from "react-redux";
@@ -58,7 +58,7 @@ export function ScatterBase({
     const strokeColor = fillColor.darker();
     fillColor.opacity = theme.series.opacity;
 
-    // @ts-ignore: TODO: How do we check for bandwidth?
+    // @ts-expect-error: scale.bandwidth() is an optional call here
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
     const setFocused = useFocused(store.dispatch, xScale, yScale);
@@ -86,10 +86,8 @@ export function ScatterBase({
             .enter()
             .append("circle")
             .attr("class", "scatter-point")
-            // @ts-ignore: TODO: Need to work out casting
-            .attr("cx", (d) => xScale(d[x]) + bandwidth)
-            // @ts-ignore: TODO: Need to work out casting
-            .attr("cy", (d) => yScale(d[y]))
+            .attr("cx", (d) => xScale(d[x] as INumericValue) + bandwidth)
+            .attr("cy", (d) => yScale(d[y] as INumericValue))
             .attr("r", 0)
             .style("stroke", () => strokeColor.toString())
             .style("fill", () => fillColor.toString())
@@ -119,12 +117,9 @@ export function ScatterBase({
             })
             .transition("scatter")
             .duration(animationDuration)
-            // @ts-ignore: TODO: Need to work out casting
-            .attr("cx", (d) => xScale(d[x]))
-            // @ts-ignore: TODO: Need to work out casting
-            .attr("cy", (d) => yScale(d[y]))
-            // @ts-ignore: TODO: Need to work out casting
-            .attr("r", (d) => (z ? zScale(d[z]) : radius))
+            .attr("cx", (d) => xScale(d[x] as INumericValue))
+            .attr("cy", (d) => yScale(d[y] as INumericValue))
+            .attr("r", (d) => (z ? zScale(d[z] as INumericValue) : radius))
             .style("fill", () => fillColor.toString());
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update, exit);

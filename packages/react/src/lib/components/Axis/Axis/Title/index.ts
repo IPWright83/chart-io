@@ -2,7 +2,7 @@ import { Title, ITitleProps } from "./Title";
 
 import { getTransform } from "./getTransform";
 
-// @ts-ignore: extending the interface on purpose
+// @ts-expect-error: extending the interface on purpose
 Title.getTransform = getTransform;
 
 export { Title };

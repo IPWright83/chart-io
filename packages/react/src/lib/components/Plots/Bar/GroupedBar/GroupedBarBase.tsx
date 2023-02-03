@@ -81,7 +81,7 @@ export function GroupedBarBase({
 
         // Create a scale for each series to fit along the x-axis and the series colors
         const colorScale = d3.scaleOrdinal().domain(xs).range(colors);
-        // @ts-ignore: TODO: How do we check for bandwidth?
+        // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
         const y1Scale = d3.scaleBand().domain(xs).rangeRound([0, yScale.bandwidth()]).padding(0.05);
 
         // prettier-ignore

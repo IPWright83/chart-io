@@ -95,30 +95,8 @@ export function AreaBase({ x, y, y2, color, interactive, layer, canvas }: IAreaB
 
     // If possible respond to global mouse events for tooltips etc
     if (interactive) {
-        useDatumFocus(
-            store.dispatch,
-            layer,
-            x,
-            y,
-            xScale,
-            yScale,
-            sortedData,
-            eventMode,
-            position,
-            strokeColor.toString()
-        );
-        useTooltip(
-            store.dispatch,
-            layer,
-            x,
-            y,
-            xScale,
-            yScale,
-            sortedData,
-            eventMode,
-            position,
-            strokeColor.toString()
-        );
+        useDatumFocus(store.dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, strokeColor);
+        useTooltip(store.dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, strokeColor);
     }
 
     return null;

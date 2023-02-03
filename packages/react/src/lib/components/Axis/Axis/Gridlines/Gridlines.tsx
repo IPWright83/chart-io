@@ -45,7 +45,7 @@ export function Gridlines({ layer, position, scale, tickPadding = 3, ticks, tick
 
     const tickSize = getTickSize(position, width, height, margin);
 
-    // Move this CSS into code
+    // TODO: Move this CSS into code
     // .g-gridlines .domain {
     //     display: none;
     //     user-select: none;
@@ -90,7 +90,7 @@ export function Gridlines({ layer, position, scale, tickPadding = 3, ticks, tick
                 .call(
                     d3Axis
                         .tickSize(-tickSize)
-                        .ticks(ticks) // @ts-ignore
+                        .ticks(ticks) // @ts-ignore: TODO: See if we can fix this
                         .tickFormat("")
                 );
         }

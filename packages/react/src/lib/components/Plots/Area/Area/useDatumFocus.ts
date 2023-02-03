@@ -1,4 +1,4 @@
-import type { IScale, IData, IMouseEventType, ICoordinate, IColor } from "@d3-chart/types";
+import type { IScale, IData, IMouseEventType, ICoordinate, IColor, INumericValue } from "@d3-chart/types";
 import * as d3 from "d3";
 import { useEffect } from "react";
 
@@ -62,10 +62,8 @@ export function useDatumFocus(
         }
 
         // Get the appropriate attributes
-        // @ts-ignore TODO: Not sure how to fix this
-        const cx = +xScale(datum[x]);
-        // @ts-ignore TODO: Not sure how to fix this
-        const cy = +yScale(datum[y]);
+        const cx = +xScale(datum[x] as INumericValue);
+        const cy = +yScale(datum[y] as INumericValue);
         const fill = color;
 
         const marker = { fill, cx, cy };

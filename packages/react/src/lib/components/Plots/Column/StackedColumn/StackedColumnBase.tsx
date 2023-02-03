@@ -103,7 +103,7 @@ export function StackedColumnBase({
             .attr("x", (d) => xScale(d.data[x]))
             .attr("y", () => yScale.range()[0])
             .attr("height", 0)
-            // @ts-ignore: TODO: How do we check for bandwidth?
+            // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
             .attr("width", xScale.bandwidth())
             .style("fill", (_d, i, elements) => {
                 const key = getParentKey(elements[i]);
@@ -144,7 +144,7 @@ export function StackedColumnBase({
             .transition("position")
             .duration(animationDuration / 2)
             .attr("x", (d) => xScale(d.data[x]))
-            // @ts-ignore: TODO: How do we check for bandwidth?
+            // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
             .attr("width", xScale.bandwidth())
             .style("fill", (_d, i, elements) => {
                 const key = getParentKey(elements[i]);

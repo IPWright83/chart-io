@@ -47,7 +47,7 @@ export async function progressiveCanvasRenderLoop(
         // Grab the next batch of nodes and render them
         const batch = nodes.splice(0, 1000);
 
-        // @ts-ignore: Extending the interface on purpose
+        // @ts-expect-error: Extending the interface on purpose
         batch.each = batch.forEach;
 
         // @ts-ignore: Not really sure what this means

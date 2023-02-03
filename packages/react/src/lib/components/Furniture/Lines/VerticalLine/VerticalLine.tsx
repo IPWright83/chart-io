@@ -1,4 +1,4 @@
-import type { IValue, IColor } from "@d3-chart/types";
+import type { IValue, IColor, INumericValue } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -37,8 +37,7 @@ export function VerticalLine({ x, value, opacity = 1, stroke }: IVerticalLinePro
         return null;
     }
 
-    // @ts-ignore: Not sure how to fix this one
-    const xValue = scale(value);
+    const xValue = scale(value as INumericValue);
 
     return (
         <line

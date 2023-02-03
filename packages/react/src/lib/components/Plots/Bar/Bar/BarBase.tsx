@@ -1,4 +1,4 @@
-import type { IEventPlotProps, IDatum } from "@d3-chart/types";
+import type { IEventPlotProps, IDatum, INumericValue } from "@d3-chart/types";
 import * as d3 from "d3";
 
 import { useEffect, useState } from "react";
@@ -89,7 +89,7 @@ export function BarBase({
             // @ts-ignore: TODO: Need to work out casting
             .attr("y", (d) => yScale(d[y]))
             .attr("width", () => 0)
-            // @ts-ignore: TODO: How do we check for bandwidth?
+            // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
             .attr("height", () => yScale.bandwidth())
             .style("stroke", strokeColor.toString())
             .style("fill", () => fillColor.toString());
@@ -121,9 +121,9 @@ export function BarBase({
             })
             .transition("position")
             .duration(animationDuration / 2)
-            // @ts-ignore: TODO: Need to work out casting
+            // @ts-ignore: How do we deal with the scale here? y is likely a string
             .attr("y", (d) => yScale(d[y]))
-            // @ts-ignore: TODO: How do we check for bandwidth?
+            // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
             .attr("height", () => yScale.bandwidth())
             .style("fill", () => fillColor.toString())
             // @ts-expect-error: Looks like the type defs are wrong missing named transitions
@@ -131,8 +131,7 @@ export function BarBase({
             .duration(animationDuration / 2)
             .delay(animationDuration / 2)
             .attr("x", () => xScale.range()[0])
-            // @ts-ignore: TODO: Need to work out casting
-            .attr("width", (d) => xScale(d[x]) - xScale.range()[0]);
+            .attr("width", (d) => xScale(d[x] as INumericValue) - xScale.range()[0]);
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [

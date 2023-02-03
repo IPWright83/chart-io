@@ -106,7 +106,7 @@ export function StackedBarBase({
             .attr("class", "bar")
             .attr("x", () => xScale.range()[0])
             .attr("y", (d) => yScale(d.data[y]))
-            // @ts-ignore: TODO: How do we check for bandwidth?
+            // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
             .attr("height", yScale.bandwidth())
             .attr("width", 0)
             .style("stroke", strokeColor.toString())
@@ -152,7 +152,7 @@ export function StackedBarBase({
                 return colorScale(key);
             })
             .attr("y", (d) => yScale(d.data[y]))
-            // @ts-ignore: TODO: How do we check for bandwidth?
+            // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
             .attr("height", () => yScale.bandwidth())
             // @ts-expect-error: Looks like the type defs are wrong missing named transitions
             .transition("width")

@@ -7,5 +7,5 @@ export interface IGridlinesProps extends Omit<IGridlinesBaseProps, "layer"> {}
 
 export const Gridlines = withSVG<IGridlinesProps>(GridlinesBase, "gridlines");
 
-// @ts-ignore: Extending the interface on purpose
+// @ts-expect-error: Extending the interface on purpose
 Gridlines.getTickSize = getTickSize;

@@ -1,4 +1,9 @@
 /**
- * Represents any one of the primitive value in JavaScript types with Date added
+ * Represents a Numeric primitive in JavaScript
  */
-export type IValue = number | string | Date;
+export type INumericValue = number | Date;
+
+/**
+ * Represents any one of the primitive value in JavaScript
+ */
+export type IValue = INumericValue | string;

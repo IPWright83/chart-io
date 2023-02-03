@@ -1,4 +1,4 @@
-import type { IScale, IData, IMouseEventType, ICoordinate, IColor } from "@d3-chart/types";
+import type { IScale, IData, IMouseEventType, ICoordinate, IColor, INumericValue } from "@d3-chart/types";
 import * as d3 from "d3";
 import { useEffect } from "react";
 
@@ -63,8 +63,7 @@ export function useDatumFocus(
         const datum = data[index];
 
         // Get the appropriate attributes
-        // @ts-ignore TODO: Not sure how to fix this
-        const cx = xScale(datum[x]);
+        const cx = xScale(datum[x] as INumericValue);
 
         const { markers, horizontalDroplines, verticalDroplines } = ys.reduce((result, y, i) => {
             // @ts-ignore TODO: Not sure how to fix this
@@ -102,11 +101,10 @@ export function useDatumFocus(
         verticalDroplines.forEach((verticalDropline) => dispatch(eventActions.addDropline(verticalDropline)));
 
         // Clean up operations on exit
+        // prettier-ignore
         return () => {
             markers.forEach((marker) => dispatch(eventActions.removeMarker(marker)));
-            horizontalDroplines.forEach((horizontalDropline) =>
-                dispatch(eventActions.removeDropline(horizontalDropline))
-            );
+            horizontalDroplines.forEach((horizontalDropline) => dispatch(eventActions.removeDropline(horizontalDropline))            );
             verticalDroplines.forEach((verticalDropline) => dispatch(eventActions.removeDropline(verticalDropline)));
         };
     }, [dispatch, eventMode, position.x, position.y, xScale, yScale, x, ys, data, layer, colors]);

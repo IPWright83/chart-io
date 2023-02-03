@@ -1,4 +1,4 @@
-import type { IEventPlotProps, IColor, IDatum } from "@d3-chart/types";
+import type { IEventPlotProps, IColor, IDatum, INumericValue } from "@d3-chart/types";
 import * as d3 from "d3";
 import { useEffect, useState } from "react";
 import { useStore, useSelector } from "react-redux";
@@ -78,7 +78,7 @@ export function GroupedColumnBase({
 
         // Create a scale for each series to fit along the x-axis and the series colors
         const colorScale = d3.scaleOrdinal().domain(ys).range(colors);
-        // @ts-ignore: TODO: How do we check for bandwidth?
+        // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
         const x1Scale = d3.scaleBand().domain(ys).rangeRound([0, xScale.bandwidth()]).padding(0.05);
 
         // prettier-ignore
@@ -148,10 +148,8 @@ export function GroupedColumnBase({
             .transition("height")
             .duration(animationDuration / 2)
             .delay(animationDuration / 2)
-            // @ts-ignore: TODO: Need to work out casting
-            .attr("height", (d) => yScale.range()[0] - yScale(d.value))
-            // @ts-ignore: TODO: Need to work out casting
-            .attr("y", (d) => yScale(d.value));
+            .attr("height", (d) => yScale.range()[0] - yScale(d.value as INumericValue))
+            .attr("y", (d) => yScale(d.value as INumericValue));
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [x, ys, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);
