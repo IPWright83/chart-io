@@ -1,6 +1,10 @@
-import { withStore } from "../../hoc";
-import { Chart as Chart_ } from "./Chart";
+import { withStore, IWithStoreProps } from "../../hoc";
+import { Chart as ChartBase, IChartBaseProps } from "./Chart";
+import type { IState } from "../../store";
 
-const Chart = withStore(Chart_);
+export interface IChartProps extends IChartBaseProps, IWithStoreProps {}
 
-export { Chart, Chart_ };
+const Chart = withStore<IChartProps>(ChartBase);
+
+export { Chart, ChartBase };
+export type { IChartBaseProps };

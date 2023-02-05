@@ -51,6 +51,7 @@ export function usePathCreator(
             .attr("class", "line")
             .style("fill", "none")
             .style("pointer-events", "none")
+            // @ts-ignore: TODO: Fix this
             .attr("d", line);
 
         // Do not include the scales in here. While they need

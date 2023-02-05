@@ -106,6 +106,7 @@ const calculateScale = (
     }
 
     // Otherwise attempt to determine the types of the values
+    // @ts-ignore: TODO: How do we fix this?
     const type = values.reduce((previousType, value) => getDataType(value, previousType), undefined);
     switch (type) {
         case Types.Integer:

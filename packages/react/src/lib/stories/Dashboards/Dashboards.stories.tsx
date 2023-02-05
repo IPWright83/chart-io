@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { example_dataset } from "../../../data/example_dataset";
 import { Line, Area, XYChart, XAxis, YAxis } from "../../components";
 import { linkStores } from "../../utils";
+import type { IOnStoreCreated } from "../../hoc";
+import type { IStore } from "../../store";
 
 import mdx from "./Dashboards.mdx";
 
@@ -56,18 +58,18 @@ const DashboardTemplate = (args) => {
     const width = 400;
     const height = 300;
 
-    const [store1, setStore1] = useState();
-    const [store2, setStore2] = useState();
-    const [store3, setStore3] = useState();
-    const [store4, setStore4] = useState();
-    const [store5, setStore5] = useState();
-    const [store6, setStore6] = useState();
-    const [store7, setStore7] = useState();
-    const [store8, setStore8] = useState();
-    const [store9, setStore9] = useState();
-    const [store10, setStore10] = useState();
-    const [store11, setStore11] = useState();
-    const [store12, setStore12] = useState();
+    const [store1, setStore1] = useState<IStore>();
+    const [store2, setStore2] = useState<IStore>();
+    const [store3, setStore3] = useState<IStore>();
+    const [store4, setStore4] = useState<IStore>();
+    const [store5, setStore5] = useState<IStore>();
+    const [store6, setStore6] = useState<IStore>();
+    const [store7, setStore7] = useState<IStore>();
+    const [store8, setStore8] = useState<IStore>();
+    const [store9, setStore9] = useState<IStore>();
+    const [store10, setStore10] = useState<IStore>();
+    const [store11, setStore11] = useState<IStore>();
+    const [store12, setStore12] = useState<IStore>();
 
     useEffect(() => {
         if (

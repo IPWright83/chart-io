@@ -1,8 +1,35 @@
-/* eslint-disable react/prop-types */
+import type { Store, EmptyObject, AnyAction } from "redux";
 import React, { useMemo } from "react";
 import { Provider } from "react-redux";
 
-import { createStore } from "../store";
+import { createStore, IStore } from "../store";
+
+export type IOnStoreCreated = (store: IStore) => void;
+
+export type ICustomReducers = Record<string, <T>(state: T, action: AnyAction) => T>;
+
+export interface IWithStoreProps {
+    /**
+     * Callback triggered when the Redux store is first created
+     * @param  store          The Redux store that has been created
+     */
+    onStoreCreated?: IOnStoreCreated;
+    /**
+     * A set of custom reducers that can be registered into Redux
+     * @example
+     * const customReducer = (state: ICustomState, action: ICustomAction): ICustomState => {
+     *     switch(action.type) {
+     *        case "Add":
+     *            return { ...state, count: state.count + 1 };
+     *        case "Subtract":
+     *            return { ...state, count: state.count - 1 };
+     *        default:
+     *            return state;
+     *     }
+     * }
+     */
+    customReducers?: ICustomReducers;
+}
 
 /**
  * Wraps a React component to add a redux store
@@ -16,7 +43,7 @@ const withStore =
      * @param  {...any}    options.props        All the props
      * @return {ReactDOMComponent}              The wrapped componet
      */
-    ({ onStoreCreated, customReducers, ...props }) => {
+    ({ onStoreCreated, customReducers, ...props }: IWithStoreProps) => {
         const store = useMemo(() => createStore(customReducers), [customReducers]);
 
         // If the consumer needs access to the store then fire

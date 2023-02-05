@@ -10,14 +10,7 @@ describe("getChildrenWithProps", () => {
     it("correctly augments props on a single child", () => {
         const mockElement = React.createElement("div");
 
-        const children = getChildrenWithProps({
-            children: mockElement,
-            useCanvas: true,
-            animationDuration: 500,
-            onMouseOver,
-            onMouseOut,
-            onClick,
-        });
+        const children = getChildrenWithProps(mockElement, true, 500, onMouseOver, onMouseOut, onClick);
 
         expect(children.length).toBe(1);
 
@@ -35,14 +28,14 @@ describe("getChildrenWithProps", () => {
         const mockElement1 = React.createElement("div");
         const mockElement2 = React.createElement("p");
 
-        const children = getChildrenWithProps({
-            children: [mockElement1, mockElement2],
-            useCanvas: true,
-            animationDuration: 500,
+        const children = getChildrenWithProps(
+            [mockElement1, mockElement2],
+            true,
+            500,
             onMouseOver,
             onMouseOut,
-            onClick,
-        });
+            onClick
+        );
 
         expect(children.length).toBe(2);
 
@@ -66,14 +59,7 @@ describe("getChildrenWithProps", () => {
     it("correctly skips non React elements", () => {
         const notMockElement = {};
 
-        const children = getChildrenWithProps({
-            children: [notMockElement],
-            useCanvas: true,
-            animationDuration: 500,
-            onMouseOver,
-            onMouseOut,
-            onClick,
-        });
+        const children = getChildrenWithProps([notMockElement], true, 500, onMouseOver, onMouseOut, onClick);
 
         expect(children.length).toBe(1);
 

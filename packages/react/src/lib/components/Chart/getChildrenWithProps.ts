@@ -1,16 +1,35 @@
+import type { IOnMouseOver, IOnMouseOut, IOnClick } from "@d3-chart/types";
 import React from "react";
 
 /**
- * Adds some additional props to all the children
- * @param  {Array} options.children                         The children of the component
- * @param  {Boolean} options.useCanvas                      Whether or not the plots should use an HTML canvas
- * @param  {Number} options.useCanvasanimationDuration      The duration to use for animations
- * @param  {Function} options.onMouseOver                   A function that will be triggered whenever the mouse moves over an element for the first time
- * @param  {Function} options.onMouseOut                    A function that will be triggered whenever the mouse moves out an element
- * @param  {Function} options.onClick                       A function that will be triggered whenever the mouse clicks on an element
- * @return {Array}                                          The new children
+ * Set of props on the children, once extended with events
  */
-const getChildrenWithProps = ({ children, useCanvas, animationDuration, onMouseOver, onMouseOut, onClick }) => {
+interface IExtendedProps {
+    useCanvas: boolean;
+    animationDuration: number;
+    onMouseOver?: IOnMouseOver;
+    onMouseOut?: IOnMouseOut;
+    onClick?: IOnClick;
+}
+
+/**
+ * Adds some additional props to all the children
+ * @param  children                        The children of the component
+ * @param  useCanvas                       Whether or not the plots should use an HTML canvas
+ * @param  useCanvasanimationDuration      The duration to use for animations
+ * @param  onMouseOver                     A function that will be triggered whenever the mouse moves over an element for the first time
+ * @param  onMouseOut                      A function that will be triggered whenever the mouse moves out an element
+ * @param  onClick                         A function that will be triggered whenever the mouse clicks on an element
+ * @return                                 The new children
+ */
+export function getChildrenWithProps(
+    children: any,
+    useCanvas: boolean,
+    animationDuration: number,
+    onMouseOver?: IOnMouseOver,
+    onMouseOut?: IOnMouseOut,
+    onClick?: IOnClick
+) {
     // Looks like a single child which is an object
     if (children.props && children.type) {
         children = [children];
@@ -19,7 +38,7 @@ const getChildrenWithProps = ({ children, useCanvas, animationDuration, onMouseO
     // Children can contain arrays within there, so we want to flatten
     // out the structure so that cloning works correctly
     return children.flat().map((child, index) => {
-        const extendedProps = { useCanvas, animationDuration };
+        const extendedProps: IExtendedProps = { useCanvas, animationDuration };
 
         // Allow event handlers to be defined once at the chart level, but
         // don't override them on individual plots if they're not defined
@@ -39,6 +58,4 @@ const getChildrenWithProps = ({ children, useCanvas, animationDuration, onMouseO
 
         return child;
     });
-};
-
-export { getChildrenWithProps };
+}

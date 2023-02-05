@@ -1,4 +1,4 @@
-import { IEventPlotProps, IDatum, INumericValue } from "@d3-chart/types";
+import { IEventPlotProps, IData, IDatum, INumericValue } from "@d3-chart/types";
 import * as d3 from "d3";
 import { useEffect, useState } from "react";
 import { useStore, useSelector } from "react-redux";
@@ -73,8 +73,8 @@ export function ColumnBase({
         // D3 data join
         const join = d3
             .select(layer.current)
-            .selectAll(".column")
-            .data(data, (d) => d[x]) as d3.Selection<SVGRectElement, IDatum, Element, unknown>;
+            .selectAll<SVGRectElement, IDatum>(".column")
+            .data(data, (d) => d[x]?.toString());
 
         // Exit bars
         join.exit().remove();
