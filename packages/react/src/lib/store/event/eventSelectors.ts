@@ -1,5 +1,4 @@
 import type { IDropline, IMarker, IColor, ITooltipItem, IMouseEventType, ICoordinate } from "@d3-chart/types";
-import { createSelector } from "reselect";
 
 import type { IState, IEventState, IEventStateTooltip } from "../types";
 
@@ -21,7 +20,7 @@ interface IEventSelectors {
     position: (state: IState) => ICoordinate | undefined;
 }
 
-const _eventSelectors = {
+export const eventSelectors: IEventSelectors = {
     /**
      * Returns the store for the chart part of state
      * @param  state The application state
@@ -34,14 +33,14 @@ const _eventSelectors = {
      * @param  state   The application state
      * @return         The droplines
      */
-    droplines: (state: IState): IDropline[] => _eventSelectors.store(state).droplines,
+    droplines: (state: IState): IDropline[] => eventSelectors.store(state).droplines,
 
     /**
      * Returns the set of markers
      * @param  state   The application state
      * @return         The markers
      */
-    markers: (state: IState): IMarker[] => _eventSelectors.store(state).markers,
+    markers: (state: IState): IMarker[] => eventSelectors.store(state).markers,
 
     tooltip: {
         /**
@@ -49,35 +48,35 @@ const _eventSelectors = {
          * @param  state   The application state
          * @return         The sub-state for the tooltip
          */
-        store: (state: IState): IEventStateTooltip => _eventSelectors.store(state).tooltip,
+        store: (state: IState): IEventStateTooltip => eventSelectors.store(state).tooltip,
 
         /**
          * Should the tooltip currently be shown?
          * @param  state   The application state
          * @return        True if the tooltip should be shown
          */
-        show: (state: IState): boolean => _eventSelectors.tooltip.items(state).length > 0,
+        show: (state: IState): boolean => eventSelectors.tooltip.items(state).length > 0,
 
         /**
          * The colour that the tooltip should take
          * @param  state   The application state
          * @return         The colour of the tooltip item
          */
-        color: (state: IState): IColor => _eventSelectors.tooltip.store(state).color,
+        color: (state: IState): IColor => eventSelectors.tooltip.store(state).color,
 
         /**
          * The set of tooltip tiems
          * @param  state   The application state
          * @return          The array of tooltip items
          */
-        items: (state: IState): ITooltipItem[] => _eventSelectors.tooltip.store(state).items || EMPTY_ARRAY,
+        items: (state: IState): ITooltipItem[] => eventSelectors.tooltip.store(state).items || EMPTY_ARRAY,
 
         /**
          * A moust event that triggered
          * @param  state   The application state
          * @return         The mouse event that triggered the tooltip
          */
-        position: (state: IState): ICoordinate | undefined => _eventSelectors.tooltip.store(state).position,
+        position: (state: IState): ICoordinate | undefined => eventSelectors.tooltip.store(state).position,
     },
 
     /**
@@ -89,29 +88,21 @@ const _eventSelectors = {
      * @return       One of "NONE", "MOVE" or "ENTER"
      */
     mode: (state: IState): IMouseEventType => {
-        const { mouse } = _eventSelectors.store(state);
+        const { mouse } = eventSelectors.store(state);
         if (!mouse) {
             return "NONE";
         }
 
         return mouse.mode;
     },
-};
 
-/**
- * The current position of the mouse events
- * @param  {Object} state The application state
- * @return {Object}       An object with { x, y } positions or null
- */
-const position = createSelector(_eventSelectors.store, (event: IEventState): ICoordinate | undefined => {
-    if (!event || !event.mouse) {
-        return undefined;
-    }
-
-    return { x: event.mouse.x, y: event.mouse.y };
-});
-
-export const eventSelectors: IEventSelectors = {
-    ..._eventSelectors,
-    position,
+    /**
+     * The current position of the mouse events
+     * @param  {Object} state The application state
+     * @return {Object}       An object with { x, y } positions or null
+     */
+    position: (state: IState): ICoordinate | undefined => {
+        const { mouse } = eventSelectors.store(state);
+        return mouse;
+    },
 };

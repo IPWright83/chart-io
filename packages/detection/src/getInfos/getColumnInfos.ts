@@ -1,16 +1,18 @@
+import type { IData } from "@d3-chart/types";
 import { getDataType } from "../getTypes";
 import { getDataCardinality } from "./getDataCardinality";
 import { getDataPointCount } from "./getDataPointCount";
 import { getDataSample } from "./getDataSample";
 import { getNullCount } from "./getNullCount";
 import { getTypeSpecificColumnInfo } from "./getTypeSpecificColumnInfo";
+import type { IColumnInfo } from "../types";
 
 /**
  * Gets information about each of the columns in the dataset
- * @param  {Array<Object>}  data     The complete dataset
- * @return {Array<Object>}           An array of the column information objects
+ * @param  data     The complete dataset
+ * @return          An array of the column information objects
  */
-const getColumnInfos = (data) => {
+export function getColumnInfos(data: IData): Array<IColumnInfo | undefined> {
     // Obtain the number of points in the data
     const dataPointCount = getDataPointCount(data);
     if (dataPointCount === 0) {
@@ -38,6 +40,4 @@ const getColumnInfos = (data) => {
             ...getTypeSpecificColumnInfo(values, type),
         };
     });
-};
-
-export { getColumnInfos };
+}

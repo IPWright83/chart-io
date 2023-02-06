@@ -1,8 +1,8 @@
 /**
  * Determine the cardinality of the given data column
- * @param  {Array<Object>}  data     The dataset
- * @return {Number}                  The cardinality (unique values) of the data column
+ * @param  data     The dataset
+ * @return          The cardinality (unique values) of the data column
  */
-const getDataCardinality = (data) => new Set(data).size;
-
-export { getDataCardinality };
+export function getDataCardinality(data: any[] = []): number {
+    return new Set(data).size;
+}

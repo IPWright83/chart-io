@@ -1,11 +1,11 @@
-import { Types } from "../Types";
+import { Type } from "../Type";
 
 /**
  * If the value is a number, obtain it's Type
- * @param  {Any} value    The value to check for a number type
- * @return {Types}        Either a Types.Integer, Types.Double or null
+ * @param  value    The value to check for a number type
+ * @return          Either a Type.Integer, Type.Double or null
  */
-const getNumberType = (value) => {
+export function getNumberType(value: any): Type.Integer | Type.Double | null {
     // If the value is a Date object then
     // don't treat it as a number
     if (value instanceof Date) {
@@ -20,10 +20,8 @@ const getNumberType = (value) => {
 
     // If it is a number, is it an Integer?
     if (Number.isInteger(value)) {
-        return Types.Integer;
+        return Type.Integer;
     }
 
-    return Types.Double;
-};
-
-export { getNumberType };
+    return Type.Double;
+}

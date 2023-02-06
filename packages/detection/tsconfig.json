@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "target": "ES2017",
+        "target": "es5",
         "sourceMap": true,
         "declaration": true,
         "declarationMap": true,
@@ -13,7 +13,7 @@
         "isolatedModules": true,
         "composite": true,
         "allowJs": true,
-        "strict": false,
+        "strict": true,
         "outDir": "./dist"
     },
     "include": ["src"]

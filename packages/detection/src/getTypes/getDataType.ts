@@ -1,4 +1,4 @@
-import { Types } from "../Types";
+import { Type } from "../Type";
 
 import { getBoolType } from "./getBoolType";
 import { getDateType } from "./getDateType";
@@ -6,11 +6,11 @@ import { getNumberType } from "./getNumberType";
 
 /**
  * Obtain the data type for the field
- * @param  {Any}  value                  The value to check for a date type
- * @param  {Types} previousDetection      The previously most specic detected type
- * @return {Types}                        The most specific discovered type
+ * @param  value                  The value to check for a date type
+ * @param  previousDetection      The previously most specic detected type
+ * @return                        The most specific discovered type
  */
-const getDataType = (value, previousDetection = Types.Unknown) => {
+export function getDataType(value: any, previousDetection: Type = Type.Unknown) {
     // The Types.Null <= previousDetection code is an
     // optimisation to prevent us checking for a type
     // that we've already ruled out. As we're only interested
@@ -18,31 +18,29 @@ const getDataType = (value, previousDetection = Types.Unknown) => {
 
     // Skip if the value is null
     if (value === null || value === undefined) {
-        return previousDetection === Types.Unknown ? Types.Null : previousDetection;
+        return previousDetection === Type.Unknown ? Type.Null : previousDetection;
     }
 
-    if (Types.Boolean <= previousDetection) {
+    if (Type.Boolean <= previousDetection) {
         const boolType = getBoolType(value);
         if (boolType) {
             return boolType;
         }
     }
 
-    if (Types.Double <= previousDetection) {
+    if (Type.Double <= previousDetection) {
         const numberType = getNumberType(value);
         if (numberType) {
             return Math.min(numberType, previousDetection);
         }
     }
 
-    if (Types.DateTime <= previousDetection) {
+    if (Type.DateTime <= previousDetection) {
         const dateType = getDateType(value);
         if (dateType) {
             return dateType;
         }
     }
 
-    return Types.String;
-};
-
-export { getDataType };
+    return Type.String;
+}

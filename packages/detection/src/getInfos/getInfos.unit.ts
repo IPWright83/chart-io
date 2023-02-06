@@ -1,4 +1,4 @@
-import { Types } from "../Types";
+import { Type } from "../Type";
 
 import { getColumnInfos } from "./getColumnInfos";
 import { getDataCardinality } from "./getDataCardinality";
@@ -48,7 +48,7 @@ describe("/detection/getInfos", () => {
                     count: 4,
                     maxLength: 6,
                     nullCount: 1,
-                    type: Types.String,
+                    type: Type.String,
                 },
             ]);
         });
@@ -63,7 +63,7 @@ describe("/detection/getInfos", () => {
                     cardinality: 4,
                     count: 4,
                     nullCount: 1,
-                    type: Types.Double,
+                    type: Type.Double,
                     isAllNegative: false,
                     isAllPositive: true,
                     isPossiblePercentage: false,
@@ -88,7 +88,7 @@ describe("/detection/getInfos", () => {
                     cardinality: 4,
                     count: 4,
                     nullCount: 1,
-                    type: Types.DateTime,
+                    type: Type.DateTime,
                     range: [1621072794378, 1621245594378],
                 },
             ]);

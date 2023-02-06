@@ -12,6 +12,12 @@ exports[`Title component with no explicit title renders fields as vertical title
 </DocumentFragment>
 `;
 
+exports[`Title component with no explicit title renders nothing 1`] = `
+<DocumentFragment>
+  <svg />
+</DocumentFragment>
+`;
+
 exports[`Title component with title set renders horizontal title 1`] = `
 <DocumentFragment>
   <svg>

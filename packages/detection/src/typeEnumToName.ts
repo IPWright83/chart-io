@@ -1,10 +1,10 @@
-import { Types } from "./Types";
+import { Type } from "./Type";
 
 /**
  * Find the name of the data type
- * @param  {Number} number  The enum value to lookup
- * @return {String}         The name of the data type
+ * @param  type        The enum type to lookup
+ * @return             The name of the data type
  */
-const typeEnumToName = (number) => Object.entries(Types).find(([, value]) => value === number)[0];
-
-export { typeEnumToName };
+export function typeEnumToName(type: Type) {
+    return Object.entries(Type).find(([, value]) => value === type)[0];
+}

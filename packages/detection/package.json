@@ -5,13 +5,16 @@
   "description": "Provides data type detection utilities for chart-it",
   "repository": "git@github.com:IPWright83/chart-it.git",
   "author": "\"Ian Wright\" <\"ipwright83+dev@gmail.com\">",
-  "main": "src/index.js",
-  "module": "src/index.js",
+  "main": "dist/src/index.js",
+  "module": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "homepage": "http://localhost:6006/?path=/story/introduction--page",
   "scripts": {
+    "build": "tsc",
     "test": "jest",
     "clean": "rm -rf node_modules",
     "lint": "eslint -c .eslintrc.json .",
+    "types": "tsc --noEmit",
     "publish": ""
   },
   "np": {
@@ -24,6 +27,7 @@
     "chart"
   ],
   "dependencies": {
+    "@d3-chart/types": "workspace:*",
     "d3": "^6.2.0"
   },
   "devDependencies": {
@@ -34,7 +38,9 @@
     "@testing-library/jest-dom": "^5.16.4",
     "babel-jest": "27.5.1",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "27.5.1",
+    "jest": "29.4.1",
+    "jest-environment-jsdom": "29.4.1",
+    "ts-jest": "^29.0.5",
     "webpack": "5"
   }
 }

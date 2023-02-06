@@ -1,11 +1,11 @@
-import { Types } from "../Types";
+import { Type } from "../Type";
 
 /**
  * If the value is a date, obtain it's Type
- * @param  {Any} value    The value to check for a date type
- * @return {Types}        Either a Types.Date, Types.DateTime or null
+ * @param  value   The value to check for a date type
+ * @return         Either a Type.Date, Type.DateTime or null
  */
-const getDateType = (value) => {
+export function getDateType(value: any): Type.Date | Type.DateTime | null {
     // Attempt to convert to a date
     const timestamp = Date.parse(value);
     if (Number.isNaN(timestamp)) {
@@ -20,10 +20,8 @@ const getDateType = (value) => {
         date.getUTCSeconds() === 0 &&
         date.getUTCMilliseconds() === 0
     ) {
-        return Types.Date;
+        return Type.Date;
     }
 
-    return Types.DateTime;
-};
-
-export { getDateType };
+    return Type.DateTime;
+}
