@@ -15,7 +15,7 @@ const ensureNoScaleOverflow = (scale: IScale, data: IData, fields: string[], com
 
     if (maxValue > scale.domain()[1]) {
         console.warn(
-            `W001 - The scale for ${componentName} appears too small for the dataset. Are you missing the 'aggregate={true}' in your <Axis /> or <Scale /> component?`,
+            `W001 - The scale for ${componentName} appears too small for the dataset. Are you missing the \`aggregate={true}\` in your <Axis /> or <AutoScale /> component?`,
             fields
         );
 

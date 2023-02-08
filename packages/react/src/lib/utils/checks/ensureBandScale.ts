@@ -10,7 +10,7 @@ export function ensureBandScale(scale: IScale, componentName: string): boolean {
     // @ts-expect-error: This is a runtime validation
     if (!scale.bandwidth) {
         console.error(
-            `E001 - Incompatible scale for a <${componentName} />. Are you missing the 'scaleType="band"' in your <Axis /> or <AutoScale /> component?`
+            `E001 - Incompatible scale for a <${componentName} />. Are you missing the \`scaleType="band"\` in your <Axis /> or <AutoScale /> component?`
         );
 
         return false;

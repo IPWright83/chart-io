@@ -1,7 +1,7 @@
 import type { IScaleType, IValue, IScale, IData } from "@d3-chart/types";
 import * as d3 from "d3";
 
-import { getDataType, typeEnumToName, Types } from "@chart-it/detection";
+import { getDataType, typeEnumToName, Type } from "@chart-it/detection";
 
 /**
  * Return a scale as defined by the scaleType property
@@ -109,18 +109,18 @@ const calculateScale = (
     // @ts-ignore: TODO: How do we fix this?
     const type = values.reduce((previousType, value) => getDataType(value, previousType), undefined);
     switch (type) {
-        case Types.Integer:
-        case Types.Double:
+        case Type.Integer:
+        case Type.Double:
             console.debug(`Automatically assigning scale (linear) for data type (${typeEnumToName(type)})`, fields);
             return getScaleTypeFromType("linear", values, range, domain);
 
-        case Types.Date:
-        case Types.DateTime:
+        case Type.Date:
+        case Type.DateTime:
             console.debug(`Automatically assigning scale (time) for data type (${typeEnumToName(type)})`, fields);
             return getScaleTypeFromType("time", values, range, domain);
 
-        case Types.String:
-        case Types.Boolean:
+        case Type.String:
+        case Type.Boolean:
             console.debug(`Automatically assigning scale (band) for data type (${typeEnumToName(type)})`, fields);
             return getScaleTypeFromType("band", values, range, domain);
 

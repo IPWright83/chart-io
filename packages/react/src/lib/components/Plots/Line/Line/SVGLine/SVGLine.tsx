@@ -17,7 +17,7 @@ export interface ISVGLineProps extends Omit<IPlotProps, "canvas"> {}
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Line plot component
  */
-export function SVGLine({ x, y, color, interactive, layer }: ISVGLineProps) {
+export function SVGLine({ x, y, color, interactive = true, layer }: ISVGLineProps) {
     const store = useStore();
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
