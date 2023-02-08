@@ -11,8 +11,8 @@ describe("TooltipOverlay", () => {
         event: {
             tooltip: {
                 items: [
-                    { name: "a", value: 3, seriesType: "scatter", fill: "blue" },
-                    { name: "b", value: 8, seriesType: "column", fill: "orange" },
+                    { name: "a", value: 3, icon: "circle", fill: "blue" },
+                    { name: "b", value: 8, icon: "square", fill: "orange" },
                 ],
             },
         },
@@ -24,7 +24,7 @@ describe("TooltipOverlay", () => {
                 <svg>
                     <TooltipOverlay />
                 </svg>
-            </Provider>,
+            </Provider>
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -36,7 +36,7 @@ describe("TooltipOverlay", () => {
                 <svg>
                     <TooltipOverlay offset={0} />
                 </svg>
-            </Provider>,
+            </Provider>
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -56,7 +56,7 @@ describe("TooltipOverlay", () => {
                 <svg>
                     <TooltipOverlay offset={0} />
                 </svg>
-            </Provider>,
+            </Provider>
         );
 
         expect(asFragment()).toMatchSnapshot();

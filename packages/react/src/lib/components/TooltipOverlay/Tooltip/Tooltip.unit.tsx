@@ -15,9 +15,9 @@ describe("Tooltip", () => {
         };
 
         const items = [
-            { name: "a", value: 3, seriesType: "scatter", fill: "blue" as IColor },
-            { name: "b", value: 8, seriesType: "column", fill: "orange" as IColor },
-            { name: "c", value: 15, seriesType: "line", fill: "green" as IColor },
+            { name: "a", value: 3, icon: "circle" as const, fill: "blue" as IColor },
+            { name: "b", value: 8, icon: "square" as const, fill: "orange" as IColor },
+            { name: "c", value: 15, icon: "line" as const, fill: "green" as IColor },
         ];
 
         const { asFragment } = render(<Tooltip borderColor="red" items={items} positionStyle={positionStyle} />);
