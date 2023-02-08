@@ -39,6 +39,7 @@ describe("chartReducer", () => {
         } as SetDimensionAction;
 
         expect(chartReducer(previousState, action)).toEqual({
+            ...previousState,
             dimensions: {
                 width: 900,
                 height: 400,
@@ -56,6 +57,7 @@ describe("chartReducer", () => {
         } as SetDataAction;
 
         expect(chartReducer(previousState, action)).toEqual({
+            ...previousState,
             dimensions: previousState.dimensions,
             data: [{ a: "baz" }],
             scales: previousState.scales,
@@ -75,6 +77,7 @@ describe("chartReducer", () => {
         } as SetScaleAction;
 
         expect(chartReducer(previousState, action)).toEqual({
+            ...previousState,
             dimensions: previousState.dimensions,
             data: previousState.data,
             scales: {
@@ -106,7 +109,7 @@ describe("chartReducer", () => {
 
         expect(chartReducer(previousState, action)).toEqual({
             ...previousState,
-            theme: { foo: "bar" },
+            theme: themes.dark,
         });
     });
 

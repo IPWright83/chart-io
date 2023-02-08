@@ -47,7 +47,7 @@ describe("chartActions", () => {
             chartActions.setScales(fields, scale, false)(dispatch);
             expect(dispatch).toHaveBeenCalledWith({
                 type: "CHART.SET_SCALES",
-                payload: { fields, scale },
+                payload: { fields, scale, fromAxis: false },
             });
         });
 

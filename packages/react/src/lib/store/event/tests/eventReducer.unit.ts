@@ -29,6 +29,7 @@ describe("eventReducer", () => {
             } as MouseMoveAction;
 
             expect(eventReducer(previousState, action)).toEqual({
+                ...defaultEventState,
                 mouse: { x: 5, y: 10, mode: "MOVE" },
             });
         });
@@ -40,7 +41,9 @@ describe("eventReducer", () => {
                 payload: { offsetX: 5, offsetY: 10, mode: "MOVE" },
             } as MouseMoveAction;
 
-            expect(eventReducer(previousState, action)).toEqual({});
+            expect(eventReducer(previousState, action)).toEqual({
+                ...defaultEventState,
+            });
         });
 
         it("EVENT.MOUSE_ENTER action", () => {
@@ -52,6 +55,7 @@ describe("eventReducer", () => {
             } as MouseEnterAction;
 
             expect(eventReducer(previousState, action)).toEqual({
+                ...defaultEventState,
                 mouse: { x: 5, y: 10, mode: "ENTER" },
             });
         });
@@ -67,6 +71,7 @@ describe("eventReducer", () => {
             } as MouseExitAction;
 
             expect(eventReducer(previousState, action)).toEqual({
+                ...defaultEventState,
                 droplines: [],
                 markers: [],
                 mouse: undefined,
@@ -87,6 +92,7 @@ describe("eventReducer", () => {
             } as AddMarkerAction;
 
             expect(eventReducer(previousState, action)).toEqual({
+                ...defaultEventState,
                 markers: [
                     { fill: "red", r1: 5, r2: 10, cx: 3, cy: 4 },
                     { fill: "blue", r1: 15, r2: 20, cx: 14, cy: 54 },
@@ -109,6 +115,7 @@ describe("eventReducer", () => {
             } as RemoveMarkerAction;
 
             expect(eventReducer(previousState, action)).toEqual({
+                ...defaultEventState,
                 markers: [{ fill: "red", r1: 5, r2: 10, cx: 3, cy: 4 }],
             });
         });
@@ -127,6 +134,7 @@ describe("eventReducer", () => {
             } as AddDroplineAction;
 
             expect(eventReducer(previousState, action)).toEqual({
+                ...defaultEventState,
                 droplines: [
                     { isHorizontal: true, color: "red", x1: 0, x2: 1, y1: 2, y2: 3 },
                     { isVertical: true, color: "blue", x1: 1, x2: 2, y1: 3, y2: 4 },
@@ -149,6 +157,7 @@ describe("eventReducer", () => {
             } as RemoveDroplineAction;
 
             expect(eventReducer(previousState, action)).toEqual({
+                ...defaultEventState,
                 droplines: [{ isHorizontal: true, color: "red", x1: 0, x2: 1, y1: 2, y2: 3 }],
             });
         });
@@ -169,6 +178,7 @@ describe("eventReducer", () => {
             } as SetTooltipBorderColorAction;
 
             expect(eventReducer(previousState, action)).toEqual({
+                ...defaultEventState,
                 tooltip: {
                     items: [],
                     color: "#FF0000",
@@ -190,6 +200,7 @@ describe("eventReducer", () => {
             } as AddTooltipItemAction;
 
             expect(eventReducer(previousState, action)).toEqual({
+                ...defaultEventState,
                 tooltip: {
                     items: [{ name: "A", value: 0 }],
                 },
@@ -210,6 +221,7 @@ describe("eventReducer", () => {
             } as AddTooltipItemAction;
 
             expect(eventReducer(previousState, action)).toEqual({
+                ...defaultEventState,
                 tooltip: {
                     items: [{ name: "A", value: 0 }],
                 },
@@ -230,6 +242,7 @@ describe("eventReducer", () => {
             } as RemoveTooltipItemAction;
 
             expect(eventReducer(previousState, action)).toEqual({
+                ...defaultEventState,
                 tooltip: {
                     items: [],
                 },
@@ -250,6 +263,7 @@ describe("eventReducer", () => {
             } as SetTooltipPositionAction;
 
             expect(eventReducer(previousState, action)).toEqual({
+                ...defaultEventState,
                 tooltip: {
                     items: [],
                     position: { x: 5, y: 10 },

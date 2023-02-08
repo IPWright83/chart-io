@@ -29,18 +29,22 @@ describe("chartSelectors", () => {
         });
 
         it("returns an empty array with no data", () => {
-            // @ts-expect-error: Checking runtime safety
-            expect(chartSelectors.data({})).toEqual([]);
+            const state = {
+                event: defaultEventState,
+                chart: defaultChartState,
+            };
+
+            expect(chartSelectors.data(state)).toEqual([]);
         });
     });
 
     describe("scales", () => {
         it("store returns empty object if not provided in state", () => {
             const state = {
-                chart: {},
+                event: defaultEventState,
+                chart: defaultChartState,
             };
 
-            // @ts-expect-error: Checking runtime safety
             expect(chartSelectors.scales.store(state)).toEqual({});
         });
 
