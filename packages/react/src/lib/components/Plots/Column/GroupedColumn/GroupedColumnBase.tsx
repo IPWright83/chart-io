@@ -36,7 +36,7 @@ export function GroupedColumnBase({
     x,
     ys,
     colors,
-    interactive,
+    interactive = true,
     onMouseOver,
     onMouseOut,
     onClick,

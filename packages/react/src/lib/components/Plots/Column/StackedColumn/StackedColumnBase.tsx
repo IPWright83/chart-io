@@ -37,7 +37,7 @@ export function StackedColumnBase({
     x,
     ys,
     colors,
-    interactive,
+    interactive = true,
     onMouseOver,
     onMouseOut,
     onClick,

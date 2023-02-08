@@ -29,7 +29,7 @@ export interface IStackedAreaBaseProps extends Omit<IEventPlotProps, "y"> {
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Line plot component
  */
-export function StackedAreaBase({ x, ys, colors, interactive, layer, canvas }: IStackedAreaBaseProps) {
+export function StackedAreaBase({ x, ys, colors, interactive = true, layer, canvas }: IStackedAreaBaseProps) {
     const store = useStore();
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));

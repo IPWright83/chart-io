@@ -30,7 +30,7 @@ export function BarBase({
     canvas,
     renderVirtualCanvas,
     color,
-    interactive,
+    interactive = true,
     onMouseOver,
     onMouseOut,
     onClick,

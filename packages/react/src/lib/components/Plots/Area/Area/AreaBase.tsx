@@ -22,7 +22,7 @@ export interface IAreaBaseProps extends IPlotProps {
  * @param  props       The set of React properties
  * @return             The Line plot component
  */
-export function AreaBase({ x, y, y2, color, interactive, layer, canvas }: IAreaBaseProps) {
+export function AreaBase({ x, y, y2, color, interactive = true, layer, canvas }: IAreaBaseProps) {
     const store = useStore();
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));

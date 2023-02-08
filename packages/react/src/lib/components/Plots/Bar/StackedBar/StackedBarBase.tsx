@@ -40,7 +40,7 @@ export function StackedBarBase({
     xs,
     y,
     colors,
-    interactive,
+    interactive = true,
     onMouseOver,
     onMouseOut,
     onClick,
