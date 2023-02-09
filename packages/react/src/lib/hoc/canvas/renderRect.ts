@@ -19,15 +19,29 @@ export function renderRect(context: CanvasRenderingContext2D, node: Element, ove
     const strokeWidth = Number(selection.style("stroke-width")) || 1;
 
     context.beginPath();
-    context.rect(x, y, width, height);
-    context.globalAlpha = opacity;
 
     if (overrideColor) {
+        // We add 1 all around the square to take into account the extra
+        // stroke, which decreases the size of the square. For
+        // small square this can significantly decrease the hit target area
+        context.rect(x + 1, y + 1, width + 2, height + 2);
+
         context.globalAlpha = 1;
         context.fillStyle = `${overrideColor}`;
         context.fill();
+
+        // We apply a white stroke. This is to deal with anti-aliasing
+        // causing offset colors to be detected, triggering an event
+        // on an incorrect data point.
+        context.strokeStyle = `rgb(255, 255, 255)`;
+        context.lineWidth = 1;
+        context.stroke();
+
         return;
     }
+
+    context.rect(x, y, width, height);
+    context.globalAlpha = opacity;
 
     if (fill) {
         context.fillStyle = fill;

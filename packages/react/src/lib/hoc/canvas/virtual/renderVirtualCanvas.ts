@@ -22,6 +22,7 @@ export async function renderVirtualCanvas(
 
     // Ensure we've got the contexts to draw upon
     const context = canvas.getContext("2d");
+    context.imageSmoothingEnabled = false;
 
     // Used a manual index, as the `i` parameter for `.each` resets
     // when dealing with a nested selection. Start at 1 to avoid choosing black

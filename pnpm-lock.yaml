@@ -106,6 +106,7 @@ importers:
       d3: ^6.2.0
       d3-interpolate-path: ^2.2.3
       eslint: ^8.3.0
+      eslint-config-react: ^1.1.7
       eslint-config-react-app: ^7.0.1
       eslint-webpack-plugin: 3.2.0
       identity-obj-proxy: ^3.0.0
@@ -165,6 +166,7 @@ importers:
       chromatic: 6.15.0
       crypto: 1.0.1
       eslint: 8.29.0
+      eslint-config-react: 1.1.7
       eslint-config-react-app: 7.0.1_rinvnbjmrppz3gzfxdokj4brey
       eslint-webpack-plugin: 3.2.0_2godrbid5dlikbzpspaxqblgd4
       identity-obj-proxy: 3.0.0
@@ -9080,7 +9082,7 @@ packages:
       eslint-plugin-import: 2.26.0_z7hwuz3w5sq2sbhy7d4iqrnsvq
       eslint-plugin-jest: 25.7.0_ytfsdxfh4gq5x2ctvbc7x6fvqa
       eslint-plugin-jsx-a11y: 6.6.1_eslint@8.29.0
-      eslint-plugin-react: 7.31.11_eslint@8.29.0
+      eslint-plugin-react: 7.32.2_eslint@8.29.0
       eslint-plugin-react-hooks: 4.6.0_eslint@8.29.0
       eslint-plugin-testing-library: 5.9.1_zbm6mgjew7sm4ssghrxdqoiad4
       typescript: 4.9.5
@@ -9091,6 +9093,10 @@ packages:
       - eslint-import-resolver-webpack
       - jest
       - supports-color
+
+  /eslint-config-react/1.1.7:
+    resolution: {integrity: sha512-P4Z6u68wf0BvIvZNu+U8uQsk3DcZ1CcCI1XpUkJlG6vOa+iVcSQLgE01f2DB2kXlKRcT8/3dsH+wveLgvEgbkQ==}
+    dev: true
 
   /eslint-import-resolver-node/0.3.6:
     resolution: {integrity: sha512-0En0w03NRVMn9Uiyn8YRPDKvWjxCWkslUEhGNTdGx15RvPJYQ+lbOlqrlNI2vEAs4pDYK4f/HN2TbDmk5TP0iw==}
@@ -9222,8 +9228,8 @@ packages:
     dependencies:
       eslint: 8.29.0
 
-  /eslint-plugin-react/7.31.11_eslint@8.29.0:
-    resolution: {integrity: sha512-TTvq5JsT5v56wPa9OYHzsrOlHzKZKjV+aLgS+55NJP/cuzdiQPC7PfYoUjMoxlffKtvijpk7vA/jmuqRb9nohw==}
+  /eslint-plugin-react/7.32.2_eslint@8.29.0:
+    resolution: {integrity: sha512-t2fBMa+XzonrrNkyVirzKlvn5RXzzPwRHtMvLAtVZrt8oxgnTQaYbU6SXTOO1mwQgp1y5+toMSKInnzGr0Knqg==}
     engines: {node: '>=4'}
     peerDependencies:
       eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8

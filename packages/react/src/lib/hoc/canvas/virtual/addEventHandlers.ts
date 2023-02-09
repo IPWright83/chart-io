@@ -1,7 +1,7 @@
 import type { IDatum } from "@d3-chart/types";
 import { throttle } from "lodash";
 
-import type { IColorToDataMap } from "./types";
+import type { IColorToDataMap, IColorToData } from "./types";
 
 import { eventActions, IDispatch } from "../../../store";
 import { MOUSE_MOVE_THROTTLE } from "../../../constants";
@@ -69,11 +69,15 @@ const triggerOnMouseOut = (datum: IDatum, node: Element, e: MouseEvent) => {
 /**
  * Wire up events on the virtal canvas
  * @param  {HTMLElement} canvas              The virtual canvas DOM element
- * @param  {Object}      colorToData         A map from a color to a datum
+ * @param  {Object}      getColorMap         A map from a color to a datum
  * @param  {Function}    dispatch            The redux dispatch function
  * @returns {Object}                         The set of handlers for cleaning up { clickHandler, moveHandler }
  */
-export const addEventHandlers = (canvas: HTMLCanvasElement, colorToData: IColorToDataMap, dispatch: IDispatch) => {
+export const addEventHandlers = (
+    canvas: HTMLCanvasElement,
+    getColorMap: () => IColorToDataMap,
+    dispatch: IDispatch
+) => {
     let lastDatum = undefined;
     let lastNode = undefined;
 
@@ -83,10 +87,12 @@ export const addEventHandlers = (canvas: HTMLCanvasElement, colorToData: IColorT
 
     /**
      * Retrieve a datum from the click event
-     * @param  {Object} e   The MouseEventArgs
-     * @return {Object}     The datum if found
+     * @param  e   The MouseEventArgs
+     * @return     The datum if found
      */
-    const getDatum = (e) => {
+    const getDatum = (e: MouseEvent): IColorToData | undefined => {
+        const colorToData: IColorToDataMap = getColorMap() ?? {};
+
         const coords = {
             x: e.pageX - rect.left,
             y: e.pageY - rect.top,
@@ -94,26 +100,31 @@ export const addEventHandlers = (canvas: HTMLCanvasElement, colorToData: IColorT
 
         const colorData = eventContext.getImageData(coords.x, coords.y, 1, 1).data;
         const color = `rgb(${colorData[0]}, ${colorData[1]}, ${colorData[2]})`;
-        return colorToData.current[color] || {};
+        return colorToData[color];
     };
 
     /**
      * Respond to a Click event
      * @param  {MouseEventArgs} e   The mouse event
      */
-    const clickHandler = (e) => {
-        const { datum, node } = getDatum(e);
-        triggerOnClick(datum, node, e);
+    const clickHandler = (e: MouseEvent) => {
+        const lookup = getDatum(e);
+        if (lookup) {
+            const { datum, node } = lookup;
+            triggerOnClick(datum, node, e);
+        }
     };
 
     /**
      * Respond to the Mouse Move event
      * @param  {MouseEventArgs} e   The mouse event
      */
-    const moveHandler = throttle((e) => {
+    const moveHandler = throttle((e: MouseEvent) => {
         dispatch(eventActions.mouseMove(e));
 
-        const { datum, node } = getDatum(e);
+        const lookup = getDatum(e);
+        const datum = lookup?.datum;
+        const node = lookup?.node;
 
         // Moving within a point
         if (datum === lastDatum) {

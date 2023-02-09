@@ -19,6 +19,7 @@
     "storybook:watch": "node scripts/choice storybook",
     "storybook:package": "node scripts/choice build-storybook",
     "storybook:deploy": "pnpm --filter '@chart-it/*' deploy-storybook",
+    "types": "turbo run types",
     "test": "turbo run test --concurrency=1",
     "test:coverage": "turbo run test --concurrency=1 -- --coverage",
     "test:package": "node scripts/choice test --coverage",

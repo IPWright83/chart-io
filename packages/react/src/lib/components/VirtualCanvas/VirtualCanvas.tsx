@@ -1,7 +1,7 @@
-import type { IOnMouseOver, IOnMouseOut, IOnClick } from "@d3-chart/types";
+import type { IOnMouseOver, IOnMouseOut, IOnClick, IDatum } from "@d3-chart/types";
 import { debounce } from "lodash";
 import PropTypes from "prop-types";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useCallback, useState, useRef } from "react";
 import { useStore, useSelector } from "react-redux";
 
 import {
@@ -15,6 +15,7 @@ import { chartSelectors, IState } from "../../store";
 
 import { getChildrenWithProps } from "./getChildrenWithProps";
 import { isVirtualCanvasRequired } from "./isVirtualCanvasRequired";
+import type { IRenderVirtualCanvasFunc } from "./getChildrenWithProps";
 
 export const VIRTUAL_CANVAS_DEBOUNCE = 100;
 
@@ -47,27 +48,55 @@ export interface IVirtualCanvasProps {
  * @return {ReactElement}   A virtual canvas to add mouse events to canvas layers
  */
 export function VirtualCanvas({ children, onMouseOver, onMouseOut, onClick }: IVirtualCanvasProps) {
-    // This is going to be used for the main color -> datum lookup.
-    // We need to use a useRef so dependencies (wiring up events) don't re-occur forcing a re-render loop
-    const colorToData = useRef<IColorToDataMap>({});
-    const canvas = useRef(null);
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const store = useStore();
 
+    // This is going to be used for the main color -> datum lookup.
+    // We need to use a useRef so dependencies (wiring up events) don't re-occur forcing a re-render loop
+    const colorToData = useRef<IColorToDataMap>({});
+    const canvasRef = useRef<HTMLCanvasElement>();
+
+    // We can't trigger a useEffect when the colorToData ref changes so
+    // instead we use a callback function to ensure we always grab the
+    // correct reference when trying to do our data lookups in the
+    // addEventHandlers function
+    const getColorMap = useCallback(() => colorToData.current, [colorToData.current]);
+
+    // Adds event handlers to the canvas for triggering events
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas || !store) {
+            return;
+        }
+
+        const { clickHandler, moveHandler } = addEventHandlers(canvas, getColorMap, store.dispatch);
+        return () => {
+            removeEventHandlers(canvas, clickHandler, moveHandler);
+        };
+    }, [canvasRef.current, store, getColorMap]);
+
+    // This is a set of transient nodes, use as part of a debounced render function
+    let nodes = [];
+
     // Render all the virtual nodes - this is debounced to ensure that we only trigger it once
     // after all of the child layers finished their render as we don't want layers to overwrite each other
-    let nodes = [];
     const renderAllVirtualNodes = debounce(async () => {
-        clearVirtualCanvas(canvas.current, width, height);
-        colorToData.current = await renderVirtualCanvas(canvas.current, width, height, nodes);
+        const canvas = canvasRef.current;
+        if (!canvas) {
+            return;
+        }
+
+        // Clear and re-render the virtual canvas
+        clearVirtualCanvas(canvas, width, height);
+        colorToData.current = await renderVirtualCanvas(canvas, width, height, nodes);
         nodes = [];
     }, VIRTUAL_CANVAS_DEBOUNCE);
 
     // Whenever a child (canvas layer) renders it'll call this renderVirtual function
     // at the end of its render loop. We need to ensure that all nodes (virtual dom elements)
     // exist within the dataset and then render the virtual canvas
-    const renderVirtual = (update, events) => {
+    const renderVirtual: IRenderVirtualCanvasFunc = (update, events) => {
         nodes = [
             ...nodes,
             {
@@ -78,21 +107,6 @@ export function VirtualCanvas({ children, onMouseOver, onMouseOut, onClick }: IV
 
         renderAllVirtualNodes();
     };
-
-    // Register some virtual canvas event handlers
-    useEffect(() => {
-        const canvasElement = canvas.current;
-        if (!canvasElement) {
-            return;
-        }
-
-        const { clickHandler, moveHandler } = addEventHandlers(canvasElement, colorToData.current, store.dispatch);
-
-        // Ensure we clean up the handlers otherwise they'll double fire
-        return () => {
-            removeEventHandlers(canvasElement, clickHandler, moveHandler);
-        };
-    }, [canvas, colorToData, onClick, onMouseOut, onMouseOver, store.dispatch]);
 
     // Many layers don't require the virtual canvas. If
     // they are all of these types then disable the canvas
@@ -115,7 +129,7 @@ export function VirtualCanvas({ children, onMouseOver, onMouseOut, onClick }: IV
         <React.Fragment>
             {childrenWithProps}
             <foreignObject className="fo" width={width} height={height}>
-                <canvas className="virtual-canvas" width={width} height={height} ref={canvas} style={style}></canvas>
+                <canvas className="virtual-canvas" width={width} height={height} ref={canvasRef} style={style}></canvas>
             </foreignObject>
         </React.Fragment>
     );

@@ -1,7 +1,7 @@
 import type { IOnMouseOver, IOnMouseOut, IOnClick } from "@d3-chart/types";
 import React from "react";
 
-export type renderVirtualCanvasFunc = (
+export type IRenderVirtualCanvasFunc = (
     update: d3.Transition<Element, unknown, any, unknown>,
     events: {
         onMouseOver: IOnMouseOver;
@@ -16,7 +16,7 @@ export type renderVirtualCanvasFunc = (
  * @param  renderVirtualCanvas         Function to call to update the virtual canvas
  * @return                             The new children
  */
-export function getChildrenWithProps(children: any, renderVirtualCanvas: renderVirtualCanvasFunc): any {
+export function getChildrenWithProps(children: any, renderVirtualCanvas: IRenderVirtualCanvasFunc): any {
     if (!children) {
         return children;
     }

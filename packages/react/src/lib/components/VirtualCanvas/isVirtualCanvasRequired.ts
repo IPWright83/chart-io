@@ -16,5 +16,5 @@ export const isVirtualCanvasRequired = (children: any): boolean => {
     }
 
     // Single child
-    return children.requiresVirtualCanvas;
+    return children.requiresVirtualCanvas || children.type?.requiresVirtualCanvas;
 };
