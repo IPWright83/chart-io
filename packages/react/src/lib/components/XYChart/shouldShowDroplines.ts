@@ -16,7 +16,7 @@ export function shouldShowDroplines(children: any): boolean {
     const names = children
         .flat()
         .filter((c) => !!c) // Remove undefined children (e.g. condition ?? <component>)
-        .map((child) => child.type.name);
+        .map((child) => child.type.name ?? child.type);
 
     // Disable vertical drop lines when we have multiple Line or Area
     if (names.includes("Areas") || names.includes("Lines")) {
