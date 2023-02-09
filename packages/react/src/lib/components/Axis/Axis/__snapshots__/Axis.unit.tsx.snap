@@ -7,7 +7,7 @@ exports[`Axis component renders a bottom axis 1`] = `
       class="g-axis"
     >
       <text
-        class="chart-it axis-title"
+        class="chart-it axis-title axis-title-left"
         style="text-anchor: middle; font-size: 14px; user-select: none;"
         transform="translate(-20, 230)rotate(270)"
       >
@@ -207,7 +207,7 @@ exports[`Axis component renders a left axis 1`] = `
       class="g-axis"
     >
       <text
-        class="chart-it axis-title"
+        class="chart-it axis-title axis-title-left"
         style="text-anchor: middle; font-size: 14px; user-select: none;"
         transform="translate(-20, 230)rotate(270)"
       >
@@ -407,7 +407,7 @@ exports[`Axis component renders a right axis 1`] = `
       class="g-axis"
     >
       <text
-        class="chart-it axis-title"
+        class="chart-it axis-title axis-title-right"
         style="text-anchor: middle; font-size: 14px; user-select: none;"
         transform="translate(1015, 230)rotate(270)"
       >
@@ -607,7 +607,7 @@ exports[`Axis component renders a top axis 1`] = `
       class="g-axis"
     >
       <text
-        class="chart-it axis-title"
+        class="chart-it axis-title axis-title-top"
         style="text-anchor: middle; font-size: 14px; user-select: none;"
         transform="translate(490, 5)"
       >

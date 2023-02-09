@@ -11,7 +11,7 @@ exports[`TooltipOverlay should apply a custom offset correctly 1`] = `
       >
         <div
           class="chart-it tooltip"
-          style="border: thin solid #ccc; display: inline-block; position: absolute; padding: 8px; max-width: 300px; background: rgb(255, 255, 255); opacity: 0.8;"
+          style="border: thin solid #ccc; display: inline-block; padding: 8px; max-width: 300px; background: rgb(255, 255, 255); opacity: 0.8;"
         >
           <div
             class="chart-it tooltip-item"
@@ -81,7 +81,7 @@ exports[`TooltipOverlay should render correctly 1`] = `
       >
         <div
           class="chart-it tooltip"
-          style="border: thin solid #ccc; display: inline-block; position: absolute; padding: 8px; max-width: 300px; background: rgb(255, 255, 255); opacity: 0.8;"
+          style="border: thin solid #ccc; display: inline-block; padding: 8px; max-width: 300px; background: rgb(255, 255, 255); opacity: 0.8;"
         >
           <div
             class="chart-it tooltip-item"
