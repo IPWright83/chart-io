@@ -20,7 +20,7 @@ exports[`Markers should render correctly 1`] = `
 `;
 
 exports[`Markers should skip if there is no layer avaliable 1`] = `
-Object {
+{
   "current": null,
 }
 `;

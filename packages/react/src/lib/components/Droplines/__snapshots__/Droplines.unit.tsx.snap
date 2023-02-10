@@ -70,7 +70,7 @@ exports[`Droplines should render just vertical lines correctly 1`] = `
 `;
 
 exports[`Droplines should skip if there is no layer avaliable 1`] = `
-Object {
+{
   "current": null,
 }
 `;

@@ -5,6 +5,7 @@ module.exports = {
     moduleNameMapper: {
         "^react-native$": "react-native-web",
         "\\.(css|less)$": "identity-obj-proxy",
+        "^uuidv4$": require.resolve("uuid"),
     },
     resetMocks: true,
     roots: ["<rootDir>/src"],

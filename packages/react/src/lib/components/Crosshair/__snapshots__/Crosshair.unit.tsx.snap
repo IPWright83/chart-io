@@ -88,7 +88,7 @@ exports[`Crosshair should render nothing if there is no mouse coordinate 1`] = `
 `;
 
 exports[`Crosshair should skip if there is no layer avaliable 1`] = `
-Object {
+{
   "current": null,
 }
 `;
