@@ -1,5 +1,4 @@
-import { Store, AnyAction } from "redux";
-import { IState, defaultChartState, defaultEventState, IStore } from "../store";
+import { defaultChartState, defaultEventState, IStore } from "../store";
 
 /**
  * Creates a mock Redux store for testing with
@@ -40,7 +39,7 @@ export function createMockStorybookStore(state: { chart?: any; event?: any }) {
                 ...(state.event ?? {}),
             },
         }),
-        dispatch: () => {},
-        subscribe: () => {},
+        dispatch: jest.fn(),
+        subscribe: jest.fn(),
     } as unknown as IStore;
 }

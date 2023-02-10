@@ -20,5 +20,6 @@ module.exports = {
                 requireParamType: false,
             },
         ],
+        "@typescript-eslint/ban-ts-comment": "warn",
     },
 };
