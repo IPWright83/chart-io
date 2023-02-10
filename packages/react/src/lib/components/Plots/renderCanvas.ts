@@ -7,8 +7,8 @@ import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
  * @param  renderVirtualCanvas     Should a virtual canvas for events be rendered?
  * @param  width                   The width of the chart
  * @param  height                  The height of the chart
- * @param  exit                    The exit selection
  * @param  update                  The update selection
+ * @param  exit                    The exit selection
  * @return                         A promise that resolves once the rendering has completed
  */
 export async function renderCanvas(

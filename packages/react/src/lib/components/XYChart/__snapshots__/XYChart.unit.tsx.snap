@@ -13,10 +13,10 @@ exports[`XYChart should create empty template correctly 1`] = `
     >
       <rect
         class="chart-it event-receiver"
-        height="420"
+        height="440"
         style="fill: none; pointer-events: all;"
-        transform="translate(40, 40)"
-        width="420"
+        transform="translate(30, 30)"
+        width="440"
       />
     </g>
     <g

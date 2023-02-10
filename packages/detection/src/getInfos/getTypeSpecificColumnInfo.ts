@@ -2,7 +2,7 @@ import * as d3 from "d3";
 
 import { Type } from "../Type";
 import { getMaxStringLength } from "./getMaxStringLength";
-import type { IColumnInfo, INumericColumnInfo, IStringColumnInfo, IDateColumnInfo } from "../types";
+import type { IColumnInfo } from "../types";
 
 /**
  * Gets column information specific to the type of the field
@@ -10,7 +10,10 @@ import type { IColumnInfo, INumericColumnInfo, IStringColumnInfo, IDateColumnInf
  * @param  {Types} type               The type of the column
  * @return {Object}                   Any additional information
  */
-const getTypeSpecificColumnInfo = (values: any[], type: Type): IColumnInfo | undefined => {
+const getTypeSpecificColumnInfo = (
+    values: any[],
+    type: Type
+): Omit<IColumnInfo, "key" | "count" | "nullCount" | "type" | "cardinality"> | undefined => {
     // Get additioanl number fields
     if (type === Type.Integer || type === Type.Double) {
         const range = [Math.min(...values), Math.max(...values)];
@@ -24,7 +27,7 @@ const getTypeSpecificColumnInfo = (values: any[], type: Type): IColumnInfo | und
             isAllPositive,
             isPossiblePercentage,
             isPossibleCurrency: false,
-        } as INumericColumnInfo;
+        };
     }
 
     // Get additioanl date fields
@@ -34,14 +37,14 @@ const getTypeSpecificColumnInfo = (values: any[], type: Type): IColumnInfo | und
 
         return {
             range,
-        } as IDateColumnInfo;
+        };
     }
 
     // Get additional string fields
     if (type === Type.String) {
         return {
             maxLength: getMaxStringLength(values),
-        } as IStringColumnInfo;
+        };
     }
 };
 

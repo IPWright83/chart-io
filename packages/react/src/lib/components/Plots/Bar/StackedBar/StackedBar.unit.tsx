@@ -155,7 +155,7 @@ describe("StackedBar", () => {
 
                 const { container, store } = await renderChart({
                     children: (
-                        <VirtualCanvas onMouseOver={onMouseOver}>
+                        <VirtualCanvas>
                             <StackedBar y="y" xs={["x", "x2"]} onMouseOver={onMouseOver} useCanvas={true} />
                         </VirtualCanvas>
                     ),
@@ -189,7 +189,7 @@ describe("StackedBar", () => {
 
                 const { container, store } = await renderChart({
                     children: (
-                        <VirtualCanvas onMouseOut={onMouseOut}>
+                        <VirtualCanvas>
                             <StackedBar y="y" xs={["x", "x2"]} onMouseOut={onMouseOut} useCanvas={true} />
                         </VirtualCanvas>
                     ),
@@ -238,7 +238,7 @@ describe("StackedBar", () => {
 
                 const { container, store } = await renderChart({
                     children: (
-                        <VirtualCanvas onClick={onClick}>
+                        <VirtualCanvas>
                             <StackedBar y="y" xs={["x", "x2"]} onClick={onClick} useCanvas={true} />
                         </VirtualCanvas>
                     ),

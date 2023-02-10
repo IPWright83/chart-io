@@ -4,7 +4,6 @@ import { createSelector } from "reselect";
 import type { IState, IChartState, IChartStateDimensions, IChartStateScales } from "../types";
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
 
-const EMPTY_OBJECT = {};
 const EMPTY_ARRAY = [];
 const EMPTY_MARGIN = { left: 0, right: 0, top: 0, bottom: 0 };
 

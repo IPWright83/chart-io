@@ -152,7 +152,7 @@ describe("Column", () => {
 
                 const { container, store } = await renderChart({
                     children: (
-                        <VirtualCanvas onMouseOver={onMouseOver}>
+                        <VirtualCanvas>
                             <Column x="x" y="y" onMouseOver={onMouseOver} useCanvas={true} />
                         </VirtualCanvas>
                     ),
@@ -186,7 +186,7 @@ describe("Column", () => {
 
                 const { container, store } = await renderChart({
                     children: (
-                        <VirtualCanvas onMouseOut={onMouseOut}>
+                        <VirtualCanvas>
                             <Column x="x" y="y" onMouseOut={onMouseOut} useCanvas={true} />
                         </VirtualCanvas>
                     ),
@@ -237,7 +237,7 @@ describe("Column", () => {
 
                 const { container, store } = await renderChart({
                     children: (
-                        <VirtualCanvas onClick={onClick}>
+                        <VirtualCanvas>
                             <Column x="x" y="y" onClick={onClick} useCanvas={true} />
                         </VirtualCanvas>
                     ),

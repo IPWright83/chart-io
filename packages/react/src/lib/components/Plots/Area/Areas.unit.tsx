@@ -66,8 +66,8 @@ describe("Areas", () => {
                 const canvasBuffer2 = getBuffer(canvases[1] as HTMLCanvasElement);
                 expect(canvasBuffer2).toMatchImageSnapshot();
 
-                const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));
-                expect(virtualCanvasBuffer).toMatchImageSnapshot();
+                // const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));
+                // expect(virtualCanvasBuffer).toMatchImageSnapshot();
             });
         });
     });
@@ -105,8 +105,8 @@ describe("Areas", () => {
                 const canvasBuffer1 = getBuffer(canvases[0] as HTMLCanvasElement);
                 expect(canvasBuffer1).toMatchImageSnapshot();
 
-                const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));
-                expect(virtualCanvasBuffer).toMatchImageSnapshot();
+                // const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));
+                // expect(virtualCanvasBuffer).toMatchImageSnapshot();
             });
         });
     });

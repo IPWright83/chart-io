@@ -1,5 +1,4 @@
-import type { IFormatter } from "@d3-chart/types";
-import type { ITooltipItem } from "@d3-chart/types";
+import type { IFormatter , ITooltipItem } from "@d3-chart/types";
 import React from "react";
 
 import { TooltipItem } from "./TooltipItem";

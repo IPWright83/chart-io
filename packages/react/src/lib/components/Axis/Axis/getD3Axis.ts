@@ -3,7 +3,8 @@ import * as d3 from "d3";
 
 /**
  * Return a D3 Axis function
- * @param  IPosition    The position of the axis [left, right, top, bottom]
+ * @param  position     The position of the axis [left, right, top, bottom]
+ * @param  scale        The D3 scale being used by the axis
  * @return              The D3 selection Axis - https://github.com/d3/d3-axis
  */
 const getD3Axis = (position: IPosition, scale: IScale): d3.Axis<d3.AxisDomain> => {

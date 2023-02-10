@@ -1,5 +1,4 @@
 import * as d3 from "d3";
-import type { IValue } from "@d3-chart/types";
 
 import { themes } from "../../../themes";
 

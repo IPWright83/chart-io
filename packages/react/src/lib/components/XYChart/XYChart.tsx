@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import { EventReceiver } from "../EventReceiver";
 import { Droplines } from "../Droplines";
@@ -10,7 +9,7 @@ import { TooltipOverlay } from "../TooltipOverlay";
 
 import { shouldShowDroplines } from "./shouldShowDroplines";
 
-export interface IXYChartProps extends IChartProps {}
+export type IXYChartProps = IChartProps;
 
 export function XYChart({ children, ...props }: IXYChartProps) {
     const showDroplines = shouldShowDroplines(children);

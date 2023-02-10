@@ -186,7 +186,7 @@ describe("Scatter", () => {
 
                 const { container, store } = await renderChart({
                     children: (
-                        <VirtualCanvas onMouseOver={onMouseOver}>
+                        <VirtualCanvas>
                             <Scatter x="x" y="y" onMouseOver={onMouseOver} useCanvas={true} />
                         </VirtualCanvas>
                     ),
@@ -222,7 +222,7 @@ describe("Scatter", () => {
 
                 const { container, store } = await renderChart({
                     children: (
-                        <VirtualCanvas onMouseOut={onMouseOut}>
+                        <VirtualCanvas>
                             <Scatter x="x" y="y" onMouseOut={onMouseOut} useCanvas={true} />
                         </VirtualCanvas>
                     ),
@@ -268,7 +268,7 @@ describe("Scatter", () => {
 
                 const { container, store } = await renderChart({
                     children: (
-                        <VirtualCanvas onClick={onClick}>
+                        <VirtualCanvas>
                             <Scatter x="x" y="y" onClick={onClick} useCanvas={true} />
                         </VirtualCanvas>
                     ),

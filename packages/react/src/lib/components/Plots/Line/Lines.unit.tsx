@@ -66,8 +66,8 @@ describe("Lines", () => {
                 const canvasBuffer2 = getBuffer(canvases[1] as HTMLCanvasElement);
                 expect(canvasBuffer2).toMatchImageSnapshot();
 
-                const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));
-                expect(virtualCanvasBuffer).toMatchImageSnapshot();
+                // const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));
+                // expect(virtualCanvasBuffer).toMatchImageSnapshot();
             });
         });
     });

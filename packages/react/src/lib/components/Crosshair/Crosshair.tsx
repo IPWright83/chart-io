@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 
 import { useSelector } from "react-redux";
 
@@ -29,7 +29,7 @@ export function Crosshair({ showVertical = true, showHorizontal = true }: ICross
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const position = useSelector((s: IState) => eventSelectors.position(s));
 
-    if (!position) {
+    if (!position.x && !position.y) {
         return null;
     }
 

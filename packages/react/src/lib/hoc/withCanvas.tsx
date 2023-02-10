@@ -19,7 +19,7 @@ const withCanvas = <P extends object>(WrappedComponent: React.ComponentType<P>, 
      * @param  {...any}            props        The rest of the props
      * @return {ReactDOMComponent}              The wrapped layer
      */
-    return (props) => {
+    return function withCanvas(props) {
         const canvas = useRef(null);
         const [layer, setLayer] = useState({});
 

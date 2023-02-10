@@ -1,6 +1,5 @@
 import * as d3 from "d3";
 
-import type { IColorToDataMap } from "./types";
 import { renderElements } from "../renderElements";
 
 /*

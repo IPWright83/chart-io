@@ -1,7 +1,5 @@
-import type { IOnMouseOver, IOnMouseOut, IOnClick, IDatum } from "@d3-chart/types";
 import { debounce } from "lodash";
-import PropTypes from "prop-types";
-import React, { useEffect, useCallback, useState, useRef } from "react";
+import React, { useEffect, useCallback, useRef } from "react";
 import { useStore, useSelector } from "react-redux";
 
 import {
@@ -24,21 +22,6 @@ export interface IVirtualCanvasProps {
      * The plots that are children of the virtual canvas
      */
     children: JSX.Element;
-    /**
-     * A function that will be triggered whenever the mouse moves over an element for the first time
-     * @default `() => {}`
-     */
-    onMouseOver?: IOnMouseOver;
-    /**
-     * A function that will be triggered whenever the mouse moves out an element
-     * @default `() => {}`
-     */
-    onMouseOut?: IOnMouseOut;
-    /**
-     * A function that will be triggered whenever the mouse clicks on an element
-     * @default `() => {}`
-     */
-    onClick?: IOnClick;
 }
 
 /**
@@ -47,7 +30,7 @@ export interface IVirtualCanvasProps {
  * @param  {Object} props   The react props
  * @return {ReactElement}   A virtual canvas to add mouse events to canvas layers
  */
-export function VirtualCanvas({ children, onMouseOver, onMouseOut, onClick }: IVirtualCanvasProps) {
+export function VirtualCanvas({ children }: IVirtualCanvasProps) {
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const store = useStore();

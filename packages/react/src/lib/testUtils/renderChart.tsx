@@ -8,14 +8,6 @@ import { createMockStore } from "./createMockStore";
 
 import { themes } from "../themes";
 
-/**
- * Test render function for a chart
- * @param  options.children     The set of React children
- * @param  options.data         The data for the chart
- * @param  options.scales      The keyed scales for the chart
- * @param  options.store       Optional specific store to use
- * @return                     { asFragment, container }
- */
 export async function renderChart({
     children,
     data,

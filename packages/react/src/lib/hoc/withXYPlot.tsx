@@ -9,14 +9,13 @@ import { chartSelectors, IState } from "../store";
  * @param  WrappedComponent     The D3 layer to render
  * @return                      The wrapped layer
  */
-const withXYPlot =
-    <P extends object>(WrappedComponent: React.ComponentType<P>) =>
+const withXYPlot = <P extends object>(WrappedComponent: React.ComponentType<P>) => {
     /**
      * Wraps a component and handles some of the potentially missing parts
      * @param  {...any}    options.props        The rest of the props
      * @return {ReactDOMComponent}              The wrapped layer
      */
-    ({ x, y, xs, ys, ...props }) => {
+    return function withXYPlot({ x, y, xs, ys, ...props }) {
         const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x || xs[0]));
         const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y || ys[0]));
 
@@ -48,5 +47,6 @@ const withXYPlot =
         // https://stackoverflow.com/a/54583335/21061
         return <WrappedComponent layer={layer} x={x} y={y} ys={ys} xs={xs} {...(props as P)} />;
     };
+};
 
 export { withXYPlot };

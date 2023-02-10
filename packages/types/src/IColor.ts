@@ -3,7 +3,7 @@ export type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
 export type HEX = `#${string}`;
 
 /** Named HTML colors */
-export type NAMED_COLOR = 
+export type NAMED_COLOR =
     | "black"
     | "navy"
     | "darkblue"

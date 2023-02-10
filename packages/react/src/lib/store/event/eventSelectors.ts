@@ -103,6 +103,10 @@ export const eventSelectors: IEventSelectors = {
      */
     position: (state: IState): ICoordinate | undefined => {
         const { mouse } = eventSelectors.store(state);
+        if (!mouse) {
+            return EMPTY_OBJECT as ICoordinate;
+        }
+
         return mouse;
     },
 };

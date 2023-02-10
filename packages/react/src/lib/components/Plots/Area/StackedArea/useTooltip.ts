@@ -9,13 +9,13 @@ import { eventActions, IDispatch } from "../../../../store";
  * @param  dispatch     The redux store dispatch function
  * @param  layer        The layer we're updating to from a React useRef
  * @param  x            The key of the field used for the x position
- * @param  y            The key of the field used for the y position
+ * @param  ys           The keys of the fields used for y position
  * @param  xScale       The d3 scale for the x axis
  * @param  yScale       The d3 scale for the y axis
  * @param  data         The complete dataset for the plot
  * @param  eventMode    The event mode from the selector one of ["NONE", "ENTER", "MOVE"]
  * @param  position     The { x, y } position of the mouse
- * @param  color        The color of the plot
+ * @param  colors       The colors for the plot
  */
 export function useTooltip(
     dispatch: IDispatch,

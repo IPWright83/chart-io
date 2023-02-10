@@ -6,5 +6,6 @@ import { Type } from "./Type";
  * @return             The name of the data type
  */
 export function typeEnumToName(type: Type) {
+    // @ts-expect-error: This is a false positive
     return Object.entries(Type).find(([, value]) => value === type)[0];
 }

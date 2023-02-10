@@ -10,7 +10,7 @@ import { useDatumFocus } from "../useDatumFocus";
 import { useTooltip } from "../useTooltip";
 import { usePathCreator } from "./usePathCreator";
 
-export interface ISVGLineProps extends Omit<IPlotProps, "canvas"> {}
+export type ISVGLineProps = Omit<IPlotProps, "canvas">
 
 /**
  * Represents a Line Plot on an SVG Element

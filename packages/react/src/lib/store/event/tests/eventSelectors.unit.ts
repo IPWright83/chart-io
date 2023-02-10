@@ -33,7 +33,7 @@ describe("eventSelectors", () => {
                 event: defaultEventState,
             };
 
-            expect(eventSelectors.position(state)).toEqual(undefined);
+            expect(eventSelectors.position(state)).toEqual({});
         });
     });
 

@@ -16,7 +16,7 @@ const withSVG = <P extends object>(WrappedComponent: React.ComponentType<P>, cla
      * @param  {...any}            props        The rest of the props
      * @return {ReactDOMComponent}              The wrapped layer
      */
-    return (props) => {
+    return function withSVG(props) {
         const layer = useRef(null);
 
         return (

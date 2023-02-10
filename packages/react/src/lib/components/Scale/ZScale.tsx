@@ -2,7 +2,7 @@ import React from "react";
 
 import { AutoScale, IAutoScaleProps } from "./AutoScale";
 
-export interface IZScaleProps extends IAutoScaleProps {}
+export type IZScaleProps = IAutoScaleProps
 
 /**
  * Represents an XScale

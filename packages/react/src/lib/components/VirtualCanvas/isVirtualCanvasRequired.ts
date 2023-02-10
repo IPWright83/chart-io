@@ -1,5 +1,3 @@
-import type { ReactChildren } from "react";
-
 /**
  * Determine if a Virtual Canvas is required or not
  * @param  children  The child or children of the virtual canvas

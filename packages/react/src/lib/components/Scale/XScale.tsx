@@ -1,11 +1,10 @@
-import PropTypes from "prop-types";
 import React from "react";
 import { useSelector } from "react-redux";
 
 import { chartSelectors, IState } from "../../store";
 import { AutoScale, IAutoScaleProps } from "./AutoScale";
 
-export interface IXScaleProps extends Omit<IAutoScaleProps, "range"> {}
+export type IXScaleProps = Omit<IAutoScaleProps, "range">;
 
 /**
  * Represents an XScale

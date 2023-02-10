@@ -10,7 +10,7 @@ describe("/utils/checks", () => {
 
     describe("ensureBandScale", () => {
         it("should return false if not a d3.scaleBand", () => {
-            jest.spyOn(console, "error").mockImplementation(() => {});
+            jest.spyOn(console, "error").mockImplementation(jest.fn());
 
             // @ts-expect-error: Testing runtime validation
             expect(ensureBandScale(d3.scaleLinear(), "unit_test")).toBe(false);
@@ -26,7 +26,7 @@ describe("/utils/checks", () => {
 
     describe("ensureNoScaleOverflow for aggregated data", () => {
         it("should return true if the data is larger than the scale", () => {
-            jest.spyOn(console, "warn").mockImplementation(() => {});
+            jest.spyOn(console, "warn").mockImplementation(jest.fn());
 
             const scale = d3.scaleLinear().domain([0, 10]);
             const data = [
@@ -63,7 +63,7 @@ describe("/utils/checks", () => {
         });
 
         it("should return false if not all the values are unique", () => {
-            jest.spyOn(console, "warn").mockImplementation(() => {});
+            jest.spyOn(console, "warn").mockImplementation(jest.fn());
 
             const data = [{ x: "a" }, { x: "b" }, { x: "a" }];
             const field = "x";

@@ -9,7 +9,7 @@ import { isNullOrUndefined } from "../../../../../utils";
 import { useDatumFocus } from "../useDatumFocus";
 import { useTooltip } from "../useTooltip";
 
-export interface ICanvasLineProps extends Omit<IPlotProps, "interactive"> {}
+export type ICanvasLineProps = Omit<IPlotProps, "interactive">
 
 /**
  * Represents a Line Plot on a Canvas element

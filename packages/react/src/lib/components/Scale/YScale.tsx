@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { chartSelectors, IState } from "../../store";
 import { AutoScale, IAutoScaleProps } from "./AutoScale";
 
-export interface IYScaleProps extends Omit<IAutoScaleProps, "range"> {}
+export type IYScaleProps = Omit<IAutoScaleProps, "range">
 
 /**
  * Represents a YScale

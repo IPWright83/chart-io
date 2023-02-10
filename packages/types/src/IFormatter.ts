@@ -1,3 +1,5 @@
+import { IValue } from "./IValue";
+
 export interface IFormatter {
     /**
      * An optional prefix to place in-front of formatted text
@@ -12,5 +14,5 @@ export interface IFormatter {
      * @param name    The key of the series value being formatted
      * @param value   The value to format
      */
-    format?: (name: string, value: any) => string;
+    format?: (name: string, value: IValue) => string;
 }

@@ -156,7 +156,7 @@ describe("GroupedColumn", () => {
 
                 const { container, store } = await renderChart({
                     children: (
-                        <VirtualCanvas onMouseOver={onMouseOver}>
+                        <VirtualCanvas>
                             <GroupedColumn x="x" ys={["y", "y2"]} onMouseOver={onMouseOver} useCanvas={true} />
                         </VirtualCanvas>
                     ),
@@ -190,7 +190,7 @@ describe("GroupedColumn", () => {
 
                 const { container, store } = await renderChart({
                     children: (
-                        <VirtualCanvas onMouseOut={onMouseOut}>
+                        <VirtualCanvas>
                             <GroupedColumn x="x" ys={["y", "y2"]} onMouseOut={onMouseOut} useCanvas={true} />
                         </VirtualCanvas>
                     ),
@@ -241,7 +241,7 @@ describe("GroupedColumn", () => {
 
                 const { container, store } = await renderChart({
                     children: (
-                        <VirtualCanvas onClick={onClick}>
+                        <VirtualCanvas>
                             <GroupedColumn x="x" ys={["y", "y2"]} onClick={onClick} useCanvas={true} />
                         </VirtualCanvas>
                     ),

@@ -1,6 +1,5 @@
 import type { IFormatter } from "@d3-chart/types";
 import React from "react";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
 import { Tooltip } from "./Tooltip";

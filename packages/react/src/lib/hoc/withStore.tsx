@@ -1,4 +1,4 @@
-import type { Store, EmptyObject, AnyAction } from "redux";
+import type { AnyAction } from "redux";
 import React, { useMemo } from "react";
 import { Provider } from "react-redux";
 
@@ -36,14 +36,13 @@ export interface IWithStoreProps {
  * @param  WrappedComponent     The component to render
  * @return                      The wrapped component
  */
-const withStore =
-    <P extends object>(WrappedComponent: React.ComponentType<P>) =>
+const withStore = <P extends object>(WrappedComponent: React.ComponentType<P>) =>
     /**
      * Wraps a component within a Redux store provider
      * @param  {...any}    options.props        All the props
      * @return {ReactDOMComponent}              The wrapped componet
      */
-    ({ onStoreCreated, customReducers, ...props }: IWithStoreProps) => {
+    function withStore({ onStoreCreated, customReducers, ...props }: IWithStoreProps) {
         const store = useMemo(() => createStore(customReducers), [customReducers]);
 
         // If the consumer needs access to the store then fire

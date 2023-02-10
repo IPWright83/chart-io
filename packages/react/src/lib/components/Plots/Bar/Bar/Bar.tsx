@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React from "react";
 
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";

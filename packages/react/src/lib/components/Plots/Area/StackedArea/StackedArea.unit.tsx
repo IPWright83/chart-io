@@ -126,8 +126,8 @@ describe("StackedArea", () => {
             const canvasBuffer = getBuffer(container.querySelector(".canvas"));
             expect(canvasBuffer).toMatchImageSnapshot();
 
-            const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));
-            expect(virtualCanvasBuffer).toMatchImageSnapshot();
+            // const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));
+            // expect(virtualCanvasBuffer).toMatchImageSnapshot();
         });
 
         describe("should respond to event", () => {

@@ -13,7 +13,7 @@ import { getXYFromTransform } from "../../../utils";
 const getDropline = (
     selection: d3.Selection<any, unknown, null, undefined>,
     xScale: IScale,
-    grouped: boolean = false
+    grouped = false
 ): IDropline => {
     const fill = selection.style("fill");
     const y = +selection.attr("y");

@@ -1,6 +1,5 @@
 import type { IMargin, IData, IOnMouseOver, IOnMouseOut, IOnClick, ITheme } from "@d3-chart/types";
 import React, { useEffect } from "react";
-import PropTypes from "prop-types";
 import { useStore } from "react-redux";
 
 import { VirtualCanvas } from "../VirtualCanvas";
@@ -10,6 +9,8 @@ import { chartActions } from "../../store";
 
 import { getChildrenWithProps } from "./getChildrenWithProps";
 import { getTheme } from "./getTheme";
+
+const DEFAULT_MARGIN = { left: 30, top: 30, right: 30, bottom: 30 };
 
 export interface IChartBaseProps {
     /**
@@ -72,7 +73,7 @@ export function Chart({
     animationDuration = 250,
     width = 500,
     height = 500,
-    margin,
+    margin = DEFAULT_MARGIN,
     data,
     useCanvas,
     onMouseOver,
@@ -124,13 +125,7 @@ export function Chart({
             height={height}
             style={{ backgroundColor: themeOrCustom.background?.toString() }}
         >
-            {useCanvas ? (
-                <VirtualCanvas onMouseOver={onMouseOver} onMouseOut={onMouseOut} onClick={onClick}>
-                    {childrenWithProps}
-                </VirtualCanvas>
-            ) : (
-                childrenWithProps
-            )}
+            {useCanvas ? <VirtualCanvas>{childrenWithProps}</VirtualCanvas> : childrenWithProps}
         </svg>
     );
 }

@@ -43,6 +43,8 @@ export interface IAxisProps {
     /**
      * https://github.com/d3/d3-axis#axis_tickFormat
      */
+    // @ts-ignore: TODO: Need to improve this typing
+    // eslint-disable-next-line @typescript-eslint/ban-types
     tickFormat?: Function;
     /**
      * https://github.com/d3/d3-axis#axis_ticks

@@ -16,7 +16,7 @@ interface IExtendedProps {
  * Adds some additional props to all the children
  * @param  children                        The children of the component
  * @param  useCanvas                       Whether or not the plots should use an HTML canvas
- * @param  useCanvasanimationDuration      The duration to use for animations
+ * @param  animationDuration               The duration to use for animations
  * @param  onMouseOver                     A function that will be triggered whenever the mouse moves over an element for the first time
  * @param  onMouseOut                      A function that will be triggered whenever the mouse moves out an element
  * @param  onClick                         A function that will be triggered whenever the mouse clicks on an element
