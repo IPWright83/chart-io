@@ -47,6 +47,7 @@ importers:
       '@babel/preset-react': ^7.18.6
       '@d3-chart/types': workspace:*
       '@testing-library/jest-dom': ^5.16.4
+      '@types/jest': ^29.4.0
       '@typescript-eslint/eslint-plugin': ^5.51.0
       '@typescript-eslint/parser': ^5.51.0
       babel-jest: 27.5.1
@@ -66,6 +67,7 @@ importers:
       '@babel/preset-env': 7.20.2_@babel+core@7.20.12
       '@babel/preset-react': 7.18.6_@babel+core@7.20.12
       '@testing-library/jest-dom': 5.16.5
+      '@types/jest': 29.4.0
       '@typescript-eslint/eslint-plugin': 5.51.0_b635kmla6dsb4frxfihkw4m47e
       '@typescript-eslint/parser': 5.51.0_4vsywjlpuriuw3tl5oq6zy5a64
       babel-jest: 27.5.1_@babel+core@7.20.12
@@ -5189,7 +5191,7 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.4
-      '@types/node': 18.11.19
+      '@types/node': 18.13.0
       '@types/responselike': 1.0.0
     dev: true
 
@@ -5360,7 +5362,7 @@ packages:
   /@types/keyv/3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 18.11.19
+      '@types/node': 18.13.0
     dev: true
 
   /@types/lodash/4.14.191:
@@ -5483,7 +5485,7 @@ packages:
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 18.11.19
+      '@types/node': 18.13.0
     dev: true
 
   /@types/retry/0.12.0:
@@ -12472,7 +12474,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.5.1
-      '@types/node': 18.11.19
+      '@types/node': 18.13.0
 
   /jest-mock/29.4.1:
     resolution: {integrity: sha512-MwA4hQ7zBOcgVCVnsM8TzaFLVUD/pFWTfbkY953Y81L5ret3GFRZtmPmRFAjKQSdCKoJvvqOu6Bvfpqlwwb0dQ==}
@@ -12841,7 +12843,7 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dependencies:
       '@jest/types': 29.4.1
-      '@types/node': 18.11.19
+      '@types/node': 18.13.0
       chalk: 4.1.2
       ci-info: 3.7.1
       graceful-fs: 4.2.10
