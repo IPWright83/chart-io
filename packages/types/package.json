@@ -24,18 +24,10 @@
     "react",
     "chart"
   ],
-  "dependencies": {
-    "@types/d3-scale": "^4.0.3"
-  },
   "devDependencies": {
-    "@babel/cli": "^7.18.9",
-    "@babel/plugin-transform-react-jsx": "^7.18.6",
-    "@babel/preset-env": "^7.18.9",
-    "@babel/preset-react": "^7.18.6",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
     "eslint": "^8.33.0",
-    "identity-obj-proxy": "^3.0.0",
-    "webpack": "5"
+    "identity-obj-proxy": "^3.0.0"
   }
 }
