@@ -10,6 +10,7 @@ module.exports = {
         ecmaVersion: "latest",
         sourceType: "module",
     },
+    ignorePatterns: ["jest.config.js", ".eslintrc.js"],
     plugins: ["@typescript-eslint"],
     rules: {
         "@typescript-eslint/no-explicit-any": "off",

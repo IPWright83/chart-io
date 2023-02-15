@@ -5,7 +5,7 @@ module.exports = {
     moduleNameMapper: {
         "^react-native$": "react-native-web",
         "\\.(css|less)$": "identity-obj-proxy",
-        "^uuidv4$": require.resolve("uuid"),
+        "^d3-array$": "<rootDir>/node_modules/d3-array/dist/d3-array.min.js",
     },
     resetMocks: true,
     roots: ["<rootDir>/src"],
@@ -19,6 +19,7 @@ module.exports = {
                 diagnostics: {
                     ignoreCodes: ["TS151001"],
                 },
+                useESM: true,
             },
         ],
     },
