@@ -194,6 +194,7 @@ importers:
   packages/types:
     specifiers:
       '@types/d3-color': ^3.1.0
+      '@types/d3-scale': ^4.0.2
       '@types/react': ^18.0.28
       '@typescript-eslint/eslint-plugin': ^5.51.0
       '@typescript-eslint/parser': ^5.51.0
@@ -202,6 +203,7 @@ importers:
       identity-obj-proxy: ^3.0.0
     dependencies:
       '@types/d3-color': 3.1.0
+      '@types/d3-scale': 4.0.3
       '@types/react': 18.0.28
       d3-scale: 4.0.2
     devDependencies:
@@ -5210,7 +5212,6 @@ packages:
     resolution: {integrity: sha512-PATBiMCpvHJSMtZAMEhc2WyL+hnzarKzI6wAHYjhsonjWJYGq5BXTzQjv4l8m2jO183/4wZ90rKvSeT7o72xNQ==}
     dependencies:
       '@types/d3-time': 3.0.0
-    dev: true
 
   /@types/d3-selection/3.0.4:
     resolution: {integrity: sha512-ZeykX7286BCyMg9sH5fIAORyCB6hcATPSRQpN47jwBA2bMbAT0s+EvtDP5r1FZYJ95R8QoEE1CKJX+n0/M5Vhg==}
@@ -5218,7 +5219,6 @@ packages:
 
   /@types/d3-time/3.0.0:
     resolution: {integrity: sha512-sZLCdHvBUcNby1cB6Fd3ZBrABbjz3v1Vm90nysCQ6Vt7vd6e/h9Lt7SiJUoEX0l4Dzc7P5llKyhqSi1ycSf1Hg==}
-    dev: true
 
   /@types/emscripten/1.39.6:
     resolution: {integrity: sha512-H90aoynNhhkQP6DRweEjJp5vfUVdIj7tdPLsu7pq89vODD/lcugKfZOsfgwpvM6XUewEp2N5dCg1Uf3Qe55Dcg==}

@@ -1,3 +1,5 @@
+import { RGBColor, HSLColor } from "d3-color";
+
 export type RGB = `rgb(${number}, ${number}, ${number})`;
 export type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
 export type HEX = `#${string}`;
@@ -156,4 +158,4 @@ export type NAMED_COLOR =
 /**
  * Used to represent different types of color
  */
-export type IColor = RGB | RGBA | HEX | NAMED_COLOR | d3.RGBColor | d3.HSLColor;
+export type IColor = RGB | RGBA | HEX | NAMED_COLOR | RGBColor | HSLColor;
