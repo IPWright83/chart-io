@@ -18,7 +18,7 @@ module.exports = {
         sourceType: "module",
     },
     plugins: ["react", "@typescript-eslint"],
-    ignorePatterns: ["**/jest/*.js", "testUtils/*.ts", "*.stories.tsx"],
+    ignorePatterns: ["jest.config.js", ".eslintrc.js", "**/jest/*.js", "testUtils/*.ts", "*.stories.tsx"],
     rules: {
         "@typescript-eslint/no-explicit-any": "off",
         "valid-jsdoc": [
