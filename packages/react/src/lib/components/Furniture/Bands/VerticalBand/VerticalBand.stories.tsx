@@ -3,7 +3,6 @@ import React from "react";
 import { Provider } from "react-redux";
 
 import { VerticalBand } from ".";
-import mdx from "./VerticalBand.mdx";
 
 import { sales_records_dataset } from "../../../../../data/sales_records_dataset";
 import { Scatter } from "../../../Plots";
@@ -17,9 +16,6 @@ export default {
     title: "Components/Bands/VerticalBand",
     component: VerticalBand,
     parameters: {
-        docs: {
-            page: mdx,
-        },
         chromatic: { delay: 300 },
     },
 };

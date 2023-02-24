@@ -8,8 +8,6 @@ import { Scatter } from "../Scatter";
 import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
 
-import mdx from "./Line.mdx";
-
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
 export default {
@@ -17,7 +15,6 @@ export default {
     component: Line,
     parameters: {
         docs: {
-            page: mdx,
             transformSource: (src) => {
                 src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
                 src = src.replaceAll(/undefined,?/g, "");

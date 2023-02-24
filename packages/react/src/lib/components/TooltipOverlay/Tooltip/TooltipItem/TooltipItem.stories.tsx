@@ -1,29 +1,32 @@
 import React from "react";
+import { Provider } from "react-redux";
+
 import { TooltipItem } from "./TooltipItem";
 
-import mdx from "./TooltipItem.mdx";
+import { createMockStorybookStore } from "../../../../testUtils";
 
 export default {
     title: "Components/TooltipOverlay/Tooltip/TooltipItem",
     component: TooltipItem,
-    parameters: {
-        docs: {
-            page: mdx,
-        },
-    },
 };
 
-const TooltipItemTemplate = (args) => (
-    <TooltipItem
-        name={args.name}
-        fill={args.color}
-        value={args.value}
-        icon={args.icon}
-        suffix={args.suffix}
-        prefix={args.prefix}
-        format={args.formatFunc}
-    ></TooltipItem>
-);
+const TooltipItemTemplate = (args) => {
+    const store = createMockStorybookStore({});
+
+    return (
+        <Provider store={store}>
+            <TooltipItem
+                name={args.name}
+                fill={args.color}
+                value={args.value}
+                icon={args.icon}
+                suffix={args.suffix}
+                prefix={args.prefix}
+                format={args.formatFunc}
+            ></TooltipItem>
+        </Provider>
+    );
+};
 
 export const Scatter = TooltipItemTemplate.bind({});
 Scatter.args = {

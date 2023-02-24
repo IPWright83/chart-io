@@ -1,16 +1,9 @@
 import React from "react";
 import { Circle } from "./Circle";
 
-import mdx from "../TooltipItem.mdx";
-
 export default {
     title: "Components/TooltipOverlay/Tooltip/TooltipItem/Circle",
     component: Circle,
-    parameters: {
-        docs: {
-            page: mdx,
-        },
-    },
 };
 
 const CircleTemplate = (args) => {

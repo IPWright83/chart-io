@@ -1,14 +1,15 @@
 import React from "react";
+import { Provider } from "react-redux";
+
 import { Tooltip } from "./Tooltip";
 
-import mdx from "./Tooltip.mdx";
+import { createMockStorybookStore } from "../../../testUtils";
 
 export default {
     title: "Components/TooltipOverlay/Tooltip",
     component: Tooltip,
     parameters: {
         docs: {
-            page: mdx,
             transformSource: (src) => {
                 src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
                 src = src.replaceAll(/undefined,?/g, "");
@@ -20,9 +21,15 @@ export default {
     },
 };
 
-const TooltipTemplate = (args) => (
-    <Tooltip items={args.items} borderColor={args.borderColor} formatters={args.formatters} />
-);
+const TooltipTemplate = (args) => {
+    const store = createMockStorybookStore({});
+
+    return (
+        <Provider store={store}>
+            <Tooltip items={args.items} borderColor={args.borderColor} formatters={args.formatters} />
+        </Provider>
+    );
+};
 
 export const Default = TooltipTemplate.bind({});
 Default.storyName = "All Series Types";

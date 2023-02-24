@@ -1,12 +1,14 @@
-import { Story, Canvas } from "@storybook/addon-docs/blocks";
+import { Story, Canvas, Meta } from "@storybook/blocks";
 import LinkTo from "@storybook/addon-links/react";
+
+<Meta title="Components/TooltipOverlay/Tooltip" />
 
 # Tooltip Component
 
 The `<Tooltip>` component allows us to create a tooltip containing multiple entries, which is useful for showing the information behind a data point when interacting with a chart.
 
 <Canvas>
-    <Story id="components-tooltipoverlay-tooltip--default" />
+    <Story id="components-tooltipoverlay--default" />
 </Canvas>
 
 The tooltip itself displays rows of <LinkTo kind="components-tooltipoverlay-tooltip--scatter">`<TooltipItem>`</LinkTo> components which offer their own configuration.
@@ -24,7 +26,7 @@ The tooltip itself displays rows of <LinkTo kind="components-tooltipoverlay-tool
 
 The contents of a format object should match:
 
-| Prop         | Type       | Note        |
+| Prop         | Type       | Default     | Note                                                                                      |
 | ------------ | ---------- | ----------- | ----------------------------------------------------------------------------------------- |
 | `prefix`     | `string`   | `undefined` | A string to prefix the tooltip value with                                                 |
 | `suffix`     | `string`   | `undefined` | A string to suffix the tooltip value with                                                 |

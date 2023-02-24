@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 
 import { themes } from "../../themes";
 import { EventReceiver } from ".";
-import mdx from "./EventReceiver.mdx";
 
 import { createMockStorybookStore } from "../../testUtils";
 
@@ -11,9 +10,6 @@ export default {
     title: "Components/EventReceiver",
     component: EventReceiver,
     parameters: {
-        docs: {
-            page: mdx,
-        },
         chromatic: { delay: 300 },
     },
     argTypes: {
@@ -32,11 +28,11 @@ const EventReceiverTemplate = (args) => {
         },
     });
 
-    store.dispatch = args.mouseEvent;
+    store.dispatch = console.log; //args.mouseEvent;
 
     return (
         <div>
-            <p>Move your cursor over the blue box and check the Storybook Actions tab to see events</p>
+            <p>Move your cursor over the blue box and check the console to see events</p>
             <div style={{ backgroundColor: "steelblue" }}>
                 <Provider store={store}>
                     <svg>

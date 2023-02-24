@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 
 import { themes } from "../../themes";
 import { TooltipOverlay } from "./";
-import mdx from "./TooltipOverlay.mdx";
 
 import { createMockStorybookStore } from "../../testUtils";
 
@@ -12,7 +11,6 @@ export default {
     component: TooltipOverlay,
     parameters: {
         docs: {
-            page: mdx,
             transformSource: (src) => {
                 src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
                 src = src.replaceAll(/undefined,?/g, "");

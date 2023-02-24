@@ -9,7 +9,6 @@ import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
 
 import { uniqBy } from "lodash";
-import mdx from "./Column.mdx";
 
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
@@ -18,7 +17,6 @@ export default {
     component: Column,
     parameters: {
         docs: {
-            page: mdx,
             transformSource: (src) => {
                 src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
                 src = src.replaceAll(/undefined,?/g, "");

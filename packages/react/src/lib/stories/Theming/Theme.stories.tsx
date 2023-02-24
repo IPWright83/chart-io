@@ -1,7 +1,6 @@
 import React from "react";
 
 import { uniqBy } from "lodash";
-import mdx from "./Theme.mdx";
 
 import { sales_records_dataset } from "../../../data/sales_records_dataset";
 import { XYChart, XAxis, YAxis, Columns } from "../../components";
@@ -11,7 +10,6 @@ export default {
     title: "Theming",
     parameters: {
         docs: {
-            page: mdx,
             transformSource: (src) => {
                 src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
                 src = src.replaceAll(/undefined,?/g, "");

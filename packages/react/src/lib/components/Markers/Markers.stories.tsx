@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 
 import { themes } from "../../themes";
 import { Markers } from ".";
-import mdx from "./Markers.mdx";
 
 import { createMockStorybookStore } from "../../testUtils";
 
@@ -12,9 +11,6 @@ export default {
     title: "Components/Markers",
     component: Markers,
     parameters: {
-        docs: {
-            page: mdx,
-        },
         chromatic: { delay: 300 },
     },
 };

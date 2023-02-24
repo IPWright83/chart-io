@@ -6,14 +6,11 @@ import { linkStores } from "../../utils";
 import type { IOnStoreCreated } from "../../hoc";
 import type { IStore } from "../../store";
 
-import mdx from "./Dashboards.mdx";
-
 export default {
     title: "Dashboards",
     component: Line,
     parameters: {
         docs: {
-            page: mdx,
             transformSource: (src) => {
                 src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
                 src = src.replaceAll(/undefined,?/g, "");

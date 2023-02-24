@@ -39,7 +39,7 @@ export function createMockStorybookStore(state: { chart?: any; event?: any }) {
                 ...(state.event ?? {}),
             },
         }),
-        dispatch: jest.fn(),
-        subscribe: jest.fn(),
+        dispatch: () => {},
+        subscribe: () => {},
     } as unknown as IStore;
 }
