@@ -17,7 +17,7 @@ import type {
     ScaleOrdinal,
     ScaleBand,
     ScalePoint,
-} from "d3-scale";
+} from "@d3-chart/d3";
 
 export type ILinearScale =
     | ScaleLinear<number, number>

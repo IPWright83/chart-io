@@ -1,4 +1,4 @@
-import { RGBColor, HSLColor } from "d3-color";
+import { RGBColor, HSLColor } from "@d3-chart/d3";
 
 export type RGB = `rgb(${number}, ${number}, ${number})`;
 export type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;
