@@ -1,6 +1,4 @@
 module.exports = {
-    collectCoverageFrom: ["src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.ts"],
-    coveragePathIgnorePatterns: ["types/*.*", "index.js"],
     moduleFileExtensions: ["web.js", "js", "web.ts", "ts", "web.tsx", "tsx", "json", "web.jsx", "jsx", "node"],
     moduleNameMapper: {
         "^react-native$": "react-native-web",
@@ -9,8 +7,7 @@ module.exports = {
     resetMocks: true,
     roots: ["<rootDir>/src"],
     testEnvironment: "jsdom",
-    testMatch: ["**/*.unit.js", "**/*.unit.ts"],
-    watchPlugins: ["jest-watch-typeahead/filename", "jest-watch-typeahead/testname"],
+    testMatch: ["**/*.unit.jsx", "**/*.unit.tsx"],
     transformIgnorePatterns: ["<rootDir>/node_modules/(?!@d3-chart/d3/.*)"],
     transform: {
         "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": ["@swc/jest"],

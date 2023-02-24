@@ -39,25 +39,6 @@ exports[`renders learn react link 1`] = `
               style="color: rgb(211, 211, 211); stroke-opacity: 0.8; stroke-width: 1; pointer-events: none;"
               text-anchor="end"
             >
-              <path
-                class="domain"
-                stroke="currentColor"
-              />
-              <g
-                class="tick"
-                opacity="0.000001"
-                transform="translate(0,470.5)"
-              >
-                <line
-                  stroke="currentColor"
-                  x2="440"
-                />
-                <text
-                  dy="0.32em"
-                  fill="currentColor"
-                  x="-3"
-                />
-              </g>
               <g
                 class="tick"
                 opacity="0.000001"
@@ -403,25 +384,6 @@ exports[`renders learn react link 1`] = `
               style="color: rgb(211, 211, 211); stroke-opacity: 0.8; stroke-width: 1; pointer-events: none;"
               text-anchor="middle"
             >
-              <path
-                class="domain"
-                stroke="currentColor"
-              />
-              <g
-                class="tick"
-                opacity="0.000001"
-                transform="translate(30.5,0)"
-              >
-                <line
-                  stroke="currentColor"
-                  y2="-440"
-                />
-                <text
-                  dy="0.71em"
-                  fill="currentColor"
-                  y="3"
-                />
-              </g>
               <g
                 class="tick"
                 opacity="0.000001"
