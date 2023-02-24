@@ -119,6 +119,6 @@ CustomFormatters.args = {
     formatters: {
         x: { prefix: "£" },
         y: { suffix: " pounds" },
-        z: { formatFunc: (name, value) => `~~~${value}~~~` },
+        z: { format: (name, value) => `~~~${value}~~~` },
     },
 };
