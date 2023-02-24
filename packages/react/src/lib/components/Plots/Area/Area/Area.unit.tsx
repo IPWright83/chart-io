@@ -111,7 +111,7 @@ describe("Area", () => {
     });
 
     describe("using Canvas", () => {
-        fit("should render correctly", async () => {
+        it("should render correctly", async () => {
             const { container } = await renderChart({
                 children: (
                     <VirtualCanvas>
