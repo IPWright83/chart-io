@@ -1,5 +1,4 @@
 import type { IData, IMargin, ITheme, IScale } from "@d3-chart/types";
-import { createSelector } from "reselect";
 
 import type { IState, IChartState, IChartStateDimensions, IChartStateScales } from "../types";
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
@@ -7,7 +6,7 @@ import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
 const EMPTY_ARRAY = [];
 const EMPTY_MARGIN = { left: 0, right: 0, top: 0, bottom: 0 };
 
-interface ChartSelectors {
+interface IChartSelectors {
     store: (state: IState) => IChartState;
     data: (state: IState) => IData;
     animationDuration: (state: IState) => number;
@@ -25,7 +24,7 @@ interface ChartSelectors {
     theme: (state: IState) => ITheme;
 }
 
-export const chartSelectors = {
+export const chartSelectors: IChartSelectors = {
     /**
      * Returns the store for the chart part of state
      * @param  state The application state
