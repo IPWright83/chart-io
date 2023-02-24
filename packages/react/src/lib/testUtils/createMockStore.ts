@@ -39,7 +39,9 @@ export function createMockStorybookStore(state: { chart?: any; event?: any }) {
                 ...(state.event ?? {}),
             },
         }),
+        //eslint-disable-next-line @typescript-eslint/no-empty-function
         dispatch: () => {},
+        //eslint-disable-next-line @typescript-eslint/no-empty-function
         subscribe: () => {},
     } as unknown as IStore;
 }
