@@ -19,7 +19,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "deploy-storybook": "storybook-to-ghpages"
   },
   "np": {
     "publish": false,
@@ -34,6 +35,7 @@
     "@d3-chart/d3": "workspace:*",
     "@d3-chart/detection": "workspace:*",
     "@d3-chart/types": "workspace:*",
+    "@storybook/storybook-deployer": "^2.8.16",
     "d3-interpolate-path": "^2.2.3",
     "lodash": "^4.17.21",
     "reselect": "^4.1.6",
@@ -44,11 +46,11 @@
     "@babel/plugin-transform-react-jsx": "^7.18.6",
     "@babel/preset-env": "^7.18.9",
     "@babel/preset-react": "^7.18.6",
+    "@storybook/addon-actions": "^7.0.0-beta.54",
     "@storybook/addon-docs": "^7.0.0-beta.54",
     "@storybook/addon-essentials": "^7.0.0-beta.54",
     "@storybook/addon-interactions": "^7.0.0-beta.54",
     "@storybook/addon-links": "^7.0.0-beta.54",
-    "@storybook/addon-actions": "^7.0.0-beta.54",
     "@storybook/addon-mdx-gfm": "^7.0.0-beta.54",
     "@storybook/blocks": "^7.0.0-beta.54",
     "@storybook/react": "^7.0.0-beta.54",
