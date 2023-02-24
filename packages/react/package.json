@@ -17,7 +17,7 @@
     "storybook": "start-storybook -p 6006",
     "deploy-storybook": "storybook-to-ghpages",
     "build-storybook": "ls && build-storybook",
-    "dev": "vite",
+    "dev": "vite build --watch",
     "types": "tsc --noEmit",
     "build": "vite build",
     "preview": "vite preview"
