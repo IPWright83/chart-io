@@ -19,17 +19,17 @@ exports[`renders learn react link 1`] = `
         >
           <rect
             class="chart-it event-receiver"
-            height="420"
+            height="440"
             style="fill: none; pointer-events: all;"
-            transform="translate(40, 40)"
-            width="420"
+            transform="translate(30, 30)"
+            width="440"
           />
         </g>
         <g
           class="g-axis"
         >
           <g
-            transform="translate(40, 0)"
+            transform="translate(30, 0)"
           >
             <g
               class="g-gridlines left"
@@ -46,11 +46,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,460.5)"
+                transform="translate(0,470.5)"
               >
                 <line
                   stroke="currentColor"
-                  x2="420"
+                  x2="440"
                 />
                 <text
                   dy="0.32em"
@@ -61,11 +61,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,418.5)"
+                transform="translate(0,426.5)"
               >
                 <line
                   stroke="currentColor"
-                  x2="420"
+                  x2="440"
                 />
                 <text
                   dy="0.32em"
@@ -76,11 +76,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,376.5)"
+                transform="translate(0,382.5)"
               >
                 <line
                   stroke="currentColor"
-                  x2="420"
+                  x2="440"
                 />
                 <text
                   dy="0.32em"
@@ -91,11 +91,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,334.5)"
+                transform="translate(0,338.5)"
               >
                 <line
                   stroke="currentColor"
-                  x2="420"
+                  x2="440"
                 />
                 <text
                   dy="0.32em"
@@ -106,11 +106,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,292.5)"
+                transform="translate(0,294.5)"
               >
                 <line
                   stroke="currentColor"
-                  x2="420"
+                  x2="440"
                 />
                 <text
                   dy="0.32em"
@@ -125,7 +125,7 @@ exports[`renders learn react link 1`] = `
               >
                 <line
                   stroke="currentColor"
-                  x2="420"
+                  x2="440"
                 />
                 <text
                   dy="0.32em"
@@ -136,11 +136,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,208.5)"
+                transform="translate(0,206.5)"
               >
                 <line
                   stroke="currentColor"
-                  x2="420"
+                  x2="440"
                 />
                 <text
                   dy="0.32em"
@@ -151,11 +151,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,166.50000000000003)"
+                transform="translate(0,162.50000000000003)"
               >
                 <line
                   stroke="currentColor"
-                  x2="420"
+                  x2="440"
                 />
                 <text
                   dy="0.32em"
@@ -166,11 +166,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,124.49999999999999)"
+                transform="translate(0,118.49999999999999)"
               >
                 <line
                   stroke="currentColor"
-                  x2="420"
+                  x2="440"
                 />
                 <text
                   dy="0.32em"
@@ -181,11 +181,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,82.5)"
+                transform="translate(0,74.5)"
               >
                 <line
                   stroke="currentColor"
-                  x2="420"
+                  x2="440"
                 />
                 <text
                   dy="0.32em"
@@ -196,11 +196,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,40.5)"
+                transform="translate(0,30.5)"
               >
                 <line
                   stroke="currentColor"
-                  x2="420"
+                  x2="440"
                 />
                 <text
                   dy="0.32em"
@@ -224,7 +224,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,460.5)"
+                transform="translate(0,470.5)"
               >
                 <line
                   stroke="currentColor"
@@ -239,7 +239,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,418.5)"
+                transform="translate(0,426.5)"
               >
                 <line
                   stroke="currentColor"
@@ -254,7 +254,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,376.5)"
+                transform="translate(0,382.5)"
               >
                 <line
                   stroke="currentColor"
@@ -269,7 +269,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,334.5)"
+                transform="translate(0,338.5)"
               >
                 <line
                   stroke="currentColor"
@@ -284,7 +284,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,292.5)"
+                transform="translate(0,294.5)"
               >
                 <line
                   stroke="currentColor"
@@ -314,7 +314,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,208.5)"
+                transform="translate(0,206.5)"
               >
                 <line
                   stroke="currentColor"
@@ -329,7 +329,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,166.50000000000003)"
+                transform="translate(0,162.50000000000003)"
               >
                 <line
                   stroke="currentColor"
@@ -344,7 +344,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,124.49999999999999)"
+                transform="translate(0,118.49999999999999)"
               >
                 <line
                   stroke="currentColor"
@@ -359,7 +359,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,82.5)"
+                transform="translate(0,74.5)"
               >
                 <line
                   stroke="currentColor"
@@ -374,7 +374,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(0,40.5)"
+                transform="translate(0,30.5)"
               >
                 <line
                   stroke="currentColor"
@@ -393,7 +393,7 @@ exports[`renders learn react link 1`] = `
           class="g-axis"
         >
           <g
-            transform="translate(0, 460)"
+            transform="translate(0, 470)"
           >
             <g
               class="g-gridlines bottom"
@@ -410,11 +410,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(40.5,0)"
+                transform="translate(30.5,0)"
               >
                 <line
                   stroke="currentColor"
-                  y2="-420"
+                  y2="-440"
                 />
                 <text
                   dy="0.71em"
@@ -425,11 +425,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(82.5,0)"
+                transform="translate(74.5,0)"
               >
                 <line
                   stroke="currentColor"
-                  y2="-420"
+                  y2="-440"
                 />
                 <text
                   dy="0.71em"
@@ -440,11 +440,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(124.5,0)"
+                transform="translate(118.5,0)"
               >
                 <line
                   stroke="currentColor"
-                  y2="-420"
+                  y2="-440"
                 />
                 <text
                   dy="0.71em"
@@ -455,11 +455,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(166.5,0)"
+                transform="translate(162.5,0)"
               >
                 <line
                   stroke="currentColor"
-                  y2="-420"
+                  y2="-440"
                 />
                 <text
                   dy="0.71em"
@@ -470,11 +470,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(208.5,0)"
+                transform="translate(206.5,0)"
               >
                 <line
                   stroke="currentColor"
-                  y2="-420"
+                  y2="-440"
                 />
                 <text
                   dy="0.71em"
@@ -489,7 +489,7 @@ exports[`renders learn react link 1`] = `
               >
                 <line
                   stroke="currentColor"
-                  y2="-420"
+                  y2="-440"
                 />
                 <text
                   dy="0.71em"
@@ -500,11 +500,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(292.5,0)"
+                transform="translate(294.5,0)"
               >
                 <line
                   stroke="currentColor"
-                  y2="-420"
+                  y2="-440"
                 />
                 <text
                   dy="0.71em"
@@ -515,11 +515,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(334.5,0)"
+                transform="translate(338.5,0)"
               >
                 <line
                   stroke="currentColor"
-                  y2="-420"
+                  y2="-440"
                 />
                 <text
                   dy="0.71em"
@@ -530,11 +530,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(376.5,0)"
+                transform="translate(382.5,0)"
               >
                 <line
                   stroke="currentColor"
-                  y2="-420"
+                  y2="-440"
                 />
                 <text
                   dy="0.71em"
@@ -545,11 +545,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(418.5,0)"
+                transform="translate(426.5,0)"
               >
                 <line
                   stroke="currentColor"
-                  y2="-420"
+                  y2="-440"
                 />
                 <text
                   dy="0.71em"
@@ -560,11 +560,11 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(460.5,0)"
+                transform="translate(470.5,0)"
               >
                 <line
                   stroke="currentColor"
-                  y2="-420"
+                  y2="-440"
                 />
                 <text
                   dy="0.71em"
@@ -588,7 +588,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(40.5,0)"
+                transform="translate(30.5,0)"
               >
                 <line
                   stroke="currentColor"
@@ -603,7 +603,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(82.5,0)"
+                transform="translate(74.5,0)"
               >
                 <line
                   stroke="currentColor"
@@ -618,7 +618,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(124.5,0)"
+                transform="translate(118.5,0)"
               >
                 <line
                   stroke="currentColor"
@@ -633,7 +633,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(166.5,0)"
+                transform="translate(162.5,0)"
               >
                 <line
                   stroke="currentColor"
@@ -648,7 +648,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(208.5,0)"
+                transform="translate(206.5,0)"
               >
                 <line
                   stroke="currentColor"
@@ -678,7 +678,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(292.5,0)"
+                transform="translate(294.5,0)"
               >
                 <line
                   stroke="currentColor"
@@ -693,7 +693,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(334.5,0)"
+                transform="translate(338.5,0)"
               >
                 <line
                   stroke="currentColor"
@@ -708,7 +708,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(376.5,0)"
+                transform="translate(382.5,0)"
               >
                 <line
                   stroke="currentColor"
@@ -723,7 +723,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(418.5,0)"
+                transform="translate(426.5,0)"
               >
                 <line
                   stroke="currentColor"
@@ -738,7 +738,7 @@ exports[`renders learn react link 1`] = `
               <g
                 class="tick"
                 opacity="0.000001"
-                transform="translate(460.5,0)"
+                transform="translate(470.5,0)"
               >
                 <line
                   stroke="currentColor"
@@ -765,8 +765,8 @@ exports[`renders learn react link 1`] = `
           />
           <circle
             class="scatter-point"
-            cx="460"
-            cy="40"
+            cx="470"
+            cy="30"
             r="0"
             style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
           />

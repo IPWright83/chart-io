@@ -1,4 +1,4 @@
-import { XYChart, XAxis, YAxis, Scatter } from "@chart-it/react-d3";
+import { XYChart, XAxis, YAxis, Scatter } from "@d3-chart/react";
 
 import "./App.css";
 

@@ -1,5 +1,5 @@
 {
-  "name": "@chart-it/react-d3",
+  "name": "@d3-chart/react",
   "private": false,
   "version": "0.15.0",
   "packageManager": "pnpm@7.26.2",
