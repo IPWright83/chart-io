@@ -15,7 +15,7 @@ exports[`TooltipOverlay should apply a custom offset correctly 1`] = `
         >
           <div
             class="chart-it tooltip-item"
-            style="display: flex; flex-direction: row; width: 100%; user-select: none; pointer-events: none;"
+            style="display: flex; flex-direction: row; width: 100%; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
           >
             <div
               class="chart-it indicator-circle"
@@ -40,7 +40,7 @@ exports[`TooltipOverlay should apply a custom offset correctly 1`] = `
           </div>
           <div
             class="chart-it tooltip-item"
-            style="display: flex; flex-direction: row; width: 100%; user-select: none; pointer-events: none;"
+            style="display: flex; flex-direction: row; width: 100%; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
           >
             <div
               class="chart-it indicator-square"
@@ -85,7 +85,7 @@ exports[`TooltipOverlay should render correctly 1`] = `
         >
           <div
             class="chart-it tooltip-item"
-            style="display: flex; flex-direction: row; width: 100%; user-select: none; pointer-events: none;"
+            style="display: flex; flex-direction: row; width: 100%; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
           >
             <div
               class="chart-it indicator-circle"
@@ -110,7 +110,7 @@ exports[`TooltipOverlay should render correctly 1`] = `
           </div>
           <div
             class="chart-it tooltip-item"
-            style="display: flex; flex-direction: row; width: 100%; user-select: none; pointer-events: none;"
+            style="display: flex; flex-direction: row; width: 100%; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
           >
             <div
               class="chart-it indicator-square"

@@ -1,10 +1,15 @@
 import type { IColor } from "@d3-chart/types";
 import React from "react";
+import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
+
+import { createMockStore } from "../../../testUtils";
 
 import { Tooltip } from ".";
 
 describe("Tooltip", () => {
+    const store = createMockStore({});
+
     it("should render correctly", async () => {
         const positionStyle = {
             position: "absolute",
@@ -20,13 +25,21 @@ describe("Tooltip", () => {
             { name: "c", value: 15, icon: "line" as const, fill: "green" as IColor },
         ];
 
-        const { asFragment } = render(<Tooltip borderColor="red" items={items} positionStyle={positionStyle} />);
+        const { asFragment } = render(
+            <Provider store={store}>
+                <Tooltip borderColor="red" items={items} positionStyle={positionStyle} />
+            </Provider>
+        );
 
         expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render nothing if there are no items", async () => {
-        const { asFragment } = render(<Tooltip items={[]} />);
+        const { asFragment } = render(
+            <Provider store={store}>
+                <Tooltip items={[]} />
+            </Provider>
+        );
 
         expect(asFragment()).toMatchSnapshot();
     });

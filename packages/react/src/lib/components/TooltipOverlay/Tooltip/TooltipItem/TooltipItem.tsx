@@ -19,36 +19,36 @@ export function TooltipItem({ name, value, icon, fill, prefix, suffix, format = 
     const formattedValue = `${prefix ?? ""}${format(name, value)}${suffix ?? ""}`;
 
     const styles = {
-    tooltipItem: {
-        display: "flex" as const,
-        flexDirection: "row" as const,
-        width: "100%",
-        userSelect: "none" as const,
-        pointerEvents: "none" as const,
-        color: theme.tooltip.text,
-        fontSize: theme.font.size,
-        fontFamily: theme.font.family
-    },
-    tooltipValues: {
-        display: "flex" as const,
-        flexDirection: "row" as const,
-        justifyContent: "space-between" as const,
-        width: "100%",
-    },
-    tooltipSeriesName: {
-        marginRight: 15,
-        maxWidth: 215,
-        whiteSpace: "nowrap" as const,
-        overflow: "hidden" as const,
-        textOverflow: "ellipsis" as const,
-    },
-};
+        tooltipItem: {
+            display: "flex" as const,
+            flexDirection: "row" as const,
+            width: "100%",
+            userSelect: "none" as const,
+            pointerEvents: "none" as const,
+            color: theme.tooltip.text.toString(),
+            fontSize: theme.font.size,
+            fontFamily: theme.font.family,
+        },
+        tooltipValues: {
+            display: "flex" as const,
+            flexDirection: "row" as const,
+            justifyContent: "space-between" as const,
+            width: "100%",
+        },
+        tooltipSeriesName: {
+            marginRight: 15,
+            maxWidth: 215,
+            whiteSpace: "nowrap" as const,
+            overflow: "hidden" as const,
+            textOverflow: "ellipsis" as const,
+        },
+    };
 
     return (
         <div className="chart-it tooltip-item" style={styles.tooltipItem}>
             {Shape && <Shape fill={fill} />}
             <div className="chart-it tooltip-values" style={styles.tooltipValues}>
-                <span className="chart-it tooltip-series-name" style={styles.tooltipSeriesName }>
+                <span className="chart-it tooltip-series-name" style={styles.tooltipSeriesName}>
                     {name}:
                 </span>
                 <span className="chart-it tooltip-series-value">{formattedValue}</span>

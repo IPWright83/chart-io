@@ -1,4 +1,4 @@
-import type { IFormatter , ITooltipItem } from "@d3-chart/types";
+import type { IFormatter, ITooltipItem } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -39,7 +39,7 @@ export function Tooltip({ borderColor, items, positionStyle, formatters = {} }: 
         ...positionStyle,
         padding: theme.tooltip.padding,
         maxWidth: 300,
-        background: theme.tooltip.background,
+        background: theme.tooltip.background.toString(),
         opacity: theme.tooltip.opacity,
     };
 
