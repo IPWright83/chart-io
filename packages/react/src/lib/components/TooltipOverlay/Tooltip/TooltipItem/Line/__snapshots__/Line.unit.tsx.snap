@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Line renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="d3-chart indicator-line"
+    style="background: steelblue; width: 10px; height: 3px; margin-top: 7px; margin-left: 5px; margin-right: 5px;"
+  />
+</DocumentFragment>
+`;

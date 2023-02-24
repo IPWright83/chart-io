@@ -1,0 +1,15 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Errors & Warnings/Errors/E001 - Incompatible Scale" />
+
+# E001 Incompatible Scale
+
+> `E001 - Incompatible scale for a <${componentName} />. Are you missing the 'scaleType="band"' in your <Axis /> or <AutoScale /> component?`
+
+## Cause
+
+The cause of this is because a non discrete scale has typically been used with a discrete plot (e.g. a time scale with a column chart).
+
+## Fix
+
+Inform the scale that it should be discrete by adding the 'scaleType="band"' property to the appropriate Scale or Axis component.

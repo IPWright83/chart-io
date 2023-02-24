@@ -22,15 +22,11 @@ module.exports = {
     setupFiles: ["react-app-polyfill/jsdom"],
     setupFilesAfterEnv: ["<rootDir>/src/jest/setupTests.js"],
     testEnvironment: "jsdom",
-    testMatch: ["**/*.unit.js", "**/*.unit.jsx"],
-    transformIgnorePatterns: [
-        "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$",
-        "^.+\\.module\\.(css|sass|scss)$",
-    ],
+    testMatch: ["**/*.unit.js", "**/*.unit.jsx", "**/*.unit.ts", "**/*.unit.tsx"],
+    transformIgnorePatterns: ["<rootDir>/node_modules/.pnpm/(?!(@d3-chart)@)"],
     transform: {
-        "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
+        "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": ["@swc/jest"],
         "^.+\\.css$": "<rootDir>/src/jest/cssTransform.js",
-        "^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)": "<rootDir>/src/jest/fileTransform.js",
     },
     watchPlugins: ["jest-watch-typeahead/filename", "jest-watch-typeahead/testname"],
 };
