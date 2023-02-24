@@ -1,5 +1,5 @@
 {
-  "name": "@chart-it/detection",
+  "name": "@d3-chart/detection",
   "version": "0.4.0",
   "packageManager": "pnpm@7.26.2",
   "description": "Provides data type detection utilities for chart-it",
@@ -28,8 +28,7 @@
   ],
   "dependencies": {
     "@d3-chart/types": "workspace:*",
-    "@types/d3-array": "^3.0.4",
-    "d3-array": "^3.2.2"
+    "@d3-chart/d3": "workspace:*"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",

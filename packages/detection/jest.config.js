@@ -5,13 +5,13 @@ module.exports = {
     moduleNameMapper: {
         "^react-native$": "react-native-web",
         "\\.(css|less)$": "identity-obj-proxy",
-        "^d3-array$": "<rootDir>/node_modules/d3-array/dist/d3-array.min.js",
     },
     resetMocks: true,
     roots: ["<rootDir>/src"],
     testEnvironment: "jsdom",
     testMatch: ["**/*.unit.js", "**/*.unit.ts"],
     watchPlugins: ["jest-watch-typeahead/filename", "jest-watch-typeahead/testname"],
+    transformIgnorePatterns: ["<rootDir>/node_modules/(?!@d3-chart/d3/.*)"],
     transform: {
         "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": [
             "ts-jest",
