@@ -1,4 +1,4 @@
-import { timeFormat } from "d3-time-format";
+import * as d3 from "@d3-chart/d3";
 
 /**
  * Formats a Date, defaulting the resolution to the first non-zero part
@@ -14,24 +14,24 @@ export function formatDate(value: Date): string {
     const isMonthZero = value.getMonth() === 0;
 
     if (!isMilliSecondsZero) {
-        return timeFormat("%x %H:%M:%S.%L")(value);
+        return d3.timeFormat("%x %H:%M:%S.%L")(value);
     }
 
     if (!isSecondsZero) {
-        return timeFormat("%x %H:%M:%S")(value);
+        return d3.timeFormat("%x %H:%M:%S")(value);
     }
 
     if (!isMinutesZero || !isHoursZero) {
-        return timeFormat("%x %H:%M")(value);
+        return d3.timeFormat("%x %H:%M")(value);
     }
 
     if (!isDayZero) {
-        return timeFormat("%x")(value);
+        return d3.timeFormat("%x")(value);
     }
 
     if (!isMonthZero) {
-        return timeFormat("%b-%y")(value);
+        return d3.timeFormat("%b-%y")(value);
     }
 
-    return timeFormat("%Y")(value);
+    return d3.timeFormat("%Y")(value);
 }

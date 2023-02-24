@@ -1,4 +1,4 @@
-import type { Transition } from "d3-transition";
+import type { Transition } from "@d3-chart/d3";
 
 import { canvasRenderLoop, progressiveCanvasRenderLoop } from "../../hoc/canvas";
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";

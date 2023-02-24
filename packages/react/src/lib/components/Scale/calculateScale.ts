@@ -1,9 +1,8 @@
-import { min, max } from "d3-array";
-import { scaleBand, scalePoint, scalePow, scaleLinear, scaleTime, scaleLog } from "d3-scale";
-import type { NumberValue } from "d3-scale";
+import * as d3 from "@d3-chart/d3";
+import type { NumberValue } from "@d3-chart/d3";
 import type { IScaleType, IValue, IScale, IData } from "@d3-chart/types";
 
-import { getDataType, typeEnumToName, Type } from "@chart-it/detection";
+import { getDataType, typeEnumToName, Type } from "@d3-chart/detection";
 
 /**
  * Return a scale as defined by the scaleType property
@@ -15,40 +14,46 @@ import { getDataType, typeEnumToName, Type } from "@chart-it/detection";
  */
 const getScaleTypeFromType = (scaleType: IScaleType, values: IValue[], range: number[], domain: IValue[]): IScale => {
     if (scaleType === "band") {
-        return scaleBand() // @ts-ignore
+        return d3
+            .scaleBand() // @ts-ignore
             .domain(domain ?? values)
             .range(range)
             .paddingOuter(0.05);
     }
 
     if (scaleType === "point") {
-        return scalePoint() // @ts-ignore
+        return d3
+            .scalePoint() // @ts-ignore
             .domain(domain ?? values)
             .range(range);
     }
 
-    const minValue = min(values as NumberValue[]);
-    const maxValue = max(values as NumberValue[]);
-    const zeroOrMin = min([0, minValue]);
+    const minValue = d3.min(values as NumberValue[]);
+    const maxValue = d3.max(values as NumberValue[]);
+    const zeroOrMin = d3.min([0, minValue]);
 
     switch (scaleType) {
         case "power":
-            return scalePow() // @ts-ignore
+            return d3
+                .scalePow() // @ts-ignore
                 .domain(domain ?? [zeroOrMin, maxValue])
                 .range(range);
 
         case "linear":
-            return scaleLinear() // @ts-ignore
+            return d3
+                .scaleLinear() // @ts-ignore
                 .domain(domain ?? [zeroOrMin, maxValue])
                 .range(range)
                 .nice();
 
         case "time":
-            return scaleTime() // @ts-ignore
+            return d3
+                .scaleTime() // @ts-ignore
                 .domain(domain ?? [minValue, maxValue])
                 .range(range);
         case "log":
-            return scaleLog() // @ts-ignore
+            return d3
+                .scaleLog() // @ts-ignore
                 .domain(domain ?? [zeroOrMin, maxValue])
                 .range(range);
         default:

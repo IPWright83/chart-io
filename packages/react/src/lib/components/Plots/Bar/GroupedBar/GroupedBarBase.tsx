@@ -1,6 +1,5 @@
-import { select } from "d3-selection";
-import { scaleOrdinal, scaleBand } from "d3-scale";
-import type { Transition } from "d3-transition";
+import * as d3 from "@d3-chart/d3";
+import type { Transition } from "@d3-chart/d3";
 import type { IEventPlotProps, IColor, IDatum, IValue, INumericValue } from "@d3-chart/types";
 import { useEffect, useState } from "react";
 import { useStore, useSelector } from "react-redux";
@@ -67,7 +66,7 @@ export function GroupedBarBase({
     useEffect(() => {
         if (!focused) return;
 
-        const selection = select(focused.element).style("opacity", theme.series.selectedOpacity);
+        const selection = d3.select(focused.element).style("opacity", theme.series.selectedOpacity);
         const dropline = getDropline(selection, yScale, true);
         store.dispatch(eventActions.addDropline(dropline));
 
@@ -113,11 +112,11 @@ export function GroupedBarBase({
         }
 
         // Create a scale for each series to fit along the x-axis and the series colors
-        const colorScale = scaleOrdinal().domain(xs).range(colors);
+        const colorScale = d3.scaleOrdinal().domain(xs).range(colors);
         // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
-        const y1Scale = scaleBand().domain(xs).rangeRound([0, yScale.bandwidth()]).padding(0.05);
+        const y1Scale = d3.scaleBand().domain(xs).rangeRound([0, yScale.bandwidth()]).padding(0.05);
 
-        const groupJoin = select(layer.current).selectAll<SVGGElement, IDatum>("g").data(data);
+        const groupJoin = d3.select(layer.current).selectAll<SVGGElement, IDatum>("g").data(data);
 
         // Clean up old groups
         groupJoin.exit().remove();

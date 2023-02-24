@@ -1,7 +1,5 @@
-import { select } from "d3-selection";
-import { color as d3Color } from "d3-color";
-import type { Selection } from "d3-selection";
-import type { Transition } from "d3-transition";
+import * as d3 from "@d3-chart/d3";
+import type { Selection, Transition } from "@d3-chart/d3";
 import { IEventPlotProps, IColor, INumericValue, IDatum } from "@d3-chart/types";
 import { useEffect } from "react";
 import { useStore, useSelector } from "react-redux";
@@ -57,7 +55,7 @@ export function ScatterBase({
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
-    const fillColor = d3Color(`${color ?? theme.series.colors[0]}`);
+    const fillColor = d3.color(`${color ?? theme.series.colors[0]}`);
     const strokeColor = fillColor.darker();
     fillColor.opacity = theme.series.opacity;
 
@@ -71,7 +69,7 @@ export function ScatterBase({
     useEffect(() => {
         // D3 data join
         // prettier-ignore
-        const join = select(layer.current)
+        const join = d3.select(layer.current)
             .selectAll("circle")
             .data(data.filter((d) => d[y] !== null && d[y] !== undefined)) as Selection<SVGCircleElement, IDatum, Element, unknown>;
 

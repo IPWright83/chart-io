@@ -1,5 +1,4 @@
-import { select } from "d3-selection";
-import { line as d3line } from "d3-shape";
+import * as d3 from "@d3-chart/d3";
 import type { IScale } from "@d3-chart/types";
 import { useEffect } from "react";
 
@@ -28,12 +27,13 @@ export function usePathCreator(
         // Cleanup the DOM if the scales have been removed as we
         // have no idea where to draw a line
         if (!xScale || !yScale) {
-            select(layer.current).selectAll("*").remove();
+            d3.select(layer.current).selectAll("*").remove();
             return;
         }
 
         const current = layer.current;
-        const line = d3line()
+        const line = d3
+            .line()
             .x((d) => xScale(d[x]) + bandwidth)
             .y((d) => yScale(d[y]));
 
@@ -42,7 +42,7 @@ export function usePathCreator(
 
         // Only ever add the path once on first render when
         // we've got the minimum bits required
-        select(current)
+        d3.select(current)
             .append("path")
             .datum([
                 { [x]: xScale.domain()[0], [y]: yScale.domain()[0] },

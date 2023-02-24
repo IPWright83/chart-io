@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+import * as d3 from "@d3-chart/d3";
 import React from "react";
 import { Provider } from "react-redux";
 import { render } from "@testing-library/react";
@@ -14,10 +14,7 @@ describe("HorizontalBand", () => {
                 height: 400,
             },
             scales: {
-                y: d3
-                    .scaleLinear()
-                    .domain([0, 1000])
-                    .range([200, 0]),
+                y: d3.scaleLinear().domain([0, 1000]).range([200, 0]),
             },
         },
     });

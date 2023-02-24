@@ -1,5 +1,4 @@
-import { select } from "d3-selection";
-import { bisector } from "d3-array";
+import * as d3 from "@d3-chart/d3";
 import type { IColor, ICoordinate, IMouseEventType, IScale } from "@d3-chart/types";
 import { useEffect } from "react";
 
@@ -47,14 +46,14 @@ export function useDatumFocus(
 
         // Don't run for the EXIT event
         if (eventMode === "NONE") {
-            select(layer.current).selectAll("circle").remove();
+            d3.select(layer.current).selectAll("circle").remove();
             return;
         }
 
         // Work out the datum that we're closet to
         // @ts-expect-error: We've already aserted that invert exists
         const xValue = xScale.invert(position.x);
-        const index = bisector((d) => d[x]).center(data, xValue);
+        const index = d3.bisector((d) => d[x]).center(data, xValue);
         const datum = data[index];
 
         if (isNullOrUndefined(datum[y])) {

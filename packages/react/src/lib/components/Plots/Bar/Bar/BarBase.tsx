@@ -1,7 +1,5 @@
-import { select } from "d3-selection";
-import { color as d3Color } from "d3-color";
-import type { Selection } from "d3-selection";
-import type { Transition } from "d3-transition";
+import * as d3 from "@d3-chart/d3";
+import type { Selection, Transition } from "@d3-chart/d3";
 import type { IEventPlotProps, IDatum, INumericValue } from "@d3-chart/types";
 
 import { useEffect, useState } from "react";
@@ -50,7 +48,7 @@ export function BarBase({
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
-    const fillColor = d3Color(`${color ?? theme.series.colors[0]}`);
+    const fillColor = d3.color(`${color ?? theme.series.colors[0]}`);
     fillColor.opacity = theme.series.opacity;
     const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, y);
@@ -59,7 +57,7 @@ export function BarBase({
     useEffect(() => {
         if (!focused) return;
 
-        const selection = select(focused.element).style("opacity", theme.series.selectedOpacity);
+        const selection = d3.select(focused.element).style("opacity", theme.series.selectedOpacity);
         const dropline = getDropline(selection, yScale, false);
         store.dispatch(eventActions.addDropline(dropline));
 
@@ -75,7 +73,8 @@ export function BarBase({
         ensureValuesAreUnique(data, y, "Bar");
 
         // D3 data join
-        const join = select(layer.current)
+        const join = d3
+            .select(layer.current)
             .selectAll(".bar")
             .data(data, (d) => d[y]) as Selection<SVGRectElement, IDatum, Element, unknown>;
 

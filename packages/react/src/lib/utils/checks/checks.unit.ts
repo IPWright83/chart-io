@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+import * as d3 from "@d3-chart/d3";
 import { ensureBandScale } from "./ensureBandScale";
 import { ensureNoScaleOverflow } from "./ensureNoScaleOverflow";
 import { ensureValuesAreUnique } from "./ensureValuesAreUnique";
@@ -12,7 +12,7 @@ describe("/utils/checks", () => {
         it("should return false if not a d3.scaleBand", () => {
             jest.spyOn(console, "error").mockImplementation(jest.fn());
 
-            expect(ensureBandScale(d3.scaleLinear(), "unit_test")).toBe(false);
+            expect(ensureBandScale(d3.scaleLinear().domain([0, 1]).range([0, 1]), "unit_test")).toBe(false);
             expect(console.error).toHaveBeenCalledWith(
                 'E001 - Incompatible scale for a <unit_test />. Are you missing the `scaleType="band"` in your <Axis /> or <AutoScale /> component?'
             );

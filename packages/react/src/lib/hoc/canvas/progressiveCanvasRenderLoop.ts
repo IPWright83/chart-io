@@ -1,5 +1,5 @@
-import { timer } from "d3-timer";
-import type { Transition } from "d3-transition";
+import * as d3 from "@d3-chart/d3";
+import type { Transition } from "@d3-chart/d3";
 
 import { renderElements } from "./renderElements";
 
@@ -38,7 +38,7 @@ export async function progressiveCanvasRenderLoop(
 
     const nodes = update.nodes();
 
-    const renderLoop = timer(() => {
+    const renderLoop = d3.timer(() => {
         // Cancel the render loop
         if (nodes.length === 0) {
             renderLoop.stop();

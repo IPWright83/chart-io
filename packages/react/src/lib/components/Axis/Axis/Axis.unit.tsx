@@ -1,4 +1,4 @@
-import { scaleLinear } from "d3-scale";
+import * as d3 from "@d3-chart/d3";
 import React from "react";
 import { Provider } from "react-redux";
 import { themes } from "../../../themes";
@@ -24,8 +24,8 @@ describe("Axis", () => {
                 margin,
             },
             scales: {
-                x: scaleLinear().domain([0, width]).range([0, 100]),
-                y: scaleLinear().domain([0, width]).range([0, 50]),
+                x: d3.scaleLinear().domain([0, width]).range([0, 100]),
+                y: d3.scaleLinear().domain([0, width]).range([0, 50]),
             },
         },
     });

@@ -1,4 +1,4 @@
-import { select } from "d3-selection";
+import * as d3 from "@d3-chart/d3";
 import type { IScale, IColor, IDropline } from "@d3-chart/types";
 import type { Selection } from "d3-selection";
 
@@ -20,7 +20,7 @@ const getDropline = (
     const y = +selection.attr("y");
     const x = +selection.attr("x");
     const tranformX =
-        grouped === false ? 0 : getXYFromTransform(select(selection.node().parentNode).attr("transform")).x;
+        grouped === false ? 0 : getXYFromTransform(d3.select(selection.node().parentNode).attr("transform")).x;
 
     const horizontalDropline = {
         isHorizontal: true,

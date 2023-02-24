@@ -1,5 +1,5 @@
-import { select } from "d3-selection";
-import type { AxisScale, AxisDomain } from "d3-axis";
+import * as d3 from "@d3-chart/d3";
+import type { AxisScale, AxisDomain } from "@d3-chart/d3";
 import type { IPosition, IScale } from "@d3-chart/types";
 
 import { useEffect } from "react";
@@ -84,7 +84,7 @@ export function Gridlines({ layer, position, scale, tickPadding = 3, ticks, tick
                 .tickPadding(tickPadding)
                 .tickValues(tickValues);
 
-            select(layer.current)
+            d3.select(layer.current)
                 .attr("class", `g-gridlines ${position}`)
                 .style("color", theme.gridlines.stroke?.toString())
                 .style("stroke-opacity", theme.gridlines.strokeOpacity)

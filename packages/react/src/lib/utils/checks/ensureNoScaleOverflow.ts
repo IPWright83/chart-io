@@ -1,4 +1,4 @@
-import { max } from "d3-array";
+import * as d3 from "@d3-chart/d3";
 import type { IScale, IData } from "@d3-chart/types";
 
 /**
@@ -11,7 +11,7 @@ import type { IScale, IData } from "@d3-chart/types";
  */
 const ensureNoScaleOverflow = (scale: IScale, data: IData, fields: string[], componentName: string): boolean => {
     // @ts-ignore: Unsure how to fix this line
-    const maxValue = max(data.map((d) => fields.reduce((sum, key) => sum + d[key], 0)));
+    const maxValue = d3.max(data.map((d) => fields.reduce((sum, key) => sum + d[key], 0)));
 
     if (maxValue > scale.domain()[1]) {
         console.warn(

@@ -1,6 +1,4 @@
-import { select } from "d3-selection";
-import { ascending } from "d3-array";
-import { line as d3line } from "d3-shape";
+import * as d3 from "@d3-chart/d3";
 import type { IPlotProps } from "@d3-chart/types";
 import { useStore, useSelector } from "react-redux";
 
@@ -30,7 +28,7 @@ export function SVGLine({ x, y, color, interactive = true, layer }: ISVGLineProp
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     const seriesColor = color || theme.series.colors[0];
-    const sortedData = data.sort((a, b) => ascending(a[x], b[x]));
+    const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
 
     // @ts-expect-error: We handle a missing bandwidth fine
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
@@ -41,18 +39,19 @@ export function SVGLine({ x, y, color, interactive = true, layer }: ISVGLineProp
     /* On future renders we want to update the path */
     useRender(() => {
         // Line renderer that starts at the 0 point
-        const line = d3line()
+        const line = d3
+            .line()
             .x((d) => xScale(d[x]) + bandwidth)
             .y((d) => yScale(d[y]))
             .defined((d) => !isNullOrUndefined(d[y]));
 
-        select(layer.current)
+        d3.select(layer.current)
             .select("path")
             .datum(sortedData)
             .transition("line")
             .duration(animationDuration)
             .attrTween("d", function (d) {
-                const previous = select(this).attr("d");
+                const previous = d3.select(this).attr("d");
 
                 // @ts-ignore: TODO: Work out how to fix this line
                 const current = line(d);

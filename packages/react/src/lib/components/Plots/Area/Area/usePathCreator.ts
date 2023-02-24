@@ -1,5 +1,4 @@
-import { select } from "d3-selection";
-import { area as d3area, curveLinear } from "d3-shape";
+import * as d3 from "@d3-chart/d3";
 import type { IScale } from "@d3-chart/types";
 import { useEffect } from "react";
 
@@ -33,22 +32,23 @@ export function usePathCreator(
         // Cleanup the DOM if the scales have been removed as we
         // have no idea where to draw a line
         if (!xScale || !yScale) {
-            select(current).selectAll("*").remove();
+            d3.select(current).selectAll("*").remove();
             return;
         }
 
         // @ts-expect-error: This is a runtime check
         const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
-        const area = d3area()
-            .curve(curveLinear)
+        const area = d3
+            .area()
+            .curve(d3.curveLinear)
             .x((d) => xScale(d[x]) + bandwidth)
             .y0(() => yScale.range()[0])
             .y1((d) => yScale(d[y]));
 
         // Only ever add the path once on first render when
         // we've got the minimum bits required
-        select(current)
+        d3.select(current)
             .append("path")
             .datum([
                 { [x]: xScale.domain()[0], [y]: yScale.domain()[0] },

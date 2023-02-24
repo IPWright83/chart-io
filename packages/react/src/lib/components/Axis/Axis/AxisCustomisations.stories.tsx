@@ -1,7 +1,5 @@
-import { select } from "d3-selection";
-import { timeFormat as d3_timeFormat } from "d3-time-format";
-import { axisBottom } from "d3-axis";
-import type { AxisScale, AxisDomain } from "d3-axis";
+import * as d3 from "@d3-chart/d3";
+import type { AxisScale, AxisDomain } from "@d3-chart/d3";
 import React, { useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -42,11 +40,12 @@ const CustomTimeAxis = ({ fields }) => {
 
     useEffect(() => {
         if (axis.current && scale) {
-            const selection = select(axis.current);
+            const selection = d3.select(axis.current);
 
             // Create the D3 axis renderer
-            const timeFormat = d3_timeFormat("%H:%M");
-            const d3Axis = axisBottom(scale as AxisScale<AxisDomain>)
+            const timeFormat = d3.timeFormat("%H:%M");
+            const d3Axis = d3
+                .axisBottom(scale as AxisScale<AxisDomain>)
                 .ticks(d3.timeHour.every(1))
                 .tickSizeInner(30)
                 .tickSizeOuter(30)

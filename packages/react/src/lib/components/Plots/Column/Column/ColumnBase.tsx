@@ -1,6 +1,5 @@
-import { select } from "d3-selection";
-import { color as d3Color } from "d3-color";
-import type { Transition } from "d3-transition";
+import * as d3 from "@d3-chart/d3";
+import type { Transition } from "@d3-chart/d3";
 import { IEventPlotProps, IDatum, INumericValue } from "@d3-chart/types";
 import { useEffect, useState } from "react";
 import { useStore, useSelector } from "react-redux";
@@ -49,7 +48,7 @@ export function ColumnBase({
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     const strokeColor = theme.background;
-    const fillColor = d3Color(`${color ?? theme.series.colors[0]}`);
+    const fillColor = d3.color(`${color ?? theme.series.colors[0]}`);
     fillColor.opacity = theme.series.opacity;
 
     const setTooltip = useTooltip(store.dispatch, x);
@@ -57,7 +56,7 @@ export function ColumnBase({
     useEffect(() => {
         if (!focused) return;
 
-        const selection = select(focused.element).style("opacity", theme.series.selectedOpacity);
+        const selection = d3.select(focused.element).style("opacity", theme.series.selectedOpacity);
         const dropline = getDropline(selection, xScale, true);
         store.dispatch(eventActions.addDropline(dropline));
 
@@ -73,7 +72,8 @@ export function ColumnBase({
         ensureValuesAreUnique(data, x, "Column");
 
         // D3 data join
-        const join = select(layer.current)
+        const join = d3
+            .select(layer.current)
             .selectAll<SVGRectElement, IDatum>(".column")
             .data(data, (d) => d[x]?.toString());
 

@@ -1,4 +1,4 @@
-import { select } from "d3-selection";
+import * as d3 from "@d3-chart/d3";
 import { throttle } from "lodash";
 import React, { useEffect } from "react";
 import { useStore, useSelector } from "react-redux";
@@ -39,7 +39,7 @@ export function EventReceiver({ layer }: IEventReceiverBaseProps) {
         );
 
         // prettier-ignore
-        select(layer.current)
+        d3.select(layer.current)
             .select("rect")
             .attr("width", width - margin.left - margin.right)
             .attr("height", height - margin.top - margin.bottom)

@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+import * as d3 from "@d3-chart/d3";
 import React from "react";
 import { Provider } from "react-redux";
 
@@ -33,10 +33,7 @@ const VerticalBandTemplate = () => {
                 height: 200,
             },
             scales: {
-                "Units Sold": d3
-                    .scaleLinear()
-                    .domain([0, 1000])
-                    .range([0, 200]),
+                "Units Sold": d3.scaleLinear().domain([0, 1000]).range([0, 200]),
             },
         },
     });

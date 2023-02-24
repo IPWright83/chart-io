@@ -1,5 +1,5 @@
-import { timer } from "d3-timer";
-import type { Transition } from "d3-transition";
+import * as d3 from "@d3-chart/d3";
+import type { Transition } from "@d3-chart/d3";
 
 import { renderElements } from "./renderElements";
 
@@ -34,7 +34,7 @@ export async function canvasRenderLoop(
     };
 
     // Create a render loop that will run until the transitions complete
-    const renderLoop = timer(render);
+    const renderLoop = d3.timer(render);
 
     try {
         await exit.end();

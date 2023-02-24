@@ -1,5 +1,5 @@
-import { select } from "d3-selection";
-import type { AxisScale, AxisDomain } from "d3-axis";
+import * as d3 from "@d3-chart/d3";
+import type { AxisScale, AxisDomain } from "@d3-chart/d3";
 import type { IPosition } from "@d3-chart/types";
 
 import React, { useEffect, useRef } from "react";
@@ -94,7 +94,8 @@ export function Axis({
     // Render the x-axis using D3
     useEffect(() => {
         if (axis.current && scale) {
-            const selection = select(axis.current)
+            const selection = d3
+                .select(axis.current)
                 .style("color", `${theme.axis.stroke}`)
                 .style("stroke-opacity", theme.axis.strokeOpacity)
                 .style("stroke-width", theme.axis.strokeWidth)

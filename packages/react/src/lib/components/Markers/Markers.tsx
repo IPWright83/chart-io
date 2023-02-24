@@ -1,5 +1,5 @@
-import { select } from "d3-selection";
-import type { Selection } from "d3-selection";
+import * as d3 from "@d3-chart/d3";
+import type { Selection } from "@d3-chart/d3";
 import type { IMarker } from "@d3-chart/types";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -26,12 +26,11 @@ export function Markers({ layer }: IMarkersBaseProps) {
     useEffect(() => {
         if (!layer.current) return;
 
-        const join = select(layer.current).selectAll(".marker").data(markers) as Selection<
-            SVGCircleElement,
-            IMarker,
-            Element,
-            unknown
-        >;
+        // prettier-ignore
+        const join = d3
+            .select(layer.current)
+            .selectAll<SVGCircleElement, IMarker>(".marker")
+            .data(markers);
 
         join.exit().remove();
 

@@ -1,4 +1,4 @@
-import type { Transition } from "d3-transition";
+import type { Transition } from "@d3-chart/d3";
 import type { IOnMouseOver, IOnMouseOut, IOnClick } from "@d3-chart/types";
 import React from "react";
 

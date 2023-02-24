@@ -1,5 +1,4 @@
-import { select } from "d3-selection";
-import { area as d3area, curveLinear } from "d3-shape";
+import * as d3 from "@d3-chart/d3";
 import type { IScale } from "@d3-chart/types";
 import { useEffect } from "react";
 
@@ -33,12 +32,13 @@ export function useMultiPathCreator(
         // Cleanup the DOM if the scales have been removed as we
         // have no idea where to draw a line
         if (!xScale || !yScale) {
-            select(current).selectAll("*").remove();
+            d3.select(current).selectAll("*").remove();
             return;
         }
 
-        const area = d3area()
-            .curve(curveLinear)
+        const area = d3
+            .area()
+            .curve(d3.curveLinear)
             // @ts-ignore: TODO: Not sure how to fix this
             .x((d) => xScale(d.data[x]))
             .y0((d) => yScale(d[0]))
@@ -59,7 +59,7 @@ export function useMultiPathCreator(
 
         // Only ever add the path once on first render when
         // we've got the minimum bits required
-        const join = select(current).selectAll("path").data(stackedData);
+        const join = d3.select(current).selectAll("path").data(stackedData);
 
         // Clean up old paths
         join.exit().remove();
