@@ -1,8 +1,9 @@
+import type { Transition } from "d3-transition";
 import type { IOnMouseOver, IOnMouseOut, IOnClick } from "@d3-chart/types";
 import React from "react";
 
 export type IRenderVirtualCanvasFunc = (
-    update: d3.Transition<Element, unknown, any, unknown>,
+    update: Transition<Element, unknown, any, unknown>,
     events: {
         onMouseOver: IOnMouseOver;
         onMouseOut: IOnMouseOut;
@@ -24,7 +25,6 @@ export function getChildrenWithProps(children: any, renderVirtualCanvas: IRender
     if (children.length > 0) {
         return children.map((child) => {
             if (React.isValidElement(child)) {
-                // @ts-expect-error: We're dealing with really dynamic stuff here we can't really type against
                 return React.cloneElement(child, { renderVirtualCanvas });
             }
 
@@ -33,7 +33,6 @@ export function getChildrenWithProps(children: any, renderVirtualCanvas: IRender
     }
 
     if (React.isValidElement(children)) {
-        // @ts-expect-error: We're dealing with really dynamic stuff here we can't really type against
         return React.cloneElement(children, { renderVirtualCanvas });
     }
 

@@ -1,5 +1,7 @@
+import { select } from "d3-selection";
+import { bisector } from "d3-array";
+import { color as d3Color } from "d3-color";
 import type { IScale, IData, IMouseEventType, ICoordinate, IColor, INumericValue } from "@d3-chart/types";
-import * as d3 from "d3";
 import { useEffect } from "react";
 
 import { eventActions, IDispatch } from "../../../../store";
@@ -52,14 +54,14 @@ export function useDatumFocus(
 
         // Don't run for the EXIT event
         if (eventMode === "NONE") {
-            d3.select(layer.current).selectAll("circle").remove();
+            select(layer.current).selectAll("circle").remove();
             return;
         }
 
         // Work out the datum that we're closet to
         // @ts-expect-error: This has already been protected against
         const xValue = xScale.invert(position.x);
-        const index = d3.bisector((d) => d[x]).center(data, xValue);
+        const index = bisector((d) => d[x]).center(data, xValue);
         const datum = data[index];
 
         // Get the appropriate attributes
@@ -69,7 +71,7 @@ export function useDatumFocus(
             // @ts-ignore TODO: Not sure how to fix this
             const sum = result.sum + datum[y];
             const cy = yScale(sum);
-            const color = d3.color(colors[i].toString()).darker();
+            const color = d3Color(colors[i].toString()).darker();
 
             const marker = { fill: color, r1: 5, r2: 5, cx, cy };
             const horizontalDropline = {

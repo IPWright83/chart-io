@@ -1,6 +1,11 @@
+import { easeCubicInOut } from "d3-ease";
+import { select } from "d3-selection";
+import { area as d3area, stack, curveLinear } from "d3-shape";
+import { ascending } from "d3-array";
+import { scaleOrdinal } from "d3-scale";
+import { color as d3Color } from "d3-color";
 import type { IEventPlotProps, IColor } from "@d3-chart/types";
 
-import * as d3 from "d3";
 import { interpolatePath } from "d3-interpolate-path";
 import { useStore, useSelector } from "react-redux";
 
@@ -41,7 +46,7 @@ export function StackedAreaBase({ x, ys, colors, interactive = true, layer, canv
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
-    const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
+    const sortedData = data.sort((a, b) => ascending(a[x], b[x]));
 
     // Used to create our initial path
     useMultiPathCreator(layer, x, ys, xScale, yScale, canvas);
@@ -53,13 +58,12 @@ export function StackedAreaBase({ x, ys, colors, interactive = true, layer, canv
         const keys = ys;
 
         // @ts-ignore: TODO: Not sure how to fix this
-        const stackedData = d3.stack().keys(keys)(sortedData);
-        const colorScale = d3.scaleOrdinal().domain(keys).range(colors);
+        const stackedData = stack().keys(keys)(sortedData);
+        const colorScale = scaleOrdinal().domain(keys).range(colors);
 
         // Line renderer
-        const area = d3
-            .area()
-            .curve(d3.curveLinear)
+        const area = d3area()
+            .curve(curveLinear)
             // @ts-ignore: TODO: Not sure how to fix this
             .x((d) => xScale(d.data[x]))
             .y0((d) => yScale(d[0]))
@@ -71,12 +75,12 @@ export function StackedAreaBase({ x, ys, colors, interactive = true, layer, canv
             area.context(context);
 
             // Create the join to work out the areas we care about
-            const join = d3.select(layer.current).selectAll("path").data(stackedData);
+            const join = select(layer.current).selectAll("path").data(stackedData);
             context.clearRect(0, 0, width, height);
 
             join.enter().each((d) => {
                 const color = colorScale(d.key);
-                const fillColor = d3.color(color.toString());
+                const fillColor = d3Color(color.toString());
                 fillColor.opacity = theme.series.opacity;
                 const strokeColor = fillColor.darker();
 
@@ -95,18 +99,18 @@ export function StackedAreaBase({ x, ys, colors, interactive = true, layer, canv
         }
 
         // Handle SVG rendering
-        const join = d3.select(layer.current).selectAll("path").data(stackedData);
+        const join = select(layer.current).selectAll("path").data(stackedData);
 
         join.style("fill", (d) => colorScale(d.key).toString())
-            .style("stroke", (d) => d3.color(colorScale(d.key).toString()).darker().toString())
+            .style("stroke", (d) => d3Color(colorScale(d.key).toString()).darker().toString())
             .style("opacity", theme.series.opacity)
             .style("pointer-events", "none")
             .transition("area")
             .duration(animationDuration)
             .delay((d, i) => (animationDuration / keys.length) * i)
-            .ease(d3.easeCubicInOut)
+            .ease(easeCubicInOut)
             .attrTween("d", function (d) {
-                const previous = d3.select(this).attr("d");
+                const previous = select(this).attr("d");
 
                 // @ts-ignore: TODO: Not sure how to fix this
                 const current = area(d);

@@ -1,4 +1,5 @@
-import * as d3 from "d3";
+import { timer } from "d3-timer";
+import type { Transition } from "d3-transition";
 
 import { renderElements } from "./renderElements";
 
@@ -14,8 +15,8 @@ export async function canvasRenderLoop(
     canvas: HTMLCanvasElement | null | undefined,
     width: number,
     height: number,
-    exit: d3.Transition<Element, unknown, any, unknown>,
-    update: d3.Transition<Element, unknown, any, unknown>
+    exit: Transition<Element, unknown, any, unknown>,
+    update: Transition<Element, unknown, any, unknown>
 ) {
     // If the canvas isn't ready don't do anything
     if (!canvas) {
@@ -33,7 +34,7 @@ export async function canvasRenderLoop(
     };
 
     // Create a render loop that will run until the transitions complete
-    const renderLoop = d3.timer(render);
+    const renderLoop = timer(render);
 
     try {
         await exit.end();

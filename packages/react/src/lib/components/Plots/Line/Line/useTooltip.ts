@@ -1,5 +1,6 @@
+import { select } from "d3-selection";
+import { bisector } from "d3-array";
 import type { IColor, ICoordinate, IMouseEventType, IScale } from "@d3-chart/types";
-import * as d3 from "d3";
 import { useEffect } from "react";
 
 import { eventActions, IDispatch } from "../../../../store";
@@ -46,14 +47,14 @@ export function useTooltip(
 
         // Don't run for the EXIT event
         if (eventMode === "NONE") {
-            d3.select(layer.current).selectAll("circle").remove();
+            select(layer.current).selectAll("circle").remove();
             return;
         }
 
         // Work out the datum that we're closet to
         // @ts-expect-error: We've already aserted that invert exists
         const xValue = xScale.invert(position.x);
-        const index = d3.bisector((d) => d[x]).center(data, xValue);
+        const index = bisector((d) => d[x]).center(data, xValue);
         const datum = data[index];
 
         if (isNullOrUndefined(datum[y])) {

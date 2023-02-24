@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+import { scaleLinear } from "d3-scale";
 import React from "react";
 import { Provider } from "react-redux";
 import { themes } from "../../../../themes";
@@ -61,8 +61,7 @@ describe("Gridlines", () => {
 
     describe("component", () => {
         it("renders horizontal gridlines", async () => {
-            const scale = d3
-                .scaleLinear()
+            const scale = scaleLinear()
                 .domain([0, 100])
                 .range([0, width - margin.left - margin.right]);
 
@@ -78,8 +77,7 @@ describe("Gridlines", () => {
         });
 
         it("renders vertical gridlines", async () => {
-            const scale = d3
-                .scaleLinear()
+            const scale = scaleLinear()
                 .domain([0, 10])
                 .range([0, height - margin.top - margin.bottom]);
 

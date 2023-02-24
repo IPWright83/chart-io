@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+import { scaleLinear } from "d3-scale";
 import React from "react";
 import { Provider } from "react-redux";
 import { render, act } from "@testing-library/react";
@@ -20,8 +20,8 @@ describe("StackedArea", () => {
     ];
 
     const scales = {
-        y: d3.scaleLinear().domain([0, 30]).range([100, 0]),
-        x: d3.scaleLinear().domain([0, 5]).range([0, 100]),
+        y: scaleLinear().domain([0, 30]).range([100, 0]),
+        x: scaleLinear().domain([0, 5]).range([0, 100]),
     };
 
     describe("using SVG", () => {

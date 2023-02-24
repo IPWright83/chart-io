@@ -12,7 +12,6 @@ describe("/utils/checks", () => {
         it("should return false if not a d3.scaleBand", () => {
             jest.spyOn(console, "error").mockImplementation(jest.fn());
 
-            // @ts-expect-error: Testing runtime validation
             expect(ensureBandScale(d3.scaleLinear(), "unit_test")).toBe(false);
             expect(console.error).toHaveBeenCalledWith(
                 'E001 - Incompatible scale for a <unit_test />. Are you missing the `scaleType="band"` in your <Axis /> or <AutoScale /> component?'

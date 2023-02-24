@@ -1,4 +1,5 @@
-import * as d3 from "d3";
+import { rgb } from "d3-color";
+import type { Transition } from "d3-transition";
 
 import { renderElements } from "../renderElements";
 
@@ -10,13 +11,11 @@ import { renderElements } from "../renderElements";
  * From https://engineering.mongodb.com/post/d3-round-two-how-to-blend-html5-canvas-with-svg-to-speed-up-rendering
  */
 export function getColor(index: number): string {
-    return d3
-        .rgb(
-            (index & 0b111111110000000000000000) >> 16,
-            (index & 0b000000001111111100000000) >> 8,
-            index & 0b000000000000000011111111
-        )
-        .toString();
+    return rgb(
+        (index & 0b111111110000000000000000) >> 16,
+        (index & 0b000000001111111100000000) >> 8,
+        index & 0b000000000000000011111111
+    ).toString();
 }
 
 /**
@@ -29,7 +28,7 @@ export function getColor(index: number): string {
 
 export function renderVirtualElements(
     context: CanvasRenderingContext2D,
-    join: d3.Transition<Element, unknown, any, unknown>,
+    join: Transition<Element, unknown, any, unknown>,
     index: number
 ) {
     const colorToData = {};

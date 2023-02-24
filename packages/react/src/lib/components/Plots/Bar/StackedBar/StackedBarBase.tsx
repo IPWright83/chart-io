@@ -1,5 +1,8 @@
+import { select } from "d3-selection";
+import { scaleOrdinal } from "d3-scale";
+import { stack } from "d3-shape";
+import type { Transition } from "d3-transition";
 import type { IEventPlotProps, IColor, IDatum } from "@d3-chart/types";
-import * as d3 from "d3";
 import { useEffect, useState } from "react";
 import { useStore, useSelector } from "react-redux";
 
@@ -16,7 +19,7 @@ export interface IStackedBarBaseProps extends Omit<IEventPlotProps, "ys" | "x"> 
     /**
      * This is an internally used function to allow the scatter plot to render to a virtual canvas
      */
-    renderVirtualCanvas?: (update: d3.Transition<Element, unknown, any, unknown>) => void;
+    renderVirtualCanvas?: (update: Transition<Element, unknown, any, unknown>) => void;
     /**
      * The set of x fields to use to access the data for each plot
      */
@@ -66,7 +69,7 @@ export function StackedBarBase({
     useEffect(() => {
         if (!focused) return;
 
-        const selection = d3.select(focused.element).style("opacity", theme.series.selectedOpacity);
+        const selection = select(focused.element).style("opacity", theme.series.selectedOpacity);
         const dropline = getDropline(selection, yScale, false);
         store.dispatch(eventActions.addDropline(dropline));
 
@@ -86,11 +89,10 @@ export function StackedBarBase({
         // Create the stacked variant of the data
         const keys = xs;
         // @ts-ignore: TODO: Work out how to fix this
-        const stackedData = d3.stack().keys(keys)(data);
-        const colorScale = d3.scaleOrdinal().domain(keys).range(colors);
+        const stackedData = stack().keys(keys)(data);
+        const colorScale = scaleOrdinal().domain(keys).range(colors);
 
-        const groupJoin = d3
-            .select(layer.current)
+        const groupJoin = select(layer.current)
             .selectAll<SVGGElement, IDatum>("g")
             .data(stackedData);
 

@@ -1,3 +1,5 @@
+import type { Transition } from "d3-transition";
+
 import { canvasRenderLoop, progressiveCanvasRenderLoop } from "../../hoc/canvas";
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
 
@@ -16,8 +18,8 @@ export async function renderCanvas(
     renderVirtualCanvas: any,
     width: number,
     height: number,
-    update: d3.Transition<Element, unknown, any, unknown>,
-    exit?: d3.Transition<Element, unknown, any, unknown>
+    update: Transition<Element, unknown, any, unknown>,
+    exit?: Transition<Element, unknown, any, unknown>
 ) {
     if (!canvas) {
         return;

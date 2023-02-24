@@ -1,5 +1,7 @@
+import { select } from "d3-selection";
+import { scaleOrdinal, scaleBand } from "d3-scale";
+import type { Transition } from "d3-transition";
 import type { IEventPlotProps, IColor, IDatum, IValue, INumericValue } from "@d3-chart/types";
-import * as d3 from "d3";
 import { useEffect, useState } from "react";
 import { useStore, useSelector } from "react-redux";
 
@@ -15,7 +17,7 @@ export interface IGroupedBarBaseProps extends Omit<IEventPlotProps, "ys" | "x"> 
     /**
      * This is an internally used function to allow the scatter plot to render to a virtual canvas
      */
-    renderVirtualCanvas?: (update: d3.Transition<Element, unknown, any, unknown>) => void;
+    renderVirtualCanvas?: (update: Transition<Element, unknown, any, unknown>) => void;
     /**
      * The set of x fields to use to access the data for each plot
      */
@@ -65,7 +67,7 @@ export function GroupedBarBase({
     useEffect(() => {
         if (!focused) return;
 
-        const selection = d3.select(focused.element).style("opacity", theme.series.selectedOpacity);
+        const selection = select(focused.element).style("opacity", theme.series.selectedOpacity);
         const dropline = getDropline(selection, yScale, true);
         store.dispatch(eventActions.addDropline(dropline));
 
@@ -111,11 +113,11 @@ export function GroupedBarBase({
         }
 
         // Create a scale for each series to fit along the x-axis and the series colors
-        const colorScale = d3.scaleOrdinal().domain(xs).range(colors);
+        const colorScale = scaleOrdinal().domain(xs).range(colors);
         // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
-        const y1Scale = d3.scaleBand().domain(xs).rangeRound([0, yScale.bandwidth()]).padding(0.05);
+        const y1Scale = scaleBand().domain(xs).rangeRound([0, yScale.bandwidth()]).padding(0.05);
 
-        const groupJoin = d3.select(layer.current).selectAll<SVGGElement, IDatum>("g").data(data);
+        const groupJoin = select(layer.current).selectAll<SVGGElement, IDatum>("g").data(data);
 
         // Clean up old groups
         groupJoin.exit().remove();
@@ -156,7 +158,7 @@ export function GroupedBarBase({
             .duration(animationDuration / 2)
             .delay(animationDuration / 2)
             .attr("width", (d) => xScale(d.value as INumericValue) - xScale.range()[0])
-            .attr("x", () => xScale.range()[0]) as d3.Transition<SVGRectElement, { key: string; value: IValue; }, SVGGElement, IDatum>;
+            .attr("x", () => xScale.range()[0]) as Transition<SVGRectElement, { key: string; value: IValue; }, SVGGElement, IDatum>;
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [y, xs, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);

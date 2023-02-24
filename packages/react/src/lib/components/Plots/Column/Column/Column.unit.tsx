@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+import { scaleBand, scaleLinear } from "d3-scale";
 import React from "react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
@@ -21,8 +21,8 @@ describe("Column", () => {
     ];
 
     const scales = {
-        x: d3.scaleBand().domain(["A", "B"]).range([0, 100]),
-        y: d3.scaleLinear().domain([0, 20]).range([100, 0]),
+        x: scaleBand().domain(["A", "B"]).range([0, 100]),
+        y: scaleLinear().domain([0, 20]).range([100, 0]),
     };
 
     describe("using SVG", () => {

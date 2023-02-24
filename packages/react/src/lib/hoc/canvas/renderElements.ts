@@ -1,3 +1,4 @@
+import type { Transition } from "d3-transition";
 import type { IColor } from "@d3-chart/types";
 
 import { renderCircle } from "./renderCircle";
@@ -11,7 +12,7 @@ import { renderRect } from "./renderRect";
  */
 export function renderElements(
     context: CanvasRenderingContext2D,
-    join: d3.Transition<Element, unknown, any, unknown>,
+    join: Transition<Element, unknown, any, unknown>,
     colors?: IColor[]
 ) {
     if (!join) {

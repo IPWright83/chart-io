@@ -1,5 +1,5 @@
+import { select } from "d3-selection";
 import { IColor, IScale } from "@d3-chart/types";
-import * as d3 from "d3";
 import { useState, useEffect } from "react";
 
 import { eventActions, IDispatch } from "../../../../store";
@@ -19,7 +19,7 @@ export function useFocused(dispatch: IDispatch, xScale: IScale | undefined, ySca
 
         // Get the appropriate attributes
         const { element } = focused;
-        const selection = d3.select(element);
+        const selection = select(element);
         const r = +selection.attr("r");
         const cx = +selection.attr("cx");
         const cy = +selection.attr("cy");

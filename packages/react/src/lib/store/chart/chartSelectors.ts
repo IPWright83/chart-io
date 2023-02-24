@@ -25,7 +25,7 @@ interface ChartSelectors {
     theme: (state: IState) => ITheme;
 }
 
-const _chartSelectors = {
+export const chartSelectors = {
     /**
      * Returns the store for the chart part of state
      * @param  state The application state
@@ -38,7 +38,7 @@ const _chartSelectors = {
      * @param  state The application state
      * @return       The chart data
      */
-    data: (state: IState): IData => _chartSelectors.store(state).data || EMPTY_ARRAY,
+    data: (state: IState): IData => chartSelectors.store(state).data || EMPTY_ARRAY,
 
     /**
      * Returns the duration to run animations for
@@ -46,8 +46,8 @@ const _chartSelectors = {
      * @return       The duration in milliseconds
      */
     animationDuration: (state: IState): number => {
-        const animationDuration = _chartSelectors.store(state).animationDuration;
-        const data = _chartSelectors.data(state);
+        const animationDuration = chartSelectors.store(state).animationDuration;
+        const data = chartSelectors.data(state);
 
         // If we have a large dataset, then we're going to default
         // automatically to no animations
@@ -63,7 +63,7 @@ const _chartSelectors = {
      * @type {Object}
      */
     scales: {
-        store: (state: IState): IChartStateScales => _chartSelectors.store(state).scales,
+        store: (state: IState): IChartStateScales => chartSelectors.store(state).scales,
 
         /**
          * Return a scale based on the field
@@ -72,7 +72,7 @@ const _chartSelectors = {
          * @return                 The d3.Scale function
          */
         getScale: (state: IState, field: string): IScale | undefined => {
-            const store = _chartSelectors.store(state);
+            const store = chartSelectors.store(state);
 
             // Manually defined scales take precent
             const scales = store.scales || {};
@@ -96,7 +96,7 @@ const _chartSelectors = {
          * @return                 The d3.Scale function
          */
         getAxisScale: (state: IState, field: string): IScale | undefined => {
-            const store = _chartSelectors.store(state);
+            const store = chartSelectors.store(state);
 
             // Axis scale takes precedent
             const axisScales = store.axisScales || {};
@@ -118,28 +118,28 @@ const _chartSelectors = {
      * Returns dimension based information for the chart
      */
     dimensions: {
-        store: (state: IState): IChartStateDimensions => _chartSelectors.store(state).dimensions,
+        store: (state: IState): IChartStateDimensions => chartSelectors.store(state).dimensions,
 
         /**
          * Returns the width of the chart
          * @param  state The application state
          * @return       The width
          */
-        width: (state: IState): number => _chartSelectors.dimensions.store(state).width || 0,
+        width: (state: IState): number => chartSelectors.dimensions.store(state).width || 0,
 
         /**
          * Returns the height of the chart
          * @param  state The application state
          * @return       The height
          */
-        height: (state: IState): number => _chartSelectors.dimensions.store(state).height || 0,
+        height: (state: IState): number => chartSelectors.dimensions.store(state).height || 0,
 
         /**
          * Returns the margin of the chart
          * @param  state The application state
          * @return       The margin
          */
-        margin: (state: IState): IMargin => _chartSelectors.dimensions.store(state).margin || EMPTY_MARGIN,
+        margin: (state: IState): IMargin => chartSelectors.dimensions.store(state).margin || EMPTY_MARGIN,
     },
 
     /**
@@ -147,22 +147,5 @@ const _chartSelectors = {
      * @param  state The application state
      * @return The theme object
      */
-    theme: (state: IState): ITheme => _chartSelectors.store(state).theme,
-};
-
-/**
- * Returns the margin of the chart
- * @param  state     The application state
- * @return           The margin
- */
-const margin = createSelector(_chartSelectors.dimensions.store, (dimensions) => {
-    return dimensions?.margin || EMPTY_MARGIN;
-});
-
-export const chartSelectors: ChartSelectors = {
-    ..._chartSelectors,
-    dimensions: {
-        ..._chartSelectors.dimensions,
-        margin,
-    },
+    theme: (state: IState): ITheme => chartSelectors.store(state).theme,
 };

@@ -1,5 +1,6 @@
+import { ascending } from "d3-array";
+import { line as d3line } from "d3-shape";
 import type { IPlotProps } from "@d3-chart/types";
-import * as d3 from "d3";
 import React, { useRef } from "react";
 import { useStore, useSelector } from "react-redux";
 
@@ -9,7 +10,7 @@ import { isNullOrUndefined } from "../../../../../utils";
 import { useDatumFocus } from "../useDatumFocus";
 import { useTooltip } from "../useTooltip";
 
-export type ICanvasLineProps = Omit<IPlotProps, "interactive">
+export type ICanvasLineProps = Omit<IPlotProps, "interactive">;
 
 /**
  * Represents a Line Plot on a Canvas element
@@ -28,7 +29,7 @@ export function CanvasLine({ x, y, color, layer, canvas }: ICanvasLineProps) {
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
 
-    const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
+    const sortedData = data.sort((a, b) => ascending(a[x], b[x]));
     const seriesColor = color || theme.series.colors[0];
 
     // @ts-expect-error: We handle a missing bandwidth fine
@@ -45,8 +46,7 @@ export function CanvasLine({ x, y, color, layer, canvas }: ICanvasLineProps) {
 
         // We render canvas lines differently to SVG line in that
         // we use the generator provided by D3
-        const line = d3
-            .line()
+        const line = d3line()
             .x((d) => xScale(d[x]) + bandwidth)
             .y((d) => yScale(d[y]))
             .defined((d) => !isNullOrUndefined(d[y]))

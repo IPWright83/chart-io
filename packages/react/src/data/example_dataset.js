@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+import { timeParse } from "d3-time-format";
 
 const example = [
   {
@@ -46659,8 +46659,8 @@ const example = [
   }
 ];
 
-const parseDate = d3.timeParse("%d/%m/%Y");
-const parseMonth = d3.timeParse("%b-%y");
+const parseDate = timeParse("%d/%m/%Y");
+const parseMonth = timeParse("%b-%y");
 
 const example_dataset = example.map(r => ({
   ...r,

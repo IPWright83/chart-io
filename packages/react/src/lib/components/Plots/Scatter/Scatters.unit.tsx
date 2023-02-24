@@ -1,4 +1,4 @@
-import * as d3 from "d3";
+import { scaleLinear } from "d3-scale";
 import React from "react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
@@ -15,9 +15,9 @@ describe("Scatters", () => {
         { x: 10, y: 10, y2: 12 },
     ];
     const scales = {
-        x: d3.scaleLinear().domain([0, 20]).range([0, 100]),
-        y: d3.scaleLinear().domain([0, 20]).range([0, 100]),
-        y2: d3.scaleLinear().domain([0, 20]).range([0, 100]),
+        x: scaleLinear().domain([0, 20]).range([0, 100]),
+        y: scaleLinear().domain([0, 20]).range([0, 100]),
+        y2: scaleLinear().domain([0, 20]).range([0, 100]),
     };
 
     describe("using SVG", () => {

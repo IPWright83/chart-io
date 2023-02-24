@@ -1,5 +1,6 @@
+import { select } from "d3-selection";
+import type { Selection } from "d3-selection";
 import { IScale, IColor, IDropline } from "@d3-chart/types";
-import * as d3 from "d3";
 import { getXYFromTransform } from "../../../utils";
 
 /**
@@ -10,7 +11,7 @@ import { getXYFromTransform } from "../../../utils";
  * @return              The created dropline
  */
 export function getDropline(
-    selection: d3.Selection<any, unknown, null, undefined>,
+    selection: Selection<any, unknown, null, undefined>,
     yScale: IScale,
     grouped = false
 ): IDropline {
@@ -20,7 +21,7 @@ export function getDropline(
     const width = +selection.attr("width");
 
     const tranformY =
-        grouped === false ? 0 : getXYFromTransform(d3.select(selection.node().parentNode).attr("transform")).y;
+        grouped === false ? 0 : getXYFromTransform(select(selection.node().parentNode).attr("transform")).y;
 
     const verticalDropline = {
         isVertical: true,

@@ -28,6 +28,18 @@ export const defaultChartState = {
 const chartReducer = (state: IChartState = defaultChartState, action: ChartAction): IChartState => {
     switch (action.type) {
         case "CHART.SET_DIMENSIONS":
+            // Optimisation
+            if (
+                state.dimensions.width === action.payload.width &&
+                state.dimensions.height === action.payload.height &&
+                state.dimensions.margin.left === action.payload.margin.left &&
+                state.dimensions.margin.right === action.payload.margin.right &&
+                state.dimensions.margin.top === action.payload.margin.top &&
+                state.dimensions.margin.bottom === action.payload.margin.bottom
+            ) {
+                return state;
+            }
+
             return {
                 ...state,
                 dimensions: {

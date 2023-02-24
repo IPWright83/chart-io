@@ -1,5 +1,5 @@
+import { select } from "d3-selection";
 import type { IColor } from "@d3-chart/types";
-import * as d3 from "d3";
 
 /**
  * Renders a circle to the canvas
@@ -8,7 +8,7 @@ import * as d3 from "d3";
  * @param  overrideColor       A custom color to override the node color which is used for the virtual canvas
  */
 export function renderCircle(context: CanvasRenderingContext2D, node: Element, overrideColor?: IColor) {
-    const selection = d3.select(node);
+    const selection = select(node);
     const cx = Number(selection.attr("cx"));
     const cy = Number(selection.attr("cy"));
     const r = Number(selection.attr("r"));

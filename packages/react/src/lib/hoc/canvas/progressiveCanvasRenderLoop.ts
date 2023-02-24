@@ -1,4 +1,5 @@
-import * as d3 from "d3";
+import { timer } from "d3-timer";
+import type { Transition } from "d3-transition";
 
 import { renderElements } from "./renderElements";
 
@@ -14,8 +15,8 @@ export async function progressiveCanvasRenderLoop(
     canvas: HTMLCanvasElement | null | undefined,
     width: number,
     height: number,
-    exit: d3.Transition<Element, unknown, any, unknown>,
-    update: d3.Transition<Element, unknown, any, unknown>
+    exit: Transition<Element, unknown, any, unknown>,
+    update: Transition<Element, unknown, any, unknown>
 ) {
     // If the canvas isn't ready don't do anything
     if (!canvas) {
@@ -37,10 +38,10 @@ export async function progressiveCanvasRenderLoop(
 
     const nodes = update.nodes();
 
-    const timer = d3.timer(() => {
+    const renderLoop = timer(() => {
         // Cancel the render loop
         if (nodes.length === 0) {
-            timer.stop();
+            renderLoop.stop();
             return;
         }
 

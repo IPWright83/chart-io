@@ -1,7 +1,7 @@
 {
   "name": "@d3-chart/types",
   "version": "0.4.0",
-  "packageManager": "pnpm@7.5.2",
+  "packageManager": "pnpm@7.26.2",
   "description": "Provides core type definitions for d3-chart packages",
   "repository": "git@github.com:IPWright83/chart-it.git",
   "author": "Ian Wright - IPWright83",
@@ -31,6 +31,7 @@
     "identity-obj-proxy": "^3.0.0"
   },
   "dependencies": {
+    "@d3-chart/d3": "workspace:^0.1.0",
     "@types/d3-color": "^3.1.0",
     "@types/d3-scale": "^4.0.2",
     "@types/react": "^18.0.28",

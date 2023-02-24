@@ -1,5 +1,5 @@
+import { select } from "d3-selection";
 import type { IDropline } from "@d3-chart/types";
-import * as d3 from "d3";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -39,8 +39,7 @@ export function Droplines({ layer, showVertical = true, showHorizontal = true }:
     useEffect(() => {
         if (!layer.current) return;
 
-        const join = d3
-            .select(layer.current)
+        const join = select(layer.current)
             .selectAll(".dropline")
             .data(droplines, (d: IDropline) => `${d.x1}-${d.x2}-${d.y1}-${d.y2}`);
 

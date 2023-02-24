@@ -1,5 +1,8 @@
+import { select } from "d3-selection";
+import { area as d3area, curveLinear } from "d3-shape";
+import { ascending } from "d3-array";
+import { color as d3Color } from "d3-color";
 import type { IPlotProps } from "@d3-chart/types";
-import * as d3 from "d3";
 import { useStore, useSelector } from "react-redux";
 
 import { useRender } from "../../../../hooks";
@@ -33,9 +36,9 @@ export function AreaBase({ x, y, y2, color, interactive = true, layer, canvas }:
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
-    const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
+    const sortedData = data.sort((a, b) => ascending(a[x], b[x]));
 
-    const fillColor = d3.color(`${color ?? theme.series.colors[0]}`);
+    const fillColor = d3Color(`${color ?? theme.series.colors[0]}`);
     fillColor.opacity = theme.series.opacity;
     const strokeColor = fillColor.darker();
 
@@ -48,9 +51,8 @@ export function AreaBase({ x, y, y2, color, interactive = true, layer, canvas }:
     /* On future renders we want to update the path */
     useRender(() => {
         // Area renderer that starts at the 0 point
-        const area = d3
-            .area()
-            .curve(d3.curveLinear)
+        const area = d3area()
+            .curve(curveLinear)
             .x((d) => xScale(d[x]) + bandwidth)
             .y0((d) => (y2 ? yScale(d[y]) : yScale.range()[0]))
             .y1((d) => (y2 ? yScale(d[y2]) : yScale(d[y])))
@@ -77,7 +79,7 @@ export function AreaBase({ x, y, y2, color, interactive = true, layer, canvas }:
         }
 
         // Handle SVG Rendering
-        d3.select(layer.current)
+        select(layer.current)
             .select("path")
             .datum(sortedData)
             .style("fill", fillColor.toString())
@@ -86,7 +88,7 @@ export function AreaBase({ x, y, y2, color, interactive = true, layer, canvas }:
             .transition("area")
             .duration(animationDuration)
             .attrTween("d", function (d) {
-                const previous = d3.select(this).attr("d");
+                const previous = select(this).attr("d");
                 // @ts-ignore: TODO: Not sure how to fix this
                 const current = area(d);
                 return interpolateMultiPath(previous, current);

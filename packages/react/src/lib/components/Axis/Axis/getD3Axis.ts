@@ -1,5 +1,6 @@
+import { axisLeft, axisRight, axisTop, axisBottom } from "d3-axis";
+import type { Axis, AxisScale, AxisDomain } from "d3-axis";
 import type { IPosition, IScale } from "@d3-chart/types";
-import * as d3 from "d3";
 
 /**
  * Return a D3 Axis function
@@ -7,16 +8,16 @@ import * as d3 from "d3";
  * @param  scale        The D3 scale being used by the axis
  * @return              The D3 selection Axis - https://github.com/d3/d3-axis
  */
-const getD3Axis = (position: IPosition, scale: IScale): d3.Axis<d3.AxisDomain> => {
+const getD3Axis = (position: IPosition, scale: IScale): Axis<AxisDomain> => {
     switch (position) {
         case "left":
-            return d3.axisLeft(scale as d3.AxisScale<d3.AxisDomain>);
+            return axisLeft(scale as AxisScale<AxisDomain>);
         case "right":
-            return d3.axisRight(scale as d3.AxisScale<d3.AxisDomain>);
+            return axisRight(scale as AxisScale<AxisDomain>);
         case "top":
-            return d3.axisTop(scale as d3.AxisScale<d3.AxisDomain>);
+            return axisTop(scale as AxisScale<AxisDomain>);
         case "bottom":
-            return d3.axisBottom(scale as d3.AxisScale<d3.AxisDomain>);
+            return axisBottom(scale as AxisScale<AxisDomain>);
         default:
             throw new Error(`Invalid position ${position}`);
     }

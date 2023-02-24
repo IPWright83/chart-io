@@ -1,4 +1,7 @@
-import * as d3 from "d3";
+import { select } from "d3-selection";
+import { timeFormat as d3_timeFormat } from "d3-time-format";
+import { axisBottom } from "d3-axis";
+import type { AxisScale, AxisDomain } from "d3-axis";
 import React, { useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -39,19 +42,18 @@ const CustomTimeAxis = ({ fields }) => {
 
     useEffect(() => {
         if (axis.current && scale) {
-            const selection = d3.select(axis.current);
+            const selection = select(axis.current);
 
             // Create the D3 axis renderer
-            const timeFormat = d3.timeFormat("%H:%M");
-            const d3Axis = d3
-                .axisBottom(scale as d3.AxisScale<d3.AxisDomain>)
+            const timeFormat = d3_timeFormat("%H:%M");
+            const d3Axis = axisBottom(scale as AxisScale<AxisDomain>)
                 .ticks(d3.timeHour.every(1))
                 .tickSizeInner(30)
                 .tickSizeOuter(30)
                 .tickFormat((value: Date, index) => (index % 3 === 0 ? timeFormat(value) : null));
 
             // Set some scale props
-            d3Axis.scale(scale as d3.AxisScale<d3.AxisDomain>);
+            d3Axis.scale(scale as AxisScale<AxisDomain>);
 
             // Render the axis
             selection.call(d3Axis);
