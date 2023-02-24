@@ -12,14 +12,11 @@ import { XScale } from "../../Scale";
 
 import "./AxisCustomisations.css";
 
-import mdx from "./Axis.mdx";
-
 export default {
     title: "Components/Axis/Customization",
     component: Axis,
     parameters: {
         docs: {
-            page: mdx,
             transformSource: (src) => {
                 src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
                 src = src.replaceAll(/undefined,?/g, "");

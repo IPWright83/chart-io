@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 
 import { themes } from "../../themes";
 import { Crosshair } from ".";
-import mdx from "./Crosshair.mdx";
 
 import { createMockStorybookStore } from "../../testUtils";
 
@@ -11,9 +10,6 @@ export default {
     title: "Components/Crosshair",
     component: Crosshair,
     parameters: {
-        docs: {
-            page: mdx,
-        },
         chromatic: { delay: 300 },
     },
 };

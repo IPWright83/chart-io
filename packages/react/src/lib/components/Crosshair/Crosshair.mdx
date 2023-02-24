@@ -1,4 +1,6 @@
-import { Story, Canvas } from "@storybook/addon-docs/blocks";
+import { Story, Canvas, Meta } from "@storybook/blocks";
+
+<Meta title="Components/Crosshair" />
 
 # Crosshair Component
 
@@ -10,10 +12,10 @@ The `<Crosshair>` component allows us to define a layer to render a crosshair at
 
 ### `<Crosshair>` Props
 
-| Prop             | Type      | Default | Note                                  |
-| ---------------- | --------- | ------- | ------------------------------------- |
-| `showHorizontal` | `boolean` | true    | Should horizontal droplines be shown? |
-| `showVertical`   | `boolean` | true    | Should vertical droplines be shown?   |
+| Prop             | Type      | Default | Note                                         |
+| ---------------- | --------- | ------- | -------------------------------------------- |
+| `showHorizontal` | `boolean` | true    | Should a horizontal crosshair line be shown? |
+| `showVertical`   | `boolean` | true    | Should a vertical crosshair line be shown?   |
 
 <br />
 
@@ -26,13 +28,11 @@ eventActions.mouseEnter({ offsetX: 50, offsetY: 100 });
 eventActions.mouseMove({ offsetX: 52, offsetY: 102 });
 ```
 
-<br />
-
 ## Visual Styling
 
 The colour and styles of the Crosshair comes straight from the theme object.
 
-It is possible to style the following properties by changing the `theme.droplines` object:
+It is possible to style the following properties by changing the `theme.crosshair` object:
 
 | Property            | Type     | Default   | Note                                            |
 | ------------------- | -------- | --------- | ----------------------------------------------- |

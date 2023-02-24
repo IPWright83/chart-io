@@ -6,14 +6,11 @@ import { Chart } from "../../Chart";
 
 import { axisData } from "./axisData";
 
-import mdx from "./Axis.mdx";
-
 export default {
     title: "Components/Axis/Types",
     component: Axis,
     parameters: {
         docs: {
-            page: mdx,
             transformSource: (src) => {
                 src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
                 src = src.replaceAll(/undefined,?/g, "");

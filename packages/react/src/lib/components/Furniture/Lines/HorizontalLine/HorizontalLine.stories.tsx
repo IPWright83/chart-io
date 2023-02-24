@@ -3,7 +3,6 @@ import React from "react";
 import { Provider } from "react-redux";
 
 import { HorizontalLine } from ".";
-import mdx from "./HorizontalLine.mdx";
 
 import { sales_records_dataset } from "../../../../../data/sales_records_dataset";
 import { Scatter } from "../../../Plots";
@@ -17,9 +16,6 @@ export default {
     title: "Components/Lines/HorizontalLine",
     component: HorizontalLine,
     parameters: {
-        docs: {
-            page: mdx,
-        },
         chromatic: { delay: 300 },
     },
 };

@@ -7,8 +7,6 @@ import { Areas } from "./Areas";
 import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
 
-import mdx from "./Area.mdx";
-
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
 export default {
@@ -16,7 +14,6 @@ export default {
     component: Area,
     parameters: {
         docs: {
-            page: mdx,
             transformSource: (src) => {
                 src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
                 src = src.replaceAll(/undefined,?/g, "");

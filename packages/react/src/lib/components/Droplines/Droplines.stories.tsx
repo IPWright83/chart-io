@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 
 import { themes } from "../../themes";
 import { Droplines } from ".";
-import mdx from "./Droplines.mdx";
 
 import { createMockStorybookStore } from "../../testUtils";
 
@@ -12,9 +11,6 @@ export default {
     title: "Components/Droplines",
     component: Droplines,
     parameters: {
-        docs: {
-            page: mdx,
-        },
         chromatic: { delay: 300 },
     },
 };
