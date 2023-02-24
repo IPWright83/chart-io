@@ -17,25 +17,6 @@ exports[`YAxis renders correctly 1`] = `
           style="color: rgb(211, 211, 211); stroke-opacity: 0.8; stroke-width: 1; pointer-events: none;"
           text-anchor="end"
         >
-          <path
-            class="domain"
-            stroke="currentColor"
-          />
-          <g
-            class="tick"
-            opacity="0.000001"
-            transform="translate(0,0.5)"
-          >
-            <line
-              stroke="currentColor"
-              x2="200"
-            />
-            <text
-              dy="0.32em"
-              fill="currentColor"
-              x="-3"
-            />
-          </g>
           <g
             class="tick"
             opacity="0.000001"

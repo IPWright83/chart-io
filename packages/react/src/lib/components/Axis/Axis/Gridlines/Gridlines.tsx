@@ -50,28 +50,6 @@ export function Gridlines({ layer, position, scale, tickPadding = 3, ticks, tick
 
     const tickSize = getTickSize(position, width, height, margin);
 
-    // TODO: Move this CSS into code
-    // .g-gridlines .domain {
-    //     display: none;
-    //     user-select: none;
-    // }
-
-    // .g-gridlines.left .tick:first-of-type {
-    //     display: none;
-    // }
-
-    // .g-gridlines.bottom .tick:first-of-type {
-    //     display: none;
-    // }
-
-    // .g-gridlines.right .tick:last-of-type {
-    //     display: none;
-    // }
-
-    // .g-gridlines.top .tick:last-of-type {
-    //     display: none;
-    // }
-
     // Render the x-axis using D3
     useEffect(() => {
         if (layer.current && scale) {
