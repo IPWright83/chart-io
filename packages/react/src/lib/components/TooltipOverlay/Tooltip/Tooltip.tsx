@@ -1,7 +1,9 @@
 import type { IFormatter , ITooltipItem } from "@d3-chart/types";
 import React from "react";
+import { useSelector } from "react-redux";
 
 import { TooltipItem } from "./TooltipItem";
+import { chartSelectors, IState } from "../../../store";
 
 export interface ITooltipProps {
     /**
@@ -29,14 +31,16 @@ export interface ITooltipProps {
  * @return The Tooltip component
  */
 export function Tooltip({ borderColor, items, positionStyle, formatters = {} }: ITooltipProps) {
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
+
     const style = {
         border: borderColor ? `thin solid ${borderColor}` : "thin solid #ccc",
         display: "inline-block",
         ...positionStyle,
-        padding: 8,
+        padding: theme.tooltip.padding,
         maxWidth: 300,
-        background: "#fff",
-        opacity: 0.8,
+        background: theme.tooltip.background,
+        opacity: theme.tooltip.opacity,
     };
 
     if (!items || items.length === 0) {

@@ -21,6 +21,10 @@ export interface ITheme {
         shadow: boolean;
     };
     background: IColor;
+    font: {
+        family: string;
+        size: number;
+    };
     crosshair: {
         stroke: IColor;
         strokeOpacity: number;
@@ -37,4 +41,10 @@ export interface ITheme {
         selectedOpacity: number;
         colors: IColor[];
     };
+    tooltip: {
+        background: IColor;
+        text: IColor;
+        opacity: number;
+        padding: number;
+    }
 }

@@ -20,6 +20,11 @@ const light: ITheme = {
         shadow: false,
     },
 
+    font: {
+        family: "sans-serif",
+        size: 12,
+    },
+
     background: "#ffffff" as IColor,
 
     crosshair: {
@@ -33,6 +38,13 @@ const light: ITheme = {
         stroke: "#d3d3d3" as IColor,
         strokeOpacity: 0.8,
         strokeWidth: 1,
+    },
+
+    tooltip: {
+        background: "#ffffff" as IColor,
+        text: "#000000" as IColor,
+        opacity: 0.8,
+        padding: 8,
     },
 
     series: {
@@ -69,6 +81,11 @@ const dark: ITheme = {
     },
 
     background: "#333333" as IColor,
+    
+    font: {
+        family: "sans-serif",
+        size: 12,
+    },
 
     crosshair: {
         stroke: "#cccccc" as IColor,
@@ -88,6 +105,13 @@ const dark: ITheme = {
         stroke: "#555555" as IColor,
         strokeOpacity: 0.8,
         strokeWidth: 1,
+    },
+
+    tooltip: {
+        background: "#333333" as IColor,
+        text: "#ffffff" as IColor,
+        opacity: 0.8,
+        padding: 8,
     },
 
     series: {
