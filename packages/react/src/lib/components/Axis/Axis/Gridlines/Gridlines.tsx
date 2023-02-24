@@ -79,7 +79,6 @@ export function Gridlines({ layer, position, scale, tickPadding = 3, ticks, tick
 
             // Remove parts that would otherwise overlap the axis
             d3.select(layer.current).select(".domain").remove();
-            d3.select(layer.current).select(".tick").remove();
         }
     }, [position, scale, animationDuration, tickPadding]);
 
