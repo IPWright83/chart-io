@@ -266,7 +266,7 @@ importers:
 
   packages/types:
     specifiers:
-      '@d3-chart/d3': workspace:^0.1.0
+      '@d3-chart/d3': workspace:^0.2.0
       '@types/react': ^18.0.28
       '@typescript-eslint/eslint-plugin': ^5.51.0
       '@typescript-eslint/parser': ^5.51.0
