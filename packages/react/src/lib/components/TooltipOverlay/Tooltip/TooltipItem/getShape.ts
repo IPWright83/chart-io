@@ -3,7 +3,7 @@ import { Square } from "./Square";
 import { Line } from "./Line";
 
 /**
- * Retrieve the appropriate shape for the tooltip from the seriesType
+ * Retrieve the appropriate shape for the tooltip from the shape
  * @param  icon   The type of icon requested
  * @returns       The appropriate shape component to display within the tooltip
  **/

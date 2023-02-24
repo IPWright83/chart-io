@@ -33,7 +33,7 @@ export function useTooltip(dispatch: IDispatch, x: string, y: string) {
         const tooltipItemY = {
             datum,
             name: y,
-            seriesType: "scatter",
+            icon: "circle" as const,
             fill: color,
             value: datum[y],
         };

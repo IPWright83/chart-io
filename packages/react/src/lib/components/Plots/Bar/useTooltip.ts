@@ -42,7 +42,7 @@ const useTooltip = (dispatch: IDispatch, y: string) => {
             datum,
             name: x,
             value: datum[x],
-            seriesType: "bar",
+            icon: "square" as const,
             fill: colors[index],
         }));
 
