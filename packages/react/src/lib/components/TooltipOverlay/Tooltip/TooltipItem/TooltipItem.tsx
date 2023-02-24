@@ -45,13 +45,13 @@ export function TooltipItem({ name, value, icon, fill, prefix, suffix, format = 
     };
 
     return (
-        <div className="chart-it tooltip-item" style={styles.tooltipItem}>
+        <div className="d3-chart tooltip-item" style={styles.tooltipItem}>
             {Shape && <Shape fill={fill} />}
-            <div className="chart-it tooltip-values" style={styles.tooltipValues}>
-                <span className="chart-it tooltip-series-name" style={styles.tooltipSeriesName}>
+            <div className="d3-chart tooltip-values" style={styles.tooltipValues}>
+                <span className="d3-chart tooltip-series-name" style={styles.tooltipSeriesName}>
                     {name}:
                 </span>
-                <span className="chart-it tooltip-series-value">{formattedValue}</span>
+                <span className="d3-chart tooltip-series-value">{formattedValue}</span>
             </div>
         </div>
     );

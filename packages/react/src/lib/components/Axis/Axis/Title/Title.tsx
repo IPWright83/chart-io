@@ -35,7 +35,7 @@ export function Title({ position, title }: ITitleProps) {
     };
 
     return (
-        <text className={`chart-it axis-title axis-title-${position}`} transform={transform} style={style}>
+        <text className={`d3-chart axis-title axis-title-${position}`} transform={transform} style={style}>
             {title}
         </text>
     );

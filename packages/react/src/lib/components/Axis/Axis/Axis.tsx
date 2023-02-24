@@ -128,7 +128,7 @@ export function Axis({
                 {showGridlines ? (
                     <Gridlines position={position} scale={scale} ticks={ticks} tickValues={tickValues} />
                 ) : null}
-                <g className={`chart-it axis axis-${position}`} ref={axis} style={{ userSelect: "none" }} />
+                <g className={`d3-chart axis axis-${position}`} ref={axis} style={{ userSelect: "none" }} />
             </g>
         </React.Fragment>
     );

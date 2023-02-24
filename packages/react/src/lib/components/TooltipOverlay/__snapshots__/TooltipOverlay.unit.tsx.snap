@@ -10,54 +10,54 @@ exports[`TooltipOverlay should apply a custom offset correctly 1`] = `
         style="width: 100%; height: 100%; pointer-events: none;"
       >
         <div
-          class="chart-it tooltip"
+          class="d3-chart tooltip"
           style="border: thin solid #ccc; display: inline-block; padding: 8px; max-width: 300px; background: rgb(255, 255, 255); opacity: 0.8;"
         >
           <div
-            class="chart-it tooltip-item"
+            class="d3-chart tooltip-item"
             style="display: flex; flex-direction: row; width: 100%; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
           >
             <div
-              class="chart-it indicator-circle"
+              class="d3-chart indicator-circle"
               style="background: blue; width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%;"
             />
             <div
-              class="chart-it tooltip-values"
+              class="d3-chart tooltip-values"
               style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;"
             >
               <span
-                class="chart-it tooltip-series-name"
+                class="d3-chart tooltip-series-name"
                 style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
               >
                 a:
               </span>
               <span
-                class="chart-it tooltip-series-value"
+                class="d3-chart tooltip-series-value"
               >
                 3
               </span>
             </div>
           </div>
           <div
-            class="chart-it tooltip-item"
+            class="d3-chart tooltip-item"
             style="display: flex; flex-direction: row; width: 100%; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
           >
             <div
-              class="chart-it indicator-square"
+              class="d3-chart indicator-square"
               style="background: orange; height: 10px; width: 10px; margin-top: 4px; margin-right: 5px; margin-left: 5px;"
             />
             <div
-              class="chart-it tooltip-values"
+              class="d3-chart tooltip-values"
               style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;"
             >
               <span
-                class="chart-it tooltip-series-name"
+                class="d3-chart tooltip-series-name"
                 style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
               >
                 b:
               </span>
               <span
-                class="chart-it tooltip-series-value"
+                class="d3-chart tooltip-series-value"
               >
                 8
               </span>
@@ -80,54 +80,54 @@ exports[`TooltipOverlay should render correctly 1`] = `
         style="width: 100%; height: 100%; pointer-events: none;"
       >
         <div
-          class="chart-it tooltip"
+          class="d3-chart tooltip"
           style="border: thin solid #ccc; display: inline-block; padding: 8px; max-width: 300px; background: rgb(255, 255, 255); opacity: 0.8;"
         >
           <div
-            class="chart-it tooltip-item"
+            class="d3-chart tooltip-item"
             style="display: flex; flex-direction: row; width: 100%; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
           >
             <div
-              class="chart-it indicator-circle"
+              class="d3-chart indicator-circle"
               style="background: blue; width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%;"
             />
             <div
-              class="chart-it tooltip-values"
+              class="d3-chart tooltip-values"
               style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;"
             >
               <span
-                class="chart-it tooltip-series-name"
+                class="d3-chart tooltip-series-name"
                 style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
               >
                 a:
               </span>
               <span
-                class="chart-it tooltip-series-value"
+                class="d3-chart tooltip-series-value"
               >
                 3
               </span>
             </div>
           </div>
           <div
-            class="chart-it tooltip-item"
+            class="d3-chart tooltip-item"
             style="display: flex; flex-direction: row; width: 100%; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
           >
             <div
-              class="chart-it indicator-square"
+              class="d3-chart indicator-square"
               style="background: orange; height: 10px; width: 10px; margin-top: 4px; margin-right: 5px; margin-left: 5px;"
             />
             <div
-              class="chart-it tooltip-values"
+              class="d3-chart tooltip-values"
               style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;"
             >
               <span
-                class="chart-it tooltip-series-name"
+                class="d3-chart tooltip-series-name"
                 style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
               >
                 b:
               </span>
               <span
-                class="chart-it tooltip-series-value"
+                class="d3-chart tooltip-series-value"
               >
                 8
               </span>

@@ -53,5 +53,5 @@ export function EventReceiver({ layer }: IEventReceiverBaseProps) {
     const transform = `translate(${margin.left || 0}, ${margin.top || 0})`;
     const style = { fill: "none", pointerEvents: "all" as const };
 
-    return <rect className="chart-it event-receiver" transform={transform} style={style} />;
+    return <rect className="d3-chart event-receiver" transform={transform} style={style} />;
 }

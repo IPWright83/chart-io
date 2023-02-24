@@ -4,7 +4,7 @@ import { useStore } from "react-redux";
 
 import { VirtualCanvas } from "../VirtualCanvas";
 
-// import { getColumnInfos } from "@chart-it/detection";
+// import { getColumnInfos } from "@d3-chart/detection";
 import { chartActions } from "../../store";
 
 import { getChildrenWithProps } from "./getChildrenWithProps";

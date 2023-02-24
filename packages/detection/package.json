@@ -2,7 +2,7 @@
   "name": "@d3-chart/detection",
   "version": "0.4.0",
   "packageManager": "pnpm@7.26.2",
-  "description": "Provides data type detection utilities for chart-it",
+  "description": "Provides data type detection utilities for @d3-chart",
   "repository": "git@github.com:IPWright83/chart-it.git",
   "author": "\"Ian Wright\" <\"ipwright83+dev@gmail.com\">",
   "main": "src/index.ts",

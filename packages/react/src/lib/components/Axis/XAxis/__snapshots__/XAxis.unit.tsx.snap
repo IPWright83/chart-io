@@ -169,7 +169,7 @@ exports[`XAxis renders correctly 1`] = `
           </g>
         </g>
         <g
-          class="chart-it axis axis-bottom"
+          class="d3-chart axis axis-bottom"
           fill="none"
           font-family="sans-serif"
           font-size="10"

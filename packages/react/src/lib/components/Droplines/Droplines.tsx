@@ -49,7 +49,7 @@ export function Droplines({ layer, showVertical = true, showHorizontal = true }:
         // Add any new droplines
         join.enter()
             .append("line")
-            .attr("class", "chart-it dropline")
+            .attr("class", "d3-chart dropline")
             .attr("point-events", "none")
             .style("stroke-dasharray", theme.droplines.strokeDasharray)
             .style("stroke-opacity", theme.droplines.strokeOpacity)

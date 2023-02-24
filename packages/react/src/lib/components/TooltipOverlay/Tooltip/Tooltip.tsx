@@ -48,7 +48,7 @@ export function Tooltip({ borderColor, items, positionStyle, formatters = {} }: 
     }
 
     return (
-        <div className="chart-it tooltip" style={style}>
+        <div className="d3-chart tooltip" style={style}>
             {items.map((item) => {
                 /**
                  * A format is of the shape:

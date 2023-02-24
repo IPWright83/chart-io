@@ -38,7 +38,7 @@ export function Markers({ layer }: IMarkersBaseProps) {
         const enter = join
             .enter()
             .append("circle")
-            .attr("class", "chart-it marker")
+            .attr("class", "d3-chart marker")
             .attr("pointer-events", "none")
             .style("stroke", (d) => `${d.stroke ?? theme.markers.stroke}`)
             .style("stroke-width", theme.markers.strokeWidth)

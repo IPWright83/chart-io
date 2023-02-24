@@ -3,7 +3,7 @@
   "private": false,
   "version": "0.15.0",
   "packageManager": "pnpm@7.26.2",
-  "description": "chart-it is a react-d3 charting library",
+  "description": "@d3-chart is a react-d3 charting library",
   "repository": "git@github.com:IPWright83/chart-it.git",
   "author": "\"Ian Wright\" <\"ipwright83+dev@gmail.com\">",
   "main": "dist/index.umd.js",

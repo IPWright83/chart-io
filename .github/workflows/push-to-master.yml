@@ -145,9 +145,6 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - name: pnpm Install
         run: pnpm install
-      - name: Debugging
-        run: |
-          ls packages/react/node_modules/@chart-it
       - name: Deploy
         run: pnpm storybook:deploy
         env:

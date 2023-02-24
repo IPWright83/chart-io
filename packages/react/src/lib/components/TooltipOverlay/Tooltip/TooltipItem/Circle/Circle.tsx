@@ -19,5 +19,5 @@ export function Circle({ fill }: ICircleProps) {
         borderRadius: "50%",
     };
 
-    return <div className="chart-it indicator-circle" style={style} />;
+    return <div className="d3-chart indicator-circle" style={style} />;
 }
