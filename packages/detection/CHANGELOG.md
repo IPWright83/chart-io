@@ -1,5 +1,13 @@
 # @chart-it/detection
 
+## 0.6.3
+
+### Patch Changes
+
+- Updated dependencies [f0231e1]
+  - @d3-chart/d3@0.6.0
+  - @d3-chart/types@0.6.3
+
 ## 0.6.2
 
 ### Patch Changes
