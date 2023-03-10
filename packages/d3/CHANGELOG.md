@@ -1,5 +1,11 @@
 # @d3-chart/d3
 
+## 0.5.0
+
+### Minor Changes
+
+-   ce6284f: Test
+
 ## 0.4.0
 
 ### Minor Changes
