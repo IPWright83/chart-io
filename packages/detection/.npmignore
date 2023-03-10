@@ -1,0 +1,42 @@
+*.mdx
+
+# Changesets
+.github
+.changeset
+
+# Storybook
+storybook
+stories
+storybook-static
+.cache
+.storybook
+*.stories.tsx
+*.stories.jsx
+
+# Turborepo
+turbo.json
+.turbo
+
+# Project
+docs
+demos
+scripts
+vite.config.js
+.eslintrc.js
+babel.config.js
+tsconfig.json
+.env
+
+# Tests
+**/data/*.js
+testUtils
+setupTests.js
+*.unit.js
+*.unit.jsx
+*.unit.ts
+*.unit.tsx
+__snapshots__
+__image_snapshots__
+jest
+jest.config.js
+**/coverage
