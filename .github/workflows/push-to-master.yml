@@ -38,9 +38,9 @@ jobs:
     needs: [unit]
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, 'ci skip')"
-    outputs:
-      published: ${{ steps.release.published }}
-      hasChangesets: ${{ steps.release.hasChangesets }}
+    # outputs:
+    #   published: ${{ steps.release.published }}
+    #   hasChangesets: ${{ steps.release.hasChangesets }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -122,22 +122,14 @@ jobs:
 
   debug_changesets:
     needs: changesets_version
-    if: "needs.changesets_version.outputs.hasChangesets == false"
+    # if: "needs.changesets_version.outputs.hasChangesets == false"
     runs-on: ubuntu-latest
     steps:
       - name: Log
         run: echo "debug_changesets running"
-      - run: echo ${{ needs.changesets_version.outputs.hasChangesets }}
-      - run: echo ${{ needs.changesets_version.outputs.changes }}
-
-  debug_publish:
-    needs: changesets_version
-    if: "needs.changesets_version.outputs.published"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Log
-        run: echo "debug_publish running"
-      - run: echo ${{ needs.changesets_version.outputs.published }}
+      - run: echo ${{ needs.changesets_version.steps.release.outputs.hasChangesets }}
+      - run: echo ${{ needs.changesets_version.steps.release.outputs.changes }}
+      - run: echo ${{ needs.changesets_version.steps.release.outputs.published }}
 
   deploy_storybook:
     needs: changesets_version
