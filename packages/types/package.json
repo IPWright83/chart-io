@@ -1,6 +1,6 @@
 {
   "name": "@d3-chart/types",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "packageManager": "pnpm@7.26.2",
   "description": "Provides core type definitions for d3-chart packages",
   "repository": "git@github.com:IPWright83/chart-it.git",
