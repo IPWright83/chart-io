@@ -1,5 +1,12 @@
 # @d3-chart/types
 
+## 0.6.1
+
+### Patch Changes
+
+- Updated dependencies [6f8b2af]
+  - @d3-chart/d3@0.4.0
+
 ## 0.6.0
 
 ### Minor Changes
