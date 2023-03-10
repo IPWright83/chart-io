@@ -1,8 +1,11 @@
 export * from "./IColor";
+export * from "./IColorLegendItem";
 export * from "./ICoordinate";
 export * from "./IData";
 export * from "./IDropline";
 export * from "./IEventPlotProps";
+export * from "./IFormatter";
+export * from "./ILegendItem";
 export * from "./IMargin";
 export * from "./IMarker";
 export * from "./IMouseEvents";
@@ -15,4 +18,3 @@ export * from "./IScaleType";
 export * from "./ITheme";
 export * from "./ITooltipItem";
 export * from "./IValue";
-export * from "./IFormatter";
