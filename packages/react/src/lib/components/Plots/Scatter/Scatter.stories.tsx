@@ -152,5 +152,5 @@ ProgresssiveRendering.args = {
     width: 400,
 };
 ProgresssiveRendering.parameters = {
-    chromatic: { delay: 3000 },
+    chromatic: { disableSnapshot: true },
 };
