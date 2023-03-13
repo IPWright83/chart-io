@@ -9,34 +9,30 @@ on:
 jobs:
   unit:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
     steps:
-      - run: echo "skipping"
-  # unit:
-  #   runs-on: ubuntu-latest
-  #   if: "!contains(github.event.head_commit.message, 'ci skip')"
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 16
-  #     - uses: pnpm/action-setup@v2.2.2
-  #       with:
-  #         run_install: false
-  #     - name: Get pnpm store directory
-  #       id: pnpm-cache
-  #       run: |
-  #         echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-  #     - uses: actions/cache@v3
-  #       name: Setup pnpm cache
-  #       with:
-  #         path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-  #         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-pnpm-store-
-  #     - name: pnpm Install
-  #       run: pnpm install
-  #     - name: Run Unit Tests
-  #       run: pnpm test
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      - name: pnpm Install
+        run: pnpm install
+      - name: Run Unit Tests
+        run: pnpm test
 
   changesets_version:
     needs: [unit]
@@ -44,8 +40,6 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'ci skip')"
     outputs:
       published: ${{ steps.release.published }}
-      published2: ${{ steps.foo.published }}
-    #   hasChangesets: ${{ steps.release.hasChangesets }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -87,7 +81,7 @@ jobs:
 
   deploy_storybook:
     needs: changesets_version
-    if: "needs.changesets_version.outputs.hasChangesets == false"
+    if: needs.changesets_version.outputs.published == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -117,7 +111,7 @@ jobs:
 
   update_chromatic_baseline:
     needs: changesets_version
-    if: "needs.changesets_version.outputs.hasChangesets == false"
+    if: needs.changesets_version.outputs.published == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
