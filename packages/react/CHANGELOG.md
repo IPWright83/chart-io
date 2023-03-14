@@ -1,5 +1,11 @@
 # @chart-it/react-d3
 
+## 0.21.0
+
+### Minor Changes
+
+- 17c4895: Test
+
 ## 0.20.0
 
 ### Minor Changes
