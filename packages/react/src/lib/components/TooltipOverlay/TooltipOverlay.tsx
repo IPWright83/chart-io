@@ -1,4 +1,4 @@
-import type { IFormatter } from "@d3-chart/types";
+import type { ITooltipFormatter } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -15,7 +15,7 @@ export interface ITooltipOverlayProps {
     /**
      * A set of custom formatters for the Tooltip
      */
-    formatters?: Record<string, IFormatter>;
+    formatters?: Record<string, ITooltipFormatter>;
 }
 
 /**
