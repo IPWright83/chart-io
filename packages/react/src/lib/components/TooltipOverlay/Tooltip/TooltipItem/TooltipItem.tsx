@@ -2,7 +2,7 @@ import type { ITooltipItem, IFormatter } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { getShape } from "./getShape";
+import { getShape } from "../../../Shapes";
 import { formatValue } from "../../../../utils";
 import { chartSelectors, IState } from "../../../../store";
 
