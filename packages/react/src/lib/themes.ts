@@ -47,6 +47,14 @@ const light: ITheme = {
         padding: 8,
     },
 
+    legend: {
+        background: "#ffffff" as IColor,
+        text: "#000000" as IColor,
+        opacity: 1,
+        padding: 8,
+        border: "#ccc",
+    },
+
     series: {
         opacity: 0.7,
         selectedOpacity: 1,
@@ -81,7 +89,7 @@ const dark: ITheme = {
     },
 
     background: "#333333" as IColor,
-    
+
     font: {
         family: "sans-serif",
         size: 12,
@@ -112,6 +120,14 @@ const dark: ITheme = {
         text: "#ffffff" as IColor,
         opacity: 0.8,
         padding: 8,
+    },
+
+    legend: {
+        background: "#333333" as IColor,
+        text: "#ffffff" as IColor,
+        opacity: 1,
+        padding: 8,
+        border: "#ccc",
     },
 
     series: {

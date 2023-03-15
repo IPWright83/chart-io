@@ -46,5 +46,12 @@ export interface ITheme {
         text: IColor;
         opacity: number;
         padding: number;
-    }
+    };
+    legend: {
+        background: IColor;
+        text: IColor;
+        opacity: number;
+        border: IColor;
+        padding: number;
+    };
 }
