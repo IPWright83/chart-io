@@ -1,4 +1,4 @@
-import type { ILegendItem } from "@d3-chart/types";
+import type { ILegendItem, ILegendFormatter } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -6,12 +6,7 @@ import { getShape } from "../../../Shapes";
 import { chartSelectors, IState } from "../../../../store";
 
 export interface ILegendItemProps extends ILegendItem {
-    /**
-     * A completely custom format function, useful for translating to human friendly strings
-     * @param name    The key of the series value being formatted
-     * @param value   The value to format
-     */
-    format?: (name: string) => string;
+    format: ILegendFormatter;
 }
 
 /**
