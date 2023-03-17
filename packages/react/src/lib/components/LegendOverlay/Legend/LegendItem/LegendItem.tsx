@@ -6,7 +6,7 @@ import { getShape } from "../../../Shapes";
 import { chartSelectors, IState } from "../../../../store";
 
 export interface ILegendItemProps extends ILegendItem {
-    format: ILegendFormatter;
+    format?: ILegendFormatter;
 }
 
 /**
@@ -37,7 +37,6 @@ export function LegendItem({ name, icon, fill, format = (name) => name }: ILegen
         },
         legendSeriesName: {
             marginRight: 15,
-            maxWidth: 215,
             whiteSpace: "nowrap" as const,
             overflow: "hidden" as const,
             textOverflow: "ellipsis" as const,

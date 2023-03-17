@@ -28,13 +28,12 @@ export interface ILegendProps {
  */
 export function Legend({ items, positionStyle, formatters = {} }: ILegendProps) {
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
-
+    console.log(positionStyle);
     const style = {
         border: `thin solid ${theme.legend.border}`,
         display: "inline-block",
         ...positionStyle,
         padding: theme.legend.padding,
-        maxWidth: 300,
         background: theme.legend.background.toString(),
         opacity: theme.legend.opacity,
     };

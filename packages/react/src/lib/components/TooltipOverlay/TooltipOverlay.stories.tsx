@@ -32,7 +32,7 @@ const TooltipOverlayTemplate = (args) => {
                 items: [
                     {
                         name: "Line Series with a very long title that should be truncated at some point",
-                        icon: "square",
+                        icon: "line",
                         fill: "steelblue",
                         value: 155000,
                     },
@@ -50,7 +50,7 @@ const TooltipOverlayTemplate = (args) => {
     return (
         <Provider store={store}>
             <svg width="400px">
-                <TooltipOverlay items={args.items} borderColor={args.borderColor} />
+                <TooltipOverlay borderColor={args.borderColor} />
             </svg>
         </Provider>
     );

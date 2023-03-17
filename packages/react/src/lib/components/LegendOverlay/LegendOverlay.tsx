@@ -1,31 +1,59 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import type { ILegendFormatter } from "@d3-chart/types";
 
+import { Legend } from "./Legend";
+import { getLegendPosition } from "./getLegendPosition";
+import { getLegendMaxDimensions } from "./getLegendMaxDimensions";
 import { chartSelectors, IState } from "../../store";
 
-const Legend = () => {
+export interface ILegendOverlayProps {
+    /**
+     * The horizontal position of the legend
+     */
+    horizontalPosition?: "LEFT" | "RIGHT";
+    /**
+     * The vertical position of the legend
+     */
+    verticalPosition?: "TOP" | "BOTTOM";
+    /**
+     * A set of custom formatters for the Legend
+     */
+    formatters?: Record<string, ILegendFormatter>;
+}
+
+export function LegendOverlay({ verticalPosition, horizontalPosition = "LEFT", formatters = {} }: ILegendOverlayProps) {
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const items = useSelector((s: IState) => chartSelectors.legend.items(s));
+    const showLegend = useSelector((s: IState) => chartSelectors.legend.isVisible(s));
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
 
-    // Only needed if xs or ys defined
-    // chartReducer #29 - need to group scales together
-    // so they can be retrieved from the selectors as a group
-    // and determine which is the "series" fields if there are multiple series
+    if (!showLegend) {
+        return null;
+    }
+
+    const positionStyle = {
+        ...getLegendPosition(horizontalPosition, verticalPosition),
+        ...getLegendMaxDimensions(
+            horizontalPosition,
+            verticalPosition,
+            width,
+            height,
+            theme.legend.defaultMaxWidth,
+            theme.legend.defaultMaxHeight
+        ),
+    };
+
+    const style = {
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none" as const,
+    };
 
     return (
-        <foreignObject width={width} height={height} style={styles.foreignObject}>
-            <div>test</div>
+        <foreignObject width={width} height={height} style={style}>
+            <Legend items={items} positionStyle={positionStyle} formatters={formatters} />
         </foreignObject>
     );
-};
-
-const styles = {
-    canvas: {
-        position: "absolute" as const,
-    },
-    foreignObject: {
-        pointerEvents: "none" as const,
-    },
-};
-
-export { Legend };
+}

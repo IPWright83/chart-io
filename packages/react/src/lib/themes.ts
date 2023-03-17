@@ -53,6 +53,8 @@ const light: ITheme = {
         opacity: 1,
         padding: 8,
         border: "#ccc",
+        defaultMaxWidth: 200,
+        defaultMaxHeight: 50,
     },
 
     series: {
@@ -128,6 +130,8 @@ const dark: ITheme = {
         opacity: 1,
         padding: 8,
         border: "#ccc",
+        defaultMaxWidth: 200,
+        defaultMaxHeight: 50,
     },
 
     series: {
