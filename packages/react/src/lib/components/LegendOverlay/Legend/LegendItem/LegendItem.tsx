@@ -34,12 +34,16 @@ export function LegendItem({ name, icon, fill, format = (name) => name }: ILegen
             flexDirection: "row" as const,
             justifyContent: "space-between" as const,
             width: "100%",
+            flexGrow: 1,
+            flexShrink: 1,
         },
         legendSeriesName: {
             marginRight: 15,
             whiteSpace: "nowrap" as const,
             overflow: "hidden" as const,
             textOverflow: "ellipsis" as const,
+            flexGrow: 1,
+            flexShrink: 1,
         },
     };
 

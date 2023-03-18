@@ -33,6 +33,10 @@ export function LegendOverlay({ verticalPosition, horizontalPosition = "LEFT", f
         return null;
     }
 
+    // TODO: Icon is missing when docked on top and text is truncated
+    // TODO: Content overflows when docked top/bottom
+    // TODO: Would be better if series display horizontally and then wrap when docked top/bottom
+
     const positionStyle = {
         ...getLegendPosition(horizontalPosition, verticalPosition),
         ...getLegendMaxDimensions(

@@ -34,6 +34,8 @@ export function TooltipItem({ name, value, icon, fill, prefix, suffix, format = 
             flexDirection: "row" as const,
             justifyContent: "space-between" as const,
             width: "100%",
+            flexGrow: 1,
+            flexShrink: 1,
         },
         tooltipSeriesName: {
             marginRight: 15,
@@ -41,6 +43,8 @@ export function TooltipItem({ name, value, icon, fill, prefix, suffix, format = 
             whiteSpace: "nowrap" as const,
             overflow: "hidden" as const,
             textOverflow: "ellipsis" as const,
+            flexGrow: 1,
+            flexShrink: 1,
         },
     };
 
