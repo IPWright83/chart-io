@@ -49,6 +49,37 @@ describe("chartReducer", () => {
         });
     });
 
+    it("CHART.SET_DIMENSIONS action skips if identical", () => {
+        const previousLocalState = {
+            ...previousState,
+            dimensions: {
+                width: 900,
+                height: 400,
+                margin: { top: 5, left: 5, right: 5, bottom: 5 },
+            },
+        };
+
+        const action = {
+            type: "CHART.SET_DIMENSIONS",
+            payload: {
+                width: 900,
+                height: 400,
+                margin: { top: 5, left: 5, right: 5, bottom: 5 },
+            },
+        } as SetDimensionAction;
+
+        expect(chartReducer(previousLocalState, action)).toEqual({
+            ...previousState,
+            dimensions: {
+                width: 900,
+                height: 400,
+                margin: { top: 5, left: 5, right: 5, bottom: 5 },
+            },
+            data: previousState.data,
+            scales: previousState.scales,
+        });
+    });
+
     it("CHART.SET_DATA action", () => {
         const action = {
             type: "CHART.SET_DATA",

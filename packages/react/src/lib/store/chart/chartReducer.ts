@@ -17,7 +17,9 @@ export const defaultChartState = {
     },
     scales: {},
     axisScales: {},
-    legend: {},
+    legend: {
+        items: [],
+    },
 };
 
 /**

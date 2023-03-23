@@ -19,6 +19,7 @@ const getD3Axis = (position: IPosition, scale: IScale): Axis<AxisDomain> => {
         case "bottom":
             return d3.axisBottom(scale as AxisScale<AxisDomain>);
         default:
+            // istanbul ignore next
             throw new Error(`Invalid position ${position}`);
     }
 };

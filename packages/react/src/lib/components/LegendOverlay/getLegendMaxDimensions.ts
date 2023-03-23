@@ -11,8 +11,8 @@ import { LEGEND_MARGIN } from "./getLegendPosition";
  * @returns                      A style object with the max width/height information
  */
 export function getLegendMaxDimensions(
-    horizontalPosition: "LEFT" | "RIGHT",
-    verticalPosition: "TOP" | "BOTTOM",
+    horizontalPosition: "LEFT" | "RIGHT" | undefined,
+    verticalPosition: "TOP" | "BOTTOM" | undefined,
     width: number,
     height: number,
     defaultMaxWidth: number,
@@ -25,7 +25,7 @@ export function getLegendMaxDimensions(
     switch (horizontalPosition) {
         case "RIGHT": 
         case "LEFT":
-                maxHeight = height - (42 * LEGEND_MARGIN); 
+                maxHeight = height - (4 * LEGEND_MARGIN); 
                 break;
         default: 
 

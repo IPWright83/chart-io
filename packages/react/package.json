@@ -12,6 +12,7 @@
   "homepage": "http://localhost:6006/?path=/story/introduction--page",
   "scripts": {
     "test": "jest --config jest.config.js",
+    "test:coverage": "jest --config jest.config.js --coverage",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "lint": "eslint src",
     "dev": "vite build --watch",

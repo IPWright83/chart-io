@@ -15,5 +15,6 @@ Axis.getD3Axis = getD3Axis;
 // @ts-expect-error: Extending the interface on purpose
 Axis.getTransform = getTransform;
 
+// istanbul ignore next
 export { Axis, Gridlines, Title };
 export type { IAxisProps };

@@ -53,7 +53,7 @@ const LegendOverlayTemplate = (args) => {
 
     return (
         <Provider store={store}>
-            <svg width="800px" height="400px" style={{ background: "#CCC" }}>
+            <svg width="1600px" height="400px" style={{ background: "#CCC" }}>
                 <LegendOverlay
                     verticalPosition={args.verticalPosition}
                     horizontalPosition={args.horizontalPosition}

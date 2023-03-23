@@ -5,5 +5,6 @@ export interface IChartProps extends IChartBaseProps, IWithStoreProps {}
 
 const Chart = withStore<IChartProps>(ChartBase);
 
+// istanbul ignore next
 export { Chart, ChartBase };
 export type { IChartBaseProps };

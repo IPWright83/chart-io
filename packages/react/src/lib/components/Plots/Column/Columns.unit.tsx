@@ -21,6 +21,36 @@ describe("Columns", () => {
     };
 
     describe("Stacked", () => {
+        describe("throws error", () => {
+            beforeEach(() => {
+                jest.spyOn(console, "error").mockImplementation(() => jest.fn());
+            });
+
+            afterEach(() => {
+                jest.clearAllMocks();
+            });
+
+            it("when neither stacked nor grouped", async () => {
+                await expect(
+                    renderChart({
+                        children: <Columns x="x" ys={["y", "y2"]} />,
+                        data,
+                        scales,
+                    })
+                ).rejects.toThrow("Multiple column plots must be either stacked or grouped");
+            });
+
+            it("when stacked and grouped", async () => {
+                await expect(
+                    renderChart({
+                        children: <Columns x="x" ys={["y", "y2"]} stacked grouped />,
+                        data,
+                        scales,
+                    })
+                ).rejects.toThrow("Column plots currently do not support both being stacked and grouped");
+            });
+        });
+
         describe("using SVG", () => {
             it("should render correctly", async () => {
                 const { asFragment } = await renderChart({
