@@ -1,6 +1,7 @@
-import React from "react";
+import { fireEvent, render } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { render, fireEvent } from "@testing-library/react";
+import React from "react";
+
 import { createMockStore, FakeMouseEvent, wait } from "../../testUtils";
 import { MOUSE_MOVE_THROTTLE } from "../../constants";
 

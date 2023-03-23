@@ -1,10 +1,10 @@
 import * as d3 from "@d3-chart/d3";
+import { useSelector, useStore } from "react-redux";
 import type { IPlotProps } from "@d3-chart/types";
-import { useStore, useSelector } from "react-redux";
 
-import { useRender } from "../../../../hooks";
 import { chartSelectors, eventSelectors, IState } from "../../../../store";
 import { interpolateMultiPath, isNullOrUndefined } from "../../../../utils";
+import { useRender } from "../../../../hooks";
 
 import { useDatumFocus } from "./useDatumFocus";
 import { usePathCreator } from "./usePathCreator";

@@ -1,6 +1,6 @@
-import type { IMargin, ITheme, IData, IScale } from "@d3-chart/types";
+import type { IData, IMargin, IScale, ITheme } from "@d3-chart/types";
 
-import type { SetDimensionAction, SetAnimationDurationAction, SetDataAction } from "./types";
+import type { SetAnimationDurationAction, SetDataAction, SetDimensionAction } from "./types";
 
 import { themes } from "../../themes";
 

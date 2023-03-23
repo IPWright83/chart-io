@@ -1,8 +1,9 @@
 import type { IData } from "@d3-chart/types";
-import { getDataType } from "../getTypes";
+
 import { getDataCardinality } from "./getDataCardinality";
 import { getDataPointCount } from "./getDataPointCount";
 import { getDataSample } from "./getDataSample";
+import { getDataType } from "../getTypes";
 import { getNullCount } from "./getNullCount";
 import { getTypeSpecificColumnInfo } from "./getTypeSpecificColumnInfo";
 import type { IColumnInfo } from "../types";

@@ -1,5 +1,5 @@
-import { IDatum, IColor, IMouseEvent } from "@d3-chart/types";
-import { useState, useEffect } from "react";
+import { IColor, IDatum, IMouseEvent } from "@d3-chart/types";
+import { useEffect, useState } from "react";
 
 import { eventActions, IDispatch } from "../../../store";
 

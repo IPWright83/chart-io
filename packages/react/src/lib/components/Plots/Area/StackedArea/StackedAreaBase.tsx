@@ -1,16 +1,15 @@
 import * as d3 from "@d3-chart/d3";
-import type { IEventPlotProps, IColor } from "@d3-chart/types";
-
+import type { IColor, IEventPlotProps } from "@d3-chart/types";
+import { useSelector, useStore } from "react-redux";
 import { interpolatePath } from "d3-interpolate-path";
-import { useStore, useSelector } from "react-redux";
 
-import { useRender } from "../../../../hooks";
 import { chartSelectors, eventSelectors, IState } from "../../../../store";
 import { ensureNoScaleOverflow } from "../../../../utils";
+import { useRender } from "../../../../hooks";
 
 import { useDatumFocus } from "./useDatumFocus";
-import { useTooltip } from "./useTooltip";
 import { useMultiPathCreator } from "./useMultiPathCreator";
+import { useTooltip } from "./useTooltip";
 
 export interface IStackedAreaBaseProps extends Omit<IEventPlotProps, "y"> {
     /**

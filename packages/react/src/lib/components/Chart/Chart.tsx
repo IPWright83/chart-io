@@ -1,4 +1,4 @@
-import type { IMargin, IData, IOnMouseOver, IOnMouseOut, IOnClick, ITheme } from "@d3-chart/types";
+import type { IData, IMargin, IOnClick, IOnMouseOut, IOnMouseOver, ITheme } from "@d3-chart/types";
 import React, { useEffect } from "react";
 import { useStore } from "react-redux";
 

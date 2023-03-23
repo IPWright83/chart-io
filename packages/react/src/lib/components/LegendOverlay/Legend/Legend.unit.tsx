@@ -1,6 +1,6 @@
 import type { IColor } from "@d3-chart/types";
-import React from "react";
 import { Provider } from "react-redux";
+import React from "react";
 import { render } from "@testing-library/react";
 
 import { createMockStore } from "../../../testUtils";

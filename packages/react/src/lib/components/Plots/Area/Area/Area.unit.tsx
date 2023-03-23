@@ -1,16 +1,16 @@
-import { scaleLinear } from "d3-scale";
-import React from "react";
+import * as d3 from "@d3-chart/d3";
+import { act, render } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { render, act } from "@testing-library/react";
+import React from "react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
-import { VirtualCanvas, VIRTUAL_CANVAS_DEBOUNCE } from "../../../VirtualCanvas";
+import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
 import { Area } from "./Area";
 import { createStore } from "../../../../store";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { getBuffer, wait, renderChart } from "../../../../testUtils";
+import { getBuffer, renderChart, wait } from "../../../../testUtils";
 
 describe("Area", () => {
     const data = [
@@ -21,8 +21,8 @@ describe("Area", () => {
     ];
 
     const scales = {
-        y: scaleLinear().domain([0, 20]).range([100, 0]),
-        x: scaleLinear().domain([0, 5]).range([0, 100]),
+        y: d3.scaleLinear().domain([0, 20]).range([100, 0]),
+        x: d3.scaleLinear().domain([0, 5]).range([0, 100]),
     };
 
     describe("using SVG", () => {

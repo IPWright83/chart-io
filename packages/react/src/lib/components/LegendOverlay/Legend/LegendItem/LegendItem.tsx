@@ -1,9 +1,9 @@
-import type { ILegendItem, ILegendFormatter } from "@d3-chart/types";
+import type { ILegendFormatter, ILegendItem } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { getShape } from "../../../Shapes";
 import { chartSelectors, IState } from "../../../../store";
+import { getShape } from "../../../Shapes";
 
 export interface ILegendItemProps extends ILegendItem {
     format?: ILegendFormatter;

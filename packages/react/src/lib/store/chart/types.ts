@@ -1,4 +1,4 @@
-import type { IMargin, ITheme, IData, IScale } from "@d3-chart/types";
+import type { IData, IMargin, IScale, ITheme } from "@d3-chart/types";
 
 export interface SetDimensionAction {
   type: "CHART.SET_DIMENSIONS";

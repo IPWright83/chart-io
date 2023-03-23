@@ -2,8 +2,8 @@ import type { ITooltipFormatter, ITooltipItem } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { TooltipItem } from "./TooltipItem";
 import { chartSelectors, IState } from "../../../store";
+import { TooltipItem } from "./TooltipItem";
 
 export interface ITooltipProps {
     /**

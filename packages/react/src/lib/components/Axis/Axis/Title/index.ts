@@ -1,4 +1,4 @@
-import { Title, ITitleProps } from "./Title";
+import { ITitleProps, Title } from "./Title";
 
 import { getTransform } from "./getTransform";
 

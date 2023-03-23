@@ -1,6 +1,6 @@
-import type { IData, IMargin, ITheme, IScale, ILegendItem } from "@d3-chart/types";
+import type { IData, ILegendItem, IMargin, IScale, ITheme } from "@d3-chart/types";
 
-import type { IState, IChartState, IChartStateDimensions, IChartStateScales, IChartStateLegend } from "../types";
+import type { IChartState, IChartStateDimensions, IChartStateLegend, IChartStateScales, IState } from "../types";
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
 
 const EMPTY_ARRAY = [];

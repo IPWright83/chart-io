@@ -1,11 +1,11 @@
+import type { ILegendFormatter } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
-import type { ILegendFormatter } from "@d3-chart/types";
 
-import { Legend } from "./Legend";
-import { getLegendPosition } from "./getLegendPosition";
-import { getLegendMaxDimensions } from "./getLegendMaxDimensions";
 import { chartSelectors, IState } from "../../store";
+import { getLegendMaxDimensions } from "./getLegendMaxDimensions";
+import { getLegendPosition } from "./getLegendPosition";
+import { Legend } from "./Legend";
 
 export interface ILegendOverlayProps {
     /**
@@ -33,8 +33,6 @@ export function LegendOverlay({ verticalPosition, horizontalPosition = "LEFT", f
         return null;
     }
 
-    // TODO: Icon is missing when docked on top and text is truncated
-    // TODO: Content overflows when docked top/bottom
     // TODO: Would be better if series display horizontally and then wrap when docked top/bottom
 
     const positionStyle = {

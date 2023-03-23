@@ -1,4 +1,5 @@
 import type { ITheme } from "@d3-chart/types";
+
 import { themes } from "../../themes";
 
 /**

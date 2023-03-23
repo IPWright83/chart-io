@@ -1,5 +1,5 @@
-import type { IValue } from "./IValue";
 import type { IColor } from "./IColor";
+import type { IValue } from "./IValue";
 
 /**
  * Used to represent an item in a tooltip

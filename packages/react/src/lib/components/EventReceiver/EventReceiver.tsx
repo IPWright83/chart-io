@@ -1,7 +1,7 @@
 import * as d3 from "@d3-chart/d3";
-import { throttle } from "lodash";
 import React, { useEffect } from "react";
-import { useStore, useSelector } from "react-redux";
+import { useSelector, useStore } from "react-redux";
+import { throttle } from "lodash";
 
 import { chartSelectors, eventActions, IState } from "../../store";
 import { MOUSE_MOVE_THROTTLE } from "../../constants";

@@ -1,12 +1,12 @@
 import * as d3 from "@d3-chart/d3";
-import type { AxisScale, AxisDomain } from "@d3-chart/d3";
+import type { AxisDomain, AxisScale } from "@d3-chart/d3";
 import type { IPosition, IScale } from "@d3-chart/types";
 
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
-import { getTickSize } from "./getTickSize";
 import { getD3Axis } from "../getD3Axis";
+import { getTickSize } from "./getTickSize";
 
 import { chartSelectors, IState } from "../../../../store";
 

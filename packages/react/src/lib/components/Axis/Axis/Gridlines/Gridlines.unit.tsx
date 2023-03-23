@@ -1,13 +1,13 @@
 import * as d3 from "@d3-chart/d3";
-import React from "react";
 import { Provider } from "react-redux";
-import { themes } from "../../../../themes";
-import { createMockStore } from "../../../../testUtils";
-
+import React from "react";
 import { render } from "@testing-library/react";
 
-import { Gridlines } from ".";
+import { createMockStore } from "../../../../testUtils";
+import { themes } from "../../../../themes";
+
 import { getTickSize } from "./getTickSize";
+import { Gridlines } from ".";
 
 describe("Gridlines", () => {
     const width = 1000;

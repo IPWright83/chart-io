@@ -1,5 +1,5 @@
-import { withSVG } from "../../../../hoc";
 import { HorizontalBand as HorizontalBandBase, IHorizontalBandProps } from "./HorizontalBand";
+import { withSVG } from "../../../../hoc";
 
 export const HorizontalBand = withSVG(HorizontalBandBase, "horizontal-band");
 

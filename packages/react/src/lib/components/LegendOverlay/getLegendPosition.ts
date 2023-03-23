@@ -6,7 +6,7 @@ export const LEGEND_MARGIN = 10;
  * @param verticalPosition       The vertical position of the legend
  * @returns                      A style object with positional information
  */
-export function getLegendPosition(horizontalPosition: "LEFT" | "RIGHT", verticalPosition: "TOP" | "BOTTOM") {
+export function getLegendPosition(horizontalPosition?: "LEFT" | "RIGHT", verticalPosition?: "TOP" | "BOTTOM") {
     let left: number = null;
     let right: number = null;
     let bottom: number = null;

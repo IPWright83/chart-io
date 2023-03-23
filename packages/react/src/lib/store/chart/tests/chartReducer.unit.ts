@@ -2,13 +2,13 @@ import * as d3 from "@d3-chart/d3";
 
 import { themes } from "../../../themes";
 
-import { defaultChartState, chartReducer } from "../chartReducer";
+import { chartReducer, defaultChartState } from "../chartReducer";
 
 import type {
-    SetDimensionAction,
-    SetDataAction,
-    SetScaleAction,
     SetAnimationDurationAction,
+    SetDataAction,
+    SetDimensionAction,
+    SetScaleAction,
     SetThemeAction,
 } from "../types";
 

@@ -1,16 +1,16 @@
 import * as d3 from "@d3-chart/d3";
-import React from "react";
+import { act, render } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { render, act } from "@testing-library/react";
+import React from "react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
-import { VirtualCanvas, VIRTUAL_CANVAS_DEBOUNCE } from "../../../VirtualCanvas";
-import { Line } from "./Line";
+import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
 import { createStore } from "../../../../store";
+import { Line } from "./Line";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { getBuffer, wait, renderChart } from "../../../../testUtils";
+import { getBuffer, renderChart, wait } from "../../../../testUtils";
 
 describe("Line", () => {
     const data = [

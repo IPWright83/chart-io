@@ -1,5 +1,5 @@
 import * as d3 from "@d3-chart/d3";
-import type { Axis, AxisScale, AxisDomain } from "@d3-chart/d3";
+import type { Axis, AxisDomain, AxisScale } from "@d3-chart/d3";
 import type { IPosition, IScale } from "@d3-chart/types";
 
 /**

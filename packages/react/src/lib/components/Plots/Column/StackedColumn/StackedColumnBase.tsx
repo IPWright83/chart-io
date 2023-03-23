@@ -1,17 +1,17 @@
 import * as d3 from "@d3-chart/d3";
-import type { Transition } from "@d3-chart/d3";
-import type { IEventPlotProps, IColor, IDatum } from "@d3-chart/types";
+import type { IColor, IDatum, IEventPlotProps } from "@d3-chart/types";
 import { useEffect, useState } from "react";
-import { useStore, useSelector } from "react-redux";
+import { useSelector, useStore } from "react-redux";
+import type { Transition } from "@d3-chart/d3";
 
-import { useRender } from "../../../../hooks";
 import { chartSelectors, eventActions, IState } from "../../../../store";
 import { ensureBandScale, ensureNoScaleOverflow, ensureValuesAreUnique } from "../../../../utils";
+import { useRender } from "../../../../hooks";
 
-import { renderCanvas } from "../../renderCanvas";
 import { getDropline } from "../getDropline";
-import { useTooltip } from "../useTooltip";
 import { getParentKey } from "./getParentKey";
+import { renderCanvas } from "../../renderCanvas";
+import { useTooltip } from "../useTooltip";
 
 export interface IStackedColumnBaseProps extends Omit<IEventPlotProps, "y"> {
     /**

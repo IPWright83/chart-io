@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { chartSelectors, IState } from "../../../../store";
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
-import { StackedColumnBase, IStackedColumnBaseProps } from "./StackedColumnBase";
+import { IStackedColumnBaseProps, StackedColumnBase } from "./StackedColumnBase";
 
 export interface IStackedColumnProps extends Omit<IStackedColumnBaseProps, "interactive" | "layer"> {
     /**

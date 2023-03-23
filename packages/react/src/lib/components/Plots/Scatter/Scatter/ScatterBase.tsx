@@ -1,14 +1,14 @@
 import * as d3 from "@d3-chart/d3";
+import { IColor, IDatum, IEventPlotProps, INumericValue } from "@d3-chart/types";
 import type { Selection, Transition } from "@d3-chart/d3";
-import { IEventPlotProps, IColor, INumericValue, IDatum } from "@d3-chart/types";
+import { useSelector, useStore } from "react-redux";
 import { useEffect } from "react";
-import { useStore, useSelector } from "react-redux";
 
 import { useFocused } from "./useFocused";
 import { useTooltip } from "./useTooltip";
 
-import { renderCanvas } from "../../renderCanvas";
 import { chartSelectors, IState } from "../../../../store";
+import { renderCanvas } from "../../renderCanvas";
 
 export interface IScatterBaseProps extends IEventPlotProps {
     /**

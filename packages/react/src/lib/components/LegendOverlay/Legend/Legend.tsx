@@ -2,8 +2,8 @@ import type { ILegendFormatter, ILegendItem } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { LegendItem } from "./LegendItem";
 import { chartSelectors, IState } from "../../../store";
+import { LegendItem } from "./LegendItem";
 
 export interface ILegendProps {
     /**
@@ -28,7 +28,6 @@ export interface ILegendProps {
  */
 export function Legend({ items, positionStyle, formatters = {} }: ILegendProps) {
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
-    console.log(positionStyle);
     const style = {
         border: `thin solid ${theme.legend.border}`,
         display: "inline-block",
@@ -36,6 +35,7 @@ export function Legend({ items, positionStyle, formatters = {} }: ILegendProps) 
         padding: theme.legend.padding,
         background: theme.legend.background.toString(),
         opacity: theme.legend.opacity,
+        overflow: "hidden",
     };
 
     if (!items || items.length === 0) {

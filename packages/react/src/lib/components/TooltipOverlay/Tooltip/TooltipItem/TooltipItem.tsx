@@ -1,10 +1,10 @@
-import type { ITooltipItem, ITooltipFormatter } from "@d3-chart/types";
+import type { ITooltipFormatter, ITooltipItem } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { getShape } from "../../../Shapes";
-import { formatValue } from "../../../../utils";
 import { chartSelectors, IState } from "../../../../store";
+import { formatValue } from "../../../../utils";
+import { getShape } from "../../../Shapes";
 
 export interface ITooltipItemProps extends ITooltipItem, ITooltipFormatter {}
 

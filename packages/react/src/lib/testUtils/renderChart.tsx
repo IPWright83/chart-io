@@ -1,10 +1,10 @@
 import type { IData, IScale } from "@d3-chart/types";
-import React from "react";
 import { Provider } from "react-redux";
+import React from "react";
 import { render } from "@testing-library/react";
 
-import { wait } from "./wait";
 import { createMockStore } from "./createMockStore";
+import { wait } from "./wait";
 
 import { themes } from "../themes";
 

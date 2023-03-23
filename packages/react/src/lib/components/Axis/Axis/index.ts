@@ -1,5 +1,5 @@
-import { withSVG } from "../../../hoc";
 import { Axis as AxisBase, IAxisProps } from "./Axis";
+import { withSVG } from "../../../hoc";
 
 import { Gridlines } from "./Gridlines";
 import { Title } from "./Title";

@@ -1,13 +1,13 @@
-import { scaleLinear } from "d3-scale";
 import React from "react";
+import { scaleLinear } from "@d3-chart/d3";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
-import { VirtualCanvas, VIRTUAL_CANVAS_DEBOUNCE } from "../../VirtualCanvas";
+import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../VirtualCanvas";
 import { Lines } from "./Lines";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { getBuffer, wait, renderChart } from "../../../testUtils";
+import { getBuffer, renderChart, wait } from "../../../testUtils";
 
 describe("Lines", () => {
     const data = [

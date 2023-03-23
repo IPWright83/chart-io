@@ -2,9 +2,9 @@ import type { ITooltipFormatter } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { Tooltip } from "./Tooltip";
 import { chartSelectors, eventSelectors, IState } from "../../store";
 import { getTooltipPosition } from "./getTooltipPosition";
+import { Tooltip } from "./Tooltip";
 
 export interface ITooltipOverlayProps {
     /**

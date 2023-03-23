@@ -2,12 +2,12 @@ import * as d3 from "@d3-chart/d3";
 import React from "react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
-import { VirtualCanvas, VIRTUAL_CANVAS_DEBOUNCE } from "../../../VirtualCanvas";
+import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
 import { Scatter } from "./Scatter";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { getBuffer, wait, renderChart, testMouseClick, testMouseOver, testMouseExit } from "../../../../testUtils";
+import { getBuffer, renderChart, testMouseClick, testMouseExit, testMouseOver, wait } from "../../../../testUtils";
 
 describe("Scatter", () => {
     const data = [

@@ -1,7 +1,7 @@
 import * as d3 from "@d3-chart/d3";
 
-import { themes } from "../../../themes";
 import { chartActions } from "../chartActions";
+import { themes } from "../../../themes";
 
 describe("chartActions", () => {
     it("setDimensions returns correct action", () => {

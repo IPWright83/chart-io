@@ -1,22 +1,22 @@
 import type { IValue } from "./IValue";
 
 import type {
-    ScaleLinear,
-    ScalePower,
-    ScaleLogarithmic,
-    ScaleSymLog,
+    ScaleBand,
+    ScaleDiverging,
     ScaleIdentity,
+    ScaleLinear,
+    ScaleLogarithmic,
+    ScaleOrdinal,
+    ScalePoint,
+    ScalePower,
+    ScaleQuantile,
+    ScaleQuantize,
     ScaleRadial,
-    ScaleTime,
     ScaleSequentialBase,
     ScaleSequentialQuantile,
-    ScaleDiverging,
-    ScaleQuantize,
-    ScaleQuantile,
+    ScaleSymLog,
     ScaleThreshold,
-    ScaleOrdinal,
-    ScaleBand,
-    ScalePoint,
+    ScaleTime,
 } from "@d3-chart/d3";
 
 export type ILinearScale =
