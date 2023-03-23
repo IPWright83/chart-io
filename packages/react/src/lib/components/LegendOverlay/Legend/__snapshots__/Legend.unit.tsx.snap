@@ -4,23 +4,23 @@ exports[`Legend should render correctly 1`] = `
 <DocumentFragment>
   <div
     class="d3-chart legend"
-    style="border: thin solid #ccc; display: inline-block; position: absolute; left: 10px; right: 20px; top: 30px; bottom: 40px; padding: 8px; max-width: 300px; background: rgb(255, 255, 255); opacity: 1;"
+    style="border: thin solid #ccc; display: flex; flex-direction: column; flex-wrap: wrap; position: absolute; left: 10px; right: 20px; top: 30px; bottom: 40px; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden;"
   >
     <div
       class="d3-chart legend-item"
-      style="display: flex; flex-direction: row; width: 100%; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
+      style="display: flex; flex-direction: row; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
     >
       <div
         class="d3-chart indicator-circle"
-        style="background: blue; width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%;"
+        style="background: blue; width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%; flex-shrink: 0;"
       />
       <div
         class="d3-chart legend-values"
-        style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;"
+        style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"
       >
         <span
           class="d3-chart legend-series-name"
-          style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+          style="margin-right: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
         >
           a
         </span>
@@ -28,19 +28,19 @@ exports[`Legend should render correctly 1`] = `
     </div>
     <div
       class="d3-chart legend-item"
-      style="display: flex; flex-direction: row; width: 100%; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
+      style="display: flex; flex-direction: row; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
     >
       <div
         class="d3-chart indicator-square"
-        style="background: orange; height: 10px; width: 10px; margin-top: 4px; margin-right: 5px; margin-left: 5px;"
+        style="background: orange; height: 10px; width: 10px; margin-top: 4px; margin-right: 5px; margin-left: 5px; flex-shrink: 0;"
       />
       <div
         class="d3-chart legend-values"
-        style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;"
+        style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"
       >
         <span
           class="d3-chart legend-series-name"
-          style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+          style="margin-right: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
         >
           b
         </span>
@@ -48,19 +48,19 @@ exports[`Legend should render correctly 1`] = `
     </div>
     <div
       class="d3-chart legend-item"
-      style="display: flex; flex-direction: row; width: 100%; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
+      style="display: flex; flex-direction: row; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
     >
       <div
         class="d3-chart indicator-line"
-        style="background: green; width: 10px; height: 3px; margin-top: 7px; margin-left: 5px; margin-right: 5px;"
+        style="background: green; width: 10px; height: 3px; margin-top: 7px; margin-left: 5px; margin-right: 5px; flex-shrink: 0;"
       />
       <div
         class="d3-chart legend-values"
-        style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;"
+        style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"
       >
         <span
           class="d3-chart legend-series-name"
-          style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+          style="margin-right: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
         >
           c
         </span>
