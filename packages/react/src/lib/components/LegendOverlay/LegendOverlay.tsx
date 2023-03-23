@@ -33,8 +33,7 @@ export function LegendOverlay({ verticalPosition, horizontalPosition = "LEFT", f
         return null;
     }
 
-    // TODO: Would be better if series display horizontally and then wrap when docked top/bottom
-
+    const isHorizontal = verticalPosition == "TOP" || verticalPosition == "BOTTOM";
     const positionStyle = {
         ...getLegendPosition(horizontalPosition, verticalPosition),
         ...getLegendMaxDimensions(
@@ -55,7 +54,7 @@ export function LegendOverlay({ verticalPosition, horizontalPosition = "LEFT", f
 
     return (
         <foreignObject width={width} height={height} style={style}>
-            <Legend items={items} positionStyle={positionStyle} formatters={formatters} />
+            <Legend items={items} horizontal={isHorizontal} positionStyle={positionStyle} formatters={formatters} />
         </foreignObject>
     );
 }

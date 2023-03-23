@@ -6,6 +6,9 @@ import { chartSelectors, IState } from "../../../../store";
 import { getShape } from "../../../Shapes";
 
 export interface ILegendItemProps extends ILegendItem {
+    /**
+     * A custom formatter for the Legend item
+     */
     format?: ILegendFormatter;
 }
 
@@ -22,7 +25,6 @@ export function LegendItem({ name, icon, fill, format = (name) => name }: ILegen
         legendItem: {
             display: "flex" as const,
             flexDirection: "row" as const,
-            width: "100%",
             userSelect: "none" as const,
             pointerEvents: "none" as const,
             color: theme.tooltip.text.toString(),

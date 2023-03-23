@@ -17,6 +17,10 @@ export interface ILegendProps {
      */
     items: Array<ILegendItem>;
     /**
+     * True if the legend should be displayed in a horizontal appearance
+     */
+    horizontal?: boolean;
+    /**
      * A set of custom formatters for the Legend
      */
     formatters?: Record<string, ILegendFormatter>;
@@ -26,11 +30,13 @@ export interface ILegendProps {
  * Represents a Legend
  * @return The Legend component
  */
-export function Legend({ items, positionStyle, formatters = {} }: ILegendProps) {
+export function Legend({ items, positionStyle, horizontal, formatters = {} }: ILegendProps) {
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const style = {
         border: `thin solid ${theme.legend.border}`,
-        display: "inline-block",
+        display: "flex",
+        flexDirection: horizontal ? "row" : "column",
+        flexWrap: "wrap",
         ...positionStyle,
         padding: theme.legend.padding,
         background: theme.legend.background.toString(),
@@ -53,7 +59,7 @@ export function Legend({ items, positionStyle, formatters = {} }: ILegendProps) 
                  */
                 const formatter = formatters[item.name] || undefined;
 
-                return <LegendItem key={`${item.name}`} format={formatter} {...item} />;
+                return <LegendItem key={`${item.name}`} horizontal={horizontal} format={formatter} {...item} />;
             })}
         </div>
     );
