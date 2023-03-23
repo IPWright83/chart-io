@@ -67,14 +67,12 @@ const LegendOverlayTemplate = (args) => {
 export const Left = LegendOverlayTemplate.bind({});
 Left.storyName = "Left Aligned";
 Left.args = {
-    verticalPosition: "CENTER",
     horizontalPosition: "LEFT",
 };
 
 export const Right = LegendOverlayTemplate.bind({});
 Right.storyName = "Right Aligned";
 Right.args = {
-    verticalPosition: "CENTER",
     horizontalPosition: "RIGHT",
 };
 
@@ -82,14 +80,12 @@ export const Top = LegendOverlayTemplate.bind({});
 Top.storyName = "Top Aligned";
 Top.args = {
     verticalPosition: "TOP",
-    horizontalPosition: "CENTER",
 };
 
 export const Bottom = LegendOverlayTemplate.bind({});
 Bottom.storyName = "Bottom Aligned";
 Bottom.args = {
     verticalPosition: "BOTTOM",
-    horizontalPosition: "CENTER",
 };
 
 export const BottomRight = LegendOverlayTemplate.bind({});
