@@ -6,7 +6,7 @@ import type { Transition } from "@d3-chart/d3";
 
 import { chartSelectors, eventActions, IState } from "../../../../store";
 import { ensureBandScale, ensureNoScaleOverflow, ensureValuesAreUnique } from "../../../../utils";
-import { useRender } from "../../../../hooks";
+import { useLegendItems, useRender } from "../../../../hooks";
 
 import { getDropline } from "../getDropline";
 import { getParentKey } from "./getParentKey";
@@ -62,6 +62,8 @@ export function StackedBarBase({
 
     const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, y);
+
+    useLegendItems(xs, "square", colors);
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     useEffect(() => {

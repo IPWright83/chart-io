@@ -4,8 +4,8 @@ import { useSelector, useStore } from "react-redux";
 import { interpolatePath } from "d3-interpolate-path";
 
 import { chartSelectors, eventSelectors, IState } from "../../../../store";
+import { useLegendItems, useRender } from "../../../../hooks";
 import { ensureNoScaleOverflow } from "../../../../utils";
-import { useRender } from "../../../../hooks";
 
 import { useDatumFocus } from "./useDatumFocus";
 import { useMultiPathCreator } from "./useMultiPathCreator";
@@ -44,6 +44,7 @@ export function StackedAreaBase({ x, ys, colors, interactive = true, layer, canv
 
     // Used to create our initial path
     useMultiPathCreator(layer, x, ys, xScale, yScale, canvas);
+    useLegendItems(ys, "line", colors);
 
     /* On future renders we want to update the path */
     useRender(async () => {

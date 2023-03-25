@@ -6,7 +6,7 @@ import type { Transition } from "@d3-chart/d3";
 
 import { chartSelectors, eventActions, IState } from "../../../../store";
 import { ensureBandScale } from "../../../../utils";
-import { useRender } from "../../../../hooks";
+import { useLegendItems, useRender } from "../../../../hooks";
 
 import { getDropline } from "../getDropline";
 import { renderCanvas } from "../../renderCanvas";
@@ -58,6 +58,8 @@ export function GroupedColumnBase({
 
     const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, x);
+
+    useLegendItems(ys, "square", colors);
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     useEffect(() => {

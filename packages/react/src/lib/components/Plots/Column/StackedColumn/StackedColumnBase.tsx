@@ -6,7 +6,7 @@ import type { Transition } from "@d3-chart/d3";
 
 import { chartSelectors, eventActions, IState } from "../../../../store";
 import { ensureBandScale, ensureNoScaleOverflow, ensureValuesAreUnique } from "../../../../utils";
-import { useRender } from "../../../../hooks";
+import { useLegendItems, useRender } from "../../../../hooks";
 
 import { getDropline } from "../getDropline";
 import { getParentKey } from "./getParentKey";
@@ -59,6 +59,8 @@ export function StackedColumnBase({
 
     const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, x);
+
+    useLegendItems(ys, "square", colors);
 
     useEffect(() => {
         if (!focused) return;
