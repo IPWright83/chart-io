@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import React from "react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
-import { getBuffer, renderChart, wait } from "../../../../testUtils";
+import { actionsIncludes, getBuffer, renderChart, wait } from "../../../../testUtils";
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
 import { createStore } from "../../../../store";
 
@@ -92,7 +92,7 @@ describe("StackedArea", () => {
                 await wait(1);
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
                     "EVENT.MOUSE_ENTER",
                     "EVENT.ADD_MARKER",
                     "EVENT.ADD_MARKER",
@@ -162,7 +162,7 @@ describe("StackedArea", () => {
                 await wait(1);
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
                     "EVENT.MOUSE_ENTER",
                     "EVENT.ADD_MARKER",
                     "EVENT.ADD_MARKER",

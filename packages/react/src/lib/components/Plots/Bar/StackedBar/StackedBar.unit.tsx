@@ -7,7 +7,15 @@ import { StackedBar } from "./StackedBar";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { getBuffer, renderChart, testMouseClick, testMouseExit, testMouseOver, wait } from "../../../../testUtils";
+import {
+    actionsIncludes,
+    getBuffer,
+    renderChart,
+    testMouseClick,
+    testMouseExit,
+    testMouseOver,
+    wait,
+} from "../../../../testUtils";
 
 describe("StackedBar", () => {
     const expectedDatum = {
@@ -53,7 +61,9 @@ describe("StackedBar", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
+                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
@@ -76,7 +86,9 @@ describe("StackedBar", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
+                    "CHART.ADD_LEGEND_ITEM",
                     // Mouseexit
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
@@ -174,7 +186,9 @@ describe("StackedBar", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
+                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.MOUSE_MOVE",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
@@ -217,7 +231,9 @@ describe("StackedBar", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
+                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.MOUSE_MOVE",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",

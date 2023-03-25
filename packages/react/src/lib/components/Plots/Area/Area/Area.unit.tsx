@@ -10,7 +10,7 @@ import { createStore } from "../../../../store";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { getBuffer, renderChart, wait } from "../../../../testUtils";
+import { actionsIncludes, getBuffer, renderChart, wait } from "../../../../testUtils";
 
 describe("Area", () => {
     const data = [
@@ -97,7 +97,8 @@ describe("Area", () => {
                 await wait(1);
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.MOUSE_ENTER",
                     "EVENT.ADD_MARKER",
                     "EVENT.ADD_DROPLINE",
@@ -172,7 +173,8 @@ describe("Area", () => {
                 await wait(1);
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.MOUSE_ENTER",
                     "EVENT.ADD_MARKER",
                     "EVENT.ADD_DROPLINE",

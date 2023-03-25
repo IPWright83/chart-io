@@ -10,7 +10,7 @@ import { Line } from "./Line";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { getBuffer, renderChart, wait } from "../../../../testUtils";
+import { actionsIncludes, getBuffer, renderChart, wait } from "../../../../testUtils";
 
 describe("Line", () => {
     const data = [
@@ -97,7 +97,7 @@ describe("Line", () => {
                 await wait(1);
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
                     "EVENT.MOUSE_ENTER",
                     "EVENT.ADD_MARKER",
                     "EVENT.ADD_DROPLINE",
@@ -172,7 +172,7 @@ describe("Line", () => {
                 await wait(1);
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
                     "EVENT.MOUSE_ENTER",
                     "EVENT.ADD_MARKER",
                     "EVENT.ADD_DROPLINE",

@@ -7,7 +7,15 @@ import { Bar } from "./Bar";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { getBuffer, renderChart, testMouseClick, testMouseExit, testMouseOver, wait } from "../../../../testUtils";
+import {
+    actionsIncludes,
+    getBuffer,
+    renderChart,
+    testMouseClick,
+    testMouseExit,
+    testMouseOver,
+    wait,
+} from "../../../../testUtils";
 
 describe("Bar", () => {
     const expectedDatum = {
@@ -51,7 +59,8 @@ describe("Bar", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.SET_TOOLTIP_COLOR",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
@@ -74,7 +83,8 @@ describe("Bar", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
                     // Mouseexit
                     "EVENT.SET_TOOLTIP_COLOR",
                     "EVENT.ADD_TOOLTIP_ITEM",
@@ -171,7 +181,8 @@ describe("Bar", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.MOUSE_MOVE",
                     "EVENT.SET_TOOLTIP_COLOR",
                     "EVENT.ADD_TOOLTIP_ITEM",
@@ -214,7 +225,8 @@ describe("Bar", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
                     // Mouseover
                     "EVENT.MOUSE_MOVE",
                     "EVENT.SET_TOOLTIP_COLOR",

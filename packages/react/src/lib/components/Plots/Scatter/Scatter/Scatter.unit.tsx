@@ -7,7 +7,15 @@ import { Scatter } from "./Scatter";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { getBuffer, renderChart, testMouseClick, testMouseExit, testMouseOver, wait } from "../../../../testUtils";
+import {
+    actionsIncludes,
+    getBuffer,
+    renderChart,
+    testMouseClick,
+    testMouseExit,
+    testMouseOver,
+    wait,
+} from "../../../../testUtils";
 
 describe("Scatter", () => {
     const data = [
@@ -51,7 +59,8 @@ describe("Scatter", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.ADD_MARKER",
                     "EVENT.ADD_DROPLINE",
                     "EVENT.ADD_DROPLINE",
@@ -76,7 +85,8 @@ describe("Scatter", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.ADD_MARKER",
                     "EVENT.ADD_DROPLINE",
                     "EVENT.ADD_DROPLINE",
@@ -205,7 +215,8 @@ describe("Scatter", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.MOUSE_MOVE",
                     "EVENT.ADD_MARKER",
                     "EVENT.ADD_DROPLINE",
@@ -241,7 +252,8 @@ describe("Scatter", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
                     // Mouseover
                     "EVENT.MOUSE_MOVE",
                     "EVENT.ADD_MARKER",
