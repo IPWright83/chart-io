@@ -11,18 +11,22 @@ export interface ILegendOverlayProps {
     /**
      * The horizontal position of the legend
      */
-    horizontalPosition?: "LEFT" | "RIGHT";
+    horizontalPosition?: "LEFT" | "RIGHT" | "CENTER";
     /**
      * The vertical position of the legend
      */
-    verticalPosition?: "TOP" | "BOTTOM";
+    verticalPosition?: "TOP" | "BOTTOM" | "CENTER";
     /**
      * A set of custom formatters for the Legend
      */
     formatters?: Record<string, ILegendFormatter>;
 }
 
-export function LegendOverlay({ verticalPosition, horizontalPosition, formatters = {} }: ILegendOverlayProps) {
+export function LegendOverlay({
+    verticalPosition = "CENTER",
+    horizontalPosition = "RIGHT",
+    formatters = {},
+}: ILegendOverlayProps) {
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const items = useSelector((s: IState) => chartSelectors.legend.items(s));

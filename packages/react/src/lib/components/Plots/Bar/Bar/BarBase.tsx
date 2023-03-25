@@ -7,7 +7,7 @@ import { useSelector, useStore } from "react-redux";
 
 import { chartSelectors, eventActions, IState } from "../../../../store";
 import { ensureBandScale, ensureValuesAreUnique } from "../../../../utils";
-import { useRender } from "../../../../hooks";
+import { useLegendItem, useRender } from "../../../../hooks";
 
 import { getDropline } from "../getDropline";
 import { renderCanvas } from "../../renderCanvas";
@@ -51,6 +51,8 @@ export function BarBase({
     const fillColor = d3.color(`${color ?? theme.series.colors[0]}`);
     fillColor.opacity = theme.series.opacity;
     const strokeColor = theme.background;
+
+    useLegendItem(x, "square", fillColor);
     const setTooltip = useTooltip(store.dispatch, y);
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value

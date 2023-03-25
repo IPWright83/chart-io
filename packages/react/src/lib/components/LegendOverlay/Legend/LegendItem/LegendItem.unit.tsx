@@ -12,7 +12,7 @@ describe("LegendItem", () => {
     it("should render correctly", async () => {
         const { asFragment } = render(
             <Provider store={store}>
-                <LegendItem name="Series1" icon="circle" fill="red" />
+                <LegendItem name="Series1" icon="circle" color="red" />
             </Provider>
         );
 

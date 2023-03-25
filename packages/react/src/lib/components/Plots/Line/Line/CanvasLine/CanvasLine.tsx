@@ -6,7 +6,7 @@ import type { IPlotProps } from "@d3-chart/types";
 import { chartSelectors, eventSelectors, IState } from "../../../../../store";
 import { isNullOrUndefined } from "../../../../../utils";
 import { useDatumFocus } from "../useDatumFocus";
-import { useRender } from "../../../../../hooks";
+import { useLegendItem, useRender } from "../../../../../hooks";
 import { useTooltip } from "../useTooltip";
 
 export type ICanvasLineProps = Omit<IPlotProps, "interactive">;
@@ -33,6 +33,8 @@ export function CanvasLine({ x, y, color, layer, canvas }: ICanvasLineProps) {
 
     // @ts-expect-error: We handle a missing bandwidth fine
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
+
+    useLegendItem(y, "line", seriesColor);
 
     /* On future renders we want to update the path */
     useRender(() => {

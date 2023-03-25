@@ -6,7 +6,7 @@ import type { Transition } from "@d3-chart/d3";
 
 import { chartSelectors, eventActions, IState } from "../../../../store";
 import { ensureBandScale, ensureValuesAreUnique } from "../../../../utils";
-import { useRender } from "../../../../hooks";
+import { useLegendItem, useRender } from "../../../../hooks";
 
 import { getDropline } from "../getDropline";
 import { renderCanvas } from "../../renderCanvas";
@@ -51,6 +51,7 @@ export function ColumnBase({
     const fillColor = d3.color(`${color ?? theme.series.colors[0]}`);
     fillColor.opacity = theme.series.opacity;
 
+    useLegendItem(y, "square", fillColor);
     const setTooltip = useTooltip(store.dispatch, x);
 
     useEffect(() => {

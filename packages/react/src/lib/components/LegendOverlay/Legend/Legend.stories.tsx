@@ -38,13 +38,13 @@ Default.args = {
         {
             name: "Line Series with a very long title that should be truncated at some point",
             icon: "line",
-            fill: "steelblue",
+            color: "steelblue",
         },
-        { name: "Scatter Series", icon: "circle", fill: "steelblue" },
-        { name: "Bar Series", icon: "square", fill: "steelblue" },
-        { name: "Column Series", icon: "square", fill: "steelblue" },
-        { name: "Area Series", icon: "square", fill: "steelblue" },
-        { name: "Timestamp", fill: "steeblue", icon: "none" },
+        { name: "Scatter Series", icon: "circle", color: "steelblue" },
+        { name: "Bar Series", icon: "square", color: "steelblue" },
+        { name: "Column Series", icon: "square", color: "steelblue" },
+        { name: "Area Series", icon: "square", color: "steelblue" },
+        { name: "Timestamp", color: "steeblue", icon: "none" },
     ],
 };
 

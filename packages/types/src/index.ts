@@ -16,6 +16,7 @@ export * from "./IPlotsProps";
 export * from "./IPosition";
 export * from "./IScale";
 export * from "./IScaleType";
+export * from "./IShape";
 export * from "./ITheme";
 export * from "./ITooltipItem";
 export * from "./IValue";

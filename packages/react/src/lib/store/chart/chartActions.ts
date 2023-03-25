@@ -1,4 +1,4 @@
-import type { IData, IMargin, IScale, ITheme } from "@d3-chart/types";
+import type { IData, ILegendItem, IMargin, IScale, ITheme } from "@d3-chart/types";
 
 import type { SetAnimationDurationAction, SetDataAction, SetDimensionAction } from "./types";
 
@@ -64,6 +64,26 @@ const setScales = (fields: string[], scale: IScale, fromAxis: boolean) => (dispa
 };
 
 /**
+ * Adds a Legend item to the chart
+ * @param  item    The legend item
+ * @return         A redux action object
+ */
+const addLegendItem = (item: ILegendItem) => ({
+    type: "CHART.ADD_LEGEND_ITEM",
+    payload: item,
+});
+
+/**
+ * Removes a Legend item from the chart
+ * @param  item    The legend item
+ * @return         A redux action object
+ */
+const removeLegendItem = (item: ILegendItem) => ({
+    type: "CHART.REMOVE_LEGEND_ITEM",
+    payload: item,
+});
+
+/**
  * Sets the theme for the chart in the Redux store
  * @param  theme   The theme object
  * @return         A redux action object
@@ -121,6 +141,8 @@ const chartActions = {
     setData,
     setTheme,
     setAnimationDuration,
+    addLegendItem,
+    removeLegendItem,
 };
 
 export { chartActions };

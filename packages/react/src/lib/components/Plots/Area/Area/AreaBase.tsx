@@ -4,7 +4,7 @@ import type { IPlotProps } from "@d3-chart/types";
 
 import { chartSelectors, eventSelectors, IState } from "../../../../store";
 import { interpolateMultiPath, isNullOrUndefined } from "../../../../utils";
-import { useRender } from "../../../../hooks";
+import { useLegendItem, useRender } from "../../../../hooks";
 
 import { useDatumFocus } from "./useDatumFocus";
 import { usePathCreator } from "./usePathCreator";
@@ -41,6 +41,8 @@ export function AreaBase({ x, y, y2, color, interactive = true, layer, canvas }:
 
     // @ts-expect-error: This is a runtime check
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
+
+    useLegendItem(y, "line", fillColor);
 
     // Used to create our initial path
     usePathCreator(layer, x, y, xScale, yScale, canvas);

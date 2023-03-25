@@ -35,17 +35,17 @@ const LegendOverlayTemplate = (args) => {
                     {
                         name: "Line Series with a very long title that should be truncated at some point",
                         icon: "line",
-                        fill: "steelblue",
+                        color: "steelblue",
                     },
-                    { name: "Series 2", icon: "circle", fill: "steelblue" },
-                    { name: "Series 3", icon: "square", fill: "steelblue" },
-                    { name: "Series 4", icon: "circle", fill: "steelblue" },
-                    { name: "Series 5", icon: "circle", fill: "steelblue" },
-                    { name: "Series 6", icon: "circle", fill: "steelblue" },
-                    { name: "Series 7", icon: "circle", fill: "steelblue" },
-                    { name: "Series 8", icon: "circle", fill: "steelblue" },
-                    { name: "Series 9", icon: "circle", fill: "steelblue" },
-                    { name: "Series 10", icon: "circle", fill: "steelblue" },
+                    { name: "Series 2", icon: "circle", color: "steelblue" },
+                    { name: "Series 3", icon: "square", color: "steelblue" },
+                    { name: "Series 4", icon: "circle", color: "steelblue" },
+                    { name: "Series 5", icon: "circle", color: "steelblue" },
+                    { name: "Series 6", icon: "circle", color: "steelblue" },
+                    { name: "Series 7", icon: "circle", color: "steelblue" },
+                    { name: "Series 8", icon: "circle", color: "steelblue" },
+                    { name: "Series 9", icon: "circle", color: "steelblue" },
+                    { name: "Series 10", icon: "circle", color: "steelblue" },
                 ],
             },
         },
@@ -80,12 +80,14 @@ export const Top = LegendOverlayTemplate.bind({});
 Top.storyName = "Top Aligned";
 Top.args = {
     verticalPosition: "TOP",
+    horizontalPosition: "CENTER",
 };
 
 export const Bottom = LegendOverlayTemplate.bind({});
 Bottom.storyName = "Bottom Aligned";
 Bottom.args = {
     verticalPosition: "BOTTOM",
+    horizontalPosition: "CENTER",
 };
 
 export const BottomRight = LegendOverlayTemplate.bind({});

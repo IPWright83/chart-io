@@ -34,9 +34,9 @@ export function Legend({ items, positionStyle, horizontal, formatters = {} }: IL
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const style = {
         border: `thin solid ${theme.legend.border}`,
-        display: "flex",
-        flexDirection: horizontal ? "row" : "column",
-        flexWrap: "wrap",
+        display: "flex" as const,
+        flexDirection: horizontal ? ("row" as const) : ("column" as const),
+        flexWrap: "wrap" as const,
         ...positionStyle,
         padding: theme.legend.padding,
         background: theme.legend.background.toString(),
@@ -59,7 +59,7 @@ export function Legend({ items, positionStyle, horizontal, formatters = {} }: IL
                  */
                 const formatter = formatters[item.name] || undefined;
 
-                return <LegendItem key={`${item.name}`} horizontal={horizontal} format={formatter} {...item} />;
+                return <LegendItem key={`${item.name}`} format={formatter} {...item} />;
             })}
         </div>
     );

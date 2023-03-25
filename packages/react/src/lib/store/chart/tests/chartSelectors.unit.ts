@@ -138,6 +138,60 @@ describe("chartSelectors", () => {
         expect(chartSelectors.theme(state)).toEqual(themes.dark);
     });
 
+    describe("legend", () => {
+        describe("isVisible", () => {
+            it("is false if less than 2 items", () => {
+                const state = {
+                    event: defaultEventState,
+                    chart: {
+                        ...defaultChartState,
+                        legend: {
+                            items: [{ name: "legend item 1", icon: "circle" as const }],
+                        },
+                    },
+                };
+
+                expect(chartSelectors.legend.isVisible(state)).toBe(false);
+            });
+
+            it("is true if 2 items or more", () => {
+                const state = {
+                    event: defaultEventState,
+                    chart: {
+                        ...defaultChartState,
+                        legend: {
+                            items: [
+                                { name: "legend item 1", icon: "circle" as const },
+                                { name: "legend item 2", icon: "circle" as const },
+                            ],
+                        },
+                    },
+                };
+
+                expect(chartSelectors.legend.isVisible(state)).toBe(true);
+            });
+        });
+
+        it("items returns the items", () => {
+            const items = [
+                { name: "legend item 1", icon: "circle" as const },
+                { name: "legend item 2", icon: "circle" as const },
+            ];
+
+            const state = {
+                event: defaultEventState,
+                chart: {
+                    ...defaultChartState,
+                    legend: {
+                        items,
+                    },
+                },
+            };
+
+            expect(chartSelectors.legend.items(state)).toEqual(items);
+        });
+    });
+
     describe("animationDuration", () => {
         it("returns value", () => {
             const state = {

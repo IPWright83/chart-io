@@ -11,8 +11,8 @@ describe("LegendOverlay", () => {
         chart: {
             legend: {
                 items: [
-                    { name: "a", icon: "circle", fill: "blue" },
-                    { name: "b", icon: "square", fill: "orange" },
+                    { name: "a", icon: "circle", color: "blue" },
+                    { name: "b", icon: "square", color: "orange" },
                 ],
             },
         },

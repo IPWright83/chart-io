@@ -1,4 +1,5 @@
 import type { IColor } from "./IColor";
+import type { IShape } from "./IShape";
 
 /**
  * Used to represent an item in a legend where the Color distinguishes between entries
@@ -11,9 +12,9 @@ export interface IColorLegendItem {
     /**
      * The icon type for the tooltip
      */
-    icon?: "circle" | "line" | "square" | "none";
+    icon?: IShape;
     /**
      * The colour of the icon
      */
-    fill?: IColor;
+    color?: IColor;
 }

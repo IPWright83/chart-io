@@ -5,6 +5,8 @@ import { themes } from "../../../themes";
 import { chartReducer, defaultChartState } from "../chartReducer";
 
 import type {
+    AddLegendItemAction,
+    RemoveLegendItemAction,
     SetAnimationDurationAction,
     SetDataAction,
     SetDimensionAction,
@@ -128,6 +130,51 @@ describe("chartReducer", () => {
         expect(chartReducer(previousState, action)).toEqual({
             ...previousState,
             animationDuration: 12549,
+        });
+    });
+
+    it("CHART.ADD_LEGEND_ITEM", () => {
+        const item = {
+            name: "legend item",
+            icon: "circle" as const,
+            color: "#fff" as const,
+        };
+
+        const action = {
+            type: "CHART.ADD_LEGEND_ITEM",
+            payload: item,
+        } as AddLegendItemAction;
+
+        expect(chartReducer(previousState, action)).toEqual({
+            ...previousState,
+            legend: {
+                items: [item],
+            },
+        });
+    });
+
+    it("CHART.REMOVE_LEGEND_ITEM", () => {
+        const item = {
+            name: "legend item",
+            icon: "circle" as const,
+            color: "#fff" as const,
+        };
+
+        const previousLocalState = {
+            ...previousState,
+            legend: {
+                items: [item],
+            },
+        };
+
+        const action = {
+            type: "CHART.REMOVE_LEGEND_ITEM",
+            payload: item,
+        } as RemoveLegendItemAction;
+
+        expect(chartReducer(previousLocalState, action)).toEqual({
+            ...previousState,
+            legend: { items: [] },
         });
     });
 

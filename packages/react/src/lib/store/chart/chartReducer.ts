@@ -1,3 +1,5 @@
+import { isEqual } from "lodash";
+
 import { themes } from "../../themes";
 
 import type { ChartAction } from "./types";
@@ -89,6 +91,24 @@ const chartReducer = (state: IChartState = defaultChartState, action: ChartActio
 
         case "CHART.SET_DATA":
             return { ...state, data: action.payload };
+
+        case "CHART.ADD_LEGEND_ITEM":
+            return {
+                ...state,
+                legend: {
+                    ...state.legend,
+                    items: [...state.legend.items, action.payload],
+                },
+            };
+
+        case "CHART.REMOVE_LEGEND_ITEM":
+            return {
+                ...state,
+                legend: {
+                    ...state.legend,
+                    items: state.legend.items.filter((t) => !isEqual(t, action.payload)),
+                },
+            };
 
         default:
             return state;

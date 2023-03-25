@@ -4,7 +4,7 @@ import type { IPlotProps } from "@d3-chart/types";
 
 import { chartSelectors, eventSelectors, IState } from "../../../../../store";
 import { interpolateMultiPath, isNullOrUndefined } from "../../../../../utils";
-import { useRender } from "../../../../../hooks";
+import { useLegendItem, useRender } from "../../../../../hooks";
 
 import { useDatumFocus } from "../useDatumFocus";
 import { usePathCreator } from "./usePathCreator";
@@ -32,6 +32,8 @@ export function SVGLine({ x, y, color, interactive = true, layer }: ISVGLineProp
 
     // @ts-expect-error: We handle a missing bandwidth fine
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
+
+    useLegendItem(y, "line", seriesColor);
 
     // Used to create our initial path
     usePathCreator(layer, x, y, xScale, yScale);

@@ -1,4 +1,5 @@
 import type { IColor } from "./IColor";
+import type { IShape } from "./IShape";
 import type { IValue } from "./IValue";
 
 /**
@@ -16,7 +17,7 @@ export interface ITooltipItem {
     /**
      * The icon type for the tooltip
      */
-    icon?: "circle" | "line" | "square" | "none";
+    icon?: IShape;
     /**
      * The colour of the icon
      */

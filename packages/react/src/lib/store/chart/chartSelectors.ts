@@ -156,7 +156,7 @@ export const chartSelectors: IChartSelectors = {
          * @param  state     The application state
          * @return           True if the legend should be visible
          */
-        isVisible: (state: IState): boolean => chartSelectors.legend.items(state).length > 0,
+        isVisible: (state: IState): boolean => chartSelectors.legend.items(state).length > 1,
 
         /**
          * Returns the set of items required to be in the legend

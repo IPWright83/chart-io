@@ -2,29 +2,32 @@ import { getLegendPosition } from "./getLegendPosition";
 
 describe("getLegendPosition", () => {
     it("returns correct position for left alignment", () => {
-        expect(getLegendPosition("LEFT")).toEqual({
+        expect(getLegendPosition("LEFT", "CENTER")).toEqual({
             position: "absolute",
             left: 10,
             right: null,
+            transform: "translateY(-50%)",
             top: 10,
             bottom: null,
         });
     });
 
     it("returns correct position for right alignment", () => {
-        expect(getLegendPosition("RIGHT")).toEqual({
+        expect(getLegendPosition("RIGHT", "CENTER")).toEqual({
             position: "absolute",
             left: null,
             right: 10,
+            transform: "translateY(-50%)",
             top: 10,
             bottom: null,
         });
     });
 
     it("returns correct position for top alignment", () => {
-        expect(getLegendPosition(undefined, "TOP")).toEqual({
+        expect(getLegendPosition("CENTER", "TOP")).toEqual({
             position: "absolute",
             left: 10,
+            transform: "translateX(-50%)",
             right: null,
             top: 10,
             bottom: null,
@@ -32,11 +35,12 @@ describe("getLegendPosition", () => {
     });
 
     it("returns correct position for bottom alignment", () => {
-        expect(getLegendPosition(undefined, "BOTTOM")).toEqual({
+        expect(getLegendPosition("CENTER", "BOTTOM")).toEqual({
             position: "absolute",
             left: 10,
             right: null,
             top: null,
+            transform: "translateX(-50%)",
             bottom: 10,
         });
     });

@@ -11,8 +11,8 @@ import { LEGEND_MARGIN } from "./getLegendPosition";
  * @returns                      A style object with the max width/height information
  */
 export function getLegendMaxDimensions(
-    horizontalPosition: "LEFT" | "RIGHT" | undefined,
-    verticalPosition: "TOP" | "BOTTOM" | undefined,
+    horizontalPosition: "LEFT" | "RIGHT" | "CENTER",
+    verticalPosition: "TOP" | "BOTTOM" | "CENTER",
     width: number,
     height: number,
     defaultMaxWidth: number,
@@ -27,9 +27,7 @@ export function getLegendMaxDimensions(
         case "LEFT":
                 maxHeight = height - (4 * LEGEND_MARGIN); 
                 break;
-        default: 
-
-            break;
+        default:  break;
     }
 
     // prettier-ignore

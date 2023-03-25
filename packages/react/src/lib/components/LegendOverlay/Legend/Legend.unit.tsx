@@ -20,9 +20,9 @@ describe("Legend", () => {
         };
 
         const items = [
-            { name: "a", icon: "circle" as const, fill: "blue" as IColor },
-            { name: "b", icon: "square" as const, fill: "orange" as IColor },
-            { name: "c", icon: "line" as const, fill: "green" as IColor },
+            { name: "a", icon: "circle" as const, color: "blue" as IColor },
+            { name: "b", icon: "square" as const, color: "orange" as IColor },
+            { name: "c", icon: "line" as const, color: "green" as IColor },
         ];
 
         const { asFragment } = render(

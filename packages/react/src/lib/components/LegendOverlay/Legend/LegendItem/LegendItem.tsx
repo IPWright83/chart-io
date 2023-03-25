@@ -16,7 +16,7 @@ export interface ILegendItemProps extends ILegendItem {
  * Represents a row within a Legend
  * @return {ReactElement}  The LegendItem component
  */
-export function LegendItem({ name, icon, fill, format = (name) => name }: ILegendItemProps) {
+export function LegendItem({ name, icon, color, format = (name) => name }: ILegendItemProps) {
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
 
     const Shape = getShape(icon);
@@ -51,7 +51,7 @@ export function LegendItem({ name, icon, fill, format = (name) => name }: ILegen
 
     return (
         <div className="d3-chart legend-item" style={styles.legendItem}>
-            {Shape && <Shape fill={fill} />}
+            {Shape && <Shape fill={color} />}
             <div className="d3-chart legend-values" style={styles.legendValues}>
                 <span className="d3-chart legend-series-name" style={styles.legendSeriesName}>
                     {format(name)}

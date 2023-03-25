@@ -120,4 +120,30 @@ describe("chartActions", () => {
             });
         });
     });
+
+    it("addLegendItem returns the correct action", () => {
+        const legendItem = {
+            name: "test legend item",
+            icon: "circle" as const,
+            color: "#FFF" as const,
+        };
+
+        expect(chartActions.addLegendItem(legendItem)).toEqual({
+            type: "CHART.ADD_LEGEND_ITEM",
+            payload: legendItem,
+        });
+    });
+
+    it("removeLegendItem returns the correct action", () => {
+        const legendItem = {
+            name: "test legend item",
+            icon: "circle" as const,
+            color: "#FFF" as const,
+        };
+
+        expect(chartActions.removeLegendItem(legendItem)).toEqual({
+            type: "CHART.REMOVE_LEGEND_ITEM",
+            payload: legendItem,
+        });
+    });
 });
