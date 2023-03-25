@@ -1,5 +1,36 @@
 # @chart-it/react-d3
 
+## 0.21.0
+
+### Minor Changes
+
+- 17c4895: Test
+
+## 0.20.0
+
+### Minor Changes
+
+- 0862879: Test
+
+## 0.19.0
+
+### Minor Changes
+
+- bb81e3a: Test
+
+## 0.18.0
+
+### Minor Changes
+
+- 494a204: Test
+- 5c9ca11: testing
+
+## 0.17.0
+
+### Minor Changes
+
+- 744f129: Updated Chromatic settings
+
 ## 0.16.0
 
 ### Minor Changes
