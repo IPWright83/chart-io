@@ -28,6 +28,9 @@ exports[`XYChart should create empty template correctly 1`] = `
     <g
       class="g-tooltip-overlay"
     />
+    <g
+      class="g-legend-overlay"
+    />
   </svg>
 </DocumentFragment>
 `;

@@ -1,12 +1,12 @@
-import type { ITooltipItem, IFormatter } from "@d3-chart/types";
+import type { ITooltipFormatter, ITooltipItem } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { getShape } from "./getShape";
-import { formatValue } from "../../../../utils";
 import { chartSelectors, IState } from "../../../../store";
+import { formatValue } from "../../../../utils";
+import { getShape } from "../../../Shapes";
 
-export interface ITooltipItemProps extends ITooltipItem, IFormatter {}
+export interface ITooltipItemProps extends ITooltipItem, ITooltipFormatter {}
 
 /**
  * Represents a row within a Tooltip
@@ -34,6 +34,8 @@ export function TooltipItem({ name, value, icon, fill, prefix, suffix, format = 
             flexDirection: "row" as const,
             justifyContent: "space-between" as const,
             width: "100%",
+            flexGrow: 1,
+            flexShrink: 1,
         },
         tooltipSeriesName: {
             marginRight: 15,
@@ -41,6 +43,8 @@ export function TooltipItem({ name, value, icon, fill, prefix, suffix, format = 
             whiteSpace: "nowrap" as const,
             overflow: "hidden" as const,
             textOverflow: "ellipsis" as const,
+            flexGrow: 1,
+            flexShrink: 1,
         },
     };
 

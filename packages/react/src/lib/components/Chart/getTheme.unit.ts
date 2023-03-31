@@ -1,6 +1,7 @@
 import type { ITheme } from "@d3-chart/types";
-import { themes } from "../../themes";
+
 import { getTheme } from "./getTheme";
+import { themes } from "../../themes";
 
 describe("getTheme", () => {
     it("should return light theme for string light", () => {

@@ -1,16 +1,16 @@
-import { scaleLinear } from "d3-scale";
-import React from "react";
+import * as d3 from "@d3-chart/d3";
+import { act, render } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { render, act } from "@testing-library/react";
+import React from "react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
-import { VirtualCanvas, VIRTUAL_CANVAS_DEBOUNCE } from "../../../VirtualCanvas";
+import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
 import { Area } from "./Area";
 import { createStore } from "../../../../store";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { getBuffer, wait, renderChart } from "../../../../testUtils";
+import { actionsIncludes, getBuffer, renderChart, wait } from "../../../../testUtils";
 
 describe("Area", () => {
     const data = [
@@ -21,8 +21,8 @@ describe("Area", () => {
     ];
 
     const scales = {
-        y: scaleLinear().domain([0, 20]).range([100, 0]),
-        x: scaleLinear().domain([0, 5]).range([0, 100]),
+        y: d3.scaleLinear().domain([0, 20]).range([100, 0]),
+        x: d3.scaleLinear().domain([0, 5]).range([0, 100]),
     };
 
     describe("using SVG", () => {
@@ -97,7 +97,8 @@ describe("Area", () => {
                 await wait(1);
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.MOUSE_ENTER",
                     "EVENT.ADD_MARKER",
                     "EVENT.ADD_DROPLINE",
@@ -172,7 +173,8 @@ describe("Area", () => {
                 await wait(1);
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.MOUSE_ENTER",
                     "EVENT.ADD_MARKER",
                     "EVENT.ADD_DROPLINE",

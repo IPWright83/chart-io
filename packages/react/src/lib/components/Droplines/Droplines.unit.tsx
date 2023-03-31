@@ -1,6 +1,7 @@
-import React from "react";
 import { Provider } from "react-redux";
+import React from "react";
 import { render } from "@testing-library/react";
+
 import { createMockStore } from "../../testUtils";
 import { themes } from "../../themes";
 

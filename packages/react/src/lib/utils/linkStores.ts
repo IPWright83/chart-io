@@ -1,4 +1,4 @@
-import type { Store, AnyAction } from "redux";
+import type { AnyAction, Store } from "redux";
 
 /**
  * Links 2 or more Redux stores together, piping events between them

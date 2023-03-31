@@ -1,19 +1,19 @@
+import React, { useCallback, useEffect, useRef } from "react";
+import { useSelector, useStore } from "react-redux";
 import { debounce } from "lodash";
-import React, { useEffect, useCallback, useRef } from "react";
-import { useStore, useSelector } from "react-redux";
 
 import {
     addEventHandlers,
     clearVirtualCanvas,
+    IColorToDataMap,
     removeEventHandlers,
     renderVirtualCanvas,
-    IColorToDataMap,
 } from "../../hoc/canvas/virtual";
 import { chartSelectors, IState } from "../../store";
 
 import { getChildrenWithProps } from "./getChildrenWithProps";
-import { isVirtualCanvasRequired } from "./isVirtualCanvasRequired";
 import type { IRenderVirtualCanvasFunc } from "./getChildrenWithProps";
+import { isVirtualCanvasRequired } from "./isVirtualCanvasRequired";
 
 export const VIRTUAL_CANVAS_DEBOUNCE = 100;
 

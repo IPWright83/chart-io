@@ -1,0 +1,32 @@
+import { Meta, Story, Canvas } from "@storybook/blocks";
+
+import { LegendItem } from "./index";
+
+<Meta title="Components/LegendOverlay/Legend/LegendItem" component={LegendItem} />
+
+# LegendItem Component
+
+A LegendItem components represents an entry within the Legend. Typically this is a value from a series in a chart. For a known series a shape will be returned, with appropraite styling to reflect the current entry. For example:
+
+<Canvas>
+    <Story id="components-legendoverlay-legend-legenditem--scatter" />
+</Canvas>
+
+There are a number of different shapes avaliable for use:
+
+<Canvas>
+    <Story id="components-tooltipoverlay-tooltip-tooltipitem-line--default" />
+    <Story id="components-tooltipoverlay-tooltip-tooltipitem-square--default" />
+    <Story id="components-tooltipoverlay-tooltip-tooltipitem-circle--default" />
+</Canvas>
+
+### Props
+
+| Prop        | Type       | Default     | Note                                                                     |
+| ----------- | ---------- | ----------- | ------------------------------------------------------------------------ |
+| **`name*`** | `string`   |             | The name of the series being shown in the legend                         |
+| `icon`      | `string`   |             | The type of the shape. One of ["circle", "square", "line", "none"]       |
+| **`fill`**  | `string`   |             | The colour of the series                                                 |
+| `format`    | `function` | `undefined` | A function that returns a custom series name. `(name: string) => string` |
+
+<br />

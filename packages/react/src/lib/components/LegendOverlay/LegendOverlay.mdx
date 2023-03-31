@@ -1,0 +1,52 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+import LinkTo from "@storybook/addon-links/react";
+
+<Meta title="Components/LegendOverlay" />
+
+# LegendOverlay Component
+
+The `<LegendOverlay>` component allows us to overlay a <LinkTo kind="components-legendoverlay-legend">`<Legend>`</LinkTo> component containing multiple entries, which is useful for showing the information about the different series on a chart.
+
+The `<LegendOverlay>` extracts out legend item information from the Redux store to determine when the legend should be shown, and the content that should be presented.
+
+<Canvas>
+    <Story id="components-legendoverlay--left" />
+</Canvas>
+
+### `<LegendOverlay>` Props
+
+| Prop                 | Type     | Default  | Note                                                                                                                                                                                           |
+| -------------------- | -------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `horizontalPosition` | `string` | `RIGHT`  | The horizontal position of the legend. One of "LEFT", "RIGHT" or "CENTER"                                                                                                                      |
+| `verticalPosition`   | `string` | `CENTER` | The vertical position of the legend. One of "TOP", "BOTTOM" or "CENTER"                                                                                                                        |
+| `formatters`         | `object` | `{}`     | A keyed collection of formatter functions. Key should align with `x` or `y` fields provided to axis/scales or plots. The format function should be of the signature `(name: string) => string` |
+
+<br />
+
+## Adding Legend items Programatically
+
+To add a LegendItem programatically, typically each plot that wishes to display an item in the tooltip dispatches an action to to the redux store, and is responsible for removing it later using the following pattern;
+
+```
+useEffect(() => {
+    // Add the legend item
+    dispatch(chartActions.addLegendItem(legendItem));
+
+    // Remove the legend item next time the useEffect is called.
+    return () => {
+        dispatch(chartActions.removeLegendItem(legendItem));
+    }
+}, [legendItem])
+```
+
+### LegendItem Schema:
+
+> **Note**: This is referring to the shape of the data in the Redux store. Not the `<LegendItem>` component.
+
+| Prop        | Type     | Note                                                                                    |
+| ----------- | -------- | --------------------------------------------------------------------------------------- |
+| **`name*`** | `string` | The name of the series being shown in the legend                                        |
+| `icon`      | `string` | The shape that should be used for the icon. One of ["circle", "square", "line", "none"] |
+| `color`     | `string` | The colour of the series                                                                |
+
+<br />

@@ -1,8 +1,8 @@
-import type { Store, AnyAction } from "redux";
+import type { AnyAction, Store } from "redux";
 
 import { areValuesUnique } from "./areValuesUnique";
-import { isNullOrUndefined } from "./isNullOrUndefined";
 import { getXYFromTransform } from "./getXYFromTransform";
+import { isNullOrUndefined } from "./isNullOrUndefined";
 import { linkStores } from "./linkStores";
 
 describe("utils", () => {

@@ -1,5 +1,5 @@
-import type { AnyAction } from "redux";
 import React, { useMemo } from "react";
+import type { AnyAction } from "redux";
 import { Provider } from "react-redux";
 
 import { createStore, IStore } from "../store";

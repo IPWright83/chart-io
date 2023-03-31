@@ -1,6 +1,7 @@
 import { IValue } from "@d3-chart/types";
-import { formatNumber } from "./formatNumber";
+
 import { formatDate } from "./formatDate";
+import { formatNumber } from "./formatNumber";
 
 /**
  * Formats a value for a tooltip

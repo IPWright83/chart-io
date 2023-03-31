@@ -1,4 +1,4 @@
-import type { IValue, IColor, INumericValue } from "@d3-chart/types";
+import type { IColor, INumericValue, IValue } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
 

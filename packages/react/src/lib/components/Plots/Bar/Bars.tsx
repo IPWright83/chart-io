@@ -42,7 +42,7 @@ export function Bars({ y, xs, colors, stacked = false, grouped = false, ...props
     }
 
     if (!stacked && !grouped) {
-        throw new Error("Multiple bars plots must be either stacked or grouped");
+        throw new Error("Multiple bar plots must be either stacked or grouped");
     }
 
     if (stacked) {
