@@ -15,8 +15,8 @@ function App() {
     <div className="App">
       <header className="App-header">
         <XYChart data={data}>
-          <YAxis fields={[y]} />
-          <XAxis fields={[x]} />
+          <YAxis fields={y} />
+          <XAxis fields={x} />
           <Scatter x={x} y={y} />
         </XYChart>
       </header>
