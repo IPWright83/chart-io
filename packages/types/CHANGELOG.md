@@ -1,5 +1,11 @@
 # @d3-chart/types
 
+## 0.9.0
+
+### Minor Changes
+
+- 245192e: Allow non-array inputs for Scale/Axis
+
 ## 0.8.0
 
 ### Minor Changes
