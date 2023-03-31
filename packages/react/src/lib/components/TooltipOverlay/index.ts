@@ -1,8 +1,8 @@
 export * from "./TooltipOverlay";
 export * from "./Tooltip";
 
+import { ITooltipOverlayProps, TooltipOverlay as TooltipOverlayBase } from "./TooltipOverlay";
 import { withSVG } from "../../hoc";
-import { TooltipOverlay as TooltipOverlayBase, ITooltipOverlayProps } from "./TooltipOverlay";
 
 export const TooltipOverlay = withSVG(TooltipOverlayBase, "tooltip-overlay");
 

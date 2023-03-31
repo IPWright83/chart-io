@@ -1,7 +1,8 @@
 import * as d3 from "@d3-chart/d3";
-import React from "react";
 import { Provider } from "react-redux";
+import React from "react";
 import { render } from "@testing-library/react";
+
 import { createMockStore } from "../../../../testUtils";
 
 import { HorizontalBand } from ".";

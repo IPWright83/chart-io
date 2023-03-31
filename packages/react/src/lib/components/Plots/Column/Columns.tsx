@@ -33,7 +33,7 @@ export function Columns({ ys, colors, stacked = false, grouped = false, ...props
     }
 
     if (!stacked && !grouped) {
-        throw new Error("Multiple columns plots must be either stacked or grouped");
+        throw new Error("Multiple column plots must be either stacked or grouped");
     }
 
     if (stacked) {

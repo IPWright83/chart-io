@@ -17,6 +17,7 @@ export function Circle({ fill }: ICircleProps) {
         marginLeft: 5,
         marginRight: 5,
         borderRadius: "50%",
+        flexShrink: 0,
     };
 
     return <div className="d3-chart indicator-circle" style={style} />;

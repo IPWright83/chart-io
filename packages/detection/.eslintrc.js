@@ -21,6 +21,13 @@ module.exports = {
                 requireParamType: false,
             },
         ],
+        "sort-imports": [
+            "warn",
+            {
+                allowSeparatedGroups: true,
+                ignoreCase: true,
+            },
+        ],
         "@typescript-eslint/ban-ts-comment": "warn",
     },
 };

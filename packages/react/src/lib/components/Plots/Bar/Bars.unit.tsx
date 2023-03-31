@@ -1,13 +1,13 @@
-import { scaleBand, scaleLinear } from "d3-scale";
+import { scaleBand, scaleLinear } from "@d3-chart/d3";
 import React from "react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
-import { VirtualCanvas, VIRTUAL_CANVAS_DEBOUNCE } from "../../VirtualCanvas";
+import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../VirtualCanvas";
 import { Bars } from "./Bars";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { getBuffer, wait, renderChart } from "../../../testUtils";
+import { getBuffer, renderChart, wait } from "../../../testUtils";
 
 describe("Bars", () => {
     const data = [
@@ -21,6 +21,36 @@ describe("Bars", () => {
     };
 
     describe("Stacked", () => {
+        describe("throws error", () => {
+            beforeEach(() => {
+                jest.spyOn(console, "error").mockImplementation(() => jest.fn());
+            });
+
+            afterEach(() => {
+                jest.clearAllMocks();
+            });
+
+            it("when neither stacked nor grouped", async () => {
+                await expect(
+                    renderChart({
+                        children: <Bars y="y" xs={["x", "x2"]} />,
+                        data,
+                        scales,
+                    })
+                ).rejects.toThrow("Multiple bar plots must be either stacked or grouped");
+            });
+
+            it("when stacked and grouped", async () => {
+                await expect(
+                    renderChart({
+                        children: <Bars y="y" xs={["x", "x2"]} stacked grouped />,
+                        data,
+                        scales,
+                    })
+                ).rejects.toThrow("Bar plots currently do not support both being stacked and grouped");
+            });
+        });
+
         describe("using SVG", () => {
             it("should render correctly", async () => {
                 const { asFragment } = await renderChart({

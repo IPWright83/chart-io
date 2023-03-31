@@ -1,6 +1,6 @@
 import { IValue } from "./IValue";
 
-export interface IFormatter {
+export interface ITooltipFormatter {
     /**
      * An optional prefix to place in-front of formatted text
      */

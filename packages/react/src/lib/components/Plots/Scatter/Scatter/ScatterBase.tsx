@@ -1,14 +1,14 @@
 import * as d3 from "@d3-chart/d3";
+import { IColor, IDatum, IEventPlotProps, INumericValue } from "@d3-chart/types";
 import type { Selection, Transition } from "@d3-chart/d3";
-import { IEventPlotProps, IColor, INumericValue, IDatum } from "@d3-chart/types";
-import { useEffect } from "react";
-import { useStore, useSelector } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 
 import { useFocused } from "./useFocused";
 import { useTooltip } from "./useTooltip";
 
-import { renderCanvas } from "../../renderCanvas";
 import { chartSelectors, IState } from "../../../../store";
+import { useLegendItem, useRender } from "../../../../hooks";
+import { renderCanvas } from "../../renderCanvas";
 
 interface IScaleMaybeBandwidth {
     bandwidth?: any;
@@ -66,11 +66,12 @@ export function ScatterBase({
     // @ts-expect-error: scale.bandwidth() is an optional call here
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
+    useLegendItem(y, "circle", fillColor);
     const setFocused = useFocused(store.dispatch, xScale, yScale);
     const setTooltip = useTooltip(store.dispatch, x, y);
 
     // This is the main render function
-    useEffect(() => {
+    useRender(() => {
         // D3 data join
         // prettier-ignore
         const join = d3.select(layer.current)

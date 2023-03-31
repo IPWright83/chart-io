@@ -1,12 +1,12 @@
 import * as d3 from "@d3-chart/d3";
-import type { IPlotProps } from "@d3-chart/types";
 import React, { useRef } from "react";
-import { useStore, useSelector } from "react-redux";
+import { useSelector, useStore } from "react-redux";
+import type { IPlotProps } from "@d3-chart/types";
 
-import { useRender } from "../../../../../hooks";
 import { chartSelectors, eventSelectors, IState } from "../../../../../store";
 import { isNullOrUndefined } from "../../../../../utils";
 import { useDatumFocus } from "../useDatumFocus";
+import { useLegendItem, useRender } from "../../../../../hooks";
 import { useTooltip } from "../useTooltip";
 
 export type ICanvasLineProps = Omit<IPlotProps, "interactive">;
@@ -33,6 +33,8 @@ export function CanvasLine({ x, y, color, layer, canvas }: ICanvasLineProps) {
 
     // @ts-expect-error: We handle a missing bandwidth fine
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
+
+    useLegendItem(y, "line", seriesColor);
 
     /* On future renders we want to update the path */
     useRender(() => {

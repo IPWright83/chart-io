@@ -2,13 +2,15 @@ import * as d3 from "@d3-chart/d3";
 
 import { themes } from "../../../themes";
 
-import { defaultChartState, chartReducer } from "../chartReducer";
+import { chartReducer, defaultChartState } from "../chartReducer";
 
 import type {
-    SetDimensionAction,
-    SetDataAction,
-    SetScaleAction,
+    AddLegendItemAction,
+    RemoveLegendItemAction,
     SetAnimationDurationAction,
+    SetDataAction,
+    SetDimensionAction,
+    SetScaleAction,
     SetThemeAction,
 } from "../types";
 
@@ -38,6 +40,37 @@ describe("chartReducer", () => {
         } as SetDimensionAction;
 
         expect(chartReducer(previousState, action)).toEqual({
+            ...previousState,
+            dimensions: {
+                width: 900,
+                height: 400,
+                margin: { top: 5, left: 5, right: 5, bottom: 5 },
+            },
+            data: previousState.data,
+            scales: previousState.scales,
+        });
+    });
+
+    it("CHART.SET_DIMENSIONS action skips if identical", () => {
+        const previousLocalState = {
+            ...previousState,
+            dimensions: {
+                width: 900,
+                height: 400,
+                margin: { top: 5, left: 5, right: 5, bottom: 5 },
+            },
+        };
+
+        const action = {
+            type: "CHART.SET_DIMENSIONS",
+            payload: {
+                width: 900,
+                height: 400,
+                margin: { top: 5, left: 5, right: 5, bottom: 5 },
+            },
+        } as SetDimensionAction;
+
+        expect(chartReducer(previousLocalState, action)).toEqual({
             ...previousState,
             dimensions: {
                 width: 900,
@@ -97,6 +130,51 @@ describe("chartReducer", () => {
         expect(chartReducer(previousState, action)).toEqual({
             ...previousState,
             animationDuration: 12549,
+        });
+    });
+
+    it("CHART.ADD_LEGEND_ITEM", () => {
+        const item = {
+            name: "legend item",
+            icon: "circle" as const,
+            color: "#fff" as const,
+        };
+
+        const action = {
+            type: "CHART.ADD_LEGEND_ITEM",
+            payload: item,
+        } as AddLegendItemAction;
+
+        expect(chartReducer(previousState, action)).toEqual({
+            ...previousState,
+            legend: {
+                items: [item],
+            },
+        });
+    });
+
+    it("CHART.REMOVE_LEGEND_ITEM", () => {
+        const item = {
+            name: "legend item",
+            icon: "circle" as const,
+            color: "#fff" as const,
+        };
+
+        const previousLocalState = {
+            ...previousState,
+            legend: {
+                items: [item],
+            },
+        };
+
+        const action = {
+            type: "CHART.REMOVE_LEGEND_ITEM",
+            payload: item,
+        } as RemoveLegendItemAction;
+
+        expect(chartReducer(previousLocalState, action)).toEqual({
+            ...previousState,
+            legend: { items: [] },
         });
     });
 

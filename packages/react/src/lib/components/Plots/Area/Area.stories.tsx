@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import { argTypes } from "../../../../storybook/argTypes";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
@@ -73,24 +73,26 @@ const AreasTemplate = (args) => (
     </XYChart>
 );
 
-const StackedAreasTemplate = (args) => (
-    <XYChart
-        margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
-        data={sales_records_dataset}
-        height={args.height}
-        width={args.width}
-        animationDuration={args.animationDuration}
-        theme={args.theme}
-        useCanvas={args.useCanvas}
-        onClick={args.onClick}
-        onMouseOver={args.onMouseOver}
-        onMouseOut={args.onMouseOut}
-    >
-        <YAxis fields={[args.y, args.y2, args.y3]} aggregate={true} />
-        <XAxis fields={[args.x]} />
-        <Areas x={args.x} ys={[args.y, args.y2, args.y3]} stacked={true} />
-    </XYChart>
-);
+const StackedAreasTemplate = (args) => {
+    return (
+        <XYChart
+            margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+            data={sales_records_dataset}
+            height={args.height}
+            width={args.width}
+            animationDuration={args.animationDuration}
+            theme={args.theme}
+            useCanvas={args.useCanvas}
+            onClick={args.onClick}
+            onMouseOver={args.onMouseOver}
+            onMouseOut={args.onMouseOut}
+        >
+            <YAxis fields={[args.y, args.y2, args.y3]} aggregate={true} />
+            <XAxis fields={[args.x]} />
+            <Areas x={args.x} ys={[args.y, args.y2, args.y3]} stacked={true} />
+        </XYChart>
+    );
+};
 
 export const Basic = AreaTemplate.bind({});
 Basic.storyName = "Basic Plot";

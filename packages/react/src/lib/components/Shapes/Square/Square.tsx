@@ -16,6 +16,7 @@ export function Square({ fill }: ISquareProps) {
         marginTop: 4,
         marginRight: 5,
         marginLeft: 5,
+        flexShrink: 0,
     };
 
     return <div className="d3-chart indicator-square" style={style} />;

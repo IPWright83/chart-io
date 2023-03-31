@@ -1,6 +1,7 @@
+import type { Transition } from "@d3-chart/d3";
+
 import type { IColorToDataMap } from "./types";
 import { renderVirtualElements } from "./renderVirtualElements";
-import type { Transition } from "@d3-chart/d3";
 
 /**
  * Renders the canvas elements based on the join

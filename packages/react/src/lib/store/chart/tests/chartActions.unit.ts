@@ -1,7 +1,7 @@
 import * as d3 from "@d3-chart/d3";
 
-import { themes } from "../../../themes";
 import { chartActions } from "../chartActions";
+import { themes } from "../../../themes";
 
 describe("chartActions", () => {
     it("setDimensions returns correct action", () => {
@@ -118,6 +118,32 @@ describe("chartActions", () => {
                 type: "CHART.SET_THEME",
                 payload: { foo: "bar" },
             });
+        });
+    });
+
+    it("addLegendItem returns the correct action", () => {
+        const legendItem = {
+            name: "test legend item",
+            icon: "circle" as const,
+            color: "#FFF" as const,
+        };
+
+        expect(chartActions.addLegendItem(legendItem)).toEqual({
+            type: "CHART.ADD_LEGEND_ITEM",
+            payload: legendItem,
+        });
+    });
+
+    it("removeLegendItem returns the correct action", () => {
+        const legendItem = {
+            name: "test legend item",
+            icon: "circle" as const,
+            color: "#FFF" as const,
+        };
+
+        expect(chartActions.removeLegendItem(legendItem)).toEqual({
+            type: "CHART.REMOVE_LEGEND_ITEM",
+            payload: legendItem,
         });
     });
 });

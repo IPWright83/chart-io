@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors, IState } from "../../store";
 import { AutoScale, IAutoScaleProps } from "./AutoScale";
+import { chartSelectors, IState } from "../../store";
 import { useArray } from "../../hooks";
 
 export type IXScaleProps = Omit<IAutoScaleProps, "range">;

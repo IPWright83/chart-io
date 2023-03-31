@@ -1,8 +1,8 @@
 import { getShape } from "./getShape";
 
 import { Circle } from "./Circle";
-import { Square } from "./Square";
 import { Line } from "./Line";
+import { Square } from "./Square";
 
 describe("getShape", () => {
     it("returns correct shape", () => {

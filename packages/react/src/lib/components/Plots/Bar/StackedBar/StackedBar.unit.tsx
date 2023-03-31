@@ -1,13 +1,21 @@
-import { scaleBand, scaleLinear } from "d3-scale";
+import { scaleBand, scaleLinear } from "@d3-chart/d3";
 import React from "react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
-import { VirtualCanvas, VIRTUAL_CANVAS_DEBOUNCE } from "../../../VirtualCanvas";
+import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
 import { StackedBar } from "./StackedBar";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { getBuffer, wait, renderChart, testMouseClick, testMouseOver, testMouseExit } from "../../../../testUtils";
+import {
+    actionsIncludes,
+    getBuffer,
+    renderChart,
+    testMouseClick,
+    testMouseExit,
+    testMouseOver,
+    wait,
+} from "../../../../testUtils";
 
 describe("StackedBar", () => {
     const expectedDatum = {
@@ -53,7 +61,9 @@ describe("StackedBar", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
+                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
@@ -76,7 +86,9 @@ describe("StackedBar", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
+                    "CHART.ADD_LEGEND_ITEM",
                     // Mouseexit
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
@@ -174,7 +186,9 @@ describe("StackedBar", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
+                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.MOUSE_MOVE",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",
@@ -217,7 +231,9 @@ describe("StackedBar", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
+                    "CHART.ADD_LEGEND_ITEM",
+                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.MOUSE_MOVE",
                     "EVENT.ADD_TOOLTIP_ITEM",
                     "EVENT.ADD_TOOLTIP_ITEM",

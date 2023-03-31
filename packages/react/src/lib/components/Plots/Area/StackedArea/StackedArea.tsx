@@ -2,8 +2,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { chartSelectors, IState } from "../../../../store";
-import { withSVG, withCanvas, withXYPlot } from "../../../../hoc";
-import { StackedAreaBase, IStackedAreaBaseProps } from "./StackedAreaBase";
+import { IStackedAreaBaseProps, StackedAreaBase } from "./StackedAreaBase";
+import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
 export interface IStackedAreaProps extends Omit<IStackedAreaBaseProps, "interactive" | "layer"> {
     /**

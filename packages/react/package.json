@@ -1,7 +1,7 @@
 {
   "name": "@d3-chart/react",
   "private": false,
-  "version": "0.21.0",
+  "version": "0.22.0",
   "packageManager": "pnpm@7.26.2",
   "description": "@d3-chart is a react-d3 charting library",
   "repository": "git@github.com:IPWright83/chart-it.git",
@@ -12,6 +12,7 @@
   "homepage": "http://localhost:6006/?path=/story/introduction--page",
   "scripts": {
     "test": "jest --config jest.config.js",
+    "test:coverage": "jest --config jest.config.js --coverage",
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "lint": "eslint src",
     "dev": "vite build --watch",

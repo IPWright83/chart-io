@@ -1,17 +1,17 @@
 import * as d3 from "@d3-chart/d3";
-import type { AxisScale, AxisDomain } from "@d3-chart/d3";
+import type { AxisDomain, AxisScale } from "@d3-chart/d3";
 import type { IPosition } from "@d3-chart/types";
 
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
+import { chartSelectors, IState } from "../../../store";
+import { useArray } from "../../../hooks";
+
 import { getD3Axis } from "./getD3Axis";
 import { getTransform } from "./getTransform";
 import { Gridlines } from "./Gridlines";
 import { Title } from "./Title";
-
-import { chartSelectors, IState } from "../../../store";
-import { useArray } from "../../../hooks";
 
 export interface IAxisProps {
     /**

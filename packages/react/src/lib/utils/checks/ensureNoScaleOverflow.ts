@@ -1,5 +1,5 @@
 import * as d3 from "@d3-chart/d3";
-import type { IScale, IData } from "@d3-chart/types";
+import type { IData, IScale } from "@d3-chart/types";
 
 /**
  * Validates that the scale can cope with aggregated data

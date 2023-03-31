@@ -1,6 +1,6 @@
 import type { IScaleType, IValue } from "@d3-chart/types";
 import React, { useMemo } from "react";
-import { useStore, useSelector } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 
 import { chartSelectors, IState } from "../../store";
 import { calculateScale } from "./calculateScale";

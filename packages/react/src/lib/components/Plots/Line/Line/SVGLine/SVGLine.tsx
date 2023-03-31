@@ -1,14 +1,14 @@
 import * as d3 from "@d3-chart/d3";
+import { useSelector, useStore } from "react-redux";
 import type { IPlotProps } from "@d3-chart/types";
-import { useStore, useSelector } from "react-redux";
 
-import { useRender } from "../../../../../hooks";
 import { chartSelectors, eventSelectors, IState } from "../../../../../store";
 import { interpolateMultiPath, isNullOrUndefined } from "../../../../../utils";
+import { useLegendItem, useRender } from "../../../../../hooks";
 
 import { useDatumFocus } from "../useDatumFocus";
-import { useTooltip } from "../useTooltip";
 import { usePathCreator } from "./usePathCreator";
+import { useTooltip } from "../useTooltip";
 
 export type ISVGLineProps = Omit<IPlotProps, "canvas">;
 
@@ -32,6 +32,8 @@ export function SVGLine({ x, y, color, interactive = true, layer }: ISVGLineProp
 
     // @ts-expect-error: We handle a missing bandwidth fine
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
+
+    useLegendItem(y, "line", seriesColor);
 
     // Used to create our initial path
     usePathCreator(layer, x, y, xScale, yScale);

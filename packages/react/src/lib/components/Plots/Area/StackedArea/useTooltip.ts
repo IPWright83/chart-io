@@ -1,5 +1,5 @@
 import * as d3 from "@d3-chart/d3";
-import type { IScale, IData, IMouseEventType, ICoordinate, IColor } from "@d3-chart/types";
+import type { IColor, ICoordinate, IData, IMouseEventType, IScale } from "@d3-chart/types";
 import { useEffect } from "react";
 
 import { eventActions, IDispatch } from "../../../../store";

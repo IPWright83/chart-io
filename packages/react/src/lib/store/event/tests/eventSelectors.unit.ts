@@ -1,4 +1,4 @@
-import type { IMarker, IDropline, IColor, IMouseEventType } from "@d3-chart/types";
+import type { IColor, IDropline, IMarker, IMouseEventType } from "@d3-chart/types";
 
 import { defaultChartState } from "../../chart/chartReducer";
 import { defaultEventState } from "../eventReducer";

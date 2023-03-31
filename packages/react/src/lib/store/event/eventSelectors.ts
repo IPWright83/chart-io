@@ -1,6 +1,6 @@
-import type { IDropline, IMarker, IColor, ITooltipItem, IMouseEventType, ICoordinate } from "@d3-chart/types";
+import type { IColor, ICoordinate, IDropline, IMarker, IMouseEventType, ITooltipItem } from "@d3-chart/types";
 
-import type { IState, IEventState, IEventStateTooltip } from "../types";
+import type { IEventState, IEventStateTooltip, IState } from "../types";
 
 const EMPTY_OBJECT = {};
 const EMPTY_ARRAY = [];

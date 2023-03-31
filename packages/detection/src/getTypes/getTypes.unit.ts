@@ -1,5 +1,5 @@
-import { Type } from "../Type";
 import { getDataType } from "./getDataType";
+import { Type } from "../Type";
 
 describe("getTypes", () => {
     // Helper to call on an array

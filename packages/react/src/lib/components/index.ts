@@ -6,7 +6,7 @@ export * from "./Scale";
 export * from "./EventReceiver";
 export * from "./Droplines";
 export * from "./Markers";
-export * from "./Legend";
+export * from "./LegendOverlay";
 export * from "./XYChart";
 export * from "./Crosshair";
 export * from "./Furniture";

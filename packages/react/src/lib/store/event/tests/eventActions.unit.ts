@@ -1,4 +1,4 @@
-import type { IMarker, IDropline, IMouseEvent } from "@d3-chart/types";
+import type { IDropline, IMarker, IMouseEvent } from "@d3-chart/types";
 
 import { eventActions } from "../eventActions";
 

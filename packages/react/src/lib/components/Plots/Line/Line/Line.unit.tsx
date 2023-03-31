@@ -1,16 +1,16 @@
 import * as d3 from "@d3-chart/d3";
-import React from "react";
+import { act, render } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { render, act } from "@testing-library/react";
+import React from "react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
-import { VirtualCanvas, VIRTUAL_CANVAS_DEBOUNCE } from "../../../VirtualCanvas";
-import { Line } from "./Line";
+import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
 import { createStore } from "../../../../store";
+import { Line } from "./Line";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { getBuffer, wait, renderChart } from "../../../../testUtils";
+import { actionsIncludes, getBuffer, renderChart, wait } from "../../../../testUtils";
 
 describe("Line", () => {
     const data = [
@@ -35,7 +35,7 @@ describe("Line", () => {
 
             // Wait for the second render of the line, as
             // first render we put in a placeholder to animate
-            await wait(10);
+            await wait(100);
 
             expect(asFragment()).toMatchSnapshot();
         });
@@ -97,7 +97,7 @@ describe("Line", () => {
                 await wait(1);
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
                     "EVENT.MOUSE_ENTER",
                     "EVENT.ADD_MARKER",
                     "EVENT.ADD_DROPLINE",
@@ -172,7 +172,7 @@ describe("Line", () => {
                 await wait(1);
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
-                expect(dispatchCalls).toEqual([
+                actionsIncludes(dispatchCalls, [
                     "EVENT.MOUSE_ENTER",
                     "EVENT.ADD_MARKER",
                     "EVENT.ADD_DROPLINE",

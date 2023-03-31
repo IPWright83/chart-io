@@ -1,5 +1,5 @@
-import type { IScale } from "@d3-chart/types";
 import React, { useEffect } from "react";
+import type { IScale } from "@d3-chart/types";
 import { useStore } from "react-redux";
 
 import { chartActions } from "../../store";

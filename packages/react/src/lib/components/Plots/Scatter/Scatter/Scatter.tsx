@@ -2,7 +2,7 @@ import React from "react";
 
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
-import { ScatterBase, IScatterBaseProps } from "./ScatterBase";
+import { IScatterBaseProps, ScatterBase } from "./ScatterBase";
 
 export interface IScatterProps extends Omit<IScatterBaseProps, "layer" | "canvas"> {
     /**

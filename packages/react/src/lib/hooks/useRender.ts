@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
  * @param callback       The actual render function
  * @param dependencies   The set of dependencies that should trigger a re-render
  */
-const useRender = (callback: () => void, dependencies: any[]) => {
+export function useRender(callback: () => void, dependencies: any[]) {
     const [renderID, setRenderID] = useState(null);
 
     useEffect(() => {
@@ -27,6 +27,4 @@ const useRender = (callback: () => void, dependencies: any[]) => {
         // We don't actually want to pass the callback or the renderID
         // in as dependencies as this breaks the useRender hook
     }, dependencies);
-};
-
-export { useRender };
+}
