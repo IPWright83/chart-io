@@ -52,9 +52,9 @@
 ### Patch Changes
 
 - Updated dependencies [feddec9]
-  - @d3-chart/d3@0.2.0
-  - @d3-chart/detection@0.5.0
-  - @d3-chart/types@0.5.0
+  - @chart-it/d3@0.2.0
+  - @chart-it/detection@0.5.0
+  - @chart-it/types@0.5.0
 
 ## 0.15.0
 

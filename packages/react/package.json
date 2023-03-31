@@ -1,9 +1,9 @@
 {
-  "name": "@d3-chart/react",
+  "name": "@chart-it/react",
   "private": false,
   "version": "0.23.0",
   "packageManager": "pnpm@7.26.2",
-  "description": "@d3-chart is a react-d3 charting library",
+  "description": "@chart-it is a react-d3 charting library",
   "repository": "git@github.com:IPWright83/chart-it.git",
   "author": "\"Ian Wright\" <\"ipwright83+dev@gmail.com\">",
   "main": "dist/index.umd.js",
@@ -39,9 +39,9 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@d3-chart/d3": "workspace:*",
-    "@d3-chart/detection": "workspace:*",
-    "@d3-chart/types": "workspace:*",
+    "@chart-it/d3": "workspace:*",
+    "@chart-it/detection": "workspace:*",
+    "@chart-it/types": "workspace:*",
     "@babel/cli": "^7.18.9",
     "@babel/plugin-transform-react-jsx": "^7.18.6",
     "@babel/preset-env": "^7.18.9",

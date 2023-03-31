@@ -1,4 +1,4 @@
-import * as d3 from "@d3-chart/d3";
+import * as d3 from "@chart-it/d3";
 import { ensureBandScale } from "./ensureBandScale";
 import { ensureNoScaleOverflow } from "./ensureNoScaleOverflow";
 import { ensureValuesAreUnique } from "./ensureValuesAreUnique";

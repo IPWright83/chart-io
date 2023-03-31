@@ -1,5 +1,5 @@
-import type { IOnClick, IOnMouseOut, IOnMouseOver } from "@d3-chart/types";
-import type { Transition } from "@d3-chart/d3";
+import type { IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-it/types";
+import type { Transition } from "@chart-it/d3";
 
 import React from "react";
 

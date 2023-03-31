@@ -1,4 +1,4 @@
-import type { IPlotsProps } from "@d3-chart/types";
+import type { IPlotsProps } from "@chart-it/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -6,7 +6,7 @@ import { chartSelectors, IState } from "../../../store";
 
 import { Line } from "./Line";
 
-export type ILinesProps = Omit<IPlotsProps, "interactive">
+export type ILinesProps = Omit<IPlotsProps, "interactive">;
 
 /**
  * Represents a set of Line Plots

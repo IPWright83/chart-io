@@ -12,7 +12,7 @@ exports[`XYChart should create empty template correctly 1`] = `
       class="g-event-receiver"
     >
       <rect
-        class="d3-chart event-receiver"
+        class="chart-it event-receiver"
         height="440"
         style="fill: none; pointer-events: all;"
         transform="translate(30, 30)"

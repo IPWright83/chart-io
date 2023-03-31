@@ -1,6 +1,6 @@
-import * as d3 from "@d3-chart/d3";
-import type { IDatum, IEventPlotProps, INumericValue } from "@d3-chart/types";
-import type { Selection, Transition } from "@d3-chart/d3";
+import * as d3 from "@chart-it/d3";
+import type { IDatum, IEventPlotProps, INumericValue } from "@chart-it/types";
+import type { Selection, Transition } from "@chart-it/d3";
 
 import { useEffect, useState } from "react";
 import { useSelector, useStore } from "react-redux";

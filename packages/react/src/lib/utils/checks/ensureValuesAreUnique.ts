@@ -1,4 +1,4 @@
-import type { IData } from "@d3-chart/types";
+import type { IData } from "@chart-it/types";
 
 import { areValuesUnique } from "../areValuesUnique";
 

@@ -1,4 +1,4 @@
-import type { IValue } from "@d3-chart/types";
+import type { IValue } from "@chart-it/types";
 
 /**
  * Determines if all the values are unique

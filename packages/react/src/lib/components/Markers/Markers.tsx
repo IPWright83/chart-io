@@ -1,5 +1,5 @@
-import * as d3 from "@d3-chart/d3";
-import type { IMarker } from "@d3-chart/types";
+import * as d3 from "@chart-it/d3";
+import type { IMarker } from "@chart-it/types";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -37,7 +37,7 @@ export function Markers({ layer }: IMarkersBaseProps) {
         const enter = join
             .enter()
             .append("circle")
-            .attr("class", "d3-chart marker")
+            .attr("class", "chart-it marker")
             .attr("pointer-events", "none")
             .style("stroke", (d) => `${d.stroke ?? theme.markers.stroke}`)
             .style("stroke-width", theme.markers.strokeWidth)

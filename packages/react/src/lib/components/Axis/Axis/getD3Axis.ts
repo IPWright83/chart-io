@@ -1,6 +1,6 @@
-import * as d3 from "@d3-chart/d3";
-import type { Axis, AxisDomain, AxisScale } from "@d3-chart/d3";
-import type { IPosition, IScale } from "@d3-chart/types";
+import * as d3 from "@chart-it/d3";
+import type { Axis, AxisDomain, AxisScale } from "@chart-it/d3";
+import type { IPosition, IScale } from "@chart-it/types";
 
 /**
  * Return a D3 Axis function

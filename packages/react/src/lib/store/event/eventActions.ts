@@ -1,4 +1,4 @@
-import type { IColor, IDropline, IMarker, IMouseEvent, ITooltipItem } from "@d3-chart/types";
+import type { IColor, IDropline, IMarker, IMouseEvent, ITooltipItem } from "@chart-it/types";
 
 import type {
     AddDroplineAction,

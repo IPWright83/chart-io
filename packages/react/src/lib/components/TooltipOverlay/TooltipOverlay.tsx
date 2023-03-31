@@ -1,4 +1,4 @@
-import type { ITooltipFormatter } from "@d3-chart/types";
+import type { ITooltipFormatter } from "@chart-it/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
