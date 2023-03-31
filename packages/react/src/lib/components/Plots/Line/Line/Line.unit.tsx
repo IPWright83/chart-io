@@ -35,7 +35,7 @@ describe("Line", () => {
 
             // Wait for the second render of the line, as
             // first render we put in a placeholder to animate
-            await wait(10);
+            await wait(100);
 
             expect(asFragment()).toMatchSnapshot();
         });
