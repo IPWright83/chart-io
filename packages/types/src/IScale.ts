@@ -17,7 +17,7 @@ import type {
     ScaleSymLog,
     ScaleThreshold,
     ScaleTime,
-} from "@d3-chart/d3";
+} from "d3-scale";
 
 export type ILinearScale =
     | ScaleLinear<number, number>
