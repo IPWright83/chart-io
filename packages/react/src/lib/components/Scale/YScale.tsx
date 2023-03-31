@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 import { AutoScale, IAutoScaleProps } from "./AutoScale";
 import { chartSelectors, IState } from "../../store";
+import { useArray } from "../../hooks";
 
 export type IYScaleProps = Omit<IAutoScaleProps, "range">;
 
@@ -16,9 +17,11 @@ export function YScale({ fields, scaleType, aggregate, domain, fromAxis = false 
     const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
     const range = [height - margin.bottom, margin.top];
 
+    const fieldsArray = useArray(fields);
+
     return (
         <AutoScale
-            fields={fields}
+            fields={fieldsArray}
             fromAxis={fromAxis}
             range={range}
             scaleType={scaleType}

@@ -25,8 +25,8 @@ Here is an example of a very basic Scatter chart
 ```
 <XYChart data={[{ x: 10, y: 10 }, { x: 20, y: 20 }]}>
     <Scatter x="x" y="y"/>
-    <YAxis fields={["y"]} />
-    <XAxis fields={["x"]} />
+    <YAxis fields="y" />
+    <XAxis fields="x" />
 </XYChart>
 ```
 

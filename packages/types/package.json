@@ -26,6 +26,7 @@
     "chart"
   ],
   "devDependencies": {
+    "@chart-it/d3": "workspace:*",
     "@typescript-eslint/eslint-plugin": "^5.51.0",
     "@typescript-eslint/parser": "^5.51.0",
     "eslint": "^8.33.0",

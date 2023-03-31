@@ -10,6 +10,10 @@ import { chartSelectors, IState } from "../../../../store";
 import { useLegendItem, useRender } from "../../../../hooks";
 import { renderCanvas } from "../../renderCanvas";
 
+interface IScaleMaybeBandwidth {
+    bandwidth?: any;
+}
+
 export interface IScatterBaseProps extends IEventPlotProps {
     /**
      * The optional key of the field used for the relative z size. This overrides the radius

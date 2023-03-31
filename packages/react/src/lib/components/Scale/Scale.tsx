@@ -3,12 +3,13 @@ import type { IScale } from "@chart-it/types";
 import { useStore } from "react-redux";
 
 import { chartActions } from "../../store";
+import { useArray } from "../../hooks";
 
 export interface IScaleProps {
     /**
      * The keys of the fields that will share this scale
      */
-    fields: Array<string>;
+    fields: string | Array<string>;
     /**
      * Has this scale been created automatically from an Axis?
      */
@@ -26,10 +27,12 @@ export interface IScaleProps {
 export function Scale({ fields, scale, fromAxis }: IScaleProps) {
     const store = useStore();
 
+    const fieldsArray = useArray(fields);
+
     useEffect(() => {
         // @ts-ignore: TODO: Fix this
-        store.dispatch(chartActions.setScales(fields, scale, fromAxis));
-    }, [fields, scale, store.dispatch]);
+        store.dispatch(chartActions.setScales(fieldsArray, scale, fromAxis));
+    }, [fieldsArray, scale, store.dispatch]);
 
     return <React.Fragment />;
 }

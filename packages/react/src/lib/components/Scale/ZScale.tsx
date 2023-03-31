@@ -2,7 +2,9 @@ import React from "react";
 
 import { AutoScale, IAutoScaleProps } from "./AutoScale";
 
-export type IZScaleProps = IAutoScaleProps
+import { useArray } from "../../hooks";
+
+export type IZScaleProps = IAutoScaleProps;
 
 /**
  * Represents an XScale
@@ -10,5 +12,7 @@ export type IZScaleProps = IAutoScaleProps
  * @return         A scale component
  */
 export function ZScale({ fields, scaleType, range = [5, 25], domain, fromAxis = false }: IZScaleProps) {
-    return <AutoScale fields={fields} fromAxis={fromAxis} range={range} domain={domain} scaleType={scaleType} />;
+    const fieldsArray = useArray(fields);
+
+    return <AutoScale fields={fieldsArray} fromAxis={fromAxis} range={range} domain={domain} scaleType={scaleType} />;
 }
