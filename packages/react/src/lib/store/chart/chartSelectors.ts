@@ -1,4 +1,4 @@
-import type { IData, ILegendItem, IMargin, IScale, ITheme } from "@d3-chart/types";
+import type { IData, ILegendItem, IMargin, IScale, ITheme } from "@chart-it/types";
 
 import type { IChartState, IChartStateDimensions, IChartStateLegend, IChartStateScales, IState } from "../types";
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";

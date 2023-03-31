@@ -1,5 +1,5 @@
-import * as d3 from "@d3-chart/d3";
-import type { IColor } from "@d3-chart/types";
+import * as d3 from "@chart-it/d3";
+import type { IColor } from "@chart-it/types";
 
 /**
  * Renders a rectangle to the canvas

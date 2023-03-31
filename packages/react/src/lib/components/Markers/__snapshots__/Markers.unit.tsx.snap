@@ -7,7 +7,7 @@ exports[`Markers should render correctly 1`] = `
       class="g-markers"
     >
       <circle
-        class="d3-chart marker"
+        class="chart-it marker"
         cx="50"
         cy="50"
         pointer-events="none"

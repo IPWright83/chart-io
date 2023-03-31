@@ -11,7 +11,7 @@ module.exports = {
     testEnvironment: "jsdom",
     testMatch: ["**/*.unit.js", "**/*.unit.ts"],
     watchPlugins: ["jest-watch-typeahead/filename", "jest-watch-typeahead/testname"],
-    transformIgnorePatterns: ["<rootDir>/node_modules/(?!@d3-chart/d3/.*)"],
+    transformIgnorePatterns: ["<rootDir>/node_modules/(?!@chart-it/d3/.*)"],
     transform: {
         "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": ["@swc/jest"],
     },

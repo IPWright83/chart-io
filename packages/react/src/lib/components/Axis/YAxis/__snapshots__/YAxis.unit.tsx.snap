@@ -184,7 +184,7 @@ exports[`YAxis renders correctly 1`] = `
           </g>
         </g>
         <g
-          class="d3-chart axis axis-left"
+          class="chart-it axis axis-left"
           fill="none"
           font-family="sans-serif"
           font-size="10"

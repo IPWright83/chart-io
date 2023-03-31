@@ -1,4 +1,4 @@
-import type { IColor, ICoordinate, IDropline, IMarker, IMouseEvent, ITooltipItem } from "@d3-chart/types";
+import type { IColor, ICoordinate, IDropline, IMarker, IMouseEvent, ITooltipItem } from "@chart-it/types";
 
 export interface MouseMoveAction {
   type: "EVENT.MOUSE_MOVE";

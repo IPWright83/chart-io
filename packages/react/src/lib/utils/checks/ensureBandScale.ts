@@ -1,4 +1,4 @@
-import type { IScale } from "@d3-chart/types";
+import type { IScale } from "@chart-it/types";
 
 /**
  * Ensures that the scale is valid and logs if there's a problem

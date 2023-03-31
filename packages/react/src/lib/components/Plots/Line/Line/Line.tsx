@@ -1,4 +1,4 @@
-import type { IPlotProps } from "@d3-chart/types";
+import type { IPlotProps } from "@chart-it/types";
 import React from "react";
 
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";

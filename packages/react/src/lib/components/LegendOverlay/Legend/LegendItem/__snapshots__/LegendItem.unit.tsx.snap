@@ -3,19 +3,19 @@
 exports[`LegendItem should render correctly 1`] = `
 <DocumentFragment>
   <div
-    class="d3-chart legend-item"
+    class="chart-it legend-item"
     style="display: flex; flex-direction: row; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
   >
     <div
-      class="d3-chart indicator-circle"
+      class="chart-it indicator-circle"
       style="background: red; width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%; flex-shrink: 0;"
     />
     <div
-      class="d3-chart legend-values"
+      class="chart-it legend-values"
       style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"
     >
       <span
-        class="d3-chart legend-series-name"
+        class="chart-it legend-series-name"
         style="margin-right: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
       >
         Series1

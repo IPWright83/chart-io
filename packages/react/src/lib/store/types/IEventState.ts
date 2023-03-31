@@ -1,4 +1,4 @@
-import type { IColor, ICoordinate, IDropline, IMarker, IMouseEventType, ITooltipItem } from "@d3-chart/types";
+import type { IColor, ICoordinate, IDropline, IMarker, IMouseEventType, ITooltipItem } from "@chart-it/types";
 
 export interface IEventStateMouse {
   x: number;

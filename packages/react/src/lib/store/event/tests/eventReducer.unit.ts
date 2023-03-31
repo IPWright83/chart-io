@@ -1,4 +1,4 @@
-import type { IMouseEventType } from "@d3-chart/types";
+import type { IMouseEventType } from "@chart-it/types";
 
 import type {
     AddDroplineAction,

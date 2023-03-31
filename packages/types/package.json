@@ -1,9 +1,9 @@
 {
-  "name": "@d3-chart/types",
+  "name": "@chart-it/types",
   "version": "0.8.0",
   "private": true,
   "packageManager": "pnpm@7.26.2",
-  "description": "Provides core type definitions for d3-chart packages",
+  "description": "Provides core type definitions for chart-it packages",
   "repository": "git@github.com:IPWright83/chart-it.git",
   "author": "Ian Wright - IPWright83",
   "main": "src/index.ts",

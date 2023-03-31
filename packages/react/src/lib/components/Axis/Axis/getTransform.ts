@@ -1,4 +1,4 @@
-import type { IMargin, IPosition } from "@d3-chart/types";
+import type { IMargin, IPosition } from "@chart-it/types";
 
 /**
  * Obtain the transform for the Axis group

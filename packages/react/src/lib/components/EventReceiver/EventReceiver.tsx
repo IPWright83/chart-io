@@ -1,4 +1,4 @@
-import * as d3 from "@d3-chart/d3";
+import * as d3 from "@chart-it/d3";
 import React, { useEffect } from "react";
 import { useSelector, useStore } from "react-redux";
 import { throttle } from "lodash";
@@ -53,5 +53,5 @@ export function EventReceiver({ layer }: IEventReceiverBaseProps) {
     const transform = `translate(${margin.left || 0}, ${margin.top || 0})`;
     const style = { fill: "none", pointerEvents: "all" as const };
 
-    return <rect className="d3-chart event-receiver" transform={transform} style={style} />;
+    return <rect className="chart-it event-receiver" transform={transform} style={style} />;
 }

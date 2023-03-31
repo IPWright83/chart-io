@@ -1,4 +1,4 @@
-import type { Transition } from "@d3-chart/d3";
+import type { Transition } from "@chart-it/d3";
 
 import type { IColorToDataMap } from "./types";
 import { renderVirtualElements } from "./renderVirtualElements";

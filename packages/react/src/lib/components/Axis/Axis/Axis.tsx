@@ -1,6 +1,6 @@
-import * as d3 from "@d3-chart/d3";
-import type { AxisDomain, AxisScale } from "@d3-chart/d3";
-import type { IPosition } from "@d3-chart/types";
+import * as d3 from "@chart-it/d3";
+import type { AxisDomain, AxisScale } from "@chart-it/d3";
+import type { IPosition } from "@chart-it/types";
 
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
@@ -128,7 +128,7 @@ export function Axis({
                 {showGridlines ? (
                     <Gridlines position={position} scale={scale} ticks={ticks} tickValues={tickValues} />
                 ) : null}
-                <g className={`d3-chart axis axis-${position}`} ref={axis} style={{ userSelect: "none" }} />
+                <g className={`chart-it axis axis-${position}`} ref={axis} style={{ userSelect: "none" }} />
             </g>
         </React.Fragment>
     );

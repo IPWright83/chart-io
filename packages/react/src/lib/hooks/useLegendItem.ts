@@ -1,4 +1,4 @@
-import type { IColor, IShape } from "@d3-chart/types";
+import type { IColor, IShape } from "@chart-it/types";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 

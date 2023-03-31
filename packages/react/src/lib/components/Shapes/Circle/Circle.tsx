@@ -1,4 +1,4 @@
-import type { IColor } from "@d3-chart/types";
+import type { IColor } from "@chart-it/types";
 import React from "react";
 
 export interface ICircleProps {
@@ -20,5 +20,5 @@ export function Circle({ fill }: ICircleProps) {
         flexShrink: 0,
     };
 
-    return <div className="d3-chart indicator-circle" style={style} />;
+    return <div className="chart-it indicator-circle" style={style} />;
 }

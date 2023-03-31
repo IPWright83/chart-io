@@ -7,7 +7,7 @@ exports[`Droplines should render correctly 1`] = `
       class="g-droplines"
     >
       <line
-        class="d3-chart dropline"
+        class="chart-it dropline"
         point-events="none"
         style="stroke-dasharray: 4; stroke-opacity: 1; stroke-width: 2; stroke: red;"
         x1="50"
@@ -16,7 +16,7 @@ exports[`Droplines should render correctly 1`] = `
         y2="50"
       />
       <line
-        class="d3-chart dropline"
+        class="chart-it dropline"
         point-events="none"
         style="stroke-dasharray: 4; stroke-opacity: 1; stroke-width: 2; stroke: red;"
         x1="50"
@@ -36,7 +36,7 @@ exports[`Droplines should render just horizontal lines correctly 1`] = `
       class="g-droplines"
     >
       <line
-        class="d3-chart dropline"
+        class="chart-it dropline"
         point-events="none"
         style="stroke-dasharray: 4; stroke-opacity: 1; stroke-width: 2; stroke: red;"
         x1="50"
@@ -56,7 +56,7 @@ exports[`Droplines should render just vertical lines correctly 1`] = `
       class="g-droplines"
     >
       <line
-        class="d3-chart dropline"
+        class="chart-it dropline"
         point-events="none"
         style="stroke-dasharray: 4; stroke-opacity: 1; stroke-width: 2; stroke: red;"
         x1="50"

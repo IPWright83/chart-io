@@ -1,4 +1,4 @@
-import * as d3 from "@d3-chart/d3";
+import * as d3 from "@chart-it/d3";
 
 const SIGNIFICANT_FIGURES = 4;
 const REGEX_REPLACE_ZEROS_AFTER_DECIMAL = /(.*)(\.0+)([^\d]*)$/;

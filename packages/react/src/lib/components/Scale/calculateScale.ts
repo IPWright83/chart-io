@@ -1,8 +1,8 @@
-import * as d3 from "@d3-chart/d3";
-import type { IData, IScale, IScaleType, IValue } from "@d3-chart/types";
-import type { NumberValue } from "@d3-chart/d3";
+import * as d3 from "@chart-it/d3";
+import type { IData, IScale, IScaleType, IValue } from "@chart-it/types";
+import type { NumberValue } from "@chart-it/d3";
 
-import { getDataType, Type, typeEnumToName } from "@d3-chart/detection";
+import { getDataType, Type, typeEnumToName } from "@chart-it/detection";
 
 /**
  * Return a scale as defined by the scaleType property

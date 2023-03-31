@@ -1,4 +1,4 @@
-import { IValue } from "@d3-chart/types";
+import { IValue } from "@chart-it/types";
 
 import { formatDate } from "./formatDate";
 import { formatNumber } from "./formatNumber";
