@@ -1,6 +1,6 @@
 {
-  "name": "@chart-it/types",
-  "version": "0.8.0",
+  "name": "@d3-chart/types",
+  "version": "0.9.0",
   "private": true,
   "packageManager": "pnpm@7.26.2",
   "description": "Provides core type definitions for chart-it packages",
