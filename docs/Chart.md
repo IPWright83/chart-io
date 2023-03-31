@@ -4,7 +4,7 @@ Used to represent a Chart. The chart itself contains all the common & high level
 
 ```
 <Chart>
-    <XAxis fields={["x"]} />
+    <XAxis fields="x" />
     <YAxis fields={["y1", "y2"]} />
     <Scatter x="x" y="y1" radius={10} />
 </Chart>

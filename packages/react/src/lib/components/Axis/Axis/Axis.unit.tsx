@@ -38,7 +38,7 @@ describe("Axis", () => {
             const { asFragment } = render(
                 <Provider store={store}>
                     <svg>
-                        <Axis title="y" position="left" fields={["y"]} showGridlines={false} />
+                        <Axis title="y" position="left" fields="y" showGridlines={false} />
                     </svg>
                 </Provider>
             );
@@ -62,7 +62,7 @@ describe("Axis", () => {
             const { asFragment } = render(
                 <Provider store={store}>
                     <svg>
-                        <Axis title="x" position="top" fields={["x"]} showGridlines={false} />
+                        <Axis title="x" position="top" fields="x" showGridlines={false} />
                     </svg>
                 </Provider>
             );

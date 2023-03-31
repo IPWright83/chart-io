@@ -44,8 +44,8 @@ const data = [{ itemType: "Baby Food", price: 255 }, { itemType: "Cereal", price
 const margin = { left: 70, top: 40, right: 40, bottom: 40 };
 
 <XYChart data={data} margin={margin} width={800} height={500}>
-    <YAxis fields={["price"]} />
-    <XAxis fields={["itemType"]} scaleType="band" />
+    <YAxis fields="price" />
+    <XAxis fields="itemType" scaleType="band" />
     <Column x="itemType" y="price" />
 </XYChart>
 ```
@@ -62,8 +62,8 @@ const margin = { left: 70, top: 40, right: 40, bottom: 40 };
 
 <Chart {...props}>
     <EventReceiver />
-    <YAxis fields={["price"]} />
-    <XAxis fields={["itemType"]} scaleType="band" />
+    <YAxis fields="price" />
+    <XAxis fields="itemType" scaleType="band" />
     <Column x="itemType" y="price" />
     <Markers />
     <Droplines />
