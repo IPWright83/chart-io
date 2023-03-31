@@ -1,5 +1,11 @@
 # @chart-it/react-d3
 
+## 0.22.0
+
+### Minor Changes
+
+- f8166d8: Added support for Legends
+
 ## 0.21.0
 
 ### Minor Changes

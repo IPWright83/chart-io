@@ -1,5 +1,11 @@
 # @d3-chart/d3
 
+## 0.8.0
+
+### Minor Changes
+
+- f8166d8: Added support for Legends
+
 ## 0.7.0
 
 ### Minor Changes
