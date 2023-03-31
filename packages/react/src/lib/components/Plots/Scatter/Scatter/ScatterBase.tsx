@@ -10,6 +10,10 @@ import { useTooltip } from "./useTooltip";
 import { renderCanvas } from "../../renderCanvas";
 import { chartSelectors, IState } from "../../../../store";
 
+interface IScaleMaybeBandwidth {
+    bandwidth?: any;
+}
+
 export interface IScatterBaseProps extends IEventPlotProps {
     /**
      * The optional key of the field used for the relative z size. This overrides the radius

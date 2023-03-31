@@ -11,6 +11,7 @@ import { Gridlines } from "./Gridlines";
 import { Title } from "./Title";
 
 import { chartSelectors, IState } from "../../../store";
+import { useArray } from "../../../hooks";
 
 export interface IAxisProps {
     /**
@@ -18,9 +19,9 @@ export interface IAxisProps {
      */
     position: IPosition;
     /**
-     * The keys of the fields that will share this scale
+     * The key(s) of the fields that will share this scale
      */
-    fields: string[];
+    fields: string | Array<string>;
     /**
      * https://github.com/d3/d3-axis#axis_tickSizeInner
      */
@@ -73,13 +74,15 @@ export function Axis({
     tickFormat,
     tickValues,
 }: IAxisProps) {
-    if (fields.length === 0) {
+    const fieldsArray = useArray(fields);
+
+    if (fieldsArray.length === 0) {
         throw new Error(
             "Unable to render an Axis without a field. Ensure that you have provided at least one field in the 'fields' prop."
         );
     }
 
-    const field = fields[0];
+    const field = fieldsArray[0];
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
