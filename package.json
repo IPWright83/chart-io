@@ -18,6 +18,7 @@
     "start": "turbo run start",
     "storybook": "pnpm --filter '@chart-it/react' storybook",
     "storybook:build": "pnpm --filter '@chart-it/react' build-storybook",
+    "storybook:deploy": "pnpm --filter '@chart-it/*' deploy-storybook",
     "types": "turbo run types",
     "test": "turbo run test --concurrency=1",
     "test:coverage": "turbo run test --concurrency=1 -- --coverage",
