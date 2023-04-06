@@ -61,7 +61,3 @@ Start the storybook server
 #### Is @chart-it/react-d3 free to use?
 
 @chart-it/react-d3 is free to use and the aim is that it will always be free in open source/non-commercial projects. There may be costs for commercial use in the future, purely to help support the development and improvement of @chart-it/react-d3.
-
-#### What is the telemetry module in @chart-it/react-d3?
-
-@chart-it/react-d3 aims to provide charts with low/zero configuration in the long run. To achieve this an understanding of which chart types fit with different data shapes is required. While currently disabled @chart-it/react-d3 will capture anonymous metadata about your charts configuration and the shape of the data (no actual data is captured).
