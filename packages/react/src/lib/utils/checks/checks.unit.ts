@@ -4,84 +4,69 @@ import { ensureNoScaleOverflow } from "./ensureNoScaleOverflow";
 import { ensureValuesAreUnique } from "./ensureValuesAreUnique";
 
 describe("/utils/checks", () => {
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
-
-  describe("ensureBandScale", () => {
-    it("should return false if not a d3.scaleBand", () => {
-      const spy = jest.spyOn(console, "error").mockImplementation(jest.fn());
-
-      expect(
-        ensureBandScale(
-          d3.scaleLinear().domain([0, 1]).range([0, 1]),
-          "unit_test"
-        )
-      ).toBe(false);
-
-      expect(spy.mock.calls[0][0]).toMatchInlineSnapshot(
-        `"@chart-it/react encountered an error. E001: Incompatible scale for a <unit_test />. Are you missing the \`scaleType="band"\` in your <Axis /> or <AutoScale /> component?. You can read more about this http://localhost:6006/?path=/docs/errors-warnings-errors-E001."`
-      );
+    afterEach(() => {
+        jest.resetAllMocks();
     });
 
-    it("should return true if a d3.scaleBand", () => {
-      expect(ensureBandScale(d3.scaleBand(), "unit_test")).toBe(true);
-    });
-  });
+    describe("ensureBandScale", () => {
+        it("should return false if not a d3.scaleBand", () => {
+            const spy = jest.spyOn(console, "error").mockImplementation(jest.fn());
 
-  describe("ensureNoScaleOverflow for aggregated data", () => {
-    it("should return true if the data is larger than the scale", () => {
-      const spy = jest.spyOn(console, "warn").mockImplementation(jest.fn());
+            expect(ensureBandScale(d3.scaleLinear().domain([0, 1]).range([0, 1]), "unit_test")).toBe(false);
 
-      const scale = d3.scaleLinear().domain([0, 10]);
-      const data = [
-        { x: 2, y: 5 },
-        { x: 5, y: 8 },
-      ];
-      const fields = ["x", "y"];
+            expect(spy.mock.calls[0][0]).toMatchSnapshot();
+        });
 
-      expect(ensureNoScaleOverflow(scale, data, fields, "unit_test")).toBe(
-        false
-      );
-
-      expect(spy.mock.calls[0][0]).toMatchInlineSnapshot(
-        `"@chart-it/react encountered an warning. W001: The scale for unit_test appears too small for the dataset. Are you missing the \`aggregate={true}\` in your <Axis /> or <AutoScale /> component?. You can read more about this http://localhost:6006/?path=/docs/errors-warnings-warnings-W001."`
-      );
+        it("should return true if a d3.scaleBand", () => {
+            expect(ensureBandScale(d3.scaleBand(), "unit_test")).toBe(true);
+        });
     });
 
-    it("should return false if the data is smaller than the scale", () => {
-      const scale = d3.scaleLinear().domain([0, 20]);
-      const data = [
-        { x: 2, y: 5 },
-        { x: 5, y: 8 },
-      ];
-      const fields = ["x", "y"];
+    describe("ensureNoScaleOverflow for aggregated data", () => {
+        it("should return true if the data is larger than the scale", () => {
+            const spy = jest.spyOn(console, "warn").mockImplementation(jest.fn());
 
-      expect(ensureNoScaleOverflow(scale, data, fields, "unit_test")).toBe(
-        true
-      );
+            const scale = d3.scaleLinear().domain([0, 10]);
+            const data = [
+                { x: 2, y: 5 },
+                { x: 5, y: 8 },
+            ];
+            const fields = ["x", "y"];
+
+            expect(ensureNoScaleOverflow(scale, data, fields, "unit_test")).toBe(false);
+
+            expect(spy.mock.calls[0][0]).toMatchSnapshot();
+        });
+
+        it("should return false if the data is smaller than the scale", () => {
+            const scale = d3.scaleLinear().domain([0, 20]);
+            const data = [
+                { x: 2, y: 5 },
+                { x: 5, y: 8 },
+            ];
+            const fields = ["x", "y"];
+
+            expect(ensureNoScaleOverflow(scale, data, fields, "unit_test")).toBe(true);
+        });
     });
-  });
 
-  describe("ensureValuesAreUnique", () => {
-    it("should return true if all the values are unique", () => {
-      const data = [{ x: "a" }, { x: "b" }, { x: "c" }];
-      const field = "x";
+    describe("ensureValuesAreUnique", () => {
+        it("should return true if all the values are unique", () => {
+            const data = [{ x: "a" }, { x: "b" }, { x: "c" }];
+            const field = "x";
 
-      expect(ensureValuesAreUnique(data, field, "unit_test")).toBe(true);
+            expect(ensureValuesAreUnique(data, field, "unit_test")).toBe(true);
+        });
+
+        it("should return false if not all the values are unique", () => {
+            const spy = jest.spyOn(console, "warn").mockImplementation(jest.fn());
+
+            const data = [{ x: "a" }, { x: "b" }, { x: "a" }];
+            const field = "x";
+
+            expect(ensureValuesAreUnique(data, field, "unit_test")).toBe(false);
+
+            expect(spy.mock.calls[0][0]).toMatchSnapshot();
+        });
     });
-
-    it("should return false if not all the values are unique", () => {
-      const spy = jest.spyOn(console, "warn").mockImplementation(jest.fn());
-
-      const data = [{ x: "a" }, { x: "b" }, { x: "a" }];
-      const field = "x";
-
-      expect(ensureValuesAreUnique(data, field, "unit_test")).toBe(false);
-
-      expect(spy.mock.calls[0][0]).toMatchInlineSnapshot(
-        `"@chart-it/react encountered an warning. W002: There are duplicate values in the x field. This may cause rendering artifacts with a <unit_test>.. You can read more about this http://localhost:6006/?path=/docs/errors-warnings-warnings-W002."`
-      );
-    });
-  });
 });
