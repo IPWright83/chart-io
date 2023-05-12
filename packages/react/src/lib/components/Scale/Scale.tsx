@@ -3,6 +3,7 @@ import type { IScale } from "@chart-it/types";
 import { useStore } from "react-redux";
 
 import { chartActions } from "../../store";
+import { logAndThrowError } from "../../utils";
 import { useArray } from "../../hooks";
 
 export interface IScaleProps {
