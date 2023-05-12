@@ -29,3 +29,6 @@ export function Column({ useCanvas = false, ...props }: IColumnProps) {
 }
 
 Column.requiresVirtualCanvas = true;
+Column.isPlot = true;
+Column.brushHorizontal = true;
+Column.brushVertical = false;

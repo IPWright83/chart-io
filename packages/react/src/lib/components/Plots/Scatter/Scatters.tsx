@@ -32,3 +32,6 @@ export function Scatters({ x, ys, radius, colors, ...props }: IScattersProps) {
 }
 
 Scatters.requiresVirtualCanvas = true;
+Scatters.isPlot = true;
+Scatters.brushHorizontal = true;
+Scatters.brushVertical = true;

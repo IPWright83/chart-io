@@ -29,3 +29,6 @@ export function Scatter({ useCanvas = false, ...props }: IScatterProps) {
 }
 
 Scatter.requiresVirtualCanvas = true;
+Scatter.isPlot = true;
+Scatter.brushHorizontal = true;
+Scatter.brushVertical = true;

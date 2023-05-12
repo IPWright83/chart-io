@@ -7,6 +7,7 @@ import { EventReceiver } from "../EventReceiver";
 import { LegendOverlay } from "../LegendOverlay";
 import { Markers } from "../Markers";
 import { TooltipOverlay } from "../TooltipOverlay";
+import { Brush } from "../Brush";
 
 import { shouldShowDroplines } from "./shouldShowDroplines";
 
@@ -23,6 +24,7 @@ export function XYChart({ children, ...props }: IXYChartProps) {
             <Markers />
             {showDroplines && <Droplines />}
             {showCrosshair && <Crosshair />}
+            <Brush>{children}</Brush>
             <TooltipOverlay />
             <LegendOverlay />
         </Chart>

@@ -30,3 +30,6 @@ export function Line({ useCanvas = false, ...props }: ILineProps) {
 }
 
 Line.requiresVirtualCanvas = false;
+Line.isPlot = true;
+Line.brushHorizontal = true;
+Line.brushVertical = false;

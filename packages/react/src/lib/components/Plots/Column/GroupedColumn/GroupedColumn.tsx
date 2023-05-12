@@ -34,3 +34,6 @@ export function GroupedColumn({ useCanvas = false, colors, ...props }: IGroupedC
 }
 
 GroupedColumn.requiresVirtualCanvas = true;
+GroupedColumn.isPlot = true;
+GroupedColumn.brushHorizontal = true;
+GroupedColumn.brushVertical = false;

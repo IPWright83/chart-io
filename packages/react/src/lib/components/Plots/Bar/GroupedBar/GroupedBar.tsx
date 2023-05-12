@@ -34,3 +34,6 @@ export function GroupedBar({ useCanvas = false, colors, ...props }: IGroupedBarP
 }
 
 GroupedBar.requiresVirtualCanvas = true;
+GroupedBar.isPlot = true;
+GroupedBar.brushHorizontal = false;
+GroupedBar.brushVertical = true;

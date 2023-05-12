@@ -55,3 +55,6 @@ export function Columns({ ys, colors, stacked = false, grouped = false, ...props
 }
 
 Columns.requiresVirtualCanvas = true;
+Columns.isPlot = true;
+Columns.brushHorizontal = true;
+Columns.brushVertical = false;

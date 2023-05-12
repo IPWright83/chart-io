@@ -34,3 +34,6 @@ export function StackedBar({ useCanvas = false, colors, ...props }: IStackedBarP
 }
 
 StackedBar.requiresVirtualCanvas = true;
+StackedBar.isPlot = true;
+StackedBar.brushHorizontal = false;
+StackedBar.brushVertical = true;

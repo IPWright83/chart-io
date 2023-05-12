@@ -29,3 +29,6 @@ export function Bar({ useCanvas = false, ...props }: IBarProps) {
 }
 
 Bar.requiresVirtualCanvas = true;
+Bar.isPlot = true;
+Bar.brushHorizontal = false;
+Bar.brushVertical = true;

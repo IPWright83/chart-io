@@ -32,3 +32,6 @@ export function StackedArea({ useCanvas = false, colors, ...props }: IStackedAre
 }
 
 StackedArea.requiresVirtualCanvas = false;
+StackedArea.isPlot = true;
+StackedArea.brushHorizontal = true;
+StackedArea.brushVertical = false;
