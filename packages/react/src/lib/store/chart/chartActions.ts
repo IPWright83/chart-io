@@ -1,7 +1,7 @@
 import type { IData, ILegendItem, IMargin, IScale, ITheme } from "@chart-it/types";
 
 import type { SetAnimationDurationAction, SetDataAction, SetDimensionAction } from "./types";
-
+import { logWarning } from "../../utils";
 import { themes } from "../../themes";
 
 /**
@@ -12,7 +12,7 @@ import { themes } from "../../themes";
  */
 const validateMargin = (value: number, side: string): boolean => {
     if (value === null || value === undefined) {
-        console.warn(`W005 - The ${side} of the margin was not specified and is required`);
+        logWarning("W005", `The ${side} of the margin was not specified and is required`);
         return false;
     }
 
@@ -28,7 +28,7 @@ const validateMargin = (value: number, side: string): boolean => {
  */
 const setDimensions = (width: number, height: number, margin: IMargin): SetDimensionAction => {
     if (!margin) {
-        console.warn("W004 - A margin was not provided but is required");
+        logWarning("W004", "A margin was not provided but is required");
         return;
     }
 

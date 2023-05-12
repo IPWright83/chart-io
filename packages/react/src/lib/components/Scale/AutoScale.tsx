@@ -4,6 +4,7 @@ import { useSelector, useStore } from "react-redux";
 
 import { chartSelectors, IState } from "../../store";
 import { calculateScale } from "./calculateScale";
+import { logAndThrowError } from "../../utils";
 import { Scale } from "./Scale";
 import { useArray } from "../../hooks";
 
@@ -43,6 +44,12 @@ export function AutoScale({ fields, range, scaleType, aggregate = false, domain,
     const data = useSelector((s: IState) => chartSelectors.data(s));
 
     const fieldsArray = useArray(fields);
+    if (fieldsArray.length === 0) {
+        logAndThrowError(
+            "E006",
+            "Unable to create a Scale without a field. Ensure that you have provided at least one field in the 'fields' prop"
+        );
+    }
 
     const scale = useMemo(() => {
         if (!range) return;

@@ -1,6 +1,7 @@
 import type { IData } from "@chart-it/types";
 
 import { areValuesUnique } from "../areValuesUnique";
+import { logWarning } from "../logger";
 
 /**
  * /**
@@ -12,8 +13,9 @@ import { areValuesUnique } from "../areValuesUnique";
  */
 const ensureValuesAreUnique = (data: IData, field: string, componentName: string): boolean => {
     if (areValuesUnique(data.map((d) => d[field])) === false) {
-        console.warn(
-            `W002 - There are duplicate values in the ${field} field. This may cause rendering artifacts with a <${componentName}>.`
+        logWarning(
+            "W002",
+            `There are duplicate values in the ${field} field. This may cause rendering artifacts with a <${componentName}>.`
         );
 
         return false;

@@ -1,5 +1,7 @@
 import type { AnyAction, Store } from "redux";
 
+import { logAndThrowError } from "./logger";
+
 /**
  * Links 2 or more Redux stores together, piping events between them
  * @param  stores          The set of stores to link
@@ -45,7 +47,10 @@ export function linkStores(stores: Store<any, AnyAction>[] = [], actionFilter = 
         }
 
         if (_store.chartItOverride) {
-            throw new Error("This function can strictly only be called once during initialisation");
+            logAndThrowError(
+                "E008",
+                "The linkStores() function can strictly only be called once during initialisation"
+            );
         }
 
         // Record the dispatch for later

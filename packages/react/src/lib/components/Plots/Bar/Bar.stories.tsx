@@ -135,6 +135,7 @@ Stacked.args = {
     ...Basic.args,
     x2: "Unit Cost",
     stacked: true,
+    grouped: true,
 };
 
 export const Grouped = BarsTemplate.bind({});

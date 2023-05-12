@@ -2,6 +2,8 @@ import * as d3 from "@chart-it/d3";
 import type { Axis, AxisDomain, AxisScale } from "@chart-it/d3";
 import type { IPosition, IScale } from "@chart-it/types";
 
+import { logAndThrowError } from "../../../utils";
+
 /**
  * Return a D3 Axis function
  * @param  position     The position of the axis [left, right, top, bottom]
@@ -20,7 +22,7 @@ const getD3Axis = (position: IPosition, scale: IScale): Axis<AxisDomain> => {
             return d3.axisBottom(scale as AxisScale<AxisDomain>);
         default:
             // istanbul ignore next
-            throw new Error(`Invalid position ${position}`);
+            logAndThrowError("E002", `Invalid position (${position}) was provided to the Axis`);
     }
 };
 

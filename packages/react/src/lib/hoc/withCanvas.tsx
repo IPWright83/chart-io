@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { chartSelectors, IState } from "../store";
+import { logWarning } from "../utils";
 
 /**
  * Wraps a D3 layer to make it work as a Canvas component
@@ -11,7 +12,7 @@ import { chartSelectors, IState } from "../store";
  */
 const withCanvas = <P extends object>(WrappedComponent: React.ComponentType<P>, className: string) => {
     if (!className) {
-        console.warn("W003 - className is required when using the withCanvas higher order component");
+        logWarning("W003", "className is required when using the withCanvas higher order component");
     }
 
     /**

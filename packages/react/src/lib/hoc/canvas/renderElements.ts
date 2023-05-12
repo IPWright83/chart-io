@@ -1,6 +1,7 @@
 import type { IColor } from "@chart-it/types";
 import type { Transition } from "@chart-it/d3";
 
+import { logWarning } from "../../utils";
 import { renderCircle } from "./renderCircle";
 import { renderRect } from "./renderRect";
 
@@ -38,7 +39,8 @@ export function renderElements(
                 break;
 
             default:
-                throw new Error(`Unsupported node type: ${node.nodeName}`);
+                logWarning("W006", `Unsupported node type: ${node.nodeName}`);
+                break;
         }
     });
 }

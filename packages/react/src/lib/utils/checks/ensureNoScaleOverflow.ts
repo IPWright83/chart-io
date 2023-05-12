@@ -1,6 +1,8 @@
 import * as d3 from "@chart-it/d3";
 import type { IData, IScale } from "@chart-it/types";
 
+import { logWarning } from "../logger";
+
 /**
  * Validates that the scale can cope with aggregated data
  * @param  scale                The d3 scale
@@ -14,11 +16,11 @@ const ensureNoScaleOverflow = (scale: IScale, data: IData, fields: string[], com
     const maxValue = d3.max(data.map((d) => fields.reduce((sum, key) => sum + d[key], 0)));
 
     if (maxValue > scale.domain()[1]) {
-        console.warn(
-            `W001 - The scale for ${componentName} appears too small for the dataset. Are you missing the \`aggregate={true}\` in your <Axis /> or <AutoScale /> component?`,
+        logWarning(
+            "W001",
+            `The scale for ${componentName} appears too small for the dataset. Are you missing the \`aggregate={true}\` in your <Axis /> or <AutoScale /> component?`,
             fields
         );
-
         return false;
     }
 

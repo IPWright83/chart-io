@@ -28,6 +28,12 @@ export function Scale({ fields, scale, fromAxis }: IScaleProps) {
     const store = useStore();
 
     const fieldsArray = useArray(fields);
+    if (fieldsArray.length === 0) {
+        logAndThrowError(
+            "E006",
+            "Unable to create a Scale without a field. Ensure that you have provided at least one field in the 'fields' prop"
+        );
+    }
 
     useEffect(() => {
         // @ts-ignore: TODO: Fix this

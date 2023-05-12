@@ -6,6 +6,7 @@ import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { chartSelectors, IState } from "../../../store";
+import { logAndThrowError } from "../../../utils";
 import { useArray } from "../../../hooks";
 
 import { getD3Axis } from "./getD3Axis";
@@ -77,8 +78,9 @@ export function Axis({
     const fieldsArray = useArray(fields);
 
     if (fieldsArray.length === 0) {
-        throw new Error(
-            "Unable to render an Axis without a field. Ensure that you have provided at least one field in the 'fields' prop."
+        logAndThrowError(
+            "E005",
+            "Unable to render an Axis without a field. Ensure that you have provided at least one field in the 'fields' prop"
         );
     }
 

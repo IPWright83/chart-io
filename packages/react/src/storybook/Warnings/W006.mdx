@@ -1,0 +1,18 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Errors & Warnings/Warnings/W006" />
+
+# W006 Canvas Unsupported Node Type
+
+> `Unsupported node type: ${node.nodeName}`
+
+## Cause
+
+When using a Canvas instead of SVG only certain node types can be converted to canvas. In this case a node was encountered that @chart-it does not know how to automatically convert to the canvas equivalent
+
+## Fix
+
+Avoid using unsupported node types when trying to use the automatic canvas conversion. Currently supported node types are:
+
+-   svg:circle
+-   svg:rect

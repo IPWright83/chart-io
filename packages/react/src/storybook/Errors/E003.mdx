@@ -1,0 +1,21 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Errors & Warnings/Errors/E003" />
+
+# E003 Stacked & Grouped not supported
+
+> `Bar plots do not support both being stacked and grouped`  
+> `Column plots do not support both being stacked and grouped`
+
+## Cause
+
+When multiple plots are created for a bar on column chart they can be either stacked or grouped. @chart-it does not support both of these options being set at the same time.
+
+## Fix
+
+Decide whether you want to apply:
+
+-   Stacking (bars/columns) sit on top of each other
+-   Grouping (bars/columns) sit side by side
+
+Then set either the `grouped` or `stacked` option to `true`, but not both options at the same time.
