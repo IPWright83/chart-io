@@ -11,6 +11,10 @@ export function useArray(fields: string | Array<string>): Array<string> {
             return [];
         }
 
+        if (typeof fields === "string") {
+            return [fields];
+        }
+
         return fields;
     }, [fields]);
 }
