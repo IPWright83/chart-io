@@ -172,7 +172,7 @@ export const chartSelectors: IChartSelectors = {
         // @inheritDoc
         getScale: memoizeWithArgs(
             (state: IState, field: string, type: IScaleMode) => {
-                const scale = chartSelectors.scales.store(state, field)?.scale;
+                const scale = chartSelectors.scales.store(state, field)?.scale?.copy();
                 // prettier-ignore
                 if (scale) {
                     switch (type) {

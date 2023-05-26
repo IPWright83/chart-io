@@ -38,6 +38,8 @@ export function StackedColumnBase({
     x,
     ys,
     colors,
+    scaleMode = "plot",
+    showInLegend = true,
     interactive = true,
     onMouseOver,
     onMouseOut,
@@ -52,15 +54,15 @@ export function StackedColumnBase({
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
-    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
-    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, ys[0]));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, scaleMode));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, ys[0], scaleMode));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, x);
 
-    useLegendItems(ys, "square", colors);
+    useLegendItems(ys, "square", showInLegend, colors);
 
     useEffect(() => {
         if (!focused) return;

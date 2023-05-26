@@ -10,16 +10,18 @@ export interface IBrushProps {
      * The child components for the chart
      */
     children?: JSX.Element | JSX.Element[];
+    /**
+     * The number of pixels the brush should take. This is the height
+     * for a horizontal brush or the width for a vertical brush.
+     */
+    size?: number;
 }
 
 /**
  * Represents a Brush component on the chart
  * @return The Brush component
  */
-export function Brush({ children }: IBrushProps) {
-    const height = 100;
-    const width = 100;
-
+export function Brush({ children, size = 60 }: IBrushProps) {
     // Find all the interactive plots
     const plots = getBrushPlots(children);
 
@@ -27,19 +29,21 @@ export function Brush({ children }: IBrushProps) {
     const needHorizontalBrush = plots.some((c) => c.type.brushHorizontal);
     const needVerticalBrush = plots.some((c) => c.type.brushVertical);
 
-    // None of the plots support brushing
-    if (!needHorizontalBrush && !needVerticalBrush) {
-        return null;
-    }
+    console.log(plots, children);
 
-    // Special case for an XYBrush (usually a scatter zoom)
-    if (needHorizontalBrush && needVerticalBrush) {
-        return null; // <ScatterBrush />;
-    }
+    // // None of the plots support brushing
+    // if (!needHorizontalBrush && !needVerticalBrush) {
+    //     return null;
+    // }
+
+    // // Special case for an XYBrush (usually a scatter zoom)
+    // if (needHorizontalBrush && needVerticalBrush) {
+    //     return null; // <ScatterBrush />;
+    // }
 
     if (needHorizontalBrush) {
         // return null;
-        return <HorizontalBrush plots={plots} />;
+        return <HorizontalBrush height={size} plots={plots} />;
     }
 
     //return <VerticalBrush />

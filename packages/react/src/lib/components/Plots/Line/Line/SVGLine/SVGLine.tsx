@@ -17,14 +17,18 @@ export type ISVGLineProps = Omit<IPlotProps, "canvas">;
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Line plot component
  */
-export function SVGLine({ x, y, color, scaleMode = "plot", interactive = true, layer }: ISVGLineProps) {
+export function SVGLine({
+    x,
+    y,
+    color,
+    scaleMode = "plot",
+    showInLegend = true,
+    interactive = true,
+    layer,
+}: ISVGLineProps) {
     const store = useStore();
     const data = useSelector((s: IState) => chartSelectors.data(s));
-    const xScale = useSelector((s: IState) => {
-        console.log("ADD A BREAKPOINT HERE");
-        const scale = chartSelectors.scales.getScale(s, x, scaleMode);
-        return scale;
-    });
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, scaleMode));
     const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y, scaleMode));
     const eventMode = useSelector((s: IState) => eventSelectors.mode(s));
     const position = useSelector((s: IState) => eventSelectors.position(s));
@@ -37,7 +41,7 @@ export function SVGLine({ x, y, color, scaleMode = "plot", interactive = true, l
     // @ts-expect-error: We handle a missing bandwidth fine
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
-    useLegendItem(y, "line", interactive, seriesColor);
+    useLegendItem(y, "line", showInLegend, seriesColor);
 
     // Used to create our initial path
     usePathCreator(layer, x, y, xScale, yScale);

@@ -4,20 +4,17 @@ import type { IData, IOrientation, ILegendItem, IMargin, IScale, ITheme } from "
 
 export interface IChartScaleInfo {
   // orientation: IOrientation;
-  scale: IScale;
+  scale?: IScale;
   domain: any;
   zoomedDomain: any;
   range: any;
-  plot: {
-    range: any;
-  };
-  axis: {
-    domain: any;
-    zoomedDomain: any;
-    range: any;
-  };
+  // plot: {
+  //   range: any;
+  // };
+  // axis: {
+  //   range: any;
+  // };
   brush: {
-    domain: any;
     range: any;
   };
 }

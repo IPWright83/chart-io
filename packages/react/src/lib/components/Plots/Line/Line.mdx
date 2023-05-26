@@ -21,12 +21,14 @@ The `<Line>` component should be used when you want to plot a single line plot o
 
 ### Props
 
-| Prop          | Type      | Default            | Note                                                                                                         |
-| ------------- | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
-| `color`       | `string`  | Derived from Theme | Override the colour of the series                                                                            |
-| **`x`\***     | `string`  | null               | The key of the field that contains the value along the x-axis.                                               |
-| **`y`\***     | `string`  | null               | The key of the field that contains the value along the y-axis.                                               |
-| `interactive` | `boolean` | true               | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot |
+| Prop           | Type      | Default            | Note                                                                                                         |
+| -------------- | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `color`        | `string`  | Derived from Theme | Override the colour of the series                                                                            |
+| **`x`\***      | `string`  | null               | The key of the field that contains the value along the x-axis.                                               |
+| **`y`\***      | `string`  | null               | The key of the field that contains the value along the y-axis.                                               |
+| `interactive`  | `boolean` | true               | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot |
+| `showInLegend` | `boolean` | true               | Whether the plot should feature in the legend or not.                                                        |
+| `scaleMode`    | `string`  | "plot"             | This is an **internal** field used to support brushes                                                        |
 
 ### Visual Styling
 

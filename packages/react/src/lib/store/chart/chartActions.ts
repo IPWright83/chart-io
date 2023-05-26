@@ -71,12 +71,21 @@ const setScales = (fields: string[], scale: IScale, fromAxis: boolean) => (dispa
  * @param  range      The new range to use for this scale
  * @return            A redux action object
  */
-const createBrushRange = (field: string, range: number[]) => (dispatch) => {
-    dispatch({
-        type: "CHART.SET_BRUSH_RANGE",
-        payload: { field, range },
-    });
-};
+const setBrushRange = (field: string, range: number[]) => ({
+    type: "CHART.SET_BRUSH_RANGE",
+    payload: { field, range },
+});
+
+/**
+ * Zooms a particular scale to the given domain
+ * @param  field      The names of the field to zoom the scale for
+ * @param  range      The new domain for the scale
+ * @return            A redux action object
+ */
+const setScaleZoom = (field: string, domain: number[] | Date[]) => ({
+    type: "CHART.SET_SCALE_ZOOM",
+    payload: { field, domain },
+});
 
 /**
  * Adds a Legend item to the chart
@@ -158,7 +167,8 @@ const chartActions = {
     setAnimationDuration,
     addLegendItem,
     removeLegendItem,
-    createBrushRange,
+    setBrushRange,
+    setScaleZoom,
 };
 
 export { chartActions };

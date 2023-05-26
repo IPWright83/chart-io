@@ -104,10 +104,32 @@ const chartReducer = (state: IChartState = defaultChartState, action: ChartActio
                 scales: {
                     ...state.scales,
                     [action.payload.field]: {
-                        ...(state.scales[action.payload.field] ?? {}),
+                        ...(state.scales[action.payload.field] ?? {
+                            scale: undefined,
+                            domain: undefined,
+                            zoomedDomain: undefined,
+                            range: undefined,
+                        }),
                         brush: {
                             range: action.payload.range,
                         },
+                    },
+                },
+            };
+
+        case "CHART.SET_SCALE_ZOOM":
+            return {
+                ...state,
+                scales: {
+                    ...state.scales,
+                    [action.payload.field]: {
+                        ...(state.scales[action.payload.field] ?? {
+                            scale: undefined,
+                            domain: undefined,
+                            range: undefined,
+                            brush: undefined,
+                        }),
+                        zoomedDomain: action.payload.domain,
                     },
                 },
             };

@@ -48,7 +48,7 @@ const AreaTemplate = (args) => (
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
     >
-        <Area x={args.x} y={args.y} y2={args.y2} color={args.color} />
+        <Area x={args.x} y={args.y} y2={args.y2} color={args.color} brush={args.withBrush} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
     </XYChart>
@@ -69,7 +69,7 @@ const AreasTemplate = (args) => (
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
-        <Areas x={args.x} ys={[args.y, args.y2, args.y3]} />
+        <Areas x={args.x} ys={[args.y, args.y2, args.y3]} brush={args.withBrush} />
     </XYChart>
 );
 
@@ -89,7 +89,7 @@ const StackedAreasTemplate = (args) => {
         >
             <YAxis fields={[args.y, args.y2, args.y3]} aggregate={true} />
             <XAxis fields={[args.x]} />
-            <Areas x={args.x} ys={[args.y, args.y2, args.y3]} stacked={true} />
+            <Areas x={args.x} ys={[args.y, args.y2, args.y3]} stacked={true} brush={args.withBrush} />
         </XYChart>
     );
 };
@@ -133,6 +133,13 @@ Canvas.args = {
     useCanvas: true,
 };
 
+export const AreaWithBrush = AreaTemplate.bind({});
+AreaTemplate.storyName = "Area with Brush";
+AreaTemplate.args = {
+    ...Basic.args,
+    withBrush: true,
+};
+
 export const MultipleAreas = AreasTemplate.bind({});
 MultipleAreas.storyName = "Mutiple Area Plots";
 MultipleAreas.args = {
@@ -140,6 +147,7 @@ MultipleAreas.args = {
     y: "Total Revenue",
     y2: "Total Cost",
     y3: "Total Profit",
+    withBrush: true,
 };
 
 export const StackedAreas = StackedAreasTemplate.bind({});
@@ -149,4 +157,5 @@ StackedAreas.args = {
     y: "Total Revenue",
     y2: "Total Cost",
     y3: "Total Profit",
+    withBrush: true,
 };

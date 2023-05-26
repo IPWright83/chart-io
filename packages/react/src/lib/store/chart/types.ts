@@ -26,6 +26,14 @@ export interface SetBrushScaleAction {
   };
 }
 
+export interface SetScaleZoomAction {
+  type: "CHART.SET_SCALE_ZOOM";
+  payload: {
+    field: string;
+    domain: number[] | Date[];
+  };
+}
+
 export interface SetThemeAction {
   type: "CHART.SET_THEME";
   payload: ITheme;
@@ -59,4 +67,5 @@ export type ChartAction =
   | SetDataAction
   | AddLegendItemAction
   | RemoveLegendItemAction
-  | SetBrushScaleAction;
+  | SetBrushScaleAction
+  | SetScaleZoomAction;

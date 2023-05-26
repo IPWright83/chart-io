@@ -15,7 +15,7 @@ import { chartActions } from "../store";
  * @param dependencies   The set of dependencies that should trigger a re-render
  */
 
-export function useLegendItems(names: string[], shape: IShape, colors?: IColor[]) {
+export function useLegendItems(names: string[], shape: IShape, showInLegend: boolean, colors?: IColor[]) {
     const dispatch = useDispatch();
 
     const legendItems = useMemo(() => {
@@ -27,9 +27,14 @@ export function useLegendItems(names: string[], shape: IShape, colors?: IColor[]
     }, [names, colors]);
 
     useEffect(() => {
-        legendItems.forEach((legendItem) => dispatch(chartActions.addLegendItem(legendItem)));
+        if (showInLegend) {
+            legendItems.forEach((legendItem) => dispatch(chartActions.addLegendItem(legendItem)));
+        }
+
         return () => {
-            legendItems.forEach((legendItem) => dispatch(chartActions.removeLegendItem(legendItem)));
+            if (showInLegend) {
+                legendItems.forEach((legendItem) => dispatch(chartActions.removeLegendItem(legendItem)));
+            }
         };
-    }, [legendItems]);
+    }, [legendItems, showInLegend]);
 }
