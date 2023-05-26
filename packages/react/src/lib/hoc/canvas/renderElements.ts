@@ -3,6 +3,7 @@ import type { Transition } from "@chart-it/d3";
 
 import { renderCircle } from "./renderCircle";
 import { renderRect } from "./renderRect";
+import { logWarning } from "../../utils";
 
 /**
  * Renders the canvas elements based on the join

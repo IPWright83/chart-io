@@ -4,9 +4,9 @@ import { Chart, IChartProps } from "../Chart";
 import { Crosshair } from "../Crosshair";
 import { Droplines } from "../Droplines";
 import { EventReceiver } from "../EventReceiver";
+import { LegendOverlay } from "../LegendOverlay";
 import { Markers } from "../Markers";
 import { TooltipOverlay } from "../TooltipOverlay";
-import { LegendOverlay } from "../LegendOverlay";
 
 import { shouldShowDroplines } from "./shouldShowDroplines";
 

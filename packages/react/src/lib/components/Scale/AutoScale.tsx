@@ -4,9 +4,9 @@ import { useSelector, useStore } from "react-redux";
 
 import { chartSelectors, IState } from "../../store";
 import { calculateScale } from "./calculateScale";
+import { logAndThrowError } from "../../utils";
 import { Scale } from "./Scale";
 import { useArray } from "../../hooks";
-import { logAndThrowError } from "../../utils";
 
 export interface IAutoScaleProps {
     /**

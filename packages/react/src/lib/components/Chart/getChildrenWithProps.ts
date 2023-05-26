@@ -1,5 +1,6 @@
 import type { IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-it/types";
 import React from "react";
+
 import { childrenToArray } from "../../utils";
 
 /**

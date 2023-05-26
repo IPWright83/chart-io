@@ -1,4 +1,5 @@
 import type { IMargin, IPosition } from "@chart-it/types";
+import { logAndThrowError } from "../../../utils";
 
 /**
  * Obtain the transform for the Axis group
@@ -23,6 +24,6 @@ export function getTransform(position: IPosition, width: number, height: number,
         case "bottom":
             return `translate(0, ${height - margin.bottom})`;
         default:
-            throw new Error(`Invalid position: ${position}`);
+            logAndThrowError("E002", `Invalid position (${position}) was provided to the Axis`);
     }
 }

@@ -42,6 +42,5 @@ module.exports = {
         ignoreCase: true,
       },
     ],
-    "@typescript-eslint/ban-ts-comment": "warn",
   },
 };

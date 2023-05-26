@@ -11,8 +11,8 @@ import { useArray } from "../../../hooks";
 import { getD3Axis } from "./getD3Axis";
 import { getTransform } from "./getTransform";
 import { Gridlines } from "./Gridlines";
-import { Title } from "./Title";
 import { logAndThrowError } from "../../../utils";
+import { Title } from "./Title";
 
 export interface IAxisProps {
     /**

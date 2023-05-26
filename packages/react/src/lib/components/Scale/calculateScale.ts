@@ -3,7 +3,7 @@ import type { IData, IScale, IScaleType, IValue } from "@chart-it/types";
 import type { NumberValue } from "@chart-it/d3";
 
 import { getDataType, Type, typeEnumToName } from "@chart-it/detection";
-import { logDebug } from "../../utils";
+import { logAndThrowError, logDebug } from "../../utils";
 
 /**
  * Return a scale as defined by the scaleType property
