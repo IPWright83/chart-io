@@ -1,6 +1,7 @@
 import type { IData, ILegendItem, IMargin, IScale, ITheme } from "@chart-it/types";
 
 import type { SetAnimationDurationAction, SetDataAction, SetDimensionAction } from "./types";
+import { chartSelectors } from "./chartSelectors";
 import { logWarning } from "../../utils";
 import { themes } from "../../themes";
 
@@ -60,6 +61,19 @@ const setScales = (fields: string[], scale: IScale, fromAxis: boolean) => (dispa
     dispatch({
         type: "CHART.SET_SCALES",
         payload: { fields, scale, fromAxis },
+    });
+};
+
+/**
+ * Creates a range to use for Scales with a Brush enabled in the Redux store
+ * @param  field      The names of the field to set the scale for
+ * @param  range      The new range to use for this scale
+ * @return            A redux action object
+ */
+const createBrushRange = (field: string, range: number[]) => (dispatch) => {
+    dispatch({
+        type: "CHART.SET_BRUSH_RANGE",
+        payload: { field, range },
     });
 };
 
@@ -143,6 +157,7 @@ const chartActions = {
     setAnimationDuration,
     addLegendItem,
     removeLegendItem,
+    createBrushRange,
 };
 
 export { chartActions };

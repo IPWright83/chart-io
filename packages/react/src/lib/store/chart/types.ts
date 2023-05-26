@@ -18,6 +18,14 @@ export interface SetScaleAction {
   };
 }
 
+export interface SetBrushScaleAction {
+  type: "CHART.SET_BRUSH_RANGE";
+  payload: {
+    field: string;
+    range: number[];
+  };
+}
+
 export interface SetThemeAction {
   type: "CHART.SET_THEME";
   payload: ITheme;
@@ -50,4 +58,5 @@ export type ChartAction =
   | SetAnimationDurationAction
   | SetDataAction
   | AddLegendItemAction
-  | RemoveLegendItemAction;
+  | RemoveLegendItemAction
+  | SetBrushScaleAction;

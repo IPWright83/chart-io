@@ -28,7 +28,7 @@ export interface IScaleProps {
 export function Scale({ fields, scale, fromAxis }: IScaleProps) {
     const store = useStore();
 
-    const fieldsArray = useArray(fields);
+    const fieldsArray = useArray(fields).filter((f) => !!f);
     if (fieldsArray.length === 0) {
         logAndThrowError(
             "E006",

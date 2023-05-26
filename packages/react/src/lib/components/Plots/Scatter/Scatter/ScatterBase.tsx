@@ -48,9 +48,9 @@ export function ScatterBase({
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
-    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
-    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
-    const zScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, z));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, "plot"));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y, "plot"));
+    const zScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, z, "plot"));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
@@ -62,7 +62,7 @@ export function ScatterBase({
     // @ts-expect-error: scale.bandwidth() is an optional call here
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
-    useLegendItem(y, "circle", fillColor);
+    useLegendItem(y, "circle", interactive, fillColor);
     const setFocused = useFocused(store.dispatch, xScale, yScale);
     const setTooltip = useTooltip(store.dispatch, x, y);
 

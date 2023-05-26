@@ -18,9 +18,14 @@ export const defaultChartState = {
         },
     },
     scales: {},
-    axisScales: {},
     legend: {
         items: [],
+    },
+    brush: {
+        ranges: {},
+        visible: true,
+        height: 100,
+        width: 0,
     },
 };
 
@@ -58,10 +63,18 @@ const chartReducer = (state: IChartState = defaultChartState, action: ChartActio
             if (action.payload.fromAxis) {
                 return {
                     ...state,
-                    axisScales: {
-                        ...state.axisScales,
+                    scales: {
+                        ...state.scales,
                         ...action.payload.fields.reduce((result, field) => {
-                            return { ...result, [field]: action.payload.scale };
+                            return {
+                                ...result,
+                                [field]: {
+                                    ...(state.scales[field] ?? {}),
+                                    domain: action.payload.scale.domain(),
+                                    range: action.payload.scale.range(),
+                                    scale: action.payload.scale,
+                                },
+                            };
                         }, {}),
                     },
                 };
@@ -72,8 +85,30 @@ const chartReducer = (state: IChartState = defaultChartState, action: ChartActio
                 scales: {
                     ...state.scales,
                     ...action.payload.fields.reduce((result, field) => {
-                        return { ...result, [field]: action.payload.scale };
+                        return {
+                            ...result,
+                            [field]: {
+                                ...(state.scales[field] ?? {}),
+                                scale: action.payload.scale,
+                                domain: action.payload.scale.domain(),
+                                range: action.payload.scale.range(),
+                            },
+                        };
                     }, {}),
+                },
+            };
+
+        case "CHART.SET_BRUSH_RANGE":
+            return {
+                ...state,
+                scales: {
+                    ...state.scales,
+                    [action.payload.field]: {
+                        ...(state.scales[action.payload.field] ?? {}),
+                        brush: {
+                            range: action.payload.range,
+                        },
+                    },
                 },
             };
 

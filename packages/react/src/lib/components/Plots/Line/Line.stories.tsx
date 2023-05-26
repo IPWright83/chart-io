@@ -82,7 +82,7 @@ const LineTemplate = (args) => (
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
     >
-        <Line x={args.x} y={args.y} color={args.color} interactive={!args.withScatter} />
+        <Line x={args.x} y={args.y} color={args.color} interactive={!args.withScatter} brush={args.withBrush} />
         {args.withScatter ? <Scatter x={args.x} y={args.y} /> : null}
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
@@ -98,13 +98,14 @@ const LinesTemplate = (args) => (
         animationDuration={args.animationDuration}
         theme={args.theme}
         useCanvas={args.useCanvas}
+        showBrush={args.withBrush}
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
-        <Lines x={args.x} ys={[args.y, args.y2, args.y3]} />
+        <Lines x={args.x} ys={[args.y, args.y2, args.y3]} brush={args.withBrush} />
     </XYChart>
 );
 
@@ -146,6 +147,14 @@ Canvas.args = {
     useCanvas: true,
 };
 
+export const LineWithBrush = LineTemplate.bind({});
+LineWithBrush.storyName = "Line with Brush";
+LineWithBrush.args = {
+    ...Basic.args,
+    withScatter: true,
+    withBrush: true,
+};
+
 export const MultipleLines = LinesTemplate.bind({});
 MultipleLines.storyName = "Mutiple Line Plots";
 MultipleLines.args = {
@@ -153,4 +162,5 @@ MultipleLines.args = {
     y: "Operating Profit",
     y2: "Sales Value",
     y3: "Gross Profit",
+    withBrush: true,
 };

@@ -51,6 +51,8 @@ export function AutoScale({ fields, range, scaleType, aggregate = false, domain,
         );
     }
 
+    // TODO: Ensure we set a manual range in the Redux store
+
     const scale = useMemo(() => {
         if (!range) return;
         if (isNaN(range[0]) || isNaN(range[1])) return;

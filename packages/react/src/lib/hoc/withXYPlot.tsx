@@ -17,8 +17,8 @@ const withXYPlot = <P extends object>(WrappedComponent: React.ComponentType<P>) 
      * @return {ReactDOMComponent}              The wrapped layer
      */
     return function withXYPlot({ x, y, xs, ys, ...props }) {
-        const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x || xs[0]));
-        const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y || ys[0]));
+        const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x || xs[0], "plot"));
+        const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y || ys[0], "plot"));
 
         // TODO: need to do the same with the virtual canvas
 
