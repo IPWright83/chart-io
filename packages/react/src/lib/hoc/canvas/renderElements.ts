@@ -38,7 +38,8 @@ export function renderElements(
                 break;
 
             default:
-                throw new Error(`Unsupported node type: ${node.nodeName}`);
+                logWarning("W006", `Unsupported node type: ${node.nodeName}`);
+                break;
         }
     });
 }

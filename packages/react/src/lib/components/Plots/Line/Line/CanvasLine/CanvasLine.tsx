@@ -4,9 +4,9 @@ import { useSelector, useStore } from "react-redux";
 import type { IPlotProps } from "@chart-it/types";
 
 import { chartSelectors, eventSelectors, IState } from "../../../../../store";
-import { isNullOrUndefined } from "../../../../../utils";
-import { useDatumFocus } from "../useDatumFocus";
+import { isNullOrUndefined, logDebug } from "../../../../../utils";
 import { useLegendItem, useRender } from "../../../../../hooks";
+import { useDatumFocus } from "../useDatumFocus";
 import { useTooltip } from "../useTooltip";
 
 export type ICanvasLineProps = Omit<IPlotProps, "interactive">;
@@ -39,7 +39,7 @@ export function CanvasLine({ x, y, color, layer, canvas }: ICanvasLineProps) {
     /* On future renders we want to update the path */
     useRender(() => {
         if (!canvas) {
-            console.debug("Skipping render - canvas not yet avaliable");
+            logDebug("Skipping render - canvas not yet avaliable");
             return null;
         }
 

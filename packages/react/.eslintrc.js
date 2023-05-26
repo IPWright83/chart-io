@@ -26,6 +26,7 @@ module.exports = {
   ignorePatterns: ["jest.config.js", ".eslintrc.js", "**/jest/*.js", "testUtils/*.ts", "*.stories.tsx"],
   rules: {
     "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
     "valid-jsdoc": [
       "warn",
       {

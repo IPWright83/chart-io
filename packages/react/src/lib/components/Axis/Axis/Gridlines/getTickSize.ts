@@ -1,4 +1,5 @@
 import type { IMargin, IPosition } from "@chart-it/types";
+import { logAndThrowError } from "../../../../utils";
 
 /**
  * Obtain the tick size used for gridlines
@@ -21,7 +22,7 @@ const getTickSize = (position: IPosition, width: number, height: number, margin:
         case "bottom":
             return height - margin.top - margin.bottom;
         default:
-            throw new Error(`Invalid position: ${position}`);
+            logAndThrowError("E002", `Invalid position (${position}) was provided to the Axis`);
     }
 };
 

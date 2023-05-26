@@ -23,7 +23,7 @@ describe("chartActions", () => {
 
         // @ts-expect-error: Checking runtime validation
         expect(chartActions.setDimensions(width, height)).toBeUndefined();
-        expect(spy).toHaveBeenCalledWith("W004 - A margin was not provided but is required");
+        expect(spy.mock.calls[0][0]).toMatchSnapshot();
     });
 
     it("setDimensions warns with invalid margin", () => {
@@ -35,7 +35,7 @@ describe("chartActions", () => {
 
         // @ts-expect-error: Checking runtime validation
         expect(chartActions.setDimensions(width, height, margin)).toBeUndefined();
-        expect(spy).toHaveBeenCalledWith("W005 - The top of the margin was not specified and is required");
+        expect(spy.mock.calls[0][0]).toMatchSnapshot();
     });
 
     describe("setScales", () => {

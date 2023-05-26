@@ -133,7 +133,7 @@ describe("utils", () => {
 
             expect(() => {
                 linkStores([store1, store2, store3]);
-            }).toThrow(new Error("This function can strictly only be called once during initialisation"));
+            }).toThrow(new Error("The linkStores() function can strictly only be called once during initialisation"));
         });
     });
 });

@@ -4,6 +4,7 @@ import { useStore } from "react-redux";
 
 import { chartActions } from "../../store";
 import { useArray } from "../../hooks";
+import { logAndThrowError } from "../../utils";
 
 export interface IScaleProps {
     /**
@@ -27,7 +28,11 @@ export interface IScaleProps {
 export function Scale({ fields, scale, fromAxis }: IScaleProps) {
     const store = useStore();
 
-    const fieldsArray = useArray(fields);
+    const fieldsArray = useArray(fields).filter((f) => !!f);
+    if (fieldsArray.length === 0) {
+        // prettier-ignore
+        logAndThrowError("E006", "Unable to create a Scale without a field. Ensure that you have provided at least one field in the 'fields' prop");
+    }
 
     useEffect(() => {
         // @ts-ignore: TODO: Fix this

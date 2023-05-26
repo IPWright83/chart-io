@@ -37,7 +37,7 @@ describe("Bars", () => {
                         data,
                         scales,
                     })
-                ).rejects.toThrow("Multiple bar plots must be either stacked or grouped");
+                ).rejects.toThrow("Multiple Bar plots must be either stacked or grouped");
             });
 
             it("when stacked and grouped", async () => {
@@ -47,7 +47,7 @@ describe("Bars", () => {
                         data,
                         scales,
                     })
-                ).rejects.toThrow("Bar plots currently do not support both being stacked and grouped");
+                ).rejects.toThrow("Bar plots do not support both being stacked and grouped");
             });
         });
 

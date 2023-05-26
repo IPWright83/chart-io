@@ -7,8 +7,8 @@ import { useMemo } from "react";
  */
 export function useArray(fields: string | Array<string>): Array<string> {
     return useMemo(() => {
-        if (typeof fields === "string") {
-            return [fields];
+        if (fields === null || fields === undefined) {
+            return [];
         }
 
         return fields;

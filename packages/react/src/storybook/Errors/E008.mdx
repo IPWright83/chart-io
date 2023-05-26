@@ -1,0 +1,15 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Errors & Warnings/Errors/E008" />
+
+# E008 Redux Link Stores called multiple times
+
+> `The linkStores() function can strictly only be called once during initialisation`
+
+## Cause
+
+The `linkStores` function used to link chart events together must only be called once during the initialisation of your page. In this instance it was called multiple times
+
+## Fix
+
+Ensure you only call the `linkStores()` function once, if necessary delaying this call until all the stores are available.

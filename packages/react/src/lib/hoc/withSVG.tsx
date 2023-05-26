@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { logWarning } from "../utils";
 
 /**
  * Wraps a D3 layer to make it work as an SVG component
@@ -8,7 +9,7 @@ import React, { useRef } from "react";
  */
 const withSVG = <P extends object>(WrappedComponent: React.ComponentType<P>, className: string) => {
     if (!className) {
-        console.warn("W003 - className is required when using the withSVG higher order component");
+        logWarning("W003", "className is required when using the withSVG higher order component");
     }
 
     /**

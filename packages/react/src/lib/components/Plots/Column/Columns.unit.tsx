@@ -37,7 +37,7 @@ describe("Columns", () => {
                         data,
                         scales,
                     })
-                ).rejects.toThrow("Multiple column plots must be either stacked or grouped");
+                ).rejects.toThrow("Multiple Column plots must be either stacked or grouped");
             });
 
             it("when stacked and grouped", async () => {
@@ -47,7 +47,7 @@ describe("Columns", () => {
                         data,
                         scales,
                     })
-                ).rejects.toThrow("Column plots currently do not support both being stacked and grouped");
+                ).rejects.toThrow("Column plots do not support both being stacked and grouped");
             });
         });
 
