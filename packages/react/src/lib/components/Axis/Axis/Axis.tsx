@@ -11,6 +11,7 @@ import { useArray } from "../../../hooks";
 import { getD3Axis } from "./getD3Axis";
 import { getTransform } from "./getTransform";
 import { Gridlines } from "./Gridlines";
+import { logAndThrowError } from "../../../utils";
 import { Title } from "./Title";
 
 export interface IAxisProps {
@@ -77,9 +78,8 @@ export function Axis({
     const fieldsArray = useArray(fields);
 
     if (fieldsArray.length === 0) {
-        throw new Error(
-            "Unable to render an Axis without a field. Ensure that you have provided at least one field in the 'fields' prop."
-        );
+        // prettier-ignore
+        logAndThrowError("E005", "Unable to render an Axis without a field. Ensure that you have provided at least one field in the 'fields' prop");
     }
 
     const field = fieldsArray[0];

@@ -9,7 +9,7 @@
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
-  "homepage": "http://localhost:6006/?path=/story/introduction--page",
+  "homepage": "https://github.com/IPWright83/chart-it",
   "scripts": {
     "test": "jest --config jest.config.js",
     "test:coverage": "jest --config jest.config.js --coverage",

@@ -4,6 +4,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { chartSelectors, IState } from "../../../store";
+import { logAndThrowError } from "../../../utils";
 
 import { Bar } from "./Bar";
 import { GroupedBar } from "./GroupedBar";
@@ -38,11 +39,11 @@ export function Bars({ y, xs, colors, stacked = false, grouped = false, ...props
     const palette = colors || theme.series.colors;
 
     if (stacked && grouped) {
-        throw new Error("Bar plots currently do not support both being stacked and grouped");
+        logAndThrowError("E003", "Bar plots do not support both being stacked and grouped");
     }
 
     if (!stacked && !grouped) {
-        throw new Error("Multiple bar plots must be either stacked or grouped");
+        logAndThrowError("E004", "Multiple Bar plots must be either stacked or grouped");
     }
 
     if (stacked) {

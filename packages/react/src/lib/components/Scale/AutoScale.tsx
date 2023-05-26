@@ -4,6 +4,7 @@ import { useSelector, useStore } from "react-redux";
 
 import { chartSelectors, IState } from "../../store";
 import { calculateScale } from "./calculateScale";
+import { logAndThrowError } from "../../utils";
 import { Scale } from "./Scale";
 import { useArray } from "../../hooks";
 
@@ -42,7 +43,13 @@ export function AutoScale({ fields, range, scaleType, aggregate = false, domain,
     const store = useStore();
     const data = useSelector((s: IState) => chartSelectors.data(s));
 
-    const fieldsArray = useArray(fields);
+    const fieldsArray = useArray(fields).filter((f) => !!f);
+    if (fieldsArray.length === 0) {
+        // prettier-ignore
+        logAndThrowError("E006", "Unable to create a Scale without a field. Ensure that you have provided at least one field in the 'fields' prop");
+    }
+
+    // TODO: Ensure we set a manual range in the Redux store
 
     const scale = useMemo(() => {
         if (!range) return;

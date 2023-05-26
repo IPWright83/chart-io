@@ -12,9 +12,7 @@ describe("Higher Order Components", () => {
             // @ts-expect-error: Validating a runtime warning
             withCanvas(mockElement);
 
-            expect(spy).toHaveBeenCalledWith(
-                "W003 - className is required when using the withCanvas higher order component"
-            );
+            expect(spy.mock.calls[0][0]).toMatchSnapshot();
         });
     });
 
@@ -26,9 +24,7 @@ describe("Higher Order Components", () => {
             // @ts-expect-error: Validating a runtime warning
             withSVG(mockElement);
 
-            expect(spy).toHaveBeenCalledWith(
-                "W003 - className is required when using the withSVG higher order component"
-            );
+            expect(spy.mock.calls[0][0]).toMatchSnapshot();
         });
     });
 });

@@ -1,4 +1,5 @@
 import type { IMargin, IPosition } from "@chart-it/types";
+import { logAndThrowError } from "../../../../utils";
 
 /**
  * Obtain the transform for the Axis title
@@ -28,6 +29,6 @@ export function getTransform(position: IPosition, width: number, height: number,
         case "bottom":
             return `translate(${halfWidth + margin.left / 2}, ${height - margin.bottom + 35})`;
         default:
-            throw new Error(`Invalid position: ${position}`);
+            logAndThrowError("E002", `Invalid position (${position}) was provided to the Axis`);
     }
 }

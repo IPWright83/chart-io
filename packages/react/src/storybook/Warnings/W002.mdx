@@ -1,12 +1,12 @@
 import { Meta } from "@storybook/blocks";
 
-<Meta title="Errors & Warnings/Warnings/W002 - Duplicate Values" />
+<Meta title="Errors & Warnings/Warnings/W002" />
 
 # W002 Duplicate Values
 
 This warning indicates that there were unexpected duplicate values along an axis (within the same series). For some charts this is perfectly acceptable (such as a Scatter where more than 1 point can share the same x value). However for many charts such as Line or Column charts, this could lead to a rendering artifiact where you attempt to render 2 items at that same point.
 
-> `W002 - There are duplicate values in the ${field} field. This may cause rendering artifacts with a <${componentName}>.`
+> `There are duplicate values in the ${field} field. This may cause rendering artifacts with a <${componentName}>.`
 
 ## Cause
 

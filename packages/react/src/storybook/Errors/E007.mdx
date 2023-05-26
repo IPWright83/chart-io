@@ -1,0 +1,24 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Errors & Warnings/Errors/E007" />
+
+# E007 Unkown Scale Type
+
+> `Unknown scale type: ${scaleType}`
+
+## Cause
+
+Only a subset of d3 scale types are currently supported, and the one provided is not in the list of supported scale types
+
+## Fix
+
+Change the scaleType you have provided to your `<AutoScale>` or `<XAxis>|<YAxis>` component to one of:
+
+    - band
+    - point
+    - power
+    - linear
+    - time
+    - log
+
+Alternatively you can define your own scale, and use `<Axis>` instead.
