@@ -51,9 +51,12 @@ export function HorizontalBrush({ plots, height }: IHorizontalBrushProps) {
     useEffect(() => {
         // prettier-ignore
         if (brush.current) {
+            const left = margin.left;
+            const right = Math.max(left, width - margin.right);
+
             const xBrush = d3
                 .brushX()
-                .extent([[margin.left, 0], [width - margin.right, height]])
+                .extent([[left, 0], [right, height]])
                 .on("end", event => {
                     const extent = event.selection;
     
@@ -88,8 +91,8 @@ export function HorizontalBrush({ plots, height }: IHorizontalBrushProps) {
     // Clone each plot, as we need to re-render them within the brush
     // but ensure they don't trigger events, and they use the "brush" scale
     // to shrink them down to an appropriate size
-    const plotClones = plots.map((plot) =>
-        React.cloneElement(plot, { showInLegend: false, interactive: false, scaleMode: "brush" })
+    const plotClones = plots.map((plot, index) =>
+        React.cloneElement(plot, { key: index, showInLegend: false, interactive: false, scaleMode: "brush" })
     );
 
     return (

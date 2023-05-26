@@ -35,5 +35,11 @@ export function StackedColumn({ useCanvas, colors, ...props }: IStackedColumnPro
 
 StackedColumn.requiresVirtualCanvas = true;
 StackedColumn.isPlot = true;
-StackedColumn.brushHorizontal = true;
-StackedColumn.brushVertical = false;
+StackedColumn.brush = {
+    horizontal: true,
+    vertical: false,
+};
+StackedColumn.zoom = {
+    horizontal: true,
+    vertical: false,
+};

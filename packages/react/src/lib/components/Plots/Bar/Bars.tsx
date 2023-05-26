@@ -65,5 +65,11 @@ export function Bars({ y, xs, colors, stacked = false, grouped = false, ...props
 
 Bars.requiresVirtualCanvas = true;
 Bars.isPlot = true;
-Bars.brushHorizontal = false;
-Bars.brushVertical = true;
+Bars.brush = {
+    horizontal: false,
+    vertical: true,
+};
+Bars.zoom = {
+    horizontal: false,
+    vertical: true,
+};

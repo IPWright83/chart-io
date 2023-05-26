@@ -28,5 +28,11 @@ export function Lines({ ys, colors, ...props }: ILinesProps) {
 
 Lines.requiresVirtualCanvas = false;
 Lines.isPlot = true;
-Lines.brushHorizontal = true;
-Lines.brushVertical = false;
+Lines.brush = {
+    horizontal: true,
+    vertical: false,
+};
+Lines.zoom = {
+    horizontal: true,
+    vertical: false,
+};

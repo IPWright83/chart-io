@@ -38,5 +38,11 @@ export function Areas({ ys, colors, stacked = false, ...props }: IAreasProps) {
 
 Areas.requiresVirtualCanvas = false;
 Areas.isPlot = true;
-Areas.brushHorizontal = true;
-Areas.brushVertical = false;
+Areas.brush = {
+    horizontal: true,
+    vertical: false,
+};
+Areas.zoom = {
+    horizontal: true,
+    vertical: false,
+};
