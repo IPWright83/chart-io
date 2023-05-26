@@ -1,19 +1,12 @@
-import type { IData, IOrientation, ILegendItem, IMargin, IScale, ITheme } from "@chart-it/types";
+import type { IData, ILegendItem, IMargin, IScale, ITheme } from "@chart-it/types";
 
 //export type IChartStoreScales = Record<string, d3.AxisScale<d3.AxisDomain>>;
 
 export interface IChartScaleInfo {
-  // orientation: IOrientation;
   scale?: IScale;
   domain: any;
   zoomedDomain: any;
   range: any;
-  // plot: {
-  //   range: any;
-  // };
-  // axis: {
-  //   range: any;
-  // };
   brush: {
     range: any;
   };
@@ -35,10 +28,11 @@ export interface IChartStateBrush {
   width: number;
   height: number;
   visible: boolean;
-  orientation: IOrientation;
+  // orientation: IOrientation;
 }
 
 export interface IChartState {
+  id: string;
   data: IData;
   animationDuration?: number;
   scales: IChartStateScales;

@@ -7,6 +7,7 @@ import { VirtualCanvas } from "../VirtualCanvas";
 // import { getColumnInfos } from "@chart-it/detection";
 import { chartActions } from "../../store";
 
+import { generateRandomID } from "./generateRandomID";
 import { getChildrenWithProps } from "./getChildrenWithProps";
 import { getTheme } from "./getTheme";
 
@@ -88,6 +89,11 @@ export function Chart({
     useEffect(() => {
         store.dispatch(chartActions.setDimensions(width, height, margin));
     }, [store.dispatch, width, height, margin]);
+
+    // Generate a unique ID for the chart which is required for clip paths
+    useEffect(() => {
+        store.dispatch(chartActions.setChartID(generateRandomID()));
+    }, [store.dispatch]);
 
     // Ensure that the data used by all plots is updated in the store
     useEffect(() => {

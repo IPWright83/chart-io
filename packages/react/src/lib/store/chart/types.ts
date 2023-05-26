@@ -39,6 +39,11 @@ export interface SetThemeAction {
   payload: ITheme;
 }
 
+export interface SetChartIDAction {
+  type: "CHART.SET_CHART_ID";
+  payload: string;
+}
+
 export interface SetAnimationDurationAction {
   type: "CHART.SET_ANIMATION_DURATION";
   payload: number;
@@ -68,4 +73,5 @@ export type ChartAction =
   | AddLegendItemAction
   | RemoveLegendItemAction
   | SetBrushScaleAction
-  | SetScaleZoomAction;
+  | SetScaleZoomAction
+  | SetChartIDAction;

@@ -6,6 +6,7 @@ import type { ChartAction } from "./types";
 import type { IChartState } from "../types";
 
 export const defaultChartState = {
+    id: "",
     animationDuration: 1000,
     theme: themes.light,
     data: [],
@@ -132,6 +133,12 @@ const chartReducer = (state: IChartState = defaultChartState, action: ChartActio
                         zoomedDomain: action.payload.domain,
                     },
                 },
+            };
+
+        case "CHART.SET_CHART_ID":
+            return {
+                ...state,
+                id: action.payload,
             };
 
         case "CHART.SET_ANIMATION_DURATION":

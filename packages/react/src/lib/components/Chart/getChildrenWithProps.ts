@@ -37,7 +37,10 @@ export function getChildrenWithProps(
     return childrenToArray(children)
         .flat()
         .map((child, index) => {
-            const extendedProps: IExtendedProps = { useCanvas, animationDuration };
+            const extendedProps: IExtendedProps = {
+                useCanvas,
+                animationDuration,
+            };
 
             // Allow event handlers to be defined once at the chart level, but
             // don't override them on individual plots if they're not defined

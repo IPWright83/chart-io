@@ -7,7 +7,6 @@ import type {
     IChartStateBrush,
     IChartStateDimensions,
     IChartStateLegend,
-    IChartStateScales,
     IState,
 } from "../types";
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
@@ -40,6 +39,14 @@ interface IChartSelectors {
      * @return       The state
      */
     store: (state: IState) => IChartState;
+
+    /**
+     * Returns the ID of the chart
+     * @param  state The application state
+     * @return       The ID
+     */
+    id: (state: IState) => string;
+
     /**
      * Returns the data for the chart
      * @param  state The application state
@@ -130,6 +137,9 @@ interface IChartSelectors {
 export const chartSelectors: IChartSelectors = {
     // @inheritDoc
     store: (state: IState): IChartState => state.chart,
+
+    // @inheritDoc
+    id: (state: IState): string => chartSelectors.store(state).id,
 
     // @inheritDoc
     data: (state: IState): IData => chartSelectors.store(state).data || EMPTY_ARRAY,
