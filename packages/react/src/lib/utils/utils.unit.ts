@@ -1,5 +1,6 @@
 import type { AnyAction, Store } from "redux";
 
+import { logAndThrowError, logDebug, logError, logWarning } from "./logger";
 import { areValuesUnique } from "./areValuesUnique";
 import { getXYFromTransform } from "./getXYFromTransform";
 import { isNullOrUndefined } from "./isNullOrUndefined";
@@ -134,6 +135,48 @@ describe("utils", () => {
             expect(() => {
                 linkStores([store1, store2, store3]);
             }).toThrow(new Error("The linkStores() function can strictly only be called once during initialisation"));
+        });
+    });
+
+    describe("logger", () => {
+        it("logWarning outputs correctly to the console", () => {
+            const spy = jest.spyOn(console, "warn");
+
+            logWarning("W100", "Foobar");
+
+            expect(spy).toHaveBeenCalledWith(
+                "@chart-it/react encountered an warning. W100: Foobar. You can read more about this https://ipwright83.github.io/chart-it/?path=/docs/errors-warnings-warnings-W100."
+            );
+        });
+
+        it("logDebug outputs correctly to the console", () => {
+            const spy = jest.spyOn(console, "debug");
+
+            logDebug("Foobar");
+
+            expect(spy).toHaveBeenCalledWith("@chart-it/react", "Foobar", []);
+        });
+
+        it("logError outputs correctly to the console", () => {
+            const spy = jest.spyOn(console, "error");
+
+            logError("E100", "Foobar");
+
+            expect(spy).toHaveBeenCalledWith(
+                "@chart-it/react encountered an error. E100: Foobar. You can read more about this https://ipwright83.github.io/chart-it/?path=/docs/errors-warnings-errors-E100."
+            );
+        });
+
+        it("logAndThrowError outputs correctly to the console and throws an error", () => {
+            const spy = jest.spyOn(console, "error");
+
+            expect(() => {
+                logAndThrowError("E100", "Foobar");
+            }).toThrow("Foobar");
+
+            expect(spy).toHaveBeenCalledWith(
+                "@chart-it/react encountered an error. E100: Foobar. You can read more about this https://ipwright83.github.io/chart-it/?path=/docs/errors-warnings-errors-E100."
+            );
         });
     });
 });

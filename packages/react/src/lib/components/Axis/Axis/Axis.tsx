@@ -78,10 +78,8 @@ export function Axis({
     const fieldsArray = useArray(fields);
 
     if (fieldsArray.length === 0) {
-        logAndThrowError(
-            "E005",
-            "Unable to render an Axis without a field. Ensure that you have provided at least one field in the 'fields' prop"
-        );
+        // prettier-ignore
+        logAndThrowError("E005", "Unable to render an Axis without a field. Ensure that you have provided at least one field in the 'fields' prop");
     }
 
     const field = fieldsArray[0];

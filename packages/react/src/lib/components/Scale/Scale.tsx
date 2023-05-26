@@ -30,10 +30,8 @@ export function Scale({ fields, scale, fromAxis }: IScaleProps) {
 
     const fieldsArray = useArray(fields).filter((f) => !!f);
     if (fieldsArray.length === 0) {
-        logAndThrowError(
-            "E006",
-            "Unable to create a Scale without a field. Ensure that you have provided at least one field in the 'fields' prop"
-        );
+        // prettier-ignore
+        logAndThrowError("E006", "Unable to create a Scale without a field. Ensure that you have provided at least one field in the 'fields' prop");
     }
 
     useEffect(() => {

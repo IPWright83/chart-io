@@ -13,10 +13,8 @@ import { logWarning } from "../logger";
  */
 const ensureValuesAreUnique = (data: IData, field: string, componentName: string): boolean => {
     if (areValuesUnique(data.map((d) => d[field])) === false) {
-        logWarning(
-            "W002",
-            `There are duplicate values in the ${field} field. This may cause rendering artifacts with a <${componentName}>.`
-        );
+        // prettier-ignore
+        logWarning("W002", `There are duplicate values in the ${field} field. This may cause rendering artifacts with a <${componentName}>.`);
 
         return false;
     }

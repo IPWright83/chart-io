@@ -1,6 +1,7 @@
 import * as d3 from "@chart-it/d3";
 import type { Axis, AxisDomain, AxisScale } from "@chart-it/d3";
 import type { IPosition, IScale } from "@chart-it/types";
+import { logAndThrowError } from "../../../utils";
 
 import { logAndThrowError } from "../../../utils";
 

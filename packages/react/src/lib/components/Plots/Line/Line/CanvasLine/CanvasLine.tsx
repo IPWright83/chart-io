@@ -5,8 +5,8 @@ import type { IPlotProps } from "@chart-it/types";
 
 import { chartSelectors, eventSelectors, IState } from "../../../../../store";
 import { isNullOrUndefined, logDebug } from "../../../../../utils";
-
 import { useLegendItem, useRender } from "../../../../../hooks";
+
 import { useDatumFocus } from "../useDatumFocus";
 import { useTooltip } from "../useTooltip";
 

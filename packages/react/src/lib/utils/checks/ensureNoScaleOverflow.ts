@@ -16,11 +16,9 @@ const ensureNoScaleOverflow = (scale: IScale, data: IData, fields: string[], com
     const maxValue = d3.max(data.map((d) => fields.reduce((sum, key) => sum + d[key], 0)));
 
     if (maxValue > scale.domain()[1]) {
-        logWarning(
-            "W001",
-            `The scale for ${componentName} appears too small for the dataset. Are you missing the \`aggregate={true}\` in your <Axis /> or <AutoScale /> component?`,
-            fields
-        );
+        // prettier-ignore
+        logWarning("W001", `The scale for ${componentName} appears too small for the dataset. Are you missing the \`aggregate={true}\` in your <Axis /> or <AutoScale /> component?`, fields);
+
         return false;
     }
 

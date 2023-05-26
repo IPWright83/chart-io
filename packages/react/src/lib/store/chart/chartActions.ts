@@ -2,6 +2,7 @@ import type { IData, ILegendItem, IMargin, IScale, ITheme } from "@chart-it/type
 
 import type { SetAnimationDurationAction, SetDataAction, SetDimensionAction } from "./types";
 import { chartSelectors } from "./chartSelectors";
+
 import { logWarning } from "../../utils";
 import { themes } from "../../themes";
 

@@ -47,10 +47,8 @@ export function linkStores(stores: Store<any, AnyAction>[] = [], actionFilter = 
         }
 
         if (_store.chartItOverride) {
-            logAndThrowError(
-                "E008",
-                "The linkStores() function can strictly only be called once during initialisation"
-            );
+            // prettier-ignore
+            logAndThrowError("E008", "The linkStores() function can strictly only be called once during initialisation");
         }
 
         // Record the dispatch for later
