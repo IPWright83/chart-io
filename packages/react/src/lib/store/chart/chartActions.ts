@@ -12,7 +12,6 @@ import type {
     SetScaleZoomAction,
     SetThemeAction,
 } from "./types";
-import { chartSelectors } from "./chartSelectors";
 
 import { logWarning } from "../../utils";
 import { themes } from "../../themes";

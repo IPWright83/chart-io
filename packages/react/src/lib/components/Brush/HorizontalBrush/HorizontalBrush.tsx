@@ -5,8 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { chartActions, chartSelectors, IState } from "../../../store";
 import { logWarning } from "../../../utils";
 
-import { getTransform } from "./getTransform";
-
 export interface IHorizontalBrushProps {
     /**
      * The child plots for the chart
@@ -97,7 +95,7 @@ export function HorizontalBrush({ plots, height }: IHorizontalBrushProps) {
 
     return (
         <>
-            <g ref={brush} transform={getTransform(plotHeight, margin)}>
+            <g ref={brush} transform={`translate(0, ${plotHeight})`}>
                 {plotClones}
             </g>
         </>
