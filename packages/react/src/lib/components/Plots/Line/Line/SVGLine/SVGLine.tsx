@@ -21,7 +21,7 @@ export function SVGLine({ x, y, color, scaleMode = "plot", interactive = true, l
     const store = useStore();
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const xScale = useSelector((s: IState) => {
-        debugger;
+        console.log("ADD A BREAKPOINT HERE");
         const scale = chartSelectors.scales.getScale(s, x, scaleMode);
         return scale;
     });
