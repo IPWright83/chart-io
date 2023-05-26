@@ -112,7 +112,6 @@ export function StackedAreaBase({
             .style("pointer-events", "none")
             .transition("area")
             .duration(animationDuration)
-            .delay((d, i) => (animationDuration / keys.length) * i)
             .ease(d3.easeCubicInOut)
             .attrTween("d", function (d) {
                 const previous = d3.select(this).attr("d");
