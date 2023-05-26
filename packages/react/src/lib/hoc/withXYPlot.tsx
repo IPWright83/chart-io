@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import * as d3 from "@chart-it/d3";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -27,7 +28,11 @@ const withXYPlot = <P extends object>(WrappedComponent: React.ComponentType<P>) 
         const [layer, setLayer] = useState({ current: undefined });
         useEffect(() => {
             setLayer(props.layer);
-        }, [props.layer]);
+
+            if (props.layer.current && props.clipPath) {
+                d3.select(props.layer.current).attr("clip-path", `url(#${props.clipPath})`);
+            }
+        }, [props.layer, props.clipPath]);
 
         // Unable to render without the layer avaliable
         if (!layer.current) {

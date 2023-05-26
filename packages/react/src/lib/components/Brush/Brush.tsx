@@ -1,6 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { chartSelectors, IState } from "../../store";
 
 import { getBrushPlots } from "./getBrushPlots";
 import { HorizontalBrush } from "./HorizontalBrush";
@@ -24,16 +22,6 @@ export interface IBrushProps {
 export function Brush({ children, size = 60 }: IBrushProps) {
     // Find all the interactive plots
     const plots = getBrushPlots(children);
-
-    // // None of the plots support brushing
-    // if (!needHorizontalBrush && !needVerticalBrush) {
-    //     return null;
-    // }
-
-    // // Special case for an XYBrush (usually a scatter zoom)
-    // if (needHorizontalBrush && needVerticalBrush) {
-    //     return null; // <ScatterBrush />;
-    // }
 
     const supportsHorizontalBrush = plots.some((c) => c.type.brush.horizontal);
     if (supportsHorizontalBrush) {

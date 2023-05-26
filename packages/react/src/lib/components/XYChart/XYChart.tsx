@@ -1,13 +1,14 @@
 import React from "react";
 
 import { Chart, IChartProps } from "../Chart";
+import { Brush } from "../Brush";
 import { Crosshair } from "../Crosshair";
 import { Droplines } from "../Droplines";
 import { EventReceiver } from "../EventReceiver";
 import { LegendOverlay } from "../LegendOverlay";
 import { Markers } from "../Markers";
+import { RectangleClipPath } from "../ClipPath";
 import { TooltipOverlay } from "../TooltipOverlay";
-import { Brush } from "../Brush";
 
 import { shouldShowDroplines } from "./shouldShowDroplines";
 
@@ -20,7 +21,7 @@ export function XYChart({ children, ...props }: IXYChartProps) {
     return (
         <Chart {...props}>
             <EventReceiver />
-            {children}
+            <RectangleClipPath>{children}</RectangleClipPath>
             <Markers />
             {showDroplines && <Droplines />}
             {showCrosshair && <Crosshair />}
