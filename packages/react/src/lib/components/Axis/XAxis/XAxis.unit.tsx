@@ -13,7 +13,7 @@ describe("XAxis", () => {
 
     store.dispatch(chartActions.setDimensions(200, 100, { left: 0, right: 0, top: 0, bottom: 0 }));
     store.dispatch(chartActions.setData([{ x: 0 }, { x: 5 }, { x: 10 }]));
-    chartActions.setScales(["x"], scale, true)(store.dispatch);
+    chartActions.setScales(["x"], scale)(store.dispatch);
 
     it("renders correctly", () => {
         const { asFragment } = render(
