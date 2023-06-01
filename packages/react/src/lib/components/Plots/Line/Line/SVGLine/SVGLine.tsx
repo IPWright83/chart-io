@@ -37,9 +37,6 @@ export function SVGLine({
     const seriesColor = color || theme.series.colors[0];
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
 
-    // @ts-expect-error: We handle a missing bandwidth fine
-    const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
-
     useLegendItem(y, "line", showInLegend, seriesColor);
 
     // Used to create our initial path
@@ -50,7 +47,7 @@ export function SVGLine({
         // Line renderer that starts at the 0 point
         const line = d3
             .line()
-            .x((d) => xScale(d[x]) + bandwidth)
+            .x((d) => xScale(d[x]))
             .y((d) => yScale(d[y]))
             .defined((d) => !isNullOrUndefined(d[y]));
 

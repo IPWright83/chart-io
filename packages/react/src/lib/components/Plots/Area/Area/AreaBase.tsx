@@ -49,9 +49,6 @@ export function AreaBase({
     fillColor.opacity = theme.series.opacity;
     const strokeColor = fillColor.darker();
 
-    // @ts-expect-error: This is a runtime check
-    const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
-
     useLegendItem(y, "line", showInLegend, fillColor);
 
     // Used to create our initial path
@@ -63,7 +60,7 @@ export function AreaBase({
         const area = d3
             .area()
             .curve(d3.curveLinear)
-            .x((d) => xScale(d[x]) + bandwidth)
+            .x((d) => xScale(d[x]))
             .y0((d) => (y2 ? yScale(d[y]) : yScale.range()[0]))
             .y1((d) => (y2 ? yScale(d[y2]) : yScale(d[y])))
             .defined((d) => !isNullOrUndefined(d[y]));
