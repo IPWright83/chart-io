@@ -33,7 +33,7 @@ const CustomTimeAxis = ({ fields }) => {
     const axis = useRef(null);
 
     const field = fields[0];
-    const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, field));
+    const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, field, "axis"));
 
     useEffect(() => {
         if (axis.current && scale) {
