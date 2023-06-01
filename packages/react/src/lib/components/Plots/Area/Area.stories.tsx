@@ -47,6 +47,7 @@ const AreaTemplate = (args) => (
         width={args.width}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        zoomBrush={args.zoomBrush}
     >
         <Area x={args.x} y={args.y} y2={args.y2} color={args.color} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
@@ -136,10 +137,10 @@ Canvas.args = {
 };
 
 export const AreaWithBrush = AreaTemplate.bind({});
-AreaTemplate.storyName = "Area with Brush";
-AreaTemplate.args = {
+AreaWithBrush.storyName = "Area with Brush";
+AreaWithBrush.args = {
     ...Basic.args,
-    withBrush: true,
+    zoomBrush: "inline",
 };
 
 export const MultipleAreas = AreasTemplate.bind({});
