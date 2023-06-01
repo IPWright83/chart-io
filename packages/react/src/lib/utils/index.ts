@@ -8,3 +8,4 @@ export * from "./formatters";
 export * from "./logger";
 export * from "./childrenToArray";
 export * from "./extendChildrenProps";
+export * from "./getBandwidthAndOffset";

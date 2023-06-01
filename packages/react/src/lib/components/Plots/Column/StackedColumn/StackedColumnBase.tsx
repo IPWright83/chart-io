@@ -5,7 +5,12 @@ import { useSelector, useStore } from "react-redux";
 import type { Transition } from "@chart-it/d3";
 
 import { chartSelectors, eventActions, IState } from "../../../../store";
-import { ensureBandScale, ensureNoScaleOverflow, ensureValuesAreUnique } from "../../../../utils";
+import {
+    ensureBandwidth,
+    ensureNoScaleOverflow,
+    ensureValuesAreUnique,
+    getBandwidthAndOffset,
+} from "../../../../utils";
 import { useLegendItems, useRender } from "../../../../hooks";
 
 import { getDropline } from "../getDropline";
@@ -80,7 +85,9 @@ export function StackedColumnBase({
 
     // prettier-ignore
     useRender(() => {
-        if (ensureBandScale(xScale, "StackedColumnBase") === false) return null;
+         const { bandwidth, offset } = getBandwidthAndOffset(xScale, x, data);
+
+        if (ensureBandwidth(bandwidth, "StackedColumnBase") === false) return null;
         ensureValuesAreUnique(data, x, "StackedColumnBase");
         ensureNoScaleOverflow(yScale, data, ys, "StackedColumnBase");
 
@@ -109,11 +116,10 @@ export function StackedColumnBase({
             .enter()
             .append("rect")
             .attr("class", "column")
-            .attr("x", (d) => xScale(d.data[x]))
+            .attr("x", (d) => xScale(d.data[x]) - offset)
             .attr("y", () => yScale.range()[0])
             .attr("height", 0)
-            // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
-            .attr("width", xScale.bandwidth())
+            .attr("width", bandwidth)
             .style("fill", (d, i, elements) => {
                 const key = getParentKey(elements[i]);
                 return colorScale(key)?.toString();
@@ -152,9 +158,8 @@ export function StackedColumnBase({
             })
             .transition("position")
             .duration(animationDuration / 2)
-            .attr("x", (d) => xScale(d.data[x]))
-            // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
-            .attr("width", xScale.bandwidth())
+            .attr("x", (d) => xScale(d.data[x]) - offset)
+            .attr("width", bandwidth)
             .style("fill", (d, i, elements) => {
                 const key = getParentKey(elements[i]);
                 return colorScale(key)?.toString();

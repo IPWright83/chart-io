@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useStore } from "react-redux";
 
 import { chartSelectors, eventActions, IState } from "../../../../store";
-import { ensureBandScale, ensureValuesAreUnique } from "../../../../utils";
+import { ensureBandwidth, ensureValuesAreUnique, getBandwidthAndOffset } from "../../../../utils";
 import { useLegendItem, useRender } from "../../../../hooks";
 
 import { getDropline } from "../getDropline";
@@ -73,7 +73,9 @@ export function BarBase({
     }, [store.dispatch, focused, yScale, theme.series.selectedOpacity]);
 
     useRender(() => {
-        if (ensureBandScale(yScale, "Bar") === false) return null;
+        const { bandwidth, offset } = getBandwidthAndOffset(yScale, y, data);
+
+        if (ensureBandwidth(bandwidth, "Bar") === false) return null;
         ensureValuesAreUnique(data, y, "Bar");
 
         // D3 data join
@@ -90,14 +92,13 @@ export function BarBase({
             .enter()
             .append("rect")
             .attr("class", "bar")
-            .attr("x", () => xScale.range()[0])
+            .attr("x", xScale.range()[0])
             // @ts-ignore: TODO: Need to work out casting
-            .attr("y", (d) => yScale(d[y]))
-            .attr("width", () => 0)
-            // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
-            .attr("height", () => yScale.bandwidth())
+            .attr("y", (d) => yScale(d[y]) - offset)
+            .attr("width", 0)
+            .attr("height", bandwidth)
             .style("stroke", strokeColor.toString())
-            .style("fill", () => fillColor.toString());
+            .style("fill", fillColor.toString());
 
         // Update new and existing points
         const update = enter
@@ -127,9 +128,8 @@ export function BarBase({
             .transition("position")
             .duration(animationDuration / 2)
             // @ts-ignore: How do we deal with the scale here? y is likely a string
-            .attr("y", (d) => yScale(d[y]))
-            // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
-            .attr("height", () => yScale.bandwidth())
+            .attr("y", (d) => yScale(d[y]) - offset)
+            .attr("height", bandwidth)
             .style("fill", () => fillColor.toString())
             // @ts-expect-error: Looks like the type defs are wrong missing named transitions
             .transition("width")

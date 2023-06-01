@@ -5,7 +5,7 @@ import { useSelector, useStore } from "react-redux";
 import type { Transition } from "@chart-it/d3";
 
 import { chartSelectors, eventActions, IState } from "../../../../store";
-import { ensureBandScale, ensureValuesAreUnique } from "../../../../utils";
+import { ensureBandwidth, ensureValuesAreUnique, getBandwidthAndOffset } from "../../../../utils";
 import { useLegendItem, useRender } from "../../../../hooks";
 
 import { getDropline } from "../getDropline";
@@ -71,7 +71,9 @@ export function ColumnBase({
     }, [store.dispatch, focused, xScale, theme.series.selectedOpacity]);
 
     useRender(() => {
-        if (ensureBandScale(xScale, "Column") === false) return null;
+        const { bandwidth, offset } = getBandwidthAndOffset(xScale, x, data);
+
+        if (ensureBandwidth(bandwidth, "Column") === false) return null;
         ensureValuesAreUnique(data, x, "Column");
 
         // D3 data join
@@ -89,10 +91,9 @@ export function ColumnBase({
             .append("rect")
             .attr("class", "column")
             // @ts-ignore: TODO: Need to work out casting
-            .attr("x", (d) => xScale(d[x]))
-            .attr("y", () => yScale.range()[0])
-            // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
-            .attr("width", () => xScale.bandwidth())
+            .attr("x", (d) => xScale(d[x]) - offset)
+            .attr("y", yScale.range()[0])
+            .attr("width", bandwidth)
             .attr("height", 0)
             .style("stroke", strokeColor.toString())
             .style("fill", fillColor.toString());
@@ -125,10 +126,9 @@ export function ColumnBase({
             .transition("position")
             .duration(animationDuration / 2)
             // @ts-ignore: TODO: Need to work out casting
-            .attr("x", (d) => xScale(d[x]))
-            // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
-            .attr("width", () => xScale.bandwidth())
+            .attr("x", (d) => xScale(d[x]) - offset)
             .style("fill", fillColor.toString())
+            .attr("width", bandwidth)
             // @ts-expect-error: Looks like the type defs are wrong missing named transitions
             .transition("height")
             .duration(animationDuration / 2)

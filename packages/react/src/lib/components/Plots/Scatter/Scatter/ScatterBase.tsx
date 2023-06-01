@@ -61,9 +61,6 @@ export function ScatterBase({
     const strokeColor = fillColor.darker();
     fillColor.opacity = theme.series.opacity;
 
-    // @ts-expect-error: scale.bandwidth() is an optional call here
-    const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
-
     useLegendItem(y, "circle", showInLegend, fillColor);
 
     const setFocused = useFocused(store.dispatch, xScale, yScale);
@@ -91,7 +88,7 @@ export function ScatterBase({
             .enter()
             .append("circle")
             .attr("class", "scatter-point")
-            .attr("cx", (d) => xScale(d[x] as INumericValue) + bandwidth)
+            .attr("cx", (d) => xScale(d[x] as INumericValue))
             .attr("cy", (d) => yScale(d[y] as INumericValue))
             .attr("r", 0)
             .style("stroke", () => strokeColor.toString())
