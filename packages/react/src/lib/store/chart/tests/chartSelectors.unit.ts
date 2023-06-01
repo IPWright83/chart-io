@@ -108,6 +108,7 @@ describe("chartSelectors", () => {
         describe("getScale", () => {
             it("throws for an unknown scaleType", () => {
                 expect(() => {
+                    // @ts-ignore: Runtime validation test
                     chartSelectors.scales.getScale(state, "a", "foo");
                 }).toThrow("Unknown scaleMode: foo");
             });

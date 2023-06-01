@@ -48,7 +48,7 @@ const AreaTemplate = (args) => (
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
     >
-        <Area x={args.x} y={args.y} y2={args.y2} color={args.color} brush={args.withBrush} />
+        <Area x={args.x} y={args.y} y2={args.y2} color={args.color} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
     </XYChart>
@@ -66,10 +66,11 @@ const AreasTemplate = (args) => (
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
+        zoomBrush={args.zoomBrush}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
-        <Areas x={args.x} ys={[args.y, args.y2, args.y3]} brush={args.withBrush} />
+        <Areas x={args.x} ys={[args.y, args.y2, args.y3]} />
     </XYChart>
 );
 
@@ -86,10 +87,11 @@ const StackedAreasTemplate = (args) => {
             onClick={args.onClick}
             onMouseOver={args.onMouseOver}
             onMouseOut={args.onMouseOut}
+            zoomBrush={args.zoomBrush}
         >
             <YAxis fields={[args.y, args.y2, args.y3]} aggregate={true} />
             <XAxis fields={[args.x]} />
-            <Areas x={args.x} ys={[args.y, args.y2, args.y3]} stacked={true} brush={args.withBrush} />
+            <Areas x={args.x} ys={[args.y, args.y2, args.y3]} stacked={true} />
         </XYChart>
     );
 };
@@ -147,7 +149,7 @@ MultipleAreas.args = {
     y: "Total Revenue",
     y2: "Total Cost",
     y3: "Total Profit",
-    withBrush: true,
+    zoomBrush: "inline",
 };
 
 export const StackedAreas = StackedAreasTemplate.bind({});
@@ -157,5 +159,5 @@ StackedAreas.args = {
     y: "Total Revenue",
     y2: "Total Cost",
     y3: "Total Profit",
-    withBrush: true,
+    zoomBrush: "inline",
 };

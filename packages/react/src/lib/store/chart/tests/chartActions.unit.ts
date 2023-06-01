@@ -64,7 +64,6 @@ describe("chartActions", () => {
             const fields = ["a", "b", "c"];
             const dispatch = jest.fn();
 
-            // @ts-expect-error: Checking runtime validation
             chartActions.setScales(fields, null)(dispatch);
             expect(dispatch).not.toHaveBeenCalled();
         });

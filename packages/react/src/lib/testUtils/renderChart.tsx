@@ -15,8 +15,8 @@ export async function renderChart({
     store,
 }: {
     children: JSX.Element;
-    data: IData;
-    scales: Record<string, IScale>;
+    data?: IData;
+    scales?: Record<string, IScale>;
     store?: any;
 }) {
     const mockStore = createMockStore({

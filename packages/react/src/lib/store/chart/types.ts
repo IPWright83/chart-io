@@ -79,7 +79,7 @@ export type ChartAction =
   | SetDataAction
   | AddLegendItemAction
   | RemoveLegendItemAction
-  | SetBrushScaleAction
+  | SetBrushRangeAction
   | SetScaleZoomAction
   | SetChartIDAction
   | SetBrushReservedDimensionsAction;
