@@ -18,13 +18,25 @@ export const defaultChartState = {
             bottom: 30,
         },
     },
+    /**
+     * Scales has the following shape when populated
+     * scales: {
+     *     [key]: {
+     *         scale,
+     *         domain,
+     *         zoomedDomain,
+     *         range,
+     *         brush: {
+     *             range,
+     *         }
+     *     }
+     * }
+     */
     scales: {},
     legend: {
         items: [],
     },
     brush: {
-        ranges: {},
-        visible: true,
         height: 0,
         width: 0,
     },
@@ -90,9 +102,9 @@ const chartReducer = (state: IChartState = defaultChartState, action: ChartActio
                             ...result,
                             [field]: {
                                 ...(state.scales[field] ?? {}),
-                                scale: action.payload.scale,
                                 domain: action.payload.scale.domain(),
                                 range: action.payload.scale.range(),
+                                scale: action.payload.scale,
                             },
                         };
                     }, {}),
@@ -115,6 +127,16 @@ const chartReducer = (state: IChartState = defaultChartState, action: ChartActio
                             range: action.payload.range,
                         },
                     },
+                },
+            };
+
+        case "CHART.SET_BRUSH_RESERVED_DIMENSIONS":
+            return {
+                ...state,
+                brush: {
+                    ...state.brush,
+                    width: action.payload.width,
+                    height: action.payload.height,
                 },
             };
 
