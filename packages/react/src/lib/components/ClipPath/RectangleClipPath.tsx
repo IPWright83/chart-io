@@ -3,7 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { chartSelectors, IState } from "../../store";
-import { getChildrenWithProps } from "./getChildrenWithProps";
+import { extendChildrenProps } from "../../utils";
 
 export interface IRectangleClipPathProps {
     /**
@@ -25,7 +25,7 @@ export function RectangleClipPath({ children }: IRectangleClipPathProps) {
     const plotWidth = Math.max(0, width - margin.left - margin.right);
     const plotHeight = Math.max(0, height - margin.top - margin.bottom);
 
-    const childrenWithProps = getChildrenWithProps(children, `clip-path-${chartID}`);
+    const childrenWithProps = extendChildrenProps(children, { clipPath: `clip-path-${chartID}` });
 
     return (
         <>

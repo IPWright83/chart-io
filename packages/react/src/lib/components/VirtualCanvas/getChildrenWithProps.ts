@@ -1,7 +1,7 @@
 import type { IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-it/types";
 import type { Transition } from "@chart-it/d3";
 
-import React from "react";
+import { extendChildrenProps } from "../../utils";
 
 export type IRenderVirtualCanvasFunc = (
     update: Transition<Element, unknown, any, unknown>,
@@ -19,23 +19,5 @@ export type IRenderVirtualCanvasFunc = (
  * @return                             The new children
  */
 export function getChildrenWithProps(children: any, renderVirtualCanvas: IRenderVirtualCanvasFunc): any {
-    if (!children) {
-        return children;
-    }
-
-    if (children.length > 0) {
-        return children.map((child) => {
-            if (React.isValidElement(child)) {
-                return React.cloneElement(child, { renderVirtualCanvas });
-            }
-
-            return child;
-        });
-    }
-
-    if (React.isValidElement(children)) {
-        return React.cloneElement(children, { renderVirtualCanvas });
-    }
-
-    return children;
+    return extendChildrenProps(children, { renderVirtualCanvas });
 }

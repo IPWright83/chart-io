@@ -34,7 +34,6 @@ export function SVGLine({
     const position = useSelector((s: IState) => eventSelectors.position(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
-
     const seriesColor = color || theme.series.colors[0];
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
 

@@ -8,7 +8,7 @@ describe("VirtualCanvas getChildrenWithProps", () => {
     it("correctly augments props on a single child", () => {
         const mockElement = React.createElement("div");
 
-        const child = getChildrenWithProps(mockElement, renderVirtualCanvas);
+        const child = getChildrenWithProps(mockElement, renderVirtualCanvas)[0];
 
         expect(child.type).toBe(mockElement.type);
         expect(child.props.renderVirtualCanvas).toBe(renderVirtualCanvas);

@@ -3,13 +3,13 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { chartActions, chartSelectors, IState } from "../../../store";
-import { logWarning } from "../../../utils";
+import { childrenToArray, logWarning } from "../../../utils";
 
 export interface IHorizontalZoomBrushProps {
     /**
      * The child plots for the chart
      */
-    plots?: JSX.Element[];
+    children?: JSX.Element | JSX.Element[];
 
     /**
      * The height that the brush should be
@@ -25,7 +25,9 @@ interface IScaleWithInvert {
  * Represents a Horizontal brush for zooming
  * @return The Horizontal Brush component
  */
-export function HorizontalZoomBrush({ plots = [], height }: IHorizontalZoomBrushProps) {
+export function HorizontalZoomBrush({ children, height = 60 }: IHorizontalZoomBrushProps) {
+    const plots = childrenToArray(children);
+
     const x = plots.map((p) => p.props.x)[0];
     const ys = plots.flatMap((p) => p.props.y ?? p.props.ys);
 
@@ -55,6 +57,7 @@ export function HorizontalZoomBrush({ plots = [], height }: IHorizontalZoomBrush
     useEffect(() => {
         // prettier-ignore
         if (brush.current) {
+
             const left = margin.left;
             const right = Math.max(left, width - margin.right);
 

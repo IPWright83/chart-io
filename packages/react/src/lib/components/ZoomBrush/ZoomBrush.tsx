@@ -33,6 +33,6 @@ export function ZoomBrush({ children, size = 60, type = "overlay" }: IZoomBrushP
     // const needsYBrush = plots.some((c) => c.type.brush.vertical);
 
     if (type === "inline" && needsXBrush) {
-        return <HorizontalZoomBrush height={size} plots={plots} />;
+        return <HorizontalZoomBrush height={size}>{plots}</HorizontalZoomBrush>;
     }
 }

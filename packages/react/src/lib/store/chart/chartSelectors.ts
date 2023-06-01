@@ -213,7 +213,10 @@ export const chartSelectors: IChartSelectors = {
         range: (state: IState, field: string, type: IScaleMode) => {
             if (type === "brush") {
                 // This allows us to reduce the size of a scale to fit within the brush space
-                return chartSelectors.scales.store(state, field)?.brush?.range ?? [];
+                const range = chartSelectors.scales.store(state, field)?.brush?.range;
+                if (range) {
+                    return range;
+                }
             }
 
             return chartSelectors.scales.store(state, field).range;
@@ -236,7 +239,7 @@ export const chartSelectors: IChartSelectors = {
                             // Prefer scales defined by an axis, but if non avaliable use plot scales
                             // Normally this happens if someone defines a custom <Scale> and <Axis>
                             const domain = chartSelectors.scales.zoomedDomain(state, field);
-                            const range = chartSelectors.scales.range(state, field, type);
+                            const range = chartSelectors.scales.range(state, field, "plot");
                             return (scale.domain(domain) as IScale).range(range) as IScale;
                         }
 

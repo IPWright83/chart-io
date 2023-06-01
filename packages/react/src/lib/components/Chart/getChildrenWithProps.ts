@@ -1,7 +1,6 @@
 import type { IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-it/types";
-import React from "react";
 
-import { childrenToArray } from "../../utils";
+import { extendChildrenProps } from "../../utils";
 
 /**
  * Set of props on the children, once extended with events
@@ -32,32 +31,22 @@ export function getChildrenWithProps(
     onMouseOut?: IOnMouseOut,
     onClick?: IOnClick
 ) {
-    // Children can contain arrays within there, so we want to flatten
-    // out the structure so that cloning works correctly
-    return childrenToArray(children)
-        .flat()
-        .map((child, index) => {
-            const extendedProps: IExtendedProps = {
-                useCanvas,
-                animationDuration,
-            };
+    const extendedProps: IExtendedProps = {
+        useCanvas,
+        animationDuration,
+    };
 
-            // Allow event handlers to be defined once at the chart level, but
-            // don't override them on individual plots if they're not defined
-            if (onMouseOver) {
-                extendedProps.onMouseOver = onMouseOver;
-            }
-            if (onMouseOut) {
-                extendedProps.onMouseOut = onMouseOut;
-            }
-            if (onClick) {
-                extendedProps.onClick = onClick;
-            }
+    // Allow event handlers to be defined once at the chart level, but
+    // don't override them on individual plots if they're not defined
+    if (onMouseOver) {
+        extendedProps.onMouseOver = onMouseOver;
+    }
+    if (onMouseOut) {
+        extendedProps.onMouseOut = onMouseOut;
+    }
+    if (onClick) {
+        extendedProps.onClick = onClick;
+    }
 
-            if (React.isValidElement(child)) {
-                return React.cloneElement(child, { ...extendedProps, key: index });
-            }
-
-            return child;
-        });
+    return extendChildrenProps(children, extendedProps);
 }
