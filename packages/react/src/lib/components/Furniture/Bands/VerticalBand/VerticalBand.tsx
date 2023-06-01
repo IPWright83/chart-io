@@ -38,7 +38,7 @@ export interface IVerticalBandProps {
 export function VerticalBand({ xStart, xStop, x, opacity = 0.5, fill, stroke }: IVerticalBandProps) {
     const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
-    const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
+    const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, "plot"));
 
     // Scale may not yet have been initialized
     if (!scale) {

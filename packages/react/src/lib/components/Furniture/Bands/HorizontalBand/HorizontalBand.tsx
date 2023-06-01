@@ -38,7 +38,7 @@ export interface IHorizontalBandProps {
 export function HorizontalBand({ yStart, yStop, y, opacity = 0.5, fill, stroke }: IHorizontalBandProps) {
     const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
-    const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
+    const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y, "plot"));
 
     // Scale may not yet have been initialized
     if (!scale) {

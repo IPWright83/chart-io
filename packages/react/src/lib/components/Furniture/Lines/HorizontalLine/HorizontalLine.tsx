@@ -30,7 +30,7 @@ export interface IHorizontalLineProps {
 export function HorizontalLine({ y, value, opacity = 1, stroke }: IHorizontalLineProps) {
     const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
-    const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
+    const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y, "plot"));
 
     // Scale may not yet have been initialized
     if (!scale) {

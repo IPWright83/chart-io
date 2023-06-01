@@ -15,7 +15,11 @@ describe("VerticalLine", () => {
                 height: 400,
             },
             scales: {
-                x: d3.scaleLinear().domain([0, 1000]).range([0, 200]),
+                x: {
+                    scale: d3.scaleLinear(),
+                    domain: [0, 1000],
+                    range: [0, 200],
+                },
             },
         },
     });

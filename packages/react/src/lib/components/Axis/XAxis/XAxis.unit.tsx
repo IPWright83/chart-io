@@ -41,7 +41,7 @@ describe("XAxis", () => {
             </Provider>
         );
 
-        const scale = chartSelectors.scales.getScale(store.getState(), "x");
+        const scale = chartSelectors.scales.getScale(store.getState(), "x", "plot");
         expect(scale).toBeDefined();
         expect(scale.domain()).toEqual([0, 10]);
         expect(scale.range()).toEqual([0, 200]);

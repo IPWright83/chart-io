@@ -41,7 +41,7 @@ describe("YAxis", () => {
             </Provider>
         );
 
-        const scale = chartSelectors.scales.getScale(store.getState(), "y");
+        const scale = chartSelectors.scales.getScale(store.getState(), "y", "plot");
         expect(scale).toBeDefined();
         expect(scale.domain()).toEqual([0, 10]);
         expect(scale.range()).toEqual([100, 0]);

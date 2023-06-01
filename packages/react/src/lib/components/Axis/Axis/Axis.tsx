@@ -86,7 +86,7 @@ export function Axis({
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
-    const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, field, "axis"));
+    const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, field, "plot"));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
     const transform = getTransform(position, width, height, margin);
