@@ -1,6 +1,6 @@
 {
   "name": "@chart-it/types",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "private": true,
   "packageManager": "pnpm@7.26.2",
   "description": "Provides core type definitions for chart-it packages",
