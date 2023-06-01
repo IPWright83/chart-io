@@ -21,7 +21,7 @@ exports[`XYChart should create empty template correctly 1`] = `
     </g>
     <defs>
       <clippath
-        id="clip-path-de301de7-577c-ed40-e5b7-5ab9c3c88b1d"
+        id="clip-path-random-id"
       >
         <rect
           height="440"
