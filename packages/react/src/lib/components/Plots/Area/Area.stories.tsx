@@ -149,12 +149,20 @@ MultipleAreas.args = {
     y: "Total Revenue",
     y2: "Total Cost",
     y3: "Total Profit",
-    zoomBrush: "inline",
 };
 
 export const StackedAreas = StackedAreasTemplate.bind({});
 StackedAreas.storyName = "Stacked Area Plots";
 StackedAreas.args = {
+    ...Basic.args,
+    y: "Total Revenue",
+    y2: "Total Cost",
+    y3: "Total Profit",
+};
+
+export const StackedAreasWithBrush = StackedAreasTemplate.bind({});
+StackedAreasWithBrush.storyName = "Stacked Area Plots with a Brush";
+StackedAreasWithBrush.args = {
     ...Basic.args,
     y: "Total Revenue",
     y2: "Total Cost",
