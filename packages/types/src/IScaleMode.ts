@@ -1,1 +1,1 @@
-export type IScaleMode = "plot" | "axis" | "brush";
+export type IScaleMode = "plot" | "brush";

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { chartActions, chartSelectors, IState } from "../../../store";
 import { logWarning } from "../../../utils";
 
-export interface IHorizontalBrushProps {
+export interface IHorizontalZoomBrushProps {
     /**
      * The child plots for the chart
      */
@@ -25,7 +25,7 @@ interface IScaleWithInvert {
  * Represents a Horizontal brush for zooming
  * @return The Horizontal Brush component
  */
-export function HorizontalBrush({ plots, height }: IHorizontalBrushProps) {
+export function HorizontalZoomBrush({ plots = [], height }: IHorizontalZoomBrushProps) {
     const x = plots.map((p) => p.props.x)[0];
     const ys = plots.flatMap((p) => p.props.y ?? p.props.ys);
 
@@ -41,6 +41,12 @@ export function HorizontalBrush({ plots, height }: IHorizontalBrushProps) {
     useEffect(() => {
         dispatch(chartActions.setBrushRange(x, [margin.left, width - margin.right]));
     }, [x, width, margin.right, margin.left]);
+
+    // Reserve some space for the brush if it's visible
+    useEffect(() => {
+        const reservedHeight = plots.length > 0 ? height : 0;
+        dispatch(chartActions.setBrushReservedDimensions(0, reservedHeight));
+    }, [height, plots]);
 
     useEffect(() => {
         ys.forEach((key) => dispatch(chartActions.setBrushRange(key, [height, 0])));

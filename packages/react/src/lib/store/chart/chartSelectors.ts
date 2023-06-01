@@ -14,24 +14,6 @@ import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
 const EMPTY_ARRAY = [];
 const EMPTY_MARGIN = { left: 0, right: 0, top: 0, bottom: 0 };
 
-// scales: {
-//     [key]: {
-//         domain,
-//         orientation,
-//         plot: {
-//             domain,
-//             range,
-//             scale
-//         },
-//         axis: {
-//             scale,
-//         },
-//         brush: {
-//             range,
-//             scale
-//         },
-//     }
-
 interface IChartSelectors {
     /**
      * Returns the store for the chart part of state
@@ -66,6 +48,7 @@ interface IChartSelectors {
     scales: {
         /**
          * Represents the scales portion of the store
+         * @param  state     The application state
          * @param  field     The name of the field to get the store for
          * @type {Object}
          */
@@ -113,24 +96,88 @@ interface IChartSelectors {
          */
         getScales: (state: IState, fields: string[], type: IScaleMode) => Record<string, IScale | undefined>;
     };
+    /**
+     * Returns dimension based information for the chart
+     */
     dimensions: {
+        /**
+         * Represents the dimensions portion of the store
+         * @param  state     The application state
+         */
         store: (state: IState) => IChartStateDimensions;
+
+        /**
+         * Returns the width of the chart
+         * @param  state The application state
+         * @return       The width
+         */
         width: (state: IState) => number;
+
+        /**
+         * Returns the height of the chart
+         * @param  state The application state
+         * @return       The height
+         */
         height: (state: IState) => number;
+
+        /**
+         * Returns the margin of the chart
+         * @param  state The application state
+         * @return       The margin
+         */
         margin: (state: IState) => IMargin;
     };
+    /**
+     * Legend information for the chart
+     */
     legend: {
+        /**
+         * Represents the legend portion of the store
+         * @param  state     The application state
+         */
         store: (state: IState) => IChartStateLegend;
+
+        /**
+         * Should the legend be visible?
+         * @param  state     The application state
+         * @return           True if the legend should be visible
+         */
         isVisible: (state: IState) => boolean;
+
+        /**
+         * Returns the set of items required to be in the legend
+         * @param  state     The application state
+         * @return           The items for the legend to render
+         */
         items: (state: IState) => ILegendItem[];
     };
+    /**
+     * Brush information for the chart
+     */
     brush: {
+        /**
+         * Represents the dimensions portion of the store
+         * @param  state     The application state
+         */
         store: (state: IState) => IChartStateBrush;
-        isVisible: (state: IState) => boolean;
-        getRangeForScale: (state: IState, field: string) => number[] | undefined;
+
+        /**
+         * Returns the reserved height for the brush
+         * @param  state     The application state
+         */
         height: (state: IState) => number;
+        /**
+         * Returns the reserved width for the brush
+         * @param  state     The application state
+         */
         width: (state: IState) => number;
     };
+
+    /**
+     * Returns the theme for the chart
+     * @param  state The application state
+     * @return The theme object
+     */
     theme: (state: IState) => ITheme;
 }
 
@@ -173,6 +220,7 @@ export const chartSelectors: IChartSelectors = {
         // @inheritDoc
         range: (state: IState, field: string, type: IScaleMode) => {
             if (type === "brush") {
+                // This allows us to reduce the size of a scale to fit within the brush space
                 return chartSelectors.scales.store(state, field)?.brush?.range ?? [];
             }
 
@@ -192,24 +240,16 @@ export const chartSelectors: IChartSelectors = {
                             return (scale.domain(domain) as IScale).range(range) as IScale;
                         }
 
-                        case "axis": {
+                        case "plot": {
                             // Prefer scales defined by an axis, but if non avaliable use plot scales
                             // Normally this happens if someone defines a custom <Scale> and <Axis>
-                            const domain = chartSelectors.scales.zoomedDomain(state, field) ?? chartSelectors.scales.zoomedDomain(state, field);
-                            const range = chartSelectors.scales.range(state, field, "axis") ?? chartSelectors.scales.range(state, field, "plot");
-                            return (scale.domain(domain) as IScale).range(range) as IScale;
-                        }
-
-                        case "plot": {
-                            // Prefer custom defined scales for plots, but default to ones automatically
-                            // create by an <Axis> if non are avilable
-                            const domain = chartSelectors.scales.zoomedDomain(state, field) ?? chartSelectors.scales.zoomedDomain(state, field);
-                            const range = chartSelectors.scales.range(state, field, "plot") ?? chartSelectors.scales.range(state, field, "axis");
+                            const domain = chartSelectors.scales.zoomedDomain(state, field);
+                            const range = chartSelectors.scales.range(state, field, type);
                             return (scale.domain(domain) as IScale).range(range) as IScale;
                         }
 
                         default:
-                            throw new Error(`Unknown scaleType: ${type}`);
+                            throw new Error(`Unknown scaleMode: ${type}`);
                     }
                 }
             },
@@ -224,86 +264,47 @@ export const chartSelectors: IChartSelectors = {
             }, {}),
     },
 
-    /**
-     * Returns dimension based information for the chart
-     */
+    // @inheritDoc
     dimensions: {
+        // @inheritDoc
         store: (state: IState): IChartStateDimensions => chartSelectors.store(state).dimensions,
 
-        /**
-         * Returns the width of the chart
-         * @param  state The application state
-         * @return       The width
-         */
+        // @inheritDoc
         width: (state: IState): number =>
-            chartSelectors.dimensions.store(state).width - chartSelectors.brush.store(state).width || 0,
+            chartSelectors.dimensions.store(state).width - chartSelectors.brush.width(state) || 0,
 
-        /**
-         * Returns the height of the chart
-         * @param  state The application state
-         * @return       The height
-         */
+        // @inheritDoc
         height: (state: IState): number =>
             chartSelectors.dimensions.store(state).height - chartSelectors.brush.height(state) || 0,
 
-        /**
-         * Returns the margin of the chart
-         * @param  state The application state
-         * @return       The margin
-         */
+        // @inheritDoc
         margin: (state: IState): IMargin => chartSelectors.dimensions.store(state).margin || EMPTY_MARGIN,
     },
 
+    // @inheritDoc
     brush: {
+        // @inheritDoc
         store: (state: IState): IChartStateBrush => chartSelectors.store(state).brush,
 
-        /**
-         * Whether the brush is visible or not
-         * @param  state The application state
-         * @return       True if the brush is visible
-         */
-        isVisible: (state: IState): boolean => !!chartSelectors.brush.store(state).visible,
+        // @inheritDoc
+        height: (state: IState): number => chartSelectors.brush.store(state).height,
 
-        /**
-         * Obtain an overriden range for a Brush scale
-         * @param  state     The application state
-         * @param  field     The field to get the range for
-         * @return           The pixel range to use for the scale when brushing
-         */
-        getRangeForScale: (state: IState, field: string): number[] | undefined =>
-            chartSelectors.store(state).brush.ranges[field],
-
-        height: (state: IState): number =>
-            chartSelectors.brush.isVisible(state) ? chartSelectors.brush.store(state).height : 0,
-        width: (state: IState): number =>
-            chartSelectors.brush.isVisible(state) ? chartSelectors.brush.store(state).width : 0,
+        // @inheritDoc
+        width: (state: IState): number => chartSelectors.brush.store(state).width,
     },
 
-    /**
-     * Returns legend information for the chart
-     */
+    // @inheritDoc
     legend: {
+        // @inheritDoc
         store: (state: IState): IChartStateLegend => chartSelectors.store(state).legend,
 
-        /**
-         * Should the legend be visible?
-         * @param  state     The application state
-         * @return           True if the legend should be visible
-         */
+        // @inheritDoc
         isVisible: (state: IState): boolean => chartSelectors.legend.items(state).length > 1,
 
-        /**
-         * Returns the set of items required to be in the legend
-         * @param  state     The application state
-         * @return           The items for the legend to render
-         */
+        // @inheritDoc
         items: (state: IState): ILegendItem[] => chartSelectors.legend.store(state).items || EMPTY_ARRAY,
     },
 
-    /**
-     * Returns the theme for the chart
-     * @param  state The application state
-     * @return The theme object
-     */
+    // @inheritDoc
     theme: (state: IState): ITheme => chartSelectors.store(state).theme,
 };

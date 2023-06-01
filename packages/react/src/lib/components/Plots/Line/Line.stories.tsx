@@ -81,8 +81,9 @@ const LineTemplate = (args) => (
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
+        zoomBrush={args.zoomBrush}
     >
-        <Line x={args.x} y={args.y} color={args.color} interactive={!args.withScatter} brush={args.withBrush} />
+        <Line x={args.x} y={args.y} color={args.color} interactive={!args.withScatter} />
         {args.withScatter ? <Scatter x={args.x} y={args.y} /> : null}
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
@@ -101,10 +102,11 @@ const LinesTemplate = (args) => (
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
+        zoomBrush={args.zoomBrush}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
-        <Lines x={args.x} ys={[args.y, args.y2, args.y3]} brush={args.withBrush} />
+        <Lines x={args.x} ys={[args.y, args.y2, args.y3]} />
     </XYChart>
 );
 
@@ -151,7 +153,7 @@ LineWithBrush.storyName = "Line with Brush";
 LineWithBrush.args = {
     ...Basic.args,
     withScatter: true,
-    withBrush: true,
+    zoomBrush: "inline",
 };
 
 export const MultipleLines = LinesTemplate.bind({});

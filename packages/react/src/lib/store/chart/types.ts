@@ -14,15 +14,22 @@ export interface SetScaleAction {
   payload: {
     fields: string[];
     scale: IScale;
-    fromAxis: boolean;
   };
 }
 
-export interface SetBrushScaleAction {
+export interface SetBrushRangeAction {
   type: "CHART.SET_BRUSH_RANGE";
   payload: {
     field: string;
     range: number[];
+  };
+}
+
+export interface SetBrushReservedDimensionsAction {
+  type: "CHART.SET_BRUSH_RESERVED_DIMENSIONS";
+  payload: {
+    width: number;
+    height: number;
   };
 }
 
@@ -74,4 +81,5 @@ export type ChartAction =
   | RemoveLegendItemAction
   | SetBrushScaleAction
   | SetScaleZoomAction
-  | SetChartIDAction;
+  | SetChartIDAction
+  | SetBrushReservedDimensionsAction;

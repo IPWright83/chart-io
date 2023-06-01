@@ -22,8 +22,8 @@ export function RectangleClipPath({ children }: IRectangleClipPathProps) {
     const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
     const chartID = useSelector((s: IState) => chartSelectors.id(s));
 
-    const plotWidth = width - margin.left - margin.right;
-    const plotHeight = height - margin.top - margin.bottom;
+    const plotWidth = Math.max(0, width - margin.left - margin.right);
+    const plotHeight = Math.max(0, height - margin.top - margin.bottom);
 
     const childrenWithProps = getChildrenWithProps(children, `clip-path-${chartID}`);
 

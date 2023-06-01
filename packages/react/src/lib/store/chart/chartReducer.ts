@@ -73,26 +73,6 @@ const chartReducer = (state: IChartState = defaultChartState, action: ChartActio
             };
 
         case "CHART.SET_SCALES":
-            if (action.payload.fromAxis) {
-                return {
-                    ...state,
-                    scales: {
-                        ...state.scales,
-                        ...action.payload.fields.reduce((result, field) => {
-                            return {
-                                ...result,
-                                [field]: {
-                                    ...(state.scales[field] ?? {}),
-                                    domain: action.payload.scale.domain(),
-                                    range: action.payload.scale.range(),
-                                    scale: action.payload.scale,
-                                },
-                            };
-                        }, {}),
-                    },
-                };
-            }
-
             return {
                 ...state,
                 scales: {

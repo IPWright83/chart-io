@@ -5,10 +5,10 @@ import type { IData, ILegendItem, IMargin, IScale, ITheme } from "@chart-it/type
 export interface IChartScaleInfo {
   scale?: IScale;
   domain: any;
-  zoomedDomain: any;
+  zoomedDomain?: any;
   range: any;
-  brush: {
-    range: any;
+  brush?: {
+    range?: any;
   };
 }
 
@@ -27,8 +27,7 @@ export interface IChartStateLegend {
 export interface IChartStateBrush {
   width: number;
   height: number;
-  visible: boolean;
-  // orientation: IOrientation;
+  range?: number[];
 }
 
 export interface IChartState {
