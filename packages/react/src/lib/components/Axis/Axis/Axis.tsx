@@ -96,7 +96,7 @@ export function Axis({
 
     // Render the x-axis using D3
     useEffect(() => {
-        if (axis.current && scale) {
+        if (axis.current && scale && scale.domain().length > 0 && scale.range().length > 0) {
             const selection = d3
                 .select(axis.current)
                 .style("color", `${theme.axis.stroke}`)
