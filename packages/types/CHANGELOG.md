@@ -1,5 +1,11 @@
 # @chart-it/types
 
+## 0.11.0
+
+### Minor Changes
+
+- 491d050: Added ZoomBrush support
+
 ## 0.10.0
 
 ### Minor Changes
