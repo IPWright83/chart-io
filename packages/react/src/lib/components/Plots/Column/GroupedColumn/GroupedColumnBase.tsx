@@ -6,7 +6,7 @@ import type { Transition } from "@chart-it/d3";
 
 import { chartSelectors, eventActions, IState } from "../../../../store";
 import { useLegendItems, useRender } from "../../../../hooks";
-import { ensureBandScale } from "../../../../utils";
+import { ensureBandwidth, getBandwidthAndOffset } from "../../../../utils";
 
 import { getDropline } from "../getDropline";
 import { renderCanvas } from "../../renderCanvas";
@@ -79,12 +79,13 @@ export function GroupedColumnBase({
     }, [store.dispatch, focused, xScale, theme.series.opacity, theme.series.selectedOpacity]);
 
     useRender(() => {
-        if (ensureBandScale(xScale, "GroupedColumn") === false) return null;
+        const { bandwidth, offset } = getBandwidthAndOffset(xScale, x, data);
+
+        if (ensureBandwidth(bandwidth, "GroupedColumn") === false) return null;
 
         // Create a scale for each series to fit along the x-axis and the series colors
         const colorScale = d3.scaleOrdinal().domain(ys).range(colors);
-        // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
-        const x1Scale = d3.scaleBand().domain(ys).rangeRound([0, xScale.bandwidth()]).padding(0.05);
+        const x1Scale = d3.scaleBand().domain(ys).rangeRound([0, bandwidth]).padding(0.05);
 
         // prettier-ignore
         const groupJoin = d3.select(layer.current)
@@ -106,8 +107,8 @@ export function GroupedColumnBase({
             .enter()
             .append("rect")
             .attr("class", "column")
-            .attr("x", (d) => xScale(d[x]) + x1Scale(d.key))
-            .attr("y", () => yScale.range()[0])
+            .attr("x", (d) => xScale(d[x]) + x1Scale(d.key) - offset)
+            .attr("y", yScale.range()[0])
             .attr("height", 0)
             .attr("width", x1Scale.bandwidth())
             .style("fill", (d) => colorScale(d.key).toString())
@@ -141,7 +142,7 @@ export function GroupedColumnBase({
             })
             .transition("position")
             .duration(animationDuration / 2)
-            .attr("x", (d) => xScale(d[x]) + x1Scale(d.key))
+            .attr("x", (d) => xScale(d[x]) + x1Scale(d.key) - offset)
             .attr("width", x1Scale.bandwidth())
             .style("fill", (d) => colorScale(d.key).toString())
             // @ts-expect-error: Looks like the type defs are wrong missing named transitions

@@ -5,7 +5,12 @@ import { useSelector, useStore } from "react-redux";
 import type { Transition } from "@chart-it/d3";
 
 import { chartSelectors, eventActions, IState } from "../../../../store";
-import { ensureBandScale, ensureNoScaleOverflow, ensureValuesAreUnique } from "../../../../utils";
+import {
+    ensureBandwidth,
+    ensureNoScaleOverflow,
+    ensureValuesAreUnique,
+    getBandwidthAndOffset,
+} from "../../../../utils";
 import { useLegendItems, useRender } from "../../../../hooks";
 
 import { getDropline } from "../getDropline";
@@ -84,7 +89,9 @@ export function StackedBarBase({
 
     // prettier-ignore
     useRender(() => {
-        if (ensureBandScale(yScale, "StackedBar") === false) return null;
+        const { bandwidth, offset } = getBandwidthAndOffset(yScale, y, data);
+
+        if (ensureBandwidth(bandwidth, "StackedBar") === false) return null;
         ensureValuesAreUnique(data, y, "StackedBar");
         ensureNoScaleOverflow(xScale, data, xs, "StackedBar");
 
@@ -115,9 +122,8 @@ export function StackedBarBase({
             .append("rect")
             .attr("class", "bar")
             .attr("x", () => xScale.range()[0])
-            .attr("y", (d) => yScale(d.data[y]))
-            // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
-            .attr("height", yScale.bandwidth())
+            .attr("y", (d) => yScale(d.data[y]) - offset)
+            .attr("height", bandwidth)
             .attr("width", 0)
             .style("stroke", strokeColor.toString())
             .style("fill", (d, i, elements) => {
@@ -157,9 +163,8 @@ export function StackedBarBase({
                 const key = getParentKey(elements[i] as Element);
                 return colorScale(key)?.toString();
             })
-            .attr("y", (d) => yScale(d.data[y]))
-            // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
-            .attr("height", () => yScale.bandwidth())
+            .attr("y", (d) => yScale(d.data[y]) - offset)
+            .attr("height", bandwidth)
             // @ts-expect-error: Looks like the type defs are wrong missing named transitions
             .transition("width")
             .duration(animationDuration / 2)

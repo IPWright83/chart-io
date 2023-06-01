@@ -3,9 +3,11 @@ import React from "react";
 import { argTypes } from "../../../storybook/argTypes";
 import { example_dataset } from "../../../data/example_dataset";
 import { Line } from "./Line";
-import { Column } from "./Column";
+import { Column, Columns } from "./Column";
 import { XYChart } from "../XYChart";
 import { XAxis, YAxis } from "../Axis";
+import { Area } from "./Area";
+import { Scatter } from "./Scatter";
 
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
@@ -68,7 +70,7 @@ const processData = (rawData) => {
     return result;
 };
 
-const MixedPlotTemplate = (args) => (
+const MixedColumnPlotTemplate = (args) => (
     <XYChart
         data={processData(example_dataset)}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
@@ -82,16 +84,39 @@ const MixedPlotTemplate = (args) => (
         onMouseOut={args.onMouseOut}
         zoomBrush={args.zoomBrush}
     >
-        <Line x={args.x} y={args.y} color="steelblue" />
         <Column x={args.x} y={args.y2} color="orange" />
-        <YAxis fields={[args.y, args.y2, args.y3]} />
-        <XAxis fields={[args.x]} />
+        <Line x={args.x} y={args.y} color="steelblue" />
+        <Area x={args.x} y={args.y4} color="green" />
+        <Scatter x={args.x} y={args.y3} color="purple" />
+        <YAxis fields={[args.y, args.y2, args.y3, args.y4]} showGridlines={false} />
+        <XAxis fields={[args.x]} showGridlines={false} />
     </XYChart>
 );
 
-export const MixedColumnAndLine = MixedPlotTemplate.bind({});
-MixedColumnAndLine.storyName = "Mixed Column & Line Plot";
-MixedColumnAndLine.args = {
+const MixedGroupledColumnPlotTemplate = (args) => (
+    <XYChart
+        data={processData(example_dataset)}
+        margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
+        theme={args.theme}
+        useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
+        zoomBrush={args.zoomBrush}
+    >
+        <Columns x={args.x} ys={[args.y, args.y4, args.y2]} grouped={args.grouped} stacked={args.stacked} />
+        <Scatter x={args.x} y={args.y3} color="purple" />
+        <YAxis fields={[args.y, args.y2, args.y3, args.y4]} aggregate={args.stacked} showGridlines={false} />
+        <XAxis fields={[args.x]} showGridlines={false} />
+    </XYChart>
+);
+
+export const MixedColumnPlots = MixedColumnPlotTemplate.bind({});
+MixedColumnPlots.storyName = "Column, Line, Area & Scatter";
+MixedColumnPlots.args = {
     useCanvas: false,
     width: 800,
     height: 500,
@@ -102,7 +127,53 @@ MixedColumnAndLine.args = {
     rightMargin: 40,
     topMargin: 40,
     bottomMargin: 40,
-    y: "Unit Sales",
+    y: "Gross Profit",
     y2: "Sales Value",
+    y3: "Operating Profit",
+    y4: "Unit Sales",
     x: "Month",
+};
+
+export const MixedGroupedColumnPlots = MixedGroupledColumnPlotTemplate.bind({});
+MixedGroupedColumnPlots.storyName = "Groupled Column & Scatter";
+MixedGroupedColumnPlots.args = {
+    useCanvas: false,
+    width: 800,
+    height: 500,
+    animationDuration: 500,
+    color: "#99C1DC",
+    theme: "light",
+    leftMargin: 70,
+    rightMargin: 40,
+    topMargin: 40,
+    bottomMargin: 40,
+    y: "Gross Profit",
+    y2: "Sales Value",
+    y3: "Operating Profit",
+    y4: "Unit Sales",
+    x: "Month",
+    grouped: true,
+    stacked: false,
+};
+
+export const MixedStackedColumnPlots = MixedGroupledColumnPlotTemplate.bind({});
+MixedStackedColumnPlots.storyName = "Stacked Column & Scatter";
+MixedStackedColumnPlots.args = {
+    useCanvas: false,
+    width: 800,
+    height: 500,
+    animationDuration: 500,
+    color: "#99C1DC",
+    theme: "light",
+    leftMargin: 70,
+    rightMargin: 40,
+    topMargin: 40,
+    bottomMargin: 40,
+    y: "Gross Profit",
+    y2: "Sales Value",
+    y3: "Operating Profit",
+    y4: "Unit Sales",
+    x: "Month",
+    grouped: false,
+    stacked: true,
 };

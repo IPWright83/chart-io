@@ -6,7 +6,7 @@ import type { Transition } from "@chart-it/d3";
 
 import { chartSelectors, eventActions, IState } from "../../../../store";
 import { useLegendItems, useRender } from "../../../../hooks";
-import { ensureBandScale } from "../../../../utils";
+import { ensureBandwidth, getBandwidthAndOffset } from "../../../../utils";
 
 import { getDropline } from "../getDropline";
 import { renderCanvas } from "../../renderCanvas";
@@ -83,7 +83,9 @@ export function GroupedBarBase({
 
     // prettier-ignore
     useRender(() => {
-        if (ensureBandScale(yScale, "GroupedBar") === false) return null;
+        const { bandwidth, offset } = getBandwidthAndOffset(yScale, y, data);
+
+        if (ensureBandwidth(bandwidth, "GroupedBar") === false) return null;
 
         function _onmouseover(event, datum) {
             // istanbul ignore next
@@ -117,8 +119,7 @@ export function GroupedBarBase({
 
         // Create a scale for each series to fit along the x-axis and the series colors
         const colorScale = d3.scaleOrdinal().domain(xs).range(colors);
-        // @ts-expect-error: scale.bandwidth() has already been protected against using ensureBandScale()
-        const y1Scale = d3.scaleBand().domain(xs).rangeRound([0, yScale.bandwidth()]).padding(0.05);
+        const y1Scale = d3.scaleBand().domain(xs).rangeRound([0, bandwidth]).padding(0.05);
 
         const groupJoin = d3.select(layer.current).selectAll<SVGGElement, IDatum>("g").data(data);
 
@@ -137,8 +138,8 @@ export function GroupedBarBase({
             .enter()
             .append("rect")
             .attr("class", "bar")
-            .attr("y", (d) => yScale(d[y]) + y1Scale(d.key))
-            .attr("x", () => xScale.range()[0])
+            .attr("y", (d) => yScale(d[y]) + y1Scale(d.key) - offset)
+            .attr("x", xScale.range()[0])
             .attr("width", 0)
             .attr("height", y1Scale.bandwidth())
             .style("stroke", strokeColor?.toString())
@@ -153,7 +154,7 @@ export function GroupedBarBase({
             .on("click", _onclick)
             .transition("position")
             .duration(animationDuration / 2)
-            .attr("y", (d) => yScale(d[y]) + y1Scale(d.key))
+            .attr("y", (d) => yScale(d[y]) + y1Scale(d.key) - offset)
             .attr("height", y1Scale.bandwidth())
             .style("fill", (d) => colorScale(d.key).toString())
             // @ts-expect-error: Looks like the type defs are wrong missing named transitions
