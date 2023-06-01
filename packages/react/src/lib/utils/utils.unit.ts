@@ -1,3 +1,4 @@
+import * as d3 from "@chart-it/d3";
 import type { AnyAction, Store } from "redux";
 
 import { logAndThrowError, logDebug, logError, logWarning } from "./logger";
@@ -5,6 +6,8 @@ import { areValuesUnique } from "./areValuesUnique";
 import { getXYFromTransform } from "./getXYFromTransform";
 import { isNullOrUndefined } from "./isNullOrUndefined";
 import { linkStores } from "./linkStores";
+import { getBandwidthAndOffset } from "./getBandwidthAndOffset";
+import { IScale } from "@chart-it/types";
 
 describe("utils", () => {
     describe("areValuesUnique", () => {
@@ -18,6 +21,27 @@ describe("utils", () => {
 
         it("returns false if there is a duplicate value", () => {
             expect(areValuesUnique([1, 2, 3, 4, 1])).toBe(false);
+        });
+    });
+
+    describe("getBandwidthAndOffset", () => {
+        it("returns the scale bandwidth and 0 offset if the scale has a bandwidth function", () => {
+            const scale = { bandwidth: () => 5 } as IScale;
+
+            expect(getBandwidthAndOffset(scale, "x", [])).toEqual({
+                bandwidth: 5,
+                offset: 0,
+            });
+        });
+
+        it("should calculate a bandwidth and offset if the scale has no bandwidth function", () => {
+            const scale = d3.scaleLinear().domain([0, 100]).range([0, 100]);
+            const data = [{ x: 0 }, { x: 50 }];
+
+            expect(getBandwidthAndOffset(scale, "x", data)).toEqual({
+                bandwidth: 46,
+                offset: 23,
+            });
         });
     });
 

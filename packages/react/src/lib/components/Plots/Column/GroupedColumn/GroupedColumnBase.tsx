@@ -5,8 +5,8 @@ import { useSelector, useStore } from "react-redux";
 import type { Transition } from "@chart-it/d3";
 
 import { chartSelectors, eventActions, IState } from "../../../../store";
-import { useLegendItems, useRender } from "../../../../hooks";
 import { ensureBandwidth, getBandwidthAndOffset } from "../../../../utils";
+import { useLegendItems, useRender } from "../../../../hooks";
 
 import { getDropline } from "../getDropline";
 import { renderCanvas } from "../../renderCanvas";

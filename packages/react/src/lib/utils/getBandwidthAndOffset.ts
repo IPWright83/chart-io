@@ -4,7 +4,8 @@ import { BAND_PADDING } from "../constants";
 
 /**
  * Ensures that the scale is a valid band scale. If it is not it will attempt to
- * make it valid. If that fails it will log an issue
+ * make it valid. This helps us support mixing plot types as timeScales for example
+ * don't feature a bandwidth https://github.com/d3/d3-axis/issues/85#issuecomment-1126362199
  * @param  {d3.Scale} scale          The d3 scale
  * @param  {String} field            The field that the scale represents
  * @param  {Array} data              The data for the plot
@@ -20,7 +21,7 @@ export function getBandwidthAndOffset(scale: IScale, field: string, data: any) {
         };
     }
 
-    if (data.length > 2) {
+    if (data.length >= 2) {
         const value0 = data[0][field];
         const value1 = data[1][field];
 
