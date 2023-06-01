@@ -47,6 +47,7 @@ const AreaTemplate = (args) => (
         width={args.width}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        zoomBrush={args.zoomBrush}
     >
         <Area x={args.x} y={args.y} y2={args.y2} color={args.color} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
@@ -66,6 +67,7 @@ const AreasTemplate = (args) => (
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
+        zoomBrush={args.zoomBrush}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
@@ -86,6 +88,7 @@ const StackedAreasTemplate = (args) => {
             onClick={args.onClick}
             onMouseOver={args.onMouseOver}
             onMouseOut={args.onMouseOut}
+            zoomBrush={args.zoomBrush}
         >
             <YAxis fields={[args.y, args.y2, args.y3]} aggregate={true} />
             <XAxis fields={[args.x]} />
@@ -133,6 +136,13 @@ Canvas.args = {
     useCanvas: true,
 };
 
+export const AreaWithBrush = AreaTemplate.bind({});
+AreaWithBrush.storyName = "Area with Brush";
+AreaWithBrush.args = {
+    ...Basic.args,
+    zoomBrush: "inline",
+};
+
 export const MultipleAreas = AreasTemplate.bind({});
 MultipleAreas.storyName = "Mutiple Area Plots";
 MultipleAreas.args = {
@@ -149,4 +159,14 @@ StackedAreas.args = {
     y: "Total Revenue",
     y2: "Total Cost",
     y3: "Total Profit",
+};
+
+export const StackedAreasWithBrush = StackedAreasTemplate.bind({});
+StackedAreasWithBrush.storyName = "Stacked Area Plots with a Brush";
+StackedAreasWithBrush.args = {
+    ...Basic.args,
+    y: "Total Revenue",
+    y2: "Total Cost",
+    y3: "Total Profit",
+    zoomBrush: "inline",
 };

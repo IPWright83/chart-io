@@ -11,8 +11,8 @@ export type IZScaleProps = IAutoScaleProps;
  * @param  props   Props for the scale
  * @return         A scale component
  */
-export function ZScale({ fields, scaleType, range = [5, 25], domain, fromAxis = false }: IZScaleProps) {
+export function ZScale({ fields, scaleType, range = [5, 25], domain }: IZScaleProps) {
     const fieldsArray = useArray(fields);
 
-    return <AutoScale fields={fieldsArray} fromAxis={fromAxis} range={range} domain={domain} scaleType={scaleType} />;
+    return <AutoScale fields={fieldsArray} range={range} domain={domain} scaleType={scaleType} />;
 }

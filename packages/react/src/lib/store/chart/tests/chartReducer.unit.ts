@@ -8,9 +8,13 @@ import type {
     AddLegendItemAction,
     RemoveLegendItemAction,
     SetAnimationDurationAction,
+    SetBrushRangeAction,
+    SetBrushReservedDimensionsAction,
+    SetChartIDAction,
     SetDataAction,
     SetDimensionAction,
     SetScaleAction,
+    SetScaleZoomAction,
     SetThemeAction,
 } from "../types";
 
@@ -82,6 +86,81 @@ describe("chartReducer", () => {
         });
     });
 
+    it("CHART.SET_BRUSH_RANGE", () => {
+        const action = {
+            type: "CHART.SET_BRUSH_RANGE",
+            payload: {
+                field: "a",
+                range: [0, 100],
+            },
+        } as SetBrushRangeAction;
+
+        expect(chartReducer(previousState, action)).toEqual({
+            ...previousState,
+            scales: {
+                ...previousState.scales,
+                a: {
+                    ...previousState.scales.a,
+                    brush: {
+                        range: [0, 100],
+                    },
+                },
+            },
+        });
+    });
+
+    it("CHART.SET_SCALE_ZOOM", () => {
+        const action = {
+            type: "CHART.SET_SCALE_ZOOM",
+            payload: {
+                field: "a",
+                domain: [3, 7],
+            },
+        } as SetScaleZoomAction;
+
+        expect(chartReducer(previousState, action)).toEqual({
+            ...previousState,
+            scales: {
+                ...previousState.scales,
+                a: {
+                    ...previousState.scales.a,
+                    zoomedDomain: [3, 7],
+                },
+            },
+        });
+    });
+
+    it("CHART.SET_BRUSH_RESERVED_DIMENSIONS", () => {
+        const action = {
+            type: "CHART.SET_BRUSH_RESERVED_DIMENSIONS",
+            payload: {
+                width: 25,
+                height: 75,
+            },
+        } as SetBrushReservedDimensionsAction;
+
+        expect(chartReducer(previousState, action)).toEqual({
+            ...previousState,
+            brush: {
+                ...previousState.brush,
+                width: 25,
+                height: 75,
+            },
+        });
+    });
+
+    it("CHART.SET_CHART_ID", () => {
+        const action = {
+            type: "CHART.SET_CHART_ID",
+            payload: "foo",
+        } as SetChartIDAction;
+
+        expect(chartReducer(previousState, action)).toEqual({
+            ...previousState,
+            id: "foo",
+        });
+    });
+
     it("CHART.SET_DATA action", () => {
         const action = {
             type: "CHART.SET_DATA",
@@ -104,7 +183,6 @@ describe("chartReducer", () => {
             payload: {
                 fields: ["x", "y"],
                 scale: logScale,
-                fromAxis: false,
             },
         } as SetScaleAction;
 
@@ -113,10 +191,17 @@ describe("chartReducer", () => {
             dimensions: previousState.dimensions,
             data: previousState.data,
             scales: {
-                a: previousState.scales.a,
-                b: previousState.scales.b,
-                x: logScale,
-                y: logScale,
+                ...previousState.scales,
+                x: {
+                    domain: [1, 10],
+                    range: [0, 1],
+                    scale: logScale,
+                },
+                y: {
+                    domain: [1, 10],
+                    range: [0, 1],
+                    scale: logScale,
+                },
             },
         });
     });

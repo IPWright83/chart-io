@@ -1,0 +1,27 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+
+<Meta title="Components/Zoom/HorizontalZoomBrush" />
+
+# HorizontalZoomBrush Component
+
+The `<HorizontalZoomBrush>` component allows us to define a d3 Brush which allows us to zoom in on an area of the chart. This brush allows you to interact with it to both zoom and pan the main plot. It re-renders any plots in a minature fashion to provide context while zooming.
+
+<Canvas>
+    <Story id="components-zoom-horizontalzoombrush--default" />
+</Canvas>
+<br />
+
+An example with a full chart can be seen here:
+
+<Canvas>
+    <Story id="xycharts-line--line-with-brush" />
+</Canvas>
+
+## Props
+
+Generally you don't use the `<HorizontalZoomBrush>` component directly, instead prefering to use the `<ZoomBrush>` component with an `"inline"` type.
+
+| Property   | Type          | Default | Note                                                    |
+| ---------- | ------------- | ------- | ------------------------------------------------------- |
+| `height`\  | `number`      | 60      | The height of the brush that will be reserved           |
+| `children` | `JSX.Element` | []      | The plots that should be rendered in a minature version |

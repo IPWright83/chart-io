@@ -22,11 +22,21 @@ export interface IAreaBaseProps extends IPlotProps {
  * @param  props       The set of React properties
  * @return             The Line plot component
  */
-export function AreaBase({ x, y, y2, color, interactive = true, layer, canvas }: IAreaBaseProps) {
+export function AreaBase({
+    x,
+    y,
+    y2,
+    color,
+    scaleMode = "plot",
+    showInLegend = true,
+    interactive = true,
+    layer,
+    canvas,
+}: IAreaBaseProps) {
     const store = useStore();
     const data = useSelector((s: IState) => chartSelectors.data(s));
-    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
-    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, scaleMode));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y, scaleMode));
     const eventMode = useSelector((s: IState) => eventSelectors.mode(s));
     const position = useSelector((s: IState) => eventSelectors.position(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
@@ -42,7 +52,7 @@ export function AreaBase({ x, y, y2, color, interactive = true, layer, canvas }:
     // @ts-expect-error: This is a runtime check
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
-    useLegendItem(y, "line", fillColor);
+    useLegendItem(y, "line", showInLegend, fillColor);
 
     // Used to create our initial path
     usePathCreator(layer, x, y, xScale, yScale, canvas);

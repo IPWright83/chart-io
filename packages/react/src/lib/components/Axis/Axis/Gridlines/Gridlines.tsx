@@ -52,7 +52,7 @@ export function Gridlines({ layer, position, scale, tickPadding = 3, ticks, tick
 
     // Render the x-axis using D3
     useEffect(() => {
-        if (layer.current && scale) {
+        if (layer.current && scale && scale.domain().length > 0 && scale.range().length > 0) {
             // Create the D3 axis renderer
             const d3Axis = getD3Axis(position, scale);
 

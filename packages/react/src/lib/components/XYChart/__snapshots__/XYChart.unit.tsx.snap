@@ -19,6 +19,18 @@ exports[`XYChart should create empty template correctly 1`] = `
         width="440"
       />
     </g>
+    <defs>
+      <clippath
+        id="clip-path-random-id"
+      >
+        <rect
+          height="440"
+          width="440"
+          x="30"
+          y="30"
+        />
+      </clippath>
+    </defs>
     <g
       class="g-markers"
     />

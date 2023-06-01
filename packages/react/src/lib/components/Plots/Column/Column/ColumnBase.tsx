@@ -30,6 +30,8 @@ export function ColumnBase({
     canvas,
     renderVirtualCanvas,
     color,
+    scaleMode = "plot",
+    showInLegend = true,
     interactive = true,
     onMouseOver,
     onMouseOut,
@@ -42,8 +44,8 @@ export function ColumnBase({
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
-    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
-    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, scaleMode));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y, scaleMode));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
@@ -51,7 +53,7 @@ export function ColumnBase({
     const fillColor = d3.color(`${color ?? theme.series.colors[0]}`);
     fillColor.opacity = theme.series.opacity;
 
-    useLegendItem(y, "square", fillColor);
+    useLegendItem(y, "square", showInLegend, fillColor);
     const setTooltip = useTooltip(store.dispatch, x);
 
     useEffect(() => {

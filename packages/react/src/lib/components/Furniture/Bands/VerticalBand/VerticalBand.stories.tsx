@@ -29,7 +29,11 @@ const VerticalBandTemplate = () => {
                 height: 200,
             },
             scales: {
-                "Units Sold": d3.scaleLinear().domain([0, 1000]).range([0, 200]),
+                "Units Sold": {
+                    scale: d3.scaleLinear(),
+                    domain: [0, 1000],
+                    range: [0, 200],
+                },
             },
         },
     });

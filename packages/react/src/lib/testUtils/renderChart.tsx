@@ -11,12 +11,12 @@ import { themes } from "../themes";
 export async function renderChart({
     children,
     data,
-    scales,
+    scales = {},
     store,
 }: {
     children: JSX.Element;
-    data: IData;
-    scales: Record<string, IScale>;
+    data?: IData;
+    scales?: Record<string, IScale>;
     store?: any;
 }) {
     const mockStore = createMockStore({
@@ -27,7 +27,15 @@ export async function renderChart({
                 width: 200,
             },
             data,
-            scales,
+            scales: Object.entries(scales).reduce((result, [key, scaleFunc]) => {
+                result[key] = {
+                    domain: scaleFunc.domain(),
+                    range: scaleFunc.range(),
+                    scale: scaleFunc,
+                };
+
+                return result;
+            }, {}),
             theme: themes.light,
         },
     });

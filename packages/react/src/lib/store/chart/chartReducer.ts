@@ -6,6 +6,7 @@ import type { ChartAction } from "./types";
 import type { IChartState } from "../types";
 
 export const defaultChartState = {
+    id: "",
     animationDuration: 1000,
     theme: themes.light,
     data: [],
@@ -17,10 +18,27 @@ export const defaultChartState = {
             bottom: 30,
         },
     },
+    /**
+     * Scales has the following shape when populated
+     * scales: {
+     *     [key]: {
+     *         scale,
+     *         domain,
+     *         zoomedDomain,
+     *         range,
+     *         brush: {
+     *             range,
+     *         }
+     *     }
+     * }
+     */
     scales: {},
-    axisScales: {},
     legend: {
         items: [],
+    },
+    brush: {
+        height: 0,
+        width: 0,
     },
 };
 
@@ -55,26 +73,74 @@ const chartReducer = (state: IChartState = defaultChartState, action: ChartActio
             };
 
         case "CHART.SET_SCALES":
-            if (action.payload.fromAxis) {
-                return {
-                    ...state,
-                    axisScales: {
-                        ...state.axisScales,
-                        ...action.payload.fields.reduce((result, field) => {
-                            return { ...result, [field]: action.payload.scale };
-                        }, {}),
-                    },
-                };
-            }
-
             return {
                 ...state,
                 scales: {
                     ...state.scales,
                     ...action.payload.fields.reduce((result, field) => {
-                        return { ...result, [field]: action.payload.scale };
+                        return {
+                            ...result,
+                            [field]: {
+                                ...(state.scales[field] ?? {}),
+                                domain: action.payload.scale.domain(),
+                                range: action.payload.scale.range(),
+                                scale: action.payload.scale,
+                            },
+                        };
                     }, {}),
                 },
+            };
+
+        case "CHART.SET_BRUSH_RANGE":
+            return {
+                ...state,
+                scales: {
+                    ...state.scales,
+                    [action.payload.field]: {
+                        ...(state.scales[action.payload.field] ?? {
+                            scale: undefined,
+                            domain: undefined,
+                            zoomedDomain: undefined,
+                            range: undefined,
+                        }),
+                        brush: {
+                            range: action.payload.range,
+                        },
+                    },
+                },
+            };
+
+        case "CHART.SET_BRUSH_RESERVED_DIMENSIONS":
+            return {
+                ...state,
+                brush: {
+                    ...state.brush,
+                    width: action.payload.width,
+                    height: action.payload.height,
+                },
+            };
+
+        case "CHART.SET_SCALE_ZOOM":
+            return {
+                ...state,
+                scales: {
+                    ...state.scales,
+                    [action.payload.field]: {
+                        ...(state.scales[action.payload.field] ?? {
+                            scale: undefined,
+                            domain: undefined,
+                            range: undefined,
+                            brush: undefined,
+                        }),
+                        zoomedDomain: action.payload.domain,
+                    },
+                },
+            };
+
+        case "CHART.SET_CHART_ID":
+            return {
+                ...state,
+                id: action.payload,
             };
 
         case "CHART.SET_ANIMATION_DURATION":

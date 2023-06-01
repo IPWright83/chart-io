@@ -23,6 +23,7 @@ describe("chartActions", () => {
 
         // @ts-expect-error: Checking runtime validation
         expect(chartActions.setDimensions(width, height)).toBeUndefined();
+
         expect(spy.mock.calls[0][0]).toMatchSnapshot();
     });
 
@@ -35,7 +36,15 @@ describe("chartActions", () => {
 
         // @ts-expect-error: Checking runtime validation
         expect(chartActions.setDimensions(width, height, margin)).toBeUndefined();
+
         expect(spy.mock.calls[0][0]).toMatchSnapshot();
+    });
+
+    it("setChartID", () => {
+        expect(chartActions.setChartID("foo")).toEqual({
+            type: "CHART.SET_CHART_ID",
+            payload: "foo",
+        });
     });
 
     describe("setScales", () => {
@@ -44,10 +53,10 @@ describe("chartActions", () => {
             const scale = d3.scaleLinear();
             const dispatch = jest.fn();
 
-            chartActions.setScales(fields, scale, false)(dispatch);
+            chartActions.setScales(fields, scale)(dispatch);
             expect(dispatch).toHaveBeenCalledWith({
                 type: "CHART.SET_SCALES",
-                payload: { fields, scale, fromAxis: false },
+                payload: { fields, scale },
             });
         });
 
@@ -55,9 +64,38 @@ describe("chartActions", () => {
             const fields = ["a", "b", "c"];
             const dispatch = jest.fn();
 
-            // @ts-expect-error: Checking runtime validation
             chartActions.setScales(fields, null)(dispatch);
             expect(dispatch).not.toHaveBeenCalled();
+        });
+    });
+
+    it("setBrushRange", () => {
+        expect(chartActions.setBrushRange("a", [0, 20])).toEqual({
+            type: "CHART.SET_BRUSH_RANGE",
+            payload: {
+                field: "a",
+                range: [0, 20],
+            },
+        });
+    });
+
+    it("setBrushReservedDimensions", () => {
+        expect(chartActions.setBrushReservedDimensions(25, 75)).toEqual({
+            type: "CHART.SET_BRUSH_RESERVED_DIMENSIONS",
+            payload: {
+                width: 25,
+                height: 75,
+            },
+        });
+    });
+
+    it("setScaleZoom", () => {
+        expect(chartActions.setScaleZoom("a", [25, 75])).toEqual({
+            type: "CHART.SET_SCALE_ZOOM",
+            payload: {
+                field: "a",
+                domain: [25, 75],
+            },
         });
     });
 

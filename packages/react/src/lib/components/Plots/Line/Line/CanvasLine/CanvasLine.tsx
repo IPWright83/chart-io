@@ -6,22 +6,32 @@ import type { IPlotProps } from "@chart-it/types";
 import { chartSelectors, eventSelectors, IState } from "../../../../../store";
 import { isNullOrUndefined, logDebug } from "../../../../../utils";
 import { useLegendItem, useRender } from "../../../../../hooks";
+
 import { useDatumFocus } from "../useDatumFocus";
 import { useTooltip } from "../useTooltip";
 
-export type ICanvasLineProps = Omit<IPlotProps, "interactive">;
+export type ICanvasLineProps = IPlotProps;
 
 /**
  * Represents a Line Plot on a Canvas element
  * @param  props       The set of React properties
  * @return             The Line plot component
  */
-export function CanvasLine({ x, y, color, layer, canvas }: ICanvasLineProps) {
+export function CanvasLine({
+    x,
+    y,
+    color,
+    scaleMode = "plot",
+    showInLegend = true,
+    interactive = true,
+    layer,
+    canvas,
+}: ICanvasLineProps) {
     const store = useStore();
     const gRef = useRef(null);
     const data = useSelector((s: IState) => chartSelectors.data(s));
-    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
-    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, scaleMode));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y, scaleMode));
     const eventMode = useSelector((s: IState) => eventSelectors.mode(s));
     const position = useSelector((s: IState) => eventSelectors.position(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
@@ -34,7 +44,7 @@ export function CanvasLine({ x, y, color, layer, canvas }: ICanvasLineProps) {
     // @ts-expect-error: We handle a missing bandwidth fine
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
-    useLegendItem(y, "line", seriesColor);
+    useLegendItem(y, "line", showInLegend, seriesColor);
 
     /* On future renders we want to update the path */
     useRender(() => {
@@ -69,8 +79,10 @@ export function CanvasLine({ x, y, color, layer, canvas }: ICanvasLineProps) {
     }, [x, y, sortedData, xScale, yScale, layer, canvas, width, height]);
 
     // If possible respond to global mouse events for tooltips etc
-    useDatumFocus(store.dispatch, gRef, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
-    useTooltip(store.dispatch, gRef, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
+    if (interactive) {
+        useDatumFocus(store.dispatch, gRef, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
+        useTooltip(store.dispatch, gRef, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
+    }
 
     return <g ref={gRef} />;
 }

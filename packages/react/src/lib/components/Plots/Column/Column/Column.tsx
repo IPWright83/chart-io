@@ -29,3 +29,12 @@ export function Column({ useCanvas = false, ...props }: IColumnProps) {
 }
 
 Column.requiresVirtualCanvas = true;
+Column.isPlot = true;
+Column.brush = {
+    horizontal: true,
+    vertical: false,
+};
+Column.zoom = {
+    horizontal: true,
+    vertical: false,
+};

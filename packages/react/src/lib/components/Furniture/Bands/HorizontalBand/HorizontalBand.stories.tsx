@@ -29,7 +29,11 @@ const HorizontalBandTemplate = () => {
                 height: 200,
             },
             scales: {
-                "Total Profit": d3.scaleLinear().domain([0, 1000]).range([200, 0]),
+                "Total Profit": {
+                    scale: d3.scaleLinear(),
+                    domain: [0, 1000],
+                    range: [200, 0],
+                },
             },
         },
     });

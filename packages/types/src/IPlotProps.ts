@@ -1,4 +1,5 @@
 import type { IColor } from "./IColor";
+import type { IScaleMode } from "./IScaleMode";
 
 /**
  * PropTypes that are common broadly common for Props
@@ -31,7 +32,18 @@ export interface IPlotProps {
     interactive?: boolean;
 
     /**
+     * Should this series feature in the Legend?
+     */
+    showInLegend?: boolean;
+
+    /**
      * An HTML Canvas if the plot should be rendering to canvas instead
      */
     canvas?: HTMLCanvasElement;
+
+    /**
+     * An internal setting, to prefer using a brush scale. This is set automatically
+     * on cloned plots by the <Brush /> components. You should not need to use it directly
+     */
+    scaleMode?: IScaleMode;
 }

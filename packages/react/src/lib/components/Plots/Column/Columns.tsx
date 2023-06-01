@@ -55,3 +55,12 @@ export function Columns({ ys, colors, stacked = false, grouped = false, ...props
 }
 
 Columns.requiresVirtualCanvas = true;
+Columns.isPlot = true;
+Columns.brush = {
+    horizontal: true,
+    vertical: false,
+};
+Columns.zoom = {
+    horizontal: true,
+    vertical: false,
+};

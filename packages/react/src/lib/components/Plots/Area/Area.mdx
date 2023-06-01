@@ -21,13 +21,14 @@ The `<Area>` component should be used when you want to plot a single area plot o
 
 ### Props
 
-| Prop          | Type      | Default            | Note                                                                                                         |
-| ------------- | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
-| `color`       | `string`  | Derived from Theme | Override the colour of the series                                                                            |
-| **`x`\***     | `string`  | null               | The key of the field that contains the value along the x-axis.                                               |
-| **`y`\***     | `string`  | null               | The key of the field that contains the value along the y-axis.                                               |
-| `y2`          | `string`  | null               | The key of the field that contains the y2 value for a stream graph style.                                    |
-| `interactive` | `boolean` | true               | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot |
+| Prop           | Type      | Default            | Note                                                                                                         |
+| -------------- | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `color`        | `string`  | Derived from Theme | Override the colour of the series                                                                            |
+| **`x`\***      | `string`  | null               | The key of the field that contains the value along the x-axis.                                               |
+| **`y`\***      | `string`  | null               | The key of the field that contains the value along the y-axis.                                               |
+| `y2`           | `string`  | null               | The key of the field that contains the y2 value for a stream graph style.                                    |
+| `interactive`  | `boolean` | true               | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot |
+| `showInLegend` | `boolean` | true               | Whether the plot should feature in the legend or not.                                                        |
 
 ### Stream Graph
 
@@ -94,4 +95,16 @@ The chart will attempt to warn you, but you should also set the `aggregate` fiel
 
 <Canvas>
     <Story id="xycharts-area--stacked-areas" />
+</Canvas>
+
+### Zooming
+
+It is also possible to enable "brush" zooming on an Area chart. To do this simply provide a the following prop to the `<XYChart>` component:
+
+```
+<XYChart zoomBrush="inline" />
+```
+
+<Canvas>
+    <Story id="xycharts-area--stacked-areas-with-brush" />
 </Canvas>

@@ -12,21 +12,12 @@ export type IXScaleProps = Omit<IAutoScaleProps, "range">;
  * @param  props   Props for the scale
  * @return         A scale component
  */
-export function XScale({ fields, scaleType, aggregate, domain, fromAxis = false }: IXScaleProps) {
+export function XScale({ fields, scaleType, aggregate, domain }: IXScaleProps) {
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
     const range = [margin.left, width - margin.right];
 
     const fieldsArray = useArray(fields);
 
-    return (
-        <AutoScale
-            fields={fieldsArray}
-            fromAxis={fromAxis}
-            range={range}
-            scaleType={scaleType}
-            domain={domain}
-            aggregate={aggregate}
-        />
-    );
+    return <AutoScale fields={fieldsArray} range={range} scaleType={scaleType} domain={domain} aggregate={aggregate} />;
 }

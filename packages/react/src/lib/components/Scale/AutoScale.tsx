@@ -14,10 +14,6 @@ export interface IAutoScaleProps {
      */
     fields: string | Array<string>;
     /**
-     * Has this scale been created automatically from an Axis?
-     */
-    fromAxis?: boolean;
-    /**
      * Force the range of the scale, this is required if you haven't provided a type
      */
     range?: number[];
@@ -39,7 +35,7 @@ export interface IAutoScaleProps {
  * Represents a Scale that is automatically generated
  * @return A scale component
  */
-export function AutoScale({ fields, range, scaleType, aggregate = false, domain, fromAxis = false }: IAutoScaleProps) {
+export function AutoScale({ fields, range, scaleType, aggregate = false, domain }: IAutoScaleProps) {
     const store = useStore();
     const data = useSelector((s: IState) => chartSelectors.data(s));
 
@@ -59,5 +55,5 @@ export function AutoScale({ fields, range, scaleType, aggregate = false, domain,
         return calculateScale(data, fieldsArray, range, domain, aggregate, scaleType);
     }, [fieldsArray, data, range, scaleType, aggregate, store.dispatch]);
 
-    return <Scale fields={fieldsArray} scale={scale} fromAxis={fromAxis} />;
+    return <Scale fields={fieldsArray} scale={scale} />;
 }

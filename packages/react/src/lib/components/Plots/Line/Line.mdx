@@ -21,24 +21,27 @@ The `<Line>` component should be used when you want to plot a single line plot o
 
 ### Props
 
-| Prop          | Type      | Default            | Note                                                                                                         |
-| ------------- | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
-| `color`       | `string`  | Derived from Theme | Override the colour of the series                                                                            |
-| **`x`\***     | `string`  | null               | The key of the field that contains the value along the x-axis.                                               |
-| **`y`\***     | `string`  | null               | The key of the field that contains the value along the y-axis.                                               |
-| `interactive` | `boolean` | true               | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot |
+| Prop           | Type      | Default            | Note                                                                                                         |
+| -------------- | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `color`        | `string`  | Derived from Theme | Override the colour of the series                                                                            |
+| **`x`\***      | `string`  | null               | The key of the field that contains the value along the x-axis.                                               |
+| **`y`\***      | `string`  | null               | The key of the field that contains the value along the y-axis.                                               |
+| `interactive`  | `boolean` | true               | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot |
+| `showInLegend` | `boolean` | true               | Whether the plot should feature in the legend or not.                                                        |
 
 ### Visual Styling
 
 Most of the configuration for a `<Line>` is similar to other plots. Currently the only styling property avaliable is the colour option.
 
 <Canvas>
-    <Story id="xycharts-scatter--color" />
+    <Story id="xycharts-line--color" />
 </Canvas>
 
 ## `<Lines> Component`
 
 The `<Lines>` component allows us to define multiple line series. When plotting multiple line series they do not stack, but always behave by overlaying on top of one another.
+
+The simplest way is to use the `<Lines>` (plural) component. The `<Lines>` component allows us to define multiple series at once and takes care of automaticallying layering and assigning colors. It is however possible to do this manually if required by defining multiple `<Line>` components, configuring with a colour manually.
 
 ### Props
 
@@ -48,12 +51,14 @@ The `<Lines>` component allows us to define multiple line series. When plotting 
 | **`x`\***  | `string`   | null               | The key of the field that contains the value along the x-axis. |
 | **`ys`\*** | `string[]` | null               | The keys of the fields that contains values along the y-axis.  |
 
-### Overlapping Lines
+### Zooming
 
-The simplest way is to use the `<Lines>` (plural) component. The `<Lines>` component allows us to define multiple series at once and takes care of automaticallying layering and assigning colors. It is however possible to do this manually if required by defining multiple `<Line>` components, configuring with a colour manually.
+It is also possible to enable "brush" zooming on a line chart. To do this simply provide a the following prop to the `<XYChart>` component:
 
-The results of either approach, render in exactly the same way:
+```
+<XYChart zoomBrush="inline" />
+```
 
 <Canvas>
-    <Story id="xycharts-area--multiple-areas" />
+    <Story id="xycharts-line--line-with-brush" />
 </Canvas>

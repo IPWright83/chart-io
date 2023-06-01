@@ -7,3 +7,4 @@ export * from "./linkStores";
 export * from "./formatters";
 export * from "./logger";
 export * from "./childrenToArray";
+export * from "./extendChildrenProps";

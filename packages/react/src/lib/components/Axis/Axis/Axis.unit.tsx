@@ -23,8 +23,16 @@ describe("Axis", () => {
                 margin,
             },
             scales: {
-                x: d3.scaleLinear().domain([0, width]).range([0, 100]),
-                y: d3.scaleLinear().domain([0, width]).range([0, 50]),
+                x: {
+                    scale: d3.scaleLinear(),
+                    domain: [0, width],
+                    range: [0, 100],
+                },
+                y: {
+                    scale: d3.scaleLinear(),
+                    domain: [0, width],
+                    range: [0, 50],
+                },
             },
         },
     });
