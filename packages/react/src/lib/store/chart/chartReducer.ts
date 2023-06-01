@@ -25,7 +25,7 @@ export const defaultChartState = {
     brush: {
         ranges: {},
         visible: true,
-        height: 100,
+        height: 0,
         width: 0,
     },
 };
