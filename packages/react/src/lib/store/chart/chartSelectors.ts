@@ -87,14 +87,6 @@ interface IChartSelectors {
          * @return           The d3.scale
          */
         getScale: (state: IState, field: string, type: IScaleMode) => IScale;
-
-        /**
-         * Allow getting multiple scales in a single call (to circumvent calling a hook in a loop)
-         * @param  state               The application state
-         * @param  fields              The set of fields to get the scales of
-         * @return                     A mapping from fields to d3.Scale function
-         */
-        getScales: (state: IState, fields: string[], type: IScaleMode) => Record<string, IScale | undefined>;
     };
     /**
      * Returns dimension based information for the chart
@@ -255,13 +247,6 @@ export const chartSelectors: IChartSelectors = {
             },
             { size: 50 }
         ),
-
-        // @inheritDoc
-        getScales: (state: IState, fields: string[], type: IScaleMode): Record<string, IScale | undefined> =>
-            fields.reduce((result, field) => {
-                result[field] = chartSelectors.scales.getScale(state, field, type);
-                return result;
-            }, {}),
     },
 
     // @inheritDoc

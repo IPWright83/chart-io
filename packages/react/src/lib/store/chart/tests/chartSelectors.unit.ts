@@ -126,18 +126,6 @@ describe("chartSelectors", () => {
                 expect(scale.range()).toEqual([0, 500]);
             });
         });
-
-        it("getScales returns correct scales", () => {
-            const scales = chartSelectors.scales.getScales(state, ["a", "b"], "plot");
-
-            expect(scales.a).toBeDefined();
-            expect(scales.b).toBeDefined();
-
-            expect(scales.a.domain()).toEqual([0, 10]);
-            expect(scales.a.range()).toEqual([0, 100]);
-            expect(scales.b.domain()).toEqual([5, 2]);
-            expect(scales.b.range()).toEqual([0, 500]);
-        });
     });
 
     describe("brush", () => {
