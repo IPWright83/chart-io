@@ -18,7 +18,8 @@ It aims to provide high-level components that require minial configuration to pr
 
 # Getting Started
 
-The best way to get started is to take a look at some of the examples in this Storybook https://ipwright83.github.io/chart-it/?path=/story/introduction--page.
+The best way to get started is to take a look at some of the examples in this Storybook https://ipwright83.github.io/chart-it/?path=/docs/getting-started--docs.
+
 
 Here is an example of a very basic Scatter chart
 
