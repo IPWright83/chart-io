@@ -8,6 +8,7 @@ import { useTooltip } from "./useTooltip";
 
 import { chartSelectors, IState } from "../../../../store";
 import { useLegendItem, useRender } from "../../../../hooks";
+import type { IBandwidthScale } from "../../IBandwidthScale";
 import { renderCanvas } from "../../renderCanvas";
 
 export interface IScatterBaseProps extends IEventPlotProps {
@@ -68,6 +69,8 @@ export function ScatterBase({
 
     // This is the main render function
     useRender(() => {
+        const bandwidth = (xScale as IBandwidthScale).bandwidth ? (xScale as IBandwidthScale).bandwidth() / 2 : 0;
+
         // D3 data join
         // prettier-ignore
         const join = d3.select(layer.current)
@@ -88,7 +91,7 @@ export function ScatterBase({
             .enter()
             .append("circle")
             .attr("class", "scatter-point")
-            .attr("cx", (d) => xScale(d[x] as INumericValue))
+            .attr("cx", (d) => xScale(d[x] as INumericValue) + bandwidth)
             .attr("cy", (d) => yScale(d[y] as INumericValue))
             .attr("r", 0)
             .style("stroke", () => strokeColor.toString())
@@ -119,7 +122,7 @@ export function ScatterBase({
             })
             .transition("scatter")
             .duration(animationDuration)
-            .attr("cx", (d) => xScale(d[x] as INumericValue))
+            .attr("cx", (d) => xScale(d[x] as INumericValue) + bandwidth)
             .attr("cy", (d) => yScale(d[y] as INumericValue))
             .attr("r", (d) => (z ? zScale(d[z] as INumericValue) : radius))
             .style("fill", () => fillColor.toString());

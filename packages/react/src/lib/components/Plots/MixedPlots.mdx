@@ -4,11 +4,44 @@ import { Story, Canvas, Meta } from "@storybook/blocks";
 
 # Mixed Plots
 
-It is possible to mix plot types, although a @chart-it has to do a little bit of manipulation to try and obtain a sufficient layout due to limitations in D3. Mixing continuous plot types such as Line, Area and Scatter just works.
+It is possible to mix plot types, although depending on the scales @chart-it has to do a little bit of manipulation to try and obtain a sufficient layout due to limitations in D3. To begin with it's worth understanding the difference between continuous and discrete plots.
 
-When adding a Column plot @chart-it will attempt to manually calculate the width of bars rather than relying on the D3 scale functionality. This relies on the first 2 data points having valid values. If it is unable to do so it will display an error in the console.
+Continuous plots are those which have a linear scales without any gaps, examples are typically:
 
-> The reason for the manual calculation is Bar/Column plots typically need to use a [scaleBand](https://github.com/d3/d3-scale#band-scales). These scales aren't as powerful for plotting continuous data such as time, but do provide nice functions for padding/width of bars. So instead these are manually derived from the data.
+-   Line
+-   Area
+-   Scatter
+
+Discrete plots have a finite number of values and are typically:
+
+-   Column
+-   Bar
+
+## Mixing Continuous Plots
+
+When attempting to mix continuous plots, typically a linear type scale has been selected (`d3.scaleLinear` for example) and data will line up nicely and just work.
+
+<Canvas>
+    <Story id="xycharts-mixedplots--mixed-line-area-scatter" />
+</Canvas>
+
+## Mixing Continuous Plots with a Band scale
+
+Using a Band scale is preferred for Column & Bar plots (set by applying `scaleType="band"` in your `<Axis>` or `<AutoScale>`) adding a continuous plot will attempt to offset the data to ensure it lines up with the columns or bars.
+
+> You can see this affect, by noting how the line does not meet the y-axis in this example.
+
+<Canvas>
+    <Story id="xycharts-mixedplots--mixed-scale-band" />
+</Canvas>
+
+## Mixing a Discrete Plot with a Continuous Scale
+
+You may prefer to use a continuous scale however. In the example above we can see how the axis labels are not formatted nicely, where-as a `d3.scaleTime` does a much better job in the example below.
+
+When using a discrete plot such as a Column plot, @chart-it will attempt to manually calculate the width of bars rather than relying on the D3 scale functionality. This relies on the first 2 data points having valid values. If it is unable to do so it will display an error in the console. It will again als attempt to align the data with any other plots.
+
+> The reason for the manual calculation is Bar & Column plots typically need to use a [scaleBand](https://github.com/d3/d3-scale#band-scales). These scales aren't as powerful for plotting continuous data such as time, but they do provide the nice functions for padding/width of bars. So instead these are manually derived from the data.
 
 ## Example with a `<Column>` plot
 

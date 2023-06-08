@@ -6,6 +6,7 @@ import { chartSelectors, eventSelectors, IState } from "../../../../../store";
 import { interpolateMultiPath, isNullOrUndefined } from "../../../../../utils";
 import { useLegendItem, useRender } from "../../../../../hooks";
 
+import { IBandwidthScale } from "../../../IBandwidthScale";
 import { useDatumFocus } from "../useDatumFocus";
 import { usePathCreator } from "./usePathCreator";
 import { useTooltip } from "../useTooltip";
@@ -37,6 +38,8 @@ export function SVGLine({
     const seriesColor = color || theme.series.colors[0];
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
 
+    const bandwidth = (xScale as IBandwidthScale).bandwidth ? (xScale as IBandwidthScale).bandwidth() / 2 : 0;
+
     useLegendItem(y, "line", showInLegend, seriesColor);
 
     // Used to create our initial path
@@ -47,7 +50,7 @@ export function SVGLine({
         // Line renderer that starts at the 0 point
         const line = d3
             .line()
-            .x((d) => xScale(d[x]))
+            .x((d) => xScale(d[x]) + bandwidth)
             .y((d) => yScale(d[y]))
             .defined((d) => !isNullOrUndefined(d[y]));
 
