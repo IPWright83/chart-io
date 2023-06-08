@@ -6,10 +6,10 @@ import { chartSelectors, eventSelectors, IState } from "../../../../store";
 import { interpolateMultiPath, isNullOrUndefined } from "../../../../utils";
 import { useLegendItem, useRender } from "../../../../hooks";
 
+import { IBandwidthScale } from "../../IBandwidthScale";
 import { useDatumFocus } from "./useDatumFocus";
 import { usePathCreator } from "./usePathCreator";
 import { useTooltip } from "./useTooltip";
-import { IBandwidthScale } from "../../IBandwidthScale";
 
 export interface IAreaBaseProps extends IPlotProps {
     /**

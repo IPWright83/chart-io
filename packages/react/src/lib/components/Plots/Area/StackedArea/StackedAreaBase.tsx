@@ -7,10 +7,10 @@ import { chartSelectors, eventSelectors, IState } from "../../../../store";
 import { useLegendItems, useRender } from "../../../../hooks";
 import { ensureNoScaleOverflow } from "../../../../utils";
 
+import { IBandwidthScale } from "../../IBandwidthScale";
 import { useDatumFocus } from "./useDatumFocus";
 import { useMultiPathCreator } from "./useMultiPathCreator";
 import { useTooltip } from "./useTooltip";
-import { IBandwidthScale } from "../../IBandwidthScale";
 
 export interface IStackedAreaBaseProps extends Omit<IEventPlotProps, "y"> {
     /**

@@ -1,5 +1,3 @@
-import { IScale } from "@chart-it/types";
-
-export interface IBandwidthScale extends IScale {
+export interface IBandwidthScale {
     bandwidth?: () => number;
 }
