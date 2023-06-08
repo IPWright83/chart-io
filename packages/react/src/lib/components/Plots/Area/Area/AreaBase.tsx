@@ -9,6 +9,7 @@ import { useLegendItem, useRender } from "../../../../hooks";
 import { useDatumFocus } from "./useDatumFocus";
 import { usePathCreator } from "./usePathCreator";
 import { useTooltip } from "./useTooltip";
+import { IBandwidthScale } from "../../IBandwidthScale";
 
 export interface IAreaBaseProps extends IPlotProps {
     /**
@@ -49,6 +50,8 @@ export function AreaBase({
     fillColor.opacity = theme.series.opacity;
     const strokeColor = fillColor.darker();
 
+    const bandwidth = (xScale as IBandwidthScale).bandwidth ? (xScale as IBandwidthScale).bandwidth() / 2 : 0;
+
     useLegendItem(y, "line", showInLegend, fillColor);
 
     // Used to create our initial path
@@ -60,7 +63,7 @@ export function AreaBase({
         const area = d3
             .area()
             .curve(d3.curveLinear)
-            .x((d) => xScale(d[x]))
+            .x((d) => xScale(d[x]) + bandwidth)
             .y0((d) => (y2 ? yScale(d[y]) : yScale.range()[0]))
             .y1((d) => (y2 ? yScale(d[y2]) : yScale(d[y])))
             .defined((d) => !isNullOrUndefined(d[y]));

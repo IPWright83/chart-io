@@ -70,6 +70,51 @@ const processData = (rawData) => {
     return result;
 };
 
+const MixedLineAreaScatterTemplate = (args) => (
+    <XYChart
+        data={processData(example_dataset)}
+        margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
+        theme={args.theme}
+        useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
+        zoomBrush={args.zoomBrush}
+    >
+        <Line x={args.x} y={args.y} color="steelblue" />
+        <Area x={args.x} y={args.y4} color="green" />
+        <Scatter x={args.x} y={args.y3} color="purple" />
+        <YAxis fields={[args.y, args.y2, args.y3, args.y4]} showGridlines={false} />
+        <XAxis fields={[args.x]} showGridlines={false} />
+    </XYChart>
+);
+
+const MixedScaleBandTemplate = (args) => (
+    <XYChart
+        data={processData(example_dataset)}
+        margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
+        theme={args.theme}
+        useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
+        zoomBrush={args.zoomBrush}
+    >
+        <Column x={args.x} y={args.y2} color="orange" />
+        <Line x={args.x} y={args.y} color="steelblue" />
+        <Area x={args.x} y={args.y4} color="green" />
+        <Scatter x={args.x} y={args.y3} color="purple" />
+        <YAxis fields={[args.y, args.y2, args.y3, args.y4]} showGridlines={false} />
+        <XAxis fields={[args.x]} scaleType="band" showGridlines={false} />
+    </XYChart>
+);
+
 const MixedColumnPlotTemplate = (args) => (
     <XYChart
         data={processData(example_dataset)}
@@ -113,6 +158,32 @@ const MixedGroupledColumnPlotTemplate = (args) => (
         <XAxis fields={[args.x]} showGridlines={false} />
     </XYChart>
 );
+
+export const MixedLineAreaScatter = MixedLineAreaScatterTemplate.bind({});
+MixedLineAreaScatter.storyName = "Mixed Continuous Plots";
+MixedLineAreaScatter.args = {
+    useCanvas: false,
+    width: 800,
+    height: 500,
+    animationDuration: 500,
+    color: "#99C1DC",
+    theme: "light",
+    leftMargin: 70,
+    rightMargin: 40,
+    topMargin: 40,
+    bottomMargin: 40,
+    y: "Gross Profit",
+    y2: "Sales Value",
+    y3: "Operating Profit",
+    y4: "Unit Sales",
+    x: "Month",
+};
+
+export const MixedScaleBand = MixedScaleBandTemplate.bind({});
+MixedScaleBand.storyName = "Mixing Cintinuous Plots with a Band scale";
+MixedScaleBand.args = {
+    ...MixedLineAreaScatter.args,
+};
 
 export const MixedColumnPlots = MixedColumnPlotTemplate.bind({});
 MixedColumnPlots.storyName = "Column, Line, Area & Scatter";

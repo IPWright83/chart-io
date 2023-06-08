@@ -41,6 +41,8 @@ export function CanvasLine({
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
     const seriesColor = color || theme.series.colors[0];
 
+    const bandwidth = (xScale as IBandwidthScale).bandwidth ? (xScale as IBandwidthScale).bandwidth() / 2 : 0;
+
     useLegendItem(y, "line", showInLegend, seriesColor);
 
     /* On future renders we want to update the path */
@@ -56,7 +58,7 @@ export function CanvasLine({
         // we use the generator provided by D3
         const line = d3
             .line()
-            .x((d) => xScale(d[x]))
+            .x((d) => xScale(d[x]) + bandwidth)
             .y((d) => yScale(d[y]))
             .defined((d) => !isNullOrUndefined(d[y]))
             .context(context);
