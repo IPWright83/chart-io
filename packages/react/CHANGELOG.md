@@ -1,5 +1,11 @@
 # @chart-it/react-d3
 
+## 0.29.0
+
+### Minor Changes
+
+- 0ecc65b: Better support for mixed plot types
+
 ## 0.28.0
 
 ### Minor Changes
