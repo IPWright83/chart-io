@@ -221,7 +221,7 @@ describe("chartSelectors", () => {
         });
 
         it("margin returns the value from the store", () => {
-            expect(chartSelectors.dimensions.margin(state)).toBe(margin);
+            expect(chartSelectors.dimensions.plotMargin(state)).toBe(margin);
         });
     });
 

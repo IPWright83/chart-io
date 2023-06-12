@@ -34,15 +34,15 @@ export function HorizontalZoomBrush({ children, height = 60 }: IHorizontalZoomBr
     const brush = useRef();
     const dispatch = useDispatch();
     const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, "brush"));
-    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
+    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plotMargin(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.height(s));
 
     // Update the range, to be used by any plots that are set to use a brush
     // This allows us to shrink and re-use the plots within the brush
     useEffect(() => {
-        dispatch(chartActions.setBrushRange(x, [margin.left, width - margin.right]));
-    }, [x, width, margin.right, margin.left]);
+        dispatch(chartActions.setBrushRange(x, [plotMargin.left, width - plotMargin.right]));
+    }, [x, width, plotMargin.right, plotMargin.left]);
 
     // Reserve some space for the brush if it's visible
     useEffect(() => {
@@ -58,8 +58,8 @@ export function HorizontalZoomBrush({ children, height = 60 }: IHorizontalZoomBr
         // prettier-ignore
         if (brush.current) {
 
-            const left = margin.left;
-            const right = Math.max(left, width - margin.right);
+            const left = plotMargin.left;
+            const right = Math.max(left, width - plotMargin.right);
 
             const xBrush = d3
                 .brushX()
@@ -93,7 +93,7 @@ export function HorizontalZoomBrush({ children, height = 60 }: IHorizontalZoomBr
 
             d3.select(brush.current).call(xBrush);
         }
-    }, [dispatch, brush, width, height, margin.right, xScale]);
+    }, [dispatch, brush, width, height, plotMargin.right, xScale]);
 
     // Clone each plot, as we need to re-render them within the brush
     // but ensure they don't trigger events, and they use the "brush" scale

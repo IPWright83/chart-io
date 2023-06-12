@@ -113,11 +113,11 @@ interface IChartSelectors {
         height: (state: IState) => number;
 
         /**
-         * Returns the margin of the chart
+         * Returns the margin of the plot
          * @param  state The application state
          * @return       The margin
          */
-        margin: (state: IState) => IMargin;
+        plotMargin: (state: IState) => IMargin;
     };
     /**
      * Legend information for the chart
@@ -266,7 +266,7 @@ export const chartSelectors: IChartSelectors = {
             chartSelectors.dimensions.store(state).height - chartSelectors.brush.height(state) || 0,
 
         // @inheritDoc
-        margin: (state: IState): IMargin => chartSelectors.dimensions.store(state).margin || EMPTY_MARGIN,
+        plotMargin: (state: IState): IMargin => chartSelectors.dimensions.store(state).margin || EMPTY_MARGIN,
     },
 
     // @inheritDoc

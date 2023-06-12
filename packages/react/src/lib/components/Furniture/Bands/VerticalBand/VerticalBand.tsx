@@ -36,7 +36,7 @@ export interface IVerticalBandProps {
  * @return The VerticalBand component
  */
 export function VerticalBand({ xStart, xStop, x, opacity = 0.5, fill, stroke }: IVerticalBandProps) {
-    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
+    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plotMargin(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, "plot"));
 
@@ -59,8 +59,8 @@ export function VerticalBand({ xStart, xStop, x, opacity = 0.5, fill, stroke }: 
 
     return (
         <rect
-            y={margin.top}
-            height={height - margin.bottom - margin.top}
+            y={plotMargin.top}
+            height={height - plotMargin.bottom - plotMargin.top}
             width={stopX - startX}
             x={startX}
             className="rect"

@@ -44,11 +44,11 @@ export interface IGridlinesBaseProps {
 export function Gridlines({ layer, position, scale, tickPadding = 3, ticks, tickValues }: IGridlinesBaseProps) {
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
-    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
+    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plotMargin(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
-    const tickSize = getTickSize(position, width, height, margin);
+    const tickSize = getTickSize(position, width, height, plotMargin);
 
     // Render the x-axis using D3
     useEffect(() => {

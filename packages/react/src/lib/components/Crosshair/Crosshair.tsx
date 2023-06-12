@@ -25,7 +25,7 @@ export interface ICrosshairProps {
 export function Crosshair({ showVertical = true, showHorizontal = true }: ICrosshairProps) {
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
-    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
+    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plotMargin(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const position = useSelector((s: IState) => eventSelectors.position(s));
 
@@ -39,8 +39,8 @@ export function Crosshair({ showVertical = true, showHorizontal = true }: ICross
         <>
             {showHorizontal && (
                 <line
-                    x1={margin.left}
-                    x2={width - margin.right}
+                    x1={plotMargin.left}
+                    x2={width - plotMargin.right}
                     y1={y}
                     y2={y}
                     stroke={`${theme.crosshair.stroke}`}
@@ -54,8 +54,8 @@ export function Crosshair({ showVertical = true, showHorizontal = true }: ICross
                 <line
                     x1={x}
                     x2={x}
-                    y1={margin.top}
-                    y2={height - margin.bottom}
+                    y1={plotMargin.top}
+                    y2={height - plotMargin.bottom}
                     stroke={`${theme.crosshair.stroke}`}
                     strokeOpacity={theme.crosshair.strokeOpacity}
                     strokeWidth={theme.crosshair.strokeWidth}

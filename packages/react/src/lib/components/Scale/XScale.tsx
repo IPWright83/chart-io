@@ -14,8 +14,8 @@ export type IXScaleProps = Omit<IAutoScaleProps, "range">;
  */
 export function XScale({ fields, scaleType, aggregate, domain }: IXScaleProps) {
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
-    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
-    const range = [margin.left, width - margin.right];
+    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plotMargin(s));
+    const range = [plotMargin.left, width - plotMargin.right];
 
     const fieldsArray = useArray(fields);
 

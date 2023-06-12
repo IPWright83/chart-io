@@ -36,7 +36,7 @@ export interface IHorizontalBandProps {
  * @return The HorizontalBand component
  */
 export function HorizontalBand({ yStart, yStop, y, opacity = 0.5, fill, stroke }: IHorizontalBandProps) {
-    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
+    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plotMargin(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y, "plot"));
 
@@ -59,8 +59,8 @@ export function HorizontalBand({ yStart, yStop, y, opacity = 0.5, fill, stroke }
 
     return (
         <rect
-            x={margin.left}
-            width={width - margin.left - margin.right}
+            x={plotMargin.left}
+            width={width - plotMargin.left - plotMargin.right}
             y={stopY}
             height={startY - stopY}
             className="rect"

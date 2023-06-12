@@ -22,7 +22,7 @@ export function EventReceiver({ layer }: IEventReceiverBaseProps) {
     const store = useStore();
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
-    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
+    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plotMargin(s));
 
     // Runs whenever the dimensions change
     useEffect(() => {
@@ -41,16 +41,16 @@ export function EventReceiver({ layer }: IEventReceiverBaseProps) {
         // prettier-ignore
         d3.select(layer.current)
             .select("rect")
-            .attr("width", width - margin.left - margin.right)
-            .attr("height", height - margin.top - margin.bottom)
+            .attr("width", width - plotMargin.left - plotMargin.right)
+            .attr("height", height - plotMargin.top - plotMargin.bottom)
             .on("mouseout", (e) => { store.dispatch(eventActions.mouseExit(e)); })
             .on("mouseover", (e) => { store.dispatch(eventActions.mouseEnter(e)); })
             .on("mousemove", mouseMove);
 
         // Wire up events
-    }, [store.dispatch, layer, width, height, margin]);
+    }, [store.dispatch, layer, width, height, plotMargin]);
 
-    const transform = `translate(${margin.left || 0}, ${margin.top || 0})`;
+    const transform = `translate(${plotMargin.left || 0}, ${plotMargin.top || 0})`;
     const style = { fill: "none", pointerEvents: "all" as const };
 
     return <rect className="chart-it event-receiver" transform={transform} style={style} />;

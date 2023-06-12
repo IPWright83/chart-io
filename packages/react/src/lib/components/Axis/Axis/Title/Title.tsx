@@ -20,9 +20,9 @@ export interface ITitleProps {
 export function Title({ position, title }: ITitleProps) {
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
-    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
+    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plotMargin(s));
 
-    const transform = getTransform(position, width, height, margin);
+    const transform = getTransform(position, width, height, plotMargin);
 
     if (!title) {
         return null;
