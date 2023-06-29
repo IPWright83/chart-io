@@ -17,7 +17,7 @@ export type IChartStateScales = Record<string, IChartScaleInfo>;
 export interface IChartStateDimensions {
   width?: number;
   height?: number;
-  margin?: IMargin;
+  plotMargin?: IMargin;
 }
 
 export interface IChartStateLegend {
@@ -27,6 +27,7 @@ export interface IChartStateLegend {
 export interface IChartStateBrush {
   width: number;
   height: number;
+  margin?: IMargin;
   range?: number[];
 }
 

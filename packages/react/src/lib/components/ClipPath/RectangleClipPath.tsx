@@ -17,14 +17,12 @@ export interface IRectangleClipPathProps {
  * @return The ClipPath component
  */
 export function RectangleClipPath({ children }: IRectangleClipPathProps) {
-    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
-    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plotMargin(s));
     const chartID = useSelector((s: IState) => chartSelectors.id(s));
 
-    // TODO move these into selectors?
-    const plotWidth = Math.max(0, width - plotMargin.left - plotMargin.right);
-    const plotHeight = Math.max(0, height - plotMargin.top - plotMargin.bottom);
+    const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
+    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
+    const left = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
+    const top = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
 
     const childrenWithProps = extendChildrenProps(children, { clipPath: `clip-path-${chartID}` });
 
@@ -32,7 +30,7 @@ export function RectangleClipPath({ children }: IRectangleClipPathProps) {
         <>
             <defs>
                 <clipPath id={`clip-path-${chartID}`}>
-                    <rect width={plotWidth} height={plotHeight} x={plotMargin.left} y={plotMargin.top} />
+                    <rect width={plotWidth} height={plotHeight} x={left} y={top} />
                 </clipPath>
             </defs>
             {childrenWithProps}

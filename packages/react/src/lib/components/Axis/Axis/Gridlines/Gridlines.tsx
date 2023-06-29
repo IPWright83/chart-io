@@ -42,13 +42,13 @@ export interface IGridlinesBaseProps {
  * @return The Gridlines component
  */
 export function Gridlines({ layer, position, scale, tickPadding = 3, ticks, tickValues }: IGridlinesBaseProps) {
-    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
-    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plotMargin(s));
+    const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
+    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
+    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plot.margin(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
-    const tickSize = getTickSize(position, width, height, plotMargin);
+    const tickSize = getTickSize(position, plotWidth, plotHeight, plotMargin);
 
     // Render the x-axis using D3
     useEffect(() => {

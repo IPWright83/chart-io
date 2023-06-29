@@ -5,7 +5,7 @@ import type {
     RemoveLegendItemAction,
     SetAnimationDurationAction,
     SetBrushRangeAction,
-    SetBrushReservedDimensionsAction,
+    SetBrushDimensionsAction,
     SetChartIDAction,
     SetDataAction,
     SetDimensionAction,
@@ -34,29 +34,56 @@ const validateMargin = (value: number, side: string): boolean => {
 
 /**
  * Sets the dimensions in the Redux store
- * @param  width   The width of the chart
- * @param  height  The height of the chart
- * @param  margin  The margin for the chart
- * @return         A redux action object
+ * @param  width       The width of the chart
+ * @param  height      The height of the chart
+ * @param  plotMargin  The margin for the plot
+ * @return             A redux action object
  */
-const setDimensions = (width: number, height: number, margin: IMargin): SetDimensionAction => {
-    if (!margin) {
+const setDimensions = (width: number, height: number, plotMargin: IMargin): SetDimensionAction => {
+    if (!plotMargin) {
         logWarning("W004", "A margin was not provided but is required");
         return;
     }
 
     // prettier-ignore
-    if (!validateMargin(margin.left, "left") || 
-        !validateMargin(margin.top, "top") ||
-        !validateMargin(margin.bottom, "bottom") ||
-        !validateMargin(margin.right, "right")) 
+    if (!validateMargin(plotMargin.left, "left") || 
+        !validateMargin(plotMargin.top, "top") ||
+        !validateMargin(plotMargin.bottom, "bottom") ||
+        !validateMargin(plotMargin.right, "right")) 
     {
         return;
     }
 
     return {
         type: "CHART.SET_DIMENSIONS",
-        payload: { width, height, margin },
+        payload: { width, height, margin: plotMargin },
+    };
+};
+
+/**
+ * Sets the margin that should be applied to the brush in the Redux store
+ * @param  width       The width of the brush
+ * @param  height      The height of the brush
+ * @param  brushMargin The margin for the brush
+ * @return             A redux action object
+ */
+const setBrushDimensions = (width: number, height: number, brushMargin: IMargin): SetBrushDimensionsAction => {
+    // prettier-ignore
+    if (!validateMargin(brushMargin.left, "left") || 
+        !validateMargin(brushMargin.top, "top") ||
+        !validateMargin(brushMargin.bottom, "bottom") ||
+        !validateMargin(brushMargin.right, "right")) 
+    {
+        return;
+    }
+
+    return {
+        type: "CHART.SET_BRUSH_DIMENSIONS",
+        payload: {
+            width,
+            height,
+            margin: brushMargin,
+        },
     };
 };
 
@@ -198,6 +225,7 @@ const setChartID = (chartID: string): SetChartIDAction => {
 
 const chartActions = {
     setDimensions,
+    setBrushDimensions,
     setScales,
     setData,
     setTheme,

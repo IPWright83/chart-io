@@ -107,7 +107,7 @@ const DashboardTemplate = (args) => {
             <XYChart
                 data={data}
                 useCanvas={args.useCanvas}
-                margin={args.margin}
+                plotMargin={args.margin}
                 width={width}
                 height={height}
                 onStoreCreated={setStore1}
@@ -119,7 +119,7 @@ const DashboardTemplate = (args) => {
             <XYChart
                 data={data}
                 useCanvas={args.useCanvas}
-                margin={args.margin}
+                plotMargin={args.margin}
                 width={width}
                 height={height}
                 onStoreCreated={setStore2}
@@ -131,7 +131,7 @@ const DashboardTemplate = (args) => {
             <XYChart
                 data={data}
                 useCanvas={args.useCanvas}
-                margin={args.margin}
+                plotMargin={args.margin}
                 width={width}
                 height={height}
                 onStoreCreated={setStore3}
@@ -143,7 +143,7 @@ const DashboardTemplate = (args) => {
             <XYChart
                 data={data}
                 useCanvas={args.useCanvas}
-                margin={args.margin}
+                plotMargin={args.margin}
                 width={width}
                 height={height}
                 onStoreCreated={setStore4}
@@ -155,7 +155,7 @@ const DashboardTemplate = (args) => {
             <XYChart
                 data={data}
                 useCanvas={args.useCanvas}
-                margin={args.margin}
+                plotMargin={args.margin}
                 width={width}
                 height={height}
                 onStoreCreated={setStore5}
@@ -167,7 +167,7 @@ const DashboardTemplate = (args) => {
             <XYChart
                 data={data}
                 useCanvas={args.useCanvas}
-                margin={args.margin}
+                plotMargin={args.margin}
                 width={width}
                 height={height}
                 onStoreCreated={setStore6}
@@ -179,7 +179,7 @@ const DashboardTemplate = (args) => {
             <XYChart
                 data={data}
                 useCanvas={args.useCanvas}
-                margin={args.margin}
+                plotMargin={args.margin}
                 width={width}
                 height={height}
                 onStoreCreated={setStore7}
@@ -191,7 +191,7 @@ const DashboardTemplate = (args) => {
             <XYChart
                 data={data}
                 useCanvas={args.useCanvas}
-                margin={args.margin}
+                plotMargin={args.margin}
                 width={width}
                 height={height}
                 onStoreCreated={setStore8}
@@ -203,7 +203,7 @@ const DashboardTemplate = (args) => {
             <XYChart
                 data={data}
                 useCanvas={args.useCanvas}
-                margin={args.margin}
+                plotMargin={args.margin}
                 width={width}
                 height={height}
                 onStoreCreated={setStore9}
@@ -215,7 +215,7 @@ const DashboardTemplate = (args) => {
             <XYChart
                 data={data}
                 useCanvas={args.useCanvas}
-                margin={args.margin}
+                plotMargin={args.margin}
                 width={width}
                 height={height}
                 onStoreCreated={setStore10}
@@ -227,7 +227,7 @@ const DashboardTemplate = (args) => {
             <XYChart
                 data={data}
                 useCanvas={args.useCanvas}
-                margin={args.margin}
+                plotMargin={args.margin}
                 width={width}
                 height={height}
                 onStoreCreated={setStore11}
@@ -239,7 +239,7 @@ const DashboardTemplate = (args) => {
             <XYChart
                 data={data}
                 useCanvas={args.useCanvas}
-                margin={args.margin}
+                plotMargin={args.margin}
                 width={width}
                 height={height}
                 onStoreCreated={setStore12}

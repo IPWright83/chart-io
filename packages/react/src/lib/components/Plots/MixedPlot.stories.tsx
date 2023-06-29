@@ -73,7 +73,7 @@ const processData = (rawData) => {
 const MixedLineAreaScatterTemplate = (args) => (
     <XYChart
         data={processData(example_dataset)}
-        margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
@@ -95,7 +95,7 @@ const MixedLineAreaScatterTemplate = (args) => (
 const MixedScaleBandTemplate = (args) => (
     <XYChart
         data={processData(example_dataset)}
-        margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
@@ -118,7 +118,7 @@ const MixedScaleBandTemplate = (args) => (
 const MixedColumnPlotTemplate = (args) => (
     <XYChart
         data={processData(example_dataset)}
-        margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
@@ -141,7 +141,7 @@ const MixedColumnPlotTemplate = (args) => (
 const MixedGroupledColumnPlotTemplate = (args) => (
     <XYChart
         data={processData(example_dataset)}
-        margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}

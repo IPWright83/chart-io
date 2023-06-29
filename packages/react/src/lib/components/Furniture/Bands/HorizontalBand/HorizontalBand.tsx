@@ -36,8 +36,8 @@ export interface IHorizontalBandProps {
  * @return The HorizontalBand component
  */
 export function HorizontalBand({ yStart, yStop, y, opacity = 0.5, fill, stroke }: IHorizontalBandProps) {
-    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plotMargin(s));
-    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const left = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
+    const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
     const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y, "plot"));
 
     // Scale may not yet have been initialized
@@ -55,12 +55,12 @@ export function HorizontalBand({ yStart, yStop, y, opacity = 0.5, fill, stroke }
     // use the end of the scale "range" which are the pixel co-ordinates
     // for the end of the Y axis
     // @ts-ignore: Not sure how to fix this one
-    const stopY = yStop ? scale(yStop) : scale.range()[1];
+    const stopY = yStop ? scale(yStop) : scale.range()[scale.range().length - 1];
 
     return (
         <rect
-            x={plotMargin.left}
-            width={width - plotMargin.left - plotMargin.right}
+            x={left}
+            width={plotWidth}
             y={stopY}
             height={startY - stopY}
             className="rect"

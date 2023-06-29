@@ -48,7 +48,7 @@ export default {
 const ScatterTemplate = (args) => (
     <XYChart
         data={args.data}
-        margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
@@ -66,7 +66,7 @@ const ScatterTemplate = (args) => (
 
 const ScattersTemplate = (args) => (
     <XYChart
-        margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         data={sales_records_dataset}
         width={args.width}
         height={args.height}

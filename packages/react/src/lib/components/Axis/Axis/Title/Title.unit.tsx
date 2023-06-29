@@ -11,13 +11,15 @@ describe("Title", () => {
     const width = 1000;
     const height = 500;
     const margin = { left: 50, right: 60, top: 30, bottom: 40 };
+    const plotWidth = width - margin.left - margin.right;
+    const plotHeight = height - margin.top - margin.bottom;
 
     const store = createMockStore({
         chart: {
             dimensions: {
                 width,
                 height,
-                margin,
+                plotMargin: margin,
             },
         },
     });
@@ -25,28 +27,28 @@ describe("Title", () => {
     describe("getTransform", () => {
         describe("should return correct transform", () => {
             it("for left axis", () => {
-                expect(getTransform("left", width, height, margin)).toBe("translate(0, 230)rotate(270)");
+                expect(getTransform("left", plotWidth, plotHeight, margin)).toBe("translate(0, 230)rotate(270)");
             });
             it("for right axis", () => {
-                expect(getTransform("right", width, height, margin)).toBe("translate(995, 230)rotate(270)");
+                expect(getTransform("right", plotWidth, plotHeight, margin)).toBe("translate(995, 230)rotate(270)");
             });
         });
 
         describe("should return correct transform", () => {
             it("for top axis", () => {
-                expect(getTransform("top", width, height, margin)).toBe("translate(470, 5)");
+                expect(getTransform("top", plotWidth, plotHeight, margin)).toBe("translate(470, 5)");
             });
             it("for bottom axis", () => {
-                expect(getTransform("bottom", width, height, margin)).toBe("translate(470, 495)");
+                expect(getTransform("bottom", plotWidth, plotHeight, margin)).toBe("translate(470, 495)");
             });
         });
 
         describe("should return no translation", () => {
             it("for a 0 width", () => {
-                expect(getTransform("top", 0, height, margin)).toBe("translate(0, 0)");
+                expect(getTransform("top", 0, plotHeight, margin)).toBe("translate(0, 0)");
             });
             it("for a 0 height", () => {
-                expect(getTransform("top", width, 0, margin)).toBe("translate(0, 0)");
+                expect(getTransform("top", plotWidth, 0, margin)).toBe("translate(0, 0)");
             });
         });
 

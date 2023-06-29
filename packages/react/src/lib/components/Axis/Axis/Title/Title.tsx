@@ -18,11 +18,11 @@ export interface ITitleProps {
 }
 
 export function Title({ position, title }: ITitleProps) {
-    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
-    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plotMargin(s));
+    const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
+    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
+    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plot.margin(s));
 
-    const transform = getTransform(position, width, height, plotMargin);
+    const transform = getTransform(position, plotWidth, plotHeight, plotMargin);
 
     if (!title) {
         return null;

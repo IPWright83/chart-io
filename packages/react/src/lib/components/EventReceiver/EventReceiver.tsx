@@ -20,13 +20,14 @@ export interface IEventReceiverBaseProps {
  */
 export function EventReceiver({ layer }: IEventReceiverBaseProps) {
     const store = useStore();
-    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
-    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plotMargin(s));
+    const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
+    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
+    const left = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
+    const top = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
 
     // Runs whenever the dimensions change
     useEffect(() => {
-        if (!layer.current || !width || !height) {
+        if (!layer.current || !plotWidth || !plotHeight) {
             return;
         }
 
@@ -41,16 +42,16 @@ export function EventReceiver({ layer }: IEventReceiverBaseProps) {
         // prettier-ignore
         d3.select(layer.current)
             .select("rect")
-            .attr("width", width - plotMargin.left - plotMargin.right)
-            .attr("height", height - plotMargin.top - plotMargin.bottom)
+            .attr("width", plotWidth)
+            .attr("height", plotHeight)
             .on("mouseout", (e) => { store.dispatch(eventActions.mouseExit(e)); })
             .on("mouseover", (e) => { store.dispatch(eventActions.mouseEnter(e)); })
             .on("mousemove", mouseMove);
 
         // Wire up events
-    }, [store.dispatch, layer, width, height, plotMargin]);
+    }, [store.dispatch, layer, plotWidth, plotHeight]);
 
-    const transform = `translate(${plotMargin.left || 0}, ${plotMargin.top || 0})`;
+    const transform = `translate(${left || 0}, ${top || 0})`;
     const style = { fill: "none", pointerEvents: "all" as const };
 
     return <rect className="chart-it event-receiver" transform={transform} style={style} />;

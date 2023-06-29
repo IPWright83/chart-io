@@ -23,7 +23,7 @@ export default {
 };
 
 const VerticalAxisTemplate = (args) => (
-    <Chart {...args} margin={{ left: 80, bottom: 50, top: 50, right: 80 }} data={axisData}>
+    <Chart {...args} plotMargin={{ left: 80, bottom: 50, top: 50, right: 80 }} data={axisData}>
         <YAxis
             fields={args.fields}
             tickSizeInner={args.tickSizeInner}

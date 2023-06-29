@@ -28,8 +28,8 @@ export interface IVerticalLineProps {
  * @return The VerticalLine component
  */
 export function VerticalLine({ x, value, opacity = 1, stroke }: IVerticalLineProps) {
-    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plotMargin(s));
-    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const top = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
+    const bottom = useSelector((s: IState) => chartSelectors.dimensions.plot.bottom(s));
     const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, "plot"));
 
     // Scale may not yet have been initialized
@@ -41,8 +41,8 @@ export function VerticalLine({ x, value, opacity = 1, stroke }: IVerticalLinePro
 
     return (
         <line
-            y1={plotMargin.top}
-            y2={height - plotMargin.bottom}
+            y1={top}
+            y2={bottom}
             x1={xValue}
             x2={xValue}
             style={{

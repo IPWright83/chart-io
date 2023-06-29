@@ -47,7 +47,7 @@ const data = uniqBy(sales_records_dataset, (d) => d["Item Type"]);
 const BarTemplate = (args) => (
     <XYChart
         data={data}
-        margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
@@ -67,7 +67,7 @@ const BarTemplate = (args) => (
 const BarsTemplate = (args) => (
     <XYChart
         data={data}
-        margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}

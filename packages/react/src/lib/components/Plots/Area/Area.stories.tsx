@@ -42,7 +42,7 @@ export default {
 const AreaTemplate = (args) => (
     <XYChart
         data={sales_records_dataset}
-        margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         height={args.height}
         width={args.width}
         animationDuration={args.animationDuration}
@@ -57,7 +57,7 @@ const AreaTemplate = (args) => (
 
 const AreasTemplate = (args) => (
     <XYChart
-        margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         data={sales_records_dataset}
         height={args.height}
         width={args.width}
@@ -78,7 +78,12 @@ const AreasTemplate = (args) => (
 const StackedAreasTemplate = (args) => {
     return (
         <XYChart
-            margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+            plotMargin={{
+                left: args.leftMargin,
+                right: args.rightMargin,
+                top: args.topMargin,
+                bottom: args.bottomMargin,
+            }}
             data={sales_records_dataset}
             height={args.height}
             width={args.width}
@@ -141,6 +146,7 @@ AreaWithBrush.storyName = "Area with Brush";
 AreaWithBrush.args = {
     ...Basic.args,
     zoomBrush: "inline",
+    bottomMargin: 10,
 };
 
 export const MultipleAreas = AreasTemplate.bind({});
@@ -169,4 +175,5 @@ StackedAreasWithBrush.args = {
     y2: "Total Cost",
     y3: "Total Profit",
     zoomBrush: "inline",
+    bottomMargin: 10,
 };
