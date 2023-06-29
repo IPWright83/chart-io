@@ -1,9 +1,11 @@
 import * as d3 from "@chart-it/d3";
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { IMargin } from "@chart-it/types";
 
 import { chartActions, chartSelectors, IState } from "../../../store";
 import { childrenToArray, logWarning } from "../../../utils";
+import { DEFAULT_BRUSH_MARGIN } from "../constants";
 
 export interface IHorizontalZoomBrushProps {
     /**
@@ -15,6 +17,12 @@ export interface IHorizontalZoomBrushProps {
      * The height that the brush should be
      */
     height: number;
+
+    /**
+     * The margin to apply around the brush
+     * @default { left: 0, top: 10, right: 0, bottom: 10 }
+     */
+    margin?: IMargin;
 }
 
 interface IScaleWithInvert {
@@ -25,7 +33,11 @@ interface IScaleWithInvert {
  * Represents a Horizontal brush for zooming
  * @return The Horizontal Brush component
  */
-export function HorizontalZoomBrush({ children, height = 60 }: IHorizontalZoomBrushProps) {
+export function HorizontalZoomBrush({
+    children,
+    height = 60,
+    margin = DEFAULT_BRUSH_MARGIN,
+}: IHorizontalZoomBrushProps) {
     const plots = childrenToArray(children);
 
     const x = plots.map((p) => p.props.x)[0];
@@ -34,21 +46,22 @@ export function HorizontalZoomBrush({ children, height = 60 }: IHorizontalZoomBr
     const brush = useRef();
     const dispatch = useDispatch();
     const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, "brush"));
-    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
-    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
-    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const left = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
+    const right = useSelector((s: IState) => chartSelectors.dimensions.plot.right(s));
+    const bottom = useSelector((s: IState) => chartSelectors.dimensions.plot.bottom(s));
+    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plot.margin(s));
 
     // Update the range, to be used by any plots that are set to use a brush
     // This allows us to shrink and re-use the plots within the brush
     useEffect(() => {
-        dispatch(chartActions.setBrushRange(x, [margin.left, width - margin.right]));
-    }, [x, width, margin.right, margin.left]);
+        dispatch(chartActions.setBrushRange(x, [left, right]));
+    }, [x, right, left]);
 
     // Reserve some space for the brush if it's visible
     useEffect(() => {
         const reservedHeight = plots.length > 0 ? height : 0;
-        dispatch(chartActions.setBrushReservedDimensions(0, reservedHeight));
-    }, [height, plots]);
+        dispatch(chartActions.setBrushDimensions(0, reservedHeight, margin));
+    }, [height, plots, margin]);
 
     useEffect(() => {
         ys.forEach((key) => dispatch(chartActions.setBrushRange(key, [height, 0])));
@@ -58,12 +71,9 @@ export function HorizontalZoomBrush({ children, height = 60 }: IHorizontalZoomBr
         // prettier-ignore
         if (brush.current) {
 
-            const left = margin.left;
-            const right = Math.max(left, width - margin.right);
-
             const xBrush = d3
                 .brushX()
-                .extent([[left, 0], [right, height]])
+                .extent([[left, 0], [Math.max(left, right), height]])
                 .on("end", event => {
                     const extent = event.selection;
     
@@ -93,7 +103,7 @@ export function HorizontalZoomBrush({ children, height = 60 }: IHorizontalZoomBr
 
             d3.select(brush.current).call(xBrush);
         }
-    }, [dispatch, brush, width, height, margin.right, xScale]);
+    }, [dispatch, brush, height, left, right, xScale]);
 
     // Clone each plot, as we need to re-render them within the brush
     // but ensure they don't trigger events, and they use the "brush" scale
@@ -104,7 +114,7 @@ export function HorizontalZoomBrush({ children, height = 60 }: IHorizontalZoomBr
 
     return (
         <>
-            <g ref={brush} transform={`translate(0, ${plotHeight})`}>
+            <g ref={brush} transform={`translate(${margin.left}, ${bottom + margin.top + plotMargin.bottom})`}>
                 {plotClones}
             </g>
         </>

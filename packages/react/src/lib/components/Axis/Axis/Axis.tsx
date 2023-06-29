@@ -83,13 +83,13 @@ export function Axis({
     }
 
     const field = fieldsArray[0];
-    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
-    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
+    const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
+    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
+    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plot.margin(s));
     const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, field, "plot"));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
-    const transform = getTransform(position, width, height, margin);
+    const transform = getTransform(position, plotWidth, plotHeight, plotMargin);
 
     // React will own the axis containers, but D3 will own the axis themselves
     const axis = useRef(null);

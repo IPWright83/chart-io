@@ -11,7 +11,7 @@ export const defaultChartState = {
     theme: themes.light,
     data: [],
     dimensions: {
-        margin: {
+        plotMargin: {
             left: 30,
             right: 30,
             top: 30,
@@ -55,10 +55,10 @@ const chartReducer = (state: IChartState = defaultChartState, action: ChartActio
             if (
                 state.dimensions.width === action.payload.width &&
                 state.dimensions.height === action.payload.height &&
-                state.dimensions.margin.left === action.payload.margin.left &&
-                state.dimensions.margin.right === action.payload.margin.right &&
-                state.dimensions.margin.top === action.payload.margin.top &&
-                state.dimensions.margin.bottom === action.payload.margin.bottom
+                state.dimensions.plotMargin.left === action.payload.margin.left &&
+                state.dimensions.plotMargin.right === action.payload.margin.right &&
+                state.dimensions.plotMargin.top === action.payload.margin.top &&
+                state.dimensions.plotMargin.bottom === action.payload.margin.bottom
             ) {
                 return state;
             }
@@ -68,7 +68,7 @@ const chartReducer = (state: IChartState = defaultChartState, action: ChartActio
                 dimensions: {
                     width: action.payload.width,
                     height: action.payload.height,
-                    margin: action.payload.margin,
+                    plotMargin: action.payload.margin,
                 },
             };
 
@@ -110,13 +110,14 @@ const chartReducer = (state: IChartState = defaultChartState, action: ChartActio
                 },
             };
 
-        case "CHART.SET_BRUSH_RESERVED_DIMENSIONS":
+        case "CHART.SET_BRUSH_DIMENSIONS":
             return {
                 ...state,
                 brush: {
                     ...state.brush,
                     width: action.payload.width,
                     height: action.payload.height,
+                    margin: action.payload.margin,
                 },
             };
 

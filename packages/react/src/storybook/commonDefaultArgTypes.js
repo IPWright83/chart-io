@@ -17,7 +17,7 @@ const commonDefaultArgTypes = {
     useCanvas: {
         description: "Should the chart use canvas instead of SVG?",
     },
-    margin: {
+    plotMargin: {
         description:
             "The margins to apply on the chart using D3 margin convention https://observablehq.com/@d3/margin-convention",
         defaultValue: { summary: JSON.stringify({ left: 30, right: 30, bottom: 30, top: 30 }) },

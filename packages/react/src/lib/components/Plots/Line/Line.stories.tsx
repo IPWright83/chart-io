@@ -72,7 +72,7 @@ const processData = (rawData) => {
 const LineTemplate = (args) => (
     <XYChart
         data={processData(example_dataset)}
-        margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
@@ -93,7 +93,7 @@ const LineTemplate = (args) => (
 const LinesTemplate = (args) => (
     <XYChart
         data={processData(example_dataset)}
-        margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}

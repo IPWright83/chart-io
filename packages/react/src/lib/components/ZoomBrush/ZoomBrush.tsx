@@ -1,4 +1,6 @@
+import { IMargin } from "@chart-it/types";
 import React from "react";
+import { DEFAULT_BRUSH_MARGIN } from "./constants";
 
 import { getBrushPlots } from "./getBrushPlots";
 import { HorizontalZoomBrush } from "./HorizontalZoomBrush";
@@ -19,13 +21,19 @@ export interface IZoomBrushProps {
      * chart or an "overlay" brush which sits on top of the chart
      */
     type: "inline" | "overlay";
+
+    /**
+     * The margin to apply around the brush
+     * @default { left: 0, top: 10, right: 0, bottom: 10 }
+     */
+    margin?: IMargin;
 }
 
 /**
  * Represents a zoomable Brush component on the chart
  * @return The Brush component
  */
-export function ZoomBrush({ children, size = 60, type = "overlay" }: IZoomBrushProps) {
+export function ZoomBrush({ children, size = 60, type = "overlay", margin = DEFAULT_BRUSH_MARGIN }: IZoomBrushProps) {
     // Find all the interactive plots
     const plots = getBrushPlots(children);
 
@@ -33,6 +41,10 @@ export function ZoomBrush({ children, size = 60, type = "overlay" }: IZoomBrushP
     // const needsYBrush = plots.some((c) => c.type.brush.vertical);
 
     if (type === "inline" && needsXBrush) {
-        return <HorizontalZoomBrush height={size}>{plots}</HorizontalZoomBrush>;
+        return (
+            <HorizontalZoomBrush height={size} margin={margin}>
+                {plots}
+            </HorizontalZoomBrush>
+        );
     }
 }

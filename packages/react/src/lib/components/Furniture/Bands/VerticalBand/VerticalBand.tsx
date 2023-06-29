@@ -36,8 +36,8 @@ export interface IVerticalBandProps {
  * @return The VerticalBand component
  */
 export function VerticalBand({ xStart, xStop, x, opacity = 0.5, fill, stroke }: IVerticalBandProps) {
-    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
-    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const top = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
+    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
     const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, "plot"));
 
     // Scale may not yet have been initialized
@@ -55,12 +55,12 @@ export function VerticalBand({ xStart, xStop, x, opacity = 0.5, fill, stroke }: 
     // use the end of the scale "range" which are the pixel co-ordinates
     // for the end of the Y axis
     // @ts-ignore: Not sure how to fix this one
-    const stopX = xStop ? scale(xStop) : scale.range()[1];
+    const stopX = xStop ? scale(xStop) : scale.range()[scale.range().length - 1];
 
     return (
         <rect
-            y={margin.top}
-            height={height - margin.bottom - margin.top}
+            y={top}
+            height={plotHeight}
             width={stopX - startX}
             x={startX}
             className="rect"

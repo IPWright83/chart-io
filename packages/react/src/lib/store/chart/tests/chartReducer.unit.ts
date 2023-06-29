@@ -9,7 +9,7 @@ import type {
     RemoveLegendItemAction,
     SetAnimationDurationAction,
     SetBrushRangeAction,
-    SetBrushReservedDimensionsAction,
+    SetBrushDimensionsAction,
     SetChartIDAction,
     SetDataAction,
     SetDimensionAction,
@@ -24,7 +24,7 @@ describe("chartReducer", () => {
         dimensions: {
             width: 1000,
             height: 500,
-            margin: { top: 10, left: 10, right: 10, bottom: 10 },
+            plotMargin: { top: 10, left: 10, right: 10, bottom: 10 },
         },
         data: [{ a: "foo" }, { b: "bar" }],
         scales: {
@@ -48,7 +48,7 @@ describe("chartReducer", () => {
             dimensions: {
                 width: 900,
                 height: 400,
-                margin: { top: 5, left: 5, right: 5, bottom: 5 },
+                plotMargin: { top: 5, left: 5, right: 5, bottom: 5 },
             },
             data: previousState.data,
             scales: previousState.scales,
@@ -61,7 +61,7 @@ describe("chartReducer", () => {
             dimensions: {
                 width: 900,
                 height: 400,
-                margin: { top: 5, left: 5, right: 5, bottom: 5 },
+                plotMargin: { top: 5, left: 5, right: 5, bottom: 5 },
             },
         };
 
@@ -79,7 +79,7 @@ describe("chartReducer", () => {
             dimensions: {
                 width: 900,
                 height: 400,
-                margin: { top: 5, left: 5, right: 5, bottom: 5 },
+                plotMargin: { top: 5, left: 5, right: 5, bottom: 5 },
             },
             data: previousState.data,
             scales: previousState.scales,
@@ -130,14 +130,15 @@ describe("chartReducer", () => {
         });
     });
 
-    it("CHART.SET_BRUSH_RESERVED_DIMENSIONS", () => {
+    it("CHART.SET_BRUSH_DIMENSIONS", () => {
         const action = {
-            type: "CHART.SET_BRUSH_RESERVED_DIMENSIONS",
+            type: "CHART.SET_BRUSH_DIMENSIONS",
             payload: {
                 width: 25,
                 height: 75,
+                margin: { left: 10, right: 10, top: 10, bottom: 10 },
             },
-        } as SetBrushReservedDimensionsAction;
+        } as SetBrushDimensionsAction;
 
         expect(chartReducer(previousState, action)).toEqual({
             ...previousState,
@@ -145,6 +146,7 @@ describe("chartReducer", () => {
                 ...previousState.brush,
                 width: 25,
                 height: 75,
+                margin: { left: 10, right: 10, top: 10, bottom: 10 },
             },
         });
     });

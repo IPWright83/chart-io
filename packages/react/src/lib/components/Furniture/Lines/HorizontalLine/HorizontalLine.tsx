@@ -28,8 +28,8 @@ export interface IHorizontalLineProps {
  * @return The HorizontalLine component
  */
 export function HorizontalLine({ y, value, opacity = 1, stroke }: IHorizontalLineProps) {
-    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
-    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const left = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
+    const right = useSelector((s: IState) => chartSelectors.dimensions.plot.right(s));
     const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y, "plot"));
 
     // Scale may not yet have been initialized
@@ -41,8 +41,8 @@ export function HorizontalLine({ y, value, opacity = 1, stroke }: IHorizontalLin
 
     return (
         <line
-            x1={margin.left}
-            x2={width - margin.right}
+            x1={left}
+            x2={right}
             y1={yValue}
             y2={yValue}
             style={{
