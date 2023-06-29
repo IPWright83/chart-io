@@ -1,5 +1,11 @@
 # @chart-it/react-d3
 
+## 0.30.0
+
+### Minor Changes
+
+- 03edbbc: Updated support for margins & brushes
+
 ## 0.29.0
 
 ### Minor Changes
