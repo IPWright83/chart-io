@@ -1,5 +1,5 @@
 import type { IData, ILegendItem, IMargin, IScale, IScaleMode, ITheme } from "@chart-it/types";
-import { memoize, memoizeWithArgs } from "proxy-memoize";
+import { memoizeWithArgs } from "proxy-memoize";
 
 import type {
     IChartScaleInfo,
