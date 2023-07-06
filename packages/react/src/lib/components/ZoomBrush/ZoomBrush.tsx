@@ -1,7 +1,7 @@
 import { IMargin } from "@chart-it/types";
 import React from "react";
-import { DEFAULT_BRUSH_MARGIN } from "./constants";
 
+import { DEFAULT_BRUSH_MARGIN } from "./constants";
 import { getBrushPlots } from "./getBrushPlots";
 import { HorizontalZoomBrush } from "./HorizontalZoomBrush";
 

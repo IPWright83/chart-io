@@ -9,7 +9,7 @@ export function createMockStore(state: { chart?: any; event?: any }): IStore {
     return {
         getState: () => ({
             chart: {
-                ...defaultChartState,
+                ...{ ...defaultChartState, id: "test" },
                 ...(state.chart ?? {}),
             },
             event: {

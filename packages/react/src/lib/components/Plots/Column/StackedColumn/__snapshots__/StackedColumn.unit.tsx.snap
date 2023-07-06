@@ -5,6 +5,7 @@ exports[`StackedColumn using SVG should render correctly 1`] = `
   <svg>
     <g
       class="g-plot stacked-column"
+      clip-path="url(#clip-path-test)"
     >
       <g>
         <rect
@@ -52,6 +53,7 @@ exports[`StackedColumn using SVG should skip rendering if there is no x scale av
   <svg>
     <g
       class="g-plot stacked-column"
+      clip-path="url(#clip-path-test)"
     />
   </svg>
 </DocumentFragment>
@@ -62,6 +64,7 @@ exports[`StackedColumn using SVG should skip rendering if there is no y scale av
   <svg>
     <g
       class="g-plot stacked-column"
+      clip-path="url(#clip-path-test)"
     />
   </svg>
 </DocumentFragment>

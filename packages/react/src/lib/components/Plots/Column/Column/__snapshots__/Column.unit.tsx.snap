@@ -5,6 +5,7 @@ exports[`Column using SVG should render correctly 1`] = `
   <svg>
     <g
       class="g-plot column"
+      clip-path="url(#clip-path-test)"
     >
       <rect
         class="column"
@@ -32,6 +33,7 @@ exports[`Column using SVG should skip rendering if there is no x scale avaliable
   <svg>
     <g
       class="g-plot column"
+      clip-path="url(#clip-path-test)"
     />
   </svg>
 </DocumentFragment>
@@ -42,6 +44,7 @@ exports[`Column using SVG should skip rendering if there is no y scale avaliable
   <svg>
     <g
       class="g-plot column"
+      clip-path="url(#clip-path-test)"
     />
   </svg>
 </DocumentFragment>
