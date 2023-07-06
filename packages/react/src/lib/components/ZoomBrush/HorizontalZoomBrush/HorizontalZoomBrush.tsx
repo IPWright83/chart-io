@@ -109,7 +109,13 @@ export function HorizontalZoomBrush({
     // but ensure they don't trigger events, and they use the "brush" scale
     // to shrink them down to an appropriate size
     const plotClones = plots.map((plot, index) =>
-        React.cloneElement(plot, { key: index, showInLegend: false, interactive: false, scaleMode: "brush" })
+        React.cloneElement(plot, {
+            key: index,
+            showInLegend: false,
+            interactive: false,
+            scaleMode: "brush",
+            noClip: true,
+        })
     );
 
     return (
