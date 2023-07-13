@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.33.0
+
+### Minor Changes
+
+- a878c2f: Updated name
+
 ## 0.32.0
 
 ### Minor Changes

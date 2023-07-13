@@ -1,5 +1,11 @@
 # @chart-io/detection
 
+## 0.8.0
+
+### Minor Changes
+
+- a878c2f: Updated name
+
 ## 0.7.0
 
 ### Minor Changes
