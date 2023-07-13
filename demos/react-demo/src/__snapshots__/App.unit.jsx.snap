@@ -18,7 +18,7 @@ exports[`renders learn react link 1`] = `
           class="g-event-receiver"
         >
           <rect
-            class="chart-it event-receiver"
+            class="chart-io event-receiver"
             height="440"
             style="fill: none; pointer-events: all;"
             transform="translate(30, 30)"
@@ -218,7 +218,7 @@ exports[`renders learn react link 1`] = `
               </g>
             </g>
             <g
-              class="chart-it axis axis-left"
+              class="chart-io axis axis-left"
               fill="none"
               font-family="sans-serif"
               font-size="10"
@@ -601,7 +601,7 @@ exports[`renders learn react link 1`] = `
               </g>
             </g>
             <g
-              class="chart-it axis axis-bottom"
+              class="chart-io axis axis-bottom"
               fill="none"
               font-family="sans-serif"
               font-size="10"

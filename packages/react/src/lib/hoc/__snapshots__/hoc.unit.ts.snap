@@ -1,5 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Higher Order Components withCanvas should warn if no classname is provided 1`] = `"@chart-it/react encountered an warning. W003: className is required when using the withCanvas higher order component. You can read more about this https://ipwright83.github.io/chart-it/?path=/docs/errors-warnings-warnings-W003."`;
+exports[`Higher Order Components withCanvas should warn if no classname is provided 1`] = `"@chart-io/react encountered an warning. W003: className is required when using the withCanvas higher order component. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-warnings-W003."`;
 
-exports[`Higher Order Components withSVG should warn if no classname is provided 1`] = `"@chart-it/react encountered an warning. W003: className is required when using the withSVG higher order component. You can read more about this https://ipwright83.github.io/chart-it/?path=/docs/errors-warnings-warnings-W003."`;
+exports[`Higher Order Components withSVG should warn if no classname is provided 1`] = `"@chart-io/react encountered an warning. W003: className is required when using the withSVG higher order component. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-warnings-W003."`;

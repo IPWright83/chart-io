@@ -1,8 +1,8 @@
-import * as d3 from "@chart-it/d3";
-import type { IData, IScale, IScaleType, IValue } from "@chart-it/types";
-import type { NumberValue } from "@chart-it/d3";
+import * as d3 from "@chart-io/d3";
+import type { IData, IScale, IScaleType, IValue } from "@chart-io/types";
+import type { NumberValue } from "@chart-io/d3";
 
-import { getDataType, Type, typeEnumToName } from "@chart-it/detection";
+import { getDataType, Type, typeEnumToName } from "@chart-io/detection";
 import { logAndThrowError, logDebug } from "../../utils";
 
 /**

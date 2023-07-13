@@ -1,4 +1,4 @@
-import type { IPosition } from "@chart-it/types";
+import type { IPosition } from "@chart-io/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -35,7 +35,7 @@ export function Title({ position, title }: ITitleProps) {
     };
 
     return (
-        <text className={`chart-it axis-title axis-title-${position}`} transform={transform} style={style}>
+        <text className={`chart-io axis-title axis-title-${position}`} transform={transform} style={style}>
             {title}
         </text>
     );

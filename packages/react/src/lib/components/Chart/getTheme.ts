@@ -1,4 +1,4 @@
-import type { ITheme } from "@chart-it/types";
+import type { ITheme } from "@chart-io/types";
 
 import { themes } from "../../themes";
 

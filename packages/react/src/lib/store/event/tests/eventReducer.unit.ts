@@ -1,4 +1,4 @@
-import type { IMouseEventType } from "@chart-it/types";
+import type { IMouseEventType } from "@chart-io/types";
 
 import type {
     AddDroplineAction,

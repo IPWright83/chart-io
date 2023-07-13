@@ -22,7 +22,7 @@ importers:
 
   demos/react-demo:
     dependencies:
-      '@chart-it/react':
+      '@chart-io/react':
         specifier: workspace:*
         version: link:../../packages/react
       '@swc/core':
@@ -162,10 +162,10 @@ importers:
 
   packages/detection:
     devDependencies:
-      '@chart-it/d3':
+      '@chart-io/d3':
         specifier: workspace:*
         version: link:../d3
-      '@chart-it/types':
+      '@chart-io/types':
         specifier: workspace:*
         version: link:../types
       '@swc/core':
@@ -226,13 +226,13 @@ importers:
       '@babel/preset-react':
         specifier: ^7.18.6
         version: 7.18.6(@babel/core@7.21.0)
-      '@chart-it/d3':
+      '@chart-io/d3':
         specifier: workspace:*
         version: link:../d3
-      '@chart-it/detection':
+      '@chart-io/detection':
         specifier: workspace:*
         version: link:../detection
-      '@chart-it/types':
+      '@chart-io/types':
         specifier: workspace:*
         version: link:../types
       '@storybook/addon-actions':
@@ -395,7 +395,7 @@ importers:
         specifier: ^18.0.28
         version: 18.0.28
     devDependencies:
-      '@chart-it/d3':
+      '@chart-io/d3':
         specifier: workspace:*
         version: link:../d3
       '@typescript-eslint/eslint-plugin':

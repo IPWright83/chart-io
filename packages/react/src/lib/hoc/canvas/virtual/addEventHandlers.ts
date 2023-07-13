@@ -1,4 +1,4 @@
-import type { IDatum } from "@chart-it/types";
+import type { IDatum } from "@chart-io/types";
 import { throttle } from "lodash";
 
 import type { IColorToData, IColorToDataMap } from "./types";

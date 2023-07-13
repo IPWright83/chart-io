@@ -1,4 +1,4 @@
-import { IScale } from "@chart-it/types";
+import { IScale } from "@chart-io/types";
 
 import { BAND_PADDING } from "../constants";
 

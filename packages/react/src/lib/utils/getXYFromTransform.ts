@@ -1,4 +1,4 @@
-import type { ICoordinate } from "@chart-it/types";
+import type { ICoordinate } from "@chart-io/types";
 
 /**
  * Obtain the x, y offsets from a transform string

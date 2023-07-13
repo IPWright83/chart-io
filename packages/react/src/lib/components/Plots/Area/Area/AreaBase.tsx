@@ -1,6 +1,6 @@
-import * as d3 from "@chart-it/d3";
+import * as d3 from "@chart-io/d3";
 import { useSelector, useStore } from "react-redux";
-import type { IPlotProps } from "@chart-it/types";
+import type { IPlotProps } from "@chart-io/types";
 
 import { chartSelectors, eventSelectors, IState } from "../../../../store";
 import { interpolateMultiPath, isNullOrUndefined } from "../../../../utils";

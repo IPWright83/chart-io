@@ -1,4 +1,4 @@
-import type { IData, ILegendItem, IMargin, IScale, ITheme } from "@chart-it/types";
+import type { IData, ILegendItem, IMargin, IScale, ITheme } from "@chart-io/types";
 
 import type {
     AddLegendItemAction,

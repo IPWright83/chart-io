@@ -1,4 +1,4 @@
-import type { IData } from "@chart-it/types";
+import type { IData } from "@chart-io/types";
 
 import { getDataCardinality } from "./getDataCardinality";
 import { getDataPointCount } from "./getDataPointCount";

@@ -1,4 +1,4 @@
-import type { IColor, IValue } from "@chart-it/types";
+import type { IColor, IValue } from "@chart-io/types";
 import React from "react";
 import { useSelector } from "react-redux";
 

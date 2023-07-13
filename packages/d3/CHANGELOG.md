@@ -1,4 +1,4 @@
-# @chart-it/d3
+# @chart-io/d3
 
 ## 0.9.0
 

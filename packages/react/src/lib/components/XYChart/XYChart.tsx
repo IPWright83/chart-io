@@ -1,4 +1,4 @@
-import { IMargin } from "@chart-it/types";
+import { IMargin } from "@chart-io/types";
 import React from "react";
 
 import { Chart, IChartProps } from "../Chart";

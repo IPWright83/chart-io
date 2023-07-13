@@ -1,6 +1,6 @@
-import * as d3 from "@chart-it/d3";
-import type { AxisDomain, AxisScale } from "@chart-it/d3";
-import type { IPosition, IScale } from "@chart-it/types";
+import * as d3 from "@chart-io/d3";
+import type { AxisDomain, AxisScale } from "@chart-io/d3";
+import type { IPosition, IScale } from "@chart-io/types";
 
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
