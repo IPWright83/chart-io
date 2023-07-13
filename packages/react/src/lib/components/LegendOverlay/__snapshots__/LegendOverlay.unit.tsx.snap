@@ -12,23 +12,23 @@ exports[`LegendOverlay should render a horizontal alignment correctly 1`] = `
         width="0"
       >
         <div
-          class="chart-it legend"
+          class="chart-io legend"
           style="border: thin solid #ccc; display: flex; flex-direction: row; flex-wrap: wrap; position: absolute; right: 10px; top: 10px; max-width: -40px; max-height: -40px; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden;"
         >
           <div
-            class="chart-it legend-item"
+            class="chart-io legend-item"
             style="display: flex; flex-direction: row; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
           >
             <div
-              class="chart-it indicator-circle"
+              class="chart-io indicator-circle"
               style="background: blue; width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%; flex-shrink: 0;"
             />
             <div
-              class="chart-it legend-values"
+              class="chart-io legend-values"
               style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"
             >
               <span
-                class="chart-it legend-series-name"
+                class="chart-io legend-series-name"
                 style="margin-right: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
               >
                 a
@@ -36,19 +36,19 @@ exports[`LegendOverlay should render a horizontal alignment correctly 1`] = `
             </div>
           </div>
           <div
-            class="chart-it legend-item"
+            class="chart-io legend-item"
             style="display: flex; flex-direction: row; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
           >
             <div
-              class="chart-it indicator-square"
+              class="chart-io indicator-square"
               style="background: orange; height: 10px; width: 10px; margin-top: 4px; margin-right: 5px; margin-left: 5px; flex-shrink: 0;"
             />
             <div
-              class="chart-it legend-values"
+              class="chart-io legend-values"
               style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"
             >
               <span
-                class="chart-it legend-series-name"
+                class="chart-io legend-series-name"
                 style="margin-right: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
               >
                 b
@@ -74,23 +74,23 @@ exports[`LegendOverlay should render a vertical alignment correctly 1`] = `
         width="0"
       >
         <div
-          class="chart-it legend"
+          class="chart-io legend"
           style="border: thin solid #ccc; display: flex; flex-direction: column; flex-wrap: wrap; position: absolute; left: 10px; transform: translateY(-50%); top: 50%; max-width: 200px; max-height: -40px; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden;"
         >
           <div
-            class="chart-it legend-item"
+            class="chart-io legend-item"
             style="display: flex; flex-direction: row; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
           >
             <div
-              class="chart-it indicator-circle"
+              class="chart-io indicator-circle"
               style="background: blue; width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%; flex-shrink: 0;"
             />
             <div
-              class="chart-it legend-values"
+              class="chart-io legend-values"
               style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"
             >
               <span
-                class="chart-it legend-series-name"
+                class="chart-io legend-series-name"
                 style="margin-right: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
               >
                 a
@@ -98,19 +98,19 @@ exports[`LegendOverlay should render a vertical alignment correctly 1`] = `
             </div>
           </div>
           <div
-            class="chart-it legend-item"
+            class="chart-io legend-item"
             style="display: flex; flex-direction: row; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
           >
             <div
-              class="chart-it indicator-square"
+              class="chart-io indicator-square"
               style="background: orange; height: 10px; width: 10px; margin-top: 4px; margin-right: 5px; margin-left: 5px; flex-shrink: 0;"
             />
             <div
-              class="chart-it legend-values"
+              class="chart-io legend-values"
               style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"
             >
               <span
-                class="chart-it legend-series-name"
+                class="chart-io legend-series-name"
                 style="margin-right: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
               >
                 b

@@ -1,4 +1,4 @@
-import type { IPlotsProps } from "@chart-it/types";
+import type { IPlotsProps } from "@chart-io/types";
 
 import React from "react";
 import { useSelector } from "react-redux";

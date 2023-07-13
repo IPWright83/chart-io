@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import * as d3 from "@chart-it/d3";
+import * as d3 from "@chart-io/d3";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 

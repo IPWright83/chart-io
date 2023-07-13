@@ -1,7 +1,7 @@
-import * as d3 from "@chart-it/d3";
+import * as d3 from "@chart-io/d3";
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { IMargin } from "@chart-it/types";
+import { IMargin } from "@chart-io/types";
 
 import { chartActions, chartSelectors, IState } from "../../../store";
 import { childrenToArray, logWarning } from "../../../utils";

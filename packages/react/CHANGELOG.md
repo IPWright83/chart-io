@@ -1,4 +1,4 @@
-# @chart-it/react-d3
+# @chart-io/react-d3
 
 ## 0.30.0
 
@@ -94,9 +94,9 @@
 ### Patch Changes
 
 - Updated dependencies [feddec9]
-  - @chart-it/d3@0.2.0
-  - @chart-it/detection@0.5.0
-  - @chart-it/types@0.5.0
+  - @chart-io/d3@0.2.0
+  - @chart-io/detection@0.5.0
+  - @chart-io/types@0.5.0
 
 ## 0.15.0
 
@@ -131,7 +131,7 @@
 ### Patch Changes
 
 - Updated dependencies [a6cc33a]
-  - @chart-it/detection@0.4.0
+  - @chart-io/detection@0.4.0
 
 ## 0.11.0
 
@@ -142,7 +142,7 @@
 ### Patch Changes
 
 - Updated dependencies [aa0b805]
-  - @chart-it/detection@0.3.0
+  - @chart-io/detection@0.3.0
 
 ## 0.10.0
 
@@ -165,7 +165,7 @@
 ### Patch Changes
 
 - Updated dependencies [bc7e7f3]
-  - @chart-it/detection@0.2.0
+  - @chart-io/detection@0.2.0
 
 ## 0.7.0
 
@@ -210,4 +210,4 @@
 
 - c2ccdd1: Test
 - Updated dependencies [c2ccdd1]
-  - @chart-it/detection@0.1.33
+  - @chart-io/detection@0.1.33

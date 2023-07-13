@@ -1,4 +1,4 @@
-import type { IColor, ICoordinate, IDropline, IMarker, IMouseEventType, ITooltipItem } from "@chart-it/types";
+import type { IColor, ICoordinate, IDropline, IMarker, IMouseEventType, ITooltipItem } from "@chart-io/types";
 
 export interface IEventStateMouse {
   x: number;

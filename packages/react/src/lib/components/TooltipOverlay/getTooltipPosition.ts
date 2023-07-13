@@ -1,4 +1,4 @@
-import type { ICoordinate } from "@chart-it/types";
+import type { ICoordinate } from "@chart-io/types";
 
 /**
  * Returns a position for the tooltip from the moust event

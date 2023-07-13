@@ -3,7 +3,7 @@
 exports[`Line renders correctly 1`] = `
 <DocumentFragment>
   <div
-    class="chart-it indicator-line"
+    class="chart-io indicator-line"
     style="background: steelblue; width: 10px; height: 3px; margin-top: 7px; margin-left: 5px; margin-right: 5px; flex-shrink: 0;"
   />
 </DocumentFragment>

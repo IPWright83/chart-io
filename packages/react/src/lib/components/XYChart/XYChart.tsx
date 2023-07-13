@@ -1,5 +1,5 @@
 import React from "react";
-import { IMargin } from "@chart-it/types";
+import { IMargin } from "@chart-io/types";
 
 import { Chart, IChartProps } from "../Chart";
 import { Crosshair } from "../Crosshair";

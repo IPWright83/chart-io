@@ -23,7 +23,7 @@ module.exports = {
     setupFilesAfterEnv: ["<rootDir>/src/jest/setupTests.js"],
     testEnvironment: "jsdom",
     testMatch: ["**/*.unit.js", "**/*.unit.jsx", "**/*.unit.ts", "**/*.unit.tsx"],
-    transformIgnorePatterns: ["<rootDir>/node_modules/.pnpm/(?!(@chart-it)@)"],
+    transformIgnorePatterns: ["<rootDir>/node_modules/.pnpm/(?!(@chart-io)@)"],
     transform: {
         "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": ["@swc/jest"],
         "^.+\\.css$": "<rootDir>/src/jest/cssTransform.js",

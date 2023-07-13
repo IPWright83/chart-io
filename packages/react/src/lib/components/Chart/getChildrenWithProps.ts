@@ -1,4 +1,4 @@
-import type { IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-it/types";
+import type { IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/types";
 
 import { extendChildrenProps } from "../../utils";
 

@@ -1,4 +1,4 @@
-import type { ITooltipFormatter, ITooltipItem } from "@chart-it/types";
+import type { ITooltipFormatter, ITooltipItem } from "@chart-io/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -49,13 +49,13 @@ export function TooltipItem({ name, value, icon, fill, prefix, suffix, format = 
     };
 
     return (
-        <div className="chart-it tooltip-item" style={styles.tooltipItem}>
+        <div className="chart-io tooltip-item" style={styles.tooltipItem}>
             {Shape && <Shape fill={fill} />}
-            <div className="chart-it tooltip-values" style={styles.tooltipValues}>
-                <span className="chart-it tooltip-series-name" style={styles.tooltipSeriesName}>
+            <div className="chart-io tooltip-values" style={styles.tooltipValues}>
+                <span className="chart-io tooltip-series-name" style={styles.tooltipSeriesName}>
                     {name}:
                 </span>
-                <span className="chart-it tooltip-series-value">{formattedValue}</span>
+                <span className="chart-io tooltip-series-value">{formattedValue}</span>
             </div>
         </div>
     );

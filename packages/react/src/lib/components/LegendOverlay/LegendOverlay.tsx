@@ -1,4 +1,4 @@
-import type { ILegendFormatter } from "@chart-it/types";
+import type { ILegendFormatter } from "@chart-io/types";
 import React from "react";
 import { useSelector } from "react-redux";
 

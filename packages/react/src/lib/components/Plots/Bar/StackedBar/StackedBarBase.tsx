@@ -1,8 +1,8 @@
-import * as d3 from "@chart-it/d3";
-import type { IColor, IDatum, IEventPlotProps } from "@chart-it/types";
+import * as d3 from "@chart-io/d3";
+import type { IColor, IDatum, IEventPlotProps } from "@chart-io/types";
 import { useEffect, useState } from "react";
 import { useSelector, useStore } from "react-redux";
-import type { Transition } from "@chart-it/d3";
+import type { Transition } from "@chart-io/d3";
 
 import { chartSelectors, eventActions, IState } from "../../../../store";
 import {

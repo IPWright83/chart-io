@@ -1,4 +1,4 @@
-import type { IColor } from "@chart-it/types";
+import type { IColor } from "@chart-io/types";
 import React from "react";
 
 export interface IPolygonProps {

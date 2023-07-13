@@ -1,5 +1,5 @@
 import React from "react";
-import { scaleLinear } from "@chart-it/d3";
+import { scaleLinear } from "@chart-io/d3";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../VirtualCanvas";

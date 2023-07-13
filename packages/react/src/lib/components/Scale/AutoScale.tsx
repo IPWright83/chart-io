@@ -1,4 +1,4 @@
-import type { IScaleType, IValue } from "@chart-it/types";
+import type { IScaleType, IValue } from "@chart-io/types";
 import React, { useMemo } from "react";
 import { useSelector, useStore } from "react-redux";
 

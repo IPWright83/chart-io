@@ -1,5 +1,5 @@
-import type { IColor } from "@chart-it/types";
-import type { Transition } from "@chart-it/d3";
+import type { IColor } from "@chart-io/types";
+import type { Transition } from "@chart-io/d3";
 
 import { logWarning } from "../../utils";
 import { renderCircle } from "./renderCircle";

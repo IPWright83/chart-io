@@ -1,4 +1,4 @@
-import type { IColor, IDropline, IMarker, IMouseEvent, ITooltipItem } from "@chart-it/types";
+import type { IColor, IDropline, IMarker, IMouseEvent, ITooltipItem } from "@chart-io/types";
 
 import type {
     AddDroplineAction,

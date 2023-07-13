@@ -1,4 +1,4 @@
-import type { IColor, IDropline, IMarker, IMouseEventType } from "@chart-it/types";
+import type { IColor, IDropline, IMarker, IMouseEventType } from "@chart-io/types";
 
 import { defaultChartState } from "../../chart/chartReducer";
 import { defaultEventState } from "../eventReducer";

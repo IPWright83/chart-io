@@ -1,4 +1,4 @@
-import type { IMargin, IPosition } from "@chart-it/types";
+import type { IMargin, IPosition } from "@chart-io/types";
 
 import { logAndThrowError } from "../../../utils";
 

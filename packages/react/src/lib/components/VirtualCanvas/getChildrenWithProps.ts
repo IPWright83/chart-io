@@ -1,5 +1,5 @@
-import type { IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-it/types";
-import type { Transition } from "@chart-it/d3";
+import type { IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/types";
+import type { Transition } from "@chart-io/d3";
 
 import { extendChildrenProps } from "../../utils";
 

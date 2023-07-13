@@ -8,7 +8,7 @@ module.exports = {
     roots: ["<rootDir>/src"],
     testEnvironment: "jsdom",
     testMatch: ["**/*.unit.jsx", "**/*.unit.tsx"],
-    transformIgnorePatterns: ["<rootDir>/node_modules/(?!@chart-it/d3/.*)"],
+    transformIgnorePatterns: ["<rootDir>/node_modules/(?!@chart-io/d3/.*)"],
     transform: {
         "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": ["@swc/jest"],
     },
