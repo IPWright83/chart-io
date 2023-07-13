@@ -1,5 +1,17 @@
 # @chart-io/react-d3
 
+## 0.32.0
+
+### Minor Changes
+
+- 351a30f: Fixes an issue when using the RectangleClipPath that prevents canvas plots working
+
+## 0.31.0
+
+### Minor Changes
+
+- 1614f17: Fixes an issue when using the RectangleClipPath that prevents canvas plots working
+
 ## 0.30.0
 
 ### Minor Changes

@@ -33,7 +33,8 @@ export function XYChart({ children, ...props }: IXYChartProps) {
     return (
         <Chart {...props}>
             <EventReceiver />
-            <RectangleClipPath>{children}</RectangleClipPath>
+            <RectangleClipPath />
+            {children}
             <Markers />
             {showDroplines && <Droplines />}
             {showCrosshair && <Crosshair />}

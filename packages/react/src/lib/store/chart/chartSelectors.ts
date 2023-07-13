@@ -30,6 +30,13 @@ interface IChartSelectors {
     id: (state: IState) => string;
 
     /**
+     * Returns a clip path ID for the plot area
+     * @param  state The application state
+     * @return        The clip path ID
+     */
+    plotClipPath: (state: IState) => string;
+
+    /**
      * Returns the data for the chart
      * @param  state The application state
      * @return       The chart data
@@ -240,6 +247,9 @@ export const chartSelectors: IChartSelectors = {
 
     // @inheritDoc
     data: (state: IState): IData => chartSelectors.store(state).data || EMPTY_ARRAY,
+
+    // @inheritDoc
+    plotClipPath: (state: IState): string => `clip-path-${chartSelectors.id(state)}`,
 
     // @inheritDoc
     animationDuration: (state: IState): number => {

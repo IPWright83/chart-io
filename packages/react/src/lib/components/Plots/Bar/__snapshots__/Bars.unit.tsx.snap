@@ -5,6 +5,7 @@ exports[`Bars Grouped using SVG should render correctly 1`] = `
   <svg>
     <g
       class="g-plot grouped-bar"
+      clip-path="url(#clip-path-test)"
     >
       <g>
         <rect
@@ -52,6 +53,7 @@ exports[`Bars Stacked using SVG should render correctly 1`] = `
   <svg>
     <g
       class="g-plot stacked-bar"
+      clip-path="url(#clip-path-test)"
     >
       <g>
         <rect

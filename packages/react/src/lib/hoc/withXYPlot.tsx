@@ -17,9 +17,10 @@ const withXYPlot = <P extends object>(WrappedComponent: React.ComponentType<P>) 
      * @param  {...any}    options.props        The rest of the props
      * @return {ReactDOMComponent}              The wrapped layer
      */
-    return function withXYPlot({ x, y, xs, ys, ...props }) {
+    return function withXYPlot({ x, y, xs, ys, noClip, ...props }) {
         const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x || xs[0], "plot"));
         const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y || ys[0], "plot"));
+        const plotClipPath = useSelector((s: IState) => chartSelectors.plotClipPath(s));
 
         // TODO: need to do the same with the virtual canvas
 
@@ -29,10 +30,11 @@ const withXYPlot = <P extends object>(WrappedComponent: React.ComponentType<P>) 
         useEffect(() => {
             setLayer(props.layer);
 
-            if (props.layer.current && props.clipPath) {
-                d3.select(props.layer.current).attr("clip-path", `url(#${props.clipPath})`);
+            // noClip is used to suppress clipping on brush plots
+            if (props.layer.current && !noClip) {
+                d3.select(props.layer.current).attr("clip-path", `url(#${plotClipPath})`);
             }
-        }, [props.layer, props.clipPath]);
+        }, [props.layer, plotClipPath, noClip]);
 
         // Unable to render without the layer avaliable
         if (!layer.current) {
