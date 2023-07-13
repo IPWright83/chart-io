@@ -1,5 +1,11 @@
 # @chart-io/d3
 
+## 0.10.0
+
+### Minor Changes
+
+- a878c2f: Updated name
+
 ## 0.9.0
 
 ### Minor Changes

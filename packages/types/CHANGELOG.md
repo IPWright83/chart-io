@@ -1,5 +1,11 @@
 # @chart-io/types
 
+## 0.12.0
+
+### Minor Changes
+
+- a878c2f: Updated name
+
 ## 0.11.0
 
 ### Minor Changes
