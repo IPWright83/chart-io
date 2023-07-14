@@ -1,5 +1,12 @@
 # @chart-io/react-d3
 
+## 0.34.0
+
+### Minor Changes
+
+- c0e9b17: Debugging workflow
+- c667653: Testing auto-merge
+
 ## 0.33.0
 
 ### Minor Changes
