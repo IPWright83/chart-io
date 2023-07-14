@@ -1,10 +1,11 @@
 import React from "react";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 
 import { themes } from "../../themes";
 import { RectangleClipPath } from ".";
 
 import { createMockStorybookStore } from "../../testUtils";
+import { chartSelectors, IState } from "../../store";
 
 export default {
     title: "Components/RectangleClipPath",
@@ -15,26 +16,31 @@ export default {
 };
 
 const Circle = ({ clipPath }: { clipPath?: string }) => {
-    return <circle clipPath={`url(#${clipPath})`} cx={0} cy={0} r={100} fill="red" />;
+    const plotClipPath = useSelector((s: IState) => chartSelectors.plotClipPath(s));
+
+    return <circle clipPath={`url(#${plotClipPath})`} cx={300} cy={200} r={100} fill="red" />;
 };
 
 const RectangleClipPathTemplate = () => {
+    const width = 300;
+    const height = 300;
+
     const store = createMockStorybookStore({
         chart: {
             dimensions: {
-                width: 300,
-                height: 300,
+                width,
+                height,
             },
         },
     });
 
     return (
         <Provider store={store}>
-            <svg width="300px" height="300px">
-                <g transform="translate(200, 100)">
-                    <RectangleClipPath>
-                        <Circle />
-                    </RectangleClipPath>
+            <svg width="500px" height="300px">
+                <g transform="translate(0, 0)">
+                    <rect x={0} y={0} width={width} height={height} fill="none" stroke="black" />
+                    <RectangleClipPath />
+                    <Circle />
                 </g>
             </svg>
         </Provider>

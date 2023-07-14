@@ -278,7 +278,7 @@ export const chartSelectors: IChartSelectors = {
             chartSelectors.scales.store(state, field).zoomedDomain ?? chartSelectors.scales.domain(state, field),
 
         // @inheritDoc
-        range: (state: IState, field: string, type: IScaleMode) => {
+        range: (state: IState, field: string, type: IScaleMode = "plot") => {
             if (type === "brush") {
                 // This allows us to reduce the size of a scale to fit within the brush space
                 const range = chartSelectors.scales.store(state, field)?.brush?.range;
@@ -292,7 +292,7 @@ export const chartSelectors: IChartSelectors = {
 
         // @inheritDoc
         getScale: memoizeWithArgs(
-            (state: IState, field: string, type: IScaleMode) => {
+            (state: IState, field: string, type: IScaleMode = "plot") => {
                 const scale = chartSelectors.scales.store(state, field)?.scale?.copy();
                 // prettier-ignore
                 if (scale) {

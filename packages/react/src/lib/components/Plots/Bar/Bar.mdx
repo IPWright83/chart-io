@@ -23,11 +23,11 @@ The `<Bar>` component should be used when you want to plot a single bar plot (ho
 
 | Prop           | Type      | Default            | Note                                                                                                         |
 | -------------- | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
+| **`x`\***      | `string`  | `null`               | The key of the field that contains the value along the x-axis.                                               |
+| **`y`\***      | `string`  | `null`               | The key of the field that contains the value along the y-axis.                                               |
 | `color`        | `string`  | Derived from Theme | Override the colour of the series                                                                            |
-| **`x`\***      | `string`  | null               | The key of the field that contains the value along the x-axis.                                               |
-| **`y`\***      | `string`  | null               | The key of the field that contains the value along the y-axis.                                               |
-| `interactive`  | `boolean` | true               | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot |
-| `showInLegend` | `boolean` | true               | Whether the plot should feature in the legend or not.                                                        |
+| `interactive`  | `boolean` | `true`               | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot |
+| `showInLegend` | `boolean` | `true`               | Whether the plot should feature in the legend or not.                                                        |
 
 ### Visual Styling
 
@@ -49,11 +49,11 @@ The `<Bars>` component allows us to define multiple bar series. There are three 
 
 | Prop       | Type       | Default            | Note                                                              |
 | ---------- | ---------- | ------------------ | ----------------------------------------------------------------- |
+| **`xs`\*** | `string[]` | `null`               | The keys of the fields that contains the values along the x-axis. |
+| **`y`\***  | `string`   | `null`               | The key of the field that contains value along the y-axis.        |
 | `colors`   | `string[]` | Derived from Theme | Override the colours for the series                               |
-| **`xs`\*** | `string[]` | null               | The keys of the fields that contains the values along the x-axis. |
-| **`y`\***  | `string`   | null               | The key of the field that contains value along the y-axis.        |
-| `stacked`  | `boolean`  | false              | Whether the plots should be stacked.                              |
-| `grouped`  | `boolean`  | false              | Whether the plots should be grouped together.                     |
+| `grouped`  | `boolean`  | `false`              | Whether the plots should be grouped together.                     |
+| `stacked`  | `boolean`  | `false`              | Whether the plots should be stacked.                              |
 
 ### Ratio Charts
 

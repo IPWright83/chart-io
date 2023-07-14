@@ -23,12 +23,12 @@ The `<Area>` component should be used when you want to plot a single area plot o
 
 | Prop           | Type      | Default            | Note                                                                                                         |
 | -------------- | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
+| **`x`\***      | `string`  | `null`               | The key of the field that contains the value along the x-axis.                                               |
+| **`y`\***      | `string`  | `null`               | The key of the field that contains the value along the y-axis.                                               |
+| `y2`           | `string`  | `null`               | The key of the field that contains the y2 value for a stream graph style.                                    |
 | `color`        | `string`  | Derived from Theme | Override the colour of the series                                                                            |
-| **`x`\***      | `string`  | null               | The key of the field that contains the value along the x-axis.                                               |
-| **`y`\***      | `string`  | null               | The key of the field that contains the value along the y-axis.                                               |
-| `y2`           | `string`  | null               | The key of the field that contains the y2 value for a stream graph style.                                    |
-| `interactive`  | `boolean` | true               | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot |
-| `showInLegend` | `boolean` | true               | Whether the plot should feature in the legend or not.                                                        |
+| `interactive`  | `boolean` | `true`               | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot |
+| `showInLegend` | `boolean` | `true`               | Whether the plot should feature in the legend or not.                                                        |
 
 ### Stream Graph
 
@@ -72,10 +72,10 @@ The `<Areas>` component allows us to define multiple area series. There are two 
 
 | Prop       | Type       | Default            | Note                                                                 |
 | ---------- | ---------- | ------------------ | -------------------------------------------------------------------- |
+| **`x`\***  | `string`   | `null`               | The key of the field that contains the value along the x-axis.       |
+| **`ys`\*** | `string[]` | `null`               | The keys of the fields that contains values along the y-axis.        |
 | `colors`   | `string[]` | Derived from Theme | Override the colours for the series                                  |
-| **`x`\***  | `string`   | null               | The key of the field that contains the value along the x-axis.       |
-| **`ys`\*** | `string[]` | null               | The keys of the fields that contains values along the y-axis.        |
-| `stacked`  | `boolean`  | false              | Whether the plots should be stacked. If false they will be overlayed |
+| `stacked`  | `boolean`  | `false`              | Whether the plots should be stacked. If false they will be overlayed |
 
 ### Overlapping Areas
 

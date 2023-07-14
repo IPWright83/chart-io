@@ -132,7 +132,7 @@ jobs:
         run: |
           commit_message=$(git log --format=%B -n 1 $GITHUB_SHA)
           pr_title=$(jq --raw-output '.pull_request.title' $GITHUB_EVENT_PATH)
-          bot_username='github-actions[bot]'
+          bot_username='IPWright83'
           echo "$commit_message"
           echo "$pr_title"
           echo "$GITHUB_ACTOR"
