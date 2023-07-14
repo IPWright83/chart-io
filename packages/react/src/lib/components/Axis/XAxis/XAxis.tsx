@@ -6,7 +6,7 @@ import { XScale } from "../../Scale";
 
 export interface IXAxisProps extends Omit<IAxisProps, "position"> {
     /**
-     * The position of the axis [left, right]
+     * The position of the axis [bottom, top]
      */
     position?: Omit<IPosition, "left" | "right">;
     /**

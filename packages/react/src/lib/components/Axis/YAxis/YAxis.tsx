@@ -6,7 +6,7 @@ import { YScale } from "../../Scale";
 
 export interface IYAxisProps extends Omit<IAxisProps, "position"> {
     /**
-     * The position of the axis [top, bottom]
+     * The position of the axis [left, right]
      */
     position?: Omit<IPosition, "top" | "bottom">;
     /**
