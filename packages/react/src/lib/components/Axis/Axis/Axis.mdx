@@ -102,20 +102,40 @@ Time scales are best for plotting `<Area>`, `<Line>` and showing data across tim
     <Story id="components-axis-types--date-time-axis" />
 </Canvas>
 
-## Customization
+## Visual Styling
 
-There are a number of customizations that can be used to customize the apperance of an axis. One of the most common is the insertion of gridlines:
+There are a number of visual styles that can be used to change the apperance of an axis. Some of these settings are controlled via the theme, while others are more specific to the chart and axis type so are controlled at the chart level.
+
+It is possible to style the following properties by changing the `theme.axis` object:
+
+| Property        | Type     | Default     | Note                                 |
+| --------------- | -------- | ----------- | ------------------------------------ |
+| `stroke`\*      | `string` | `"#333333"` | The color of the axis                |
+| `strokeOpacity` | `number` | `0.8`       | The opacity to use for the axis      |
+| `strokeWidth`   | `number` | `1`         | The stroke width to use for the axis |
+
+You can also enable the insertion of gridlines which is done at the axis level:
 
 <Canvas>
     <Story id="components-axis-customization--gridlines" />
 </Canvas>
 
-However you can also adjust:
+You can then use the following properties to style the gridlines by changing the `theme.gridlines` object:
+
+| Property        | Type     | Default     | Note                                      |
+| --------------- | -------- | ----------- | ----------------------------------------- |
+| `stroke`\*      | `string` | `"#d3d3d3"` | The color of the gridlines                |
+| `strokeOpacity` | `number` | `0.8`       | The opacity to use for the gridlines      |
+| `strokeWidth`   | `number` | `1`         | The stroke width to use for the gridlines |
+
+You can also adjust the following for your axis - refer to the d3-axis documentation for information on these advanced configuration options https://github.com/d3/d3-axis:
 
 -   `tickPadding`
 -   `tickSizeOuter`
 -   `tickSizeInner`
 -   `title`
+
+## Customization
 
 It is also relatively easy to build a custom Axis that hooks directly into the chart. Note that if you're not using an `XAxis` or `YAxis` you may need to manually define a `<Scale>` for your chart.
 

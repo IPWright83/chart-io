@@ -30,7 +30,7 @@ export interface ILegendProps {
  * Represents a Legend
  * @return The Legend component
  */
-export function Legend({ items, positionStyle, horizontal, formatters = {} }: ILegendProps) {
+export function Legend({ items, positionStyle, horizontal = false, formatters = {} }: ILegendProps) {
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const style = {
         border: `thin solid ${theme.legend.border}`,
