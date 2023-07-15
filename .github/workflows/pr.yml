@@ -6,6 +6,10 @@ on:
     branches:
       - master
 
+concurrency: 
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -14,7 +18,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
       - uses: pnpm/action-setup@v2.2.2
         with:
           run_install: false
@@ -69,7 +73,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
       - uses: pnpm/action-setup@v2.2.2
         with:
           run_install: false
@@ -99,7 +103,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
       - uses: pnpm/action-setup@v2.2.2
         with:
           run_install: false
@@ -136,7 +140,9 @@ jobs:
           echo "$commit_message"
           echo "$pr_title"
           echo "$GITHUB_ACTOR"
-          echo "::set-output name=merge::$(echo "$commit_message" | grep -q 'Version Packages' && echo "$pr_title" | grep -q 'Version Packages' && [ "$bot_username" == "$GITHUB_ACTOR" ])"
+          auto_merge=$(echo "$commit_message" | grep -q 'Version Packages' && echo "$pr_title" | grep -q 'Version Packages' && [ "$bot_username" == "$GITHUB_ACTOR" ] && echo "true" || echo "false")
+          echo "$auto_merge"
+          echo "::set-output name=merge::$auto_merge"
       - name: Auto merge pull request
         if: steps.check.outputs.merge == 'true'
         uses: octokit/request-action@v2.x
