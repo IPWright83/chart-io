@@ -134,13 +134,11 @@ jobs:
       - name: Check if auto merge possible
         id: check
         run: |
-          commit_message=$(git log --format=%B -n 1 $GITHUB_SHA)
           pr_title=$(jq --raw-output '.pull_request.title' $GITHUB_EVENT_PATH)
           bot_username='IPWright83'
-          echo "$commit_message"
           echo "$pr_title"
           echo "$GITHUB_ACTOR"
-          auto_merge=$(echo "$commit_message" | grep -q 'Version Packages' && echo "$pr_title" | grep -q 'Version Packages' && [ "$bot_username" == "$GITHUB_ACTOR" ] && echo "true" || echo "false")
+          auto_merge=$(echo "$pr_title" | grep -q 'Version Packages' && [ "$bot_username" == "$GITHUB_ACTOR" ] && echo "true" || echo "false")
           echo "$auto_merge"
           echo "::set-output name=merge::$auto_merge"
       - name: Auto merge pull request
