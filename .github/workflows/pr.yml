@@ -136,7 +136,9 @@ jobs:
           echo "$commit_message"
           echo "$pr_title"
           echo "$GITHUB_ACTOR"
-          echo "::set-output name=merge::$(echo "$commit_message" | grep -q 'Version Packages' && echo "$pr_title" | grep -q 'Version Packages' && [ "$bot_username" == "$GITHUB_ACTOR" ])"
+          auto_merge=$(echo "$commit_message" | grep -q 'Version Packages' && echo "$pr_title" | grep -q 'Version Packages' && [ "$bot_username" == "$GITHUB_ACTOR" ] && echo "true" || echo "false")
+          echo "$auto_merge"
+          echo "::set-output name=merge::$auto_merge"
       - name: Auto merge pull request
         if: steps.check.outputs.merge == 'true'
         uses: octokit/request-action@v2.x
