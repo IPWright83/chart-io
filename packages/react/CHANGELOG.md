@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.36.0
+
+### Minor Changes
+
+- a63a4c8: CI Attemp 2
+
 ## 0.35.0
 
 ### Minor Changes
