@@ -79,13 +79,29 @@ describe("chartActions", () => {
         });
     });
 
-    it("setBrushReservedDimensions", () => {
-        expect(chartActions.setBrushReservedDimensions(25, 75)).toEqual({
-            type: "CHART.SET_BRUSH_RESERVED_DIMENSIONS",
-            payload: {
-                width: 25,
-                height: 75,
-            },
+    describe("setBrushDimensions", () => {
+        it("returns correct action", () => {
+            const width = 1000;
+            const height = 500;
+            const margin = { top: 10, left: 10, right: 10, bottom: 10 };
+
+            expect(chartActions.setBrushDimensions(width, height, margin)).toEqual({
+                type: "CHART.SET_BRUSH_DIMENSIONS",
+                payload: { width, height, margin },
+            });
+        });
+
+        it("warns with invalid margin", () => {
+            const width = 1000;
+            const height = 500;
+            const margin = { left: 10, right: 10, bottom: 10 };
+
+            const spy = jest.spyOn(console, "warn").mockImplementation();
+
+            // @ts-expect-error: Checking runtime validation
+            expect(chartActions.setBrushDimensions(width, height, margin)).toBeUndefined();
+
+            expect(spy.mock.calls[0][0]).toMatchSnapshot();
         });
     });
 
