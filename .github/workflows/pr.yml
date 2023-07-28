@@ -6,7 +6,7 @@ on:
     branches:
       - master
 
-concurrency: 
+concurrency:
   group: ${{ github.head_ref }}
   cancel-in-progress: true
 
@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - uses: pnpm/action-setup@v2.2.2
+      - uses: pnpm/action-setup
         with:
           run_install: false
       - name: Get pnpm store directory
@@ -47,7 +47,7 @@ jobs:
   #     - uses: actions/setup-node@v3
   #       with:
   #         node-version: 16
-  #     - uses: pnpm/action-setup@v2.2.2
+  #     - uses: pnpm/action-setup
   #       with:
   #         run_install: false
   #     - name: Get pnpm store directory
@@ -74,7 +74,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - uses: pnpm/action-setup@v2.2.2
+      - uses: pnpm/action-setup
         with:
           run_install: false
       - name: Get pnpm store directory
@@ -104,7 +104,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - uses: pnpm/action-setup@v2.2.2
+      - uses: pnpm/action-setup
         with:
           run_install: false
       - name: Get pnpm store directory
@@ -121,9 +121,13 @@ jobs:
       - name: pnpm Install
         run: pnpm install
       - name: Chromatic
-        run: |
-          cd packages/react
-          npx chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }} --exit-zero-on-changes --only-changed
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          workingDir: packages/react
+          onlyChanged: true
+          exitZeroOnChanges: true
+          exitOnceUploaded: true
 
   merge:
     runs-on: ubuntu-latest

@@ -43,6 +43,16 @@ describe("utils", () => {
                 offset: 23,
             });
         });
+
+        it("should return no bandwidth and offset if there aren't enough data points to calculate", () => {
+            const scale = d3.scaleLinear().domain([0, 100]).range([0, 100]);
+            const data = [{ x: 0 }];
+
+            expect(getBandwidthAndOffset(scale, "x", data)).toEqual({
+                bandwidth: 0,
+                offset: 0,
+            });
+        });
     });
 
     describe("isNullOrUndefined", () => {
