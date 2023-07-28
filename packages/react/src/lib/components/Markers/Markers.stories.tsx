@@ -30,7 +30,7 @@ const MarkersTemplate = (args) => {
             },
         },
         event: {
-            markers: [{ fill: args.fill, stroke: args.stroke, r1: 10, r2: 40, cx: 50, cy: 50 }],
+            markers: [{ fill: args.fill, stroke: args.stroke, r1: 10, r2: 40, cx: 40, cy: 50 }],
         },
     });
 
