@@ -127,6 +127,7 @@ jobs:
           workingDir: packages/react
           onlyChanged: true
           exitZeroOnChanges: true
+          exitOnceUploaded: true
         # run: |
         #   cd packages/react
         #   npx chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }} --exit-zero-on-changes --only-changed
