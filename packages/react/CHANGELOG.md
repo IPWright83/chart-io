@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.37.0
+
+### Minor Changes
+
+- 7f38cb8: Docs update
+
 ## 0.36.0
 
 ### Minor Changes
