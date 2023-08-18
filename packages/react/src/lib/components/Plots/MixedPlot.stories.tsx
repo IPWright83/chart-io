@@ -167,6 +167,7 @@ const MixedColumnPlotTemplate = (args) => (
             tickFormat={(value, index) => {
                 return index % 3 !== 0 ? null : d3.utcFormat("%b")(value);
             }}
+            // @ts-expect-error: The typings for utcMonths here are wrong
             tickValues={d3.utcMonths(...d3.extent(data.map((d) => d[args.x])))}
         />
     </XYChart>
@@ -196,6 +197,7 @@ const MixedGroupledColumnPlotTemplate = (args) => (
             tickFormat={(value, index) => {
                 return index % 3 !== 0 ? null : d3.utcFormat("%b")(value);
             }}
+            // @ts-expect-error: The typings for utcMonths here are wrong
             tickValues={d3.utcMonths(...d3.extent(data.map((d) => d[args.x])))}
         />
     </XYChart>

@@ -44,11 +44,10 @@ export interface IGridlinesBaseProps {
 export function Gridlines({ layer, position, scale, tickPadding = 3, ticks, tickValues }: IGridlinesBaseProps) {
     const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
     const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
-    const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plot.margin(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
-    const tickSize = getTickSize(position, plotWidth, plotHeight, plotMargin);
+    const tickSize = getTickSize(position, plotWidth, plotHeight);
 
     // Render the x-axis using D3
     useEffect(() => {
@@ -73,8 +72,8 @@ export function Gridlines({ layer, position, scale, tickPadding = 3, ticks, tick
                 .call(
                     d3Axis
                         .tickSize(-tickSize)
-                        .ticks(ticks) // @ts-ignore: TODO: See if we can fix this
-                        .tickFormat("")
+                        .ticks(ticks)
+                        .tickFormat(() => null),
                 );
 
             // Remove parts that would otherwise overlap the axis

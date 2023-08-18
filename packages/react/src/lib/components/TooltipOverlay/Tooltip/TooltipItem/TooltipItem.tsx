@@ -44,7 +44,7 @@ export function TooltipItem({ name, value, icon, fill, prefix, suffix, format = 
             whiteSpace: "nowrap" as const,
             overflow: "hidden" as const,
             textOverflow: "ellipsis" as const,
-            textAlign: "middle",
+            verticalAlign: "middle" as const,
             flexGrow: 1,
             flexShrink: 1,
             marginLeft: Shape ? 0 : 5,
