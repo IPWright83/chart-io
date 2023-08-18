@@ -40,11 +40,14 @@ export function TooltipItem({ name, value, icon, fill, prefix, suffix, format = 
         tooltipSeriesName: {
             marginRight: 15,
             maxWidth: 215,
+            marginTop: 2,
             whiteSpace: "nowrap" as const,
             overflow: "hidden" as const,
             textOverflow: "ellipsis" as const,
+            textAlign: "middle",
             flexGrow: 1,
             flexShrink: 1,
+            marginLeft: Shape ? 0 : 5,
         },
     };
 

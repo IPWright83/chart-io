@@ -44,7 +44,7 @@ const light: ITheme = {
         background: "#ffffff" as IColor,
         text: "#000000" as IColor,
         opacity: 0.8,
-        padding: 8,
+        padding: 6,
     },
 
     legend: {
@@ -121,7 +121,7 @@ const dark: ITheme = {
         background: "#333333" as IColor,
         text: "#ffffff" as IColor,
         opacity: 0.8,
-        padding: 8,
+        padding: 6,
     },
 
     legend: {
