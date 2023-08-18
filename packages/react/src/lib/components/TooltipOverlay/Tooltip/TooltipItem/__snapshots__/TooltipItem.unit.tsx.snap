@@ -16,7 +16,7 @@ exports[`TooltipItem should render correctly 1`] = `
     >
       <span
         class="chart-io tooltip-series-name"
-        style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
+        style="margin-right: 15px; max-width: 215px; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: middle; flex-grow: 1; flex-shrink: 1; margin-left: 0px;"
       >
         Series1:
       </span>

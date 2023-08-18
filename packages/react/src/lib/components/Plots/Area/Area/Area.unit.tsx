@@ -71,7 +71,7 @@ describe("Area", () => {
                         <svg>
                             <Area x="x" y="y" />
                         </svg>
-                    </Provider>
+                    </Provider>,
                 );
 
                 // Wait for the second render of the area, as
@@ -98,7 +98,6 @@ describe("Area", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
                 actionsIncludes(dispatchCalls, [
-                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.MOUSE_ENTER",
                     "EVENT.ADD_MARKER",
                     "EVENT.ADD_DROPLINE",
@@ -147,7 +146,7 @@ describe("Area", () => {
                                 <Area x="x" y="y" useCanvas={true} />
                             </VirtualCanvas>
                         </svg>
-                    </Provider>
+                    </Provider>,
                 );
 
                 // Wait for the second render of the area, as
@@ -174,7 +173,6 @@ describe("Area", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
                 actionsIncludes(dispatchCalls, [
-                    "CHART.ADD_LEGEND_ITEM",
                     "EVENT.MOUSE_ENTER",
                     "EVENT.ADD_MARKER",
                     "EVENT.ADD_DROPLINE",

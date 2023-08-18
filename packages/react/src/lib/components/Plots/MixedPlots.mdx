@@ -37,11 +37,34 @@ Using a Band scale is preferred for Column & Bar plots (set by applying `scaleTy
 
 ## Mixing a Discrete Plot with a Continuous Scale
 
-You may prefer to use a continuous scale however. In the example above we can see how the axis labels are not formatted nicely, where-as a `d3.scaleTime` does a much better job in the example below.
+You may prefer to use a continuous scale however. In the example above we can see how the axis labels are not formatted nicely. A `d3.scaleTime` does a much better job of formatting the labels automatically as per the first example, however this can cause bars to be cut off.
 
-When using a discrete plot such as a Column plot, @chart-io will attempt to manually calculate the width of bars rather than relying on the D3 scale functionality. This relies on the first 2 data points having valid values. If it is unable to do so it will display an error in the console. It will again als attempt to align the data with any other plots.
+When using a discrete plot such as a Column plot witha a linear scale, @chart-io will attempt to manually calculate the width of bars as it's unable to rely on the D3 scale functionality. This relies on the first 2 data points having valid values. If it is unable to do so it will display an error in the console.
+
+<Canvas>
+    <Story id="xycharts-mixedplots--mixed-column-plots-linear" />
+</Canvas>
 
 > The reason for the manual calculation is Bar & Column plots typically need to use a [scaleBand](https://github.com/d3/d3-scale#band-scales). These scales aren't as powerful for plotting continuous data such as time, but they do provide the nice functions for padding/width of bars. So instead these are manually derived from the data.
+
+The preferred approach for mixing Columns & other plots is to stick with a `band` scale and apply some custom formatting.
+
+## Custom formatting
+
+Therefore it's recommended to use D3 helper functions to manually define your `tickValues` that you want to present, and potentially the `tickFormat` as well. The next examples do this by providing the following two props:
+
+```
+const tickFormat = useCallback((tickValue, index) => {
+    return index % 3 !== 0 ?       // Only show every 3rd tick
+        null :
+        d3.utcFormat("%b")(value); // Use the D3 short month format
+}, []);
+
+const tickValues = useMemo(() => d3.utcMonths(...d3.extent(data.map(d => d[x]))), [data, x]);
+
+...
+<XAxis fields={args.x} scaleType="band" tickFormat={tickFormat} tickValues={tickValues} />
+```
 
 ## Example with a `<Column>` plot
 

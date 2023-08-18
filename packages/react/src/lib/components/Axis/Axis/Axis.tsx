@@ -46,9 +46,7 @@ export interface IAxisProps {
     /**
      * https://github.com/d3/d3-axis#axis_tickFormat
      */
-    // @ts-ignore: TODO: Need to improve this typing
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    tickFormat?: Function;
+    tickFormat?: (domainValue: any, index: number) => string;
     /**
      * https://github.com/d3/d3-axis#axis_ticks
      */
@@ -56,7 +54,7 @@ export interface IAxisProps {
     /**
      * https://github.com/d3/d3-axis#axis_tickValues
      */
-    tickValues?: string[];
+    tickValues?: string[] | number[] | Date[];
 }
 
 /**
@@ -114,7 +112,6 @@ export function Axis({
                 .tickSizeInner(tickSizeInner)
                 .tickSizeOuter(tickSizeOuter)
                 .tickPadding(tickPadding)
-                // @ts-ignore: TODO: Work out how to fix this
                 .tickFormat(tickFormat)
                 .tickValues(tickValues)
                 .ticks(ticks);

@@ -1,4 +1,5 @@
 import React from "react";
+import * as d3 from "@chart-io/d3";
 
 import { argTypes } from "../../../storybook/argTypes";
 import { example_dataset } from "../../../data/example_dataset";
@@ -70,9 +71,11 @@ const processData = (rawData) => {
     return result;
 };
 
+const data = processData(example_dataset);
+
 const MixedLineAreaScatterTemplate = (args) => (
     <XYChart
-        data={processData(example_dataset)}
+        data={data}
         plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
@@ -94,7 +97,7 @@ const MixedLineAreaScatterTemplate = (args) => (
 
 const MixedScaleBandTemplate = (args) => (
     <XYChart
-        data={processData(example_dataset)}
+        data={data}
         plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
@@ -115,9 +118,9 @@ const MixedScaleBandTemplate = (args) => (
     </XYChart>
 );
 
-const MixedColumnPlotTemplate = (args) => (
+const MixedColumnPlotNonBandTemplate = (args) => (
     <XYChart
-        data={processData(example_dataset)}
+        data={data}
         plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
@@ -134,13 +137,45 @@ const MixedColumnPlotTemplate = (args) => (
         <Area x={args.x} y={args.y4} color="green" />
         <Scatter x={args.x} y={args.y3} color="purple" />
         <YAxis fields={[args.y, args.y2, args.y3, args.y4]} showGridlines={false} />
-        <XAxis fields={[args.x]} showGridlines={false} />
+        <XAxis fields={args.x} showGridlines={false} />
+    </XYChart>
+);
+
+const MixedColumnPlotTemplate = (args) => (
+    <XYChart
+        data={data}
+        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
+        theme={args.theme}
+        useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
+        zoomBrush={args.zoomBrush}
+    >
+        <Column x={args.x} y={args.y2} color="orange" />
+        <Line x={args.x} y={args.y} color="steelblue" />
+        <Area x={args.x} y={args.y4} color="green" />
+        <Scatter x={args.x} y={args.y3} color="purple" />
+        <YAxis fields={[args.y, args.y2, args.y3, args.y4]} showGridlines={false} />
+        <XAxis
+            fields={args.x}
+            scaleType="band"
+            showGridlines={false}
+            tickFormat={(value, index) => {
+                return index % 3 !== 0 ? null : d3.utcFormat("%b")(value);
+            }}
+            // @ts-expect-error: The typings for utcMonths here are wrong
+            tickValues={d3.utcMonths(...d3.extent(data.map((d) => d[args.x])))}
+        />
     </XYChart>
 );
 
 const MixedGroupledColumnPlotTemplate = (args) => (
     <XYChart
-        data={processData(example_dataset)}
+        data={data}
         plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
@@ -155,7 +190,16 @@ const MixedGroupledColumnPlotTemplate = (args) => (
         <Columns x={args.x} ys={[args.y, args.y4, args.y2]} grouped={args.grouped} stacked={args.stacked} />
         <Scatter x={args.x} y={args.y3} color="purple" />
         <YAxis fields={[args.y, args.y2, args.y3, args.y4]} aggregate={args.stacked} showGridlines={false} />
-        <XAxis fields={[args.x]} showGridlines={false} />
+        <XAxis
+            fields={[args.x]}
+            showGridlines={false}
+            scaleType="band"
+            tickFormat={(value, index) => {
+                return index % 3 !== 0 ? null : d3.utcFormat("%b")(value);
+            }}
+            // @ts-expect-error: The typings for utcMonths here are wrong
+            tickValues={d3.utcMonths(...d3.extent(data.map((d) => d[args.x])))}
+        />
     </XYChart>
 );
 
@@ -180,9 +224,29 @@ MixedLineAreaScatter.args = {
 };
 
 export const MixedScaleBand = MixedScaleBandTemplate.bind({});
-MixedScaleBand.storyName = "Mixing Cintinuous Plots with a Band scale";
+MixedScaleBand.storyName = "Mixing Continuous Plots with a Band scale";
 MixedScaleBand.args = {
     ...MixedLineAreaScatter.args,
+};
+
+export const MixedColumnPlotsLinear = MixedColumnPlotNonBandTemplate.bind({});
+MixedColumnPlotsLinear.storyName = "Column, Line, Area & Scatter using a Linear Scale";
+MixedColumnPlotsLinear.args = {
+    useCanvas: false,
+    width: 800,
+    height: 500,
+    animationDuration: 500,
+    color: "#99C1DC",
+    theme: "light",
+    leftMargin: 70,
+    rightMargin: 40,
+    topMargin: 40,
+    bottomMargin: 40,
+    y: "Gross Profit",
+    y2: "Sales Value",
+    y3: "Operating Profit",
+    y4: "Unit Sales",
+    x: "Month",
 };
 
 export const MixedColumnPlots = MixedColumnPlotTemplate.bind({});
