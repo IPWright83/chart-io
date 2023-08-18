@@ -51,6 +51,11 @@ export function Markers({ layer }: IMarkersBaseProps) {
             .merge(join)
             .attr("cx", (d) => d.cx)
             .attr("cy", (d) => d.cy)
+            .style("stroke", (d) => `${d.stroke ?? theme.markers.stroke}`)
+            .style("stroke-width", theme.markers.strokeWidth)
+            .style("filter", (d) => (theme.markers.shadow ? `drop-shadow(0px 0px 10px ${d.fill})` : undefined))
+            .style("fill", (d) => `${d.fill ?? "none"}`)
+            .attr("r", (d) => d.r1 ?? d.r2 ?? theme.markers.size)
             .transition()
             .duration(animationDuration)
             .attr("r", (d) => d.r2 ?? theme.markers.size);
