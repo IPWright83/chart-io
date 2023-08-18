@@ -1,5 +1,17 @@
 # @chart-io/react-d3
 
+## 0.38.0
+
+### Minor Changes
+
+- 2052317: Fix several small bugs
+
+  - Tooltip items now allign correctly
+  - Legend items no longer re-order
+  - Markers no longer display an incorrect colour when switching types quickly
+
+  This also improves some storybook examples around mixed plots
+
 ## 0.37.0
 
 ### Minor Changes

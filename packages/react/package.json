@@ -1,7 +1,7 @@
 {
   "name": "@chart-io/react",
   "private": false,
-  "version": "0.37.0",
+  "version": "0.38.0",
   "packageManager": "pnpm@7.26.2",
   "description": "@chart-io is a react-d3 charting library",
   "repository": "git@github.com:IPWright83/chart-io.git",
