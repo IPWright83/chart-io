@@ -4,7 +4,7 @@ exports[`Tooltip should render correctly 1`] = `
 <DocumentFragment>
   <div
     class="chart-io tooltip"
-    style="border: thin solid red; display: inline-block; position: absolute; left: 10px; right: 20px; top: 30px; bottom: 40px; padding: 8px; max-width: 300px; background: rgb(255, 255, 255); opacity: 0.8;"
+    style="border: thin solid red; display: inline-block; position: absolute; left: 10px; right: 20px; top: 30px; bottom: 40px; padding: 6px; max-width: 300px; background: rgb(255, 255, 255); opacity: 0.8;"
   >
     <div
       class="chart-io tooltip-item"
@@ -20,7 +20,7 @@ exports[`Tooltip should render correctly 1`] = `
       >
         <span
           class="chart-io tooltip-series-name"
-          style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
+          style="margin-right: 15px; max-width: 215px; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: middle; flex-grow: 1; flex-shrink: 1; margin-left: 0px;"
         >
           a:
         </span>
@@ -45,7 +45,7 @@ exports[`Tooltip should render correctly 1`] = `
       >
         <span
           class="chart-io tooltip-series-name"
-          style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
+          style="margin-right: 15px; max-width: 215px; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: middle; flex-grow: 1; flex-shrink: 1; margin-left: 0px;"
         >
           b:
         </span>
@@ -70,7 +70,7 @@ exports[`Tooltip should render correctly 1`] = `
       >
         <span
           class="chart-io tooltip-series-name"
-          style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
+          style="margin-right: 15px; max-width: 215px; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; vertical-align: middle; flex-grow: 1; flex-shrink: 1; margin-left: 0px;"
         >
           c:
         </span>
