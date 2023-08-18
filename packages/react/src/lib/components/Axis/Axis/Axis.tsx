@@ -56,7 +56,7 @@ export interface IAxisProps {
     /**
      * https://github.com/d3/d3-axis#axis_tickValues
      */
-    tickValues?: string[];
+    tickValues?: string[] | number[] | Date[];
 }
 
 /**
