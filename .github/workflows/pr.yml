@@ -157,3 +157,14 @@ jobs:
               "commit_message": "Automatically merged",
               "sha": "${{ github.event.pull_request.head.sha }}"
             }
+      - name: Trigger push-to-master workflow
+        if: steps.check.outputs.merge == 'true'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'push-to-master.yml',
+              ref: 'master',
+            })
