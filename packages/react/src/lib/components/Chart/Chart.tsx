@@ -1,5 +1,5 @@
 import type { IData, IMargin, IOnClick, IOnMouseOut, IOnMouseOver, ITheme } from "@chart-io/types";
-import React, { useEffect } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { useStore } from "react-redux";
 
 import { VirtualCanvas } from "../VirtualCanvas";
@@ -10,6 +10,9 @@ import { chartActions } from "../../store";
 import { generateRandomID } from "./generateRandomID";
 import { getChildrenWithProps } from "./getChildrenWithProps";
 import { getTheme } from "./getTheme";
+
+import { saveAsPNG, logDebug } from "../../utils";
+import { themes } from "../../themes";
 
 const DEFAULT_MARGIN = { left: 30, top: 30, right: 30, bottom: 30 };
 
@@ -73,21 +76,42 @@ export interface IChartBaseProps {
     theme?: "light" | "dark" | ITheme;
 }
 
-export function Chart({
-    children,
-    id,
-    animationDuration = 250,
-    width = 500,
-    height = 500,
-    plotMargin = DEFAULT_MARGIN,
-    data,
-    useCanvas,
-    onMouseOver,
-    onMouseOut,
-    onClick,
-    theme = "light" as const,
-}: IChartBaseProps) {
+export interface IChartRef {
+    saveAsPng: () => void;
+}
+
+export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
+    const {
+        children,
+        id,
+        animationDuration = 250,
+        width = 500,
+        height = 500,
+        plotMargin = DEFAULT_MARGIN,
+        data,
+        useCanvas,
+        onMouseOver,
+        onMouseOut,
+        onClick,
+        theme = "light" as const,
+    } = props;
+
     const store = useStore();
+    const svgNode = useRef();
+
+    const saveAsPng = (filename: string) => {
+        let currentTheme: ITheme = theme;
+
+        if (theme === "light") currentTheme = themes.light;
+        if (theme === "dark") currentTheme = themes.dark;
+
+        logDebug("Saving as a png");
+        saveAsPNG(svgNode.current, currentTheme, filename);
+    };
+
+    useImperativeHandle(ref, () => ({
+        saveAsPng,
+    }));
 
     // Ensure that the store is updated whenever the dimensions change. This typically
     // triggers scale recalculations which should trigger cascading updates
@@ -130,13 +154,18 @@ export function Chart({
     const themeOrCustom = getTheme(theme);
 
     return (
-        <svg
-            className="chart-svg"
-            width={width}
-            height={height}
-            style={{ backgroundColor: themeOrCustom.background?.toString() }}
-        >
-            {useCanvas ? <VirtualCanvas>{childrenWithProps}</VirtualCanvas> : childrenWithProps}
-        </svg>
+        <div ref={ref}>
+            <svg
+                className="chart-svg"
+                width={width}
+                height={height}
+                ref={svgNode}
+                style={{ backgroundColor: themeOrCustom.background?.toString() }}
+            >
+                {useCanvas ? <VirtualCanvas>{childrenWithProps}</VirtualCanvas> : childrenWithProps}
+            </svg>
+        </div>
     );
-}
+});
+
+Chart.displayName = "Chart";

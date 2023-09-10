@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { forwardRef, useMemo } from "react";
 import type { AnyAction } from "redux";
 import { Provider } from "react-redux";
 
@@ -36,13 +36,15 @@ export interface IWithStoreProps {
  * @param  WrappedComponent     The component to render
  * @return                      The wrapped component
  */
-const withStore = <P extends object>(WrappedComponent: React.ComponentType<P>) =>
+const withStore = <P extends object>(WrappedComponent: React.ComponentType<P>) => {
     /**
      * Wraps a component within a Redux store provider
-     * @param  {...any}    options.props        All the props
-     * @return {ReactDOMComponent}              The wrapped componet
+     * @param  {...any}    props        All the props
+     * @param  {any}       ref          An optional useRef reference to pass through (required for forwardRef's)
+     * @return {ReactDOMComponent}      The wrapped componet
      */
-    function withStore({ onStoreCreated, customReducers, ...props }: IWithStoreProps) {
+    function withStore(props: IWithStoreProps, ref) {
+        const { onStoreCreated, customReducers } = props;
         const store = useMemo(() => createStore(customReducers), [customReducers]);
 
         // If the consumer needs access to the store then fire
@@ -54,9 +56,12 @@ const withStore = <P extends object>(WrappedComponent: React.ComponentType<P>) =
         // https://stackoverflow.com/a/54583335/21061
         return (
             <Provider store={store}>
-                <WrappedComponent {...(props as P)} />
+                <WrappedComponent {...(props as P)} ref={ref} />
             </Provider>
         );
-    };
+    }
+
+    return forwardRef(withStore);
+};
 
 export { withStore };

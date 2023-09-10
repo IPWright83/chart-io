@@ -1,7 +1,7 @@
+import React, { forwardRef, useRef, useImperativeHandle } from "react";
 import { IMargin } from "@chart-io/types";
-import React from "react";
 
-import { Chart, IChartProps } from "../Chart";
+import { Chart, IChartProps, IChartRef } from "../Chart";
 import { Crosshair } from "../Crosshair";
 import { Droplines } from "../Droplines";
 import { EventReceiver } from "../EventReceiver";
@@ -26,12 +26,13 @@ export interface IXYChartProps extends IChartProps {
     brushMargin?: IMargin;
 }
 
-export function XYChart({ children, ...props }: IXYChartProps) {
+export const XYChart = forwardRef<IChartRef, IXYChartProps>((props, ref) => {
+    const { children } = props;
     const showDroplines = shouldShowDroplines(children);
     const showCrosshair = !showDroplines;
 
     return (
-        <Chart {...props}>
+        <Chart ref={ref} {...props}>
             <EventReceiver />
             <RectangleClipPath />
             {children}
@@ -47,4 +48,6 @@ export function XYChart({ children, ...props }: IXYChartProps) {
             <LegendOverlay />
         </Chart>
     );
-}
+});
+
+XYChart.displayName = "XYChart";
