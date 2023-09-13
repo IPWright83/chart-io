@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
 import { argTypes } from "../../../../storybook/argTypes";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
@@ -45,83 +45,53 @@ export default {
     },
 };
 
-const ScatterTemplate = (args) => {
-    const chartRef = useRef(null);
+const ScatterTemplate = (args) => (
+    <XYChart
+        data={args.data}
+        plotMargin={{
+            left: args.leftMargin,
+            right: args.rightMargin,
+            top: args.topMargin,
+            bottom: args.bottomMargin,
+        }}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
+        theme={args.theme}
+        useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
+    >
+        <YAxis fields={[args.y, args.y2, args.y3]} />
+        <XAxis fields={[args.x]} />
+        <Scatter x={args.x} y={args.y} radius={args.radius} color={args.color} />
+    </XYChart>
+);
 
-    return (
-        <div>
-            <XYChart
-                ref={chartRef}
-                data={args.data}
-                plotMargin={{
-                    left: args.leftMargin,
-                    right: args.rightMargin,
-                    top: args.topMargin,
-                    bottom: args.bottomMargin,
-                }}
-                width={args.width}
-                height={args.height}
-                animationDuration={args.animationDuration}
-                theme={args.theme}
-                useCanvas={args.useCanvas}
-                onClick={args.onClick}
-                onMouseOver={args.onMouseOver}
-                onMouseOut={args.onMouseOut}
-            >
-                <YAxis fields={[args.y, args.y2, args.y3]} />
-                <XAxis fields={[args.x]} />
-                <Scatter x={args.x} y={args.y} radius={args.radius} color={args.color} />
-            </XYChart>
-            <button
-                type="button"
-                onClick={() => {
-                    chartRef.current.saveAsPNG("export.png");
-                }}
-            >
-                Save as PNG
-            </button>
-        </div>
-    );
-};
-
-const ScattersTemplate = (args) => {
-    const chartRef = useRef(null);
-
-    return (
-        <div>
-            <XYChart
-                ref={chartRef}
-                plotMargin={{
-                    left: args.leftMargin,
-                    right: args.rightMargin,
-                    top: args.topMargin,
-                    bottom: args.bottomMargin,
-                }}
-                data={sales_records_dataset}
-                width={args.width}
-                height={args.height}
-                animationDuration={args.animationDuration}
-                theme={args.theme}
-                useCanvas={args.useCanvas}
-                onClick={args.onClick}
-                onMouseOver={args.onMouseOver}
-                onMouseOut={args.onMouseOut}
-            >
-                <YAxis fields={[args.y, args.y2, args.y3]} />
-                <XAxis fields={[args.x]} />
-                <Scatters x={args.x} ys={[args.y, args.y2, args.y3]} radius={args.radius} />
-            </XYChart>
-            <button
-                type="button"
-                onClick={() => {
-                    chartRef.current.saveAsPNG("export.png");
-                }}
-            >
-                Save as PNG
-            </button>
-        </div>
-    );
-};
+const ScattersTemplate = (args) => (
+    <XYChart
+        plotMargin={{
+            left: args.leftMargin,
+            right: args.rightMargin,
+            top: args.topMargin,
+            bottom: args.bottomMargin,
+        }}
+        data={sales_records_dataset}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
+        theme={args.theme}
+        useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
+    >
+        <YAxis fields={[args.y, args.y2, args.y3]} />
+        <XAxis fields={[args.x]} />
+        <Scatters x={args.x} ys={[args.y, args.y2, args.y3]} radius={args.radius} />
+    </XYChart>
+);
 
 export const Basic = ScatterTemplate.bind({});
 Basic.storyName = "Basic Plot";

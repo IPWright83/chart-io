@@ -7,10 +7,10 @@ import { VirtualCanvas } from "../VirtualCanvas";
 // import { getColumnInfos } from "@chart-io/detection";
 import { chartActions } from "../../store";
 
+import { exportAsImage } from "./exportAsImage";
 import { generateRandomID } from "./generateRandomID";
 import { getChildrenWithProps } from "./getChildrenWithProps";
 import { getTheme } from "./getTheme";
-import { exportAsImage } from "./exportAsImage";
 
 const DEFAULT_MARGIN = { left: 30, top: 30, right: 30, bottom: 30 };
 
@@ -149,7 +149,7 @@ export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
     const themeOrCustom = getTheme(theme);
 
     return (
-        <div ref={ref}>
+        <div ref={ref} style={{ display: "inline-block" }}>
             <svg
                 className="chart-svg"
                 width={width}

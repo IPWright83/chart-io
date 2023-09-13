@@ -1,9 +1,6 @@
 import * as d3 from "@chart-io/d3";
 import type { AnyAction, Store } from "redux";
-import React, { useRef, useState } from "react";
-import { fireEvent, render } from "@testing-library/react";
 import { IScale } from "@chart-io/types";
-import { wait } from "../testUtils";
 
 import { logAndThrowError, logDebug, logError, logWarning } from "./logger";
 import { areValuesUnique } from "./areValuesUnique";
@@ -11,9 +8,6 @@ import { getBandwidthAndOffset } from "./getBandwidthAndOffset";
 import { getXYFromTransform } from "./getXYFromTransform";
 import { isNullOrUndefined } from "./isNullOrUndefined";
 import { linkStores } from "./linkStores";
-
-import { Scatters, XAxis, XYChart, YAxis } from "../components";
-import { sales_records_dataset } from "../../data/sales_records_dataset";
 
 describe("utils", () => {
     describe("areValuesUnique", () => {

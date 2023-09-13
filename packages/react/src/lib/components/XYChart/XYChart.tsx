@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, useImperativeHandle } from "react";
+import React, { forwardRef } from "react";
 import { IMargin } from "@chart-io/types";
 
 import { Chart, IChartProps, IChartRef } from "../Chart";
