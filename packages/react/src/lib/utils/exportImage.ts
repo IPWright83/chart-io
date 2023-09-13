@@ -9,7 +9,7 @@ import type { ITheme } from "@chart-io/types";
  * @param {HTMLElement} svg The SVG node
  * @return {Array} An array of the images
  */
-function generateImages(svg: HTMLElement): Array<string> {
+export function generateImages(svg: HTMLElement): Array<string> {
     // An array of images, that should replace canvas elements
     const replacementImages = [];
 
@@ -50,7 +50,7 @@ function generateImages(svg: HTMLElement): Array<string> {
  * @param {HTMLElement} svg The SVG node
  * @param {Array<string>} replacementImages An array of the pre-generated images to replace the node with
  */
-function replaceCanvases(svg: HTMLElement, replacementImages: Array<string>) {
+export function replaceCanvases(svg: HTMLElement, replacementImages: Array<string>) {
     let replaced = true;
 
     while (replaced) {
@@ -99,7 +99,7 @@ function replaceCanvases(svg: HTMLElement, replacementImages: Array<string>) {
  * @param {Node} svg     The SVG node
  * @return {string} The string representation of the SVG
  */
-function serializeSVG(svg: HTMLElement) {
+export function serializeSVG(svg: HTMLElement) {
     const fragment = window.location.href + "#";
 
     // Generate an array of images from the original SVG
