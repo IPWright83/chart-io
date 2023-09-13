@@ -46,70 +46,80 @@ export default {
 };
 
 const ScatterTemplate = (args) => {
-    const ref = useRef(null);
-
-    setTimeout(() => {
-        if (ref.current) {
-            ref.current.saveAsPng("foo.png");
-        }
-    }, 2000);
+    const chartRef = useRef(null);
 
     return (
-        <XYChart
-            ref={ref}
-            data={args.data}
-            plotMargin={{
-                left: args.leftMargin,
-                right: args.rightMargin,
-                top: args.topMargin,
-                bottom: args.bottomMargin,
-            }}
-            width={args.width}
-            height={args.height}
-            animationDuration={args.animationDuration}
-            theme={args.theme}
-            useCanvas={args.useCanvas}
-            onClick={args.onClick}
-            onMouseOver={args.onMouseOver}
-            onMouseOut={args.onMouseOut}
-        >
-            <YAxis fields={[args.y, args.y2, args.y3]} />
-            <XAxis fields={[args.x]} />
-            <Scatter x={args.x} y={args.y} radius={args.radius} color={args.color} />
-        </XYChart>
+        <div>
+            <XYChart
+                ref={chartRef}
+                data={args.data}
+                plotMargin={{
+                    left: args.leftMargin,
+                    right: args.rightMargin,
+                    top: args.topMargin,
+                    bottom: args.bottomMargin,
+                }}
+                width={args.width}
+                height={args.height}
+                animationDuration={args.animationDuration}
+                theme={args.theme}
+                useCanvas={args.useCanvas}
+                onClick={args.onClick}
+                onMouseOver={args.onMouseOver}
+                onMouseOut={args.onMouseOut}
+            >
+                <YAxis fields={[args.y, args.y2, args.y3]} />
+                <XAxis fields={[args.x]} />
+                <Scatter x={args.x} y={args.y} radius={args.radius} color={args.color} />
+            </XYChart>
+            <button
+                type="button"
+                onClick={() => {
+                    chartRef.current.saveAsPNG("export.png");
+                }}
+            >
+                Save as PNG
+            </button>
+        </div>
     );
 };
 
 const ScattersTemplate = (args) => {
-    const ref = useRef(null);
-
-    setTimeout(() => {
-        ref.current.saveAsPng();
-    }, 2000);
+    const chartRef = useRef(null);
 
     return (
-        <XYChart
-            ref={ref}
-            plotMargin={{
-                left: args.leftMargin,
-                right: args.rightMargin,
-                top: args.topMargin,
-                bottom: args.bottomMargin,
-            }}
-            data={sales_records_dataset}
-            width={args.width}
-            height={args.height}
-            animationDuration={args.animationDuration}
-            theme={args.theme}
-            useCanvas={args.useCanvas}
-            onClick={args.onClick}
-            onMouseOver={args.onMouseOver}
-            onMouseOut={args.onMouseOut}
-        >
-            <YAxis fields={[args.y, args.y2, args.y3]} />
-            <XAxis fields={[args.x]} />
-            <Scatters x={args.x} ys={[args.y, args.y2, args.y3]} radius={args.radius} />
-        </XYChart>
+        <div>
+            <XYChart
+                ref={chartRef}
+                plotMargin={{
+                    left: args.leftMargin,
+                    right: args.rightMargin,
+                    top: args.topMargin,
+                    bottom: args.bottomMargin,
+                }}
+                data={sales_records_dataset}
+                width={args.width}
+                height={args.height}
+                animationDuration={args.animationDuration}
+                theme={args.theme}
+                useCanvas={args.useCanvas}
+                onClick={args.onClick}
+                onMouseOver={args.onMouseOver}
+                onMouseOut={args.onMouseOut}
+            >
+                <YAxis fields={[args.y, args.y2, args.y3]} />
+                <XAxis fields={[args.x]} />
+                <Scatters x={args.x} ys={[args.y, args.y2, args.y3]} radius={args.radius} />
+            </XYChart>
+            <button
+                type="button"
+                onClick={() => {
+                    chartRef.current.saveAsPNG("export.png");
+                }}
+            >
+                Save as PNG
+            </button>
+        </div>
     );
 };
 

@@ -9,5 +9,5 @@ export * from "./logger";
 export * from "./childrenToArray";
 export * from "./extendChildrenProps";
 export * from "./getBandwidthAndOffset";
-export { exportPNG } from "./exportPNG";
+export { exportImage } from "./exportImage";
 export * from "./downloadFile";

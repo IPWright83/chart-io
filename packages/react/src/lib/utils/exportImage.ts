@@ -126,18 +126,26 @@ function serializeSVG(svg: HTMLElement) {
 }
 
 /**
- * Conver the image XML to a PNG
+ * Conver the image XML to a JPG or PNG
  * @param {HTMLImageElement} image  The temporary image element
  * @param {number}           width  The width of the chart
  * @param {number}           height The height of the chart
  * @param {ITheme}           theme  The theme being used by the chart
+ * @param {"PNG" | "JPG"} format    The format of the export
+ * @param {number} scale            The scale of the image
  * @return {string | undefined} The PNG representation of the image as a string
  */
-export function convertXMLToPNG(image: HTMLImageElement, width: number, height: number, theme: ITheme) {
+export function convertXMLToImage(
+    image: HTMLImageElement,
+    width: number,
+    height: number,
+    theme: ITheme,
+    format: "PNG" | "JPG",
+    scale: number,
+) {
     const canvas = document.createElement("canvas");
     canvas.parentNode;
 
-    const scale = 1;
     const scaledWidth = width * scale;
     const scaledHeight = height * scale;
 
@@ -151,24 +159,34 @@ export function convertXMLToPNG(image: HTMLImageElement, width: number, height: 
         context.drawImage(image, 0, 0, scaledWidth, scaledHeight);
 
         // Generate the PNG image data
-        return canvas.toDataURL("image/png");
+        if (format === "JPG") return canvas.toDataURL("image/jpeg", 1.0);
+        else return canvas.toDataURL("image/png");
     }
 }
 
 /**
- * Saves the given node as a PNG
- * @param {HTMLElement} svgNode The SVG node to save
- * @param {ITheme} theme        The current theme of the chart
- * @param {number} width        The width of the chart
- * @param {number} height       The height of the height
- * @return {string} The PNG data in string format
+ * Saves the given node as a PNG or JPG
+ * @param {HTMLElement} svgNode     The SVG node to save
+ * @param {ITheme} theme            The current theme of the chart
+ * @param {number} width            The width of the chart
+ * @param {number} height           The height of the height
+ * @param {"PNG" | "JPG"} format    The format of the export
+ * @param {number} scale            The scale of the image
+ * @return {string}                 The PNG data in string format
  */
-export async function exportPNG(svgNode: HTMLElement, theme: ITheme, width: number, height: number) {
+export async function exportImage(
+    svgNode: HTMLElement,
+    theme: ITheme,
+    width: number,
+    height: number,
+    format: "PNG" | "JPG",
+    scale: number,
+) {
     return new Promise<string>((resolve, reject) => {
         const image = new Image();
 
         image.onload = () => {
-            const imageData = convertXMLToPNG(image, width, height, theme);
+            const imageData = convertXMLToImage(image, width, height, theme, format, scale);
             if (imageData) {
                 resolve(imageData);
             } else {
