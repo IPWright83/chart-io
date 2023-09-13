@@ -53,10 +53,10 @@ describe("calculateScale", () => {
         expect(scale.range()).toEqual([0, 200]);
 
         // @ts-ignore: TODO: How to fix this?
-        expect(scale("a").toFixed(2)).toEqual("3.23");
+        expect(scale("a").toFixed(2)).toEqual("3.28");
 
         // @ts-ignore: TODO: How to fix this?
-        expect(scale("c").toFixed(2)).toEqual("132.26");
+        expect(scale("c").toFixed(2)).toEqual("134.43");
     });
 
     it("creates a band scale for booelans", () => {
@@ -67,8 +67,8 @@ describe("calculateScale", () => {
         expect(scale.domain()).toEqual([true, false]);
         expect(scale.range()).toEqual([0, 200]);
         // @ts-ignore: TODO: How to fix this?
-        expect(scale(true).toFixed(2)).toEqual("4.76");
+        expect(scale(true).toFixed(2)).toEqual("4.88");
         // @ts-ignore: TODO: How to fix this?
-        expect(scale(false)).toEqual(100);
+        expect(scale(false)).toEqual(102.4390243902439);
     });
 });

@@ -1,6 +1,7 @@
 import { IScale } from "@chart-io/types";
 
 import { BAND_PADDING } from "../constants";
+import { IBandwidthScale } from "../components/Plots/IBandwidthScale";
 
 /**
  * Ensures that the scale is a valid band scale. If it is not it will attempt to
@@ -12,11 +13,9 @@ import { BAND_PADDING } from "../constants";
  * @returns {boolean}                The calculated bandwidth or undefined
  */
 export function getBandwidthAndOffset(scale: IScale, field: string, data: any) {
-    // @ts-ignore: Runtime validation
-    if (scale.bandwidth) {
+    if ((scale as IBandwidthScale).bandwidth) {
         return {
-            // @ts-ignore: Runtime validation
-            bandwidth: scale.bandwidth(),
+            bandwidth: (scale as IBandwidthScale).bandwidth(),
             offset: 0,
         };
     }
@@ -26,7 +25,6 @@ export function getBandwidthAndOffset(scale: IScale, field: string, data: any) {
         const value1 = data[1][field];
 
         if (value0 !== null && value0 !== undefined && value1 !== null && value1 !== undefined) {
-            // @ts-ignore: Dynamically modifying our scale
             const diff = scale(value1) - scale(value0);
 
             return {

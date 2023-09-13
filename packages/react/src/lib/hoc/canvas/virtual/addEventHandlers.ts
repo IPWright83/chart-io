@@ -7,19 +7,31 @@ import { eventActions, IDispatch } from "../../../store";
 import { MOUSE_MOVE_THROTTLE } from "../../../constants";
 
 /**
+ * Crazy interface for TypeScript gymnastics
+ */
+interface EventElement extends Element {
+    __on:
+        | {
+              find: (handler) => {
+                  value: (node: HTMLElement, e: MouseEvent, datum: IDatum) => void;
+              };
+          }
+        | undefined;
+}
+
+/**
  * Fire the Click event if it exists on the node
  * @param  datum          The datum
- * @param  node           The node that triggered the event
+ * @param  element        The node that triggered the event
  * @param  e              The MouseEventArgs
  */
-const triggerOnClick = (datum: IDatum, node: Element, e: MouseEvent) => {
-    // @ts-ignore: How do we fix __on?
+const triggerOnClick = (datum: IDatum, element: Element, e: MouseEvent) => {
+    const node = element as EventElement;
     if (!node || !node.__on) {
         // istanbul ignore next
         return;
     }
 
-    // @ts-ignore: How do we fix __on?
     const onClick = node.__on.find((handler) => handler.type === "click");
     if (onClick) {
         onClick.value.call(node, e, datum);
@@ -29,17 +41,16 @@ const triggerOnClick = (datum: IDatum, node: Element, e: MouseEvent) => {
 /**
  * Fire the MouseOver event if it exists on the node
  * @param  datum          The datum
- * @param  node           The node that triggered the event
+ * @param  element        The node that triggered the event
  * @param  e              The MouseEventArgs
  */
-const triggerOnMouseOver = (datum: IDatum, node: Element, e: MouseEvent) => {
-    // @ts-ignore: How do we fix __on?
+const triggerOnMouseOver = (datum: IDatum, element: Element, e: MouseEvent) => {
+    const node = element as EventElement;
     if (!node || !node.__on) {
         // istanbul ignore next
         return;
     }
 
-    // @ts-ignore: How do we fix __on?
     const onMouseOver = node.__on.find((handler) => handler.type === "mouseover");
     if (onMouseOver) {
         onMouseOver.value.call(node, e, datum);
@@ -49,17 +60,16 @@ const triggerOnMouseOver = (datum: IDatum, node: Element, e: MouseEvent) => {
 /**
  * Fire the MouseOut event if it exists on the node
  * @param  datum          The datum
- * @param  node           The node that triggered the event
+ * @param  element        The node that triggered the event
  * @param  e              The MouseEventArgs
  */
-const triggerOnMouseOut = (datum: IDatum, node: Element, e: MouseEvent) => {
-    // @ts-ignore: How do we fix __on?
+const triggerOnMouseOut = (datum: IDatum, element: Element, e: MouseEvent) => {
+    const node = element as EventElement;
     if (!node || !node.__on) {
         // istanbul ignore next
         return;
     }
 
-    // @ts-ignore: How do we fix __on?
     const onMouseOut = node.__on.find((handler) => handler.type === "mouseout");
     if (onMouseOut) {
         onMouseOut.value.call(node, e, datum);
@@ -76,7 +86,7 @@ const triggerOnMouseOut = (datum: IDatum, node: Element, e: MouseEvent) => {
 export const addEventHandlers = (
     canvas: HTMLCanvasElement,
     getColorMap: () => IColorToDataMap,
-    dispatch: IDispatch
+    dispatch: IDispatch,
 ) => {
     let lastDatum = undefined;
     let lastNode = undefined;
