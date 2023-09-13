@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.41.0
+
+### Minor Changes
+
+- cc0ea9a: Support exporting charts to images
+
 ## 0.40.0
 
 ### Minor Changes
