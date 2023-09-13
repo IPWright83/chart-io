@@ -11,7 +11,7 @@ exports[`GroupedColumn using SVG should render correctly 1`] = `
         <rect
           class="column"
           height="0"
-          style="fill: #99c1dc; stroke: #ffffff; opacity: 0.7;"
+          style="fill: #99c1dc; opacity: 0.7;"
           width="23"
           x="2"
           y="100"
@@ -19,7 +19,7 @@ exports[`GroupedColumn using SVG should render correctly 1`] = `
         <rect
           class="column"
           height="0"
-          style="fill: #fc998e; stroke: #ffffff; opacity: 0.7;"
+          style="fill: #fc998e; opacity: 0.7;"
           width="23"
           x="26"
           y="100"
@@ -29,7 +29,7 @@ exports[`GroupedColumn using SVG should render correctly 1`] = `
         <rect
           class="column"
           height="0"
-          style="fill: #99c1dc; stroke: #ffffff; opacity: 0.7;"
+          style="fill: #99c1dc; opacity: 0.7;"
           width="23"
           x="52"
           y="100"
@@ -37,7 +37,7 @@ exports[`GroupedColumn using SVG should render correctly 1`] = `
         <rect
           class="column"
           height="0"
-          style="fill: #fc998e; stroke: #ffffff; opacity: 0.7;"
+          style="fill: #fc998e; opacity: 0.7;"
           width="23"
           x="76"
           y="100"
