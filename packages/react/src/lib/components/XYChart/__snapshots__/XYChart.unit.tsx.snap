@@ -2,47 +2,49 @@
 
 exports[`XYChart should create empty template correctly 1`] = `
 <DocumentFragment>
-  <svg
-    class="chart-svg"
-    height="500"
-    style="background-color: rgb(255, 255, 255);"
-    width="500"
-  >
-    <g
-      class="g-event-receiver"
+  <div>
+    <svg
+      class="chart-svg"
+      height="500"
+      style="background-color: rgb(255, 255, 255);"
+      width="500"
     >
-      <rect
-        class="chart-io event-receiver"
-        height="440"
-        style="fill: none; pointer-events: all;"
-        transform="translate(30, 30)"
-        width="440"
-      />
-    </g>
-    <defs>
-      <clippath
-        id="clip-path-random-id"
+      <g
+        class="g-event-receiver"
       >
         <rect
+          class="chart-io event-receiver"
           height="440"
+          style="fill: none; pointer-events: all;"
+          transform="translate(30, 30)"
           width="440"
-          x="30"
-          y="30"
         />
-      </clippath>
-    </defs>
-    <g
-      class="g-markers"
-    />
-    <g
-      class="g-droplines"
-    />
-    <g
-      class="g-tooltip-overlay"
-    />
-    <g
-      class="g-legend-overlay"
-    />
-  </svg>
+      </g>
+      <defs>
+        <clippath
+          id="clip-path-random-id"
+        >
+          <rect
+            height="440"
+            width="440"
+            x="30"
+            y="30"
+          />
+        </clippath>
+      </defs>
+      <g
+        class="g-markers"
+      />
+      <g
+        class="g-droplines"
+      />
+      <g
+        class="g-tooltip-overlay"
+      />
+      <g
+        class="g-legend-overlay"
+      />
+    </svg>
+  </div>
 </DocumentFragment>
 `;

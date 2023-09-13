@@ -10,9 +10,7 @@ import { chartActions } from "../../store";
 import { generateRandomID } from "./generateRandomID";
 import { getChildrenWithProps } from "./getChildrenWithProps";
 import { getTheme } from "./getTheme";
-
-import { saveAsPNG, logDebug } from "../../utils";
-import { themes } from "../../themes";
+import { saveAsPNG } from "./saveAsPNG";
 
 const DEFAULT_MARGIN = { left: 30, top: 30, right: 30, bottom: 30 };
 
@@ -77,7 +75,12 @@ export interface IChartBaseProps {
 }
 
 export interface IChartRef {
-    saveAsPng: () => void;
+    /**
+     * Saves the chart as a PNG
+     * @param  {string} filename     The filename to save the chart to
+     * @return {Promise<string>}     Resolves with the PNG data
+     */
+    saveAsPng: (filename: string) => Promise<string>;
 }
 
 export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
@@ -99,18 +102,8 @@ export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
     const store = useStore();
     const svgNode = useRef();
 
-    const saveAsPng = (filename: string) => {
-        let currentTheme: ITheme = theme;
-
-        if (theme === "light") currentTheme = themes.light;
-        if (theme === "dark") currentTheme = themes.dark;
-
-        logDebug("Saving as a png");
-        saveAsPNG(svgNode.current, currentTheme, filename);
-    };
-
     useImperativeHandle(ref, () => ({
-        saveAsPng,
+        saveAsPNG: saveAsPNG(svgNode.current, theme, width, height),
     }));
 
     // Ensure that the store is updated whenever the dimensions change. This typically

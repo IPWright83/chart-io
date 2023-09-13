@@ -9,4 +9,5 @@ export * from "./logger";
 export * from "./childrenToArray";
 export * from "./extendChildrenProps";
 export * from "./getBandwidthAndOffset";
-export * from "./saveAsPNG";
+export { exportPNG } from "./exportPNG";
+export * from "./downloadFile";
