@@ -2,7 +2,9 @@
 
 exports[`XYChart should create empty template correctly 1`] = `
 <DocumentFragment>
-  <div>
+  <div
+    style="display: inline-block;"
+  >
     <svg
       class="chart-svg"
       height="500"

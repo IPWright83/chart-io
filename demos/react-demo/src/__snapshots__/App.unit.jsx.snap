@@ -8,7 +8,9 @@ exports[`renders learn react link 1`] = `
     <header
       class="App-header"
     >
-      <div>
+      <div
+        style="display: inline-block;"
+      >
         <svg
           class="chart-svg"
           height="500"
