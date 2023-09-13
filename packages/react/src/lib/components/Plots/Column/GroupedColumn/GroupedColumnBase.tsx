@@ -58,7 +58,6 @@ export function GroupedColumnBase({
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
-    const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, x);
 
     useLegendItems(ys, "square", showInLegend, colors);
@@ -112,7 +111,6 @@ export function GroupedColumnBase({
             .attr("height", 0)
             .attr("width", x1Scale.bandwidth())
             .style("fill", (d) => colorScale(d.key).toString())
-            .style("stroke", strokeColor.toString())
             .style("opacity", theme.series.opacity);
 
         // prettier-ignore

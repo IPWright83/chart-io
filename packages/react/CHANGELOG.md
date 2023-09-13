@@ -1,5 +1,17 @@
 # @chart-io/react-d3
 
+## 0.40.0
+
+### Minor Changes
+
+- e48034a: Fixes an issue where Bar/Column canvas plots can overlap the axis domain
+
+## 0.39.0
+
+### Minor Changes
+
+- 9203370: Fixed some bugs
+
 ## 0.38.0
 
 ### Minor Changes

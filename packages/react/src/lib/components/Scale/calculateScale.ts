@@ -19,7 +19,8 @@ const getScaleTypeFromType = (scaleType: IScaleType, values: IValue[], range: nu
             .scaleBand() // @ts-ignore
             .domain(domain ?? values)
             .range(range)
-            .paddingOuter(0.05);
+            .paddingOuter(0.05)
+            .paddingInner(0.05);
     }
 
     if (scaleType === "point") {
@@ -52,6 +53,7 @@ const getScaleTypeFromType = (scaleType: IScaleType, values: IValue[], range: nu
                 .scaleTime() // @ts-ignore
                 .domain(domain ?? [minValue, maxValue])
                 .range(range);
+
         case "log":
             return d3
                 .scaleLog() // @ts-ignore
@@ -75,7 +77,7 @@ const getValues = (data: IData, fields: string[], aggregate: boolean): IValue[] 
             fields.reduce((sum, key) => {
                 const value = d[key];
                 return value ? sum + +value : sum;
-            }, 0)
+            }, 0),
         );
     }
 
@@ -98,7 +100,7 @@ const calculateScale = (
     range: number[],
     domain: IValue[],
     aggregate: boolean,
-    scaleType?: IScaleType
+    scaleType?: IScaleType,
 ): IScale => {
     // Grab all the values
     const values = getValues(data, fields, aggregate);
