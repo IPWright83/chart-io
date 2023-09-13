@@ -16,7 +16,7 @@ export async function canvasRenderLoop(
     width: number,
     height: number,
     exit: Transition<Element, unknown, any, unknown>,
-    update: Transition<Element, unknown, any, unknown>
+    update: Transition<Element, unknown, any, unknown>,
 ) {
     // If the canvas isn't ready don't do anything
     if (!canvas) {

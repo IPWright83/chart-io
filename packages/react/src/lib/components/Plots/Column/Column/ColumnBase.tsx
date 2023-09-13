@@ -49,7 +49,6 @@ export function ColumnBase({
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
-    const strokeColor = theme.background;
     const fillColor = d3.color(`${color ?? theme.series.colors[0]}`);
     fillColor.opacity = theme.series.opacity;
 
@@ -95,7 +94,6 @@ export function ColumnBase({
             .attr("y", yScale.range()[0])
             .attr("width", bandwidth)
             .attr("height", 0)
-            .style("stroke", strokeColor.toString())
             .style("fill", fillColor.toString());
 
         // Update new and existing points

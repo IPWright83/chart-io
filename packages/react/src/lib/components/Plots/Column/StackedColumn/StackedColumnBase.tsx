@@ -64,7 +64,6 @@ export function StackedColumnBase({
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
-    const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, x);
 
     useLegendItems(ys, "square", showInLegend, colors);
@@ -124,7 +123,6 @@ export function StackedColumnBase({
                 const key = getParentKey(elements[i]);
                 return colorScale(key)?.toString();
             })
-            .style("stroke", strokeColor?.toString())
             .style("opacity", theme.series.opacity);
 
         const update = join

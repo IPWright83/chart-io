@@ -67,7 +67,6 @@ export function StackedBarBase({
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
-    const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, y);
 
     useLegendItems(xs, "square", showInLegend, colors);
@@ -125,7 +124,6 @@ export function StackedBarBase({
             .attr("y", (d) => yScale(d.data[y]) - offset)
             .attr("height", bandwidth)
             .attr("width", 0)
-            .style("stroke", strokeColor.toString())
             .style("fill", (d, i, elements) => {
                 const key = getParentKey(elements[i]);
                 return colorScale(key)?.toString();

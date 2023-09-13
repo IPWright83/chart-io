@@ -52,7 +52,6 @@ export function BarBase({
 
     const fillColor = d3.color(`${color ?? theme.series.colors[0]}`);
     fillColor.opacity = theme.series.opacity;
-    const strokeColor = theme.background;
 
     useLegendItem(x, "square", showInLegend, fillColor);
     const setTooltip = useTooltip(store.dispatch, y);
@@ -97,7 +96,6 @@ export function BarBase({
             .attr("y", (d) => yScale(d[y]) - offset)
             .attr("width", 0)
             .attr("height", bandwidth)
-            .style("stroke", strokeColor.toString())
             .style("fill", fillColor.toString());
 
         // Update new and existing points
