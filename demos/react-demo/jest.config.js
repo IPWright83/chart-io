@@ -7,6 +7,7 @@ module.exports = {
     resetMocks: true,
     roots: ["<rootDir>/src"],
     testEnvironment: "jsdom",
+    testEnvironmentOptions: { resources: "usable" },
     testMatch: ["**/*.unit.jsx", "**/*.unit.tsx"],
     transformIgnorePatterns: ["<rootDir>/node_modules/(?!@chart-io/d3/.*)"],
     transform: {
