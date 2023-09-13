@@ -61,7 +61,6 @@ export function GroupedBarBase({
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
-    const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, y);
 
     useLegendItems(xs, "square", showInLegend, colors);
@@ -142,7 +141,6 @@ export function GroupedBarBase({
             .attr("x", xScale.range()[0])
             .attr("width", 0)
             .attr("height", y1Scale.bandwidth())
-            .style("stroke", strokeColor?.toString())
             .style("fill", (d) => colorScale(d.key).toString())
             .style("opacity", theme.series.opacity);
 

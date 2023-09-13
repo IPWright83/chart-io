@@ -11,7 +11,7 @@ exports[`Bars Grouped using SVG should render correctly 1`] = `
         <rect
           class="bar"
           height="23"
-          style="stroke: #ffffff; fill: #99c1dc; opacity: 0.7;"
+          style="fill: #99c1dc; opacity: 0.7;"
           width="0"
           x="0"
           y="2"
@@ -19,7 +19,7 @@ exports[`Bars Grouped using SVG should render correctly 1`] = `
         <rect
           class="bar"
           height="23"
-          style="stroke: #ffffff; fill: #fc998e; opacity: 0.7;"
+          style="fill: #fc998e; opacity: 0.7;"
           width="0"
           x="0"
           y="26"
@@ -29,7 +29,7 @@ exports[`Bars Grouped using SVG should render correctly 1`] = `
         <rect
           class="bar"
           height="23"
-          style="stroke: #ffffff; fill: #99c1dc; opacity: 0.7;"
+          style="fill: #99c1dc; opacity: 0.7;"
           width="0"
           x="0"
           y="52"
@@ -37,7 +37,7 @@ exports[`Bars Grouped using SVG should render correctly 1`] = `
         <rect
           class="bar"
           height="23"
-          style="stroke: #ffffff; fill: #fc998e; opacity: 0.7;"
+          style="fill: #fc998e; opacity: 0.7;"
           width="0"
           x="0"
           y="76"
@@ -59,7 +59,7 @@ exports[`Bars Stacked using SVG should render correctly 1`] = `
         <rect
           class="bar"
           height="50"
-          style="stroke: #ffffff; fill: #99c1dc; opacity: 0.7;"
+          style="fill: #99c1dc; opacity: 0.7;"
           width="0"
           x="0"
           y="0"
@@ -67,7 +67,7 @@ exports[`Bars Stacked using SVG should render correctly 1`] = `
         <rect
           class="bar"
           height="50"
-          style="stroke: #ffffff; fill: #99c1dc; opacity: 0.7;"
+          style="fill: #99c1dc; opacity: 0.7;"
           width="0"
           x="0"
           y="50"
@@ -77,7 +77,7 @@ exports[`Bars Stacked using SVG should render correctly 1`] = `
         <rect
           class="bar"
           height="50"
-          style="stroke: #ffffff; fill: #fc998e; opacity: 0.7;"
+          style="fill: #fc998e; opacity: 0.7;"
           width="0"
           x="0"
           y="0"
@@ -85,7 +85,7 @@ exports[`Bars Stacked using SVG should render correctly 1`] = `
         <rect
           class="bar"
           height="50"
-          style="stroke: #ffffff; fill: #fc998e; opacity: 0.7;"
+          style="fill: #fc998e; opacity: 0.7;"
           width="0"
           x="0"
           y="50"
