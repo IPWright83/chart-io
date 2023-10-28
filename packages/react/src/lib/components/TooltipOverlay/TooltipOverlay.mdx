@@ -15,10 +15,12 @@ The `<TooltipOverlay>` extracts out tooltip item information from the Redux stor
 
 ### `<TooltipOverlay>` Props
 
-| Prop         | Type     | Default | Note                                                                                                                            |
-| ------------ | -------- | ------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `offset`     | `number` | 20      | The number of pixels from the cursor that the tooltip should be offset                                                          |
-| `formatters` | `object` | `{}`    | A keyed collection of format objects. Key should align with `x` or `y` fields provided to axis/scales or plots. See table below |
+| Prop                   | Type                                     | Default     | Note                                                                                                                            |
+| ---------------------- | ---------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `offset`               | `number`                                 | 20          | The number of pixels from the cursor that the tooltip should be offset                                                          |
+| `formatters`           | `object`                                 | `{}`        | A keyed collection of format objects. Key should align with `x` or `y` fields provided to axis/scales or plots. See table below |
+| `tooltipComponent`     | `React.ComponentType<ITooltipProps>`     | `undefined` | An optional override component for the tooltip itself (see example below)                                                       |
+| `tooltipItemComponent` | `React.ComponentType<ITooltipItemProps>` | `undefined` | An optional override component for the tooltip items (see example below)                                                        |
 
 The contents of a format object should match:
 
@@ -59,3 +61,19 @@ useEffect(() => {
 | `fill`       | `string`  | The colour of the series                                |
 
 <br />
+
+## Customizing the tooltip
+
+By providing a `tooltipComponent` prop to the `TooltipOverlay` you can customize the rendering of the tooltip. This provides a more convienient override to implementing an entire custom Tooltip overlay yourself.
+
+<Canvas>
+    <Story id="components-tooltipoverlay--custom-tooltip" />
+</Canvas>
+
+## Customizing the tooltip items
+
+By providing a `tooltipItemComponent` prop to the `TooltipOverlay` you can customize the rendering of the tooltip items within the tooltip. This provides a more convienient override to implementing an entire custom Tooltip overlay yourself.
+
+<Canvas>
+    <Story id="components-tooltipoverlay--custom-tooltip-items" />
+</Canvas>

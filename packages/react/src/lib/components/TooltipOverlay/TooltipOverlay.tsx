@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 
 import { chartSelectors, eventSelectors, IState } from "../../store";
 import { getTooltipPosition } from "./getTooltipPosition";
+import type { ITooltipItemProps } from "./Tooltip/TooltipItem";
+import type { ITooltipProps } from "./Tooltip";
 import { Tooltip } from "./Tooltip";
 
 export interface ITooltipOverlayProps {
@@ -16,13 +18,26 @@ export interface ITooltipOverlayProps {
      * A set of custom formatters for the Tooltip
      */
     formatters?: Record<string, ITooltipFormatter>;
+    /**
+     * Allows overriding the Tooltip Component that is used
+     */
+    tooltipComponent?: React.ComponentType<ITooltipProps>;
+    /**
+     * Allows overriding the TooltipItem Component that is used
+     */
+    tooltipItemComponent?: React.ComponentType<ITooltipItemProps>;
 }
 
 /**
  * Represents a Tooltip overlay layer
  * @return {ReactElement}  The Tooltip overlay component
  */
-export function TooltipOverlay({ offset = 20, formatters = {} }: ITooltipOverlayProps) {
+export function TooltipOverlay({
+    offset = 20,
+    formatters = {},
+    tooltipComponent,
+    tooltipItemComponent,
+}: ITooltipOverlayProps) {
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const showTooltip = useSelector((s: IState) => eventSelectors.tooltip.show(s));
@@ -42,13 +57,15 @@ export function TooltipOverlay({ offset = 20, formatters = {} }: ITooltipOverlay
         pointerEvents: "none" as const,
     };
 
+    const TooltipComponent = tooltipComponent ?? Tooltip;
     return (
         <foreignObject style={style}>
-            <Tooltip
+            <TooltipComponent
                 borderColor={borderColor?.toString()}
                 items={items}
                 positionStyle={positionStyle}
                 formatters={formatters}
+                tooltipItemComponent={tooltipItemComponent}
             />
         </foreignObject>
     );

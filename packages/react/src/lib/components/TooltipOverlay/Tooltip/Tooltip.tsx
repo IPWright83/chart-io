@@ -3,6 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { chartSelectors, IState } from "../../../store";
+import type { ITooltipItemProps } from "./TooltipItem";
 import { TooltipItem } from "./TooltipItem";
 
 export interface ITooltipProps {
@@ -24,13 +25,17 @@ export interface ITooltipProps {
      * A set of custom formatters for the Tooltip
      */
     formatters?: Record<string, ITooltipFormatter>;
+    /**
+     * Allows overriding the TooltipItem Component that is used
+     */
+    tooltipItemComponent?: React.ComponentType<ITooltipItemProps>;
 }
 
 /**
  * Represents a Tooltip
  * @return The Tooltip component
  */
-export function Tooltip({ borderColor, items, positionStyle, formatters = {} }: ITooltipProps) {
+export function Tooltip({ borderColor, items, positionStyle, formatters = {}, tooltipItemComponent }: ITooltipProps) {
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
 
     const style = {
@@ -47,6 +52,7 @@ export function Tooltip({ borderColor, items, positionStyle, formatters = {} }: 
         return null;
     }
 
+    const TooltipItemComponent = tooltipItemComponent ?? TooltipItem;
     return (
         <div className="chart-io tooltip" style={style}>
             {items.map((item) => {
@@ -61,7 +67,7 @@ export function Tooltip({ borderColor, items, positionStyle, formatters = {} }: 
                 const formatter = formatters[item.name] || ({} as ITooltipFormatter);
 
                 return (
-                    <TooltipItem
+                    <TooltipItemComponent
                         key={`${item.name}`}
                         prefix={formatter.prefix}
                         suffix={formatter.suffix}
