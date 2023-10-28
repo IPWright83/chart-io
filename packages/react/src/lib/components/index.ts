@@ -11,3 +11,4 @@ export * from "./XYChart";
 export * from "./Crosshair";
 export * from "./Furniture";
 export * from "./ZoomBrush";
+export * from "./JsonChart";
