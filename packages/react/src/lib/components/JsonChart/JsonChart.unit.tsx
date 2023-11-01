@@ -14,6 +14,7 @@ describe("JsonChart", () => {
                     chart: {
                         id: "0000",
                         width: 800,
+                        animationDuration: 0,
                     },
                     axis: {
                         x: {
