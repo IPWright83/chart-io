@@ -4,6 +4,7 @@ import { IScale } from "@chart-io/types";
 
 import { logAndThrowError, logDebug, logError, logWarning } from "./logger";
 import { areValuesUnique } from "./areValuesUnique";
+import { downloadFile } from "./downloadFile";
 import { getBandwidthAndOffset } from "./getBandwidthAndOffset";
 import { getXYFromTransform } from "./getXYFromTransform";
 import { isNullOrUndefined } from "./isNullOrUndefined";
@@ -211,6 +212,64 @@ describe("utils", () => {
             expect(spy).toHaveBeenCalledWith(
                 "@chart-io/react encountered an error. E100: Foobar. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-errors-E100.",
             );
+        });
+    });
+
+    describe("downloadFile", () => {
+        const replace = window.location.replace;
+
+        beforeAll(() => {
+            Object.defineProperty(window, "location", {
+                value: { replace: jest.fn() },
+            });
+        });
+
+        afterAll(() => {
+            jest.clearAllMocks();
+            window.location.replace = replace;
+        });
+
+        it("should create a link element and trigger download if download attribute is supported", () => {
+            const mockLink = {
+                setAttribute: jest.fn(),
+                click: jest.fn(),
+                remove: jest.fn(),
+                download: "",
+                href: "",
+            };
+
+            jest.spyOn(document, "createElement").mockImplementationOnce(() => mockLink as any);
+            jest.spyOn(document.body, "appendChild").mockImplementationOnce(jest.fn());
+            jest.spyOn(document.body, "removeChild").mockImplementationOnce(jest.fn());
+
+            const url = "https://example.com/file.txt";
+            const filename = "file.txt";
+
+            downloadFile(url, filename);
+
+            expect(document.createElement).toHaveBeenCalledWith("a");
+            expect(document.body.appendChild).toHaveBeenCalledWith(mockLink);
+            expect(mockLink.download).toBe(filename);
+            expect(mockLink.href).toBe(url);
+            expect(mockLink.click).toHaveBeenCalled();
+            expect(document.body.removeChild).toHaveBeenCalledWith(mockLink);
+        });
+
+        it("should fallback to location.replace if download attribute is not supported", () => {
+            const mockLink = {
+                setAttribute: jest.fn(),
+                click: jest.fn(),
+                remove: jest.fn(),
+            };
+
+            jest.spyOn(document, "createElement").mockImplementationOnce(() => mockLink as any);
+
+            const url = "https://example.com/file.txt";
+            const filename = "file.txt";
+
+            downloadFile(url, filename);
+
+            expect(window.location.replace).toHaveBeenCalledWith(url);
         });
     });
 });

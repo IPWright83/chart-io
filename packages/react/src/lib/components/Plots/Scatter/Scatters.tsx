@@ -6,7 +6,7 @@ import { chartSelectors, IState } from "../../../store";
 
 import { Scatter } from "./Scatter";
 
-export interface IScattersProps extends Omit<IPlotsProps, "interactive"> {
+export interface IScattersProps extends IPlotsProps {
     /**
      * The fixed radius to use for points. This is ignored if z is provided
      */
