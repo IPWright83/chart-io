@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.43.0
+
+### Minor Changes
+
+- 833ab59: Added a JsonChart
+
 ## 0.42.0
 
 ### Minor Changes
