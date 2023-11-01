@@ -50,7 +50,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
           >
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(90.35646708138931,0)"
             >
               <line
@@ -65,7 +65,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(195.37201918092276,0)"
             >
               <line
@@ -80,7 +80,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(300.6752851218248,0)"
             >
               <line
@@ -95,7 +95,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(405.69083722135815,0)"
             >
               <line
@@ -110,7 +110,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(510.7063893208917,0)"
             >
               <line
@@ -125,7 +125,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(615.7219414204251,0)"
             >
               <line
@@ -140,7 +140,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(721.025207361327,0)"
             >
               <line
@@ -164,11 +164,12 @@ exports[`JsonChart should create empty template correctly 1`] = `
           >
             <path
               class="domain"
+              d="M30.5,6V0.5H770.5V6"
               stroke="currentColor"
             />
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(90.35646708138931,0)"
             >
               <line
@@ -179,11 +180,13 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.71em"
                 fill="currentColor"
                 y="9"
-              />
+              >
+                2011
+              </text>
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(195.37201918092276,0)"
             >
               <line
@@ -194,11 +197,13 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.71em"
                 fill="currentColor"
                 y="9"
-              />
+              >
+                2012
+              </text>
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(300.6752851218248,0)"
             >
               <line
@@ -209,11 +214,13 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.71em"
                 fill="currentColor"
                 y="9"
-              />
+              >
+                2013
+              </text>
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(405.69083722135815,0)"
             >
               <line
@@ -224,11 +231,13 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.71em"
                 fill="currentColor"
                 y="9"
-              />
+              >
+                2014
+              </text>
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(510.7063893208917,0)"
             >
               <line
@@ -239,11 +248,13 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.71em"
                 fill="currentColor"
                 y="9"
-              />
+              >
+                2015
+              </text>
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(615.7219414204251,0)"
             >
               <line
@@ -254,11 +265,13 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.71em"
                 fill="currentColor"
                 y="9"
-              />
+              >
+                2016
+              </text>
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(721.025207361327,0)"
             >
               <line
@@ -269,7 +282,9 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.71em"
                 fill="currentColor"
                 y="9"
-              />
+              >
+                2017
+              </text>
             </g>
           </g>
         </g>
@@ -290,7 +305,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
           >
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,470.5)"
             >
               <line
@@ -305,7 +320,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,426.5)"
             >
               <line
@@ -320,7 +335,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,382.5)"
             >
               <line
@@ -335,7 +350,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,338.5)"
             >
               <line
@@ -350,7 +365,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,294.5)"
             >
               <line
@@ -365,7 +380,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,250.5)"
             >
               <line
@@ -380,7 +395,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,206.5)"
             >
               <line
@@ -395,7 +410,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,162.50000000000003)"
             >
               <line
@@ -410,7 +425,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,118.49999999999999)"
             >
               <line
@@ -425,7 +440,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,74.5)"
             >
               <line
@@ -440,7 +455,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,30.5)"
             >
               <line
@@ -464,11 +479,12 @@ exports[`JsonChart should create empty template correctly 1`] = `
           >
             <path
               class="domain"
+              d="M-6,470.5H0.5V30.5H-6"
               stroke="currentColor"
             />
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,470.5)"
             >
               <line
@@ -479,11 +495,13 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.32em"
                 fill="currentColor"
                 x="-9"
-              />
+              >
+                0
+              </text>
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,426.5)"
             >
               <line
@@ -494,11 +512,13 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.32em"
                 fill="currentColor"
                 x="-9"
-              />
+              >
+                500,000
+              </text>
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,382.5)"
             >
               <line
@@ -509,11 +529,13 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.32em"
                 fill="currentColor"
                 x="-9"
-              />
+              >
+                1,000,000
+              </text>
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,338.5)"
             >
               <line
@@ -524,11 +546,13 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.32em"
                 fill="currentColor"
                 x="-9"
-              />
+              >
+                1,500,000
+              </text>
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,294.5)"
             >
               <line
@@ -539,11 +563,13 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.32em"
                 fill="currentColor"
                 x="-9"
-              />
+              >
+                2,000,000
+              </text>
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,250.5)"
             >
               <line
@@ -554,11 +580,13 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.32em"
                 fill="currentColor"
                 x="-9"
-              />
+              >
+                2,500,000
+              </text>
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,206.5)"
             >
               <line
@@ -569,11 +597,13 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.32em"
                 fill="currentColor"
                 x="-9"
-              />
+              >
+                3,000,000
+              </text>
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,162.50000000000003)"
             >
               <line
@@ -584,11 +614,13 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.32em"
                 fill="currentColor"
                 x="-9"
-              />
+              >
+                3,500,000
+              </text>
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,118.49999999999999)"
             >
               <line
@@ -599,11 +631,13 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.32em"
                 fill="currentColor"
                 x="-9"
-              />
+              >
+                4,000,000
+              </text>
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,74.5)"
             >
               <line
@@ -614,11 +648,13 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.32em"
                 fill="currentColor"
                 x="-9"
-              />
+              >
+                4,500,000
+              </text>
             </g>
             <g
               class="tick"
-              opacity="0.000001"
+              opacity="1"
               transform="translate(0,30.5)"
             >
               <line
@@ -629,7 +665,9 @@ exports[`JsonChart should create empty template correctly 1`] = `
                 dy="0.32em"
                 fill="currentColor"
                 x="-9"
-              />
+              >
+                5,000,000
+              </text>
             </g>
           </g>
         </g>
@@ -637,11 +675,573 @@ exports[`JsonChart should create empty template correctly 1`] = `
       <g
         class="g-plot scatter"
         clip-path="url(#clip-path-0000)"
-      />
+      >
+        <circle
+          class="scatter-point"
+          cx="36.04199066874028"
+          cy="330.76257200000003"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="271.104199066874"
+          cy="441.10287328"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="448.9113530326594"
+          cy="387.81646208"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="462.72161741835146"
+          cy="465.06620608"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="317.1504017625713"
+          cy="236.15341824"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="528.0446474857439"
+          cy="428.27787296"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="130.69984447900467"
+          cy="284.83612176"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="260.746500777605"
+          cy="405.32912912"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="574.9300155520995"
+          cy="439.7291528"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="444.59564541213064"
+          cy="402.05465176"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="148.53810264385692"
+          cy="469.00777184000003"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="475.38102643856917"
+          cy="456.85446143999997"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="732.8969025401763"
+          cy="443.93915904"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="739.5143208916536"
+          cy="73.13813152000003"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="427.34480300673926"
+          cy="445.55890904"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="236.00311041990668"
+          cy="464.72349184"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="716.7849274235355"
+          cy="308.90102592000005"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="544.7200622083982"
+          cy="454.8094664"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="98.2001684810783"
+          cy="300.62391840000004"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="264.77449455676515"
+          cy="280.39621024"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="452.36391912908243"
+          cy="365.48424800000004"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="579.8211508553654"
+          cy="452.14113392"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="675.9175738724728"
+          cy="450.921248"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="485.73872472783825"
+          cy="468.66820448000004"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="660.6687402799379"
+          cy="444.7161128"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="770"
+          cy="427.9409324"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="496.108411093831"
+          cy="466.71283392"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="30"
+          cy="466.45463487999996"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="471.0653188180404"
+          cy="455.66550751999995"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="245.78538102643859"
+          cy="365.1902576"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="278.29704510108866"
+          cy="269.29830056"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="413.24682477967866"
+          cy="459.40270999999996"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="605.1519569725247"
+          cy="334.92149248"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="523.4412260238465"
+          cy="105.15596"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="744.4054561949197"
+          cy="407.17302656"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="765.9720062208398"
+          cy="438.03857336"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="191.9948807672369"
+          cy="467.69569536"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="733.1846163815449"
+          cy="317.01400376"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="229.67340590979782"
+          cy="160.11401216000002"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="216.45055728356658"
+          cy="285.81463424000003"
+          r="0"
+          style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        />
+      </g>
       <g
         class="g-plot scatter"
         clip-path="url(#clip-path-0000)"
-      />
+      >
+        <circle
+          class="scatter-point"
+          cx="36.04199066874028"
+          cy="386.275876"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="271.104199066874"
+          cy="448.14024032000003"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="448.9113530326594"
+          cy="450.23531"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="462.72161741835146"
+          cy="468.28172784000003"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="317.1504017625713"
+          cy="413.76118"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="528.0446474857439"
+          cy="444.91228767999996"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="130.69984447900467"
+          cy="408.93578712000004"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="260.746500777605"
+          cy="425.10093392"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="574.9300155520995"
+          cy="456.6139504"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="444.59564541213064"
+          cy="418.60149944"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="148.53810264385692"
+          cy="469.31112543999996"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="475.38102643856917"
+          cy="443.06338304"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="732.8969025401763"
+          cy="416.59854464"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="739.5143208916536"
+          cy="339.1210302399999"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="427.34480300673926"
+          cy="459.19192272"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="236.00311041990668"
+          cy="459.18786944000004"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="716.7849274235355"
+          cy="363.63050688"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="544.7200622083982"
+          cy="462.5170256"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="98.2001684810783"
+          cy="414.1423608"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="264.77449455676515"
+          cy="440.2614912"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="452.36391912908243"
+          cy="407.15418400000004"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="579.8211508553654"
+          cy="459.26137936000003"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="675.9175738724728"
+          cy="459.20358799999997"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="485.73872472783825"
+          cy="469.53618104"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="660.6687402799379"
+          cy="458.8192304"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="770"
+          cy="442.22948360000004"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="496.108411093831"
+          cy="468.85519216"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="30"
+          cy="468.76527024000006"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="471.0653188180404"
+          cy="462.93871808000006"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="245.78538102643859"
+          cy="435.4353512"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="278.29704510108866"
+          cy="337.48184984"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="413.24682477967866"
+          cy="465.31378"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="605.1519569725247"
+          cy="437.51436"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="523.4412260238465"
+          cy="349.68002000000007"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="744.4054561949197"
+          cy="434.44705136000005"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="765.9720062208398"
+          cy="455.86636047999997"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="191.9948807672369"
+          cy="469.19748927999996"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="733.1846163815449"
+          cy="446.0048288"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="229.67340590979782"
+          cy="395.47411999999997"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+        <circle
+          class="scatter-point"
+          cx="216.45055728356658"
+          cy="425.70442999999995"
+          r="0"
+          style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+        />
+      </g>
       <g
         class="g-markers"
       />

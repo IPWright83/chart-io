@@ -3,10 +3,12 @@ import { render } from "@testing-library/react";
 
 import { sales_records_dataset } from "../../../data/sales_records_dataset";
 
+import { wait } from "../../testUtils";
+
 import { JsonChart } from "./JsonChart";
 
 describe("JsonChart", () => {
-    it("should create empty template correctly", () => {
+    it("should create empty template correctly", async () => {
         const { asFragment } = render(
             <JsonChart
                 data={sales_records_dataset}
@@ -30,6 +32,8 @@ describe("JsonChart", () => {
                 }}
             />,
         );
+
+        await wait(10);
 
         expect(asFragment()).toMatchSnapshot();
     });
