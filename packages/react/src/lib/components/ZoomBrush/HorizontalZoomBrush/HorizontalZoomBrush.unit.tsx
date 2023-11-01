@@ -27,6 +27,7 @@ describe("HorizontalZoomBrush", () => {
             scales,
         });
 
+        // Line plots sometimes take a short while to draw
         await wait(100);
 
         expect(asFragment()).toMatchSnapshot();
