@@ -9,9 +9,15 @@ import { JsonChart } from "./JsonChart";
 
 describe("JsonChart", () => {
     it("should create empty template correctly", async () => {
+        const data = [
+            { x: 0, y: 10, y2: 0 },
+            { x: 5, y: 5, y2: 5 },
+            { x: 10, y: 0, y2: 10 },
+        ];
+
         const { asFragment } = render(
             <JsonChart
-                data={sales_records_dataset}
+                data={data}
                 config={{
                     chart: {
                         id: "0000",
@@ -20,12 +26,12 @@ describe("JsonChart", () => {
                     },
                     axis: {
                         x: {
-                            fields: "Order Date",
+                            fields: "x",
                         },
                     },
                     series: {
                         scatters: {
-                            ys: ["Total Cost", "Total Profit"],
+                            ys: ["y", "y2"],
                             radius: 10,
                         },
                     },
