@@ -13,110 +13,122 @@ export default {
 
 const JsonChartTemplate = (args) => <JsonChart config={args.config} data={sales_records_dataset} />;
 
-export const Line = JsonChartTemplate.bind({});
-Line.storyName = "Line";
-Line.args = {
-    config: {
-        chart: {
-            width: 800,
-        },
-        axis: {
-            x: {
-                fields: "Order Date",
+export const Line = {
+    name: "Line",
+    render: JsonChartTemplate,
+    args: {
+        config: {
+            chart: {
+                width: 800,
             },
-        },
-        series: {
-            lines: {
-                ys: ["Total Cost", "Total Profit"],
+            axis: {
+                x: {
+                    fields: "Order Date",
+                },
             },
-        },
-    },
-};
-
-export const Area = JsonChartTemplate.bind({});
-Area.storyName = "Area";
-Area.args = {
-    config: {
-        chart: {
-            width: 800,
-            zoomBrush: "inline",
-        },
-        axis: {
-            x: {
-                fields: "Order Date",
-            },
-        },
-        series: {
-            areas: {
-                ys: ["Total Cost", "Total Profit"],
-                stacked: true,
+            series: {
+                lines: {
+                    ys: ["Total Cost", "Total Profit"],
+                },
             },
         },
     },
 };
 
-export const Scatter = JsonChartTemplate.bind({});
-Scatter.storyName = "Scatter";
-Scatter.args = {
-    config: {
-        chart: {
-            width: 800,
-        },
-        axis: {
-            x: {
-                fields: "Order Date",
+export const Area = {
+    name: "Area",
+    render: JsonChartTemplate,
+    args: {
+        config: {
+            chart: {
+                width: 800,
+                zoomBrush: "inline",
             },
-        },
-        series: {
-            scatters: {
-                ys: ["Total Cost", "Total Profit"],
-                radius: 10,
+            axis: {
+                x: {
+                    fields: "Order Date",
+                },
             },
-        },
-    },
-};
-
-export const Columns = JsonChartTemplate.bind({});
-Columns.storyName = "Columns";
-Columns.args = {
-    config: {
-        chart: {
-            width: 800,
-        },
-        axis: {
-            x: {
-                fields: "Item Type",
-            },
-        },
-        series: {
-            columns: {
-                ys: ["Unit Price", "Unit Cost"],
-                grouped: true,
+            series: {
+                areas: {
+                    ys: ["Total Cost", "Total Profit"],
+                    stacked: true,
+                },
             },
         },
     },
 };
 
-export const Bars = JsonChartTemplate.bind({});
-Bars.storyName = "Bars";
-Bars.args = {
-    config: {
-        chart: {
-            width: 800,
-        },
-        axis: {
-            y: {
-                fields: "Item Type",
+export const Scatter = {
+    name: "Scatter",
+    render: JsonChartTemplate,
+    args: {
+        config: {
+            chart: {
+                width: 800,
             },
-            x: {
-                fields: ["Unit Price", "Unit Cost"],
-                aggregate: true,
+            axis: {
+                x: {
+                    fields: "Order Date",
+                },
+            },
+            series: {
+                scatters: {
+                    ys: ["Total Cost", "Total Profit"],
+                    radius: 10,
+                },
             },
         },
-        series: {
-            bars: {
-                xs: ["Unit Price", "Unit Cost"],
-                stacked: true,
+    },
+};
+
+export const Columns = {
+    name: "Columns",
+    render: JsonChartTemplate,
+    args: {
+        config: {
+            chart: {
+                width: 800,
+                plotMargin: { left: 60, right: 40, top: 40, bottom: 40 },
+            },
+            axis: {
+                x: {
+                    fields: "Item Type",
+                },
+            },
+            series: {
+                columns: {
+                    ys: ["Unit Price", "Unit Cost"],
+                    grouped: true,
+                },
+            },
+        },
+    },
+};
+
+export const Bars = {
+    name: "Bars",
+    render: JsonChartTemplate,
+    args: {
+        config: {
+            chart: {
+                width: 800,
+                plotMargin: { left: 100, right: 40, top: 40, bottom: 40 },
+            },
+            axis: {
+                y: {
+                    fields: "Item Type",
+                },
+                x: {
+                    fields: ["Unit Price", "Unit Cost"],
+                    aggregate: true,
+                },
+            },
+            series: {
+                bars: {
+                    xs: ["Unit Price", "Unit Cost"],
+                    stacked: true,
+                },
             },
         },
     },

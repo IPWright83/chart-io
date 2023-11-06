@@ -64,35 +64,45 @@ const LegendOverlayTemplate = (args) => {
     );
 };
 
-export const Left = LegendOverlayTemplate.bind({});
-Left.storyName = "Left Aligned";
-Left.args = {
-    horizontalPosition: "LEFT",
+export const Left = {
+    name: "Left Aligned",
+    render: LegendOverlayTemplate,
+    args: {
+        horizontalPosition: "LEFT",
+    },
 };
 
-export const Right = LegendOverlayTemplate.bind({});
-Right.storyName = "Right Aligned";
-Right.args = {
-    horizontalPosition: "RIGHT",
+export const Right = {
+    name: "Right Aligned",
+    render: LegendOverlayTemplate,
+    args: {
+        horizontalPosition: "RIGHT",
+    },
 };
 
-export const Top = LegendOverlayTemplate.bind({});
-Top.storyName = "Top Aligned";
-Top.args = {
-    verticalPosition: "TOP",
-    horizontalPosition: "CENTER",
+export const Top = {
+    name: "Top Aligned",
+    render: LegendOverlayTemplate,
+    args: {
+        verticalPosition: "TOP",
+        horizontalPosition: "CENTER",
+    },
 };
 
-export const Bottom = LegendOverlayTemplate.bind({});
-Bottom.storyName = "Bottom Aligned";
-Bottom.args = {
-    verticalPosition: "BOTTOM",
-    horizontalPosition: "CENTER",
+export const Bottom = {
+    name: "Bottom Aligned",
+    render: LegendOverlayTemplate,
+    args: {
+        verticalPosition: "BOTTOM",
+        horizontalPosition: "CENTER",
+    },
 };
 
-export const BottomRight = LegendOverlayTemplate.bind({});
-BottomRight.storyName = "BottomRight Aligned";
-BottomRight.args = {
-    verticalPosition: "BOTTOM",
-    horizontalPosition: "RIGHT",
+export const BottomRight = {
+    name: "BottomRight Aligned",
+    render: LegendOverlayTemplate,
+    args: {
+        verticalPosition: "BOTTOM",
+        horizontalPosition: "RIGHT",
+    },
 };

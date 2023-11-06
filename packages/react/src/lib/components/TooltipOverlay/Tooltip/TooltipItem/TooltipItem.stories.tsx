@@ -28,77 +28,95 @@ const TooltipItemTemplate = (args) => {
     );
 };
 
-export const Scatter = TooltipItemTemplate.bind({});
-Scatter.args = {
-    name: "Scatter Series",
-    value: 5,
-    color: "steelblue",
-    icon: "circle",
+export const Scatter = {
+    render: TooltipItemTemplate,
+    args: {
+        name: "Scatter Series",
+        value: 5,
+        color: "steelblue",
+        icon: "circle",
+    },
 };
 
-export const Line = TooltipItemTemplate.bind({});
-Line.args = {
-    name: "Line Series",
-    value: 5,
-    color: "steelblue",
-    icon: "line",
+export const Line = {
+    render: TooltipItemTemplate,
+    args: {
+        name: "Line Series",
+        value: 5,
+        color: "steelblue",
+        icon: "line",
+    },
 };
 
-export const Area = TooltipItemTemplate.bind({});
-Area.args = {
-    name: "Area Series",
-    value: 5,
-    color: "steelblue",
-    icon: "square",
+export const Area = {
+    render: TooltipItemTemplate,
+    args: {
+        name: "Area Series",
+        value: 5,
+        color: "steelblue",
+        icon: "square",
+    },
 };
 
-export const Bar = TooltipItemTemplate.bind({});
-Bar.args = {
-    name: "Bar Series",
-    value: 5,
-    color: "steelblue",
-    icon: "square",
+export const Bar = {
+    render: TooltipItemTemplate,
+    args: {
+        name: "Bar Series",
+        value: 5,
+        color: "steelblue",
+        icon: "square",
+    },
 };
 
-export const Column = TooltipItemTemplate.bind({});
-Column.args = {
-    name: "Column Series",
-    value: 5,
-    color: "steelblue",
-    icon: "square",
+export const Column = {
+    render: TooltipItemTemplate,
+    args: {
+        name: "Column Series",
+        value: 5,
+        color: "steelblue",
+        icon: "square",
+    },
 };
 
-export const Value = TooltipItemTemplate.bind({});
-Value.args = {
-    name: "Value",
-    value: 5,
-    color: "steelblue",
-    icon: "none",
+export const Value = {
+    render: TooltipItemTemplate,
+    args: {
+        name: "Value",
+        value: 5,
+        color: "steelblue",
+        icon: "none",
+    },
 };
 
-export const Suffix = TooltipItemTemplate.bind({});
-Suffix.args = {
-    name: "Suffix Example",
-    value: 105_000,
-    color: "steelblue",
-    icon: "circle",
-    suffix: " Dollars",
+export const Suffix = {
+    render: TooltipItemTemplate,
+    args: {
+        name: "Suffix Example",
+        value: 105_000,
+        color: "steelblue",
+        icon: "circle",
+        suffix: " Dollars",
+    },
 };
 
-export const Prefix = TooltipItemTemplate.bind({});
-Prefix.args = {
-    name: "Prefix Example",
-    value: 105_000,
-    color: "steelblue",
-    icon: "circle",
-    prefix: "£",
+export const Prefix = {
+    render: TooltipItemTemplate,
+    args: {
+        name: "Prefix Example",
+        value: 105_000,
+        color: "steelblue",
+        icon: "circle",
+        prefix: "£",
+    },
 };
 
-export const CustomFormat = TooltipItemTemplate.bind({});
-CustomFormat.args = {
-    name: "Custom Format Example",
-    value: 105_000,
-    color: "steelblue",
-    icon: "circle",
-    formatFunc: (name, value) => `~~~${value}~~~`,
+export const CustomFormat = {
+    render: TooltipItemTemplate,
+    args: {
+        name: "Custom Format Example",
+        value: 105_000,
+        color: "steelblue",
+        icon: "circle",
+        formatFunc: (name, value) => `~~~${value}~~~`,
+    },
 };

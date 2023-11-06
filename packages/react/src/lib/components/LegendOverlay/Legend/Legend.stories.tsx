@@ -31,28 +31,32 @@ const LegendTemplate = (args) => {
     );
 };
 
-export const Default = LegendTemplate.bind({});
-Default.storyName = "All Series Types";
-Default.args = {
-    items: [
-        {
-            name: "Line Series with a very long title that should be truncated at some point",
-            icon: "line",
-            color: "steelblue",
-        },
-        { name: "Scatter Series", icon: "circle", color: "steelblue" },
-        { name: "Bar Series", icon: "square", color: "steelblue" },
-        { name: "Column Series", icon: "square", color: "steelblue" },
-        { name: "Area Series", icon: "square", color: "steelblue" },
-        { name: "Timestamp", color: "steeblue", icon: "none" },
-    ],
+export const Default = {
+    name: "All Series Types",
+    render: LegendTemplate,
+    args: {
+        items: [
+            {
+                name: "Line Series with a very long title that should be truncated at some point",
+                icon: "line",
+                color: "steelblue",
+            },
+            { name: "Scatter Series", icon: "circle", color: "steelblue" },
+            { name: "Bar Series", icon: "square", color: "steelblue" },
+            { name: "Column Series", icon: "square", color: "steelblue" },
+            { name: "Area Series", icon: "square", color: "steelblue" },
+            { name: "Timestamp", color: "steeblue", icon: "none" },
+        ],
+    },
 };
 
-export const CustomFormatters = LegendTemplate.bind({});
-CustomFormatters.storyName = "Custom Formatting";
-CustomFormatters.args = {
-    items: [{ name: "x", icon: "none" }],
-    formatters: {
-        x: (name) => `~~~${name}~~~`,
+export const CustomFormatters = {
+    name: "Custom Formatting",
+    render: LegendTemplate,
+    args: {
+        items: [{ name: "x", icon: "none" }],
+        formatters: {
+            x: (name) => `~~~${name}~~~`,
+        },
     },
 };

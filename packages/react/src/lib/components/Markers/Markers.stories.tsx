@@ -45,27 +45,33 @@ const MarkersTemplate = (args) => {
     );
 };
 
-export const Default = MarkersTemplate.bind({});
-Default.storyName = "Markers";
-Default.args = {
-    fill: "steelblue",
-    stroke: "white",
-    shadow: false,
+export const Default = {
+    name: "Markers",
+    render: MarkersTemplate,
+    args: {
+        fill: "steelblue",
+        stroke: "white",
+        shadow: false,
+    },
 };
 
-export const Outline = MarkersTemplate.bind({});
-Outline.storyName = "Outline";
-Outline.args = {
-    stroke: "steelblue",
-    fill: null,
-    shadow: false,
+export const Outline = {
+    name: "Outline",
+    render: MarkersTemplate,
+    args: {
+        stroke: "steelblue",
+        fill: null,
+        shadow: false,
+    },
 };
 
-export const Shadow = MarkersTemplate.bind({});
-Shadow.storyName = "Shadow";
-Shadow.args = {
-    fill: "steelblue",
-    shadow: true,
-    strokeWidth: 3,
-    stroke: "white",
+export const Shadow = {
+    name: "Shadow",
+    render: MarkersTemplate,
+    args: {
+        fill: "steelblue",
+        shadow: true,
+        strokeWidth: 3,
+        stroke: "white",
+    },
 };

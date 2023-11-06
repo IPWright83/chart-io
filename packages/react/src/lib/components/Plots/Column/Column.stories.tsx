@@ -83,83 +83,96 @@ const ColumnsTemplate = (args) => (
     </XYChart>
 );
 
-export const Basic = ColumnTemplate.bind({});
-Basic.storyName = "Basic Plot";
-Basic.args = {
-    useCanvas: false,
-    width: 800,
-    height: 500,
-    animationDuration: 250,
-    color: "#99C1DC",
-    color2: "#fc998e",
-    theme: themes.light,
-    leftMargin: 70,
-    rightMargin: 40,
-    topMargin: 40,
-    bottomMargin: 40,
-    y: "Unit Price",
-    x: "Item Type",
+export const Basic = {
+    name: "Basic Plot",
+    render: ColumnTemplate,
+    args: {
+        useCanvas: false,
+        width: 800,
+        height: 500,
+        animationDuration: 250,
+        color: "#99C1DC",
+        color2: "#fc998e",
+        leftMargin: 70,
+        rightMargin: 40,
+        topMargin: 40,
+        bottomMargin: 40,
+        y: "Unit Price",
+        x: "Item Type",
+    },
 };
 
-export const Color = ColumnTemplate.bind({});
-Color.storyName = "Custom Color";
-Color.args = {
-    ...Basic.args,
-    color: "orange",
+export const Color = {
+    name: "Custom Color",
+    render: ColumnTemplate,
+    args: {
+        ...Basic.args,
+        color: "orange",
+    },
 };
 
-export const Canvas = ColumnTemplate.bind({});
-Canvas.storyName = "Using Canvas";
-Canvas.args = {
-    ...Basic.args,
-    useCanvas: true,
+export const Canvas = {
+    name: "Using Canvas",
+    render: ColumnTemplate,
+    args: {
+        ...Basic.args,
+        useCanvas: true,
+    },
 };
 
-export const Ratio = ColumnTemplate.bind({});
-Ratio.storyName = "Ratio Columns";
-Ratio.args = {
-    ...Basic.args,
-    y2: "Unit Cost",
-    theme: {
-        ...themes.light,
-        series: {
-            ...themes.light.series,
-            opacity: 1,
+export const Ratio = {
+    name: "Ratio Columns",
+    render: ColumnTemplate,
+    args: {
+        ...Basic.args,
+        y2: "Unit Cost",
+        theme: {
+            ...themes.light,
+            series: {
+                ...themes.light.series,
+                opacity: 1,
+            },
         },
     },
 };
 
-export const Stacked = ColumnsTemplate.bind({});
-Stacked.storyName = "Stacked Columns";
-Stacked.args = {
-    ...Basic.args,
-    y2: "Unit Cost",
-    stacked: true,
+export const Stacked = {
+    name: "Stacked Columns",
+    render: ColumnsTemplate,
+    args: {
+        ...Basic.args,
+        y2: "Unit Cost",
+        stacked: true,
+    },
 };
 
-export const Grouped = ColumnsTemplate.bind({});
-Grouped.storyName = "Grouped Columns";
-Grouped.args = {
-    ...Basic.args,
-    y2: "Unit Cost",
-    grouped: true,
+export const Grouped = {
+    name: "Grouped Columns",
+    render: ColumnsTemplate,
+    args: {
+        ...Basic.args,
+        y2: "Unit Cost",
+        grouped: true,
+    },
 };
 
-export const CustomTheme = ColumnsTemplate.bind({});
-CustomTheme.storyName = "Custom Theme";
-CustomTheme.args = {
-    ...Basic.args,
-    y2: "Unit Cost",
-    grouped: true,
-    theme: {
-        ...themes.dark,
-        background: "#F3F1E5",
-        axis: {
-            stroke: "#969495",
+export const CustomTheme = {
+    name: "Custom Theme",
+    render: ColumnsTemplate,
+    args: {
+        ...Basic.args,
+        y2: "Unit Cost",
+        grouped: true,
+        theme: {
+            ...themes.dark,
+            background: "#F3F1E5",
+            axis: {
+                stroke: "#969495",
+            },
+            gridlines: {
+                stroke: "#969495",
+            },
+            colors: ["#2FC2AF", "#433F3E"],
         },
-        gridlines: {
-            stroke: "#969495",
-        },
-        colors: ["#2FC2AF", "#433F3E"],
     },
 };

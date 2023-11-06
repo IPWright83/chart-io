@@ -61,55 +61,60 @@ const TooltipOverlayTemplate = (args) => {
     );
 };
 
-export const Default = TooltipOverlayTemplate.bind({});
-Default.storyName = "TooltipOverlay";
-Default.args = {};
+export const Default = {
+    name: "TooltipOverlay",
+    render: TooltipOverlayTemplate,
+};
 
-export const CustomTooltip = TooltipOverlayTemplate.bind({});
-CustomTooltip.storyName = "Custom Tooltip";
-CustomTooltip.args = {
-    tooltipComponent: ({ items }) => {
-        return (
-            <div
-                style={{
-                    opacity: 0.8,
-                    border: "1px solid black",
-                    borderRadius: 5,
-                    padding: 5,
-                    fontSize: 18,
-                    lineHeight: 1.2,
-                    backgroundColor: "#EEE",
-                    boxShadow: "rgba(0, 0, 0, 0.3) 0 2px 10px",
-                }}
-            >
-                <div>This is a Custom Tooltip</div>
-                {items.map((item) => (
-                    <TooltipItem key={`${item.name}`} {...item} />
-                ))}
-            </div>
-        );
+export const CustomTooltip = {
+    name: "Custom Tooltip",
+    render: TooltipOverlayTemplate,
+    args: {
+        tooltipComponent: ({ items }) => {
+            return (
+                <div
+                    style={{
+                        opacity: 0.8,
+                        border: "1px solid black",
+                        borderRadius: 5,
+                        padding: 5,
+                        fontSize: 18,
+                        lineHeight: 1.2,
+                        backgroundColor: "#EEE",
+                        boxShadow: "rgba(0, 0, 0, 0.3) 0 2px 10px",
+                    }}
+                >
+                    <div>This is a Custom Tooltip</div>
+                    {items.map((item) => (
+                        <TooltipItem key={`${item.name}`} {...item} />
+                    ))}
+                </div>
+            );
+        },
     },
 };
 
-export const CustomTooltipItems = TooltipOverlayTemplate.bind({});
-CustomTooltipItems.storyName = "Custom Tooltip Items";
-CustomTooltipItems.args = {
-    tooltipItemComponent: ({ name, value, icon, fill }) => {
-        return (
-            <div
-                style={{
-                    width: "100%",
-                    flexGrow: 1,
-                    flexShrink: 1,
-                    fontSize: 12,
-                    display: "flex",
-                    whiteSpace: "nowrap" as const,
-                    overflow: "hidden" as const,
-                    textOverflow: "ellipsis" as const,
-                }}
-            >
-                {`${value}`}
-            </div>
-        );
+export const CustomTooltipItems = {
+    name: "Custom Tooltip Items",
+    render: TooltipOverlayTemplate,
+    args: {
+        tooltipItemComponent: ({ name, value, icon, fill }) => {
+            return (
+                <div
+                    style={{
+                        width: "100%",
+                        flexGrow: 1,
+                        flexShrink: 1,
+                        fontSize: 12,
+                        display: "flex",
+                        whiteSpace: "nowrap" as const,
+                        overflow: "hidden" as const,
+                        textOverflow: "ellipsis" as const,
+                    }}
+                >
+                    {`${value}`}
+                </div>
+            );
+        },
     },
 };

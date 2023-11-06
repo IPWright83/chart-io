@@ -47,5 +47,7 @@ const RectangleClipPathTemplate = () => {
     );
 };
 
-export const Default = RectangleClipPathTemplate.bind({});
-Default.storyName = "Rectangle Clippath";
+export const Default = {
+    name: "Rectangle Clippath",
+    render: RectangleClipPathTemplate,
+};

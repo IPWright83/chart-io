@@ -80,55 +80,65 @@ const HorizontalAxisTemplate = (args) => (
     </Chart>
 );
 
-export const OuterTickSize = HorizontalAxisTemplate.bind({});
-OuterTickSize.storyName = "Outer Tick Size";
-OuterTickSize.args = {
-    position: "bottom",
-    fields: ["integerValue"],
-    height: 100,
-    width: 800,
-    tickSizeOuter: 40,
-    showGridlines: false,
+export const OuterTickSize = {
+    name: "Outer Tick Size",
+    render: HorizontalAxisTemplate,
+    args: {
+        position: "bottom",
+        fields: ["integerValue"],
+        height: 100,
+        width: 800,
+        tickSizeOuter: 40,
+        showGridlines: false,
+    },
 };
 
-export const InnerTickSize = HorizontalAxisTemplate.bind({});
-InnerTickSize.storyName = "Inner Tick Size";
-InnerTickSize.args = {
-    position: "bottom",
-    fields: ["integerValue"],
-    height: 100,
-    width: 800,
-    tickSizeInner: 20,
-    showGridlines: false,
+export const InnerTickSize = {
+    name: "Inner Tick Size",
+    render: HorizontalAxisTemplate,
+    args: {
+        position: "bottom",
+        fields: ["integerValue"],
+        height: 100,
+        width: 800,
+        tickSizeInner: 20,
+        showGridlines: false,
+    },
 };
 
-export const TickPadding = HorizontalAxisTemplate.bind({});
-TickPadding.storyName = "Tick Padding";
-TickPadding.args = {
-    position: "bottom",
-    fields: ["integerValue"],
-    height: 100,
-    width: 800,
-    tickPadding: 20,
-    showGridlines: false,
+export const TickPadding = {
+    name: "Tick Padding",
+    render: HorizontalAxisTemplate,
+    args: {
+        position: "bottom",
+        fields: ["integerValue"],
+        height: 100,
+        width: 800,
+        tickPadding: 20,
+        showGridlines: false,
+    },
 };
 
-export const Gridlines = HorizontalAxisTemplate.bind({});
-Gridlines.storyName = "Gridlines";
-Gridlines.args = {
-    position: "bottom",
-    fields: ["integerValue"],
-    height: 200,
-    width: 800,
-    tickPadding: 20,
-    showGridlines: true,
+export const Gridlines = {
+    name: "Gridlines",
+    render: HorizontalAxisTemplate,
+    args: {
+        position: "bottom",
+        fields: ["integerValue"],
+        height: 200,
+        width: 800,
+        tickPadding: 20,
+        showGridlines: true,
+    },
 };
 
-export const FullyCustomAxis = CustomAxisTemplate.bind({});
-FullyCustomAxis.storyName = "Using a Custom Axis Component";
-FullyCustomAxis.args = {
-    position: "bottom",
-    fields: ["dateTimeValue"],
-    height: 50,
-    width: 800,
+export const FullyCustomAxis = {
+    name: "Using a Custom Axis Component",
+    render: CustomAxisTemplate,
+    args: {
+        position: "bottom",
+        fields: ["dateTimeValue"],
+        height: 50,
+        width: 800,
+    },
 };

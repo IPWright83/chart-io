@@ -20,45 +20,57 @@ const LegendItemTemplate = (args) => {
     );
 };
 
-export const Scatter = LegendItemTemplate.bind({});
-Scatter.args = {
-    name: "Scatter Series",
-    color: "steelblue",
-    icon: "circle",
+export const Scatter = {
+    render: LegendItemTemplate,
+    args: {
+        name: "Scatter Series",
+        color: "steelblue",
+        icon: "circle",
+    },
 };
 
-export const Line = LegendItemTemplate.bind({});
-Line.args = {
-    name: "Line Series",
-    color: "steelblue",
-    icon: "line",
+export const Line = {
+    render: LegendItemTemplate,
+    args: {
+        name: "Line Series",
+        color: "steelblue",
+        icon: "line",
+    },
 };
 
-export const Area = LegendItemTemplate.bind({});
-Area.args = {
-    name: "Area Series",
-    color: "steelblue",
-    icon: "square",
+export const Area = {
+    render: LegendItemTemplate,
+    args: {
+        name: "Area Series",
+        color: "steelblue",
+        icon: "square",
+    },
 };
 
-export const Bar = LegendItemTemplate.bind({});
-Bar.args = {
-    name: "Bar Series",
-    color: "steelblue",
-    icon: "square",
+export const Bar = {
+    render: LegendItemTemplate,
+    args: {
+        name: "Bar Series",
+        color: "steelblue",
+        icon: "square",
+    },
 };
 
-export const Column = LegendItemTemplate.bind({});
-Column.args = {
-    name: "Column Series",
-    color: "steelblue",
-    icon: "square",
+export const Column = {
+    render: LegendItemTemplate,
+    args: {
+        name: "Column Series",
+        color: "steelblue",
+        icon: "square",
+    },
 };
 
-export const CustomFormat = LegendItemTemplate.bind({});
-CustomFormat.args = {
-    name: "Custom Format Example",
-    color: "steelblue",
-    icon: "circle",
-    formatFunc: (name) => `~~~${name}~~~`,
+export const CustomFormat = {
+    render: LegendItemTemplate,
+    args: {
+        name: "Custom Format Example",
+        color: "steelblue",
+        icon: "circle",
+        formatFunc: (name) => `~~~${name}~~~`,
+    },
 };
