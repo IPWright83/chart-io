@@ -2,7 +2,7 @@
   "name": "@chart-io/d3",
   "version": "0.10.0",
   "private": true,
-  "packageManager": "pnpm@7.5.2",
+  "packageManager": "pnpm@8.10.2",
   "description": "Provides a custom d3 bundle",
   "repository": "git@github.com:IPWright83/chart-io.git",
   "author": "Ian Wright - IPWright83",

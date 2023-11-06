@@ -2,7 +2,7 @@
   "name": "@chart-io/types",
   "version": "0.12.0",
   "private": true,
-  "packageManager": "pnpm@7.26.2",
+  "packageManager": "pnpm@8.10.2",
   "description": "Provides core type definitions for chart-io packages",
   "repository": "git@github.com:IPWright83/chart-io.git",
   "author": "Ian Wright - IPWright83",
