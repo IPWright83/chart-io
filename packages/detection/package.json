@@ -14,7 +14,7 @@
     "build": "tsc --noEmit",
     "test": "jest --config jest.config.js",
     "test:coverage": "jest --config jest.config.js --coverage",
-    "clean": "rm -rf node_modules",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist && rm -rf coverage",
     "lint": "eslint src",
     "types": "tsc --noEmit",
     "publish": ""

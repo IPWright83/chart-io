@@ -11,7 +11,7 @@
   "types": "src/index.ts",
   "scripts": {
     "build": "tsc --noEmit",
-    "clean": "rm -rf node_modules && rm -rf build",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist && rm -rf coverage",
     "types": "tsc --noEmit",
     "lint": "eslint src",
     "publish": ""

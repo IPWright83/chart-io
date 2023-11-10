@@ -11,9 +11,7 @@
   "types": "dist/index.d.ts",
   "homepage": "https://github.com/IPWright83/chart-io",
   "scripts": {
-    "test": "jest --config jest.config.js",
-    "test:coverage": "jest --config jest.config.js --coverage",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist && rm -rf coverage && rm -rf storybook-static",
     "lint": "eslint src",
     "dev": "vite build --watch",
     "types": "tsc --noEmit",
@@ -21,6 +19,10 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "test": "jest --config jest.config.js",
+    "test-coverage": "jest --config jest.config.js --coverage && open coverage/lcov-report/index.html",
+    "test-storybook": "test-storybook",
+    "coverage-storybook": "test-storybook --coverage && nyc report --reporter=lcov -t coverage/storybook --report-dir coverage/storybook && open coverage/storybook/lcov-report/index.html",
     "deploy-storybook": "storybook-to-ghpages"
   },
   "np": {

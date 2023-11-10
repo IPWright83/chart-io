@@ -21,11 +21,17 @@
       "dependsOn": ["^build"],
       "outputs": []
     },
+    "test-coverage": {
+      "dependsOn": ["^build"]
+    },
     "test": {
       "dependsOn": ["^build"]
     },
     "storybook": {
       "dependsOn": ["^dev"]
+    },
+    "coverage-storybook": {
+      "dependsOn": ["^build"]
     },
     "build-storybook": {
       "dependsOn": ["^build"]
