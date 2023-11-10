@@ -16,7 +16,6 @@ const config: StorybookConfig = {
   addons: [
     getAbsolutePath("@storybook/addon-links"),
     getAbsolutePath("@storybook/addon-essentials"),
-    getAbsolutePath("@storybook/addon-onboarding"),
     getAbsolutePath("@storybook/addon-interactions"),
     {
       name: getAbsolutePath("@storybook/addon-docs"),
@@ -25,6 +24,14 @@ const config: StorybookConfig = {
           mdxCompileOptions: {
             remarkPlugins: [remarkGfm],
           },
+        },
+      },
+    },
+    {
+      name: getAbsolutePath("@storybook/addon-coverage"),
+      options: {
+        istanbul: {
+          exclude: ["**/testUtils/**"],
         },
       },
     },
