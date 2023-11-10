@@ -38,7 +38,6 @@ export function HorizontalLine({ y, value, opacity = 1, stroke }: IHorizontalLin
     }
 
     const yValue = scale(value as INumericValue);
-    console.log(scale, left, right, yValue);
 
     return (
         <line
