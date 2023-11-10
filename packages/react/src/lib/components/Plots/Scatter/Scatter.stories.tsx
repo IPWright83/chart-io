@@ -7,6 +7,7 @@ import { Scatter } from "./Scatter";
 import { Scatters } from "./Scatters";
 import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
+import { createSVGTest, createCanvasTest } from "../../../testUtils";
 
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
@@ -93,74 +94,90 @@ const ScattersTemplate = (args) => (
     </XYChart>
 );
 
-export const Basic = ScatterTemplate.bind({});
-Basic.storyName = "Basic Plot";
-Basic.args = {
-    useCanvas: true,
-    width: 800,
-    height: 500,
-    animationDuration: 250,
-    color: "#99C1DC",
-    theme: "light",
-    radius: 5,
-    leftMargin: 70,
-    rightMargin: 40,
-    topMargin: 40,
-    bottomMargin: 40,
-    data: sales_records_dataset,
-    y: "Total Profit",
-    x: "Units Sold",
+export const Basic = {
+    name: "Basic Plot",
+    render: ScatterTemplate,
+    args: {
+        useCanvas: false,
+        width: 800,
+        height: 500,
+        animationDuration: 250,
+        color: "#99C1DC",
+        theme: "light",
+        radius: 5,
+        leftMargin: 70,
+        rightMargin: 40,
+        topMargin: 40,
+        bottomMargin: 40,
+        data: sales_records_dataset,
+        y: "Total Profit",
+        x: "Units Sold",
+    },
+    play: createSVGTest("circle", { clientX: 773, clientY: 227 }),
 };
 
-export const Radius = ScatterTemplate.bind({});
-Radius.storyName = "Custom Radius";
-Radius.args = {
-    ...Basic.args,
-    radius: 15,
+export const Radius = {
+    name: "Custom Radius",
+    render: ScatterTemplate,
+    args: {
+        ...Basic.args,
+        radius: 15,
+    },
 };
 
-export const Color = ScatterTemplate.bind({});
-Color.storyName = "Custom Color";
-Color.args = {
-    ...Basic.args,
-    color: "orange",
+export const Color = {
+    name: "Custom Color",
+    render: ScatterTemplate,
+    args: {
+        ...Basic.args,
+        color: "orange",
+    },
 };
 
-export const Canvas = ScatterTemplate.bind({});
-Canvas.storyName = "Using Canvas";
-Canvas.args = {
-    ...Basic.args,
-    useCanvas: true,
+export const Canvas = {
+    name: "Using Canvas",
+    render: ScatterTemplate,
+    args: {
+        ...Basic.args,
+        useCanvas: true,
+    },
+    play: createCanvasTest({ clientX: 773, clientY: 227 }),
 };
 
-export const MultipleScatter = ScattersTemplate.bind({});
-MultipleScatter.storyName = "Mutiple Scatter Plots";
-MultipleScatter.args = {
-    ...Basic.args,
-    y2: "Total Revenue",
-    y3: "Total Cost",
+export const MultipleScatter = {
+    name: "Mutiple Scatter Plots",
+    render: ScattersTemplate,
+    args: {
+        ...Basic.args,
+        y2: "Total Revenue",
+        y3: "Total Cost",
+    },
 };
 
-export const MultipleScatterCanvas = ScattersTemplate.bind({});
-MultipleScatterCanvas.storyName = "Mutiple Scatter Plots using Canvas";
-MultipleScatterCanvas.args = {
-    ...Basic.args,
-    y2: "Total Revenue",
-    y3: "Total Cost",
-    useCanvas: true,
+export const MultipleScatterCanvas = {
+    name: "Mutiple Scatter Plots using Canvas",
+    render: ScattersTemplate,
+    args: {
+        ...Basic.args,
+        y2: "Total Revenue",
+        y3: "Total Cost",
+        useCanvas: true,
+    },
 };
 
-export const ProgresssiveRendering = ScatterTemplate.bind({});
-ProgresssiveRendering.storyName = "Progressive Rendering large datasets";
-ProgresssiveRendering.args = {
-    ...Basic.args,
-    animationDuration: 0,
-    data: huge_data_set,
-    height: 500,
-    useCanvas: true,
-    radius: 3,
-    width: 800,
-};
-ProgresssiveRendering.parameters = {
-    chromatic: { disableSnapshot: true },
+export const ProgresssiveRendering = {
+    name: "Progressive Rendering large datasets",
+    render: ScatterTemplate,
+    args: {
+        ...Basic.args,
+        animationDuration: 0,
+        data: huge_data_set,
+        height: 500,
+        useCanvas: true,
+        radius: 3,
+        width: 800,
+    },
+    parameters: {
+        chromatic: { disableSnapshot: true },
+    },
 };

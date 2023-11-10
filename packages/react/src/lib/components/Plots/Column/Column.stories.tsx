@@ -7,6 +7,7 @@ import { Column } from "./Column";
 import { Columns } from "./Columns";
 import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
+import { createSVGTest, createCanvasTest } from "../../../testUtils";
 
 import { uniqBy } from "lodash";
 
@@ -100,6 +101,7 @@ export const Basic = {
         y: "Unit Price",
         x: "Item Type",
     },
+    play: createSVGTest("rect.column", { clientX: 107, clientY: 396 }),
 };
 
 export const Color = {
@@ -118,6 +120,7 @@ export const Canvas = {
         ...Basic.args,
         useCanvas: true,
     },
+    play: createCanvasTest({ clientX: 107, clientY: 396 }),
 };
 
 export const Ratio = {
@@ -144,6 +147,7 @@ export const Stacked = {
         y2: "Unit Cost",
         stacked: true,
     },
+    play: createSVGTest("rect.column", { clientX: 107, clientY: 396 }),
 };
 
 export const Grouped = {
@@ -154,6 +158,7 @@ export const Grouped = {
         y2: "Unit Cost",
         grouped: true,
     },
+    play: createSVGTest("rect.column", { clientX: 107, clientY: 396 }),
 };
 
 export const CustomTheme = {
