@@ -66,7 +66,7 @@ const ScatterTemplate = (args) => (
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
-        <Scatter x={args.x} y={args.y} radius={args.radius} color={args.color} />
+        <Scatter x={args.x} y={args.y} radius={args.radius} color={args.color} noClip />
     </XYChart>
 );
 
