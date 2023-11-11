@@ -2,7 +2,7 @@
   "name": "@chart-io/detection",
   "version": "0.8.0",
   "private": true,
-  "packageManager": "pnpm@7.26.2",
+  "packageManager": "pnpm@8.10.2",
   "description": "Provides data type detection utilities for @chart-io",
   "repository": "git@github.com:IPWright83/chart-io.git",
   "author": "\"Ian Wright\" <\"ipwright83+dev@gmail.com\">",
@@ -14,7 +14,7 @@
     "build": "tsc --noEmit",
     "test": "jest --config jest.config.js",
     "test:coverage": "jest --config jest.config.js --coverage",
-    "clean": "rm -rf node_modules",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist && rm -rf coverage",
     "lint": "eslint src",
     "types": "tsc --noEmit",
     "publish": ""

@@ -17,6 +17,8 @@ const preview: Preview = {
         order: [
           "Introduction",
           "Getting Started",
+          "Extensibility",
+          "Theming",
           "XYCharts",
           "Components",
           "Errors & Warnings",

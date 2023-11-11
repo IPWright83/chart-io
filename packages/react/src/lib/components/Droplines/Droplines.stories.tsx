@@ -38,23 +38,29 @@ const DroplinesTemplate = (args) => {
     );
 };
 
-export const Default = DroplinesTemplate.bind({});
-Default.storyName = "Horizontal & Vertical Droplines";
-Default.args = {
-    showVertical: true,
-    showHorizontal: true,
+export const Default = {
+    name: "Horizontal & Vertical Droplines",
+    render: DroplinesTemplate,
+    args: {
+        showVertical: true,
+        showHorizontal: true,
+    },
 };
 
-export const VerticalDroplines = DroplinesTemplate.bind({});
-VerticalDroplines.storyName = "Vertical Droplines";
-VerticalDroplines.args = {
-    showVertical: true,
-    showHorizontal: false,
+export const VerticalDroplines = {
+    name: "Vertical Droplines",
+    render: DroplinesTemplate,
+    args: {
+        showVertical: true,
+        showHorizontal: false,
+    },
 };
 
-export const HorizontalDroplines = DroplinesTemplate.bind({});
-HorizontalDroplines.storyName = "Horizontal Droplines";
-HorizontalDroplines.args = {
-    showVertical: false,
-    showHorizontal: true,
+export const HorizontalDroplines = {
+    name: "Horizontal Droplines",
+    render: DroplinesTemplate,
+    args: {
+        showVertical: false,
+        showHorizontal: true,
+    },
 };

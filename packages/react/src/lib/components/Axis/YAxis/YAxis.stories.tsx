@@ -14,11 +14,13 @@ const YAxisTemplate = (args) => (
     </Chart>
 );
 
-export const YAxisStory = YAxisTemplate.bind({});
-YAxisStory.storyName = "Y Axis";
-YAxisStory.args = {
-    data: [{ y: 0 }, { y: 10 }],
-    fields: ["y"],
-    height: 500,
-    width: 500,
+export const YAxisStory = {
+    name: "Y Axis",
+    render: YAxisTemplate,
+    args: {
+        data: [{ y: 0 }, { y: 10 }],
+        fields: ["y"],
+        height: 500,
+        width: 500,
+    },
 };

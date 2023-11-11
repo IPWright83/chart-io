@@ -59,8 +59,10 @@ const HorizontalZoomBrushTemplate = (args) => {
     );
 };
 
-export const Default = HorizontalZoomBrushTemplate.bind({});
-Default.storyName = "Horizontal Zoom Brush";
-Default.args = {
-    height: 100,
+export const Default = {
+    name: "Horizontal Zoom Brush",
+    render: HorizontalZoomBrushTemplate,
+    args: {
+        height: 100,
+    },
 };

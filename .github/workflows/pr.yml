@@ -15,22 +15,21 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, 'ci skip')"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
       - uses: pnpm/action-setup@v2
         with:
           run_install: false
-      - name: Get pnpm store directory
-        id: pnpm-cache
+      - name: Get pnpm store cache directory
+        shell: bash
         run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          path: ${{ env.STORE_PATH }}
           key: ${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
@@ -43,22 +42,22 @@ jobs:
   #   runs-on: ubuntu-latest
   #   if: "!contains(github.event.head_commit.message, 'ci skip')"
   #   steps:
-  #     - uses: actions/checkout@v2
+  #     - uses: actions/checkout@v3
   #     - uses: actions/setup-node@v3
   #       with:
   #         node-version: 16
   #     - uses: pnpm/action-setup@v2
   #       with:
   #         run_install: false
-  #     - name: Get pnpm store directory
-  #       id: pnpm-cache
+  #     - name: Get pnpm store cache directory
+  #       shell: bash
   #       run: |
-  #         echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+  #         echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
   #     - uses: actions/cache@v3
   #       name: Setup pnpm cache
   #       with:
-  #         path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-  #         key: ${{ hashFiles('**/pnpm-lock.yaml') }}
+  #         path: ${{ env.STORE_PATH }}
+  #         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
   #         restore-keys: |
   #           ${{ runner.os }}-pnpm-store-
   #     - name: pnpm Install
@@ -70,21 +69,21 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, 'ci skip')"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
       - uses: pnpm/action-setup@v2
         with:
           run_install: false
-      - name: Get pnpm store directory
-        id: pnpm-cache
+      - name: Get pnpm store cache directory
+        shell: bash
         run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          path: ${{ env.STORE_PATH }}
           key: ${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
@@ -98,23 +97,23 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'ci skip') && github.event.pull_request.draft == false"
     needs: [lint, unit]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 20
       - uses: pnpm/action-setup@v2
         with:
           run_install: false
-      - name: Get pnpm store directory
-        id: pnpm-cache
+      - name: Get pnpm store cache directory
+        shell: bash
         run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          path: ${{ env.STORE_PATH }}
           key: ${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
@@ -134,7 +133,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'ci skip') && github.event.pull_request.draft == false"
     needs: [chromatic]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Check if auto merge possible
         id: check
         run: |

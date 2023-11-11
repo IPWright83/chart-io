@@ -29,7 +29,11 @@ const HorizontalLineTemplate = () => {
                 height: 200,
             },
             scales: {
-                "Total Profit": d3.scaleLinear().domain([0, 1000]).range([200, 0]),
+                "Total Profit": {
+                    domain: [0, 1000],
+                    range: [200, 0],
+                    scale: d3.scaleLinear().domain([0, 1000]).range([200, 0]),
+                },
             },
         },
     });
@@ -64,8 +68,12 @@ const ScatterWithRectsTemplate = () => {
     );
 };
 
-export const Default = HorizontalLineTemplate.bind({});
-Default.storyName = "HorizontalLine";
+export const Default = {
+    name: "HorizontalLine",
+    render: HorizontalLineTemplate,
+};
 
-export const ThresholdsExample = ScatterWithRectsTemplate.bind({});
-ThresholdsExample.storyName = "Thresholds Example";
+export const ThresholdsExample = {
+    name: "Thresholds Example",
+    render: ScatterWithRectsTemplate,
+};

@@ -37,5 +37,7 @@ const CrosshairTemplate = () => {
     );
 };
 
-export const Default = CrosshairTemplate.bind({});
-Default.storyName = "Crosshair";
+export const Default = {
+    name: "Crosshair",
+    render: CrosshairTemplate,
+};

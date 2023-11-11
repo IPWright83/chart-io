@@ -41,7 +41,7 @@ export function Crosshair({ showVertical = true, showHorizontal = true }: ICross
             {showHorizontal && (
                 <line
                     x1={left}
-                    x2={plotWidth}
+                    x2={left + plotWidth}
                     y1={y}
                     y2={y}
                     stroke={`${theme.crosshair.stroke}`}
@@ -56,7 +56,7 @@ export function Crosshair({ showVertical = true, showHorizontal = true }: ICross
                     x1={x}
                     x2={x}
                     y1={top}
-                    y2={plotHeight}
+                    y2={top + plotHeight}
                     stroke={`${theme.crosshair.stroke}`}
                     strokeOpacity={theme.crosshair.strokeOpacity}
                     strokeWidth={theme.crosshair.strokeWidth}

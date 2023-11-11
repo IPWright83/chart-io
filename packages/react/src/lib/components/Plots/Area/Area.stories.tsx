@@ -102,78 +102,94 @@ const StackedAreasTemplate = (args) => {
     );
 };
 
-export const Basic = AreaTemplate.bind({});
-Basic.storyName = "Basic Plot";
-Basic.args = {
-    useCanvas: false,
-    width: 800,
-    height: 500,
-    animationDuration: 250,
-    color: "#99C1DC",
-    theme: "light",
-    leftMargin: 70,
-    rightMargin: 40,
-    topMargin: 40,
-    bottomMargin: 40,
-    y: "Total Profit",
-    x: "Order Date",
-    y2: undefined,
+export const Basic = {
+    name: "Basic Plot",
+    render: AreaTemplate,
+    args: {
+        useCanvas: false,
+        width: 800,
+        height: 500,
+        animationDuration: 250,
+        color: "#99C1DC",
+        theme: "light",
+        leftMargin: 70,
+        rightMargin: 40,
+        topMargin: 40,
+        bottomMargin: 40,
+        y: "Total Profit",
+        x: "Order Date",
+        y2: undefined,
+    },
 };
 
-export const Color = AreaTemplate.bind({});
-Color.storyName = "Custom Color";
-Color.args = {
-    ...Basic.args,
-    color: "orange",
+export const Color = {
+    name: "Custom Color",
+    render: AreaTemplate,
+    args: {
+        ...Basic.args,
+        color: "orange",
+    },
 };
 
-export const Stream = AreaTemplate.bind({});
-Stream.storyName = "Stream Graph";
-Stream.args = {
-    ...Basic.args,
-    y2: "Total Cost",
+export const Stream = {
+    name: "Stream Graph",
+    render: AreaTemplate,
+    args: {
+        ...Basic.args,
+        y2: "Total Cost",
+    },
 };
 
-export const Canvas = AreaTemplate.bind({});
-Canvas.storyName = "Using Canvas";
-Canvas.args = {
-    ...Basic.args,
-    useCanvas: true,
+export const Canvas = {
+    name: "Using Canvas",
+    render: AreaTemplate,
+    args: {
+        ...Basic.args,
+        useCanvas: true,
+    },
 };
 
-export const AreaWithBrush = AreaTemplate.bind({});
-AreaWithBrush.storyName = "Area with Brush";
-AreaWithBrush.args = {
-    ...Basic.args,
-    zoomBrush: "inline",
-    bottomMargin: 10,
+export const AreaWithBrush = {
+    name: "Area with Brush",
+    render: AreaTemplate,
+    args: {
+        ...Basic.args,
+        zoomBrush: "inline",
+        bottomMargin: 10,
+    },
 };
 
-export const MultipleAreas = AreasTemplate.bind({});
-MultipleAreas.storyName = "Mutiple Area Plots";
-MultipleAreas.args = {
-    ...Basic.args,
-    y: "Total Revenue",
-    y2: "Total Cost",
-    y3: "Total Profit",
+export const MultipleAreas = {
+    name: "Mutiple Area Plots",
+    render: AreasTemplate,
+    args: {
+        ...Basic.args,
+        y: "Total Revenue",
+        y2: "Total Cost",
+        y3: "Total Profit",
+    },
 };
 
-export const StackedAreas = StackedAreasTemplate.bind({});
-StackedAreas.storyName = "Stacked Area Plots";
-StackedAreas.args = {
-    ...Basic.args,
-    y: "Total Revenue",
-    y2: "Total Cost",
-    y3: "Total Profit",
+export const StackedAreas = {
+    name: "Stacked Area Plots",
+    render: StackedAreasTemplate,
+    args: {
+        ...Basic.args,
+        y: "Total Revenue",
+        y2: "Total Cost",
+        y3: "Total Profit",
+    },
 };
 
-export const StackedAreasWithBrush = StackedAreasTemplate.bind({});
-StackedAreasWithBrush.storyName = "Stacked Area Plots with a Brush";
-StackedAreasWithBrush.args = {
-    ...Basic.args,
-    y: "Total Revenue",
-    y2: "Total Cost",
-    y3: "Total Profit",
-    zoomBrush: "inline",
-    bottomMargin: 10,
+export const StackedAreasWithBrush = {
+    name: "Stacked Area Plots with a Brush",
+    render: StackedAreasTemplate,
+    args: {
+        ...Basic.args,
+        y: "Total Revenue",
+        y2: "Total Cost",
+        y3: "Total Profit",
+        zoomBrush: "inline",
+        bottomMargin: 10,
+    },
 };

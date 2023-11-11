@@ -29,7 +29,11 @@ const VerticalLineTemplate = () => {
                 height: 200,
             },
             scales: {
-                "Units Sold": d3.scaleLinear().domain([0, 1000]).range([0, 200]),
+                "Units Sold": {
+                    domain: [0, 1000],
+                    range: [200, 0],
+                    scale: d3.scaleLinear().domain([0, 1000]).range([0, 200]),
+                },
             },
         },
     });
@@ -64,8 +68,12 @@ const ScatterWithRectsTemplate = () => {
     );
 };
 
-export const Default = VerticalLineTemplate.bind({});
-Default.storyName = "VerticalLine";
+export const Default = {
+    name: "VerticalLine",
+    render: VerticalLineTemplate,
+};
 
-export const ThresholdsExample = ScatterWithRectsTemplate.bind({});
-ThresholdsExample.storyName = "Thresholds Example";
+export const ThresholdsExample = {
+    name: "Thresholds Example",
+    render: ScatterWithRectsTemplate,
+};

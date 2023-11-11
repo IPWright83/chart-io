@@ -7,6 +7,7 @@ import { Lines } from "./Lines";
 import { Scatter } from "../Scatter";
 import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
+import { createSVGTest, createCanvasTest } from "../../../testUtils";
 
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
@@ -110,58 +111,70 @@ const LinesTemplate = (args) => (
     </XYChart>
 );
 
-export const Basic = LineTemplate.bind({});
-Basic.storyName = "Basic Plot";
-Basic.args = {
-    useCanvas: false,
-    width: 800,
-    height: 500,
-    animationDuration: 500,
-    color: "#99C1DC",
-    theme: "light",
-    leftMargin: 70,
-    rightMargin: 40,
-    topMargin: 40,
-    bottomMargin: 40,
-    y: "Unit Sales",
-    x: "Month",
+export const Basic = {
+    name: "Basic Plot",
+    render: LineTemplate,
+    args: {
+        useCanvas: false,
+        width: 800,
+        height: 500,
+        animationDuration: 500,
+        color: "#99C1DC",
+        theme: "light",
+        leftMargin: 70,
+        rightMargin: 40,
+        topMargin: 40,
+        bottomMargin: 40,
+        y: "Unit Sales",
+        x: "Month",
+    },
 };
 
-export const LineWithPoints = LineTemplate.bind({});
-LineWithPoints.storyName = "Line with Points";
-LineWithPoints.args = {
-    ...Basic.args,
-    withScatter: true,
+export const LineWithPoints = {
+    name: "Line with Points",
+    render: LineTemplate,
+    args: {
+        ...Basic.args,
+        withScatter: true,
+    },
 };
 
-export const Color = LineTemplate.bind({});
-Color.storyName = "Custom Color";
-Color.args = {
-    ...Basic.args,
-    color: "orange",
+export const Color = {
+    name: "Custom Color",
+    render: LineTemplate,
+    args: {
+        ...Basic.args,
+        color: "orange",
+    },
 };
 
-export const Canvas = LineTemplate.bind({});
-Canvas.storyName = "Using Canvas";
-Canvas.args = {
-    ...Basic.args,
-    useCanvas: true,
+export const Canvas = {
+    name: "Using Canvas",
+    render: LineTemplate,
+    args: {
+        ...Basic.args,
+        useCanvas: true,
+    },
 };
 
-export const LineWithBrush = LineTemplate.bind({});
-LineWithBrush.storyName = "Line with Brush";
-LineWithBrush.args = {
-    ...Basic.args,
-    withScatter: true,
-    zoomBrush: "inline",
+export const LineWithBrush = {
+    name: "Line with Brush",
+    render: LineTemplate,
+    args: {
+        ...Basic.args,
+        withScatter: true,
+        zoomBrush: "inline",
+    },
 };
 
-export const MultipleLines = LinesTemplate.bind({});
-MultipleLines.storyName = "Mutiple Line Plots";
-MultipleLines.args = {
-    ...Basic.args,
-    y: "Operating Profit",
-    y2: "Sales Value",
-    y3: "Gross Profit",
-    withBrush: true,
+export const MultipleLines = {
+    name: "Multiple Line Plots",
+    render: LinesTemplate,
+    args: {
+        ...Basic.args,
+        y: "Operating Profit",
+        y2: "Sales Value",
+        y3: "Gross Profit",
+        withBrush: true,
+    },
 };
