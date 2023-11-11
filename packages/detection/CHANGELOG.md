@@ -1,5 +1,11 @@
 # @chart-io/detection
 
+## 0.9.0
+
+### Minor Changes
+
+- 6eba8e0: Upgraded Storybook
+
 ## 0.8.0
 
 ### Minor Changes

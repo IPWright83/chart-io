@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.44.0
+
+### Minor Changes
+
+- 6eba8e0: Upgraded Storybook
+
 ## 0.43.0
 
 ### Minor Changes
