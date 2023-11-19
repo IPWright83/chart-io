@@ -18,4 +18,7 @@ export interface IMarker {
 
     /** The y-coordinate to draw the marker at */
     cy: number;
+
+    /** Optional distance to the datum, if provided only the nearest marker will be shown */
+    distance?: number;
 }

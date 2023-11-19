@@ -1,8 +1,9 @@
 import * as d3 from "@chart-io/d3";
-import type { IColor, ICoordinate, IData, IMouseEventType, IScale } from "@chart-io/types";
+import type { IColor, ICoordinate, IData, IMouseEventType, INumericValue, IScale, ITooltipItem } from "@chart-io/types";
 import { useEffect } from "react";
 
 import { eventActions, IDispatch } from "../../../../store";
+import { getDistance } from "../../../../utils";
 
 /**
  * Responds to events from an event layer to show Tooltips
@@ -27,7 +28,7 @@ export function useTooltip(
     data: IData,
     eventMode: IMouseEventType,
     position: ICoordinate,
-    colors: IColor[]
+    colors: IColor[],
 ) {
     /* If possible respond to global mouse events for tooltips etc */
     useEffect(() => {
@@ -63,13 +64,23 @@ export function useTooltip(
         };
         dispatch(eventActions.addTooltipItem(tooltipItemX));
 
-        const yTooltipItems = ys.map((y, index) => ({
-            datum,
-            name: y,
-            value: datum[y],
-            icon: "square" as const,
-            fill: colors[index],
-        }));
+        const cx = xScale(xValue);
+
+        const yTooltipItems = ys.reduce<ITooltipItem[]>((result, y, index) => {
+            // Need to account for the stacking when calculating the distance to the point
+            const cy = result.reduce((sum, r) => sum + +r.value, 0) + +datum[y];
+
+            const item = {
+                datum,
+                name: y,
+                value: datum[y],
+                icon: "square" as const,
+                fill: colors[index],
+                distance: getDistance(position.x, position.y, cx, yScale(cy as INumericValue)),
+            };
+
+            return [...result, item];
+        }, []);
 
         yTooltipItems.forEach((y) => {
             dispatch(eventActions.addTooltipItem(y));

@@ -32,8 +32,8 @@ export interface IDroplinesBaseProps {
 export function Droplines({ layer, showVertical = true, showHorizontal = true }: IDroplinesBaseProps) {
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
-    const droplines = useSelector((s: IState) => eventSelectors.droplines(s)).filter(
-        (dl) => (dl.isVertical && showVertical) || (dl.isHorizontal && showHorizontal)
+    const droplines = useSelector((s: IState) => eventSelectors.droplines(s, true)).filter(
+        (dl) => (dl.isVertical && showVertical) || (dl.isHorizontal && showHorizontal),
     );
 
     useEffect(() => {

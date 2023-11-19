@@ -24,4 +24,7 @@ export interface IDropline {
 
     /** The y-coordinate to end drawing the dropline */
     y2: number;
+
+    /** Optional distance to the datum, if provided only the nearest dropline will be shown */
+    distance?: number;
 }
