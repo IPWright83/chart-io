@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { expect } from "@storybook/jest";
-import { fireEvent, within } from "@storybook/testing-library";
+import { within } from "@storybook/testing-library";
 
 import { argTypes } from "../../../../storybook/argTypes";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";

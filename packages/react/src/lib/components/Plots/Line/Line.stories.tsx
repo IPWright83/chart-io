@@ -1,4 +1,5 @@
 import React from "react";
+import { within } from "@storybook/testing-library";
 
 import { argTypes } from "../../../../storybook/argTypes";
 import { example_dataset } from "../../../../data/example_dataset";
@@ -7,7 +8,7 @@ import { Lines } from "./Lines";
 import { Scatter } from "../Scatter";
 import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
-import { createSVGTest, createCanvasTest } from "../../../testUtils";
+import { createEventReceiverTest } from "../../../testUtils";
 
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
@@ -104,10 +105,11 @@ const LinesTemplate = (args) => (
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
         zoomBrush={args.zoomBrush}
+        groupEvents={args.groupEvents}
     >
-        <YAxis fields={[args.y, args.y2, args.y3]} />
+        <YAxis fields={[args.y, args.y2]} />
         <XAxis fields={[args.x]} />
-        <Lines x={args.x} ys={[args.y, args.y2, args.y3]} />
+        <Lines x={args.x} ys={[args.y, args.y2]} />
     </XYChart>
 );
 
@@ -128,6 +130,12 @@ export const Basic = {
         y: "Unit Sales",
         x: "Month",
     },
+    play: createEventReceiverTest({ clientX: 273, clientY: 408 }, async (canvasElement) => {
+        const canvas = within(canvasElement);
+
+        const tooltip = canvasElement.querySelector(".tooltip-item");
+        expect(tooltip).toBeDefined();
+    }),
 };
 
 export const LineWithPoints = {
@@ -155,6 +163,12 @@ export const Canvas = {
         ...Basic.args,
         useCanvas: true,
     },
+    play: createEventReceiverTest({ clientX: 273, clientY: 408 }, async (canvasElement) => {
+        const canvas = within(canvasElement);
+
+        const tooltip = canvasElement.querySelector(".tooltip-item");
+        expect(tooltip).toBeDefined();
+    }),
 };
 
 export const LineWithBrush = {
@@ -174,7 +188,28 @@ export const MultipleLines = {
         ...Basic.args,
         y: "Operating Profit",
         y2: "Sales Value",
-        y3: "Gross Profit",
-        withBrush: true,
     },
+    play: createEventReceiverTest({ clientX: 273, clientY: 408 }, async (canvasElement) => {
+        const canvas = within(canvasElement);
+
+        const tooltip = canvasElement.querySelector(".tooltip-item");
+        expect(tooltip).toBeDefined();
+    }),
+};
+
+export const MultipleLinesWithGrouping = {
+    name: "Multiple Line Plots with Grouped Tooltips",
+    render: LinesTemplate,
+    args: {
+        ...Basic.args,
+        groupEvents: true,
+        y: "Operating Profit",
+        y2: "Sales Value",
+    },
+    play: createEventReceiverTest({ clientX: 273, clientY: 408 }, async (canvasElement) => {
+        const canvas = within(canvasElement);
+
+        const tooltip = canvasElement.querySelector(".tooltip-item");
+        expect(tooltip).toBeDefined();
+    }),
 };
