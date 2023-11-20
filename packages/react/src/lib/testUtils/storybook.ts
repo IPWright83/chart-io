@@ -41,8 +41,6 @@ export const createSVGTest =
         const dataPoint = canvasElement.querySelector(selector);
         expect(dataPoint).toBeDefined();
 
-        console.log(dataPoint);
-
         fireEvent(dataPoint, new MouseEvent("mouseover", eventArgs));
         expect(args.onMouseOver).toHaveBeenCalled();
 
@@ -55,6 +53,32 @@ export const createSVGTest =
         // Add the tooltip back to verify it
         fireEvent(dataPoint, new MouseEvent("mouseover", eventArgs));
         expect(args.onMouseOver).toHaveBeenCalled();
+    };
+
+/**
+ * Creats an interaction test for the EventReciever in an SVG chart
+ * @param event             An object containing the mouse coordinates
+ * @param postAssertions    A function to run extra assertions after the mouse events have fired
+ * @returns                 The Storybook play function
+ */
+export const createEventReceiverTest =
+    (event: IMouseCoords, postAssertions?: (canvasElement: HTMLElement) => void) =>
+    async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+        const eventArgs = { ...event, bubbles: true };
+
+        // Wait for the chart to finish rendering
+        await wait(STORYBOOK_PLAY_DELAY);
+
+        // Find the event reciver
+        const eventReciver = canvasElement.querySelector(".event-receiver");
+        expect(eventReciver).toBeDefined();
+
+        fireEvent(eventReciver, new MouseEvent("mouseover", eventArgs));
+        await wait(50);
+
+        if (postAssertions) {
+            postAssertions(canvasElement);
+        }
     };
 
 /**

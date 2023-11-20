@@ -1,4 +1,6 @@
 import React, { useMemo } from "react";
+import { expect } from "@storybook/jest";
+import { fireEvent, within } from "@storybook/testing-library";
 
 import { argTypes } from "../../../../storybook/argTypes";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
@@ -6,6 +8,7 @@ import { Area } from "./Area";
 import { Areas } from "./Areas";
 import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
+import { createEventReceiverTest } from "../../../testUtils";
 
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
@@ -68,6 +71,7 @@ const AreasTemplate = (args) => (
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
         zoomBrush={args.zoomBrush}
+        groupEvents={args.groupEvents}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
@@ -120,6 +124,12 @@ export const Basic = {
         x: "Order Date",
         y2: undefined,
     },
+    play: createEventReceiverTest({ clientX: 273, clientY: 408 }, async (canvasElement) => {
+        const canvas = within(canvasElement);
+
+        const tooltip = canvasElement.querySelector(".tooltip-item");
+        expect(tooltip).toBeDefined();
+    }),
 };
 
 export const Color = {
@@ -147,6 +157,12 @@ export const Canvas = {
         ...Basic.args,
         useCanvas: true,
     },
+    play: createEventReceiverTest({ clientX: 273, clientY: 408 }, async (canvasElement) => {
+        const canvas = within(canvasElement);
+
+        const tooltip = canvasElement.querySelector(".tooltip-item");
+        expect(tooltip).toBeDefined();
+    }),
 };
 
 export const AreaWithBrush = {
@@ -168,6 +184,30 @@ export const MultipleAreas = {
         y2: "Total Cost",
         y3: "Total Profit",
     },
+    play: createEventReceiverTest({ clientX: 273, clientY: 408 }, async (canvasElement) => {
+        const canvas = within(canvasElement);
+
+        const tooltip = canvasElement.querySelector(".tooltip-item");
+        expect(tooltip).toBeDefined();
+    }),
+};
+
+export const MultipleAreasGrouped = {
+    name: "Mutiple Area Plots with Grouped Tooltips",
+    render: AreasTemplate,
+    args: {
+        ...Basic.args,
+        groupEvents: true,
+        y: "Total Revenue",
+        y2: "Total Cost",
+        y3: "Total Profit",
+    },
+    play: createEventReceiverTest({ clientX: 273, clientY: 408 }, async (canvasElement) => {
+        const canvas = within(canvasElement);
+
+        const tooltip = canvasElement.querySelector(".tooltip-item");
+        expect(tooltip).toBeDefined();
+    }),
 };
 
 export const StackedAreas = {
@@ -179,6 +219,12 @@ export const StackedAreas = {
         y2: "Total Cost",
         y3: "Total Profit",
     },
+    play: createEventReceiverTest({ clientX: 273, clientY: 408 }, async (canvasElement) => {
+        const canvas = within(canvasElement);
+
+        const tooltip = canvasElement.querySelector(".tooltip-item");
+        expect(tooltip).toBeDefined();
+    }),
 };
 
 export const StackedAreasWithBrush = {

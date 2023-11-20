@@ -32,7 +32,7 @@ export interface IXYChartProps extends IChartProps {
 }
 
 export const XYChart = forwardRef<IChartRef, IXYChartProps>(({ children, groupEvents = false, ...props }, ref) => {
-    const showDroplines = groupEvents === false && shouldShowDroplines(children);
+    const showDroplines = !groupEvents || shouldShowDroplines(children);
     const showCrosshair = !showDroplines;
 
     return (
