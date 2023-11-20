@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.45.0
+
+### Minor Changes
+
+- a031b89: Allow showing nearest item on Area & Line plots
+
 ## 0.44.0
 
 ### Minor Changes
