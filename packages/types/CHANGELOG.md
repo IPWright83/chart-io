@@ -1,5 +1,11 @@
 # @chart-io/types
 
+## 0.14.0
+
+### Minor Changes
+
+- a031b89: Allow showing nearest item on Area & Line plots
+
 ## 0.13.0
 
 ### Minor Changes
