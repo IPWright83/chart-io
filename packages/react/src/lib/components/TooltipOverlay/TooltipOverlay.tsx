@@ -15,6 +15,11 @@ export interface ITooltipOverlayProps {
      */
     offset?: number;
     /**
+     * Should only the nearest tooltip items be shown? Typically required when you only want to
+     * show the nearest point on a Line/Area chart. Set to false to show all fields for the datum.
+     */
+    onlyNearest: boolean;
+    /**
      * A set of custom formatters for the Tooltip
      */
     formatters?: Record<string, ITooltipFormatter>;
@@ -34,6 +39,7 @@ export interface ITooltipOverlayProps {
  */
 export function TooltipOverlay({
     offset = 20,
+    onlyNearest = true,
     formatters = {},
     tooltipComponent,
     tooltipItemComponent,
@@ -42,7 +48,7 @@ export function TooltipOverlay({
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const showTooltip = useSelector((s: IState) => eventSelectors.tooltip.show(s));
     const borderColor = useSelector((s: IState) => eventSelectors.tooltip.color(s));
-    const items = useSelector((s: IState) => eventSelectors.tooltip.items(s));
+    const items = useSelector((s: IState) => eventSelectors.tooltip.items(s, onlyNearest));
     const position = useSelector((s: IState) => eventSelectors.tooltip.position(s));
 
     if (!showTooltip) {

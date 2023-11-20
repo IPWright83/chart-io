@@ -15,12 +15,13 @@ The `<TooltipOverlay>` extracts out tooltip item information from the Redux stor
 
 ### `<TooltipOverlay>` Props
 
-| Prop                   | Type                                     | Default     | Note                                                                                                                            |
-| ---------------------- | ---------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `offset`               | `number`                                 | 20          | The number of pixels from the cursor that the tooltip should be offset                                                          |
-| `formatters`           | `object`                                 | `{}`        | A keyed collection of format objects. Key should align with `x` or `y` fields provided to axis/scales or plots. See table below |
-| `tooltipComponent`     | `React.ComponentType<ITooltipProps>`     | `undefined` | An optional override component for the tooltip itself (see example below)                                                       |
-| `tooltipItemComponent` | `React.ComponentType<ITooltipItemProps>` | `undefined` | An optional override component for the tooltip items (see example below)                                                        |
+| Prop                   | Type                                     | Default     | Note                                                                                                                                                                       |
+| ---------------------- | ---------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `offset`               | `number`                                 | 20          | The number of pixels from the cursor that the tooltip should be offset                                                                                                     |
+| `onlyNearest`          | `boolean`                                | `true`      | Should only the nearest tooltip items be shown? This is used to enforce only the nearest marker when multiple points could be shown such as with multi Line or Area charts |
+| `formatters`           | `object`                                 | `{}`        | A keyed collection of format objects. Key should align with `x` or `y` fields provided to axis/scales or plots. See table below                                            |
+| `tooltipComponent`     | `React.ComponentType<ITooltipProps>`     | `undefined` | An optional override component for the tooltip itself (see example below)                                                                                                  |
+| `tooltipItemComponent` | `React.ComponentType<ITooltipItemProps>` | `undefined` | An optional override component for the tooltip items (see example below)                                                                                                   |
 
 The contents of a format object should match:
 

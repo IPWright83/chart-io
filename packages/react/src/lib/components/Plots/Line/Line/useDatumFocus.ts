@@ -3,7 +3,7 @@ import type { IColor, ICoordinate, IMouseEventType, IScale } from "@chart-io/typ
 import { useEffect } from "react";
 
 import { eventActions, IDispatch } from "../../../../store";
-import { isNullOrUndefined } from "../../../../utils";
+import { getDistance, isNullOrUndefined } from "../../../../utils";
 
 /**
  * Responds to events from an event layer to focus the nearest datum
@@ -28,7 +28,7 @@ export function useDatumFocus(
     data,
     eventMode: IMouseEventType,
     position: ICoordinate,
-    color: IColor
+    color: IColor,
 ) {
     /* If possible respond to global mouse events for tooltips etc */
     useEffect(() => {
@@ -64,9 +64,10 @@ export function useDatumFocus(
         // Get the appropriate attributes
         const cx = xScale(datum[x]);
         const cy = yScale(datum[y]);
+        const distance = getDistance(position.x, position.y, cx, cy);
         const fill = color;
 
-        const marker = { fill, cx, cy };
+        const marker = { fill, cx, cy, distance };
         const horizontalDropline = {
             isHorizontal: true,
             color: fill,
@@ -74,6 +75,7 @@ export function useDatumFocus(
             x2: xScale.range()[0],
             y1: cy,
             y2: cy,
+            distance,
         };
         const verticalDropline = {
             isVertical: true,
@@ -82,6 +84,7 @@ export function useDatumFocus(
             x2: cx,
             y1: cy,
             y2: yScale.range()[0],
+            distance,
         };
 
         dispatch(eventActions.addMarker(marker));

@@ -11,16 +11,22 @@ export interface IMarkersBaseProps {
      * @default undefined
      */
     layer: React.MutableRefObject<Element>;
+
+    /**
+     * Should only the nearest markers be shown? Typically required when you only want to
+     * show the nearest point on a Line/Area chart
+     */
+    onlyNearest?: boolean;
 }
 
 /**
  * This component renders the markers that are triggered from various plots
  * @return The Markers component
  */
-export function Markers({ layer }: IMarkersBaseProps) {
+export function Markers({ layer, onlyNearest = true }: IMarkersBaseProps) {
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
-    const markers = useSelector((s: IState) => eventSelectors.markers(s));
+    const markers = useSelector((s: IState) => eventSelectors.markers(s, onlyNearest));
 
     useEffect(() => {
         if (!layer.current) return;

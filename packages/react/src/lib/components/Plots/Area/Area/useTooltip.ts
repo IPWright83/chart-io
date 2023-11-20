@@ -1,9 +1,9 @@
 import * as d3 from "@chart-io/d3";
-import type { IColor, ICoordinate, IData, IMouseEventType, IScale } from "@chart-io/types";
+import type { IColor, ICoordinate, IData, IMouseEventType, INumericValue, IScale } from "@chart-io/types";
 import { useEffect } from "react";
 
 import { eventActions, IDispatch } from "../../../../store";
-import { isNullOrUndefined } from "../../../../utils";
+import { getDistance, isNullOrUndefined } from "../../../../utils";
 
 /**
  * Responds to events from an event layer to show Tooltips
@@ -28,7 +28,7 @@ export function useTooltip(
     data: IData,
     eventMode: IMouseEventType,
     position: ICoordinate,
-    color: IColor
+    color: IColor,
 ) {
     /* If possible respond to global mouse events for tooltips etc */
     useEffect(() => {
@@ -61,6 +61,10 @@ export function useTooltip(
             return;
         }
 
+        const cx = xScale(datum[x] as INumericValue);
+        const cy = yScale(datum[y] as INumericValue);
+        const distance = getDistance(position.x, position.y, cx, cy);
+
         // Common x value
         const tooltipItemX = {
             datum,
@@ -75,6 +79,7 @@ export function useTooltip(
             value: datum[y],
             icon: "square" as const,
             fill: color,
+            distance,
         };
         dispatch(eventActions.addTooltipItem(tooltipItemY));
         dispatch(eventActions.setPositionEvent(position.x, position.y));

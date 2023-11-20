@@ -11,6 +11,12 @@ The `<Markers>` component allows us to define a layer to render markers on top o
 </Canvas>
 <br />
 
+### `<Markers>` Props
+
+| Prop          | Type      | Default | Note                                                                                                                                                                 |
+| ------------- | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `onlyNearest` | `boolean` | `true`  | Should only the nearest markers be shown? This is used to enforce only the nearest marker when multiple points could be shown such as with multi Line or Area charts |
+
 ## Adding Markers Programatically
 
 To add a marker programatically you should call the `eventActions.addMarker` function and `eventActions.removeMarker` function for clean up:

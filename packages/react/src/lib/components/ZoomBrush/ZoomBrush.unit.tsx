@@ -1,8 +1,8 @@
 import * as d3 from "@chart-io/d3";
 import React from "react";
 
+import { Bar, Line } from "../Plots";
 import { renderChart, wait } from "../../testUtils";
-import { Line, Bar } from "../Plots";
 
 import { ZoomBrush } from "./ZoomBrush";
 
