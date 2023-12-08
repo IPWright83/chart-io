@@ -1,3 +1,4 @@
+export * from "./IBandwidthScale";
 export * from "./IColor";
 export * from "./IColorLegendItem";
 export * from "./ICoordinate";

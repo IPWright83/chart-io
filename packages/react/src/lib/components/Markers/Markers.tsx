@@ -1,9 +1,9 @@
 import * as d3 from "@chart-io/d3";
+import { chartSelectors, eventSelectors, IState } from "@chart-io/core";
 import type { IMarker } from "@chart-io/types";
+
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-
-import { chartSelectors, eventSelectors, IState } from "../../store";
 
 export interface IMarkersBaseProps {
     /**

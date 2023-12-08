@@ -1,7 +1,8 @@
 import { IColor, IDatum, IMouseEvent } from "@chart-io/types";
-import { useEffect, useState } from "react";
+import { column } from "@chart-io/core";
 
-import { eventActions, IDispatch } from "../../../store";
+import { useEffect, useState } from "react";
+import { useStore } from "react-redux";
 
 interface ITooltipParams {
     datum: IDatum;
@@ -16,51 +17,16 @@ interface ITooltipParams {
  * @param  x               The key for the x value
  * @return                 A function to set the tooltip datum
  */
-const useTooltip = (dispatch: IDispatch, x: string) => {
+const useTooltip = ({ x }: Omit<column.IColumnTooltipProps, "dispatch" | "datum" | "colors" | "event" | "ys">) => {
+    const { dispatch } = useStore();
     const [datum, setDatum] = useState(null);
     const [colors, setColors] = useState(null);
     const [ys, setYs] = useState(null);
     const [positionEvent, setPositionEvent] = useState(null);
 
     useEffect(() => {
-        if (!datum) return;
-
-        // Only use border colors for a single item
-        if (colors && colors.length === 1) {
-            dispatch(eventActions.setTooltipBorderColor(colors[0]));
-        }
-
-        // Common x value
-        const tooltipItemX = {
-            datum,
-            name: x,
-            value: datum[x],
-        };
-        dispatch(eventActions.addTooltipItem(tooltipItemX));
-
-        const yTooltipItems = ys.map((y, index) => ({
-            datum,
-            name: y,
-            value: datum[y],
-            icon: "square" as const,
-            fill: colors[index],
-        }));
-
-        yTooltipItems.forEach((y) => {
-            dispatch(eventActions.addTooltipItem(y));
-        });
-
-        dispatch(eventActions.setPositionEvent(positionEvent.offsetX, positionEvent.offsetY));
-
-        return () => {
-            dispatch(eventActions.setTooltipBorderColor(undefined));
-            dispatch(eventActions.removeTooltipItem(tooltipItemX));
-
-            yTooltipItems.forEach((y) => {
-                dispatch(eventActions.removeTooltipItem(y));
-            });
-        };
-    }, [dispatch, colors, x, ys, datum, positionEvent]);
+        return column.tooltip({ dispatch, datum, colors, event: positionEvent, x, ys });
+    }, [dispatch, colors, x, ys, positionEvent]);
 
     /**
      * A function to set the tooltip parameters

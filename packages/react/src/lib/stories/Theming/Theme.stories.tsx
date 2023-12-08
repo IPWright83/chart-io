@@ -1,10 +1,11 @@
+import { themes } from "@chart-io/core";
+
 import React from "react";
 
 import { uniqBy } from "lodash";
 
 import { sales_records_dataset } from "../../../data/sales_records_dataset";
 import { XYChart, XAxis, YAxis, Columns } from "../../components";
-import { themes } from "../../themes";
 
 export default {
     title: "Theming",

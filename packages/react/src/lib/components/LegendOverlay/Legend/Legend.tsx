@@ -1,8 +1,9 @@
+import { chartSelectors, IState } from "@chart-io/core";
 import type { ILegendFormatter, ILegendItem } from "@chart-io/types";
+
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors, IState } from "../../../store";
 import { LegendItem } from "./LegendItem";
 
 export interface ILegendProps {

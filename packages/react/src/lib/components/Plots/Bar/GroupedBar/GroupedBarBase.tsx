@@ -1,15 +1,13 @@
-import * as d3 from "@chart-io/d3";
-import type { IColor, IDatum, IEventPlotProps, INumericValue, IValue } from "@chart-io/types";
-import { useEffect, useState } from "react";
-import { useSelector, useStore } from "react-redux";
+import { bar, chartSelectors, IState } from "@chart-io/core";
+import type { IColor, IEventPlotProps } from "@chart-io/types";
 import type { Transition } from "@chart-io/d3";
 
-import { chartSelectors, eventActions, IState } from "../../../../store";
-import { ensureBandwidth, getBandwidthAndOffset } from "../../../../utils";
+import { useSelector } from "react-redux";
+
 import { useLegendItems, useRender } from "../../../../hooks";
 
-import { getDropline } from "../getDropline";
 import { renderCanvas } from "../../renderCanvas";
+import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
 
 export interface IGroupedBarBaseProps extends Omit<IEventPlotProps, "ys" | "x"> {
@@ -50,9 +48,6 @@ export function GroupedBarBase({
     canvas,
     renderVirtualCanvas,
 }: IGroupedBarBaseProps) {
-    const [focused, setFocused] = useState(null);
-    const store = useStore();
-
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
@@ -61,106 +56,30 @@ export function GroupedBarBase({
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
-    const setTooltip = useTooltip(store.dispatch, y);
+    const onTooltip = useTooltip({ y });
+    const onFocus = useFocused({ yScale, theme, grouped: true });
 
     useLegendItems(xs, "square", showInLegend, colors);
 
-    // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
-    useEffect(() => {
-        if (!focused) return;
-
-        const selection = d3.select(focused.element).style("opacity", theme.series.selectedOpacity);
-        const dropline = getDropline(selection, yScale, true);
-        store.dispatch(eventActions.addDropline(dropline));
-
-        // Clean up operations on exit
-        return () => {
-            selection.style("opacity", theme.series.opacity);
-            store.dispatch(eventActions.removeDropline(dropline));
-        };
-    }, [store.dispatch, focused, yScale, theme.series.opacity, theme.series.selectedOpacity]);
-
     // prettier-ignore
     useRender(() => {
-        const { bandwidth, offset } = getBandwidthAndOffset(yScale, y, data);
-
-        if (ensureBandwidth(bandwidth, "GroupedBar") === false) return null;
-
-        function _onmouseover(event, datum) {
-            // istanbul ignore next
-            if (!interactive) return;
-
-            onMouseOver && onMouseOver(datum, this as Element, event);
-            setFocused({ element: this, event, datum });
-            setTooltip({
-                datum,
-                event,
-                fillColors: [colorScale(datum.key) as IColor],
-                xs: [datum.key],
-            });
-        }
-
-        function _onmouseout(event, datum) {
-            // istanbul ignore next
-            if (!interactive) return;
-
-            onMouseOut && onMouseOut(datum, this as Element, event);
-            setFocused(null);
-            setTooltip(null);
-        }
-
-        function _onclick(event, datum) {
-            // istanbul ignore next
-            if (!interactive) return;
-
-            onClick && onClick(datum, this as Element, event);
-        }
-
-        // Create a scale for each series to fit along the x-axis and the series colors
-        const colorScale = d3.scaleOrdinal().domain(xs).range(colors);
-        const y1Scale = d3.scaleBand().domain(xs).rangeRound([0, bandwidth]).padding(0.05);
-
-        const groupJoin = d3.select(layer.current).selectAll<SVGGElement, IDatum>("g").data(data);
-
-        // Clean up old groups
-        groupJoin.exit().remove();
-
-        const join = groupJoin
-            .enter()
-            .append("g")
-            .merge(groupJoin)
-            .selectAll(".bar")
-            .data((d) => xs.map((x) => ({ ...d, key: x, value: d[x] })));
-
-        join.exit().remove();
-        const enter = join
-            .enter()
-            .append("rect")
-            .attr("class", "bar")
-            .attr("y", (d) => yScale(d[y]) + y1Scale(d.key) - offset)
-            .attr("x", xScale.range()[0])
-            .attr("width", 0)
-            .attr("height", y1Scale.bandwidth())
-            .style("fill", (d) => colorScale(d.key).toString())
-            .style("opacity", theme.series.opacity);
-
-        // prettier-ignore
-        const update = join
-            .merge(enter)
-            .on("mouseover", _onmouseover)
-            .on("mouseout", _onmouseout)
-            .on("click", _onclick)
-            .transition("position")
-            .duration(animationDuration / 2)
-            .attr("y", (d) => yScale(d[y]) + y1Scale(d.key) - offset)
-            .attr("height", y1Scale.bandwidth())
-            .style("fill", (d) => colorScale(d.key).toString())
-            // @ts-expect-error: Looks like the type defs are wrong missing named transitions
-            .transition("width")
-            .duration(animationDuration / 2)
-            .delay(animationDuration / 2)
-            .attr("width", (d) => xScale(d.value as INumericValue) - xScale.range()[0])
-            .attr("x", () => xScale.range()[0]) as Transition<SVGRectElement, { key: string; value: IValue; }, SVGGElement, IDatum>;
+        const { update } = bar.grouped.render({
+            animationDuration,
+            interactive,
+            layer: layer.current,
+            data,
+            colors,
+            onMouseOver,
+            onMouseOut,
+            onClick,
+            onFocus,
+            onTooltip,
+            theme,
+            xs,
+            y,
+            xScale,
+            yScale,
+        });
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [y, xs, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);

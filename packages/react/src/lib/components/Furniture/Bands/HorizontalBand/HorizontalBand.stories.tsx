@@ -1,4 +1,6 @@
 import * as d3 from "@chart-io/d3";
+import { themes } from "@chart-io/core";
+
 import React from "react";
 import { Provider } from "react-redux";
 
@@ -8,7 +10,6 @@ import { sales_records_dataset } from "../../../../../data/sales_records_dataset
 import { Scatter } from "../../../Plots";
 import { XYChart } from "../../../XYChart";
 import { XAxis, YAxis } from "../../../Axis";
-import { themes } from "../../../../themes";
 
 import { createMockStorybookStore } from "../../../../testUtils";
 

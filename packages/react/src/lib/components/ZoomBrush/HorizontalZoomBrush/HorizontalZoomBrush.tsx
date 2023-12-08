@@ -1,10 +1,11 @@
 import * as d3 from "@chart-io/d3";
-import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { chartActions, chartSelectors, IState, logWarning } from "@chart-io/core";
 import { IMargin } from "@chart-io/types";
 
-import { chartActions, chartSelectors, IState } from "../../../store";
-import { childrenToArray, logWarning } from "../../../utils";
+import React, { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { childrenToArray } from "../../../utils";
 import { DEFAULT_BRUSH_MARGIN } from "../constants";
 
 export interface IHorizontalZoomBrushProps {
@@ -115,7 +116,7 @@ export function HorizontalZoomBrush({
             interactive: false,
             scaleMode: "brush",
             noClip: true,
-        })
+        }),
     );
 
     return (

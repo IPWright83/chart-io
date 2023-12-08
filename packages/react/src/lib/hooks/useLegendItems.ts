@@ -1,8 +1,8 @@
 import type { IColor, IShape } from "@chart-io/types";
+import { chartActions } from "@chart-io/core";
+
 import { useEffect, useMemo } from "react";
 import { useDispatch } from "react-redux";
-
-import { chartActions } from "../store";
 
 /**
  * Trigger the rendering of a layer asynchronously. This is useful

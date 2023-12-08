@@ -1,8 +1,7 @@
 import * as d3 from "@chart-io/d3";
 import type { Axis, AxisDomain, AxisScale } from "@chart-io/d3";
 import type { IPosition, IScale } from "@chart-io/types";
-
-import { logAndThrowError } from "../../../utils";
+import { logAndThrowError } from "@chart-io/core";
 
 /**
  * Return a D3 Axis function

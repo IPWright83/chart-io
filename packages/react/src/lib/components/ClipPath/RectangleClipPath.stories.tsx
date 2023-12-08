@@ -1,11 +1,11 @@
+import { chartSelectors, IState, themes } from "@chart-io/core";
+
 import React from "react";
 import { Provider, useSelector } from "react-redux";
 
-import { themes } from "../../themes";
 import { RectangleClipPath } from ".";
 
 import { createMockStorybookStore } from "../../testUtils";
-import { chartSelectors, IState } from "../../store";
 
 export default {
     title: "Components/RectangleClipPath",

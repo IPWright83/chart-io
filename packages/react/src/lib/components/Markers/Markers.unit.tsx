@@ -1,9 +1,10 @@
+import { themes } from "@chart-io/core";
+
 import { Provider } from "react-redux";
 import React from "react";
 import { render } from "@testing-library/react";
 
 import { createMockStore } from "../../testUtils";
-import { themes } from "../../themes";
 
 import { Markers } from ".";
 import { Markers as MarkersBase } from "./Markers";
@@ -24,7 +25,7 @@ describe("Markers", () => {
                 <svg>
                     <Markers />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -38,7 +39,7 @@ describe("Markers", () => {
                 <svg>
                     <MarkersBase layer={layer} />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         // Should be empty

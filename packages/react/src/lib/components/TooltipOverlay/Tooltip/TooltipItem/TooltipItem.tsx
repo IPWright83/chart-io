@@ -1,9 +1,9 @@
+import { chartSelectors, formatValue, IState } from "@chart-io/core";
 import type { ITooltipFormatter, ITooltipItem } from "@chart-io/types";
+
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors, IState } from "../../../../store";
-import { formatValue } from "../../../../utils";
 import { getShape } from "../../../Shapes";
 
 export interface ITooltipItemProps extends ITooltipItem, ITooltipFormatter {}

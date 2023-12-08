@@ -1,12 +1,12 @@
 import type { IData, IScale } from "@chart-io/types";
+import { themes } from "@chart-io/core";
+
 import { Provider } from "react-redux";
 import React from "react";
 import { render } from "@testing-library/react";
 
 import { createMockStore } from "./createMockStore";
 import { wait } from "./wait";
-
-import { themes } from "../themes";
 
 export async function renderChart({
     children,
@@ -43,7 +43,7 @@ export async function renderChart({
     const { asFragment, container } = render(
         <Provider store={store ?? mockStore}>
             <svg>{children}</svg>
-        </Provider>
+        </Provider>,
     );
 
     await wait(10);

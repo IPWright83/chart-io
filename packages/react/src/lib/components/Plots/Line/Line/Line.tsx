@@ -2,9 +2,7 @@ import type { IPlotProps } from "@chart-io/types";
 import React from "react";
 
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
-
-import { CanvasLine } from "./CanvasLine";
-import { SVGLine } from "./SVGLine";
+import { LineBase } from "./LineBase";
 
 export interface ILineProps extends Omit<IPlotProps, "layer" | "canvas"> {
     /**
@@ -13,8 +11,8 @@ export interface ILineProps extends Omit<IPlotProps, "layer" | "canvas"> {
     useCanvas?: boolean;
 }
 
-const WrappedCanvasLine = withCanvas(withXYPlot<ILineProps>(CanvasLine), "plot line");
-const WrappedSVGLine = withSVG(withXYPlot<ILineProps>(SVGLine), "plot line");
+const WrappedCanvasLine = withCanvas(withXYPlot<ILineProps>(LineBase), "plot line");
+const WrappedSVGLine = withSVG(withXYPlot<ILineProps>(LineBase), "plot line");
 
 /**
  * Represents a Line plot

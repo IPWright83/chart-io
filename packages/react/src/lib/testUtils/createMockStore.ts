@@ -1,4 +1,4 @@
-import { defaultChartState, defaultEventState, IStore } from "../store";
+import { defaultChartState, defaultEventState, IStore } from "@chart-io/core";
 
 /**
  * Creates a mock Redux store for testing with

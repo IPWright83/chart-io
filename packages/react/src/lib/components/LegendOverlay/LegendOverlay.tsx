@@ -1,8 +1,9 @@
+import { chartSelectors, IState } from "@chart-io/core";
 import type { ILegendFormatter } from "@chart-io/types";
+
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors, IState } from "../../store";
 import { getLegendMaxDimensions } from "./getLegendMaxDimensions";
 import { getLegendPosition } from "./getLegendPosition";
 import { Legend } from "./Legend";
@@ -46,7 +47,7 @@ export function LegendOverlay({
             width,
             height,
             theme.legend.defaultMaxWidth,
-            theme.legend.defaultMaxHeight
+            theme.legend.defaultMaxHeight,
         ),
     };
 

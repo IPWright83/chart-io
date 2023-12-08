@@ -1,12 +1,11 @@
 import * as d3 from "@chart-io/d3";
+import { area, chartSelectors, eventSelectors, IState } from "@chart-io/core";
+
 import { useSelector, useStore } from "react-redux";
 import type { IPlotProps } from "@chart-io/types";
 
-import { chartSelectors, eventSelectors, IState } from "../../../../store";
-import { interpolateMultiPath, isNullOrUndefined } from "../../../../utils";
 import { useLegendItem, useRender } from "../../../../hooks";
 
-import { IBandwidthScale } from "../../IBandwidthScale";
 import { useDatumFocus } from "./useDatumFocus";
 import { usePathCreator } from "./usePathCreator";
 import { useTooltip } from "./useTooltip";
@@ -50,8 +49,6 @@ export function AreaBase({
     fillColor.opacity = theme.series.opacity;
     const strokeColor = fillColor.darker();
 
-    const bandwidth = (xScale as IBandwidthScale).bandwidth ? (xScale as IBandwidthScale).bandwidth() / 2 : 0;
-
     useLegendItem(y, "line", showInLegend, fillColor);
 
     // Used to create our initial path
@@ -59,50 +56,37 @@ export function AreaBase({
 
     /* On future renders we want to update the path */
     useRender(() => {
-        // Area renderer that starts at the 0 point
-        const area = d3
-            .area()
-            .curve(d3.curveLinear)
-            .x((d) => xScale(d[x]) + bandwidth)
-            .y0((d) => (y2 ? yScale(d[y]) : yScale.range()[0]))
-            .y1((d) => (y2 ? yScale(d[y2]) : yScale(d[y])))
-            .defined((d) => !isNullOrUndefined(d[y]));
-
         // Handle Canvas rendering
         if (canvas) {
-            const context = canvas.getContext("2d");
-            area.context(context);
-
-            // Clear and then re-render the path
-            context.clearRect(0, 0, width, height);
-            context.beginPath();
-
-            // @ts-ignore: TODO: Not sure how to fix this
-            area(sortedData);
-
-            context.fillStyle = fillColor.toString();
-            context.strokeStyle = strokeColor.toString();
-            context.fill();
-            context.stroke();
-
-            return;
+            return area.canvas.render({
+                x,
+                y,
+                y2,
+                height,
+                width,
+                canvas,
+                xScale,
+                yScale,
+                data: sortedData,
+                fillColor,
+                strokeColor,
+                theme,
+            });
         }
 
-        // Handle SVG Rendering
-        d3.select(layer.current)
-            .select("path")
-            .datum(sortedData)
-            .style("fill", fillColor.toString())
-            .style("stroke", strokeColor.toString())
-            .style("pointer-events", "none")
-            .transition("area")
-            .duration(animationDuration)
-            .attrTween("d", function (d) {
-                const previous = d3.select(this).attr("d");
-                // @ts-ignore: TODO: Not sure how to fix this
-                const current = area(d);
-                return interpolateMultiPath(previous, current);
-            });
+        area.render({
+            x,
+            y,
+            y2,
+            layer: layer.current,
+            xScale,
+            yScale,
+            data: sortedData,
+            animationDuration,
+            fillColor,
+            strokeColor,
+            theme,
+        });
     }, [x, y, sortedData, xScale, yScale, layer, canvas, width, height, theme.series.colors, animationDuration]);
 
     // If possible respond to global mouse events for tooltips etc

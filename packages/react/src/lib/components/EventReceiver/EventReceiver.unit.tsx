@@ -1,9 +1,10 @@
+import { MOUSE_MOVE_THROTTLE } from "@chart-io/core";
+
 import { fireEvent, render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import React from "react";
 
 import { createMockStore, FakeMouseEvent, wait } from "../../testUtils";
-import { MOUSE_MOVE_THROTTLE } from "../../constants";
 
 import { EventReceiver } from ".";
 import { EventReceiver as EventReceiverBase } from "./EventReceiver";
@@ -25,7 +26,7 @@ describe("EventReceiver", () => {
                 <svg>
                     <EventReceiver />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -37,7 +38,7 @@ describe("EventReceiver", () => {
                 <svg>
                     <EventReceiver />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         jest.spyOn(store, "dispatch");
@@ -61,7 +62,7 @@ describe("EventReceiver", () => {
                 <svg>
                     <EventReceiverBase layer={layer} />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         // Should be empty

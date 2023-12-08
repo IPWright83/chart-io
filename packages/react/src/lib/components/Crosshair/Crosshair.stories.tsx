@@ -1,7 +1,8 @@
+import { themes } from "@chart-io/core";
+
 import React from "react";
 import { Provider } from "react-redux";
 
-import { themes } from "../../themes";
 import { Crosshair } from ".";
 
 import { createMockStorybookStore } from "../../testUtils";

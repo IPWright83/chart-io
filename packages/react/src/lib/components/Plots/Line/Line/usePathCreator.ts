@@ -1,5 +1,6 @@
 import * as d3 from "@chart-io/d3";
 import type { IScale } from "@chart-io/types";
+
 import { useEffect } from "react";
 
 /**
@@ -16,7 +17,7 @@ export function usePathCreator(
     x: string,
     y: string,
     xScale: IScale,
-    yScale: IScale
+    yScale: IScale,
 ) {
     useEffect(() => {
         // Ensure that we've got the SVG group to render to

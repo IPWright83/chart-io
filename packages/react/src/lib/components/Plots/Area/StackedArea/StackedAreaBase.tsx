@@ -1,11 +1,11 @@
 import * as d3 from "@chart-io/d3";
+import { chartSelectors, ensureNoScaleOverflow, eventSelectors, IState } from "@chart-io/core";
 import type { IColor, IEventPlotProps } from "@chart-io/types";
+
 import { useSelector, useStore } from "react-redux";
 import { interpolatePath } from "d3-interpolate-path";
 
-import { chartSelectors, eventSelectors, IState } from "../../../../store";
 import { useLegendItems, useRender } from "../../../../hooks";
-import { ensureNoScaleOverflow } from "../../../../utils";
 
 import { IBandwidthScale } from "../../IBandwidthScale";
 import { useDatumFocus } from "./useDatumFocus";
