@@ -180,7 +180,7 @@ describe("utils", () => {
             logWarning("W100", "Foobar");
 
             expect(spy).toHaveBeenCalledWith(
-                "@chart-io/react encountered an warning. W100: Foobar. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-warnings-W100.",
+                "@chart-io encountered an warning. W100: Foobar. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-warnings-W100.",
             );
         });
 
@@ -189,7 +189,7 @@ describe("utils", () => {
 
             logDebug("Foobar");
 
-            expect(spy).toHaveBeenCalledWith("@chart-io/react", "Foobar", []);
+            expect(spy).toHaveBeenCalledWith("@chart-io", "Foobar", []);
         });
 
         it("logError outputs correctly to the console", () => {
@@ -198,7 +198,7 @@ describe("utils", () => {
             logError("E100", "Foobar");
 
             expect(spy).toHaveBeenCalledWith(
-                "@chart-io/react encountered an error. E100: Foobar. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-errors-E100.",
+                "@chart-io encountered an error. E100: Foobar. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-errors-E100.",
             );
         });
 
@@ -210,7 +210,7 @@ describe("utils", () => {
             }).toThrow("Foobar");
 
             expect(spy).toHaveBeenCalledWith(
-                "@chart-io/react encountered an error. E100: Foobar. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-errors-E100.",
+                "@chart-io encountered an error. E100: Foobar. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-errors-E100.",
             );
         });
     });
