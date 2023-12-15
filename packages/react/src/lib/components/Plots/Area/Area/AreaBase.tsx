@@ -68,7 +68,7 @@ export function AreaBase({
 
     // If possible respond to global mouse events for tooltips etc
     if (interactive) {
-        useDatumFocus(store.dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, strokeColor);
+        useDatumFocus({ layer, x, y, xScale, yScale, data: sortedData, color: strokeColor, interactive });
         useTooltip(store.dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, strokeColor);
     }
 

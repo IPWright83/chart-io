@@ -14,3 +14,4 @@ export const stacked = {
 };
 
 export * from "./render";
+export * from "./focus";
