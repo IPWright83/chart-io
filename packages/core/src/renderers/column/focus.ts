@@ -3,9 +3,9 @@ import { IColor, IFocused, IScale, ITheme } from "@chart-io/types";
 
 import type { Selection } from "d3-selection";
 
-import type { IDispatch } from "../../store";
 import { eventActions } from "../../store";
 import { getXYFromTransform } from "../../utils";
+import type { IDispatch } from "../../store";
 
 export interface IColumnFocusProps {
     /**

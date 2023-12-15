@@ -1,18 +1,5 @@
 import * as d3 from "@chart-io/d3";
-import type { Selection, Transition } from "@chart-io/d3";
-import {
-    IColor,
-    IDatum,
-    IScale,
-    IEventPlotProps,
-    INumericValue,
-    IData,
-    ITheme,
-    IOnClick,
-    IOnMouseOut,
-    IOnMouseOver,
-    IBandwidthScale,
-} from "@chart-io/types";
+import { IColor, IDatum } from "@chart-io/types";
 
 import {
     ensureBandwidth,
@@ -54,6 +41,7 @@ export interface IRenderStackedColumnPlotProps extends Omit<IRenderProps, "y"> {
 
 /**
  * Helper function to render a stacked ColumnPlot
+ * @return An object with the update and exit selection { update, exit }
  */
 export function stacked({
     x,

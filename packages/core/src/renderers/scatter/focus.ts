@@ -1,8 +1,8 @@
 import * as d3 from "@chart-io/d3";
 import { IColor, IFocused, IScale } from "@chart-io/types";
 
-import type { IDispatch } from "../../store";
 import { eventActions } from "../../store";
+import type { IDispatch } from "../../store";
 
 export interface IScatterFocusProps {
     /**

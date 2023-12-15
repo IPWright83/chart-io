@@ -1,5 +1,5 @@
-import { stacked as stackedRender } from "./stacked";
 import { grouped as groupedRender } from "./grouped";
+import { stacked as stackedRender } from "./stacked";
 
 export const stacked = {
     render: stackedRender,

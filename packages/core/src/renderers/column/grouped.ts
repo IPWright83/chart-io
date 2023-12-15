@@ -1,26 +1,7 @@
 import * as d3 from "@chart-io/d3";
-import type { Selection, Transition } from "@chart-io/d3";
-import {
-    IColor,
-    IDatum,
-    IScale,
-    IEventPlotProps,
-    INumericValue,
-    IData,
-    ITheme,
-    IOnClick,
-    IOnMouseOut,
-    IOnMouseOver,
-    IBandwidthScale,
-} from "@chart-io/types";
+import { IColor, IDatum, INumericValue } from "@chart-io/types";
 
-import {
-    ensureBandwidth,
-    ensureNoScaleOverflow,
-    ensureValuesAreUnique,
-    getBandwidthAndOffset,
-    getParentKey,
-} from "../../utils";
+import { ensureBandwidth, getBandwidthAndOffset } from "../../utils";
 import type { IRenderProps } from "../../types";
 
 export interface IRenderGroupedColumnPlotProps extends Omit<IRenderProps, "y"> {
@@ -54,6 +35,7 @@ export interface IRenderGroupedColumnPlotProps extends Omit<IRenderProps, "y"> {
 
 /**
  * Helper function to render a grouped ColumnPlot
+ * @return An object with the update and exit selection { update, exit }
  */
 export function grouped({
     x,

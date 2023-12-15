@@ -1,26 +1,13 @@
 import * as d3 from "@chart-io/d3";
-import type { Selection, Transition } from "@chart-io/d3";
-import {
-    IColor,
-    IDatum,
-    IScale,
-    IEventPlotProps,
-    INumericValue,
-    IData,
-    ITheme,
-    IOnClick,
-    IOnMouseOut,
-    IOnMouseOver,
-    IBandwidthScale,
-} from "@chart-io/types";
+import type { IBandwidthScale, IColor } from "@chart-io/types";
 
-import { interpolateMultiPath, isNullOrUndefined } from "../../utils";
 import type { IRenderProps } from "../../types";
+import { isNullOrUndefined } from "../../utils";
 
 export interface IRenderCanvasAreaPlotProps
     extends Omit<
         IRenderProps,
-        "onClick" | "onMouseOut" | "onMouseOver" | "interactive" | "layer" | "animationDuration"
+        "onClick" | "onMouseOut" | "onMouseOver" | "interactive" | "layer" | "animationDuration" | "theme"
     > {
     /**
      * The key of the field used for the y2 position for a stream graph
@@ -63,7 +50,6 @@ export function canvas({
     data,
     fillColor,
     strokeColor,
-    theme,
 }: IRenderCanvasAreaPlotProps) {
     if (!canvas) {
         return;

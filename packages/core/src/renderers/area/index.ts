@@ -1,6 +1,6 @@
 import { canvas as canvasRender } from "./canvas";
-import { stacked as stackedRender } from "./stacked";
 import { stackedCanvas as stackedCanvasRender } from "./stackedCanvas";
+import { stacked as stackedRender } from "./stacked";
 
 export const canvas = {
     render: canvasRender,

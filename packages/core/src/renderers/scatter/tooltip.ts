@@ -1,7 +1,7 @@
 import { IColor, IDatum, IMouseEvent } from "@chart-io/types";
 
-import type { IDispatch } from "../../store";
 import { eventActions } from "../../store";
+import type { IDispatch } from "../../store";
 
 export interface IScatterTooltipProps {
     /**

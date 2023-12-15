@@ -1,4 +1,5 @@
-import type { IStore, linkStores } from "@chart-io/core";
+import type { IStore } from "@chart-io/core";
+import { linkStores } from "@chart-io/core";
 
 import React, { useState, useEffect } from "react";
 

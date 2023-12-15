@@ -1,18 +1,5 @@
 import * as d3 from "@chart-io/d3";
-import type { Selection, Transition } from "@chart-io/d3";
-import {
-    IColor,
-    IDatum,
-    IScale,
-    IEventPlotProps,
-    INumericValue,
-    IData,
-    ITheme,
-    IOnClick,
-    IOnMouseOut,
-    IOnMouseOver,
-    IBandwidthScale,
-} from "@chart-io/types";
+import { IColor, IDatum, INumericValue } from "@chart-io/types";
 
 import { ensureBandwidth, ensureValuesAreUnique, getBandwidthAndOffset } from "../../utils";
 import type { IRenderProps } from "../../types";
@@ -44,6 +31,7 @@ export interface IRenderColumnPlotProps extends IRenderProps {
 
 /**
  * Helper function to render a ColumnPlot
+ * @return An object with the update and exit selection { update, exit }
  */
 export function render({
     x,

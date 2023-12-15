@@ -1,4 +1,4 @@
-import { IScale, IData, ITheme, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/types";
+import { IData, IOnClick, IOnMouseOut, IOnMouseOver, IScale, ITheme } from "@chart-io/types";
 
 export interface IRenderProps {
     /**

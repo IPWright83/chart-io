@@ -1,9 +1,9 @@
 import * as d3 from "@chart-io/d3";
-import { IColor, ICoordinate, IMouseEventType, IScale, ITheme, IData } from "@chart-io/types";
+import { IColor, ICoordinate, IData, IMouseEventType, IScale } from "@chart-io/types";
 
-import type { IDispatch } from "../../store";
+import { getDistance, isNullOrUndefined } from "../../utils";
 import { eventActions } from "../../store";
-import { isNullOrUndefined, getDistance } from "../../utils";
+import type { IDispatch } from "../../store";
 
 export interface ILineTooltipProps {
     /**

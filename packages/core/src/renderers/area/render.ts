@@ -1,18 +1,5 @@
 import * as d3 from "@chart-io/d3";
-import type { Selection, Transition } from "@chart-io/d3";
-import {
-    IColor,
-    IDatum,
-    IScale,
-    IEventPlotProps,
-    INumericValue,
-    IData,
-    ITheme,
-    IOnClick,
-    IOnMouseOut,
-    IOnMouseOver,
-    IBandwidthScale,
-} from "@chart-io/types";
+import { IBandwidthScale, IColor } from "@chart-io/types";
 
 import { interpolateMultiPath, isNullOrUndefined } from "../../utils";
 import type { IRenderProps } from "../../types";
@@ -47,7 +34,6 @@ export function render({
     animationDuration,
     fillColor,
     strokeColor,
-    theme,
 }: IRenderAreaPlotProps) {
     if (!layer) {
         return;

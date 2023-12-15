@@ -1,26 +1,8 @@
 import * as d3 from "@chart-io/d3";
-import type { Selection, Transition } from "@chart-io/d3";
-import {
-    IColor,
-    IDatum,
-    IScale,
-    IEventPlotProps,
-    INumericValue,
-    IData,
-    ITheme,
-    IOnClick,
-    IOnMouseOut,
-    IOnMouseOver,
-    IBandwidthScale,
-} from "@chart-io/types";
+import { IColor, IDatum, INumericValue, IValue } from "@chart-io/types";
+import type { Transition } from "@chart-io/d3";
 
-import {
-    ensureBandwidth,
-    ensureNoScaleOverflow,
-    ensureValuesAreUnique,
-    getBandwidthAndOffset,
-    getParentKey,
-} from "../../utils";
+import { ensureBandwidth, getBandwidthAndOffset } from "../../utils";
 import type { IRenderProps } from "../../types";
 
 export interface IRenderGroupedBarPlotProps extends Omit<IRenderProps, "x"> {
@@ -54,6 +36,7 @@ export interface IRenderGroupedBarPlotProps extends Omit<IRenderProps, "x"> {
 
 /**
  * Helper function to render a grouped BarPlot
+ * @return An object with the update and exit selection { update, exit }
  */
 export function grouped({
     xs,
