@@ -38,33 +38,14 @@ export function LineBase({
 
     /* On future renders we want to update the path */
     useRender(() => {
+        const props = { x, y, xScale, yScale, data: sortedData, color: seriesColor, theme };
+
         // Handle Canvas rendering
         if (canvas) {
-            return line.canvas.render({
-                x,
-                y,
-                height,
-                width,
-                canvas,
-                xScale,
-                yScale,
-                data: sortedData,
-                color: seriesColor,
-                theme,
-            });
+            return line.canvas.render({ ...props, height, width, canvas });
         }
 
-        line.render({
-            x,
-            y,
-            layer: layer.current,
-            xScale,
-            yScale,
-            data: sortedData,
-            animationDuration,
-            color: seriesColor,
-            theme,
-        });
+        line.render({ ...props, layer: layer.current, animationDuration });
     }, [x, y, sortedData, xScale, yScale, width, height, seriesColor, theme, layer, canvas, animationDuration]);
 
     // If possible respond to global mouse events for tooltips etc

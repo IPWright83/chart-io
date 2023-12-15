@@ -1,11 +1,10 @@
 import * as d3 from "@chart-io/d3";
-import { IColor, IScale, ITheme } from "@chart-io/types";
+import { IColor, IFocused, IScale, ITheme } from "@chart-io/types";
 
 import type { Selection } from "d3-selection";
 
 import type { IDispatch } from "../../store";
 import { eventActions } from "../../store";
-import type { IFocused } from "../../types";
 import { getXYFromTransform } from "../../utils";
 
 export interface IBarFocusProps {

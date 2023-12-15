@@ -1,11 +1,10 @@
 import * as d3 from "@chart-io/d3";
-import { IColor, ICoordinate, IMouseEventType, IScale, ITheme, IData } from "@chart-io/types";
+import { IColor, ICoordinate, IFocused, IMouseEventType, IScale, ITheme, IData } from "@chart-io/types";
 
 import type { Selection } from "d3-selection";
 
 import type { IDispatch } from "../../store";
 import { eventActions } from "../../store";
-import type { IFocused } from "../../types";
 import { isNullOrUndefined, getDistance, getXYFromTransform } from "../../utils";
 
 export interface ILineFocusProps {

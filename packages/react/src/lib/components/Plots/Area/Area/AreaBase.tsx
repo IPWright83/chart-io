@@ -56,37 +56,14 @@ export function AreaBase({
 
     /* On future renders we want to update the path */
     useRender(() => {
+        const props = { x, y, y2, xScale, yScale, data: sortedData, fillColor, strokeColor, theme };
+
         // Handle Canvas rendering
         if (canvas) {
-            return area.canvas.render({
-                x,
-                y,
-                y2,
-                height,
-                width,
-                canvas,
-                xScale,
-                yScale,
-                data: sortedData,
-                fillColor,
-                strokeColor,
-                theme,
-            });
+            return area.canvas.render({ ...props, height, width, canvas });
         }
 
-        area.render({
-            x,
-            y,
-            y2,
-            layer: layer.current,
-            xScale,
-            yScale,
-            data: sortedData,
-            animationDuration,
-            fillColor,
-            strokeColor,
-            theme,
-        });
+        area.render({ ...props, layer: layer.current, animationDuration });
     }, [x, y, sortedData, xScale, yScale, layer, canvas, width, height, theme.series.colors, animationDuration]);
 
     // If possible respond to global mouse events for tooltips etc

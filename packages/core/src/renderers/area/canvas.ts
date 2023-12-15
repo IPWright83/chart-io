@@ -49,7 +49,7 @@ export interface IRenderCanvasAreaPlotProps
 }
 
 /**
- * Helper function to render a Line Plot to canvas
+ * Helper function to render an area plot to canvas
  */
 export function canvas({
     x,

@@ -1,4 +1,5 @@
-import type { IDatum, IMouseEvent } from "@chart-io/types";
+import type { IDatum } from "./IData";
+import type { IMouseEvent } from "./IMouseEvents";
 
 /**
  * Represents a Focused data point

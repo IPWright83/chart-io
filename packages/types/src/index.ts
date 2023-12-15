@@ -23,3 +23,4 @@ export * from "./IShape";
 export * from "./ITheme";
 export * from "./ITooltipItem";
 export * from "./IValue";
+export * from "./IFocused";

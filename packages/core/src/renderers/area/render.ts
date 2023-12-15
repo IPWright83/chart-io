@@ -34,7 +34,7 @@ export interface IRenderAreaPlotProps
 }
 
 /**
- * Helper function to render a line plot to SVG
+ * Helper function to render an area plot to SVG
  */
 export function render({
     x,
@@ -64,7 +64,6 @@ export function render({
         .y1((d) => (y2 ? yScale(d[y2]) : yScale(d[y])))
         .defined((d) => !isNullOrUndefined(d[y]));
 
-    // Handle SVG Rendering
     d3.select(layer)
         .select("path")
         .datum(data)
