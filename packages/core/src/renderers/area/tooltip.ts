@@ -5,15 +5,7 @@ import { getDistance, isNullOrUndefined } from "../../utils";
 import { eventActions } from "../../store";
 import type { IDispatch } from "../../store";
 
-export interface IAreaFocusProps {
-    /**
-     * The color of the plot
-     */
-    color: IColor;
-    /**
-     * The complete dataset for the plot
-     */
-    data: IData;
+export interface IAreaTooltipProps {
     /**
      * The redux store dispatch function
      */
@@ -26,6 +18,14 @@ export interface IAreaFocusProps {
      * The { x, y } position of the mouse
      */
     position: ICoordinate;
+    /**
+     * The complete dataset for the plot
+     */
+    data: IData;
+    /**
+     * The color of the data point
+     */
+    color: IColor;
     /**
      * The key of the field used for the x position
      */
@@ -45,15 +45,10 @@ export interface IAreaFocusProps {
 }
 
 /**
- * Helper function to manage markers & droplines for a selected datum on the Area plot
+ * Helper function to manage tooltips for a selected datum on the Column plot
  * @return              A function to set the focused datum
  */
-export function focus({ dispatch, x, y, xScale, yScale, position, data, color, eventMode }: IAreaFocusProps) {
-    if (!xScale || !yScale || !data) {
-        // istanbul ignore next
-        return;
-    }
-
+export function tooltip({ dispatch, eventMode, color, x, y, data, xScale, yScale, position }: IAreaTooltipProps) {
     // We need the invert function to be able to do this
     if (!(xScale as IInvertScale).invert) {
         // istanbul ignore next
@@ -75,41 +70,33 @@ export function focus({ dispatch, x, y, xScale, yScale, position, data, color, e
         return;
     }
 
-    // Get the appropriate attributes
-    const cx = +xScale(datum[x] as INumericValue);
-    const cy = +yScale(datum[y] as INumericValue);
-    const fill = color;
+    const cx = xScale(datum[x] as INumericValue);
+    const cy = yScale(datum[y] as INumericValue);
     const distance = getDistance(position.x, position.y, cx, cy);
 
-    const marker = { fill, cx, cy, distance };
-    const horizontalDropline = {
-        isHorizontal: true,
-        color: fill,
-        x1: cx,
-        x2: xScale.range()[0],
-        y1: cy,
-        y2: cy,
+    // Common x value
+    const tooltipItemX = {
+        datum,
+        name: x,
+        value: datum[x],
+    };
+    dispatch(eventActions.addTooltipItem(tooltipItemX));
+
+    const tooltipItemY = {
+        datum,
+        name: y,
+        value: datum[y],
+        icon: "square" as const,
+        fill: color,
         distance,
     };
-
-    const verticalDropline = {
-        isVertical: true,
-        color: fill,
-        x1: cx,
-        x2: cx,
-        y1: cy,
-        y2: yScale.range()[0],
-        distance,
-    };
-
-    dispatch(eventActions.addMarker(marker));
-    dispatch(eventActions.addDropline(horizontalDropline));
-    dispatch(eventActions.addDropline(verticalDropline));
+    dispatch(eventActions.addTooltipItem(tooltipItemY));
+    dispatch(eventActions.setPositionEvent(position.x, position.y));
 
     // Clean up operations on exit
     return () => {
-        dispatch(eventActions.removeMarker(marker));
-        dispatch(eventActions.removeDropline(horizontalDropline));
-        dispatch(eventActions.removeDropline(verticalDropline));
+        dispatch(eventActions.setTooltipBorderColor(undefined));
+        dispatch(eventActions.removeTooltipItem(tooltipItemX));
+        dispatch(eventActions.removeTooltipItem(tooltipItemY));
     };
 }

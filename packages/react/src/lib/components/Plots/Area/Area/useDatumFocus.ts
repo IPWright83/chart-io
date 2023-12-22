@@ -3,11 +3,7 @@ import { area, eventSelectors, IState } from "@chart-io/core";
 import { useSelector, useStore } from "react-redux";
 import { useEffect } from "react";
 
-interface IDatumFocusProps extends Omit<area.IAreaFocusProps, "layer" | "dispatch" | "eventMode" | "position"> {
-    /**
-     * The layer we're updating to from a React useRef
-     */
-    layer: React.MutableRefObject<Element>;
+interface IDatumFocusProps extends Omit<area.IAreaFocusProps, "dispatch" | "eventMode" | "position"> {
     /**
      * Whether the plot is interactive
      */
@@ -17,7 +13,7 @@ interface IDatumFocusProps extends Omit<area.IAreaFocusProps, "layer" | "dispatc
 /**
  * Responds to events from an event layer to focus the nearest datum
  */
-export function useDatumFocus({ interactive, layer, x, y, xScale, yScale, data, color }: IDatumFocusProps) {
+export function useDatumFocus({ interactive, x, y, xScale, yScale, data, color }: IDatumFocusProps) {
     const { dispatch } = useStore();
     const eventMode = useSelector((s: IState) => eventSelectors.mode(s));
     const position = useSelector((s: IState) => eventSelectors.position(s));
@@ -36,8 +32,7 @@ export function useDatumFocus({ interactive, layer, x, y, xScale, yScale, data, 
                 position,
                 data,
                 eventMode,
-                layer: layer.current,
             });
         }
-    }, [eventMode, position.x, position.y, xScale, yScale, x, y, data, layer, color]);
+    }, [eventMode, position.x, position.y, xScale, yScale, x, y, data, color]);
 }

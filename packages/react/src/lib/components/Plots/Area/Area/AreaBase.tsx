@@ -1,8 +1,8 @@
 import * as d3 from "@chart-io/d3";
-import { area, chartSelectors, eventSelectors, IState } from "@chart-io/core";
+import { area, chartSelectors, IState } from "@chart-io/core";
 
-import { useSelector, useStore } from "react-redux";
 import type { IPlotProps } from "@chart-io/types";
+import { useSelector } from "react-redux";
 
 import { useLegendItem, useRender } from "../../../../hooks";
 
@@ -33,12 +33,9 @@ export function AreaBase({
     layer,
     canvas,
 }: IAreaBaseProps) {
-    const store = useStore();
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, scaleMode));
     const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y, scaleMode));
-    const eventMode = useSelector((s: IState) => eventSelectors.mode(s));
-    const position = useSelector((s: IState) => eventSelectors.position(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
@@ -67,10 +64,8 @@ export function AreaBase({
     }, [x, y, sortedData, xScale, yScale, layer, canvas, width, height, theme.series.colors, animationDuration]);
 
     // If possible respond to global mouse events for tooltips etc
-    if (interactive) {
-        useDatumFocus({ layer, x, y, xScale, yScale, data: sortedData, color: strokeColor, interactive });
-        useTooltip(store.dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, strokeColor);
-    }
+    useDatumFocus({ x, y, xScale, yScale, data: sortedData, color: strokeColor, interactive });
+    useTooltip({ x, y, xScale, yScale, data: sortedData, color: strokeColor, interactive });
 
     return null;
 }

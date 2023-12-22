@@ -1,8 +1,8 @@
 import * as d3 from "@chart-io/d3";
-import { area, chartSelectors, eventSelectors, IState } from "@chart-io/core";
+import { area, chartSelectors, IState } from "@chart-io/core";
 import type { IColor, IEventPlotProps } from "@chart-io/types";
 
-import { useSelector, useStore } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { useLegendItems, useRender } from "../../../../hooks";
 
@@ -37,12 +37,9 @@ export function StackedAreaBase({
     layer,
     canvas,
 }: IStackedAreaBaseProps) {
-    const store = useStore();
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, scaleMode));
     const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, ys[0], scaleMode));
-    const eventMode = useSelector((s: IState) => eventSelectors.mode(s));
-    const position = useSelector((s: IState) => eventSelectors.position(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
@@ -67,10 +64,8 @@ export function StackedAreaBase({
     }, [x, ys, sortedData, xScale, yScale, layer, animationDuration, theme.series.opacity]);
 
     // If possible respond to global mouse events for tooltips etc
-    if (interactive) {
-        useDatumFocus(store.dispatch, layer, x, ys, xScale, yScale, sortedData, eventMode, position, colors);
-        useTooltip(store.dispatch, layer, x, ys, xScale, yScale, sortedData, eventMode, position, colors);
-    }
+    useDatumFocus({ interactive, x, ys, xScale, yScale, data: sortedData, colors });
+    useTooltip({ x, ys, xScale, yScale, data: sortedData, colors, interactive });
 
     return null;
 }
