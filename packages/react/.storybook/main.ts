@@ -14,11 +14,11 @@ function getAbsolutePath(value: string): any {
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [
-    getAbsolutePath("@storybook/addon-links"),
-    getAbsolutePath("@storybook/addon-essentials"),
-    getAbsolutePath("@storybook/addon-interactions"),
+    "@storybook/addon-links",
+    "@storybook/addon-essentials",
+    "@storybook/addon-interactions",
     {
-      name: getAbsolutePath("@storybook/addon-docs"),
+      name: "@storybook/addon-docs",
       options: {
         mdxPluginOptions: {
           mdxCompileOptions: {
@@ -28,7 +28,7 @@ const config: StorybookConfig = {
       },
     },
     {
-      name: getAbsolutePath("@storybook/addon-coverage"),
+      name: "@storybook/addon-coverage",
       options: {
         istanbul: {
           exclude: ["**/testUtils/**"],
@@ -37,7 +37,7 @@ const config: StorybookConfig = {
     },
   ],
   framework: {
-    name: getAbsolutePath("@storybook/react-vite"),
+    name: "@storybook/react-vite",
     options: {},
   },
   docs: {
