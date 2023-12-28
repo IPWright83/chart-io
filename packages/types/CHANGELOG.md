@@ -1,5 +1,11 @@
 # @chart-io/types
 
+## 0.15.0
+
+### Minor Changes
+
+- 13dd7aa: Added a new core package for main rendering logic
+
 ## 0.14.0
 
 ### Minor Changes
