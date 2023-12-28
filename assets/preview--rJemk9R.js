@@ -1,0 +1,2 @@
+const t={parameters:{backgrounds:{default:"light"},actions:{argTypesRegex:"^on[A-Z].*"},controls:{matchers:{color:/(background|color)$/i,date:/Date$/}},options:{storySort:{order:["Introduction","Getting Started","Extensibility","Theming","XYCharts","Components","Errors & Warnings",["Introduction","**"],"Architecture","**",["Introduction","**"]]}}}};export{t as default};
+//# sourceMappingURL=preview--rJemk9R.js.map

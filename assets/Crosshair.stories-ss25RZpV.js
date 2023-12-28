@@ -1,0 +1,5 @@
+import{j as o}from"./jsx-runtime-vNq4Oc-g.js";import"./index-CnLlP05v.js";import{P as m,t as n}from"./Provider--AC3n3ro.js";import{C as a}from"./index-A_rqIulo.js";import{c as p}from"./index-Qdriakje.js";import"./index-4g5l5LRQ.js";import"./_commonjsHelpers-4gQjN7DL.js";import"./index-jmm5gWkb.js";import"./index-CTVlSsFV.js";import"./client-vNP-bS9o.js";import"./index-PPLHz8o0.js";const y={title:"Components/Crosshair",component:a,parameters:{chromatic:{delay:300}}},c=()=>{const i=p({chart:{theme:n.light,dimensions:{width:200,height:200}},event:{mouse:{x:100,y:100}}});return o.jsx(m,{store:i,children:o.jsx("svg",{children:o.jsx(a,{showVertical:!0,showHorizontal:!0})})})},r={name:"Crosshair",render:c};var e,t,s;r.parameters={...r.parameters,docs:{...(e=r.parameters)==null?void 0:e.docs,source:{originalSource:`{
+  name: "Crosshair",
+  render: CrosshairTemplate
+}`,...(s=(t=r.parameters)==null?void 0:t.docs)==null?void 0:s.source}}};const S=["Default"];export{r as Default,S as __namedExportsOrder,y as default};
+//# sourceMappingURL=Crosshair.stories-ss25RZpV.js.map
