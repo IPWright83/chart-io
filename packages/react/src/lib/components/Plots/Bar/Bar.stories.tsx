@@ -1,3 +1,5 @@
+import { themes } from "@chart-io/core";
+
 import React from "react";
 
 import { argTypes } from "../../../../storybook/argTypes";
@@ -6,7 +8,6 @@ import { Bar } from "./Bar";
 import { Bars } from "./Bars";
 import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
-import { themes } from "../../../themes";
 import { createSVGTest, createCanvasTest } from "../../../testUtils";
 
 import { uniqBy } from "lodash";

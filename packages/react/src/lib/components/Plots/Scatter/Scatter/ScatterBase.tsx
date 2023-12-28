@@ -1,14 +1,15 @@
 import * as d3 from "@chart-io/d3";
-import { IColor, IDatum, IEventPlotProps, INumericValue } from "@chart-io/types";
-import type { Selection, Transition } from "@chart-io/d3";
-import { useSelector, useStore } from "react-redux";
+import { chartSelectors, IState } from "@chart-io/core";
+import { IEventPlotProps } from "@chart-io/types";
+import { scatter } from "@chart-io/core";
+import type { Transition } from "@chart-io/d3";
+
+import { useSelector } from "react-redux";
 
 import { useFocused } from "./useFocused";
 import { useTooltip } from "./useTooltip";
 
-import { chartSelectors, IState } from "../../../../store";
 import { useLegendItem, useRender } from "../../../../hooks";
-import type { IBandwidthScale } from "../../IBandwidthScale";
 import { renderCanvas } from "../../renderCanvas";
 
 export interface IScatterBaseProps extends IEventPlotProps {
@@ -47,7 +48,6 @@ export function ScatterBase({
     onClick,
     layer,
 }: IScatterBaseProps) {
-    const store = useStore();
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
@@ -64,68 +64,32 @@ export function ScatterBase({
 
     useLegendItem(y, "circle", showInLegend, fillColor);
 
-    const setFocused = useFocused(store.dispatch, xScale, yScale);
-    const setTooltip = useTooltip(store.dispatch, x, y);
+    const onFocus = useFocused({ xScale, yScale });
+    const onTooltip = useTooltip({ x, y });
 
     // This is the main render function
     useRender(() => {
-        const bandwidth = (xScale as IBandwidthScale).bandwidth ? (xScale as IBandwidthScale).bandwidth() / 2 : 0;
-
-        // D3 data join
-        // prettier-ignore
-        const join = d3.select(layer.current)
-            .selectAll("circle")
-            .data(data.filter((d) => d[y] !== null && d[y] !== undefined)) as Selection<SVGCircleElement, IDatum, Element, unknown>;
-
-        // Exit points
-        // prettier-ignore
-        const exit = join
-            .exit()
-            .transition("scatter")
-            .duration(animationDuration)
-            .attr("r", 0)
-            .remove();
-
-        // Enter in new points
-        const enter = join
-            .enter()
-            .append("circle")
-            .attr("class", "scatter-point")
-            .attr("cx", (d) => xScale(d[x] as INumericValue) + bandwidth)
-            .attr("cy", (d) => yScale(d[y] as INumericValue))
-            .attr("r", 0)
-            .style("stroke", () => strokeColor.toString())
-            .style("fill", () => fillColor.toString())
-            .style("opacity", theme.series.opacity);
-
-        // Update new and existing points
-        const update = enter // @ts-ignore
-            .merge(join)
-            .on("mouseover", function (event, datum) {
-                if (!interactive) return;
-
-                onMouseOver && onMouseOver(datum, this, event);
-                setTooltip({ datum, event, fillColor: fillColor as unknown as IColor });
-                setFocused({ element: this, event, datum });
-            })
-            .on("mouseout", function (event, datum) {
-                if (!interactive) return;
-
-                onMouseOut && onMouseOut(datum, this, event);
-                setTooltip(null);
-                setFocused(null);
-            })
-            .on("click", function (event, datum) {
-                if (!interactive) return;
-
-                onClick && onClick(datum, this, event);
-            })
-            .transition("scatter")
-            .duration(animationDuration)
-            .attr("cx", (d) => xScale(d[x] as INumericValue) + bandwidth)
-            .attr("cy", (d) => yScale(d[y] as INumericValue))
-            .attr("r", (d) => (z ? zScale(d[z] as INumericValue) : radius))
-            .style("fill", () => fillColor.toString());
+        const { update, exit } = scatter.render({
+            animationDuration,
+            interactive,
+            radius,
+            layer: layer.current,
+            data,
+            fillColor,
+            strokeColor,
+            onMouseOver,
+            onMouseOut,
+            onClick,
+            onFocus,
+            onTooltip,
+            theme,
+            x,
+            y,
+            z,
+            xScale,
+            yScale,
+            zScale,
+        });
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update, exit);
     }, [

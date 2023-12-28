@@ -1,4 +1,6 @@
 import * as d3 from "@chart-io/d3";
+import { createStore } from "@chart-io/core";
+
 import { act, render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import React from "react";
@@ -6,7 +8,6 @@ import { toMatchImageSnapshot } from "jest-image-snapshot";
 
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
 import { Area } from "./Area";
-import { createStore } from "../../../../store";
 
 expect.extend({ toMatchImageSnapshot });
 

@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import { chartActions, logAndThrowError } from "@chart-io/core";
 import type { IScale } from "@chart-io/types";
+
+import React, { useEffect } from "react";
 import { useStore } from "react-redux";
 
-import { chartActions } from "../../store";
-import { logAndThrowError } from "../../utils";
 import { useArray } from "../../hooks";
 
 export interface IScaleProps {

@@ -1,5 +1,7 @@
 import * as d3 from "@chart-io/d3";
 import type { AxisScale, AxisDomain } from "@chart-io/d3";
+import { chartSelectors, IState } from "@chart-io/core";
+
 import React, { useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -7,7 +9,6 @@ import { XAxis } from "../XAxis";
 import { Axis } from "./Axis";
 import { Chart } from "../../Chart";
 import { axisData } from "./axisData";
-import { chartSelectors, IState } from "../../../store";
 import { XScale } from "../../Scale";
 
 import "./AxisCustomisations.css";

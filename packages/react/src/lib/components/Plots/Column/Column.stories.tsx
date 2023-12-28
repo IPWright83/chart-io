@@ -1,8 +1,9 @@
+import { themes } from "@chart-io/core";
+
 import React from "react";
 
 import { argTypes } from "../../../../storybook/argTypes";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
-import { themes } from "../../../themes";
 import { Column } from "./Column";
 import { Columns } from "./Columns";
 import { XYChart } from "../../XYChart";

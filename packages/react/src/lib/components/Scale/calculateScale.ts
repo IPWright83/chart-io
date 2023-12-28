@@ -1,9 +1,8 @@
 import * as d3 from "@chart-io/d3";
-import type { IData, IScale, IScaleType, IValue } from "@chart-io/types";
-import type { NumberValue } from "@chart-io/d3";
-
 import { getDataType, Type, typeEnumToName } from "@chart-io/detection";
-import { logAndThrowError, logDebug } from "../../utils";
+import type { IData, IScale, IScaleType, IValue } from "@chart-io/types";
+import { logAndThrowError, logDebug } from "@chart-io/core";
+import type { NumberValue } from "@chart-io/d3";
 
 /**
  * Return a scale as defined by the scaleType property

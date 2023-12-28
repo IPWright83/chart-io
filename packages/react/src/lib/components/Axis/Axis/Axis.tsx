@@ -1,12 +1,11 @@
 import * as d3 from "@chart-io/d3";
 import type { AxisDomain, AxisScale } from "@chart-io/d3";
+import { chartSelectors, IState, logAndThrowError } from "@chart-io/core";
 import type { IPosition } from "@chart-io/types";
 
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors, IState } from "../../../store";
-import { logAndThrowError } from "../../../utils";
 import { useArray } from "../../../hooks";
 
 import { getD3Axis } from "./getD3Axis";

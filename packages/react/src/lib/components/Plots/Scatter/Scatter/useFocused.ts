@@ -1,8 +1,7 @@
-import * as d3 from "@chart-io/d3";
-import { IColor, IScale } from "@chart-io/types";
-import { useEffect, useState } from "react";
+import { scatter } from "@chart-io/core";
 
-import { eventActions, IDispatch } from "../../../../store";
+import { useEffect, useState } from "react";
+import { useStore } from "react-redux";
 
 /**
  * Handles the user interacting with a DataPoint on the Scatter chart
@@ -11,49 +10,12 @@ import { eventActions, IDispatch } from "../../../../store";
  * @param  yScale       The d3 scale for the y-axis
  * @return              A function to set the focused datum
  */
-export function useFocused(dispatch: IDispatch, xScale: IScale | undefined, yScale: IScale | undefined) {
+export function useFocused({ xScale, yScale }: Omit<scatter.IScatterFocusProps, "focused" | "dispatch">) {
+    const { dispatch } = useStore();
     const [focused, setFocused] = useState(null);
 
     useEffect(() => {
-        if (!focused) return;
-
-        // Get the appropriate attributes
-        const { element } = focused;
-        const selection = d3.select(element);
-        const r = +selection.attr("r");
-        const cx = +selection.attr("cx");
-        const cy = +selection.attr("cy");
-        const fill = selection.style("fill") as IColor;
-        const markerRadius = r + 4;
-
-        const marker = { stroke: fill, r1: r, r2: markerRadius, cx, cy };
-        const horizontalDropline = {
-            isHorizontal: true,
-            color: fill,
-            x1: cx - markerRadius,
-            x2: xScale.range()[0],
-            y1: cy,
-            y2: cy,
-        };
-        const verticalDropline = {
-            isVertical: true,
-            color: fill,
-            x1: cx,
-            x2: cx,
-            y1: cy + markerRadius,
-            y2: yScale.range()[0],
-        };
-
-        dispatch(eventActions.addMarker(marker));
-        dispatch(eventActions.addDropline(horizontalDropline));
-        dispatch(eventActions.addDropline(verticalDropline));
-
-        // Clean up operations on exit
-        return () => {
-            dispatch(eventActions.removeMarker(marker));
-            dispatch(eventActions.removeDropline(horizontalDropline));
-            dispatch(eventActions.removeDropline(verticalDropline));
-        };
+        return scatter.focus({ dispatch, xScale, yScale, focused });
     }, [dispatch, xScale, yScale, focused]);
 
     return setFocused;

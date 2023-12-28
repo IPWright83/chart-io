@@ -1,11 +1,12 @@
 import * as d3 from "@chart-io/d3";
+import { createStore } from "@chart-io/core";
+
 import { act, render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import React from "react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
-import { createStore } from "../../../../store";
 import { Line } from "./Line";
 
 expect.extend({ toMatchImageSnapshot });
@@ -71,7 +72,7 @@ describe("Line", () => {
                         <svg>
                             <Line x="x" y="y" />
                         </svg>
-                    </Provider>
+                    </Provider>,
                 );
 
                 // Wait for the second render of the line, as
@@ -146,7 +147,7 @@ describe("Line", () => {
                                 <Line x="x" y="y" useCanvas={true} />
                             </VirtualCanvas>
                         </svg>
-                    </Provider>
+                    </Provider>,
                 );
 
                 // Wait for the second render of the line, as

@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
+import { logWarning } from "@chart-io/core";
 
-import { logWarning } from "../utils";
+import React, { useRef } from "react";
 
 /**
  * Wraps a D3 layer to make it work as an SVG component

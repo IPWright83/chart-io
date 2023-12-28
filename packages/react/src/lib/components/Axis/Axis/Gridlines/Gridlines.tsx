@@ -1,5 +1,6 @@
 import * as d3 from "@chart-io/d3";
 import type { AxisDomain, AxisScale } from "@chart-io/d3";
+import { chartSelectors, IState } from "@chart-io/core";
 import type { IPosition, IScale } from "@chart-io/types";
 
 import { useEffect } from "react";
@@ -7,8 +8,6 @@ import { useSelector } from "react-redux";
 
 import { getD3Axis } from "../getD3Axis";
 import { getTickSize } from "./getTickSize";
-
-import { chartSelectors, IState } from "../../../../store";
 
 export interface IGridlinesBaseProps {
     /**

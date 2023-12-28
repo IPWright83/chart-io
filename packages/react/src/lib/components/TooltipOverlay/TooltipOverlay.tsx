@@ -1,8 +1,9 @@
+import { chartSelectors, eventSelectors, IState } from "@chart-io/core";
 import type { ITooltipFormatter } from "@chart-io/types";
+
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { chartSelectors, eventSelectors, IState } from "../../store";
 import { getTooltipPosition } from "./getTooltipPosition";
 import type { ITooltipItemProps } from "./Tooltip/TooltipItem";
 import type { ITooltipProps } from "./Tooltip";

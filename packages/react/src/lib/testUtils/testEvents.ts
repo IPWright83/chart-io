@@ -1,8 +1,9 @@
+import { MOUSE_MOVE_THROTTLE } from "@chart-io/core";
+
 // prettier-ignore
 import { fireEvent } from "@testing-library/react";
 
 import { FakeMouseEvent, IFakeMouseEventValues } from "./FakeMouseEvent";
-import { MOUSE_MOVE_THROTTLE } from "../constants";
 import { wait } from "./wait";
 
 /**
@@ -18,7 +19,7 @@ export async function testMouseClick(
     selector: string,
     callback: () => void,
     expected: unknown,
-    fakeMouseEventData?: IFakeMouseEventValues
+    fakeMouseEventData?: IFakeMouseEventValues,
 ) {
     const element = container.querySelector(selector);
 
@@ -44,7 +45,7 @@ export async function testMouseOver(
     selector: string,
     callback: () => void,
     expected: unknown,
-    fakeMouseEventData?: IFakeMouseEventValues
+    fakeMouseEventData?: IFakeMouseEventValues,
 ) {
     const element = container.querySelector(selector);
 
@@ -71,7 +72,7 @@ export async function testMouseExit(
     callback: () => void,
     expected: unknown,
     fakeMouseEnterEventData?: IFakeMouseEventValues,
-    fakeMouseExitEventData?: IFakeMouseEventValues
+    fakeMouseExitEventData?: IFakeMouseEventValues,
 ) {
     const element = container.querySelector(selector);
 
@@ -87,8 +88,8 @@ export async function testMouseExit(
                 fakeMouseExitEventData ?? {
                     pageX: 95,
                     pageY: 95,
-                }
-            )
+                },
+            ),
         );
     } else {
         fireEvent.mouseOver(element);

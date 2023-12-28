@@ -1,9 +1,9 @@
-import { downloadFile, exportImage } from "../../utils";
-import { exportAsImage } from "./exportAsImage";
-import { themes } from "../../themes";
+import { downloadFile, exportImage, themes } from "@chart-io/core";
 
-jest.mock("../../utils", () => ({
-  ...jest.requireActual("../../utils"),
+import { exportAsImage } from "./exportAsImage";
+
+jest.mock("@chart-io/core", () => ({
+  ...jest.requireActual("@chart-io/core"),
   exportImage: jest.fn(),
   downloadFile: jest.fn(),
 }));

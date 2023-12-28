@@ -1,7 +1,7 @@
 import type { ITheme } from "@chart-io/types";
+import { themes } from "@chart-io/core";
 
 import { getTheme } from "./getTheme";
-import { themes } from "../../themes";
 
 describe("getTheme", () => {
     it("should return light theme for string light", () => {

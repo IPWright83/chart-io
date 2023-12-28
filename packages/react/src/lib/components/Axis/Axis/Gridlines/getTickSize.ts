@@ -1,6 +1,5 @@
 import type { IPosition } from "@chart-io/types";
-
-import { logAndThrowError } from "../../../../utils";
+import { logAndThrowError } from "@chart-io/core";
 
 /**
  * Obtain the tick size used for gridlines

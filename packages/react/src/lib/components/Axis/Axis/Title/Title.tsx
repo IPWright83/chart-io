@@ -1,10 +1,10 @@
+import { chartSelectors, IState } from "@chart-io/core";
 import type { IPosition } from "@chart-io/types";
+
 import React from "react";
 import { useSelector } from "react-redux";
 
 import { getTransform } from "./getTransform";
-
-import { chartSelectors, IState } from "../../../../store";
 
 export interface ITitleProps {
     /**

@@ -1,11 +1,10 @@
 import type { IData, IMargin, IOnClick, IOnMouseOut, IOnMouseOver, ITheme } from "@chart-io/types";
+import { chartActions } from "@chart-io/core";
+
 import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { useStore } from "react-redux";
 
 import { VirtualCanvas } from "../VirtualCanvas";
-
-// import { getColumnInfos } from "@chart-io/detection";
-import { chartActions } from "../../store";
 
 import { exportAsImage } from "./exportAsImage";
 import { generateRandomID } from "./generateRandomID";

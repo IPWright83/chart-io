@@ -1,6 +1,6 @@
+import { downloadFile, exportImage, logDebug } from "@chart-io/core";
 import { ITheme } from "@chart-io/types";
 
-import { downloadFile, exportImage, logDebug } from "../../utils";
 import { getTheme } from "./getTheme";
 
 /**

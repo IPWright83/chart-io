@@ -1,8 +1,9 @@
+import { themes } from "@chart-io/core";
+
 import isChromatic from "chromatic/isChromatic";
 import React from "react";
 import { Provider } from "react-redux";
 
-import { themes } from "../../themes";
 import { Markers } from ".";
 
 import { createMockStorybookStore } from "../../testUtils";

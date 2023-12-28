@@ -1,10 +1,11 @@
+import type { IStore } from "@chart-io/core";
+import { linkStores } from "@chart-io/core";
+
 import React, { useState, useEffect } from "react";
 
 import { example_dataset } from "../../../data/example_dataset";
 import { Line, Area, XYChart, XAxis, YAxis } from "../../components";
-import { linkStores } from "../../utils";
 import type { IOnStoreCreated } from "../../hoc";
-import type { IStore } from "../../store";
 
 export default {
     title: "Dashboards",

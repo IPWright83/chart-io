@@ -1,11 +1,11 @@
 import * as d3 from "@chart-io/d3";
+import { chartActions, chartSelectors, createStore } from "@chart-io/core";
+
 import { Provider } from "react-redux";
 import React from "react";
 import { render } from "@testing-library/react";
 
 import { XAxis } from "./XAxis";
-
-import { chartActions, chartSelectors, createStore } from "../../../store";
 
 describe("XAxis", () => {
     const store = createStore();
@@ -21,7 +21,7 @@ describe("XAxis", () => {
                 <svg>
                     <XAxis position="bottom" fields={["x"]} />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -38,7 +38,7 @@ describe("XAxis", () => {
                 <svg>
                     <XAxis position="bottom" fields={["x"]} />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         const scale = chartSelectors.scales.getScale(store.getState(), "x", "plot");

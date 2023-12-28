@@ -4,7 +4,12 @@ import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      // Used to enable HMR with sub-packages
+      exclude: /node_modules\/(?!@chart-io\/).*/,
+    }),
+  ],
   build: {
     sourcemap: true,
     lib: {

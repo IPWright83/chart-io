@@ -1,8 +1,8 @@
 import type { IColor, IShape } from "@chart-io/types";
+import { chartActions } from "@chart-io/core";
+
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-
-import { chartActions } from "../store";
 
 /**
  * Triggers adding an item to the Legend

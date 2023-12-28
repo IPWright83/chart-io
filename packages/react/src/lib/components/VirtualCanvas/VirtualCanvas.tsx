@@ -1,3 +1,5 @@
+import { chartSelectors, IState } from "@chart-io/core";
+
 import React, { useCallback, useEffect, useRef } from "react";
 import { useSelector, useStore } from "react-redux";
 import { debounce } from "lodash";
@@ -9,7 +11,6 @@ import {
     removeEventHandlers,
     renderVirtualCanvas,
 } from "../../hoc/canvas/virtual";
-import { chartSelectors, IState } from "../../store";
 
 import { getChildrenWithProps } from "./getChildrenWithProps";
 import type { IRenderVirtualCanvasFunc } from "./getChildrenWithProps";

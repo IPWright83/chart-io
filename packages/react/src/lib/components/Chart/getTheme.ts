@@ -1,6 +1,5 @@
 import type { ITheme } from "@chart-io/types";
-
-import { themes } from "../../themes";
+import { themes } from "@chart-io/core";
 
 /**
  * Gets the theme from the name

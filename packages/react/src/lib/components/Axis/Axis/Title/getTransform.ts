@@ -1,6 +1,5 @@
 import type { IMargin, IPosition } from "@chart-io/types";
-
-import { logAndThrowError } from "../../../../utils";
+import { logAndThrowError } from "@chart-io/core";
 
 /**
  * Obtain the transform for the Axis title

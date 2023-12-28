@@ -1,8 +1,7 @@
+import { chartSelectors, IState } from "@chart-io/core";
+
 import React from "react";
-
 import { useSelector } from "react-redux";
-
-import { chartSelectors, IState } from "../../store";
 
 /**
  * This component renders a Rectangular ClipPath that can be used to prevent overspill on the chart

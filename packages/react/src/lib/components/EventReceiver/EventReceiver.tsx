@@ -1,10 +1,9 @@
 import * as d3 from "@chart-io/d3";
+import { chartSelectors, eventActions, IState, MOUSE_MOVE_THROTTLE } from "@chart-io/core";
+
 import React, { useEffect } from "react";
 import { useSelector, useStore } from "react-redux";
 import { throttle } from "lodash";
-
-import { chartSelectors, eventActions, IState } from "../../store";
-import { MOUSE_MOVE_THROTTLE } from "../../constants";
 
 export interface IEventReceiverBaseProps {
     /**
@@ -36,7 +35,7 @@ export function EventReceiver({ layer }: IEventReceiverBaseProps) {
                 store.dispatch(eventActions.mouseMove(e));
             },
             MOUSE_MOVE_THROTTLE,
-            { leading: true }
+            { leading: true },
         );
 
         // prettier-ignore

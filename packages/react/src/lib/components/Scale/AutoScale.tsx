@@ -1,10 +1,10 @@
+import { chartSelectors, IState, logAndThrowError } from "@chart-io/core";
 import type { IScaleType, IValue } from "@chart-io/types";
+
 import React, { useMemo } from "react";
 import { useSelector, useStore } from "react-redux";
 
-import { chartSelectors, IState } from "../../store";
 import { calculateScale } from "./calculateScale";
-import { logAndThrowError } from "../../utils";
 import { Scale } from "./Scale";
 import { useArray } from "../../hooks";
 
