@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.46.0
+
+### Minor Changes
+
+- 13dd7aa: Added a new core package for main rendering logic
+
 ## 0.45.0
 
 ### Minor Changes
