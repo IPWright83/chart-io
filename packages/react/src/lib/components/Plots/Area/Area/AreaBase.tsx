@@ -1,5 +1,5 @@
-import * as d3 from "@chart-io/d3";
 import { area, chartSelectors, IState } from "@chart-io/core";
+import * as d3 from "@chart-io/d3";
 
 import type { IPlotProps } from "@chart-io/types";
 import { useSelector } from "react-redux";

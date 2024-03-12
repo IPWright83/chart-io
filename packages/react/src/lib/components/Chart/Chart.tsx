@@ -1,5 +1,5 @@
-import type { IData, IMargin, IOnClick, IOnMouseOut, IOnMouseOver, ITheme } from "@chart-io/types";
 import { chartActions } from "@chart-io/core";
+import type { IData, IMargin, IOnClick, IOnMouseOut, IOnMouseOver, ITheme } from "@chart-io/types";
 
 import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { useStore } from "react-redux";
@@ -11,7 +11,7 @@ import { generateRandomID } from "./generateRandomID";
 import { getChildrenWithProps } from "./getChildrenWithProps";
 import { getTheme } from "./getTheme";
 
-const DEFAULT_MARGIN = { left: 30, top: 30, right: 30, bottom: 30 };
+const DEFAULT_MARGIN = { left: 70, top: 30, right: 30, bottom: 30 };
 
 export interface IChartBaseProps {
     /**

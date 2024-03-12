@@ -1,14 +1,15 @@
-import React, { useMemo } from "react";
 import { expect } from "@storybook/jest";
 import { within } from "@storybook/testing-library";
+import React, { useMemo } from "react";
 
-import { argTypes } from "../../../../storybook/argTypes";
+import { areaData } from "../../../../data/area";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
+import { argTypes } from "../../../../storybook/argTypes";
+import { createEventReceiverTest } from "../../../testUtils";
+import { XAxis, YAxis } from "../../Axis";
+import { XYChart } from "../../XYChart";
 import { Area } from "./Area";
 import { Areas } from "./Areas";
-import { XYChart } from "../../XYChart";
-import { XAxis, YAxis } from "../../Axis";
-import { createEventReceiverTest } from "../../../testUtils";
 
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
@@ -32,10 +33,6 @@ export default {
         height,
         theme,
         color,
-        leftMargin: margin,
-        rightMargin: margin,
-        topMargin: margin,
-        bottomMargin: margin,
         onClick: { action: "clicked" },
         onMouseOver: { action: "onMouseOver" },
         onMouseOut: { action: "onMouseOut" },
@@ -44,11 +41,9 @@ export default {
 
 const AreaTemplate = (args) => (
     <XYChart
-        data={sales_records_dataset}
-        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        data={areaData}
         height={args.height}
         width={args.width}
-        animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
         zoomBrush={args.zoomBrush}
     >
@@ -60,11 +55,9 @@ const AreaTemplate = (args) => (
 
 const AreasTemplate = (args) => (
     <XYChart
-        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
-        data={sales_records_dataset}
+        data={areaData}
         height={args.height}
         width={args.width}
-        animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
         theme={args.theme}
         onClick={args.onClick}
@@ -82,16 +75,9 @@ const AreasTemplate = (args) => (
 const StackedAreasTemplate = (args) => {
     return (
         <XYChart
-            plotMargin={{
-                left: args.leftMargin,
-                right: args.rightMargin,
-                top: args.topMargin,
-                bottom: args.bottomMargin,
-            }}
-            data={sales_records_dataset}
+            data={areaData}
             height={args.height}
             width={args.width}
-            animationDuration={args.animationDuration}
             theme={args.theme}
             useCanvas={args.useCanvas}
             onClick={args.onClick}
@@ -120,8 +106,8 @@ export const Basic = {
         rightMargin: 40,
         topMargin: 40,
         bottomMargin: 40,
-        y: "Total Profit",
-        x: "Order Date",
+        y: "sales",
+        x: "month",
         y2: undefined,
     },
     play: createEventReceiverTest({ clientX: 273, clientY: 408 }, async (canvasElement) => {
@@ -146,7 +132,7 @@ export const Stream = {
     render: AreaTemplate,
     args: {
         ...Basic.args,
-        y2: "Total Cost",
+        y2: "revenue",
     },
 };
 
@@ -180,9 +166,9 @@ export const MultipleAreas = {
     render: AreasTemplate,
     args: {
         ...Basic.args,
-        y: "Total Revenue",
-        y2: "Total Cost",
-        y3: "Total Profit",
+        y: "revenue",
+        y2: "sales",
+        y3: "profit",
     },
     play: createEventReceiverTest({ clientX: 273, clientY: 408 }, async (canvasElement) => {
         const canvas = within(canvasElement);
@@ -198,9 +184,9 @@ export const MultipleAreasGrouped = {
     args: {
         ...Basic.args,
         groupEvents: true,
-        y: "Total Revenue",
-        y2: "Total Cost",
-        y3: "Total Profit",
+        y: "revenue",
+        y2: "sales",
+        y3: "profit",
     },
     play: createEventReceiverTest({ clientX: 273, clientY: 408 }, async (canvasElement) => {
         const canvas = within(canvasElement);
@@ -215,9 +201,9 @@ export const StackedAreas = {
     render: StackedAreasTemplate,
     args: {
         ...Basic.args,
-        y: "Total Revenue",
-        y2: "Total Cost",
-        y3: "Total Profit",
+        y: "revenue",
+        y2: "sales",
+        y3: "profit",
     },
     play: createEventReceiverTest({ clientX: 273, clientY: 408 }, async (canvasElement) => {
         const canvas = within(canvasElement);
@@ -232,9 +218,9 @@ export const StackedAreasWithBrush = {
     render: StackedAreasTemplate,
     args: {
         ...Basic.args,
-        y: "Total Revenue",
-        y2: "Total Cost",
-        y3: "Total Profit",
+        y: "revenue",
+        y2: "sales",
+        y3: "profit",
         zoomBrush: "inline",
         bottomMargin: 10,
     },
