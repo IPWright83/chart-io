@@ -2,7 +2,7 @@ import { expect } from "@storybook/jest";
 import { within } from "@storybook/testing-library";
 import React, { useMemo } from "react";
 
-import { areaData } from "../../../../data/area";
+import { basicData } from "../../../../data/basic";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
 import { argTypes } from "../../../../storybook/argTypes";
 import { createEventReceiverTest } from "../../../testUtils";
@@ -41,7 +41,7 @@ export default {
 
 const AreaTemplate = (args) => (
     <XYChart
-        data={areaData}
+        data={basicData}
         height={args.height}
         width={args.width}
         useCanvas={args.useCanvas}
@@ -55,7 +55,7 @@ const AreaTemplate = (args) => (
 
 const AreasTemplate = (args) => (
     <XYChart
-        data={areaData}
+        data={basicData}
         height={args.height}
         width={args.width}
         useCanvas={args.useCanvas}
@@ -75,7 +75,7 @@ const AreasTemplate = (args) => (
 const StackedAreasTemplate = (args) => {
     return (
         <XYChart
-            data={areaData}
+            data={basicData}
             height={args.height}
             width={args.width}
             theme={args.theme}

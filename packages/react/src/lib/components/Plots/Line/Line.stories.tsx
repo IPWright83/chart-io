@@ -1,14 +1,15 @@
-import React from "react";
+import { expect } from "@storybook/jest";
 import { within } from "@storybook/testing-library";
+import React from "react";
 
+import { basicData } from "../../../../data/basic";
 import { argTypes } from "../../../../storybook/argTypes";
-import { example_dataset } from "../../../../data/example_dataset";
+import { createEventReceiverTest } from "../../../testUtils";
+import { XAxis, YAxis } from "../../Axis";
+import { XYChart } from "../../XYChart";
+import { Scatter } from "../Scatter";
 import { Line } from "./Line";
 import { Lines } from "./Lines";
-import { Scatter } from "../Scatter";
-import { XYChart } from "../../XYChart";
-import { XAxis, YAxis } from "../../Axis";
-import { createEventReceiverTest } from "../../../testUtils";
 
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
@@ -73,8 +74,7 @@ const processData = (rawData) => {
 
 const LineTemplate = (args) => (
     <XYChart
-        data={processData(example_dataset)}
-        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        data={basicData}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
@@ -94,8 +94,7 @@ const LineTemplate = (args) => (
 
 const LinesTemplate = (args) => (
     <XYChart
-        data={processData(example_dataset)}
-        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        data={basicData}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
@@ -127,8 +126,8 @@ export const Basic = {
         rightMargin: 40,
         topMargin: 40,
         bottomMargin: 40,
-        y: "Unit Sales",
-        x: "Month",
+        y: "sales",
+        x: "month",
     },
     play: createEventReceiverTest({ clientX: 273, clientY: 408 }, async (canvasElement) => {
         const canvas = within(canvasElement);
@@ -186,8 +185,8 @@ export const MultipleLines = {
     render: LinesTemplate,
     args: {
         ...Basic.args,
-        y: "Operating Profit",
-        y2: "Sales Value",
+        y: "sales",
+        y2: "revenue",
     },
     play: createEventReceiverTest({ clientX: 273, clientY: 408 }, async (canvasElement) => {
         const canvas = within(canvasElement);
@@ -203,8 +202,8 @@ export const MultipleLinesWithGrouping = {
     args: {
         ...Basic.args,
         groupEvents: true,
-        y: "Operating Profit",
-        y2: "Sales Value",
+        y: "sales",
+        y2: "revenue",
     },
     play: createEventReceiverTest({ clientX: 273, clientY: 408 }, async (canvasElement) => {
         const canvas = within(canvasElement);

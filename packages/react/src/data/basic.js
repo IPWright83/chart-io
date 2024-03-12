@@ -1,4 +1,4 @@
-export const areaData = [
+export const basicData = [
     { month: new Date(2024, 0), sales: 118, revenue: 487, profit: 153 },
     { month: new Date(2024, 1), sales: 177, revenue: 279, profit: 293 },
     { month: new Date(2024, 2), sales: 328, revenue: 479, profit: 104 },

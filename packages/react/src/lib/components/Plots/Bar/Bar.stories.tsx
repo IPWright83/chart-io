@@ -2,13 +2,13 @@ import { themes } from "@chart-io/core";
 
 import React from "react";
 
-import { argTypes } from "../../../../storybook/argTypes";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
+import { argTypes } from "../../../../storybook/argTypes";
+import { createCanvasTest, createSVGTest } from "../../../testUtils";
+import { XAxis, YAxis } from "../../Axis";
+import { XYChart } from "../../XYChart";
 import { Bar } from "./Bar";
 import { Bars } from "./Bars";
-import { XYChart } from "../../XYChart";
-import { XAxis, YAxis } from "../../Axis";
-import { createSVGTest, createCanvasTest } from "../../../testUtils";
 
 import { uniqBy } from "lodash";
 
