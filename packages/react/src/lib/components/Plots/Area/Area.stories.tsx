@@ -11,7 +11,7 @@ import { XYChart } from "../../XYChart";
 import { Area } from "./Area";
 import { Areas } from "./Areas";
 
-const { width, height, margin, useCanvas, theme, color } = argTypes;
+const { width, height, useCanvas, theme, color } = argTypes;
 
 export default {
     title: "XYCharts/Area",

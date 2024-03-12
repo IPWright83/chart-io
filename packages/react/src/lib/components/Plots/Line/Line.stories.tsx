@@ -11,7 +11,7 @@ import { Scatter } from "../Scatter";
 import { Line } from "./Line";
 import { Lines } from "./Lines";
 
-const { width, height, margin, useCanvas, theme, color } = argTypes;
+const { width, height, useCanvas, theme, color } = argTypes;
 
 export default {
     title: "XYCharts/Line",
@@ -33,10 +33,6 @@ export default {
         height,
         theme,
         color,
-        leftMargin: margin,
-        rightMargin: margin,
-        topMargin: margin,
-        bottomMargin: margin,
         onClick: { action: "clicked" },
         onMouseOver: { action: "onMouseOver" },
         onMouseOut: { action: "onMouseOut" },
@@ -77,7 +73,6 @@ const LineTemplate = (args) => (
         data={basicData}
         width={args.width}
         height={args.height}
-        animationDuration={args.animationDuration}
         theme={args.theme}
         useCanvas={args.useCanvas}
         onClick={args.onClick}
@@ -97,7 +92,6 @@ const LinesTemplate = (args) => (
         data={basicData}
         width={args.width}
         height={args.height}
-        animationDuration={args.animationDuration}
         theme={args.theme}
         useCanvas={args.useCanvas}
         onClick={args.onClick}
@@ -119,13 +113,8 @@ export const Basic = {
         useCanvas: false,
         width: 800,
         height: 500,
-        animationDuration: 500,
         color: "#99C1DC",
         theme: "light",
-        leftMargin: 70,
-        rightMargin: 40,
-        topMargin: 40,
-        bottomMargin: 40,
         y: "sales",
         x: "month",
     },

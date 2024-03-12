@@ -2,17 +2,17 @@ import { themes } from "@chart-io/core";
 
 import React from "react";
 
+import { basicData } from "../../../../data/basic";
 import { argTypes } from "../../../../storybook/argTypes";
-import { sales_records_dataset } from "../../../../data/sales_records_dataset";
+import { createCanvasTest, createSVGTest } from "../../../testUtils";
+import { XAxis, YAxis } from "../../Axis";
+import { XYChart } from "../../XYChart";
 import { Column } from "./Column";
 import { Columns } from "./Columns";
-import { XYChart } from "../../XYChart";
-import { XAxis, YAxis } from "../../Axis";
-import { createSVGTest, createCanvasTest } from "../../../testUtils";
 
 import { uniqBy } from "lodash";
 
-const { width, height, margin, useCanvas, theme, color } = argTypes;
+const { width, height, useCanvas, theme, color } = argTypes;
 
 export default {
     title: "XYCharts/Column",
@@ -34,22 +34,15 @@ export default {
         height,
         theme,
         color,
-        leftMargin: margin,
-        rightMargin: margin,
-        topMargin: margin,
-        bottomMargin: margin,
         onClick: { action: "clicked" },
         onMouseOver: { action: "onMouseOver" },
         onMouseOut: { action: "onMouseOut" },
     },
 };
 
-const data = uniqBy(sales_records_dataset, (d) => d["Item Type"]);
-
 const ColumnTemplate = (args) => (
     <XYChart
-        data={data}
-        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        data={basicData}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
@@ -68,8 +61,7 @@ const ColumnTemplate = (args) => (
 
 const ColumnsTemplate = (args) => (
     <XYChart
-        data={data}
-        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        data={basicData}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
@@ -95,12 +87,8 @@ export const Basic = {
         animationDuration: 250,
         color: "#99C1DC",
         color2: "#fc998e",
-        leftMargin: 70,
-        rightMargin: 40,
-        topMargin: 40,
-        bottomMargin: 40,
-        y: "Unit Price",
-        x: "Item Type",
+        y: "sales",
+        x: "month",
     },
     play: createSVGTest("rect.column", { clientX: 107, clientY: 396 }),
 };
@@ -129,7 +117,7 @@ export const Ratio = {
     render: ColumnTemplate,
     args: {
         ...Basic.args,
-        y2: "Unit Cost",
+        y2: "revenue",
         theme: {
             ...themes.light,
             series: {
@@ -145,7 +133,7 @@ export const Stacked = {
     render: ColumnsTemplate,
     args: {
         ...Basic.args,
-        y2: "Unit Cost",
+        y2: "revenue",
         stacked: true,
     },
     play: createSVGTest("rect.column", { clientX: 107, clientY: 396 }),
@@ -156,7 +144,7 @@ export const Grouped = {
     render: ColumnsTemplate,
     args: {
         ...Basic.args,
-        y2: "Unit Cost",
+        y2: "revenue",
         grouped: true,
     },
     play: createSVGTest("rect.column", { clientX: 107, clientY: 396 }),
@@ -167,7 +155,7 @@ export const CustomTheme = {
     render: ColumnsTemplate,
     args: {
         ...Basic.args,
-        y2: "Unit Cost",
+        y2: "revenue",
         grouped: true,
         theme: {
             ...themes.dark,

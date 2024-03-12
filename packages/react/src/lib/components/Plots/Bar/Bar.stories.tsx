@@ -2,7 +2,7 @@ import { themes } from "@chart-io/core";
 
 import React from "react";
 
-import { sales_records_dataset } from "../../../../data/sales_records_dataset";
+import { basicData } from "../../../../data/basic";
 import { argTypes } from "../../../../storybook/argTypes";
 import { createCanvasTest, createSVGTest } from "../../../testUtils";
 import { XAxis, YAxis } from "../../Axis";
@@ -12,7 +12,7 @@ import { Bars } from "./Bars";
 
 import { uniqBy } from "lodash";
 
-const { width, height, margin, useCanvas, theme, color } = argTypes;
+const { width, height, useCanvas, theme, color } = argTypes;
 
 export default {
     title: "XYCharts/Bar",
@@ -34,22 +34,15 @@ export default {
         height,
         theme,
         color,
-        leftMargin: margin,
-        rightMargin: margin,
-        topMargin: margin,
-        bottomMargin: margin,
         onClick: { action: "clicked" },
         onMouseOver: { action: "onMouseOver" },
         onMouseOut: { action: "onMouseOut" },
     },
 };
 
-const data = uniqBy(sales_records_dataset, (d) => d["Item Type"]);
-
 const BarTemplate = (args) => (
     <XYChart
-        data={data}
-        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        data={basicData}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
@@ -68,7 +61,7 @@ const BarTemplate = (args) => (
 
 const BarsTemplate = (args) => (
     <XYChart
-        data={data}
+        data={basicData}
         plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
@@ -96,12 +89,8 @@ export const Basic = {
         color: "#99C1DC",
         color2: "#fc998e",
         theme: themes.light,
-        leftMargin: 120,
-        rightMargin: 40,
-        topMargin: 40,
-        bottomMargin: 40,
-        x: "Unit Price",
-        y: "Item Type",
+        x: "month",
+        y: "sales",
     },
     play: createSVGTest("rect.bar", { clientX: 107, clientY: 396 }),
 };
@@ -130,7 +119,7 @@ export const Ratio = {
     render: BarTemplate,
     args: {
         ...Basic.args,
-        x2: "Unit Cost",
+        x2: "revenue",
         theme: {
             ...themes.light,
             series: {
@@ -146,7 +135,7 @@ export const Stacked = {
     render: BarsTemplate,
     args: {
         ...Basic.args,
-        x2: "Unit Cost",
+        x2: "revenue",
         stacked: true,
     },
     play: createSVGTest("rect.bar", { clientX: 107, clientY: 396 }),
@@ -157,7 +146,7 @@ export const Grouped = {
     render: BarsTemplate,
     args: {
         ...Basic.args,
-        x2: "Unit Cost",
+        x2: "revenue",
         grouped: true,
     },
     play: createSVGTest("rect.bar", { clientX: 107, clientY: 396 }),
