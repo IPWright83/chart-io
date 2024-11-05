@@ -33,6 +33,11 @@ export interface IRenderCanvasAreaPlotProps
      * The HTMLCanvasElement if we're rendering to a canvas
      */
     canvas?: HTMLCanvasElement;
+     /**
+     * An optional D3 curve factory
+     * See https://d3js.org/d3-shape/curve
+     */
+    curve?: CurveFactory;
 }
 
 /**
@@ -50,6 +55,7 @@ export function canvas({
     data,
     fillColor,
     strokeColor,
+    curve,
 }: IRenderCanvasAreaPlotProps) {
     if (!canvas) {
         return;
@@ -60,13 +66,13 @@ export function canvas({
     // Area renderer that starts at the 0 point
     const area = d3
         .area()
-        .curve(d3.curveLinear)
         .x((d) => xScale(d[x]) + bandwidth)
         .y0((d) => (y2 ? yScale(d[y]) : yScale.range()[0]))
         .y1((d) => (y2 ? yScale(d[y2]) : yScale(d[y])))
         .defined((d) => !isNullOrUndefined(d[y]));
 
     const context = canvas.getContext("2d");
+    curve && area.curve(curve);
     area.context(context);
 
     // Clear and then re-render the path
@@ -80,7 +86,4 @@ export function canvas({
     context.strokeStyle = strokeColor.toString();
     context.fill();
     context.stroke();
-
-    // Note that because we've drawn directly to the canvas, there is no need
-    // for us to use the canvas render loop
 }

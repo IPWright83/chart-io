@@ -1,5 +1,7 @@
 import { themes } from "@chart-io/core";
+import * as d3 from "@chart-io/d3";
 
+import { uniqBy } from "lodash";
 import React from "react";
 
 import { basicData } from "../../../../data/basic";
@@ -9,8 +11,6 @@ import { XAxis, YAxis } from "../../Axis";
 import { XYChart } from "../../XYChart";
 import { Bar } from "./Bar";
 import { Bars } from "./Bars";
-
-import { uniqBy } from "lodash";
 
 const { width, height, useCanvas, theme, color } = argTypes;
 
@@ -52,7 +52,7 @@ const BarTemplate = (args) => (
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
     >
-        <YAxis fields={[args.y]} scaleType="band" showGridlines={false} />
+        <YAxis fields={[args.y]} scaleType="band" showGridlines={false} tickFormat={d3.timeFormat("%B")} />
         <XAxis fields={[args.x, args.x2, args.x3]} />
         <Bar x={args.x} y={args.y} color={args.color} />
         {args.x2 && <Bar x={args.x2} y={args.y} color={args.color2} />}
@@ -62,7 +62,6 @@ const BarTemplate = (args) => (
 const BarsTemplate = (args) => (
     <XYChart
         data={basicData}
-        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
@@ -72,7 +71,7 @@ const BarsTemplate = (args) => (
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
     >
-        <YAxis fields={[args.y]} scaleType="band" showGridlines={false} />
+        <YAxis fields={[args.y]} scaleType="band" showGridlines={false} tickFormat={d3.timeFormat("%B")} />
         <XAxis fields={[args.x, args.x2, args.x3]} aggregate={args.stacked} />
         <Bars y={args.y} xs={[args.x, args.x2]} grouped={args.grouped} stacked={args.stacked} />
     </XYChart>
@@ -89,8 +88,8 @@ export const Basic = {
         color: "#99C1DC",
         color2: "#fc998e",
         theme: themes.light,
-        x: "month",
-        y: "sales",
+        y: "month",
+        x: "sales",
     },
     play: createSVGTest("rect.bar", { clientX: 107, clientY: 396 }),
 };
@@ -119,6 +118,7 @@ export const Ratio = {
     render: BarTemplate,
     args: {
         ...Basic.args,
+        x: "target",
         x2: "revenue",
         theme: {
             ...themes.light,

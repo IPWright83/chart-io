@@ -1,7 +1,8 @@
 import { area, chartSelectors, IState } from "@chart-io/core";
+import type { IPlotProps } from "@chart-io/types";
+import type { CurveFactory } from "@chart-io/d3";
 import * as d3 from "@chart-io/d3";
 
-import type { IPlotProps } from "@chart-io/types";
 import { useSelector } from "react-redux";
 
 import { useLegendItem, useRender } from "../../../../hooks";
@@ -15,6 +16,11 @@ export interface IAreaBaseProps extends IPlotProps {
      * The key of the field used for the y2 position for a stream graph
      */
     y2?: string;
+    /**
+     * An optional D3 curve factory
+     * See https://d3js.org/d3-shape/curve
+     */
+    curve?: CurveFactory;
 }
 
 /**
@@ -25,6 +31,7 @@ export interface IAreaBaseProps extends IPlotProps {
 export function AreaBase({
     x,
     y,
+    curve,
     y2,
     color,
     scaleMode = "plot",
@@ -53,7 +60,7 @@ export function AreaBase({
 
     /* On future renders we want to update the path */
     useRender(() => {
-        const props = { x, y, y2, xScale, yScale, data: sortedData, fillColor, strokeColor, theme };
+        const props = { x, y, y2, curve, xScale, yScale, data: sortedData, fillColor, strokeColor, theme };
 
         // Handle Canvas rendering
         if (canvas) {
@@ -64,7 +71,7 @@ export function AreaBase({
     }, [x, y, sortedData, xScale, yScale, layer, canvas, width, height, theme.series.colors, animationDuration]);
 
     // If possible respond to global mouse events for tooltips etc
-    useDatumFocus({ x, y, xScale, yScale, data: sortedData, color: strokeColor, interactive });
+    useDatumFocus({ x, y, xScale, yScale, data: sortedData, color: strokeColor, interactive, curve });
     useTooltip({ x, y, xScale, yScale, data: sortedData, color: strokeColor, interactive });
 
     return null;

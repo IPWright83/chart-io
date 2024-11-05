@@ -1,5 +1,6 @@
 import * as d3 from "@chart-io/d3";
 import { IBandwidthScale, IColor } from "@chart-io/types";
+import type { CurveFactory } from "@chart-io/d3";
 
 import { interpolateMultiPath, isNullOrUndefined } from "../../utils";
 import type { IRenderProps } from "../../types";
@@ -18,6 +19,11 @@ export interface IRenderAreaPlotProps
      * The color of the stroke area
      */
     strokeColor: IColor;
+    /**
+     * An optional D3 curve factory
+     * See https://d3js.org/d3-shape/curve
+     */
+    curve?: CurveFactory;
 }
 
 /**
@@ -27,6 +33,7 @@ export function render({
     x,
     y,
     y2,
+    curve,
     layer,
     xScale,
     yScale,
@@ -44,11 +51,12 @@ export function render({
     // Area renderer that starts at the 0 point
     const area = d3
         .area()
-        .curve(d3.curveLinear)
         .x((d) => xScale(d[x]) + bandwidth)
         .y0((d) => (y2 ? yScale(d[y]) : yScale.range()[0]))
         .y1((d) => (y2 ? yScale(d[y2]) : yScale(d[y])))
         .defined((d) => !isNullOrUndefined(d[y]));
+
+    curve && area.curve(curve);
 
     d3.select(layer)
         .select("path")

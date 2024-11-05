@@ -2,6 +2,7 @@ import * as d3 from "@chart-io/d3";
 import { area, chartSelectors, IState } from "@chart-io/core";
 import type { IColor, IEventPlotProps } from "@chart-io/types";
 
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 import { useLegendItems, useRender } from "../../../../hooks";
@@ -15,11 +16,15 @@ export interface IStackedAreaBaseProps extends Omit<IEventPlotProps, "y"> {
      * The set of y fields to use to access the data for each plot
      */
     ys: Array<string>;
-
     /**
      * The set of colors to use for the different plot
      */
     colors?: Array<IColor>;
+    /**
+     * An optional D3 curve factory
+     * See https://d3js.org/d3-shape/curve
+     */
+    curve?: CurveFactory;
 }
 
 /**
@@ -30,6 +35,7 @@ export interface IStackedAreaBaseProps extends Omit<IEventPlotProps, "y"> {
 export function StackedAreaBase({
     x,
     ys,
+    curve,
     colors,
     scaleMode = "plot",
     showInLegend = true,
@@ -37,6 +43,9 @@ export function StackedAreaBase({
     layer,
     canvas,
 }: IStackedAreaBaseProps) {
+    const [paths, setPaths] = useState<string>();
+    console.log("rendering");
+
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, scaleMode));
     const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, ys[0], scaleMode));
@@ -53,19 +62,29 @@ export function StackedAreaBase({
 
     /* On future renders we want to update the path */
     useRender(async () => {
-        const props = { x, ys, xScale, yScale, data: sortedData, colors, theme };
+        const props = { x, ys, curve, xScale, yScale, data: sortedData, colors, theme };
 
         // Handle Canvas rendering
         if (canvas) {
-            return area.stacked.canvas.render({ ...props, width, height, canvas });
+            const paths = area.stacked.canvas.render({ ...props, width, height, canvas });
+            if (paths) {
+                setPaths(paths);
+                console.log(paths);
+            }
+
+            return;
         }
 
-        area.stacked.render({ ...props, layer: layer.current, animationDuration });
+        const paths = area.stacked.render({ ...props, layer: layer.current, animationDuration });
+        if (paths) {
+            setPaths(paths);
+            console.log(paths);
+        }
     }, [x, ys, sortedData, xScale, yScale, layer, animationDuration, theme.series.opacity]);
 
     // If possible respond to global mouse events for tooltips etc
-    useDatumFocus({ interactive, x, ys, xScale, yScale, data: sortedData, colors });
-    useTooltip({ x, ys, xScale, yScale, data: sortedData, colors, interactive });
+    useDatumFocus({ interactive, x, ys, xScale, yScale, data: sortedData, colors, paths });
+    useTooltip({ x, ys, xScale, yScale, data: sortedData, colors, interactive, paths });
 
     return null;
 }

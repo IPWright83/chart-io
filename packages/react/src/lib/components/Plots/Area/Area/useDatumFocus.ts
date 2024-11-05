@@ -13,7 +13,7 @@ interface IDatumFocusProps extends Omit<area.IAreaFocusProps, "dispatch" | "even
 /**
  * Responds to events from an event layer to focus the nearest datum
  */
-export function useDatumFocus({ interactive, x, y, xScale, yScale, data, color }: IDatumFocusProps) {
+export function useDatumFocus({ interactive, x, y, xScale, yScale, data, color, curve }: IDatumFocusProps) {
     const { dispatch } = useStore();
     const eventMode = useSelector((s: IState) => eventSelectors.mode(s));
     const position = useSelector((s: IState) => eventSelectors.position(s));
@@ -32,6 +32,7 @@ export function useDatumFocus({ interactive, x, y, xScale, yScale, data, color }
                 position,
                 data,
                 eventMode,
+                curve,
             });
         }
     }, [eventMode, position.x, position.y, xScale, yScale, x, y, data, color]);

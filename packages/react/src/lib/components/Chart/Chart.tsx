@@ -110,25 +110,30 @@ export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
     // Ensure that the store is updated whenever the dimensions change. This typically
     // triggers scale recalculations which should trigger cascading updates
     useEffect(() => {
+        console.log("dispatch chartActions.setDimensions");
         store.dispatch(chartActions.setDimensions(width, height, plotMargin));
     }, [store.dispatch, width, height, plotMargin]);
 
     // Generate a unique ID for the chart which is required for clip paths
     useEffect(() => {
+        console.log("dispatch chartActions.setChartID");
         store.dispatch(chartActions.setChartID(id ?? generateRandomID()));
     }, [store.dispatch]);
 
     // Ensure that the data used by all plots is updated in the store
     useEffect(() => {
+        console.log("dispatch chartActions.setData");
         store.dispatch(chartActions.setData(data));
     }, [store.dispatch, data]);
 
     useEffect(() => {
+        console.log("dispatch chartActions.setAnimationDuration");
         store.dispatch(chartActions.setAnimationDuration(animationDuration));
     }, [store.dispatch, animationDuration]);
 
     useEffect(() => {
         if (theme) {
+            console.log("dispatch chartActions.setTheme");
             // @ts-ignore: TODO: How do we fix this?
             store.dispatch(chartActions.setTheme(theme));
         }

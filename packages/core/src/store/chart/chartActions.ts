@@ -14,8 +14,8 @@ import type {
     SetThemeAction,
 } from "./types";
 
-import { logWarning } from "../../utils";
 import { themes } from "../../themes";
+import { logWarning } from "../../utils";
 
 /**
  * Validates the the margin is correct, returning true if so
@@ -39,25 +39,24 @@ const validateMargin = (value: number, side: string): boolean => {
  * @param  plotMargin  The margin for the plot
  * @return             A redux action object
  */
-const setDimensions = (width: number, height: number, plotMargin: IMargin): SetDimensionAction => {
+const setDimensions = (width: number, height: number, plotMargin: IMargin) => dispatch => {
     if (!plotMargin) {
         logWarning("W004", "A margin was not provided but is required");
         return;
     }
 
     // prettier-ignore
-    if (!validateMargin(plotMargin.left, "left") || 
+    if (!validateMargin(plotMargin.left, "left") ||
         !validateMargin(plotMargin.top, "top") ||
         !validateMargin(plotMargin.bottom, "bottom") ||
-        !validateMargin(plotMargin.right, "right")) 
-    {
+        !validateMargin(plotMargin.right, "right")) {
         return;
     }
 
-    return {
+    dispatch({
         type: "CHART.SET_DIMENSIONS",
         payload: { width, height, margin: plotMargin },
-    };
+    });
 };
 
 /**
@@ -67,24 +66,23 @@ const setDimensions = (width: number, height: number, plotMargin: IMargin): SetD
  * @param  brushMargin The margin for the brush
  * @return             A redux action object
  */
-const setBrushDimensions = (width: number, height: number, brushMargin: IMargin): SetBrushDimensionsAction => {
+const setBrushDimensions = (width: number, height: number, brushMargin: IMargin) => dispatch => {
     // prettier-ignore
-    if (!validateMargin(brushMargin.left, "left") || 
+    if (!validateMargin(brushMargin.left, "left") ||
         !validateMargin(brushMargin.top, "top") ||
         !validateMargin(brushMargin.bottom, "bottom") ||
-        !validateMargin(brushMargin.right, "right")) 
-    {
+        !validateMargin(brushMargin.right, "right")) {
         return;
     }
 
-    return {
+    dispatch({
         type: "CHART.SET_BRUSH_DIMENSIONS",
         payload: {
             width,
             height,
             margin: brushMargin,
         },
-    };
+    });
 };
 
 /**
@@ -95,14 +93,14 @@ const setBrushDimensions = (width: number, height: number, brushMargin: IMargin)
  */
 const setScales =
     (fields: string[], scale: IScale) =>
-    (dispatch): SetScaleAction => {
-        if (!scale) return;
+        (dispatch) => {
+            if (!scale) return;
 
-        dispatch({
-            type: "CHART.SET_SCALES",
-            payload: { fields, scale },
-        });
-    };
+            dispatch({
+                type: "CHART.SET_SCALES",
+                payload: { fields, scale },
+            });
+        };
 
 /**
  * Creates a range to use for Scales with a Brush enabled in the Redux store
@@ -153,30 +151,30 @@ const removeLegendItem = (item: ILegendItem): RemoveLegendItemAction => ({
  */
 const setTheme =
     (theme: ITheme | "light" | "dark") =>
-    (dispatch): SetThemeAction => {
-        if (theme === "light") {
+        (dispatch): SetThemeAction => {
+            if (theme === "light") {
+                dispatch({
+                    type: "CHART.SET_THEME",
+                    payload: themes.light,
+                });
+
+                return;
+            }
+
+            if (theme === "dark") {
+                dispatch({
+                    type: "CHART.SET_THEME",
+                    payload: themes.dark,
+                });
+
+                return;
+            }
+
             dispatch({
                 type: "CHART.SET_THEME",
-                payload: themes.light,
+                payload: theme,
             });
-
-            return;
-        }
-
-        if (theme === "dark") {
-            dispatch({
-                type: "CHART.SET_THEME",
-                payload: themes.dark,
-            });
-
-            return;
-        }
-
-        dispatch({
-            type: "CHART.SET_THEME",
-            payload: theme,
-        });
-    };
+        };
 
 /**
  * Sets the duration for animations in the Redux store

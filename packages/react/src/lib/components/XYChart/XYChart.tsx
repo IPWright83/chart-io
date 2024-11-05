@@ -48,8 +48,8 @@ export const XYChart = forwardRef<IChartRef, IXYChartProps>(({ children, groupEv
                     {children}
                 </ZoomBrush>
             )}
-            <TooltipOverlay onlyNearest={!groupEvents} />
             <LegendOverlay />
+            <TooltipOverlay onlyNearest={!groupEvents} />
         </Chart>
     );
 });

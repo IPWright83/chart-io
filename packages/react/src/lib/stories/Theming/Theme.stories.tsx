@@ -79,25 +79,13 @@ Theme2.storyName = "Theme 2";
 Theme2.args = {
     theme: {
         ...themes.dark,
-        background: "#000000",
+        background: "#F3F1E5",
         axis: {
-            stroke: "#FFFFFF",
-            strokeOpacity: 1,
-            strokeWidth: 2,
-        },
-        droplines: {
-            strokeWidth: 5,
-            strokeDasharray: 8,
+            stroke: "#969495",
         },
         gridlines: {
-            stroke: "#FFFFFF",
-            strokeOpacity: 0.2,
-            strokeWidth: 3,
+            stroke: "#969495",
         },
-        series: {
-            opacity: 0.7,
-            selectedOpacity: 1,
-            colors: ["#682B8F", "#FF8B35"],
-        },
+        colors: ["#2FC2AF", "#433F3E"],
     },
 };

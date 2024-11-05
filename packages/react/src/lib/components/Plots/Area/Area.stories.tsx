@@ -1,6 +1,7 @@
 import { expect } from "@storybook/jest";
 import { within } from "@storybook/testing-library";
 import React, { useMemo } from "react";
+import * as d3 from "@chart-io/d3";
 
 import { basicData } from "../../../../data/basic";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
@@ -47,9 +48,9 @@ const AreaTemplate = (args) => (
         useCanvas={args.useCanvas}
         zoomBrush={args.zoomBrush}
     >
-        <Area x={args.x} y={args.y} y2={args.y2} color={args.color} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
+        <Area x={args.x} y={args.y} y2={args.y2} color={args.color} curve={d3.curveBasis}/>
     </XYChart>
 );
 
@@ -87,7 +88,7 @@ const StackedAreasTemplate = (args) => {
         >
             <YAxis fields={[args.y, args.y2, args.y3]} aggregate={true} />
             <XAxis fields={[args.x]} />
-            <Areas x={args.x} ys={[args.y, args.y2, args.y3]} stacked={true} />
+            <Areas x={args.x} ys={[args.y, args.y2, args.y3]} stacked={true} curve={d3.curveBasis}/>
         </XYChart>
     );
 };

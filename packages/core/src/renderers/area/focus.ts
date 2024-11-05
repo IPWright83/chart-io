@@ -1,6 +1,7 @@
 import * as d3 from "@chart-io/d3";
 import { IColor, ICoordinate, IData, IInvertScale, IMouseEventType, INumericValue, IScale } from "@chart-io/types";
 
+import { getYValue } from "./getYValue";
 import { getDistance, isNullOrUndefined } from "../../utils";
 import { eventActions } from "../../store";
 import type { IDispatch } from "../../store";
@@ -42,13 +43,18 @@ export interface IAreaFocusProps {
      * The d3 scale for the y axis
      */
     yScale: IScale | undefined;
+     /**
+     * An optional D3 curve factory
+     * See https://d3js.org/d3-shape/curve
+     */
+    curve?: CurveFactory;
 }
 
 /**
  * Helper function to manage markers & droplines for a selected datum on the Area plot
  * @return              A function to set the focused datum
  */
-export function focus({ dispatch, x, y, xScale, yScale, position, data, color, eventMode }: IAreaFocusProps) {
+export function focus({ dispatch, x, y, xScale, yScale, position, data, color, eventMode, curve }: IAreaFocusProps) {
     if (!xScale || !yScale || !data) {
         // istanbul ignore next
         return;
@@ -77,7 +83,9 @@ export function focus({ dispatch, x, y, xScale, yScale, position, data, color, e
 
     // Get the appropriate attributes
     const cx = +xScale(datum[x] as INumericValue);
-    const cy = +yScale(datum[y] as INumericValue);
+    const cy= getYValue({ curve, xScale, yScale, datum, y, x, data });
+
+    // const cy = +yScale(datum[y] as INumericValue);
     const fill = color;
     const distance = getDistance(position.x, position.y, cx, cy);
 

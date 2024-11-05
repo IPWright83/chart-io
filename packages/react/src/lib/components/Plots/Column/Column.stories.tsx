@@ -1,5 +1,7 @@
 import { themes } from "@chart-io/core";
+import * as d3 from "@chart-io/d3";
 
+import { uniqBy } from "lodash";
 import React from "react";
 
 import { basicData } from "../../../../data/basic";
@@ -9,8 +11,6 @@ import { XAxis, YAxis } from "../../Axis";
 import { XYChart } from "../../XYChart";
 import { Column } from "./Column";
 import { Columns } from "./Columns";
-
-import { uniqBy } from "lodash";
 
 const { width, height, useCanvas, theme, color } = argTypes;
 
@@ -53,7 +53,7 @@ const ColumnTemplate = (args) => (
         onMouseOut={args.onMouseOut}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
-        <XAxis fields={[args.x]} scaleType="band" showGridlines={false} />
+        <XAxis fields={[args.x]} scaleType="band" showGridlines={false} tickFormat={d3.timeFormat("%B")} />
         <Column x={args.x} y={args.y} color={args.color} />
         {args.y2 && <Column x={args.x} y={args.y2} color={args.color2} />}
     </XYChart>
@@ -72,7 +72,7 @@ const ColumnsTemplate = (args) => (
         onMouseOut={args.onMouseOut}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} aggregate={args.stacked} />
-        <XAxis fields={[args.x]} scaleType="band" showGridlines={false} />
+        <XAxis fields={[args.x]} scaleType="band" showGridlines={false} tickFormat={d3.timeFormat("%B")} />
         <Columns x={args.x} ys={[args.y, args.y2]} grouped={args.grouped} stacked={args.stacked} />
     </XYChart>
 );
@@ -117,6 +117,7 @@ export const Ratio = {
     render: ColumnTemplate,
     args: {
         ...Basic.args,
+        y: "target",
         y2: "revenue",
         theme: {
             ...themes.light,
@@ -148,25 +149,4 @@ export const Grouped = {
         grouped: true,
     },
     play: createSVGTest("rect.column", { clientX: 107, clientY: 396 }),
-};
-
-export const CustomTheme = {
-    name: "Custom Theme",
-    render: ColumnsTemplate,
-    args: {
-        ...Basic.args,
-        y2: "revenue",
-        grouped: true,
-        theme: {
-            ...themes.dark,
-            background: "#F3F1E5",
-            axis: {
-                stroke: "#969495",
-            },
-            gridlines: {
-                stroke: "#969495",
-            },
-            colors: ["#2FC2AF", "#433F3E"],
-        },
-    },
 };
