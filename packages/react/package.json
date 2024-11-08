@@ -18,7 +18,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "build-storybook": "storybook build --webpack-stats-json",
     "test": "jest --config jest.config.js",
     "test-coverage": "jest --config jest.config.js --coverage && open coverage/lcov-report/index.html",
     "test-storybook": "test-storybook",
