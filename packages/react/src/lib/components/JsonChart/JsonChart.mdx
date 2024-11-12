@@ -1,4 +1,5 @@
 import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as JsonChartStories from "./JsonChart.stories";
 
 <Meta title="Components/JsonChart" />
 
@@ -6,9 +7,7 @@ import { Story, Canvas, Meta } from "@storybook/blocks";
 
 The `<JsonChart>` component allows us to define an XYChart with a configuration that is more easily serialized to a database by splitting out all the props into a large JSON object. Using this approach we can build most charts like so:
 
-<Canvas>
-    <Story id="components-jsonchart--line" />
-</Canvas>
+<Canvas of={JsonChartStories.Line} />
 <br />
 
 ## Creating a JsonChart
@@ -34,7 +33,7 @@ Breaking down the `config` object further:
 
 An example of the config for the above chart is:
 
-```
+```javascript
 const config = useMemo({
     {
         chart: {

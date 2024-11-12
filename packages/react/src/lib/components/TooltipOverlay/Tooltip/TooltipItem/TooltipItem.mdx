@@ -1,6 +1,6 @@
 import { Meta, Story, Canvas } from "@storybook/blocks";
-
 import { TooltipItem } from "./index";
+import * as TooltipItemStories from "./TooltipItem.stories";
 
 <Meta title="Components/TooltipOverlay/Tooltip/TooltipItem" component={TooltipItem} />
 
@@ -8,23 +8,17 @@ import { TooltipItem } from "./index";
 
 A TooltipItem components represents an entry within the Tooltip. Typically this is a value from a series in a chart. For a known series a shape will be returned, with appropraite styling to reflect the current entry. For example:
 
-<Canvas>
-    <Story id="components-tooltipoverlay-tooltip-tooltipitem--scatter" />
-</Canvas>
+<Canvas of={TooltipItemStories.Scatter} />
 
 It is also possible to have a tooltip item that is simply a value, which doesn't have a series to represent it. For example this might represent the value on an x-axis line chart.
 
-<Canvas>
-    <Story id="components-tooltipoverlay-tooltip-tooltipitem--value" />
-</Canvas>
+<Canvas of={TooltipItemStories.Value} />
 
 There are a number of different shapes avaliable for use:
 
-<Canvas>
-    <Story id="components-tooltipoverlay-tooltip-tooltipitem-line--default" />
-    <Story id="components-tooltipoverlay-tooltip-tooltipitem-square--default" />
-    <Story id="components-tooltipoverlay-tooltip-tooltipitem-circle--default" />
-</Canvas>
+<Canvas of={TooltipItemStories.Line} />
+<Canvas of={TooltipItemStories.Bar} />
+<Canvas of={TooltipItemStories.Scatter} />
 
 ### Props
 

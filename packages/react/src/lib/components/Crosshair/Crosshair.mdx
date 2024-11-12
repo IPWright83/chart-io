@@ -1,4 +1,5 @@
 import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as CrossHairStories from "./Crosshair.stories"
 
 <Meta title="Components/Crosshair" />
 
@@ -6,9 +7,7 @@ import { Story, Canvas, Meta } from "@storybook/blocks";
 
 The `<Crosshair>` component allows us to define a layer to render a crosshair at the mouse position. It is normally used in conjunction with the `<EventReceiver>` component to provide mouse events.
 
-<Canvas>
-    <Story id="components-crosshair--default" />
-</Canvas>
+<Canvas of={CrossHairStories.Default} />
 
 ### `<Crosshair>` Props
 
@@ -23,7 +22,7 @@ The `<Crosshair>` component allows us to define a layer to render a crosshair at
 
 To adjust the crosshair programatically you should call the `eventActions.mouseEnter` function or the `eventActions.mouseMove` function:
 
-```
+```javascript
 eventActions.mouseEnter({ offsetX: 50, offsetY: 100 });
 eventActions.mouseMove({ offsetX: 52, offsetY: 102 });
 ```

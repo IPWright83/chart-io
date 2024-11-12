@@ -1,4 +1,5 @@
 import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as PolygonStories from "./Polygon.stories";
 
 <Meta title="Components/Polygon" />
 
@@ -6,13 +7,11 @@ import { Story, Canvas, Meta } from "@storybook/blocks";
 
 The `<Polygon>` component allows us to define a layer to render a custom polygon either underneath or on top of the plots. This can be useful for defining threshold bands in the background, along with a variety of other use cases.
 
-<Canvas>
-    <Story id="components-polygon--default" />
-</Canvas>
+<Canvas of={PolygonStories.Default} />
 
 The points that are provided should be pixel coordinates. If you need to plot based on your data points you can simply access the relevant scale and call the scale function. For example:
 
-```
+```javascript
 import { useSelector } from "react-redux";
 
 // Within a component obtain some scales
