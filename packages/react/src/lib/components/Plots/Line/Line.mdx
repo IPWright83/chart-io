@@ -1,4 +1,5 @@
 import { Meta, Story, Canvas } from "@storybook/blocks";
+import * as LineStories from "./Line.stories";
 
 <Meta title="XYCharts/Line" />
 
@@ -15,9 +16,7 @@ There are two different Line based components, these include:
 
 The `<Line>` component should be used when you want to plot a single line plot on a chart.
 
-<Canvas>
-    <Story id="xycharts-line--basic" />
-</Canvas>
+<Canvas of={LineStories.Basic} />
 
 ### Props
 
@@ -34,9 +33,7 @@ The `<Line>` component should be used when you want to plot a single line plot o
 
 Most of the configuration for a `<Line>` is similar to other plots. Currently the only styling property avaliable is the colour option.
 
-<Canvas>
-    <Story id="xycharts-line--color" />
-</Canvas>
+<Canvas of={LineStories.Color} />
 
 ## `<Lines> Component`
 
@@ -56,10 +53,8 @@ The simplest way is to use the `<Lines>` (plural) component. The `<Lines>` compo
 
 It is also possible to enable "brush" zooming on a line chart. To do this simply provide a the following prop to the `<XYChart>` component:
 
-```
+```javascript
 <XYChart zoomBrush="inline" />
 ```
 
-<Canvas>
-    <Story id="xycharts-line--line-with-brush" />
-</Canvas>
+<Canvas of={LineStories.LineWithBrush} />

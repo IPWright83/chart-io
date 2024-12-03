@@ -1,4 +1,5 @@
 import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as HorizontalLineStories from "./HorizontalLine.stories";
 
 <Meta title="Components/Lines/HorizontalLine" />
 
@@ -8,12 +9,8 @@ The `<HorizontalLine>` component allows us to define a layer to render a horizon
 
 You could do this manully using an `<svg:line>` however the `<HorizontalLine>` reduces the amount of code required by giving you access to the scale. Simply passing the value (according to the scale rather than pixel co-ordinates) the line will render across the full width at the given calculated y-coordinate.
 
-<Canvas>
-    <Story id="components-lines-horizontalline--default" />
-</Canvas>
-<Canvas>
-    <Story id="components-lines-horizontalline--thresholds-example" />
-</Canvas>
+<Canvas of={HorizontalLineStories.Default} />
+<Canvas of={HorizontalLineStories.ThresholdsExample} />
 
 ### Props
 

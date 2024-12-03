@@ -1,4 +1,5 @@
 import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as MixedPlotStories from "./MixedPlot.stories";
 
 <Meta title="XYCharts/MixedPlots" />
 
@@ -21,9 +22,7 @@ Discrete plots have a finite number of values and are typically:
 
 When attempting to mix continuous plots, typically a linear type scale has been selected (`d3.scaleLinear` for example) and data will line up nicely and just work.
 
-<Canvas>
-    <Story id="xycharts-mixedplots--mixed-line-area-scatter" />
-</Canvas>
+<Canvas of={MixedPlotStories.MixedLineAreaScatter} />
 
 ## Mixing Continuous Plots with a Band scale
 
@@ -31,9 +30,7 @@ Using a Band scale is preferred for Column & Bar plots (set by applying `scaleTy
 
 > You can see this affect, by noting how the line does not meet the y-axis in this example.
 
-<Canvas>
-    <Story id="xycharts-mixedplots--mixed-scale-band" />
-</Canvas>
+<Canvas of={MixedPlotStories.MixedScaleBand} />
 
 ## Mixing a Discrete Plot with a Continuous Scale
 
@@ -41,9 +38,7 @@ You may prefer to use a continuous scale however. In the example above we can se
 
 When using a discrete plot such as a Column plot witha a linear scale, @chart-io will attempt to manually calculate the width of bars as it's unable to rely on the D3 scale functionality. This relies on the first 2 data points having valid values. If it is unable to do so it will display an error in the console.
 
-<Canvas>
-    <Story id="xycharts-mixedplots--mixed-column-plots-linear" />
-</Canvas>
+<Canvas of={MixedPlotStories.MixedColumnPlotsLinear} />
 
 > The reason for the manual calculation is Bar & Column plots typically need to use a [scaleBand](https://github.com/d3/d3-scale#band-scales). These scales aren't as powerful for plotting continuous data such as time, but they do provide the nice functions for padding/width of bars. So instead these are manually derived from the data.
 
@@ -53,7 +48,7 @@ The preferred approach for mixing Columns & other plots is to stick with a `band
 
 Therefore it's recommended to use D3 helper functions to manually define your `tickValues` that you want to present, and potentially the `tickFormat` as well. The next examples do this by providing the following two props:
 
-```
+```javascript
 const tickFormat = useCallback((tickValue, index) => {
     return index % 3 !== 0 ?       // Only show every 3rd tick
         null :
@@ -68,18 +63,12 @@ const tickValues = useMemo(() => d3.utcMonths(...d3.extent(data.map(d => d[x])))
 
 ## Example with a `<Column>` plot
 
-<Canvas>
-    <Story id="xycharts-mixedplots--mixed-column-plots" />
-</Canvas>
+<Canvas of={MixedPlotStories.MixedColumnPlots} />
 
 ## Example with a grouped `<Columns>` plot
 
-<Canvas>
-    <Story id="xycharts-mixedplots--mixed-grouped-column-plots" />
-</Canvas>
+<Canvas of={MixedPlotStories.MixedGroupedColumnPlots} />
 
 ## Example with a stacked `<Columns>` plot
 
-<Canvas>
-    <Story id="xycharts-mixedplots--mixed-stacked-column-plots" />
-</Canvas>
+<Canvas of={MixedPlotStories.MixedStackedColumnPlots} />

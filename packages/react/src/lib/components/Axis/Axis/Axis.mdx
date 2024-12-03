@@ -1,4 +1,6 @@
 import { Meta, Story, Canvas } from "@storybook/blocks";
+import * as AxisTypeStories from './AxisTypes.stories';
+import * as AxisCustomisationStories from "./AxisCustomisations.stories";
 
 <Meta title="Components/Axis" />
 
@@ -6,7 +8,7 @@ import { Meta, Story, Canvas } from "@storybook/blocks";
 
 This `<Axis>` component allows you to define an Axis on a chart. Underneath this automatically creates a `d3.Scale` too, which is used by most plots to correctly translate data to on screen co-ordinates. The component takes an array of fields that you wish to display along that axis, for example:
 
-```
+```javascript
 <YAxis fields={["Profit", "Loss"]} />
 ```
 
@@ -36,12 +38,8 @@ Discrete scales are best suited for `<Bar>` or `<Column>` plots but can also be 
 -   String
 -   Boolean
 
-<Canvas>
-    <Story id="components-axis-types--string-axis" />
-</Canvas>
-<Canvas>
-    <Story id="components-axis-types--boolean-axis" />
-</Canvas>
+<Canvas of={AxisTypeStories.StringAxis} />
+<Canvas of={AxisTypeStories.BooleanAxis} />
 
 ## Numerical Axis
 
@@ -50,24 +48,16 @@ Numerical continuous scales are best for plotting `<Area>`, `<Line>` and `<Scatt
 -   Integer
 -   Double
 
-<Canvas>
-    <Story id="components-axis-types--integer-axis" />
-</Canvas>
-<Canvas>
-    <Story id="components-axis-types--double-axis" />
-</Canvas>
-<Canvas>
-    <Story id="components-axis-types--double-axis-only-negative-axis" />
-</Canvas>
-<Canvas>
-    <Story id="components-axis-types--double-axis-mixed-sign-axis" />
-</Canvas>
+<Canvas of={AxisTypeStories.IntegerAxis} />
+<Canvas of={AxisTypeStories.DoubleAxis} />
+<Canvas of={AxisTypeStories.DoubleAxisOnlyNegativeAxis} />
+<Canvas of={AxisTypeStories.DoubleAxisMixedSignAxis} />
 
 ### Aggregate
 
 Sometimes when using multiple fields, rather than sharing an Axis, you instead want to aggregate those values together. This is often the case if you're stacking your data. To do this you can just set the `aggregate` property to true. If you omit this value then plots will attempt to warn you if data is going to be cropped.
 
-```
+```javascript
 <YAxis fields={["Sales_Revenue", "Consulting_Revenue"]} aggregate />
 ```
 
@@ -84,7 +74,7 @@ There are occasions where you may want to specify the type of d3.Scale that is u
 
 A common example when you may wish to do this is when if you wish to display numerical data on a `<Column>` or `<Bar>` plot. These plots require a **band** scale but a linear scale would be returned by default.
 
-```
+```javascript
 <XAxis fields="dayOfWeek" scaleType="band" />
 ```
 
@@ -95,12 +85,8 @@ Time scales are best for plotting `<Area>`, `<Line>` and showing data across tim
 -   Date
 -   DateTime
 
-<Canvas>
-    <Story id="components-axis-types--date-axis" />
-</Canvas>
-<Canvas>
-    <Story id="components-axis-types--date-time-axis" />
-</Canvas>
+<Canvas of={AxisTypeStories.DateAxis} />
+<Canvas of={AxisTypeStories.DateTimeAxis} />
 
 ## Visual Styling
 
@@ -116,9 +102,7 @@ It is possible to style the following properties by changing the `theme.axis` ob
 
 You can also enable the insertion of gridlines which is done at the axis level:
 
-<Canvas>
-    <Story id="components-axis-customization--gridlines" />
-</Canvas>
+<Canvas of={AxisCustomisationStories.Gridlines} />
 
 You can then use the following properties to style the gridlines by changing the `theme.gridlines` object:
 
@@ -139,13 +123,11 @@ You can also adjust the following for your axis - refer to the d3-axis documenta
 
 It is also relatively easy to build a custom Axis that hooks directly into the chart. Note that if you're not using an `XAxis` or `YAxis` you may need to manually define a `<Scale>` for your chart.
 
-<Canvas>
-    <Story id="components-axis-customization--fully-custom-axis" />
-</Canvas>
+<Canvas of={AxisCustomisationStories.FullyCustomAxis} />
 
 The above can be produced with:
 
-```
+```javascript
 const CustomTimeAxis = ({ fields }) => {
     const axis = useRef(null);
 

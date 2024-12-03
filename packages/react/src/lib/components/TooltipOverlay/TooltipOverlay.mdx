@@ -1,17 +1,15 @@
 import { Story, Canvas, Meta } from "@storybook/blocks";
-import LinkTo from "@storybook/addon-links/react";
+import * as TooltipOverlayStories from "./TooltipOverlay.stories";
 
 <Meta title="Components/TooltipOverlay" />
 
 # TooltipOverlay Component
 
-The `<TooltipOverlay>` component allows us to overlay a <LinkTo kind="components-tooltip--default#tooltip-component">`<Tooltip>`</LinkTo> component containing multiple entries, which is useful for showing the information behind a data point when interacting with a chart.
+The `<TooltipOverlay>` component allows us to overlay a [Tooltip](?path=/docs/components-tooltipoverlay-tooltip--docs) component containing multiple entries, which is useful for showing the information behind a data point when interacting with a chart.
 
 The `<TooltipOverlay>` extracts out tooltip item information from the Redux store to determine when the tooltip should be shown, and the content that should be presented.
 
-<Canvas>
-    <Story id="components-tooltipoverlay--default" />
-</Canvas>
+<Canvas of={TooltipOverlayStories.Default} />
 
 ### `<TooltipOverlay>` Props
 
@@ -37,7 +35,7 @@ The contents of a format object should match:
 
 To add a TooltipItem programatically, typically each plot that wishes to display an item in the tooltip dispatches an action to to the redux store, and is responsible for removing it later using the following pattern;
 
-```
+```javascript
 useEffect(() => {
     // Add the tooltip item
     dispatch(eventActions.addTooltipItem(tooltipItem));
@@ -67,14 +65,10 @@ useEffect(() => {
 
 By providing a `tooltipComponent` prop to the `TooltipOverlay` you can customize the rendering of the tooltip. This provides a more convienient override to implementing an entire custom Tooltip overlay yourself.
 
-<Canvas>
-    <Story id="components-tooltipoverlay--custom-tooltip" />
-</Canvas>
+<Canvas of={TooltipOverlayStories.CustomTooltip} />
 
 ## Customizing the tooltip items
 
 By providing a `tooltipItemComponent` prop to the `TooltipOverlay` you can customize the rendering of the tooltip items within the tooltip. This provides a more convienient override to implementing an entire custom Tooltip overlay yourself.
 
-<Canvas>
-    <Story id="components-tooltipoverlay--custom-tooltip-items" />
-</Canvas>
+<Canvas of={TooltipOverlayStories.CustomTooltipItems} />

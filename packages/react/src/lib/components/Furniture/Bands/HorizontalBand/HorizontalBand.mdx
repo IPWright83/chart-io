@@ -1,4 +1,5 @@
 import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as HorizontalBandStories from "./HorizontalBand.stories";
 
 <Meta title="Components/Bands/HorizontalBand" />
 
@@ -8,9 +9,7 @@ The `<HorizontalBand>` component allows us to define a layer to render a custom 
 
 You could do this manully using an `<svg:rect>` however the `<HorizontalBand>` reduces the amount of code required by giving you access to the scale. Simply passing the value (according to the scale rather than pixel co-ordinates) the band will render across the full width between the given calculated y-coordinates.
 
-<Canvas>
-    <Story id="components-bands-horizontalband--default" />
-</Canvas>
+<Canvas of={HorizontalBandStories.Default} />
 
 This can be especially useful when combined with plots for creating threshold bands. Here the bands are defined as:
 
@@ -20,9 +19,7 @@ This can be especially useful when combined with plots for creating threshold ba
 
 > Note: When passing `undefined` the band will move to the start of the scale (for `yStart`) or the end of the scale (for `yStop`) appropriately.
 
-<Canvas>
-    <Story id="components-bands-horizontalband--thresholds-example" />
-</Canvas>
+<Canvas of={HorizontalBandStories.ThresholdsExample} />
 
 ### Props
 

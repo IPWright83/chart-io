@@ -1,4 +1,5 @@
 import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as VerticalLineStories from "./VerticalLine.stories";
 
 <Meta title="Components/Lines/VerticalLine" />
 
@@ -8,12 +9,8 @@ The `<VerticalLine>` component allows us to define a layer to render a custom ve
 
 You could do this manully using an `<svg:line>` however the `<VerticalLine>` reduces the amount of code required by giving you access to the scale. Simply passing the value (according to the scale rather than pixel co-ordinates) the band will render across the full height at the given calculated x-coordinate.
 
-<Canvas>
-    <Story id="components-lines-verticalline--default" />
-</Canvas>
-<Canvas>
-    <Story id="components-lines-verticalline--thresholds-example" />
-</Canvas>
+<Canvas of={VerticalLineStories.Default} />
+<Canvas of={VerticalLineStories.ThresholdsExample} />
 
 ### Props
 

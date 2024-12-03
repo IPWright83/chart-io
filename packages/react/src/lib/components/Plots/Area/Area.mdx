@@ -1,4 +1,5 @@
 import { Meta, Story, Canvas } from "@storybook/blocks";
+import * as AreaStories from './Area.stories';
 
 <Meta title="XYCharts/Area" />
 
@@ -15,9 +16,7 @@ There are two different Area based components, these include:
 
 The `<Area>` component should be used when you want to plot a single area plot on a chart.
 
-<Canvas>
-    <Story id="xycharts-area--basic" />
-</Canvas>
+<Canvas of={AreaStories.Basic} />
 
 ### Props
 
@@ -33,6 +32,7 @@ The `<Area>` component should be used when you want to plot a single area plot o
 
 ### Stream Graph
 
+```javascript
 export const StreamAreaTemplate = (args) => (
     <Chart {...args} data={sales_records_dataset}>
         <YAxis fields={[args.y, args.y2]} />
@@ -47,20 +47,17 @@ export const StreamAreaTemplate = (args) => (
         />
     </Chart>
 );
+```
 
 The `<Area>` component also allows us to represent a Stream plot.
 
-<Canvas>
-    <Story id="xycharts-area--stream" />
-</Canvas>
+<Canvas of={AreaStories.Stream} />
 
 ### Visual Styling
 
 Most of the configuration for a `<Area>` is similar to other plots. Currently the only styling property avaliable is the colour option.
 
-<Canvas>
-    <Story id="xycharts-area--color" />
-</Canvas>
+<Canvas of={AreaStories.Color} />
 
 ## `<Areas> Component`
 
@@ -84,9 +81,8 @@ The simplest way is to use the `<Areas>` (plural) component. The `<Areas>` compo
 
 The results of either approach, render in exactly the same way:
 
-<Canvas>
-    <Story id="xycharts-area--multiple-areas" />
-</Canvas>
+<Canvas of={AreaStories.MultipleAreas} />
+
 
 ### Stacked Charts
 
@@ -94,18 +90,14 @@ Another way to to combine area plots is to stack them on top of each other. To s
 
 The chart will attempt to warn you, but you should also set the `aggregate` field on your X Axis/Scale as otherwise the data will overflow of the top of the scale `<XAxis ... aggregate={true} />`.
 
-<Canvas>
-    <Story id="xycharts-area--stacked-areas" />
-</Canvas>
+<Canvas of={AreaStories.StackedAreas} />
 
 ### Zooming
 
 It is also possible to enable "brush" zooming on an Area chart. To do this simply provide a the following prop to the `<XYChart>` component:
 
-```
+```javascript
 <XYChart zoomBrush="inline" />
 ```
 
-<Canvas>
-    <Story id="xycharts-area--stacked-areas-with-brush" />
-</Canvas>
+<Canvas of={AreaStories.StackedAreasWithBrush} />

@@ -1,17 +1,15 @@
 import { Meta, Story, Canvas } from "@storybook/blocks";
-import LinkTo from "@storybook/addon-links/react";
+import * as YAxisStories from './YAxis.stories';
 
 <Meta title="Components/Axis/YAxis" />
 
-# Axis Component
+# Y Axis Component
 
-This `<YAxis>` component allows you to define a vertical Axis on a chart. This is a utility component that combines both an <LinkTo kind="components-axis-types--string-axis#axis-component">`<Axis>`</LinkTo> component, along with a `<AutoScale>` component. It is recommended to use this component where possible to save duplicate configuration for a `<AutoScale>`.
+This `<YAxis>` component allows you to define a vertical Axis on a chart. This is a utility component that combines both an [Axis](?path=/docs/components-axis--docs) component, along with a `<AutoScale>` component. It is recommended to use this component where possible to save duplicate configuration for a `<AutoScale>`.
 
-Please see the <LinkTo kind="components-axis-types--string-axis#axis-component">Axis</LinkTo> component for more information on it's capabilities and configuration.
+Please see the [Axis](?path=/docs/components-axis--docs) component for more information on it's capabilities and configuration.
 
-<Canvas>
-    <Story id="components-axis-yaxis--y-axis-story" />
-</Canvas>
+<Canvas of={YAxisStories.YAxisStory} />
 
 ### Props
 
