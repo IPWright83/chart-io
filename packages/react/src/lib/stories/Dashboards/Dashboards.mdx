@@ -1,4 +1,5 @@
 import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as DashboardStories from "./Dashboards.stories";
 
 <Meta title="Dashboards" />
 
@@ -12,7 +13,7 @@ The example below shows a number of different charts, that all have linked toolt
 
 To link 2 stores together.
 
-```
+```javascript
  useEffect(() => {
         if (store1 && store2) {
             linkStores([store1,store2]);
@@ -24,6 +25,4 @@ By default linking a store only links moust events, however the `linkStores` fun
 
 `linkStores([store1, store2], /EVENT.(MOUSE|ADD_TOOLTIP_ITEM|REMOVE_TOOLTIP_ITEM)/);`
 
-<Canvas>
-    <Story id="dashboards--dashboard" />
-</Canvas>
+<Canvas of={DashboardStories.Dashboard} />
