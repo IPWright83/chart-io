@@ -12,6 +12,7 @@
   "homepage": "https://github.com/IPWright83/chart-io",
   "scripts": {
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist && rm -rf coverage && rm -rf storybook-static",
+    "chromatic": "chromatic --only-changed --exit-zero-on-changes --exit-once-uploaded",
     "lint": "eslint src",
     "dev": "vite build --watch",
     "types": "tsc --noEmit",
