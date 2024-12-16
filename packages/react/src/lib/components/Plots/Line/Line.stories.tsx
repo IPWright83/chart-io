@@ -2,7 +2,7 @@ import React from "react";
 import { within } from "@storybook/test";
 
 import { argTypes } from "../../../../storybook/argTypes";
-import { example_dataset } from "../../../../data/example_dataset";
+import { waves } from "../../../../data/waves";
 import { Line } from "./Line";
 import { Lines } from "./Lines";
 import { Scatter } from "../Scatter";
@@ -42,38 +42,9 @@ export default {
   },
 };
 
-const processData = (rawData) => {
-  const keyField = "Month";
-
-  const aggregated = rawData
-    .filter((r) => ["Aperture", "Black Mesa"].includes(r.Owner))
-    .reduce((result, value) => {
-      const current = result[value[keyField]] || {};
-
-      for (let field in value) {
-        if (typeof value[field] === "number") {
-          current[field] = current[field] || 0;
-          current[field] += value[field];
-        } else {
-          current[field] = value[field];
-        }
-      }
-
-      result[value[keyField]] = current;
-      return result;
-    }, {});
-
-  const result = Object.keys(aggregated).flatMap((key) => ({
-    [keyField]: new Date(key),
-    ...aggregated[key],
-  }));
-
-  return result;
-};
-
 const LineTemplate = (args) => (
   <XYChart
-    data={processData(example_dataset)}
+    data={waves}
     plotMargin={{
       left: args.leftMargin,
       right: args.rightMargin,
@@ -104,7 +75,7 @@ const LineTemplate = (args) => (
 
 const LinesTemplate = (args) => (
   <XYChart
-    data={processData(example_dataset)}
+    data={waves}
     plotMargin={{
       left: args.leftMargin,
       right: args.rightMargin,
@@ -142,8 +113,8 @@ export const Basic = {
     rightMargin: 40,
     topMargin: 40,
     bottomMargin: 40,
-    y: "Unit Sales",
-    x: "Month",
+    y: "sin",
+    x: "x",
   },
   play: createEventReceiverTest(
     { clientX: 273, clientY: 408 },
@@ -207,8 +178,8 @@ export const MultipleLines = {
   render: LinesTemplate,
   args: {
     ...Basic.args,
-    y: "Operating Profit",
-    y2: "Sales Value",
+    y: "sin",
+    y2: "cos",
   },
   play: createEventReceiverTest(
     { clientX: 273, clientY: 408 },
@@ -227,8 +198,8 @@ export const MultipleLinesWithGrouping = {
   args: {
     ...Basic.args,
     groupEvents: true,
-    y: "Operating Profit",
-    y2: "Sales Value",
+    y: "sin",
+    y2: "cos",
   },
   play: createEventReceiverTest(
     { clientX: 273, clientY: 408 },
