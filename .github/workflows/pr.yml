@@ -120,10 +120,13 @@ jobs:
       - name: pnpm Install
         run: pnpm install
       - name: Chromatic
-        run: pnpm chromatic
-        working-directory: ./packages/react
-        env:
-          CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+        uses: chromaui/action@v11.20.2
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          workingDir: packages/react
+          onlyChanged: true
+          exitZeroOnChanges: true
+          exitOnceUploaded: true
 
   merge:
     runs-on: ubuntu-latest
