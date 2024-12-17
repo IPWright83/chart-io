@@ -1,13 +1,15 @@
+import type { Meta } from "@storybook/react";
+import { fn } from "@storybook/test";
 import React from "react";
 
-import { argTypes } from "../../../../storybook/argTypes";
-import { sales_records_dataset } from "../../../../data/sales_records_dataset";
 import { huge_data_set } from "../../../../data/huge_data_set";
+import { sales_records_dataset } from "../../../../data/sales_records_dataset";
+import { argTypes } from "../../../../storybook/argTypes";
+import { createCanvasTest, createSVGTest } from "../../../testUtils";
+import { XAxis, YAxis } from "../../Axis";
+import { XYChart } from "../../XYChart";
 import { Scatter } from "./Scatter";
 import { Scatters } from "./Scatters";
-import { XYChart } from "../../XYChart";
-import { XAxis, YAxis } from "../../Axis";
-import { createSVGTest, createCanvasTest } from "../../../testUtils";
 
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
@@ -25,6 +27,11 @@ export default {
     },
     chromatic: { delay: 300 },
   },
+  args: {
+    onClick: fn(),
+    onMouseOver: fn(),
+    onMouseOut: fn(),
+  },
   argTypes: {
     useCanvas,
     width,
@@ -40,11 +47,8 @@ export default {
       control: { type: "range", min: 1, max: 100 },
       defaultValue: { summary: 5 },
     },
-    onClick: { action: "clicked" },
-    onMouseOver: { action: "onMouseOver" },
-    onMouseOut: { action: "onMouseOut" },
   },
-};
+} as Meta<typeof Scatter>;
 
 const ScatterTemplate = (args) => (
   <XYChart

@@ -1,5 +1,4 @@
-import { expect } from "@storybook/test";
-import { fireEvent } from "@testing-library/react";
+import { expect, fireEvent } from "@storybook/test";
 
 import { wait } from "./wait";
 

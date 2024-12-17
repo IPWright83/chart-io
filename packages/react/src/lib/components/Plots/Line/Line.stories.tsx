@@ -1,14 +1,15 @@
+import type { Meta } from "@storybook/react";
+import { fn, within } from "@storybook/test";
 import React from "react";
-import { within } from "@storybook/test";
 
-import { argTypes } from "../../../../storybook/argTypes";
 import { waves } from "../../../../data/waves";
+import { argTypes } from "../../../../storybook/argTypes";
+import { createEventReceiverTest } from "../../../testUtils";
+import { XAxis, YAxis } from "../../Axis";
+import { XYChart } from "../../XYChart";
+import { Scatter } from "../Scatter";
 import { Line } from "./Line";
 import { Lines } from "./Lines";
-import { Scatter } from "../Scatter";
-import { XYChart } from "../../XYChart";
-import { XAxis, YAxis } from "../../Axis";
-import { createEventReceiverTest } from "../../../testUtils";
 
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
@@ -26,6 +27,11 @@ export default {
     },
     chromatic: { delay: 300 },
   },
+  args: {
+    onClick: fn(),
+    onMouseOver: fn(),
+    onMouseOut: fn(),
+  },
   argTypes: {
     useCanvas,
     width,
@@ -36,11 +42,8 @@ export default {
     rightMargin: margin,
     topMargin: margin,
     bottomMargin: margin,
-    onClick: { action: "clicked" },
-    onMouseOver: { action: "onMouseOver" },
-    onMouseOut: { action: "onMouseOut" },
   },
-};
+} as Meta<typeof Line>;
 
 const LineTemplate = (args) => (
   <XYChart

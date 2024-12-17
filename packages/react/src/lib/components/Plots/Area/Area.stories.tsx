@@ -26,6 +26,11 @@ export default {
     },
     chromatic: { delay: 300 },
   },
+  args: {
+    onClick: fn(),
+    onMouseOver: fn(),
+    onMouseOut: fn(),
+  },
   argTypes: {
     useCanvas,
     width,
@@ -36,9 +41,6 @@ export default {
     rightMargin: margin,
     topMargin: margin,
     bottomMargin: margin,
-    onClick: fn(),
-    onMouseOver: fn(),
-    onMouseOut: fn(),
   },
 } as Meta<typeof Area>;;
 
