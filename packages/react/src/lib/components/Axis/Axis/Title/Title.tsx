@@ -1,21 +1,10 @@
 import { chartSelectors, IState } from "@chart-io/core";
-import type { IPosition } from "@chart-io/types";
+import type { ITitleProps } from "@chart-io/types";
 
 import React from "react";
 import { useSelector } from "react-redux";
 
 import { getTransform } from "./getTransform";
-
-export interface ITitleProps {
-    /**
-     * The position of the title [top, bottom, left, right]
-     */
-    position: IPosition;
-    /**
-     * A title for the Axis
-     */
-    title?: string;
-}
 
 export function Title({ position, title }: ITitleProps) {
     const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));

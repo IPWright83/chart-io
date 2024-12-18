@@ -1,0 +1,1 @@
+export const STORE_KEY = "SVELTE_REDUX_STORE";
