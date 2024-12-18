@@ -1,9 +1,9 @@
 import * as d3 from "@chart-io/d3";
 import { IColor, ICoordinate, IData, IMouseEventType, IScale } from "@chart-io/types";
 
-import { getDistance, isNullOrUndefined } from "../../utils";
-import { eventActions } from "../../store";
 import type { IDispatch } from "../../store";
+import { eventActions } from "../../store";
+import { getDistance, isNullOrUndefined } from "../../utils";
 
 export interface ILineTooltipProps {
     /**
@@ -114,7 +114,7 @@ export function tooltip({
         distance,
     };
     dispatch(eventActions.addTooltipItem(tooltipItemY));
-    dispatch(eventActions.setPositionEvent(position.x, position.y));
+    dispatch(eventActions.setPositionEvent(position));
 
     // Clean up operations on exit
     return () => {

@@ -1,6 +1,7 @@
 import { createStore, IStore } from "@chart-io/core";
+
+import type { AnyAction } from "@reduxjs/toolkit";
 import React, { forwardRef, useMemo } from "react";
-import type { AnyAction } from "redux";
 import { Provider } from "react-redux";
 
 export type IOnStoreCreated = (store: IStore) => void;

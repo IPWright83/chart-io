@@ -3,9 +3,9 @@ import * as d3 from "@chart-io/d3";
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../../constants";
 import { themes } from "../../../themes";
 
+import { defaultEventState } from "../../event/eventSlice";
 import { chartSelectors } from "../chartSelectors";
-import { defaultChartState } from "../chartReducer";
-import { defaultEventState } from "../../event/eventReducer";
+import { defaultChartState } from "../chartSlice";
 
 describe("chartSelectors", () => {
     it("store gets the correct part of state", () => {

@@ -1,9 +1,9 @@
-import * as d3 from "@chart-io/d3";
 import { chartActions, chartSelectors, createStore } from "@chart-io/core";
+import * as d3 from "@chart-io/d3";
 
-import { Provider } from "react-redux";
-import React from "react";
 import { render } from "@testing-library/react";
+import React from "react";
+import { Provider } from "react-redux";
 
 import { XAxis } from "./XAxis";
 
@@ -11,9 +11,13 @@ describe("XAxis", () => {
     const store = createStore();
     const scale = d3.scaleLinear().domain([0, 10]).range([0, 200]);
 
-    store.dispatch(chartActions.setDimensions(200, 100, { left: 0, right: 0, top: 0, bottom: 0 }));
-    store.dispatch(chartActions.setData([{ x: 0 }, { x: 5 }, { x: 10 }]));
-    chartActions.setScales(["x"], scale)(store.dispatch);
+    store.dispatch(chartActions.setDimensions({
+        width: 200,
+        height: 100,
+        margin: { left: 0, right: 0, top: 0, bottom: 0 }
+    }));
+    store.dispatch(chartActions.setChartData([{ x: 0 }, { x: 5 }, { x: 10 }]));
+    store.dispatch(chartActions.setScales({ fields: ["x"], scale }));
 
     it("renders correctly", () => {
         const { asFragment } = render(
@@ -30,8 +34,12 @@ describe("XAxis", () => {
     it("creates a scale in the store correctly", () => {
         const store = createStore();
 
-        store.dispatch(chartActions.setDimensions(200, 100, { left: 0, right: 0, top: 0, bottom: 0 }));
-        store.dispatch(chartActions.setData([{ x: 0 }, { x: 5 }, { x: 10 }]));
+        store.dispatch(chartActions.setDimensions({
+            width: 200,
+            height: 100,
+            margin: { left: 0, right: 0, top: 0, bottom: 0 }
+        }));
+        store.dispatch(chartActions.setChartData([{ x: 0 }, { x: 5 }, { x: 10 }]));
 
         render(
             <Provider store={store}>
