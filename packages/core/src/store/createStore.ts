@@ -1,9 +1,7 @@
-import { applyMiddleware, combineReducers, createStore as create } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
-import ReduxThunk from "redux-thunk";
+import { configureStore } from "@reduxjs/toolkit";
 
-import { chartReducer } from "./chart";
-import { eventReducer } from "./event";
+import { chartSlice } from "./chart";
+import { eventSlice } from "./event";
 
 /**
  * Creates a Redux store
@@ -11,14 +9,21 @@ import { eventReducer } from "./event";
  * @return                     The redux store object
  */
 const createStore = (customReducers = {}) => {
-    const reducer = combineReducers({
-        ...customReducers,
-        chart: chartReducer,
-        event: eventReducer,
-    });
-
-    const composeEnhancers = composeWithDevTools({});
-    const store = create(reducer, composeEnhancers(applyMiddleware(ReduxThunk)));
+    const store = configureStore({
+        reducer: {
+            [eventSlice.name]: eventSlice.reducer,
+            [chartSlice.name]: chartSlice.reducer,
+            ...customReducers,
+        },
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+            // We disable the immutable check because D3 will databind and
+            // potentially augment additional information to each datum
+            immutableCheck: false,
+            // Not all the information we store in state is serializable
+            // for example Dates or D3.Scales
+            serializableCheck: false
+        }),
+    })
 
     return store;
 };

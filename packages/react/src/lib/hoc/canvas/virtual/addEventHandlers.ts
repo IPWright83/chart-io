@@ -10,12 +10,12 @@ import type { IColorToData, IColorToDataMap } from "./types";
  */
 interface EventElement extends Element {
     __on:
-        | {
-              find: (handler) => {
-                  value: (node: HTMLElement, e: MouseEvent, datum: IDatum) => void;
-              };
-          }
-        | undefined;
+    | {
+        find: (handler) => {
+            value: (node: HTMLElement, e: MouseEvent, datum: IDatum) => void;
+        };
+    }
+    | undefined;
 }
 
 /**
@@ -165,7 +165,7 @@ export const addEventHandlers = (
     // Register the events
     canvas.addEventListener("click", clickHandler);
     canvas.addEventListener("mousemove", moveHandler);
-    canvas.addEventListener("mouseout", (e) => dispatch(eventActions.mouseExit(e)));
+    canvas.addEventListener("mouseout", () => dispatch(eventActions.mouseExit()));
     canvas.addEventListener("mouseover", (e) => dispatch(eventActions.mouseEnter(e)));
 
     // Return the events so they can be cleaned up, to prevent double registration

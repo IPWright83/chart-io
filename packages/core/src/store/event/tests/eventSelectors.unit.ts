@@ -1,8 +1,8 @@
 import type { IColor, IDropline, IMarker, IMouseEventType } from "@chart-io/types";
 
-import { defaultChartState } from "../../chart/chartReducer";
-import { defaultEventState } from "../eventReducer";
+import { defaultChartState } from "../../chart/chartSlice";
 import { eventSelectors } from "../eventSelectors";
+import { defaultEventState } from "../eventSlice";
 
 describe("eventSelectors", () => {
     it("store gets the correct part of state", () => {

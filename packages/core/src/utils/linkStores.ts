@@ -1,4 +1,4 @@
-import type { AnyAction, Store } from "redux";
+import type { AnyAction, Store } from "@reduxjs/toolkit";
 
 import { logAndThrowError } from "./logger";
 

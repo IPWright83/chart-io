@@ -1,4 +1,4 @@
-import type { AnyAction, Store } from "redux";
+import type { AnyAction, Store } from "@reduxjs/toolkit";
 import type { IChartState } from "./IChartState";
 import type { IEventState } from "./IEventState";
 

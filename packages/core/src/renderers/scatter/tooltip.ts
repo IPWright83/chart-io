@@ -1,7 +1,7 @@
 import { IColor, IDatum, IMouseEvent } from "@chart-io/types";
 
-import { eventActions } from "../../store";
 import type { IDispatch } from "../../store";
+import { eventActions } from "../../store";
 
 export interface IScatterTooltipProps {
     /**
@@ -54,7 +54,7 @@ export function tooltip({ dispatch, x, y, datum, color, event }: IScatterTooltip
     dispatch(eventActions.setTooltipBorderColor(color));
     dispatch(eventActions.addTooltipItem(tooltipItemX));
     dispatch(eventActions.addTooltipItem(tooltipItemY));
-    dispatch(eventActions.setPositionEvent(event?.offsetX, event?.offsetY));
+    dispatch(eventActions.setPositionEvent({ x: event?.offsetX, y: event?.offsetY }));
 
     return () => {
         dispatch(eventActions.setTooltipBorderColor(undefined));
