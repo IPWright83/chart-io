@@ -1,6 +1,6 @@
 
 
-import { join, dirname } from "path"
+import { dirname, join } from "path";
 
 /**
 * This function is used to resolve the absolute path of a package.
@@ -17,7 +17,7 @@ const config = {
     "../src/**/*.stories.@(js|ts|svelte)"
   ],
   "addons": [
-    getAbsolutePath('@storybook/addon-svelte-csf'),
+    '@storybook/addon-svelte-csf',
     getAbsolutePath('@storybook/addon-essentials'),
     getAbsolutePath('@chromatic-com/storybook'),
     getAbsolutePath('@storybook/addon-interactions')

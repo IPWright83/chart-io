@@ -49,9 +49,13 @@
 		}
 	},
 	"peerDependencies": {
-		"svelte": "^5.0.0"
+		"svelte": "^5.0.0",
+    	"@reduxjs/toolkit": "^2.0.0",
+    	"redux-thunk": "^3.0.0"
 	},
 	"devDependencies": {
+		"@chart-io/core": "workspace:*",
+    "@chart-io/types": "workspace:*",
 		"@chromatic-com/storybook": "^3.2.2",
 		"@eslint/compat": "^1.2.3",
 		"@storybook/addon-essentials": "^8.4.7",
@@ -73,6 +77,8 @@
 		"prettier-plugin-svelte": "^3.2.6",
 		"publint": "^0.2.0",
 		"storybook": "^8.4.7",
+		"@reduxjs/toolkit": "^2.0.0",
+    	"redux-thunk": "^3.0.0",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
 		"typescript": "^5.0.0",

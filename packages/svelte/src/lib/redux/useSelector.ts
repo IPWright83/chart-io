@@ -26,8 +26,10 @@ export function useSelector<T, S>(
 
     const store: Readable<T> = getContext(STORE_KEY);
     let lastSelectorValue: S;
+    console.log({ store, state: store.getState() });
 
     return derived(store, ($state: T, set) => {
+        console.log("state", $state);
         const selectorValue: S = selector($state);
 
         if (!equalityFn!(selectorValue, lastSelectorValue)) {

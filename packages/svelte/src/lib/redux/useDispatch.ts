@@ -1,4 +1,4 @@
-import type { Dispatch, Store } from "redux";
+import type { Dispatch, Store } from "@reduxjs/toolkit";
 import { getContext } from "svelte";
 
 import { STORE_KEY } from "./constants.ts";
