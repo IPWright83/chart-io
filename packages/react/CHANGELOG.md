@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.47.0
+
+### Minor Changes
+
+- 431d9a9: Updated layer ordering so crosshairs sit further back
+
 ## 0.46.0
 
 ### Minor Changes
