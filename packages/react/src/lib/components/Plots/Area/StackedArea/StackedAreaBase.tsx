@@ -1,7 +1,8 @@
-import * as d3 from "@chart-io/d3";
 import { area, chartSelectors, IState } from "@chart-io/core";
+import * as d3 from "@chart-io/d3";
 import type { IColor, IEventPlotProps } from "@chart-io/types";
 
+import { useMemo } from "react";
 import { useSelector } from "react-redux";
 
 import { useLegendItems, useRender } from "../../../../hooks";
@@ -45,7 +46,7 @@ export function StackedAreaBase({
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
-    const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
+    const sortedData = useMemo(() => data.toSorted((a, b) => d3.ascending(a[x], b[x])), [data, x]);
 
     // Used to create our initial path
     useMultiPathCreator(layer, x, ys, xScale, yScale, canvas);

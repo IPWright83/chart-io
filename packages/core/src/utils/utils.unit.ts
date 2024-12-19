@@ -111,7 +111,7 @@ describe("utils", () => {
 
             linkStores([store1, store2, store3]);
 
-            const action = { type: "EVENT.MOUSE_MOVE" };
+            const action = { type: "event/mouseMove" };
             store1.dispatch(action);
 
             expect(dispatch1).toHaveBeenCalledWith(action);
@@ -130,7 +130,7 @@ describe("utils", () => {
 
             linkStores([store1, store2, store3]);
 
-            const action = { type: "EVENT.MOUSE_MOVE" };
+            const action = { type: "event/mouseMove" };
             store2.dispatch(action);
 
             expect(dispatch1).toHaveBeenCalledWith(action);
@@ -149,7 +149,7 @@ describe("utils", () => {
 
             linkStores([store1, store2, store3], /FOO_EVENTS/);
 
-            const action = { type: "EVENT.MOUSE_MOVE" };
+            const action = { type: "event/mouseMove" };
             store1.dispatch(action);
 
             expect(dispatch1).toHaveBeenCalledWith(action);

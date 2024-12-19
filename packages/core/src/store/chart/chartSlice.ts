@@ -154,12 +154,14 @@ const chartSlice = createSlice({
          * @param action.payload.domain      The new domain for the scale
          */
         setScaleZoom: (state: IChartState, action: PayloadAction<{ field: string, domain: number[] | Date[] }>) => {
-            state.scales[action.payload.field] = state.scales[action.payload.field] ?? {
-                scale: undefined,
-                domain: undefined,
-                zoomedDomain: undefined,
-                range: undefined,
-            };
+            if (!state.scales[action.payload.field]) {
+                state.scales[action.payload.field] = {
+                    scale: undefined,
+                    domain: undefined,
+                    zoomedDomain: undefined,
+                    range: undefined,
+                };
+            }
 
             state.scales[action.payload.field].zoomedDomain = action.payload.domain;
         },

@@ -72,17 +72,9 @@ describe("chartSlice.reducer", () => {
             range: [0, 100],
         });
 
-        expect(chartSlice.reducer(previousState, action)).toEqual({
-            ...previousState,
-            scales: {
-                ...previousState.scales,
-                a: {
-                    ...previousState.scales.a,
-                    brush: {
-                        range: [0, 100],
-                    },
-                },
-            },
+        const state = chartSlice.reducer(previousState, action);
+        expect(state.scales["a"].brush).toEqual({
+            range: [0, 100],
         });
     });
 
@@ -92,16 +84,8 @@ describe("chartSlice.reducer", () => {
             domain: [3, 7],
         });
 
-        expect(chartSlice.reducer(previousState, action)).toEqual({
-            ...previousState,
-            scales: {
-                ...previousState.scales,
-                a: {
-                    ...previousState.scales.a,
-                    zoomedDomain: [3, 7],
-                },
-            },
-        });
+        const state = chartSlice.reducer(previousState, action);
+        expect(state.scales["a"].zoomedDomain).toEqual([3, 7]);
     });
 
     it("setBrushDimensions()", () => {

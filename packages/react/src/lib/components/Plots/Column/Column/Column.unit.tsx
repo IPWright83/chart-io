@@ -60,12 +60,12 @@ describe("Column", () => {
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
                 actionsIncludes(dispatchCalls, [
-                    "CHART.ADD_LEGEND_ITEM",
-                    "EVENT.SET_TOOLTIP_COLOR",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
-                    "EVENT.ADD_DROPLINE",
+                    "chart/addLegendItem",
+                    "event/setTooltipBorderColor",
+                    "event/addTooltipItem",
+                    "event/addTooltipItem",
+                    "event/setPositionEvent",
+                    "event/addDropline",
                 ]);
             });
 
@@ -84,17 +84,17 @@ describe("Column", () => {
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
                 actionsIncludes(dispatchCalls, [
-                    "CHART.ADD_LEGEND_ITEM",
+                    "chart/addLegendItem",
                     // Mouseexit
-                    "EVENT.SET_TOOLTIP_COLOR",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.SET_TOOLTIP_COLOR",
-                    "EVENT.REMOVE_TOOLTIP_ITEM",
-                    "EVENT.REMOVE_TOOLTIP_ITEM",
-                    "EVENT.REMOVE_DROPLINE",
+                    "event/setTooltipBorderColor",
+                    "event/addTooltipItem",
+                    "event/addTooltipItem",
+                    "event/setPositionEvent",
+                    "event/addDropline",
+                    "event/setTooltipBorderColor",
+                    "event/removeTooltipItem",
+                    "event/removeTooltipItem",
+                    "event/removeDropline",
                 ]);
             });
 
@@ -182,13 +182,13 @@ describe("Column", () => {
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
                 actionsIncludes(dispatchCalls, [
-                    "CHART.ADD_LEGEND_ITEM",
-                    "EVENT.MOUSE_MOVE",
-                    "EVENT.SET_TOOLTIP_COLOR",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
-                    "EVENT.ADD_DROPLINE",
+                    "chart/addLegendItem",
+                    "event/mouseMove",
+                    "event/setTooltipBorderColor",
+                    "event/addTooltipItem",
+                    "event/addTooltipItem",
+                    "event/setPositionEvent",
+                    "event/addDropline",
                 ]);
             });
 
@@ -226,21 +226,21 @@ describe("Column", () => {
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
                 actionsIncludes(dispatchCalls, [
-                    "CHART.ADD_LEGEND_ITEM",
+                    "chart/addLegendItem",
                     // Mouseover
-                    "EVENT.MOUSE_MOVE",
-                    "EVENT.SET_TOOLTIP_COLOR",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
-                    "EVENT.ADD_DROPLINE",
+                    "event/mouseMove",
+                    "event/setTooltipBorderColor",
+                    "event/addTooltipItem",
+                    "event/addTooltipItem",
+                    "event/setPositionEvent",
+                    "event/addDropline",
 
                     // Mouseexit
-                    "EVENT.MOUSE_MOVE",
-                    "EVENT.SET_TOOLTIP_COLOR",
-                    "EVENT.REMOVE_TOOLTIP_ITEM",
-                    "EVENT.REMOVE_TOOLTIP_ITEM",
-                    "EVENT.REMOVE_DROPLINE",
+                    "event/mouseMove",
+                    "event/setTooltipBorderColor",
+                    "event/removeTooltipItem",
+                    "event/removeTooltipItem",
+                    "event/removeDropline",
                 ]);
             });
 

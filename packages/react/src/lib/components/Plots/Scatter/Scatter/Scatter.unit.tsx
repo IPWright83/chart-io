@@ -1,6 +1,6 @@
 import * as d3 from "@chart-io/d3";
-import React from "react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
+import React from "react";
 
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
 import { Scatter } from "./Scatter";
@@ -60,14 +60,14 @@ describe("Scatter", () => {
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
                 actionsIncludes(dispatchCalls, [
-                    "CHART.ADD_LEGEND_ITEM",
-                    "EVENT.ADD_MARKER",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.SET_TOOLTIP_COLOR",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
+                    "chart/addLegendItem",
+                    "event/addMarker",
+                    "event/addDropline",
+                    "event/addDropline",
+                    "event/setTooltipBorderColor",
+                    "event/addTooltipItem",
+                    "event/addTooltipItem",
+                    "event/setPositionEvent",
                 ]);
             });
 
@@ -86,20 +86,20 @@ describe("Scatter", () => {
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
                 actionsIncludes(dispatchCalls, [
-                    "CHART.ADD_LEGEND_ITEM",
-                    "EVENT.ADD_MARKER",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.SET_TOOLTIP_COLOR",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
-                    "EVENT.REMOVE_MARKER",
-                    "EVENT.REMOVE_DROPLINE",
-                    "EVENT.REMOVE_DROPLINE",
-                    "EVENT.SET_TOOLTIP_COLOR",
-                    "EVENT.REMOVE_TOOLTIP_ITEM",
-                    "EVENT.REMOVE_TOOLTIP_ITEM",
+                    "chart/addLegendItem",
+                    "event/addMarker",
+                    "event/addDropline",
+                    "event/addDropline",
+                    "event/setTooltipBorderColor",
+                    "event/addTooltipItem",
+                    "event/addTooltipItem",
+                    "event/setPositionEvent",
+                    "event/removeMarker",
+                    "event/removeDropline",
+                    "event/removeDropline",
+                    "event/setTooltipBorderColor",
+                    "event/removeTooltipItem",
+                    "event/removeTooltipItem",
                 ]);
             });
 
@@ -216,15 +216,15 @@ describe("Scatter", () => {
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
                 actionsIncludes(dispatchCalls, [
-                    "CHART.ADD_LEGEND_ITEM",
-                    "EVENT.MOUSE_MOVE",
-                    "EVENT.ADD_MARKER",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.SET_TOOLTIP_COLOR",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
+                    "chart/addLegendItem",
+                    "event/mouseMove",
+                    "event/addMarker",
+                    "event/addDropline",
+                    "event/addDropline",
+                    "event/setTooltipBorderColor",
+                    "event/addTooltipItem",
+                    "event/addTooltipItem",
+                    "event/setPositionEvent",
                 ]);
             });
 
@@ -253,25 +253,25 @@ describe("Scatter", () => {
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
 
                 actionsIncludes(dispatchCalls, [
-                    "CHART.ADD_LEGEND_ITEM",
+                    "chart/addLegendItem",
                     // Mouseover
-                    "EVENT.MOUSE_MOVE",
-                    "EVENT.ADD_MARKER",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.SET_TOOLTIP_COLOR",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
+                    "event/mouseMove",
+                    "event/addMarker",
+                    "event/addDropline",
+                    "event/addDropline",
+                    "event/setTooltipBorderColor",
+                    "event/addTooltipItem",
+                    "event/addTooltipItem",
+                    "event/setPositionEvent",
 
                     // MouseExit
-                    "EVENT.MOUSE_MOVE",
-                    "EVENT.REMOVE_MARKER",
-                    "EVENT.REMOVE_DROPLINE",
-                    "EVENT.REMOVE_DROPLINE",
-                    "EVENT.SET_TOOLTIP_COLOR",
-                    "EVENT.REMOVE_TOOLTIP_ITEM",
-                    "EVENT.REMOVE_TOOLTIP_ITEM",
+                    "event/mouseMove",
+                    "event/removeMarker",
+                    "event/removeDropline",
+                    "event/removeDropline",
+                    "event/setTooltipBorderColor",
+                    "event/removeTooltipItem",
+                    "event/removeTooltipItem",
                 ]);
             });
 
