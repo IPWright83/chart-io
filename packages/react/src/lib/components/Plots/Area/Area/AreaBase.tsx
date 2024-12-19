@@ -1,7 +1,8 @@
-import * as d3 from "@chart-io/d3";
 import { area, chartSelectors, IState } from "@chart-io/core";
-
+import * as d3 from "@chart-io/d3";
 import type { IPlotProps } from "@chart-io/types";
+
+import { useMemo } from "react";
 import { useSelector } from "react-redux";
 
 import { useLegendItem, useRender } from "../../../../hooks";
@@ -40,7 +41,8 @@ export function AreaBase({
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
-    const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
+
+    const sortedData = useMemo(() => data.toSorted((a, b) => d3.ascending(a[x], b[x])), [data, x]);
 
     const fillColor = d3.color(`${color ?? theme.series.colors[0]}`);
     fillColor.opacity = theme.series.opacity;

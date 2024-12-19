@@ -1,4 +1,4 @@
-import type { AnyAction, Store } from "redux";
+import type { AnyAction, Store } from "@reduxjs/toolkit";
 
 import { logAndThrowError } from "./logger";
 
@@ -7,7 +7,7 @@ import { logAndThrowError } from "./logger";
  * @param  stores          The set of stores to link
  * @param  actionFilter    A regex to match against redux actions
  */
-export function linkStores(stores: Store<any, AnyAction>[] = [], actionFilter = /EVENT\.MOUSE*/) {
+export function linkStores(stores: Store<any, AnyAction>[] = [], actionFilter = /event\/mouse*/) {
     // Grab the dispatch function for each store
     const dispatches = [];
 

@@ -46,7 +46,7 @@ The customReducers prop takes the form of a keyed object, where each key represe
 const customReducers = {
   tooltips: (state = {}, action) => {
     switch(action.type) {
-      case "EVENT.MOUSE_ENTER": {
+      case "event/mouseEnter": {
         return { tooltip: true, ...state };
       }
       default: return state;

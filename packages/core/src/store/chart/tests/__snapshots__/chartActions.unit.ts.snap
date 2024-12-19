@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`chartActions setBrushDimensions warns with invalid margin 1`] = `"@chart-io encountered an warning. W005: The top of the margin was not specified and is required. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-warnings-W005."`;
-
-exports[`chartActions setDimensions warns with invalid margin 1`] = `"@chart-io encountered an warning. W005: The top of the margin was not specified and is required. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-warnings-W005."`;
-
-exports[`chartActions setDimensions warns with no margin 1`] = `"@chart-io encountered an warning. W004: A margin was not provided but is required. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-warnings-W004."`;

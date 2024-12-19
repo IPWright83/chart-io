@@ -1,76 +1,49 @@
 import type { IMouseEventType } from "@chart-io/types";
 
-import type {
-    AddDroplineAction,
-    AddMarkerAction,
-    AddTooltipItemAction,
-    MouseEnterAction,
-    MouseExitAction,
-    MouseMoveAction,
-    RemoveDroplineAction,
-    RemoveMarkerAction,
-    RemoveTooltipItemAction,
-    SetTooltipBorderColorAction,
-    SetTooltipPositionAction,
-} from "../types";
+import { defaultEventState, eventActions, eventSlice } from "..";
 
-import { defaultEventState, eventReducer } from "../eventReducer";
-
-describe("eventReducer", () => {
+describe("eventSlice.reducer", () => {
     describe("MOUSE actions", () => {
-        it("EVENT.MOUSE_MOVE action", () => {
+        it("mouseMove()", () => {
             const previousState = {
                 ...defaultEventState,
                 mouse: { x: 5, y: 10, mode: "ENTER" as IMouseEventType },
             };
-            const action = {
-                type: "EVENT.MOUSE_MOVE",
-                payload: { offsetX: 5, offsetY: 10, mode: "MOVE" },
-            } as MouseMoveAction;
+            const action = eventActions.mouseMove({ offsetX: 5, offsetY: 10 });
 
-            expect(eventReducer(previousState, action)).toEqual({
+            expect(eventSlice.reducer(previousState, action)).toEqual({
                 ...defaultEventState,
                 mouse: { x: 5, y: 10, mode: "MOVE" },
             });
         });
 
-        it("EVENT.MOUSE_MOVE action if not recieved a previous MOUSE_ENTER", () => {
+        it("mouseMove() action if not recieved a previous mouseEnter()", () => {
             const previousState = defaultEventState;
-            const action = {
-                type: "EVENT.MOUSE_MOVE",
-                payload: { offsetX: 5, offsetY: 10, mode: "MOVE" },
-            } as MouseMoveAction;
+            const action = eventActions.mouseMove({ offsetX: 5, offsetY: 10 });
 
-            expect(eventReducer(previousState, action)).toEqual({
+            expect(eventSlice.reducer(previousState, action)).toEqual({
                 ...defaultEventState,
             });
         });
 
-        it("EVENT.MOUSE_ENTER action", () => {
+        it("mouseEnter() action", () => {
             const previousState = defaultEventState;
+            const action = eventActions.mouseEnter({ offsetX: 5, offsetY: 10 });
 
-            const action = {
-                type: "EVENT.MOUSE_ENTER",
-                payload: { offsetX: 5, offsetY: 10, mode: "ENTER" },
-            } as MouseEnterAction;
-
-            expect(eventReducer(previousState, action)).toEqual({
+            expect(eventSlice.reducer(previousState, action)).toEqual({
                 ...defaultEventState,
                 mouse: { x: 5, y: 10, mode: "ENTER" },
             });
         });
 
-        it("EVENT.MOUSE_EXIT", () => {
+        it("mouseExit()", () => {
             const previousState = {
                 ...defaultEventState,
                 mouse: { x: 5, y: 10, mode: "ENTER" as IMouseEventType },
             };
+            const action = eventActions.mouseExit();
 
-            const action = {
-                type: "EVENT.MOUSE_EXIT",
-            } as MouseExitAction;
-
-            expect(eventReducer(previousState, action)).toEqual({
+            expect(eventSlice.reducer(previousState, action)).toEqual({
                 ...defaultEventState,
                 droplines: [],
                 markers: [],
@@ -80,18 +53,14 @@ describe("eventReducer", () => {
     });
 
     describe("MARKER actions", () => {
-        it("EVENT.ADD_MARKER", () => {
+        it("addMarker()", () => {
             const previousState = {
                 ...defaultEventState,
                 markers: [{ fill: "red" as const, r1: 5, r2: 10, cx: 3, cy: 4 }],
             };
+            const action = eventActions.addMarker({ fill: "blue", r1: 15, r2: 20, cx: 14, cy: 54 });
 
-            const action = {
-                type: "EVENT.ADD_MARKER",
-                payload: { fill: "blue", r1: 15, r2: 20, cx: 14, cy: 54 },
-            } as AddMarkerAction;
-
-            expect(eventReducer(previousState, action)).toEqual({
+            expect(eventSlice.reducer(previousState, action)).toEqual({
                 ...defaultEventState,
                 markers: [
                     { fill: "red", r1: 5, r2: 10, cx: 3, cy: 4 },
@@ -100,7 +69,7 @@ describe("eventReducer", () => {
             });
         });
 
-        it("EVENT.REMOVE_MARKER", () => {
+        it("removeMarker()", () => {
             const previousState = {
                 ...defaultEventState,
                 markers: [
@@ -108,13 +77,9 @@ describe("eventReducer", () => {
                     { fill: "red" as const, r1: 5, r2: 10, cx: 3, cy: 4 },
                 ],
             };
+            const action = eventActions.removeMarker({ fill: "blue", r1: 15, r2: 20, cx: 14, cy: 54 });
 
-            const action = {
-                type: "EVENT.REMOVE_MARKER",
-                payload: { fill: "blue", r1: 15, r2: 20, cx: 14, cy: 54 },
-            } as RemoveMarkerAction;
-
-            expect(eventReducer(previousState, action)).toEqual({
+            expect(eventSlice.reducer(previousState, action)).toEqual({
                 ...defaultEventState,
                 markers: [{ fill: "red", r1: 5, r2: 10, cx: 3, cy: 4 }],
             });
@@ -122,18 +87,14 @@ describe("eventReducer", () => {
     });
 
     describe("DROPLINE actions", () => {
-        it("EVENT.ADD_DROPLINE", () => {
+        it("addDropline()", () => {
             const previousState = {
                 ...defaultEventState,
                 droplines: [{ isHorizontal: true, color: "red" as const, x1: 0, x2: 1, y1: 2, y2: 3 }],
             };
+            const action = eventActions.addDropline({ isVertical: true, color: "blue", x1: 1, x2: 2, y1: 3, y2: 4 });
 
-            const action = {
-                type: "EVENT.ADD_DROPLINE",
-                payload: { isVertical: true, color: "blue", x1: 1, x2: 2, y1: 3, y2: 4 },
-            } as AddDroplineAction;
-
-            expect(eventReducer(previousState, action)).toEqual({
+            expect(eventSlice.reducer(previousState, action)).toEqual({
                 ...defaultEventState,
                 droplines: [
                     { isHorizontal: true, color: "red", x1: 0, x2: 1, y1: 2, y2: 3 },
@@ -142,7 +103,7 @@ describe("eventReducer", () => {
             });
         });
 
-        it("EVENT.REMOVE_DROPLINE", () => {
+        it("removeDropline()", () => {
             const previousState = {
                 ...defaultEventState,
                 droplines: [
@@ -151,12 +112,9 @@ describe("eventReducer", () => {
                 ],
             };
 
-            const action = {
-                type: "EVENT.REMOVE_DROPLINE",
-                payload: { isVertical: true, color: "blue", x1: 1, x2: 2, y1: 3, y2: 4 },
-            } as RemoveDroplineAction;
+            const action = eventActions.removeDropline({ isVertical: true, color: "blue", x1: 1, x2: 2, y1: 3, y2: 4 });
 
-            expect(eventReducer(previousState, action)).toEqual({
+            expect(eventSlice.reducer(previousState, action)).toEqual({
                 ...defaultEventState,
                 droplines: [{ isHorizontal: true, color: "red", x1: 0, x2: 1, y1: 2, y2: 3 }],
             });
@@ -164,20 +122,16 @@ describe("eventReducer", () => {
     });
 
     describe("TOOLTIP actions", () => {
-        it("EVENT.SET_TOOLTIP_COLOR", () => {
+        it("setTooltipBorderColor()", () => {
             const previousState = {
                 ...defaultEventState,
                 tooltip: {
                     items: [],
                 },
             };
+            const action = eventActions.setTooltipBorderColor("#FF0000")
 
-            const action = {
-                type: "EVENT.SET_TOOLTIP_COLOR",
-                payload: "#FF0000",
-            } as SetTooltipBorderColorAction;
-
-            expect(eventReducer(previousState, action)).toEqual({
+            expect(eventSlice.reducer(previousState, action)).toEqual({
                 ...defaultEventState,
                 tooltip: {
                     items: [],
@@ -186,20 +140,16 @@ describe("eventReducer", () => {
             });
         });
 
-        it("EVENT.ADD_TOOLTIP_ITEM", () => {
+        it("addTooltipItem()", () => {
             const previousState = {
                 ...defaultEventState,
                 tooltip: {
                     items: [],
                 },
             };
+            const action = eventActions.addTooltipItem({ name: "A", value: 0 });
 
-            const action = {
-                type: "EVENT.ADD_TOOLTIP_ITEM",
-                payload: { name: "A", value: 0 },
-            } as AddTooltipItemAction;
-
-            expect(eventReducer(previousState, action)).toEqual({
+            expect(eventSlice.reducer(previousState, action)).toEqual({
                 ...defaultEventState,
                 tooltip: {
                     items: [{ name: "A", value: 0 }],
@@ -207,20 +157,16 @@ describe("eventReducer", () => {
             });
         });
 
-        it("EVENT.ADD_TOOLTIP_ITEM skips duplicates", () => {
+        it("addTooltipItem() skips duplicates", () => {
             const previousState = {
                 ...defaultEventState,
                 tooltip: {
                     items: [{ name: "A", value: 0 }],
                 },
             };
+            const action = eventActions.addTooltipItem({ name: "A", value: 0 });
 
-            const action = {
-                type: "EVENT.ADD_TOOLTIP_ITEM",
-                payload: { name: "A", value: 0 },
-            } as AddTooltipItemAction;
-
-            expect(eventReducer(previousState, action)).toEqual({
+            expect(eventSlice.reducer(previousState, action)).toEqual({
                 ...defaultEventState,
                 tooltip: {
                     items: [{ name: "A", value: 0 }],
@@ -228,20 +174,16 @@ describe("eventReducer", () => {
             });
         });
 
-        it("EVENT.REMOVE_TOOLTIP_ITEM", () => {
+        it("removeTooltipItem()", () => {
             const previousState = {
                 ...defaultEventState,
                 tooltip: {
                     items: [{ name: "A", value: 0 }],
                 },
             };
+            const action = eventActions.removeTooltipItem({ name: "A", value: 0 });
 
-            const action = {
-                type: "EVENT.REMOVE_TOOLTIP_ITEM",
-                payload: { name: "A", value: 0 },
-            } as RemoveTooltipItemAction;
-
-            expect(eventReducer(previousState, action)).toEqual({
+            expect(eventSlice.reducer(previousState, action)).toEqual({
                 ...defaultEventState,
                 tooltip: {
                     items: [],
@@ -249,20 +191,16 @@ describe("eventReducer", () => {
             });
         });
 
-        it("EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT", () => {
+        it("setPositionEvent()", () => {
             const previousState = {
                 ...defaultEventState,
                 tooltip: {
                     items: [],
                 },
             };
+            const action = eventActions.setPositionEvent({ x: 5, y: 10 });
 
-            const action = {
-                type: "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
-                payload: { x: 5, y: 10 },
-            } as SetTooltipPositionAction;
-
-            expect(eventReducer(previousState, action)).toEqual({
+            expect(eventSlice.reducer(previousState, action)).toEqual({
                 ...defaultEventState,
                 tooltip: {
                     items: [],
@@ -270,15 +208,5 @@ describe("eventReducer", () => {
                 },
             });
         });
-    });
-
-    it("returns state for unknown action", () => {
-        const previousState = {};
-        const action = {
-            type: "RANDOM_ACTION",
-        };
-
-        // @ts-expect-error Testing the safety of the interface for a random action
-        expect(eventReducer(previousState, action)).toEqual(previousState);
     });
 });

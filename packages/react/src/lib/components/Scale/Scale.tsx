@@ -32,7 +32,7 @@ export function Scale({ fields, scale }: IScaleProps) {
 
     useEffect(() => {
         // @ts-ignore: TODO: Fix this
-        store.dispatch(chartActions.setScales(fieldsArray, scale));
+        store.dispatch(chartActions.setScales({ fields: fieldsArray, scale }));
     }, [fieldsArray, scale, store.dispatch]);
 
     return <React.Fragment />;

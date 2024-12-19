@@ -1,10 +1,10 @@
+import { chartActions, createStore, eventActions } from "@chart-io/core";
 import * as d3 from "@chart-io/d3";
-import { createStore } from "@chart-io/core";
 
 import { act, render } from "@testing-library/react";
-import { Provider } from "react-redux";
-import React from "react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
+import React from "react";
+import { Provider } from "react-redux";
 
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
 import { Line } from "./Line";
@@ -80,10 +80,14 @@ describe("Line", () => {
                 await wait(10);
 
                 act(() => {
-                    store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["x"], scale: scales.x } });
-                    store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["y"], scale: scales.y } });
-                    store.dispatch({ type: "CHART.SET_DATA", payload: data });
-                    store.dispatch({ type: "CHART.SET_DIMENSIONS", payload: { width: 200, height: 200 } });
+                    store.dispatch(chartActions.setScales({ fields: ["x"], scale: scales.x }));
+                    store.dispatch(chartActions.setScales({ fields: ["y"], scale: scales.y }));
+                    store.dispatch(chartActions.setChartData(data));
+                    store.dispatch(chartActions.setDimensions({
+                        width: 200,
+                        height: 200,
+                        margin: { top: 0, left: 0, bottom: 0, right: 0 },
+                    }));
                 });
 
                 // Spy on the store for the updates from the Area chart
@@ -92,20 +96,20 @@ describe("Line", () => {
 
                 act(() => {
                     // Simulate a mouse move on the background
-                    store.dispatch({ type: "EVENT.MOUSE_ENTER", payload: { offsetX: 25, offsetY: 80 } });
+                    store.dispatch(eventActions.mouseEnter({ offsetX: 25, offsetY: 80 }));
                 });
 
                 await wait(1);
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
                 actionsIncludes(dispatchCalls, [
-                    "EVENT.MOUSE_ENTER",
-                    "EVENT.ADD_MARKER",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
+                    "event/mouseEnter",
+                    "event/addMarker",
+                    "event/addDropline",
+                    "event/addDropline",
+                    "event/addTooltipItem",
+                    "event/addTooltipItem",
+                    "event/setPositionEvent",
                 ]);
             });
         });
@@ -155,10 +159,14 @@ describe("Line", () => {
                 await wait(10);
 
                 act(() => {
-                    store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["x"], scale: scales.x } });
-                    store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["y"], scale: scales.y } });
-                    store.dispatch({ type: "CHART.SET_DATA", payload: data });
-                    store.dispatch({ type: "CHART.SET_DIMENSIONS", payload: { width: 200, height: 200 } });
+                    store.dispatch(chartActions.setScales({ fields: ["x"], scale: scales.x }));
+                    store.dispatch(chartActions.setScales({ fields: ["y"], scale: scales.y }));
+                    store.dispatch(chartActions.setChartData(data));
+                    store.dispatch(chartActions.setDimensions({
+                        width: 200,
+                        height: 200,
+                        margin: { top: 0, left: 0, bottom: 0, right: 0 },
+                    }));
                 });
 
                 // Spy on the store for the updates from the Area chart
@@ -167,20 +175,20 @@ describe("Line", () => {
 
                 // Simulate a mouse move on the background
                 act(() => {
-                    store.dispatch({ type: "EVENT.MOUSE_ENTER", payload: { offsetX: 25, offsetY: 80 } });
+                    store.dispatch(eventActions.mouseEnter({ offsetX: 25, offsetY: 80 }));
                 });
 
                 await wait(1);
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
                 actionsIncludes(dispatchCalls, [
-                    "EVENT.MOUSE_ENTER",
-                    "EVENT.ADD_MARKER",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.ADD_DROPLINE",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.ADD_TOOLTIP_ITEM",
-                    "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
+                    "event/mouseEnter",
+                    "event/addMarker",
+                    "event/addDropline",
+                    "event/addDropline",
+                    "event/addTooltipItem",
+                    "event/addTooltipItem",
+                    "event/setPositionEvent",
                 ]);
             });
         });
