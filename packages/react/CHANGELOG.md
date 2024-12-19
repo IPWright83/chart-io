@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.48.0
+
+### Minor Changes
+
+- 1415a40: Adopt Redux toolkit over Redux
+
 ## 0.47.0
 
 ### Minor Changes
