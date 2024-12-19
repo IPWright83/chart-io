@@ -1,5 +1,5 @@
-import type { IData, IMargin, IOnClick, IOnMouseOut, IOnMouseOver, ITheme } from "@chart-io/types";
 import { chartActions } from "@chart-io/core";
+import type { IData, IMargin, IOnClick, IOnMouseOut, IOnMouseOver, ITheme } from "@chart-io/types";
 
 import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { useStore } from "react-redux";
@@ -110,7 +110,7 @@ export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
     // Ensure that the store is updated whenever the dimensions change. This typically
     // triggers scale recalculations which should trigger cascading updates
     useEffect(() => {
-        store.dispatch(chartActions.setDimensions(width, height, plotMargin));
+        store.dispatch(chartActions.setDimensions({ width, height, margin: plotMargin }));
     }, [store.dispatch, width, height, plotMargin]);
 
     // Generate a unique ID for the chart which is required for clip paths
@@ -120,7 +120,7 @@ export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
 
     // Ensure that the data used by all plots is updated in the store
     useEffect(() => {
-        store.dispatch(chartActions.setData(data));
+        store.dispatch(chartActions.setChartData(data));
     }, [store.dispatch, data]);
 
     useEffect(() => {

@@ -1,9 +1,9 @@
 import * as d3 from "@chart-io/d3";
 import { IColor, ICoordinate, IData, IInvertScale, IMouseEventType, INumericValue, IScale } from "@chart-io/types";
 
-import { getDistance, isNullOrUndefined } from "../../utils";
-import { eventActions } from "../../store";
 import type { IDispatch } from "../../store";
+import { eventActions } from "../../store";
+import { getDistance, isNullOrUndefined } from "../../utils";
 
 export interface IAreaTooltipProps {
     /**
@@ -91,7 +91,7 @@ export function tooltip({ dispatch, eventMode, color, x, y, data, xScale, yScale
         distance,
     };
     dispatch(eventActions.addTooltipItem(tooltipItemY));
-    dispatch(eventActions.setPositionEvent(position.x, position.y));
+    dispatch(eventActions.setPositionEvent(position));
 
     // Clean up operations on exit
     return () => {

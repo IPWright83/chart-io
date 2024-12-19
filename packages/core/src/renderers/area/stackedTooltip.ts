@@ -10,9 +10,9 @@ import {
     ITooltipItem,
 } from "@chart-io/types";
 
+import type { IDispatch } from "../../store";
 import { eventActions } from "../../store";
 import { getDistance } from "../../utils";
-import type { IDispatch } from "../../store";
 
 export interface IStackedAreaTooltipProps {
     /**
@@ -114,7 +114,7 @@ export function stackedTooltip({
         dispatch(eventActions.addTooltipItem(y));
     });
 
-    dispatch(eventActions.setPositionEvent(position.x, position.y));
+    dispatch(eventActions.setPositionEvent(position));
 
     // Clean up operations on exit
     return () => {
