@@ -1,0 +1,5 @@
+import{j as e}from"./jsx-runtime-DEdD30eg.js";import{P as m,t as n}from"./index-b9bwP9Bh.js";import{C as a}from"./index-ASiZ4-uZ.js";import{c as p}from"./renderChart-C4tDReWK.js";import"./index-CPFb5ytF.js";import"./index-RYns6xqu.js";import"./index-sbqOYYIm.js";import"./index-CXvrs8Eg.js";import"./test-utils-pcsCGetG.js";import"./client-BylhC-KR.js";const w={title:"Components/Crosshair",component:a,parameters:{chromatic:{delay:300}}},c=()=>{const i=p({chart:{theme:n.light,dimensions:{width:200,height:200}},event:{mouse:{x:100,y:100}}});return e.jsx(m,{store:i,children:e.jsx("svg",{children:e.jsx(a,{showVertical:!0,showHorizontal:!0})})})},r={name:"Crosshair",render:c};var o,s,t;r.parameters={...r.parameters,docs:{...(o=r.parameters)==null?void 0:o.docs,source:{originalSource:`{
+  name: "Crosshair",
+  render: CrosshairTemplate
+}`,...(t=(s=r.parameters)==null?void 0:s.docs)==null?void 0:t.source}}};const y=["Default"];export{r as Default,y as __namedExportsOrder,w as default};
+//# sourceMappingURL=Crosshair.stories-DNC6ynSj.js.map

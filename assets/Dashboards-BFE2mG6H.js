@@ -1,0 +1,18 @@
+import{j as t}from"./jsx-runtime-DEdD30eg.js";import{useMDXComponents as i}from"./index-CcnH5Kt0.js";import{ae as s,af as n}from"./index-C07OB8Tc.js";import{Dashboard as p}from"./Dashboards.stories-1tWvC8X1.js";import"./index-RYns6xqu.js";import"./iframe-D6CtwA3E.js";import"../sb-preview/runtime.js";import"./index-sbqOYYIm.js";import"./index-D-8MO0q_.js";import"./index-XRC4JhzV.js";import"./index-DrFu-skq.js";import"./index-b9bwP9Bh.js";import"./defaultLocale-C7xJETwF.js";import"./index-B_773EAy.js";import"./index-BHTGSyHG.js";import"./Lines-PAT6BPU_.js";import"./Scatters-CPmcphPq.js";import"./index-CXvrs8Eg.js";import"./useStore-DWdQsrPN.js";import"./index-COLyWrXh.js";import"./defaultLocale-D2nGpDRe.js";import"./renderCanvas-BCjHZwb6.js";import"./interpolateMultiPath-8xM18Eij.js";import"./array-2GBN5xbU.js";import"./index-Bcnion2k.js";import"./Columns-DvhU7O36.js";import"./getParentKey-CcCYm4V6.js";import"./ensureNoScaleOverflow-li5UC7Oh.js";import"./Areas-B3IBuDft.js";import"./Bars-DBTbwrTG.js";import"./index-CdkoYB7w.js";import"./index-DBRTqYFH.js";import"./index-ASiZ4-uZ.js";import"./index-BZ_hkuv1.js";import"./index-9Z0J-FDy.js";import"./index-BPZQwoq3.js";import"./Legend-DEyrexXZ.js";import"./index-DhwMs0bd.js";import"./index-CW0FTg2B.js";import"./Circle-CWMyz_tz.js";import"./Line-B_2MgdvN.js";import"./Square-CektPBZh.js";import"./index-CKF-7MCu.js";import"./index-DQ1aKZo6.js";import"./index-CLSe-My4.js";import"./Tooltip-GS-CvhnY.js";import"./index-hvi0fNyA.js";import"./TooltipItem-D1zhnsxI.js";import"./index-BQ4jfyHA.js";import"./index-D888O4bb.js";import"./XAxis-B_MFapNx.js";import"./index-B2undoSo.js";import"./YAxis-DuDb07NW.js";import"./index-Dm2y6j_S.js";import"./index-KIEdaOUM.js";import"./index-C6pQJBQg.js";import"./index-XNVCW8wB.js";import"./index-CnnvqzWa.js";import"./JsonChart-CnTWs4w1.js";function e(r){const o={blockquote:"blockquote",code:"code",h1:"h1",p:"p",pre:"pre",strong:"strong",...i(),...r.components};return t.jsxs(t.Fragment,{children:[t.jsx(s,{title:"Dashboards"}),`
+`,t.jsx(o.h1,{id:"dashboards",children:"Dashboards"}),`
+`,t.jsxs(o.p,{children:["One of the benefits of ",t.jsx(o.code,{children:"@chart-io"}),"'s extensibility is that it is simple to customize behaviour, including linking multiple charts together."]}),`
+`,t.jsx(o.p,{children:'The example below shows a number of different charts, that all have linked tooltips and markers. To link these together we "link" the redux stores together using a helper function provided.'}),`
+`,t.jsxs(o.blockquote,{children:[`
+`,t.jsxs(o.p,{children:[t.jsx(o.strong,{children:"Note"}),": It is only possible to call this function once, so ensure all your charts have been initialised before linking them."]}),`
+`]}),`
+`,t.jsx(o.p,{children:"To link 2 stores together."}),`
+`,t.jsx(o.pre,{children:t.jsx(o.code,{className:"language-javascript",children:` useEffect(() => {
+        if (store1 && store2) {
+            linkStores([store1,store2]);
+        }
+    }, [store1, store2,
+`})}),`
+`,t.jsxs(o.p,{children:["By default linking a store only links moust events, however the ",t.jsx(o.code,{children:"linkStores"})," function takes a second parameter, which is a Regex that can be used to match other events. For example to include all tooltip values across charts you could use:"]}),`
+`,t.jsx(o.p,{children:t.jsx(o.code,{children:"linkStores([store1, store2], /EVENT.(MOUSE|ADD_TOOLTIP_ITEM|REMOVE_TOOLTIP_ITEM)/);"})}),`
+`,t.jsx(n,{of:p})]})}function dt(r={}){const{wrapper:o}={...i(),...r.components};return o?t.jsx(o,{...r,children:t.jsx(e,{...r})}):e(r)}export{dt as default};
+//# sourceMappingURL=Dashboards-BFE2mG6H.js.map

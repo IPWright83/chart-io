@@ -1,0 +1,7 @@
+import{j as n}from"./jsx-runtime-DEdD30eg.js";import{useMDXComponents as e}from"./index-CcnH5Kt0.js";import{ae as i}from"./index-C07OB8Tc.js";import"./index-RYns6xqu.js";import"./iframe-D6CtwA3E.js";import"../sb-preview/runtime.js";import"./index-sbqOYYIm.js";import"./index-D-8MO0q_.js";import"./index-XRC4JhzV.js";import"./index-DrFu-skq.js";function o(r){const t={code:"code",h1:"h1",p:"p",...e(),...r.components};return n.jsxs(n.Fragment,{children:[n.jsx(i,{title:"Errors & Warnings/Introduction"}),`
+`,n.jsx(t.p,{children:"With both Errors and Warnings that appear on the console, further information can be found by finding the appropriate page containing the error/warning prefix."}),`
+`,n.jsx(t.h1,{id:"errors",children:"Errors"}),`
+`,n.jsxs(t.p,{children:["Ocasionally when using @chart-io you might encounter an error. If this has been logged to the console with a prefix such as ",n.jsx(t.code,{children:"E001"})," then this means it's something @chart-io due to bad configuration and it will attempt to prompt you on how to fix it."]}),`
+`,n.jsx(t.h1,{id:"warnings",children:"Warnings"}),`
+`,n.jsx(t.p,{children:"You may also encounter warnings when using @chart-io. Again if prefixed these usually indicate a configuration error, often in these cases you will have a partially rendered chart."})]})}function g(r={}){const{wrapper:t}={...e(),...r.components};return t?n.jsx(t,{...r,children:n.jsx(o,{...r})}):o(r)}export{g as default};
+//# sourceMappingURL=Introduction-bAwxjFk9.js.map
