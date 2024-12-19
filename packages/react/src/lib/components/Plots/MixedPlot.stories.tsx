@@ -2,12 +2,12 @@ import React from "react";
 import * as d3 from "@chart-io/d3";
 
 import { argTypes } from "../../../storybook/argTypes";
-import { example_dataset } from "../../../data/example_dataset";
+import { waves } from "../../../data/waves";
 import { Line } from "./Line";
 import { Column, Columns } from "./Column";
 import { XYChart } from "../XYChart";
 import { XAxis, YAxis } from "../Axis";
-import { Area } from "./Area";
+import { Area, Areas } from "./Area";
 import { Scatter } from "./Scatter";
 
 const { width, height, margin, useCanvas, theme, color } = argTypes;
@@ -42,40 +42,9 @@ export default {
   },
 };
 
-const processData = (rawData) => {
-  const keyField = "Month";
-
-  const aggregated = rawData
-    .filter((r) => ["Aperture", "Black Mesa"].includes(r.Owner))
-    .reduce((result, value) => {
-      const current = result[value[keyField]] || {};
-
-      for (let field in value) {
-        if (typeof value[field] === "number") {
-          current[field] = current[field] || 0;
-          current[field] += value[field];
-        } else {
-          current[field] = value[field];
-        }
-      }
-
-      result[value[keyField]] = current;
-      return result;
-    }, {});
-
-  const result = Object.keys(aggregated).flatMap((key) => ({
-    [keyField]: new Date(key),
-    ...aggregated[key],
-  }));
-
-  return result;
-};
-
-const data = processData(example_dataset);
-
 const MixedLineAreaScatterTemplate = (args) => (
   <XYChart
-    data={data}
+    data={waves}
     plotMargin={{
       left: args.leftMargin,
       right: args.rightMargin,
@@ -92,17 +61,17 @@ const MixedLineAreaScatterTemplate = (args) => (
     onMouseOut={args.onMouseOut}
     zoomBrush={args.zoomBrush}
   >
+    <Area x={args.x} y={args.y2} />
     <Line x={args.x} y={args.y} color="steelblue" />
-    <Area x={args.x} y={args.y4} color="green" />
-    <Scatter x={args.x} y={args.y3} color="purple" />
-    <YAxis fields={[args.y, args.y2, args.y3, args.y4]} showGridlines={false} />
+    <Scatter x={args.x} y={args.y} color="steelblue" />
+    <YAxis fields={[args.y, args.y2]} showGridlines={false} />
     <XAxis fields={[args.x]} showGridlines={false} />
   </XYChart>
 );
 
 const MixedScaleBandTemplate = (args) => (
   <XYChart
-    data={data}
+    data={waves}
     plotMargin={{
       left: args.leftMargin,
       right: args.rightMargin,
@@ -121,16 +90,16 @@ const MixedScaleBandTemplate = (args) => (
   >
     <Column x={args.x} y={args.y2} color="orange" />
     <Line x={args.x} y={args.y} color="steelblue" />
-    <Area x={args.x} y={args.y4} color="green" />
-    <Scatter x={args.x} y={args.y3} color="purple" />
-    <YAxis fields={[args.y, args.y2, args.y3, args.y4]} showGridlines={false} />
+    <Scatter x={args.x} y={args.y} color="steelblue" />
+    <Scatter x={args.x} y={args.y2} color="orange" />
+    <YAxis fields={[args.y, args.y2]} showGridlines={false} />
     <XAxis fields={[args.x]} scaleType="band" showGridlines={false} />
   </XYChart>
 );
 
 const MixedColumnPlotNonBandTemplate = (args) => (
   <XYChart
-    data={data}
+    data={waves}
     plotMargin={{
       left: args.leftMargin,
       right: args.rightMargin,
@@ -147,18 +116,18 @@ const MixedColumnPlotNonBandTemplate = (args) => (
     onMouseOut={args.onMouseOut}
     zoomBrush={args.zoomBrush}
   >
-    <Column x={args.x} y={args.y2} color="orange" />
-    <Line x={args.x} y={args.y} color="steelblue" />
-    <Area x={args.x} y={args.y4} color="green" />
-    <Scatter x={args.x} y={args.y3} color="purple" />
-    <YAxis fields={[args.y, args.y2, args.y3, args.y4]} showGridlines={false} />
+    <Column x={args.x} y={args.y} color="orange" />
+    <Line x={args.x} y={args.y2} color="steelblue" />
+    <Scatter x={args.x} y={args.y} color="orange" />
+    <Scatter x={args.x} y={args.y2} color="steelblue" />
+    <YAxis fields={[args.y, args.y2]} showGridlines={false} />
     <XAxis fields={args.x} showGridlines={false} />
   </XYChart>
 );
 
 const MixedColumnPlotTemplate = (args) => (
   <XYChart
-    data={data}
+    data={waves}
     plotMargin={{
       left: args.leftMargin,
       right: args.rightMargin,
@@ -175,27 +144,22 @@ const MixedColumnPlotTemplate = (args) => (
     onMouseOut={args.onMouseOut}
     zoomBrush={args.zoomBrush}
   >
-    <Column x={args.x} y={args.y2} color="orange" />
-    <Line x={args.x} y={args.y} color="steelblue" />
-    <Area x={args.x} y={args.y4} color="green" />
-    <Scatter x={args.x} y={args.y3} color="purple" />
-    <YAxis fields={[args.y, args.y2, args.y3, args.y4]} showGridlines={false} />
+    <Column x={args.x} y={args.y} color="orange" />
+    <Line x={args.x} y={args.y2} color="steelblue" />
+    <Scatter x={args.x} y={args.y} color="orange" />
+    <Scatter x={args.x} y={args.y2} color="steelblue" />
+    <YAxis fields={[args.y, args.y2]} showGridlines={false} />
     <XAxis
       fields={args.x}
       scaleType="band"
       showGridlines={false}
-      tickFormat={(value, index) => {
-        return index % 3 !== 0 ? null : d3.utcFormat("%b")(value);
-      }}
-      // @ts-expect-error: The typings for utcMonths here are wrong
-      tickValues={d3.utcMonths(...d3.extent(data.map((d) => d[args.x])))}
     />
   </XYChart>
 );
 
 const MixedGroupledColumnPlotTemplate = (args) => (
   <XYChart
-    data={data}
+    data={waves}
     plotMargin={{
       left: args.leftMargin,
       right: args.rightMargin,
@@ -212,13 +176,14 @@ const MixedGroupledColumnPlotTemplate = (args) => (
     onMouseOut={args.onMouseOut}
     zoomBrush={args.zoomBrush}
   >
+    <Areas x={args.x} ys={[args.y, args.y2]} stacked={args.stacked} />
     <Columns
       x={args.x}
-      ys={[args.y, args.y4, args.y2]}
+      ys={[args.y, args.y2]}
       grouped={args.grouped}
       stacked={args.stacked}
     />
-    <Scatter x={args.x} y={args.y3} color="purple" />
+    <Scatter x={args.x} y={args.y2} color="steelblue" />
     <YAxis
       fields={[args.y, args.y2, args.y3, args.y4]}
       aggregate={args.stacked}
@@ -228,11 +193,6 @@ const MixedGroupledColumnPlotTemplate = (args) => (
       fields={[args.x]}
       showGridlines={false}
       scaleType="band"
-      tickFormat={(value, index) => {
-        return index % 3 !== 0 ? null : d3.utcFormat("%b")(value);
-      }}
-      // @ts-expect-error: The typings for utcMonths here are wrong
-      tickValues={d3.utcMonths(...d3.extent(data.map((d) => d[args.x])))}
     />
   </XYChart>
 );
@@ -250,11 +210,9 @@ MixedLineAreaScatter.args = {
   rightMargin: 40,
   topMargin: 40,
   bottomMargin: 40,
-  y: "Gross Profit",
-  y2: "Sales Value",
-  y3: "Operating Profit",
-  y4: "Unit Sales",
-  x: "Month",
+  y: "sin",
+  y2: "cos",
+  x: "x",
 };
 
 export const MixedScaleBand = MixedScaleBandTemplate.bind({});
@@ -265,7 +223,7 @@ MixedScaleBand.args = {
 
 export const MixedColumnPlotsLinear = MixedColumnPlotNonBandTemplate.bind({});
 MixedColumnPlotsLinear.storyName =
-  "Column, Line, Area & Scatter using a Linear Scale";
+  "Mixing Discrete Plots using a Linear Scale";
 MixedColumnPlotsLinear.args = {
   useCanvas: false,
   width: 800,
@@ -277,31 +235,9 @@ MixedColumnPlotsLinear.args = {
   rightMargin: 40,
   topMargin: 40,
   bottomMargin: 40,
-  y: "Gross Profit",
-  y2: "Sales Value",
-  y3: "Operating Profit",
-  y4: "Unit Sales",
-  x: "Month",
-};
-
-export const MixedColumnPlots = MixedColumnPlotTemplate.bind({});
-MixedColumnPlots.storyName = "Column, Line, Area & Scatter";
-MixedColumnPlots.args = {
-  useCanvas: false,
-  width: 800,
-  height: 500,
-  animationDuration: 500,
-  color: "#99C1DC",
-  theme: "light",
-  leftMargin: 70,
-  rightMargin: 40,
-  topMargin: 40,
-  bottomMargin: 40,
-  y: "Gross Profit",
-  y2: "Sales Value",
-  y3: "Operating Profit",
-  y4: "Unit Sales",
-  x: "Month",
+  y: "sin",
+  y2: "cos",
+  x: "x",
 };
 
 export const MixedGroupedColumnPlots = MixedGroupledColumnPlotTemplate.bind({});
@@ -317,33 +253,9 @@ MixedGroupedColumnPlots.args = {
   rightMargin: 40,
   topMargin: 40,
   bottomMargin: 40,
-  y: "Gross Profit",
-  y2: "Sales Value",
-  y3: "Operating Profit",
-  y4: "Unit Sales",
-  x: "Month",
+  y: "sin",
+  y2: "cos",
+  x: "x",
   grouped: true,
   stacked: false,
-};
-
-export const MixedStackedColumnPlots = MixedGroupledColumnPlotTemplate.bind({});
-MixedStackedColumnPlots.storyName = "Stacked Column & Scatter";
-MixedStackedColumnPlots.args = {
-  useCanvas: false,
-  width: 800,
-  height: 500,
-  animationDuration: 500,
-  color: "#99C1DC",
-  theme: "light",
-  leftMargin: 70,
-  rightMargin: 40,
-  topMargin: 40,
-  bottomMargin: 40,
-  y: "Gross Profit",
-  y2: "Sales Value",
-  y3: "Operating Profit",
-  y4: "Unit Sales",
-  x: "Month",
-  grouped: false,
-  stacked: true,
 };

@@ -36,7 +36,7 @@
   "publishConfig": {},
   "devDependencies": {
     "@changesets/cli": "2.25.0",
-    "chromatic": "^6.17.0",
+    "chromatic": "^11.20.2",
     "inquirer": "^9.1.4",
     "jest": "27.5.1",
     "turbo": "^2.2.3"

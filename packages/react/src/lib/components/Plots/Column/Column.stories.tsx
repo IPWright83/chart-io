@@ -1,14 +1,16 @@
 import { themes } from "@chart-io/core";
 
+import type { Meta } from "@storybook/react";
+import { fn } from "@storybook/test";
 import React from "react";
 
-import { argTypes } from "../../../../storybook/argTypes";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
+import { argTypes } from "../../../../storybook/argTypes";
+import { createCanvasTest, createSVGTest } from "../../../testUtils";
+import { XAxis, YAxis } from "../../Axis";
+import { XYChart } from "../../XYChart";
 import { Column } from "./Column";
 import { Columns } from "./Columns";
-import { XYChart } from "../../XYChart";
-import { XAxis, YAxis } from "../../Axis";
-import { createSVGTest, createCanvasTest } from "../../../testUtils";
 
 import { uniqBy } from "lodash";
 
@@ -28,6 +30,11 @@ export default {
     },
     chromatic: { delay: 300 },
   },
+  args: {
+    onClick: fn(),
+    onMouseOver: fn(),
+    onMouseOut: fn(),
+  },
   argTypes: {
     useCanvas,
     width,
@@ -38,11 +45,8 @@ export default {
     rightMargin: margin,
     topMargin: margin,
     bottomMargin: margin,
-    onClick: { action: "clicked" },
-    onMouseOver: { action: "onMouseOver" },
-    onMouseOut: { action: "onMouseOut" },
   },
-};
+} as Meta<typeof Column>;
 
 const data = uniqBy(sales_records_dataset, (d) => d["Item Type"]);
 

@@ -17,8 +17,8 @@ const withXYPlot = <P extends object>(WrappedComponent: React.ComponentType<P>) 
      * @return {ReactDOMComponent}              The wrapped layer
      */
     return function withXYPlot({ x, y, xs, ys, noClip, ...props }) {
-        const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x || xs[0], "plot"));
-        const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y || ys[0], "plot"));
+        const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x || xs?.[0], "plot"));
+        const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y || ys?.[0], "plot"));
         const plotClipPath = useSelector((s: IState) => chartSelectors.plotClipPath(s));
 
         // TODO: need to do the same with the virtual canvas
@@ -42,9 +42,9 @@ const withXYPlot = <P extends object>(WrappedComponent: React.ComponentType<P>) 
         }
 
         if (!xScale) {
-            logDebug("Skipping render - X scale not avaliable");
+            logDebug(`Skipping render - X scale [${x || xs?.[0]}] not avaliable`);
         } else if (!yScale) {
-            logDebug("Skipping render - Y scale not avaliable");
+            logDebug(`Skipping render - Y scale [[${y || ys?.[0]}]] not avaliable`);
         }
 
         if (!xScale || !yScale) {
