@@ -11,6 +11,7 @@ export default {
 
 export const Primary = {
   args: {
-    title: "test2"
+    title: "test2",
+    position: "left"
   }
 }
