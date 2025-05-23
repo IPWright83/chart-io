@@ -31,7 +31,7 @@ export type IScale =
     | ScaleLogarithmic<number, number>
     | ScaleSymLog<number, number>
     | ScaleIdentity
-    | ScaleRadial<IValue, number>
+    | ScaleRadial<number, number>
     | ScaleTime<number, number>
     | ScaleSequentialQuantile<number>
     | ScaleSequentialBase<number>
