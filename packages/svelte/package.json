@@ -31,14 +31,14 @@
 		"**/*.css"
 	],
 	"np": {
-    "publish": false,
-    "tests": false
-    },
-    "keywords": [
-      "d3",
-      "svelte",
-      "chart"
-    ],
+		"publish": false,
+		"tests": false
+	},
+	"keywords": [
+		"d3",
+		"svelte",
+		"chart"
+	],
 	"svelte": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"type": "module",
@@ -49,17 +49,18 @@
 		}
 	},
 	"peerDependencies": {
-		"svelte": "^5.0.0",
-    	"@reduxjs/toolkit": "^2.0.0",
-    	"redux-thunk": "^3.0.0"
+		"@reduxjs/toolkit": "^2.0.0",
+		"redux-thunk": "^3.0.0",
+		"svelte": "^5.0.0"
 	},
 	"devDependencies": {
 		"@chart-io/core": "workspace:*",
-    "@chart-io/d3": "workspace:*",
-    "@chart-io/detection": "workspace:*",
-    "@chart-io/types": "workspace:*",
+		"@chart-io/d3": "workspace:*",
+		"@chart-io/detection": "workspace:*",
+		"@chart-io/types": "workspace:*",
 		"@chromatic-com/storybook": "^3.2.2",
 		"@eslint/compat": "^1.2.3",
+		"@reduxjs/toolkit": "^2.0.0",
 		"@storybook/addon-essentials": "^8.4.7",
 		"@storybook/addon-interactions": "^8.4.7",
 		"@storybook/addon-svelte-csf": "^5.0.0-next.18",
@@ -71,6 +72,7 @@
 		"@sveltejs/kit": "^2.9.0",
 		"@sveltejs/package": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
+		"@testing-library/svelte": "^5.2.8",
 		"eslint": "^9.7.0",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-plugin-svelte": "^2.36.0",
@@ -78,9 +80,8 @@
 		"prettier": "^3.3.2",
 		"prettier-plugin-svelte": "^3.2.6",
 		"publint": "^0.2.0",
+		"redux-thunk": "^3.0.0",
 		"storybook": "^8.4.7",
-		"@reduxjs/toolkit": "^2.0.0",
-    "redux-thunk": "^3.0.0",
 		"svelte": "^5.0.0",
 		"svelte-check": "^4.0.0",
 		"typescript": "^5.0.0",

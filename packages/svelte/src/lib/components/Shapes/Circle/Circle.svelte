@@ -14,4 +14,4 @@
     style:margin-right="5px"
     style:border-radius="50%"
     style:flex-shrink="0"
-/> 
+></div> 

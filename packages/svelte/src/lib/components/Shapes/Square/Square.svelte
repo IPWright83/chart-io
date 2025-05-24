@@ -13,4 +13,4 @@
     style:margin-left="5px"
     style:margin-right="5px"
     style:flex-shrink="0"
-/> 
+></div> 
