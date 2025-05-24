@@ -12,6 +12,11 @@
     let theme = useSelector((s: IState) => chartSelectors.theme(s));
     let markers = useSelector((s: IState) => eventSelectors.markers(s, onlyNearest));
 
+    // Track store values in component state
+    $: currentMarkers = $markers;
+    $: currentTheme = $theme;
+    $: currentAnimationDuration = $animationDuration;
+
     function updateMarkers() {
         if (!layer) return;
 
@@ -19,7 +24,7 @@
         const join = d3
             .select(layer)
             .selectAll<SVGCircleElement, IMarker>(".marker")
-            .data($markers);
+            .data(currentMarkers);
 
         join.exit().remove();
 
@@ -29,11 +34,11 @@
             .append("circle")
             .attr("class", "chart-io marker")
             .attr("pointer-events", "none")
-            .style("stroke", (d) => `${d.stroke ?? $theme.markers.stroke}`)
-            .style("stroke-width", $theme.markers.strokeWidth)
-            .style("filter", (d) => ($theme.markers.shadow ? `drop-shadow(0px 0px 10px ${d.fill})` : undefined))
+            .style("stroke", (d) => `${d.stroke ?? currentTheme.markers.stroke}`)
+            .style("stroke-width", currentTheme.markers.strokeWidth)
+            .style("filter", (d) => (currentTheme.markers.shadow ? `drop-shadow(0px 0px 10px ${d.fill})` : undefined))
             .style("fill", (d) => `${d.fill ?? "none"}`)
-            .attr("r", (d) => d.r1 ?? d.r2 ?? $theme.markers.size)
+            .attr("r", (d) => d.r1 ?? d.r2 ?? currentTheme.markers.size)
             .attr("cx", (d) => d.cx)
             .attr("cy", (d) => d.cy);
 
@@ -41,17 +46,17 @@
             .merge(join)
             .attr("cx", (d) => d.cx)
             .attr("cy", (d) => d.cy)
-            .style("stroke", (d) => `${d.stroke ?? $theme.markers.stroke}`)
-            .style("stroke-width", $theme.markers.strokeWidth)
-            .style("filter", (d) => ($theme.markers.shadow ? `drop-shadow(0px 0px 10px ${d.fill})` : undefined))
+            .style("stroke", (d) => `${d.stroke ?? currentTheme.markers.stroke}`)
+            .style("stroke-width", currentTheme.markers.strokeWidth)
+            .style("filter", (d) => (currentTheme.markers.shadow ? `drop-shadow(0px 0px 10px ${d.fill})` : undefined))
             .style("fill", (d) => `${d.fill ?? "none"}`)
-            .attr("r", (d) => d.r1 ?? d.r2 ?? $theme.markers.size)
+            .attr("r", (d) => d.r1 ?? d.r2 ?? currentTheme.markers.size)
             .transition()
-            .duration($animationDuration)
-            .attr("r", (d) => d.r2 ?? $theme.markers.size);
+            .duration(currentAnimationDuration)
+            .attr("r", (d) => d.r2 ?? currentTheme.markers.size);
     }
 
-    $: if ($markers) {
+    $: if (currentMarkers && layer) {
         updateMarkers();
     }
 </script> 

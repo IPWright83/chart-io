@@ -1,19 +1,19 @@
 import type { Selector } from "@reduxjs/toolkit";
 import { getContext } from "svelte";
-import { derived, type Readable } from "svelte/store";
+import { derived, readable, type Readable } from "svelte/store";
+import type { IStore } from "@chart-io/core";
 
 import { STORE_KEY } from "./constants.ts";
 
 /**
- * Returns a store whose value is the selected value from the contextual Redux store.
- *
- * @param selector      Function for retrieving a value from the store
- * @param equalityFn    Function that determines if the selector value has changed, ensuring the store is only updated when the value has changed
+ * Returns a Svelte store whose value is derived from the Redux store
+ * @param selector Function for retrieving a value from the store
+ * @param equalityFn Optional function to determine if the value has changed
  * @example
  * ```
- * const thisTodo = useSelector((store) => store.todos[todoId]);
- * ...
- * <p>{$thisTodo.name}</p>
+ * const value = useSelector((store) => store.value);
+ * // Use with $ prefix in template
+ * <div>{$value}</div>
  * ```
  */
 export function useSelector<T, S>(
@@ -24,18 +24,25 @@ export function useSelector<T, S>(
         equalityFn = (lhs: S, rhs: S) => lhs === rhs;
     }
 
-    const store: Readable<T> = getContext(STORE_KEY);
-    let lastSelectorValue: S;
-    console.log({ store, state: store.getState() });
+    const store = getContext<IStore>(STORE_KEY);
+    if (!store) {
+        throw new Error("No Redux store found in context. Did you forget to wrap your component with StoreProvider?");
+    }
 
-    return derived(store, ($state: T, set) => {
-        console.log("state", $state);
-        const selectorValue: S = selector($state);
+    // Create a Svelte readable store from the Redux store
+    const reduxStore = readable(store.getState(), (set) => {
+        return store.subscribe(() => {
+            set(store.getState());
+        });
+    });
 
-        if (!equalityFn!(selectorValue, lastSelectorValue)) {
-            lastSelectorValue = selectorValue;
-            set(lastSelectorValue);
+    // Use derived to only update when selected value changes
+    let lastValue: S;
+    return derived(reduxStore, ($state, set) => {
+        const nextValue = selector($state);
+        if (!lastValue || !equalityFn(nextValue, lastValue)) {
+            lastValue = nextValue;
+            set(nextValue);
         }
-    })
-
+    }, selector(store.getState())); // Initialize with current value
 }
