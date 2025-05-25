@@ -1,16 +1,19 @@
 <script lang="ts">
     import { themes } from "@chart-io/core";
+    import isChromatic from "chromatic/isChromatic";
     import Droplines from "./Droplines.svelte";
-    import { createMockStorybookStore } from "../../../testUtils";
-    import StoreProvider from "../../../redux/StoreProvider.svelte";
+    import { createMockStorybookStore } from "../../testUtils";
+    import StoreProvider from "../../redux/StoreProvider.svelte";
 
     export let showHorizontal: boolean = true;
     export let showVertical: boolean = true;
 
+    let layer: SVGGElement;
+
     const store = createMockStorybookStore({
         chart: {
             theme: themes.light,
-            animationDuration: 0,
+            animationDuration: isChromatic() ? 0 : 1000,
         },
         event: {
             droplines: [
@@ -35,10 +38,10 @@
     });
 </script>
 
-<div style="width: 200px; height: 200px;">
+<StoreProvider {store}>
     <svg>
-        <StoreProvider {store}>
-            <Droplines {showVertical} {showHorizontal} />
-        </StoreProvider>
+         <g bind:this={layer}>
+        <Droplines {layer} {showVertical} {showHorizontal} />
+    </g>
     </svg>
-</div> 
+</StoreProvider>

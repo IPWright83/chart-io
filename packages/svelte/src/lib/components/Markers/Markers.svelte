@@ -2,7 +2,6 @@
     import * as d3 from "@chart-io/d3";
     import { chartSelectors, eventSelectors, type IState } from "@chart-io/core";
     import type { IMarker } from "@chart-io/types";
-    import { onMount, afterUpdate } from "svelte";
     import { useSelector } from "../../redux";
 
     export let layer: Element;
