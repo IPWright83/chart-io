@@ -1,0 +1,40 @@
+// Temporarily disabled until Chart component is ready
+// import type { Meta, StoryObj } from "@storybook/svelte";
+// import VerticalBandStory from "./VerticalBandStory.svelte";
+// import VerticalBandThresholdStory from "./VerticalBandThresholdStory.svelte";
+
+// const meta = {
+//     title: "Components/Bands/VerticalBand",
+//     component: VerticalBandStory,
+//     parameters: {
+//         chromatic: { delay: 300 },
+//     },
+// } satisfies Meta<typeof VerticalBandStory>;
+
+// export default meta;
+// type Story = StoryObj<{
+//     x: string;
+//     xStart?: number;
+//     xStop?: number;
+//     fill?: string;
+//     stroke?: string;
+//     opacity?: number;
+// }>;
+
+// export const Default: Story = {
+//     args: {
+//         x: "Units Sold",
+//         xStart: 2000,
+//         xStop: 7000,
+//         fill: "steelblue",
+//         stroke: "red",
+//         opacity: 0.3,
+//     },
+// };
+
+// export const ThresholdsExample = {
+//     name: "Thresholds Example",
+//     render: () => ({
+//         Component: VerticalBandThresholdStory,
+//     }),
+// }; 

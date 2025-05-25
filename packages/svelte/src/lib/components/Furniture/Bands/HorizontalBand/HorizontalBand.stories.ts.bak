@@ -1,0 +1,40 @@
+// Temporarily disabled until Chart component is ready
+// import type { Meta, StoryObj } from "@storybook/svelte";
+// import HorizontalBandStory from "./HorizontalBandStory.svelte";
+// import HorizontalBandThresholdStory from "./HorizontalBandThresholdStory.svelte";
+
+// const meta = {
+//     title: "Components/Bands/HorizontalBand",
+//     component: HorizontalBandStory,
+//     parameters: {
+//         chromatic: { delay: 300 },
+//     },
+// } satisfies Meta<typeof HorizontalBandStory>;
+
+// export default meta;
+// type Story = StoryObj<{
+//     y: string;
+//     yStart?: number;
+//     yStop?: number;
+//     fill?: string;
+//     stroke?: string;
+//     opacity?: number;
+// }>;
+
+// export const Default: Story = {
+//     args: {
+//         y: "Total Profit",
+//         yStart: 250,
+//         yStop: 750,
+//         fill: "steelblue",
+//         stroke: "red",
+//         opacity: 0.3,
+//     },
+// };
+
+// export const ThresholdsExample = {
+//     name: "Thresholds Example",
+//     render: () => ({
+//         Component: HorizontalBandThresholdStory,
+//     }),
+// }; 

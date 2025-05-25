@@ -1,0 +1,28 @@
+// Temporarily disabled until Chart component is ready
+// import type { Meta, StoryObj } from "@storybook/svelte";
+// import VerticalLineStory from "./VerticalLineStory.svelte";
+
+// const meta = {
+//     title: "Components/Lines/VerticalLine",
+//     component: VerticalLineStory,
+//     parameters: {
+//         chromatic: { delay: 300 },
+//     },
+// } satisfies Meta<typeof VerticalLineStory>;
+
+// export default meta;
+// type Story = StoryObj<{
+//     x: string;
+//     value: number;
+//     stroke?: string;
+//     opacity?: number;
+// }>;
+
+// export const Default: Story = {
+//     args: {
+//         x: "Units Sold",
+//         value: 500,
+//         stroke: "red",
+//         opacity: 0.5,
+//     },
+// }; 
