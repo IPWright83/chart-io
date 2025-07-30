@@ -1,6 +1,7 @@
 import * as d3 from "@chart-io/d3";
 import { IColor, IDatum } from "@chart-io/types";
 
+import type { IRenderProps } from "../../types";
 import {
     ensureBandwidth,
     ensureNoScaleOverflow,
@@ -8,7 +9,6 @@ import {
     getBandwidthAndOffset,
     getParentKey,
 } from "../../utils";
-import type { IRenderProps } from "../../types";
 
 export interface IRenderStackedColumnPlotProps extends Omit<IRenderProps, "y"> {
     /**
@@ -90,7 +90,7 @@ export function stacked({
         .append("rect")
         .attr("class", "column")
         .attr("x", (d) => xScale(d.data[x]) - offset)
-        .attr("y", () => yScale.range()[0])
+        .attr("y", () => yScale.range()[0] as number)
         .attr("height", 0)
         .attr("width", bandwidth)
         .style("fill", (d, i, elements) => {

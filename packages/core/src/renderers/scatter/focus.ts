@@ -1,8 +1,8 @@
 import * as d3 from "@chart-io/d3";
 import { IColor, IFocused, IScale } from "@chart-io/types";
 
-import { eventActions } from "../../store";
 import type { IDispatch } from "../../store";
+import { eventActions } from "../../store";
 
 export interface IScatterFocusProps {
     /**
@@ -44,7 +44,7 @@ export function focus({ dispatch, xScale, yScale, focused }: IScatterFocusProps)
         isHorizontal: true,
         color: fill,
         x1: cx - markerRadius,
-        x2: xScale.range()[0],
+        x2: xScale.range()[0] as number,
         y1: cy,
         y2: cy,
     };
@@ -55,7 +55,7 @@ export function focus({ dispatch, xScale, yScale, focused }: IScatterFocusProps)
         x1: cx,
         x2: cx,
         y1: cy + markerRadius,
-        y2: yScale.range()[0],
+        y2: yScale.range()[0] as number,
     };
 
     dispatch(eventActions.addMarker(marker));
