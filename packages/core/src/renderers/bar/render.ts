@@ -1,9 +1,9 @@
+import type { Selection } from "@chart-io/d3";
 import * as d3 from "@chart-io/d3";
 import { IColor, IDatum, INumericValue } from "@chart-io/types";
-import type { Selection } from "@chart-io/d3";
 
-import { ensureBandwidth, ensureValuesAreUnique, getBandwidthAndOffset } from "../../utils";
 import type { IRenderProps } from "../../types";
+import { ensureBandwidth, ensureValuesAreUnique, getBandwidthAndOffset } from "../../utils";
 
 export interface IRenderBarPlotProps extends IRenderProps {
     /**
@@ -70,7 +70,7 @@ export function render({
         .enter()
         .append("rect")
         .attr("class", "bar")
-        .attr("x", xScale.range()[0])
+        .attr("x", xScale.range()[0] as number)
         // @ts-ignore: TODO: Need to work out casting
         .attr("y", (d) => yScale(d[y]) - offset)
         .attr("width", 0)
@@ -113,8 +113,8 @@ export function render({
         .transition("width")
         .duration(animationDuration / 2)
         .delay(animationDuration / 2)
-        .attr("x", () => xScale.range()[0])
-        .attr("width", (d) => xScale(d[x] as INumericValue) - xScale.range()[0]);
+        .attr("x", () => xScale.range()[0] as number)
+        .attr("width", (d) => xScale(d[x] as INumericValue) - (xScale.range()[0] as number));
 
     return { update, exit };
 }

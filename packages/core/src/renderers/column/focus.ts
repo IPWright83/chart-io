@@ -3,9 +3,9 @@ import { IColor, IFocused, IScale, ITheme } from "@chart-io/types";
 
 import type { Selection } from "d3-selection";
 
+import type { IDispatch } from "../../store";
 import { eventActions } from "../../store";
 import { getXYFromTransform } from "../../utils";
-import type { IDispatch } from "../../store";
 
 export interface IColumnFocusProps {
     /**
@@ -52,7 +52,7 @@ export function focus({ dispatch, focused, theme, xScale, grouped = false }: ICo
         isHorizontal: true,
         color: fill as IColor,
         x1: x + tranformX,
-        x2: xScale.range()[0],
+        x2: xScale.range()[0] as number,
         y1: y,
         y2: y,
     };

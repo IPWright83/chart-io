@@ -1,9 +1,9 @@
 import * as d3 from "@chart-io/d3";
 import { IColor, ICoordinate, IData, IMouseEventType, IScale } from "@chart-io/types";
 
-import { getDistance, isNullOrUndefined } from "../../utils";
-import { eventActions } from "../../store";
 import type { IDispatch } from "../../store";
+import { eventActions } from "../../store";
+import { getDistance, isNullOrUndefined } from "../../utils";
 
 export interface ILineFocusProps {
     /**
@@ -93,7 +93,7 @@ export function focus({ dispatch, x, y, color, xScale, position, yScale, data, l
         isHorizontal: true,
         color: fill,
         x1: cx,
-        x2: xScale.range()[0],
+        x2: xScale.range()[0] as number,
         y1: cy,
         y2: cy,
         distance,
@@ -104,7 +104,7 @@ export function focus({ dispatch, x, y, color, xScale, position, yScale, data, l
         x1: cx,
         x2: cx,
         y1: cy,
-        y2: yScale.range()[0],
+        y2: yScale.range()[0] as number,
         distance,
     };
 

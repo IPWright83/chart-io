@@ -1,8 +1,8 @@
 import * as d3 from "@chart-io/d3";
 import { IColor, IDatum, INumericValue } from "@chart-io/types";
 
-import { ensureBandwidth, ensureValuesAreUnique, getBandwidthAndOffset } from "../../utils";
 import type { IRenderProps } from "../../types";
+import { ensureBandwidth, ensureValuesAreUnique, getBandwidthAndOffset } from "../../utils";
 
 export interface IRenderColumnPlotProps extends IRenderProps {
     /**
@@ -71,7 +71,7 @@ export function render({
         .attr("class", "column")
         // @ts-ignore: TODO: Need to work out casting
         .attr("x", (d) => xScale(d[x]) - offset)
-        .attr("y", yScale.range()[0])
+        .attr("y", yScale.range()[0] as number)
         .attr("width", bandwidth)
         .attr("height", 0)
         .style("fill", fillColor.toString());
@@ -113,7 +113,7 @@ export function render({
         .duration(animationDuration / 2)
         .delay(animationDuration / 2)
         .attr("y", (d) => yScale(d[y] as INumericValue))
-        .attr("height", (d) => yScale.range()[0] - yScale(d[y] as INumericValue));
+        .attr("height", (d) => (yScale.range()[0] as number) - yScale(d[y] as INumericValue));
 
     return { update, exit };
 }

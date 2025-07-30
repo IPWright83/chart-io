@@ -1,8 +1,8 @@
 import * as d3 from "@chart-io/d3";
 import { IBandwidthScale, IColor } from "@chart-io/types";
 
-import { interpolateMultiPath, isNullOrUndefined } from "../../utils";
 import type { IRenderProps } from "../../types";
+import { interpolateMultiPath, isNullOrUndefined } from "../../utils";
 
 export interface IRenderAreaPlotProps
     extends Omit<IRenderProps, "onClick" | "onMouseOut" | "onMouseOver" | "interactive"> {
@@ -46,7 +46,7 @@ export function render({
         .area()
         .curve(d3.curveLinear)
         .x((d) => xScale(d[x]) + bandwidth)
-        .y0((d) => (y2 ? yScale(d[y]) : yScale.range()[0]))
+        .y0((d) => (y2 ? yScale(d[y]) : yScale.range()[0] as number))
         .y1((d) => (y2 ? yScale(d[y2]) : yScale(d[y])))
         .defined((d) => !isNullOrUndefined(d[y]));
 

@@ -1,8 +1,8 @@
 import * as d3 from "@chart-io/d3";
 import { IColor, IDatum, INumericValue } from "@chart-io/types";
 
-import { ensureBandwidth, getBandwidthAndOffset } from "../../utils";
 import type { IRenderProps } from "../../types";
+import { ensureBandwidth, getBandwidthAndOffset } from "../../utils";
 
 export interface IRenderGroupedColumnPlotProps extends Omit<IRenderProps, "y"> {
     /**
@@ -64,8 +64,8 @@ export function grouped({
 
     // prettier-ignore
     const groupJoin = d3.select(layer)
-            .selectAll<SVGGElement, IDatum>("g")
-            .data(data);
+        .selectAll<SVGGElement, IDatum>("g")
+        .data(data);
 
     // Clean up old groups
     const exit = groupJoin.exit().remove();
@@ -83,7 +83,7 @@ export function grouped({
         .append("rect")
         .attr("class", "column")
         .attr("x", (d) => xScale(d[x]) + x1Scale(d.key) - offset)
-        .attr("y", yScale.range()[0])
+        .attr("y", yScale.range()[0] as number)
         .attr("height", 0)
         .attr("width", x1Scale.bandwidth())
         .style("fill", (d) => colorScale(d.key).toString())
@@ -91,41 +91,41 @@ export function grouped({
 
     // prettier-ignore
     const update = join
-            .merge(enter)
-            .style("opacity", theme.series.opacity)
-            .on("mouseover", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
+        .merge(enter)
+        .style("opacity", theme.series.opacity)
+        .on("mouseover", function (event, datum) {
+            // istanbul ignore next
+            if (!interactive) return;
 
-                onMouseOver && onMouseOver(datum, this as Element, event);
-                onFocus && onFocus({ element: this as Element, event, datum });
-                onTooltip && onTooltip({ datum, event, fillColors: [colorScale(datum.key) as IColor], ys: [datum.key] });
-            })
-            .on("mouseout", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
+            onMouseOver && onMouseOver(datum, this as Element, event);
+            onFocus && onFocus({ element: this as Element, event, datum });
+            onTooltip && onTooltip({ datum, event, fillColors: [colorScale(datum.key) as IColor], ys: [datum.key] });
+        })
+        .on("mouseout", function (event, datum) {
+            // istanbul ignore next
+            if (!interactive) return;
 
-                onMouseOut && onMouseOut(datum, this as Element, event);
-                onFocus && onFocus(null);
-                onTooltip && onTooltip(null);
-            })
-            .on("click", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
+            onMouseOut && onMouseOut(datum, this as Element, event);
+            onFocus && onFocus(null);
+            onTooltip && onTooltip(null);
+        })
+        .on("click", function (event, datum) {
+            // istanbul ignore next
+            if (!interactive) return;
 
-                onClick && onClick(datum, this as Element, event);
-            })
-            .transition("position")
-            .duration(animationDuration / 2)
-            .attr("x", (d) => xScale(d[x]) + x1Scale(d.key) - offset)
-            .attr("width", x1Scale.bandwidth())
-            .style("fill", (d) => colorScale(d.key).toString())
-            // @ts-expect-error: Looks like the type defs are wrong missing named transitions
-            .transition("height")
-            .duration(animationDuration / 2)
-            .delay(animationDuration / 2)
-            .attr("height", (d) => yScale.range()[0] - yScale(d.value as INumericValue))
-            .attr("y", (d) => yScale(d.value as INumericValue));
+            onClick && onClick(datum, this as Element, event);
+        })
+        .transition("position")
+        .duration(animationDuration / 2)
+        .attr("x", (d) => xScale(d[x]) + x1Scale(d.key) - offset)
+        .attr("width", x1Scale.bandwidth())
+        .style("fill", (d) => colorScale(d.key).toString())
+        // @ts-expect-error: Looks like the type defs are wrong missing named transitions
+        .transition("height")
+        .duration(animationDuration / 2)
+        .delay(animationDuration / 2)
+        .attr("height", (d) => (yScale.range()[0] as number) - yScale(d.value as INumericValue))
+        .attr("y", (d) => yScale(d.value as INumericValue));
 
     return { update, exit };
 }

@@ -3,9 +3,9 @@ import { IColor, IFocused, IScale, ITheme } from "@chart-io/types";
 
 import type { Selection } from "d3-selection";
 
+import type { IDispatch } from "../../store";
 import { eventActions } from "../../store";
 import { getXYFromTransform } from "../../utils";
-import type { IDispatch } from "../../store";
 
 export interface IBarFocusProps {
     /**
@@ -55,7 +55,7 @@ export function focus({ dispatch, focused, theme, yScale, grouped = false }: IBa
         x1: x + width,
         x2: x + width,
         y1: y + tranformY,
-        y2: yScale.range()[0],
+        y2: yScale.range()[0] as number,
     };
 
     dispatch(eventActions.addDropline(verticalDropline));

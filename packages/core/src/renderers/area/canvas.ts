@@ -62,7 +62,7 @@ export function canvas({
         .area()
         .curve(d3.curveLinear)
         .x((d) => xScale(d[x]) + bandwidth)
-        .y0((d) => (y2 ? yScale(d[y]) : yScale.range()[0]))
+        .y0((d) => (y2 ? yScale(d[y]) : yScale.range()[0] as number))
         .y1((d) => (y2 ? yScale(d[y2]) : yScale(d[y])))
         .defined((d) => !isNullOrUndefined(d[y]));
 
