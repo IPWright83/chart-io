@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.50.0
+
+### Minor Changes
+
+- 6d83895: Update react-redux peer version
+
 ## 0.49.0
 
 ### Minor Changes
