@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.53.0
+
+### Minor Changes
+
+- 90bed02: Add types
+
 ## 0.52.0
 
 ### Minor Changes
