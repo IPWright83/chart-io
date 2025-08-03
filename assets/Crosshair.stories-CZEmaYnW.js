@@ -1,0 +1,5 @@
+import{j as e}from"./jsx-runtime-BjG_zV1W.js";import{P as m,t as n}from"./react-redux-D2XHiCFH.js";import{C as a}from"./index-D2Yg9nHg.js";import{c as p}from"./renderChart-BZI9ut8k.js";import"./index-Dcm7olAB.js";import"./index-DpTt3J-R.js";import"./index-BLkjqt2D.js";import"./test-utils-C-DEfvFY.js";import"./index-D5nvoAmD.js";import"./client-CbGTh6y2.js";const v={title:"Components/Crosshair",component:a,parameters:{chromatic:{delay:300}}},c=()=>{const i=p({chart:{theme:n.light,dimensions:{width:200,height:200}},event:{mouse:{x:100,y:100}}});return e.jsx(m,{store:i,children:e.jsx("svg",{children:e.jsx(a,{showVertical:!0,showHorizontal:!0})})})},r={name:"Crosshair",render:c};var o,t,s;r.parameters={...r.parameters,docs:{...(o=r.parameters)==null?void 0:o.docs,source:{originalSource:`{
+  name: "Crosshair",
+  render: CrosshairTemplate
+}`,...(s=(t=r.parameters)==null?void 0:t.docs)==null?void 0:s.source}}};const w=["Default"];export{r as Default,w as __namedExportsOrder,v as default};
+//# sourceMappingURL=Crosshair.stories-CZEmaYnW.js.map
