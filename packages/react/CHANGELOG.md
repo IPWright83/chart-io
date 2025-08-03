@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.51.0
+
+### Minor Changes
+
+- 3b353ff: Update dependencies to latest
+
 ## 0.50.0
 
 ### Minor Changes
