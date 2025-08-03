@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.54.0
+
+### Minor Changes
+
+- 23ea031: Fix export
+
 ## 0.53.0
 
 ### Minor Changes
