@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.55.0
+
+### Minor Changes
+
+- 9596f08: Fix current node for snapshots
+
 ## 0.54.0
 
 ### Minor Changes
