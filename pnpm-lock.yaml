@@ -344,7 +344,7 @@ importers:
         version: 8.6.14(@storybook/test@8.6.14)(react-dom@19.1.1)(react@19.1.1)(storybook@8.6.14)(typescript@5.8.3)
       '@storybook/react-vite':
         specifier: ^8.4.2
-        version: 8.6.14(@storybook/test@8.6.14)(react-dom@19.1.1)(react@19.1.1)(storybook@8.6.14)(typescript@5.8.3)(vite@5.4.19)
+        version: 8.6.14(@storybook/test@8.6.14)(react-dom@19.1.1)(react@19.1.1)(rollup@4.41.0)(storybook@8.6.14)(typescript@5.8.3)(vite@5.4.19)
       '@storybook/test':
         specifier: ^8.4.2
         version: 8.6.14(storybook@8.6.14)
@@ -459,6 +459,9 @@ importers:
       remark-gfm:
         specifier: ^4.0.0
         version: 4.0.1
+      rollup-plugin-dts:
+        specifier: ^6.2.1
+        version: 6.2.1(rollup@4.41.0)(typescript@5.8.3)
       storybook:
         specifier: ^8.4.2
         version: 8.6.14
@@ -473,7 +476,7 @@ importers:
         version: 5.4.19(@types/node@18.19.103)
       vite-plugin-dts:
         specifier: ^4.5.4
-        version: 4.5.4(@types/node@18.19.103)(typescript@5.8.3)(vite@5.4.19)
+        version: 4.5.4(@types/node@18.19.103)(rollup@4.41.0)(typescript@5.8.3)(vite@5.4.19)
 
   packages/types:
     dependencies:
@@ -4239,7 +4242,7 @@ packages:
       rollup: 2.79.2
     dev: false
 
-  /@rollup/pluginutils@5.1.4:
+  /@rollup/pluginutils@5.1.4(rollup@4.41.0):
     resolution: {integrity: sha512-USm05zrsFxYLPdWWq+K3STlWiT/3ELn3RcV5hJMghpeAIhxfsUIg6mt12CBJBInWMV4VneoV7SfGv8xIwo2qNQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -4251,6 +4254,7 @@ packages:
       '@types/estree': 1.0.7
       estree-walker: 2.0.2
       picomatch: 4.0.2
+      rollup: 4.41.0
     dev: true
 
   /@rollup/rollup-android-arm-eabi@4.41.0:
@@ -4922,7 +4926,7 @@ packages:
       storybook: 8.6.14
     dev: true
 
-  /@storybook/react-vite@8.6.14(@storybook/test@8.6.14)(react-dom@19.1.1)(react@19.1.1)(storybook@8.6.14)(typescript@5.8.3)(vite@5.4.19):
+  /@storybook/react-vite@8.6.14(@storybook/test@8.6.14)(react-dom@19.1.1)(react@19.1.1)(rollup@4.41.0)(storybook@8.6.14)(typescript@5.8.3)(vite@5.4.19):
     resolution: {integrity: sha512-FZU0xMPxa4/TO87FgcWwappOxLBHZV5HSRK5K+2bJD7rFJAoNorbHvB4Q1zvIAk7eCMjkr2GPCPHx9PRB9vJFg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
@@ -4936,7 +4940,7 @@ packages:
         optional: true
     dependencies:
       '@joshwooding/vite-plugin-react-docgen-typescript': 0.5.0(typescript@5.8.3)(vite@5.4.19)
-      '@rollup/pluginutils': 5.1.4
+      '@rollup/pluginutils': 5.1.4(rollup@4.41.0)
       '@storybook/builder-vite': 8.6.14(storybook@8.6.14)(vite@5.4.19)
       '@storybook/react': 8.6.14(@storybook/test@8.6.14)(react-dom@19.1.1)(react@19.1.1)(storybook@8.6.14)(typescript@5.8.3)
       '@storybook/test': 8.6.14(storybook@8.6.14)
@@ -15670,6 +15674,20 @@ packages:
     dependencies:
       glob: 7.2.3
 
+  /rollup-plugin-dts@6.2.1(rollup@4.41.0)(typescript@5.8.3):
+    resolution: {integrity: sha512-sR3CxYUl7i2CHa0O7bA45mCrgADyAQ0tVtGSqi3yvH28M+eg1+g5d7kQ9hLvEz5dorK3XVsH5L2jwHLQf72DzA==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      rollup: ^3.29.4 || ^4
+      typescript: ^4.5 || ^5.0
+    dependencies:
+      magic-string: 0.30.17
+      rollup: 4.41.0
+      typescript: 5.8.3
+    optionalDependencies:
+      '@babel/code-frame': 7.27.1
+    dev: true
+
   /rollup-plugin-node-resolve@2.1.1:
     resolution: {integrity: sha512-UDDWQc9CzqzEhyoxSp6m0ZU29GhEJw+6HCqMfwoREwGlpKK7K68/4B3n/ysdU0tWz5YHwDKDpHF0MeH7fJIgaw==}
     deprecated: This package has been deprecated and is no longer maintained. Please use @rollup/plugin-node-resolve.
@@ -17427,7 +17445,7 @@ packages:
       vfile-message: 4.0.2
     dev: true
 
-  /vite-plugin-dts@4.5.4(@types/node@18.19.103)(typescript@5.8.3)(vite@5.4.19):
+  /vite-plugin-dts@4.5.4(@types/node@18.19.103)(rollup@4.41.0)(typescript@5.8.3)(vite@5.4.19):
     resolution: {integrity: sha512-d4sOM8M/8z7vRXHHq/ebbblfaxENjogAAekcfcDCCwAyvGqnPrc7f4NZbvItS+g4WTgerW0xDwSz5qz11JT3vg==}
     peerDependencies:
       typescript: '*'
@@ -17437,7 +17455,7 @@ packages:
         optional: true
     dependencies:
       '@microsoft/api-extractor': 7.52.10(@types/node@18.19.103)
-      '@rollup/pluginutils': 5.1.4
+      '@rollup/pluginutils': 5.1.4(rollup@4.41.0)
       '@volar/typescript': 2.4.22
       '@vue/language-core': 2.2.0(typescript@5.8.3)
       compare-versions: 6.1.1

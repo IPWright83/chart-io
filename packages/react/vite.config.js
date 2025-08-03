@@ -13,6 +13,14 @@ export default defineConfig({
     dts({
       entryRoot: "src/lib",
       outDir: "dist",
+      exclude: [
+        "**/*.stories.ts",
+        "**/*.stories.tsx",
+        "**/*.stories.d.ts",
+        "**/stories/**",
+        "**/*.mdx",
+        "**/testUtils/**",
+      ],
     }),
   ],
   build: {

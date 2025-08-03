@@ -9,6 +9,10 @@
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "dist/types"
+  ],
   "homepage": "https://github.com/IPWright83/chart-io",
   "scripts": {
     "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist && rm -rf coverage && rm -rf storybook-static",
@@ -17,6 +21,7 @@
     "dev": "vite build --watch",
     "types": "tsc --noEmit",
     "build": "vite build",
+    "bundle-types": "rollup -c rollup.config.dts.mjs",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build --webpack-stats-json",
@@ -100,6 +105,7 @@
     "react-test-renderer": "^19.1.1",
     "redux-thunk": "^3.0.0",
     "remark-gfm": "^4.0.0",
+    "rollup-plugin-dts": "^6.2.1",
     "storybook": "^8.4.2",
     "storybook-deployer": "2.8.12",
     "typescript": "^5.7.2",
