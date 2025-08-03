@@ -110,7 +110,7 @@ export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
 
     useImperativeHandle(ref, () => ({
         exportImage: exportAsImage(svgNode.current, theme, width, height),
-        exportBase64: () => exportImage(svgNode, theme, width, height, "PNG", 1),
+        exportBase64: () => exportImage(svgNode.current, theme, width, height, "PNG", 1),
     }));
 
     // Ensure that the store is updated whenever the dimensions change. This typically
