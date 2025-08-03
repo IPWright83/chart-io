@@ -1,6 +1,7 @@
-import { defineConfig } from "vite";
-import path from "node:path";
 import react from "@vitejs/plugin-react";
+import path from "node:path";
+import { defineConfig } from "vite";
+import dts from "vite-plugin-dts";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -8,6 +9,10 @@ export default defineConfig({
     react({
       // Used to enable HMR with sub-packages
       exclude: /node_modules\/(?!@chart-io\/).*/,
+    }),
+    dts({
+      entryRoot: "src/lib",
+      outDir: "dist",
     }),
   ],
   build: {

@@ -1,4 +1,4 @@
-import { chartActions } from "@chart-io/core";
+import { chartActions, exportImage } from "@chart-io/core";
 import type { IData, IMargin, IOnClick, IOnMouseOut, IOnMouseOver, ITheme } from "@chart-io/types";
 
 import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
@@ -82,6 +82,11 @@ export interface IChartRef {
      * @return {Promise<string>}     Resolves with the PNG data
      */
     exportImage: (filename: string, format?: "PNG" | "JPG", scale?: number) => Promise<string>;
+    /**
+     * Return the chart as a base64 PNG
+     * @return {Promise<string>}     Resolves with the base64 PNG data
+     */
+    exportBase64: () => Promise<string>;
 }
 
 export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
@@ -105,6 +110,7 @@ export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
 
     useImperativeHandle(ref, () => ({
         exportImage: exportAsImage(svgNode.current, theme, width, height),
+        exportBase64: exportImage(svgNode, theme, width, height, "PNG", 1),
     }));
 
     // Ensure that the store is updated whenever the dimensions change. This typically
