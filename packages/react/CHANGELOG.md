@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.52.0
+
+### Minor Changes
+
+- 8278c18: Publish types
+
 ## 0.51.0
 
 ### Minor Changes
