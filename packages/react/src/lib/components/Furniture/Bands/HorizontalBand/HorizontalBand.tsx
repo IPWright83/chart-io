@@ -49,13 +49,13 @@ export function HorizontalBand({ yStart, yStop, y, opacity = 0.5, fill, stroke }
     // use the start of the scale "range" which are the pixel co-ordinates
     // for the start of the Y axis
     // @ts-ignore: Not sure how to fix this one
-    const startY = yStart ? scale(yStart) : scale.range()[0];
+    const startY = yStart ? scale(yStart) : scale.range()[0] as number;
 
     // Calculate the position based on the scale. If no stop was given
     // use the end of the scale "range" which are the pixel co-ordinates
     // for the end of the Y axis
     // @ts-ignore: Not sure how to fix this one
-    const stopY = yStop ? scale(yStop) : scale.range()[scale.range().length - 1];
+    const stopY = yStop ? scale(yStop) : scale.range()[scale.range().length - 1] as number;
 
     return (
         <rect

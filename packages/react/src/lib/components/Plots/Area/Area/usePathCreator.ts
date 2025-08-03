@@ -43,7 +43,7 @@ export function usePathCreator(
             .area()
             .curve(d3.curveLinear)
             .x((d) => xScale(d[x]) + bandwidth)
-            .y0(() => yScale.range()[0])
+            .y0(() => yScale.range()[0] as number)
             .y1((d) => yScale(d[y]));
 
         // Only ever add the path once on first render when
