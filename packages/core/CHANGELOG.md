@@ -1,5 +1,11 @@
 # @chart-io/core
 
+## 0.4.0
+
+### Minor Changes
+
+- 91e1f56: Removes sub-packages @chart-io/types @chart-io/d3 @chart-io/detection
+
 ## 0.3.0
 
 ### Minor Changes
