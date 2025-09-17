@@ -1,4 +1,4 @@
-import type { IData } from "@Types";
+import type { IData } from "../../types";
 
 import { getDataType } from "../getTypes";
 import type { IColumnInfo } from "../types";

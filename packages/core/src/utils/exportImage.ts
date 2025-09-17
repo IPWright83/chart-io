@@ -1,4 +1,4 @@
-import type { ITheme } from "@Types";
+import type { ITheme } from "../types";
 
 // Inspired by https://observablehq.com/@bumbeishvili/foreignobject-exporting-issue
 

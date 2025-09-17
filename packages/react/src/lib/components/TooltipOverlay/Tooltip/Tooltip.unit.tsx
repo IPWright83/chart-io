@@ -1,4 +1,4 @@
-import type { IColor } from "@chart-io/types";
+import type { IColor } from "@chart-io/core";
 import { Provider } from "react-redux";
 import React from "react";
 import { render } from "@testing-library/react";

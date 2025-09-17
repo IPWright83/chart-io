@@ -1,7 +1,5 @@
-import { IColor, IDatum, INumericValue, IValue } from "@Types";
 import { d3 } from "../../d3";
-
-import type { IRenderProps } from "../../types";
+import type { IColor, IDatum, INumericValue, IRenderProps, IValue } from "../../types";
 import { ensureBandwidth, getBandwidthAndOffset } from "../../utils";
 
 export interface IRenderGroupedBarPlotProps extends Omit<IRenderProps, "x"> {

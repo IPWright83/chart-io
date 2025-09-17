@@ -1,5 +1,5 @@
 import { chartSelectors, eventSelectors, IState } from "@chart-io/core";
-import type { ITooltipFormatter } from "@chart-io/types";
+import type { ITooltipFormatter } from "@chart-io/core";
 
 import React from "react";
 import { useSelector } from "react-redux";

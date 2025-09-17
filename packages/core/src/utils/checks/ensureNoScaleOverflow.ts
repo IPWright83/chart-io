@@ -1,6 +1,5 @@
-import type { IData, IScale } from "@Types";
 import { d3 } from "../../d3";
-
+import type { IData, IScale } from "../../types";
 import { logWarning } from "../logger";
 
 /**

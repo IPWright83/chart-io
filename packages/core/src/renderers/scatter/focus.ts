@@ -1,8 +1,7 @@
-import { IColor, IFocused, IScale } from "@Types";
 import { d3 } from "../../d3";
-
 import type { IDispatch } from "../../store";
 import { eventActions } from "../../store";
+import { IColor, IFocused, IScale } from "../../types";
 
 export interface IScatterFocusProps {
     /**

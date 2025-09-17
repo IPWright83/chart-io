@@ -1,5 +1,5 @@
 import { bar, chartSelectors, d3, IState } from "@chart-io/core";
-import type { IEventPlotProps } from "@chart-io/types";
+import type { IEventPlotProps } from "@chart-io/core";
 
 import { useSelector } from "react-redux";
 

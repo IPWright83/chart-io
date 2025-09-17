@@ -1,5 +1,5 @@
 import { downloadFile, exportImage, logDebug } from "@chart-io/core";
-import { ITheme } from "@chart-io/types";
+import { ITheme } from "@chart-io/core";
 
 import { getTheme } from "./getTheme";
 

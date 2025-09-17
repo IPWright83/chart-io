@@ -1,5 +1,5 @@
 import { d3 } from "@chart-io/core";
-import type { IColor } from "@chart-io/types";
+import type { IColor } from "@chart-io/core";
 
 /**
  * Renders a circle to the canvas

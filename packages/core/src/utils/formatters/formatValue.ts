@@ -1,5 +1,4 @@
-import { IValue } from "@Types";
-
+import { IValue } from "../../types";
 import { formatDate } from "./formatDate";
 import { formatNumber } from "./formatNumber";
 

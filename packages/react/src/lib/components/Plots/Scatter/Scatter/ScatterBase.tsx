@@ -1,5 +1,5 @@
 import { chartSelectors, d3, IState, scatter } from "@chart-io/core";
-import { IEventPlotProps } from "@chart-io/types";
+import { IEventPlotProps } from "@chart-io/core";
 
 import { useSelector } from "react-redux";
 

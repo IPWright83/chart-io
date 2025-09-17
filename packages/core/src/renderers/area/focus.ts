@@ -1,8 +1,7 @@
-import { IColor, ICoordinate, IData, IInvertScale, IMouseEventType, INumericValue, IScale } from "@Types";
 import { d3 } from "../../d3";
-
 import type { IDispatch } from "../../store";
 import { eventActions } from "../../store";
+import { IColor, ICoordinate, IData, IInvertScale, IMouseEventType, INumericValue, IScale } from "../../types";
 import { getDistance, isNullOrUndefined } from "../../utils";
 
 export interface IAreaFocusProps {

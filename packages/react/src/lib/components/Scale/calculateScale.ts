@@ -1,5 +1,5 @@
+import type { IData, IScale, IScaleType, IValue } from "@chart-io/core";
 import { d3, detection, logAndThrowError, logDebug } from "@chart-io/core";
-import type { IData, IScale, IScaleType, IValue } from "@chart-io/types";
 
 const { getDataType, Type, typeEnumToName } = detection;
 

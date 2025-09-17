@@ -1,5 +1,5 @@
 import { chartSelectors, IState } from "@chart-io/core";
-import type { IPlotsProps } from "@chart-io/types";
+import type { IPlotsProps } from "@chart-io/core";
 
 import React from "react";
 import { useSelector } from "react-redux";

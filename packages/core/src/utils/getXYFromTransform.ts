@@ -1,4 +1,4 @@
-import type { ICoordinate } from "@Types";
+import type { ICoordinate } from "../types";
 
 /**
  * Obtain the x, y offsets from a transform string

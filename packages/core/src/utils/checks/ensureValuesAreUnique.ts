@@ -1,5 +1,4 @@
-import type { IData } from "@Types";
-
+import type { IData } from "../../types";
 import { areValuesUnique } from "../areValuesUnique";
 import { logWarning } from "../logger";
 

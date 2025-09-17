@@ -1,5 +1,5 @@
 import { d3, logWarning } from "@chart-io/core";
-import type { IColor } from "@chart-io/types";
+import type { IColor } from "@chart-io/core";
 
 import { renderCircle } from "./renderCircle";
 import { renderRect } from "./renderRect";

@@ -1,4 +1,4 @@
-import { IMargin } from "@chart-io/types";
+import { IMargin } from "@chart-io/core";
 import React from "react";
 
 import { DEFAULT_BRUSH_MARGIN } from "./constants";

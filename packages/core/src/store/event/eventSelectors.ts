@@ -1,8 +1,8 @@
-import type { IColor, ICoordinate, IDropline, IMarker, IMouseEventType, ITooltipItem } from "@Types";
 import { memoizeWithArgs } from "proxy-memoize";
 
-import type { IEventState, IEventStateTooltip, IState } from "../types";
+import type { IColor, ICoordinate, IDropline, IMarker, IMouseEventType, ITooltipItem } from "../../types";
 import { findNearest } from "../../utils";
+import type { IEventState, IEventStateTooltip, IState } from "../types";
 
 const EMPTY_OBJECT = {};
 const EMPTY_ARRAY = [];

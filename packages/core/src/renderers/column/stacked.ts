@@ -1,7 +1,5 @@
-import { IColor, IDatum } from "@Types";
 import { d3 } from "../../d3";
-
-import type { IRenderProps } from "../../types";
+import type { IColor, IDatum, IRenderProps } from "../../types";
 import {
     ensureBandwidth,
     ensureNoScaleOverflow,

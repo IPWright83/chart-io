@@ -1,3 +1,6 @@
+import { d3 } from "../../d3";
+import type { IDispatch } from "../../store";
+import { eventActions } from "../../store";
 import {
     IColor,
     ICoordinate,
@@ -7,11 +10,7 @@ import {
     INumericValue,
     IScale,
     ITooltipItem,
-} from "@Types";
-import { d3 } from "../../d3";
-
-import type { IDispatch } from "../../store";
-import { eventActions } from "../../store";
+} from "../../types";
 import { getDistance } from "../../utils";
 
 export interface IStackedAreaTooltipProps {

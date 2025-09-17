@@ -1,4 +1,4 @@
-import type { IColor, ITheme } from "@Types";
+import type { IColor, ITheme } from "./types";
 
 const light: ITheme = {
     axis: {

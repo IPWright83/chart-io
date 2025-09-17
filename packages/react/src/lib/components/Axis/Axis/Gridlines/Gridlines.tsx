@@ -1,5 +1,5 @@
 import { chartSelectors, d3, IState } from "@chart-io/core";
-import type { IPosition, IScale } from "@chart-io/types";
+import type { IPosition, IScale } from "@chart-io/core";
 
 import { useEffect } from "react";
 import { useSelector } from "react-redux";

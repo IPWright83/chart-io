@@ -1,10 +1,7 @@
-import { IColor, IFocused, IScale, ITheme } from "@Types";
 import { d3 } from "../../d3";
-
-import type { Selection } from "d3-selection";
-
 import type { IDispatch } from "../../store";
 import { eventActions } from "../../store";
+import { IColor, IFocused, IScale, ITheme } from "../../types";
 import { getXYFromTransform } from "../../utils";
 
 export interface IBarFocusProps {
@@ -39,7 +36,7 @@ export function focus({ dispatch, focused, theme, yScale, grouped = false }: IBa
 
     // Get the appropriate attributes
     const { element } = focused;
-    const selection = d3.select(element) as Selection<any, unknown, null, undefined>;
+    const selection = d3.select(element) as d3.Selection<any, unknown, null, undefined>;
     const fill = selection.style("fill");
     const y = +selection.attr("y");
     const x = +selection.attr("x");

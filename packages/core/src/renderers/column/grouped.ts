@@ -1,7 +1,5 @@
-import { IColor, IDatum, INumericValue } from "@Types";
 import { d3 } from "../../d3";
-
-import type { IRenderProps } from "../../types";
+import type { IColor, IDatum, INumericValue, IRenderProps } from "../../types";
 import { ensureBandwidth, getBandwidthAndOffset } from "../../utils";
 
 export interface IRenderGroupedColumnPlotProps extends Omit<IRenderProps, "y"> {

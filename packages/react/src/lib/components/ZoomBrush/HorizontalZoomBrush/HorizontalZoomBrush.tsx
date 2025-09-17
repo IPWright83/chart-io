@@ -1,6 +1,6 @@
 import { chartActions, chartSelectors, IState, logWarning } from "@chart-io/core";
 import { d3 } from "@chart-io/core";
-import { IMargin } from "@chart-io/types";
+import { IMargin } from "@chart-io/core";
 
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";

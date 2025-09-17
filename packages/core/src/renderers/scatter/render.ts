@@ -1,7 +1,5 @@
-import { IBandwidthScale, IColor, IDatum, INumericValue, IScale } from "@Types";
 import { d3 } from "../../d3";
-
-import type { IRenderProps } from "../../types";
+import type { IBandwidthScale, IColor, IDatum, INumericValue, IRenderProps, IScale } from "../../types";
 
 export interface IRenderScatterPlotProps extends IRenderProps {
     /**

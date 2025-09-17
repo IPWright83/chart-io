@@ -1,4 +1,4 @@
-import type { IValue } from "@Types";
+import type { IValue } from "../types";
 
 /**
  * Determines if all the values are unique

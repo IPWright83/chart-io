@@ -1,7 +1,5 @@
-import { IBandwidthScale, IColor } from "@Types";
 import { d3 } from "../../d3";
-
-import type { IRenderProps } from "../../types";
+import type { IBandwidthScale, IColor, IRenderProps } from "../../types";
 import { interpolateMultiPath, isNullOrUndefined } from "../../utils";
 
 export interface IRenderLinePlotProps

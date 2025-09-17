@@ -1,8 +1,7 @@
-import type { IColor, IDropline, IMarker, IMouseEvent, ITooltipItem } from "@Types";
-
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { isEqual } from "lodash";
 
+import type { IColor, IDropline, IMarker, IMouseEvent, ITooltipItem } from "../../types";
 import type { IEventState } from "../types";
 
 // https://stackoverflow.com/questions/54099633/filter-out-actions-in-redux-devtool-extension#:~:text=In%20the%20Redux%20DevTools%20Extension,the%20Chrome%20Extension%20details%20screen.

@@ -1,5 +1,5 @@
 import { d3, logAndThrowError } from "@chart-io/core";
-import type { IPosition, IScale } from "@chart-io/types";
+import type { IPosition, IScale } from "@chart-io/core";
 
 /**
  * Return a D3 Axis function
