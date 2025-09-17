@@ -1,5 +1,4 @@
-import * as d3 from "@chart-io/d3";
-import type { Transition } from "@chart-io/d3";
+import { d3 } from "@chart-io/core";
 
 import { renderElements } from "../renderElements";
 
@@ -30,7 +29,7 @@ export function getColor(index: number): string {
 
 export function renderVirtualElements(
     context: CanvasRenderingContext2D,
-    join: Transition<Element, unknown, any, unknown>,
+    join: d3.Transition<Element, unknown, any, unknown>,
     index: number
 ) {
     const colorToData = {};

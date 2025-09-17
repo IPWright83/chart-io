@@ -29,7 +29,6 @@
     "chart"
   ],
   "devDependencies": {
-    "@chart-io/d3": "workspace:*",
     "@chart-io/types": "workspace:*",
     "@swc/core": "^1.3.36",
     "@swc/jest": "^0.2.24",

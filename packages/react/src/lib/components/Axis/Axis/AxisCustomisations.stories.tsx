@@ -1,15 +1,13 @@
-import * as d3 from "@chart-io/d3";
-import type { AxisScale, AxisDomain } from "@chart-io/d3";
-import { chartSelectors, IState } from "@chart-io/core";
+import { chartSelectors, d3, IState } from "@chart-io/core";
 
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
+import { Chart } from "../../Chart";
+import { XScale } from "../../Scale";
 import { XAxis } from "../XAxis";
 import { Axis } from "./Axis";
-import { Chart } from "../../Chart";
 import { axisData } from "./axisData";
-import { XScale } from "../../Scale";
 
 import "./AxisCustomisations.css";
 
@@ -45,7 +43,7 @@ const CustomTimeAxis = ({ fields }) => {
       // Create the D3 axis renderer
       const timeFormat = d3.timeFormat("%H:%M");
       const d3Axis = d3
-        .axisBottom(scale as AxisScale<AxisDomain>)
+        .axisBottom(scale as d3.AxisScale<d3.AxisDomain>)
         .ticks(d3.timeHour.every(1))
         .tickSizeInner(30)
         .tickSizeOuter(30)
@@ -54,7 +52,7 @@ const CustomTimeAxis = ({ fields }) => {
         );
 
       // Set some scale props
-      d3Axis.scale(scale as AxisScale<AxisDomain>);
+      d3Axis.scale(scale as d3.AxisScale<d3.AxisDomain>);
 
       // Render the axis
       selection.call(d3Axis);

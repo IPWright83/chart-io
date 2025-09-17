@@ -1,8 +1,6 @@
-import * as d3 from "@chart-io/d3";
+import { d3, logAndThrowError, logDebug } from "@chart-io/core";
 import { getDataType, Type, typeEnumToName } from "@chart-io/detection";
 import type { IData, IScale, IScaleType, IValue } from "@chart-io/types";
-import { logAndThrowError, logDebug } from "@chart-io/core";
-import type { NumberValue } from "@chart-io/d3";
 
 /**
  * Return a scale as defined by the scaleType property
@@ -29,8 +27,8 @@ const getScaleTypeFromType = (scaleType: IScaleType, values: IValue[], range: nu
             .range(range);
     }
 
-    const minValue = d3.min(values as NumberValue[]);
-    const maxValue = d3.max(values as NumberValue[]);
+    const minValue = d3.min(values as d3.NumberValue[]);
+    const maxValue = d3.max(values as d3.NumberValue[]);
     const zeroOrMin = d3.min([0, minValue]);
 
     switch (scaleType) {

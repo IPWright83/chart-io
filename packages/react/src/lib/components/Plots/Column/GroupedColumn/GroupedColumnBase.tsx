@@ -1,6 +1,5 @@
-import { chartSelectors, column, IState } from "@chart-io/core";
+import { chartSelectors, column, d3, IState } from "@chart-io/core";
 import type { IColor, IEventPlotProps } from "@chart-io/types";
-import type { Transition } from "@chart-io/d3";
 
 import { useSelector } from "react-redux";
 
@@ -14,7 +13,7 @@ export interface IGroupedColumnBaseProps extends Omit<IEventPlotProps, "y"> {
     /**
      * This is an internally used function to allow the scatter plot to render to a virtual canvas
      */
-    renderVirtualCanvas?: (update: Transition<Element, unknown, any, unknown>) => void;
+    renderVirtualCanvas?: (update: d3.Transition<Element, unknown, any, unknown>) => void;
     /**
      * The set of y fields to use to access the data for each plot
      */

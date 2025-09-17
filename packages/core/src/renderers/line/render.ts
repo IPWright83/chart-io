@@ -1,8 +1,8 @@
-import * as d3 from "@chart-io/d3";
 import { IBandwidthScale, IColor } from "@chart-io/types";
+import { d3 } from "../../d3";
 
-import { interpolateMultiPath, isNullOrUndefined } from "../../utils";
 import type { IRenderProps } from "../../types";
+import { interpolateMultiPath, isNullOrUndefined } from "../../utils";
 
 export interface IRenderLinePlotProps
     extends Omit<IRenderProps, "onClick" | "onMouseOut" | "onMouseOver" | "interactive"> {

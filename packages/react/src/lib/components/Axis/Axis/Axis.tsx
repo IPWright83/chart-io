@@ -1,6 +1,4 @@
-import * as d3 from "@chart-io/d3";
-import type { AxisDomain, AxisScale } from "@chart-io/d3";
-import { chartSelectors, IState, logAndThrowError } from "@chart-io/core";
+import { chartSelectors, d3, IState, logAndThrowError } from "@chart-io/core";
 import type { IPosition } from "@chart-io/types";
 
 import React, { useEffect, useRef } from "react";
@@ -107,7 +105,7 @@ export function Axis({
 
             // Set some scale props
             d3Axis
-                .scale(scale as AxisScale<AxisDomain>)
+                .scale(scale as d3.AxisScale<d3.AxisDomain>)
                 .tickSizeInner(tickSizeInner)
                 .tickSizeOuter(tickSizeOuter)
                 .tickPadding(tickPadding)

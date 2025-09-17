@@ -1,4 +1,4 @@
-import * as d3 from "@chart-io/d3";
+import { d3 } from "@chart-io/core";
 import { chartSelectors, eventSelectors, IState } from "@chart-io/core";
 import type { IMarker } from "@chart-io/types";
 

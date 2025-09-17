@@ -1,5 +1,5 @@
 import { chartActions, chartSelectors, IState, logWarning } from "@chart-io/core";
-import * as d3 from "@chart-io/d3";
+import { d3 } from "@chart-io/core";
 import { IMargin } from "@chart-io/types";
 
 import React, { useEffect, useRef } from "react";

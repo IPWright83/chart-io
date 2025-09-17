@@ -1,8 +1,5 @@
-import * as d3 from "@chart-io/d3";
-import { chartSelectors, IState } from "@chart-io/core";
+import { chartSelectors, d3, IState, scatter } from "@chart-io/core";
 import { IEventPlotProps } from "@chart-io/types";
-import { scatter } from "@chart-io/core";
-import type { Transition } from "@chart-io/d3";
 
 import { useSelector } from "react-redux";
 
@@ -24,7 +21,7 @@ export interface IScatterBaseProps extends IEventPlotProps {
     /**
      * This is an internally used function to allow the scatter plot to render to a virtual canvas
      */
-    renderVirtualCanvas?: (update: Transition<Element, unknown, any, unknown>) => void;
+    renderVirtualCanvas?: (update: d3.Transition<Element, unknown, any, unknown>) => void;
 }
 
 /**

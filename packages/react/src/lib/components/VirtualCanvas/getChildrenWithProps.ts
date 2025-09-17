@@ -1,10 +1,10 @@
+import { d3 } from "@chart-io/core";
 import type { IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/types";
-import type { Transition } from "@chart-io/d3";
 
 import { extendChildrenProps } from "../../utils";
 
 export type IRenderVirtualCanvasFunc = (
-    update: Transition<Element, unknown, any, unknown>,
+    update: d3.Transition<Element, unknown, any, unknown>,
     events: {
         onMouseOver: IOnMouseOver;
         onMouseOut: IOnMouseOut;

@@ -1,5 +1,5 @@
-import * as d3 from "@chart-io/d3";
 import { IColor, ICoordinate, IData, IMouseEventType, IScale } from "@chart-io/types";
+import { d3 } from "../../d3";
 
 import type { IDispatch } from "../../store";
 import { eventActions } from "../../store";

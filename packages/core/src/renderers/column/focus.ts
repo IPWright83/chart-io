@@ -1,5 +1,5 @@
-import * as d3 from "@chart-io/d3";
 import { IColor, IFocused, IScale, ITheme } from "@chart-io/types";
+import { d3 } from "../../d3";
 
 import type { Selection } from "d3-selection";
 

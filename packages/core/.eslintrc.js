@@ -30,12 +30,12 @@ module.exports = {
         requireReturn: false,
       },
     ],
-    "sort-imports": [
-      "warn",
-      {
-        allowSeparatedGroups: true,
-        ignoreCase: true,
-      },
-    ],
+    // "sort-imports": [
+    //   "warn",
+    //   {
+    //     allowSeparatedGroups: true,
+    //     ignoreCase: true,
+    //   },
+    // ],
   },
 };

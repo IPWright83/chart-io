@@ -1,7 +1,7 @@
-import type { Transition } from "@chart-io/d3";
+import { d3 } from "@chart-io/core";
 
-import type { IColorToDataMap } from "./types";
 import { renderVirtualElements } from "./renderVirtualElements";
+import type { IColorToDataMap } from "./types";
 
 /**
  * Renders the canvas elements based on the join
@@ -14,7 +14,7 @@ export async function renderVirtualCanvas(
     canvas: HTMLCanvasElement | null | undefined,
     width: number,
     height: number,
-    update: Transition<Element, unknown, any, unknown>[]
+    update: d3.Transition<Element, unknown, any, unknown>[]
 ): Promise<IColorToDataMap> {
     // If the canvas isn't ready don't do anything
     if (!canvas) {
@@ -32,7 +32,7 @@ export async function renderVirtualCanvas(
     let lookup = {};
 
     for (let i = 0; i < update.length; i++) {
-        const selection = update[i].selection as unknown as Transition<Element, unknown, any, unknown>;
+        const selection = update[i].selection as unknown as d3.Transition<Element, unknown, any, unknown>;
 
         const results = await renderVirtualElements(context, selection, index);
         lookup = { ...lookup, ...results.colorToData };

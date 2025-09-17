@@ -1,7 +1,5 @@
-import * as d3 from "@chart-io/d3";
-import { bar, chartSelectors, IState } from "@chart-io/core";
+import { bar, chartSelectors, d3, IState } from "@chart-io/core";
 import type { IEventPlotProps } from "@chart-io/types";
-import type { Transition } from "@chart-io/d3";
 
 import { useSelector } from "react-redux";
 
@@ -15,7 +13,7 @@ export interface IBarBaseProps extends IEventPlotProps {
     /**
      * This is an internally used function to allow the scatter plot to render to a virtual canvas
      */
-    renderVirtualCanvas?: (update: Transition<Element, unknown, any, unknown>) => void;
+    renderVirtualCanvas?: (update: d3.Transition<Element, unknown, any, unknown>) => void;
 }
 
 /**

@@ -1,8 +1,8 @@
-import * as d3 from "@chart-io/d3";
 import { IBandwidthScale, IColor } from "@chart-io/types";
+import { d3 } from "../../d3";
 
-import { ensureNoScaleOverflow, interpolateMultiPath } from "../../utils";
 import type { IRenderProps } from "../../types";
+import { ensureNoScaleOverflow, interpolateMultiPath } from "../../utils";
 
 export interface IRenderStackedAreaPlotProps
     extends Omit<IRenderProps, "onClick" | "onMouseOut" | "onMouseOver" | "interactive" | "y"> {

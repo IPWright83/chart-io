@@ -1,6 +1,5 @@
-import type { Selection } from "@chart-io/d3";
-import * as d3 from "@chart-io/d3";
 import { IColor, IDatum, INumericValue } from "@chart-io/types";
+import { d3 } from "../../d3";
 
 import type { IRenderProps } from "../../types";
 import { ensureBandwidth, ensureValuesAreUnique, getBandwidthAndOffset } from "../../utils";
@@ -60,7 +59,7 @@ export function render({
     const join = d3
         .select(layer)
         .selectAll(".bar")
-        .data(data, (d) => d[y]) as Selection<SVGRectElement, IDatum, Element, unknown>;
+        .data(data, (d) => d[y]) as d3.Selection<SVGRectElement, IDatum, Element, unknown>;
 
     // Exit bars
     const exit = join.exit().remove();

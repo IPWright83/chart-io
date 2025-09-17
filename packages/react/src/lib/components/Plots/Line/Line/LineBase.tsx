@@ -1,5 +1,5 @@
 import { chartSelectors, IState, line } from "@chart-io/core";
-import * as d3 from "@chart-io/d3";
+import { d3 } from "@chart-io/core";
 import type { IPlotProps } from "@chart-io/types";
 
 import { useMemo } from "react";

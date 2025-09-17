@@ -1,9 +1,9 @@
-import * as d3 from "@chart-io/d3";
 import { IColor, ICoordinate, IData, IInvertScale, IMouseEventType, INumericValue, IScale } from "@chart-io/types";
+import { d3 } from "../../d3";
 
+import type { IDispatch } from "../../store";
 import { eventActions } from "../../store";
 import { getDistance } from "../../utils";
-import type { IDispatch } from "../../store";
 
 export interface IStackedAreaFocusProps {
     /**
@@ -132,8 +132,8 @@ export function stackedFocus({
     // Clean up operations on exit
     // prettier-ignore
     return () => {
-            markers.forEach((marker) => dispatch(eventActions.removeMarker(marker)));
-            horizontalDroplines.forEach((horizontalDropline) => dispatch(eventActions.removeDropline(horizontalDropline))            );
-            verticalDroplines.forEach((verticalDropline) => dispatch(eventActions.removeDropline(verticalDropline)));
-        };
+        markers.forEach((marker) => dispatch(eventActions.removeMarker(marker)));
+        horizontalDroplines.forEach((horizontalDropline) => dispatch(eventActions.removeDropline(horizontalDropline)));
+        verticalDroplines.forEach((verticalDropline) => dispatch(eventActions.removeDropline(verticalDropline)));
+    };
 }

@@ -1,4 +1,4 @@
-import * as d3 from "@chart-io/d3";
+import { d3 } from "@chart-io/core";
 import React from "react";
 
 import { renderChart, wait } from "../../../testUtils";

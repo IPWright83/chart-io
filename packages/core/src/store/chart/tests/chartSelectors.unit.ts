@@ -1,11 +1,11 @@
-import * as d3 from "@chart-io/d3";
+import { d3 } from "../../../d3";
 
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../../constants";
 import { themes } from "../../../themes";
 
-import { defaultEventState } from "../../event/eventSlice";
 import { chartSelectors } from "../chartSelectors";
 import { defaultChartState } from "../chartSlice";
+import { defaultEventState } from "../../event/eventSlice";
 
 describe("chartSelectors", () => {
     it("store gets the correct part of state", () => {
