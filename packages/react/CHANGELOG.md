@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.55.1
+
+### Patch Changes
+
+- b4f0f73: Fix theme on export
+
 ## 0.55.0
 
 ### Minor Changes
