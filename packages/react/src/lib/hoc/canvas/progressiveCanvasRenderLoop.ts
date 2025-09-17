@@ -1,5 +1,4 @@
-import * as d3 from "@chart-io/d3";
-import type { Transition } from "@chart-io/d3";
+import { d3 } from "@chart-io/core";
 
 import { renderElements } from "./renderElements";
 
@@ -15,8 +14,8 @@ export async function progressiveCanvasRenderLoop(
     canvas: HTMLCanvasElement | null | undefined,
     width: number,
     height: number,
-    exit: Transition<Element, unknown, any, unknown>,
-    update: Transition<Element, unknown, any, unknown>
+    exit: d3.Transition<Element, unknown, any, unknown>,
+    update: d3.Transition<Element, unknown, any, unknown>
 ) {
     // If the canvas isn't ready don't do anything
     if (!canvas) {

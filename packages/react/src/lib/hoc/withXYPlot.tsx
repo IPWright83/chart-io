@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import * as d3 from "@chart-io/d3";
+import { d3 } from "@chart-io/core";
 import { chartSelectors, IState, logDebug } from "@chart-io/core";
 
 import React, { useEffect, useState } from "react";

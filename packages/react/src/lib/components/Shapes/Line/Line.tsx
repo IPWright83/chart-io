@@ -1,4 +1,4 @@
-import type { IColor } from "@chart-io/types";
+import type { IColor } from "@chart-io/core";
 import React from "react";
 
 export interface ILineProps {

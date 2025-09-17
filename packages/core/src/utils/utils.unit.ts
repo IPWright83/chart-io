@@ -1,8 +1,7 @@
-import * as d3 from "@chart-io/d3";
-import { IScale } from "@chart-io/types";
-
 import type { AnyAction, Store } from "@reduxjs/toolkit";
 
+import { d3 } from "../d3";
+import { IScale } from "../types";
 import { areValuesUnique } from "./areValuesUnique";
 import { downloadFile } from "./downloadFile";
 import { getBandwidthAndOffset } from "./getBandwidthAndOffset";

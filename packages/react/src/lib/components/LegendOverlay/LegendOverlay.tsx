@@ -1,5 +1,5 @@
 import { chartSelectors, IState } from "@chart-io/core";
-import type { ILegendFormatter } from "@chart-io/types";
+import type { ILegendFormatter } from "@chart-io/core";
 
 import React from "react";
 import { useSelector } from "react-redux";

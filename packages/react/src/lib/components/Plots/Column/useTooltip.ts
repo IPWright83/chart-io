@@ -1,4 +1,4 @@
-import { IColor, IDatum, IMouseEvent } from "@chart-io/types";
+import { IColor, IDatum, IMouseEvent } from "@chart-io/core";
 import { column } from "@chart-io/core";
 
 import { useEffect, useState } from "react";

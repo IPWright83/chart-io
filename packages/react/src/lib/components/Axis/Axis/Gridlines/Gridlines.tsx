@@ -1,7 +1,5 @@
-import * as d3 from "@chart-io/d3";
-import type { AxisDomain, AxisScale } from "@chart-io/d3";
-import { chartSelectors, IState } from "@chart-io/core";
-import type { IPosition, IScale } from "@chart-io/types";
+import { chartSelectors, d3, IState } from "@chart-io/core";
+import type { IPosition, IScale } from "@chart-io/core";
 
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -56,7 +54,7 @@ export function Gridlines({ layer, position, scale, tickPadding = 3, ticks, tick
 
             // Set some scale props
             d3Axis
-                .scale(scale as AxisScale<AxisDomain>)
+                .scale(scale as d3.AxisScale<d3.AxisDomain>)
                 .tickPadding(tickPadding)
                 .tickValues(tickValues);
 

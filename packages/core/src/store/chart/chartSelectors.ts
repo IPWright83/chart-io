@@ -1,6 +1,7 @@
-import type { IData, ILegendItem, IMargin, IScale, IScaleMode, ITheme } from "@chart-io/types";
 import { memoizeWithArgs } from "proxy-memoize";
 
+import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
+import type { IData, ILegendItem, IMargin, IScale, IScaleMode, ITheme } from "../../types";
 import type {
     IChartScaleInfo,
     IChartState,
@@ -9,7 +10,6 @@ import type {
     IChartStateLegend,
     IState,
 } from "../types";
-import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
 
 const EMPTY_ARRAY = [];
 const EMPTY_MARGIN = { left: 0, right: 0, top: 0, bottom: 0 };

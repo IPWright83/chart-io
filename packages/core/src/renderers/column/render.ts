@@ -1,7 +1,5 @@
-import * as d3 from "@chart-io/d3";
-import { IColor, IDatum, INumericValue } from "@chart-io/types";
-
-import type { IRenderProps } from "../../types";
+import { d3 } from "../../d3";
+import type { IColor, IDatum, INumericValue, IRenderProps } from "../../types";
 import { ensureBandwidth, ensureValuesAreUnique, getBandwidthAndOffset } from "../../utils";
 
 export interface IRenderColumnPlotProps extends IRenderProps {

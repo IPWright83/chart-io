@@ -1,4 +1,7 @@
-import { IData, IOnClick, IOnMouseOut, IOnMouseOver, IScale, ITheme } from "@chart-io/types";
+import { IData } from "./IData";
+import { IOnClick, IOnMouseOut, IOnMouseOver } from "./IMouseEvents";
+import { IScale } from "./IScale";
+import { ITheme } from "./ITheme";
 
 export interface IRenderProps {
     /**

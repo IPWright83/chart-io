@@ -1,5 +1,5 @@
 import { scatter } from "@chart-io/core";
-import { IColor, IDatum, IMouseEvent } from "@chart-io/types";
+import { IColor, IDatum, IMouseEvent } from "@chart-io/core";
 
 import { useEffect, useState } from "react";
 import { useStore } from "react-redux";

@@ -119,6 +119,8 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - name: pnpm Install
         run: pnpm install
+      - name: pnpm build
+        run: pnpm build
       - name: Chromatic
         uses: chromaui/action@v11.20.2
         with:

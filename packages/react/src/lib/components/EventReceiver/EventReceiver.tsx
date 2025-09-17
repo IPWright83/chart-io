@@ -1,4 +1,4 @@
-import * as d3 from "@chart-io/d3";
+import { d3 } from "@chart-io/core";
 import { chartSelectors, eventActions, IState, MOUSE_MOVE_THROTTLE } from "@chart-io/core";
 
 import React, { useEffect } from "react";

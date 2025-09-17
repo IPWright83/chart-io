@@ -1,5 +1,4 @@
-import type { IMargin } from "@chart-io/types";
-
+import type { IMargin } from "../../types";
 import { logWarning } from "../../utils";
 
 /**

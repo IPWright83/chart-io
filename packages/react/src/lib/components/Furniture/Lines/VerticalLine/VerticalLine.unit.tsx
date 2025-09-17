@@ -1,4 +1,4 @@
-import * as d3 from "@chart-io/d3";
+import { d3 } from "@chart-io/core";
 import { Provider } from "react-redux";
 import React from "react";
 import { render } from "@testing-library/react";

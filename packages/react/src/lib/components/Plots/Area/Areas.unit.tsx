@@ -1,6 +1,6 @@
-import React from "react";
-import { scaleLinear } from "@chart-io/d3";
+import { d3 } from "@chart-io/core";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
+import React from "react";
 
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../VirtualCanvas";
 import { Areas } from "./Areas";
@@ -17,9 +17,9 @@ describe("Areas", () => {
     ];
 
     const scales = {
-        y: scaleLinear().domain([0, 20]).range([100, 0]),
-        y2: scaleLinear().domain([0, 20]).range([100, 0]),
-        x: scaleLinear().domain([0, 5]).range([0, 100]),
+        y: d3.scaleLinear().domain([0, 20]).range([100, 0]),
+        y2: d3.scaleLinear().domain([0, 20]).range([100, 0]),
+        x: d3.scaleLinear().domain([0, 5]).range([0, 100]),
     };
 
     describe("Multiple Series", () => {

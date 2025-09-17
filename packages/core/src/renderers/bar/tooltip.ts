@@ -1,7 +1,6 @@
-import { IColor, IDatum, IMouseEvent } from "@chart-io/types";
-
 import type { IDispatch } from "../../store";
 import { eventActions } from "../../store";
+import { IColor, IDatum, IMouseEvent } from "../../types";
 
 export interface IBarTooltipProps {
     /**

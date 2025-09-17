@@ -1,5 +1,5 @@
 import { chartActions, chartSelectors, createStore } from "@chart-io/core";
-import * as d3 from "@chart-io/d3";
+import { d3 } from "@chart-io/core";
 
 import { render } from "@testing-library/react";
 import React from "react";

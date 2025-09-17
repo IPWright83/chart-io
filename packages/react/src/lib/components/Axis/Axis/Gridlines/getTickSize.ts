@@ -1,4 +1,4 @@
-import type { IPosition } from "@chart-io/types";
+import type { IPosition } from "@chart-io/core";
 import { logAndThrowError } from "@chart-io/core";
 
 /**

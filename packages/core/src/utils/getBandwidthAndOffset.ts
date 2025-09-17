@@ -1,6 +1,5 @@
-import { IBandwidthScale, IScale } from "@chart-io/types";
-
 import { BAND_PADDING } from "../constants";
+import { IBandwidthScale, IScale } from "../types";
 
 /**
  * Ensures that the scale is a valid band scale. If it is not it will attempt to

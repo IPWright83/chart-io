@@ -1,4 +1,4 @@
-import type { IData, IScale } from "@chart-io/types";
+import type { IData, IScale } from "@chart-io/core";
 import { themes } from "@chart-io/core";
 
 import { Provider } from "react-redux";

@@ -1,5 +1,5 @@
 import React from "react";
-import * as d3 from "@chart-io/d3";
+import { d3 } from "@chart-io/core";
 
 import { argTypes } from "../../../storybook/argTypes";
 import { waves } from "../../../data/waves";

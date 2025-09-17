@@ -1,4 +1,4 @@
-import type { ITheme } from "@chart-io/types";
+import type { ITheme } from "@chart-io/core";
 import { themes } from "@chart-io/core";
 
 import { getTheme } from "./getTheme";

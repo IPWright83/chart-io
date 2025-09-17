@@ -1,4 +1,4 @@
-import * as d3 from "@chart-io/d3";
+import { d3 } from "../../d3";
 
 /**
  * Formats a Date, defaulting the resolution to the first non-zero part

@@ -1,10 +1,7 @@
-import * as d3 from "@chart-io/d3";
-import { IColor, IFocused, IScale, ITheme } from "@chart-io/types";
-
-import type { Selection } from "d3-selection";
-
+import { d3 } from "../../d3";
 import type { IDispatch } from "../../store";
 import { eventActions } from "../../store";
+import { IColor, IFocused, IScale, ITheme } from "../../types";
 import { getXYFromTransform } from "../../utils";
 
 export interface IColumnFocusProps {
@@ -39,7 +36,7 @@ export function focus({ dispatch, focused, theme, xScale, grouped = false }: ICo
 
     // Get the appropriate attributes
     const { element } = focused;
-    const selection = d3.select(element) as Selection<any, unknown, null, undefined>;
+    const selection = d3.select(element) as d3.Selection<any, unknown, null, undefined>;
     const fill = selection.style("fill");
     const y = +selection.attr("y");
     const x = +selection.attr("x");
