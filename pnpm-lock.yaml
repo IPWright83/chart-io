@@ -208,6 +208,9 @@ importers:
 
   packages/react:
     dependencies:
+      '@chart-io/core':
+        specifier: workspace:*
+        version: link:../core
       d3-interpolate-path:
         specifier: ^2.2.3
         version: 2.3.0
@@ -233,9 +236,6 @@ importers:
       '@babel/preset-react':
         specifier: ^7.18.6
         version: 7.27.1(@babel/core@7.28.0)
-      '@chart-io/core':
-        specifier: workspace:*
-        version: link:../core
       '@chromatic-com/storybook':
         specifier: ^3
         version: 3.2.6(react@19.1.1)(storybook@8.6.14)
