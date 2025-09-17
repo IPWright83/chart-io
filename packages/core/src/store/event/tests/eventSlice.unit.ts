@@ -1,4 +1,4 @@
-import type { IMouseEventType } from "@Types";
+import type { IMouseEventType } from "../../../types";
 
 import { defaultEventState, eventActions, eventSlice } from "..";
 

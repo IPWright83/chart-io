@@ -1,5 +1,4 @@
-import type { IColor, IDropline, IMarker, IMouseEventType } from "@Types";
-
+import type { IColor, IDropline, IMarker, IMouseEventType } from "../../../types";
 import { defaultChartState } from "../../chart/chartSlice";
 import { eventSelectors } from "../eventSelectors";
 import { defaultEventState } from "../eventSlice";

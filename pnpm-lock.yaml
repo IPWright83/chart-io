@@ -199,6 +199,12 @@ importers:
       redux-thunk:
         specifier: ^3.1.0
         version: 3.1.0(redux@5.0.1)
+      vite:
+        specifier: ^5.0.6
+        version: 5.4.19
+      vite-plugin-dts:
+        specifier: ^4.5.4
+        version: 4.5.4(typescript@5.9.2)(vite@5.4.19)
 
   packages/react:
     dependencies:
@@ -4150,7 +4156,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@types/estree': 1.0.7
+      '@types/estree': 1.0.8
       estree-walker: 2.0.2
       picomatch: 4.0.2
     dev: true
@@ -5505,7 +5511,6 @@ packages:
 
   /@types/estree@1.0.8:
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
-    dev: false
 
   /@types/express-serve-static-core@4.19.6:
     resolution: {integrity: sha512-N4LZ2xG7DatVqhCZzOGb1Yi5lMbXSZcmdLDe9EzSndPV2HpWYWzRbaerl2n27irrm94EPpprqa8KpskPT085+A==}
@@ -6301,6 +6306,25 @@ packages:
       muggle-string: 0.4.1
       path-browserify: 1.0.1
       typescript: 5.8.3
+    dev: true
+
+  /@vue/language-core@2.2.0(typescript@5.9.2):
+    resolution: {integrity: sha512-O1ZZFaaBGkKbsRfnVH1ifOK1/1BUkyK+3SQsfnh6PmMmD4qJcTU8godCeA96jjDRTL6zgnK7YzCHfaUlH2r0Mw==}
+    peerDependencies:
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@volar/language-core': 2.4.22
+      '@vue/compiler-dom': 3.5.18
+      '@vue/compiler-vue2': 2.7.16
+      '@vue/shared': 3.5.18
+      alien-signals: 0.4.14
+      minimatch: 9.0.5
+      muggle-string: 0.4.1
+      path-browserify: 1.0.1
+      typescript: 5.9.2
     dev: true
 
   /@vue/shared@3.5.18:
@@ -12608,7 +12632,7 @@ packages:
   /magic-string@0.30.17:
     resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
     dependencies:
-      '@jridgewell/sourcemap-codec': 1.5.0
+      '@jridgewell/sourcemap-codec': 1.5.4
     dev: true
 
   /make-dir@2.1.0:
@@ -14708,7 +14732,6 @@ packages:
       nanoid: 3.3.11
       picocolors: 1.1.1
       source-map-js: 1.2.1
-    dev: false
 
   /preferred-pm@3.1.4:
     resolution: {integrity: sha512-lEHd+yEm22jXdCphDrkvIJQU66EuLojPPtvZkpKIkiD+l0DMThF/niqZKJSoU8Vl7iuvtmzyMhir9LdVy5WMnA==}
@@ -17274,6 +17297,32 @@ packages:
       - supports-color
     dev: true
 
+  /vite-plugin-dts@4.5.4(typescript@5.9.2)(vite@5.4.19):
+    resolution: {integrity: sha512-d4sOM8M/8z7vRXHHq/ebbblfaxENjogAAekcfcDCCwAyvGqnPrc7f4NZbvItS+g4WTgerW0xDwSz5qz11JT3vg==}
+    peerDependencies:
+      typescript: '*'
+      vite: '*'
+    peerDependenciesMeta:
+      vite:
+        optional: true
+    dependencies:
+      '@microsoft/api-extractor': 7.52.10(@types/node@18.19.103)
+      '@rollup/pluginutils': 5.1.4
+      '@volar/typescript': 2.4.22
+      '@vue/language-core': 2.2.0(typescript@5.9.2)
+      compare-versions: 6.1.1
+      debug: 4.4.1
+      kolorist: 1.8.0
+      local-pkg: 1.1.1
+      magic-string: 0.30.17
+      typescript: 5.9.2
+      vite: 5.4.19
+    transitivePeerDependencies:
+      - '@types/node'
+      - rollup
+      - supports-color
+    dev: true
+
   /vite-plugin-istanbul@3.0.4:
     resolution: {integrity: sha512-DJy3cq6yOFbsM3gLQf/3zeuaJNJsfBv5dLFdZdv8sUV30xLtZI+66QeYfHUyP/5vBUYyLA+xNUCSG5uHY6w+5g==}
     dependencies:
@@ -17283,6 +17332,44 @@ packages:
       test-exclude: 6.0.0
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /vite@5.4.19:
+    resolution: {integrity: sha512-qO3aKv3HoQC8QKiNSTuUM1l9o/XX3+c+VTgLHbJWHZGeTPVAg2XwazI9UWzoxjIJCGCV2zU60uqMzjeLZuULqA==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': ^18.0.0 || >=20.0.0
+      less: '*'
+      lightningcss: ^1.21.0
+      sass: '*'
+      sass-embedded: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      lightningcss:
+        optional: true
+      sass:
+        optional: true
+      sass-embedded:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      esbuild: 0.21.5
+      postcss: 8.5.6
+      rollup: 4.41.0
+    optionalDependencies:
+      fsevents: 2.3.3
     dev: true
 
   /vite@5.4.19(@types/node@18.19.103):
