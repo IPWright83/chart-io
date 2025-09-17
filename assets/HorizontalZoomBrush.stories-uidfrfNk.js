@@ -1,0 +1,8 @@
+import{j as o}from"./jsx-runtime-BjG_zV1W.js";import{i as t,P as p}from"./react-redux-QXbQKOoW.js";import{H as s}from"./index-BXRhMbPE.js";import{c as h}from"./renderChart-BLsEhK0I.js";import"./index-Dcm7olAB.js";import"./index-r1ySBL9M.js";import{a as c}from"./Lines-BtR_OUgn.js";import"./index-DpTt3J-R.js";import"./index-CRk78wGA.js";import"./index-_rl-6daV.js";import"./test-utils-C-DEfvFY.js";import"./index-D5nvoAmD.js";import"./client-CbGTh6y2.js";import"./index-C3dhlPHa.js";import"./Columns-Dzd93bGI.js";import"./renderCanvas-Cl5RbTFF.js";import"./Areas-DNR506EA.js";import"./Bars-CA0K2ZMO.js";import"./Scatters-t7a3qHKk.js";const E={title:"Components/Zoom/HorizontalZoomBrush",component:s,parameters:{chromatic:{delay:300}}},l=m=>{const n=h({chart:{dimensions:{width:500,height:0,plotMargin:{left:0,top:0,right:0,bottom:0}},data:[{x:10,y:10},{x:50,y:50},{x:250,y:250},{x:450,y:50}],scales:{x:{scale:t.scaleLinear(),range:[0,500],domain:[0,500]},y:{scale:t.scaleLinear(),range:[0,500],domain:[0,300],brush:{range:[0,100]}}}}});return o.jsx(p,{store:n,children:o.jsx("svg",{width:"500px",height:"100px",style:{background:"white"},children:o.jsx(s,{height:m.height,children:o.jsx(c,{x:"x",y:"y"})})})})},r={name:"Horizontal Zoom Brush",render:l,args:{height:100}};var e,a,i;r.parameters={...r.parameters,docs:{...(e=r.parameters)==null?void 0:e.docs,source:{originalSource:`{
+  name: "Horizontal Zoom Brush",
+  render: HorizontalZoomBrushTemplate,
+  args: {
+    height: 100
+  }
+}`,...(i=(a=r.parameters)==null?void 0:a.docs)==null?void 0:i.source}}};const M=["Default"];export{r as Default,M as __namedExportsOrder,E as default};
+//# sourceMappingURL=HorizontalZoomBrush.stories-uidfrfNk.js.map

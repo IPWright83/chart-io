@@ -1,0 +1,30 @@
+import{j as e}from"./jsx-runtime-BjG_zV1W.js";import{useMDXComponents as i}from"./index-D-2zTmTn.js";import{M as s,C as t}from"./index-Dw1MpZ3G.js";import{Default as o}from"./Droplines.stories-Cg-N_2Y2.js";import"./index-DpTt3J-R.js";import"./iframe-Bho3GZXG.js";import"./index-D5nvoAmD.js";import"./index-B77L4dcM.js";import"./index-DrFu-skq.js";import"./react-redux-QXbQKOoW.js";import"./isChromatic-VqprqId_.js";import"./index-Du5VnEcz.js";import"./index-_rl-6daV.js";import"./renderChart-BLsEhK0I.js";import"./test-utils-C-DEfvFY.js";import"./client-CbGTh6y2.js";import"./index-Dcm7olAB.js";function n(d){const r={code:"code",h1:"h1",h2:"h2",h3:"h3",p:"p",pre:"pre",table:"table",tbody:"tbody",td:"td",th:"th",thead:"thead",tr:"tr",...i(),...d.components};return e.jsxs(e.Fragment,{children:[e.jsx(s,{title:"Components/Droplines"}),`
+`,e.jsx(r.h1,{id:"droplines-component",children:"Droplines Component"}),`
+`,e.jsxs(r.p,{children:["The ",e.jsx(r.code,{children:"<Droplines>"})," component allows us to define a layer to render drop lines on top of the plots. This is useful in highlighting a particular data point and can be combined with the ",e.jsx(r.code,{children:"<Markers>"})," layer for additional affect."]}),`
+`,e.jsx(t,{of:o}),`
+`,e.jsxs(r.h3,{id:"droplines-props",children:[e.jsx(r.code,{children:"<Droplines>"})," Props"]}),`
+`,e.jsxs(r.table,{children:[e.jsx(r.thead,{children:e.jsxs(r.tr,{children:[e.jsx(r.th,{children:"Prop"}),e.jsx(r.th,{children:"Type"}),e.jsx(r.th,{children:"Default"}),e.jsx(r.th,{children:"Note"})]})}),e.jsxs(r.tbody,{children:[e.jsxs(r.tr,{children:[e.jsx(r.td,{children:e.jsx(r.code,{children:"showHorizontal"})}),e.jsx(r.td,{children:e.jsx(r.code,{children:"boolean"})}),e.jsx(r.td,{children:e.jsx(r.code,{children:"true"})}),e.jsx(r.td,{children:"Should horizontal droplines be shown?"})]}),e.jsxs(r.tr,{children:[e.jsx(r.td,{children:e.jsx(r.code,{children:"showVertical"})}),e.jsx(r.td,{children:e.jsx(r.code,{children:"boolean"})}),e.jsx(r.td,{children:e.jsx(r.code,{children:"true"})}),e.jsx(r.td,{children:"Should vertical droplines be shown?"})]})]})]}),`
+`,e.jsx("br",{}),`
+`,e.jsx(r.h2,{id:"adding-droplines-programatically",children:"Adding Droplines Programatically"}),`
+`,e.jsxs(r.p,{children:["To add a dropline programatically you should call the ",e.jsx(r.code,{children:"eventActions.addDropline"})," function and ",e.jsx(r.code,{children:"eventActions.removeDropline"})," function for clean up:"]}),`
+`,e.jsx(r.pre,{children:e.jsx(r.code,{className:"language-javascript",children:`const dropline = {
+    isHorizontal: true,
+    isVertical: false,
+    x1: 0,
+    x2: 100,
+    y1: 100,
+    y2: 100,
+    color: "steelblue"
+};
+
+eventActions.addDropline(dropline);
+eventActions.removeDropline(dropline);
+`})}),`
+`,e.jsx(r.h3,{id:"dropline-schema",children:"Dropline Schema:"}),`
+`,e.jsxs(r.table,{children:[e.jsx(r.thead,{children:e.jsxs(r.tr,{children:[e.jsx(r.th,{children:"Prop"}),e.jsx(r.th,{children:"Type"}),e.jsx(r.th,{children:"Note"})]})}),e.jsxs(r.tbody,{children:[e.jsxs(r.tr,{children:[e.jsx(r.td,{children:e.jsx(r.code,{children:"isHorizontal"})}),e.jsx(r.td,{children:e.jsx(r.code,{children:"boolean"})}),e.jsx(r.td,{children:"Is this a horizontal dropline?"})]}),e.jsxs(r.tr,{children:[e.jsx(r.td,{children:e.jsx(r.code,{children:"isVertical"})}),e.jsx(r.td,{children:e.jsx(r.code,{children:"boolean"})}),e.jsx(r.td,{children:"Is this a vertical dropline?"})]}),e.jsxs(r.tr,{children:[e.jsx(r.td,{children:e.jsx(r.code,{children:"color"})}),e.jsx(r.td,{children:e.jsx(r.code,{children:"string"})}),e.jsx(r.td,{children:"The color of the dropline"})]}),e.jsxs(r.tr,{children:[e.jsx(r.td,{children:e.jsx(r.code,{children:"x1"})}),e.jsx(r.td,{children:e.jsx(r.code,{children:"number"})}),e.jsx(r.td,{children:"The start x-coordinate of the dropline"})]}),e.jsxs(r.tr,{children:[e.jsx(r.td,{children:e.jsx(r.code,{children:"x2"})}),e.jsx(r.td,{children:e.jsx(r.code,{children:"number"})}),e.jsx(r.td,{children:"The end x-coordinate of the dropline"})]}),e.jsxs(r.tr,{children:[e.jsx(r.td,{children:e.jsx(r.code,{children:"y1"})}),e.jsx(r.td,{children:e.jsx(r.code,{children:"number"})}),e.jsx(r.td,{children:"The start y-coordinate of the dropline"})]}),e.jsxs(r.tr,{children:[e.jsx(r.td,{children:e.jsx(r.code,{children:"y2"})}),e.jsx(r.td,{children:e.jsx(r.code,{children:"number"})}),e.jsx(r.td,{children:"The end y-coordinate of the dropline"})]})]})]}),`
+`,e.jsx("br",{}),`
+`,e.jsx(r.h2,{id:"visual-styling",children:"Visual Styling"}),`
+`,e.jsx(r.p,{children:"The colour of the Droplines is usually derived from the colour of the data point and is set per dropline entry in the Redux store."}),`
+`,e.jsxs(r.p,{children:["It is possible to style the following properties by changing the ",e.jsx(r.code,{children:"theme.droplines"})," object:"]}),`
+`,e.jsxs(r.table,{children:[e.jsx(r.thead,{children:e.jsxs(r.tr,{children:[e.jsx(r.th,{children:"Property"}),e.jsx(r.th,{children:"Type"}),e.jsx(r.th,{children:"Default"}),e.jsx(r.th,{children:"Note"})]})}),e.jsxs(r.tbody,{children:[e.jsxs(r.tr,{children:[e.jsxs(r.td,{children:[e.jsx(r.code,{children:"strokeDasharray"}),"*"]}),e.jsx(r.td,{children:e.jsx(r.code,{children:"number"})}),e.jsx(r.td,{children:e.jsx(r.code,{children:"4"})}),e.jsx(r.td,{children:"The dash array pattern to use for the droplines"})]}),e.jsxs(r.tr,{children:[e.jsx(r.td,{children:e.jsx(r.code,{children:"strokeOpacity"})}),e.jsx(r.td,{children:e.jsx(r.code,{children:"number"})}),e.jsx(r.td,{children:e.jsx(r.code,{children:"1"})}),e.jsx(r.td,{children:"The opacity to use for the droplines"})]}),e.jsxs(r.tr,{children:[e.jsx(r.td,{children:e.jsx(r.code,{children:"strokeWidth"})}),e.jsx(r.td,{children:e.jsx(r.code,{children:"number"})}),e.jsx(r.td,{children:e.jsx(r.code,{children:"2"})}),e.jsx(r.td,{children:"The stroke width to use for the droplines"})]})]})]})]})}function C(d={}){const{wrapper:r}={...i(),...d.components};return r?e.jsx(r,{...d,children:e.jsx(n,{...d})}):n(d)}export{C as default};
+//# sourceMappingURL=Droplines-GndwBHS5.js.map

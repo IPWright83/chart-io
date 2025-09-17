@@ -1,0 +1,7 @@
+import{j as n}from"./jsx-runtime-BjG_zV1W.js";import{useMDXComponents as o}from"./index-D-2zTmTn.js";import{M as i}from"./index-Dw1MpZ3G.js";import"./index-DpTt3J-R.js";import"./iframe-Bho3GZXG.js";import"./index-D5nvoAmD.js";import"./index-B77L4dcM.js";import"./index-DrFu-skq.js";function e(r){const t={code:"code",h1:"h1",p:"p",...o(),...r.components};return n.jsxs(n.Fragment,{children:[n.jsx(i,{title:"Errors & Warnings/Introduction"}),`
+`,n.jsx(t.p,{children:"With both Errors and Warnings that appear on the console, further information can be found by finding the appropriate page containing the error/warning prefix."}),`
+`,n.jsx(t.h1,{id:"errors",children:"Errors"}),`
+`,n.jsxs(t.p,{children:["Ocasionally when using @chart-io you might encounter an error. If this has been logged to the console with a prefix such as ",n.jsx(t.code,{children:"E001"})," then this means it's something @chart-io due to bad configuration and it will attempt to prompt you on how to fix it."]}),`
+`,n.jsx(t.h1,{id:"warnings",children:"Warnings"}),`
+`,n.jsx(t.p,{children:"You may also encounter warnings when using @chart-io. Again if prefixed these usually indicate a configuration error, often in these cases you will have a partially rendered chart."})]})}function m(r={}){const{wrapper:t}={...o(),...r.components};return t?n.jsx(t,{...r,children:n.jsx(e,{...r})}):e(r)}export{m as default};
+//# sourceMappingURL=Introduction-D0QDmCHM.js.map
