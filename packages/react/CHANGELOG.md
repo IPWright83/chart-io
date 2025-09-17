@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.56.0
+
+### Minor Changes
+
+- 91e1f56: Removes sub-packages @chart-io/types @chart-io/d3 @chart-io/detection
+
 ## 0.55.1
 
 ### Patch Changes
