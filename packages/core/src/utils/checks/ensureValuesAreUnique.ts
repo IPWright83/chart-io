@@ -1,4 +1,4 @@
-import type { IData } from "@chart-io/types";
+import type { IData } from "@Types";
 
 import { areValuesUnique } from "../areValuesUnique";
 import { logWarning } from "../logger";

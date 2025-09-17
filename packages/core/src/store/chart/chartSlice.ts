@@ -1,4 +1,4 @@
-import type { IData, ILegendItem, IMargin, IScale, ITheme } from "@chart-io/types";
+import type { IData, ILegendItem, IMargin, IScale, ITheme } from "@Types";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { isEqual } from "lodash";

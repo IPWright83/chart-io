@@ -1,12 +1,12 @@
-import type { IData } from "@chart-io/types";
+import type { IData } from "@Types";
 
+import { getDataType } from "../getTypes";
+import type { IColumnInfo } from "../types";
 import { getDataCardinality } from "./getDataCardinality";
 import { getDataPointCount } from "./getDataPointCount";
 import { getDataSample } from "./getDataSample";
-import { getDataType } from "../getTypes";
 import { getNullCount } from "./getNullCount";
 import { getTypeSpecificColumnInfo } from "./getTypeSpecificColumnInfo";
-import type { IColumnInfo } from "../types";
 
 /**
  * Gets information about each of the columns in the dataset

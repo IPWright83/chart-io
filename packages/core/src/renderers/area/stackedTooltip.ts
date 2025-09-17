@@ -7,7 +7,7 @@ import {
     INumericValue,
     IScale,
     ITooltipItem,
-} from "@chart-io/types";
+} from "@Types";
 import { d3 } from "../../d3";
 
 import type { IDispatch } from "../../store";

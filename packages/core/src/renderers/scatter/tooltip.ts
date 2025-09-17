@@ -1,4 +1,4 @@
-import { IColor, IDatum, IMouseEvent } from "@chart-io/types";
+import { IColor, IDatum, IMouseEvent } from "@Types";
 
 import type { IDispatch } from "../../store";
 import { eventActions } from "../../store";

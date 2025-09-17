@@ -1,4 +1,4 @@
-import { IScale } from "@chart-io/types";
+import { IScale } from "@Types";
 import { d3 } from "../d3";
 
 import type { AnyAction, Store } from "@reduxjs/toolkit";

@@ -1,4 +1,4 @@
-import type { ITheme } from "@chart-io/types";
+import type { ITheme } from "@Types";
 
 // Inspired by https://observablehq.com/@bumbeishvili/foreignobject-exporting-issue
 

@@ -16,6 +16,9 @@
         "strict": false,
         "outDir": "./dist",
         "lib": ["ESNext", "dom", "dom.iterable"],
+        "paths": {
+          "@Types": ["./src/types"],
+        },
     },
     "include": ["src"]
 }

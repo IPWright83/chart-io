@@ -1,6 +1,7 @@
-import { d3, logAndThrowError, logDebug } from "@chart-io/core";
-import { getDataType, Type, typeEnumToName } from "@chart-io/detection";
+import { d3, detection, logAndThrowError, logDebug } from "@chart-io/core";
 import type { IData, IScale, IScaleType, IValue } from "@chart-io/types";
+
+const { getDataType, Type, typeEnumToName } = detection;
 
 /**
  * Return a scale as defined by the scaleType property

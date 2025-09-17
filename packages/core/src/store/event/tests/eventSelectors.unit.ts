@@ -1,4 +1,4 @@
-import type { IColor, IDropline, IMarker, IMouseEventType } from "@chart-io/types";
+import type { IColor, IDropline, IMarker, IMouseEventType } from "@Types";
 
 import { defaultChartState } from "../../chart/chartSlice";
 import { eventSelectors } from "../eventSelectors";

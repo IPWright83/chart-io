@@ -1,4 +1,4 @@
-import type { IColor, IDropline, IMarker, IMouseEvent, ITooltipItem } from "@chart-io/types";
+import type { IColor, IDropline, IMarker, IMouseEvent, ITooltipItem } from "@Types";
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { isEqual } from "lodash";

@@ -1,4 +1,4 @@
-import type { IMouseEventType } from "@chart-io/types";
+import type { IMouseEventType } from "@Types";
 
 import { defaultEventState, eventActions, eventSlice } from "..";
 

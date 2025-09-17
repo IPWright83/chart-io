@@ -1,4 +1,4 @@
-import { IColor, IDatum, INumericValue } from "@chart-io/types";
+import { IColor, IDatum, INumericValue } from "@Types";
 import { d3 } from "../../d3";
 
 import type { IRenderProps } from "../../types";

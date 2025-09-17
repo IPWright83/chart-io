@@ -1,4 +1,4 @@
-import type { IData, ILegendItem, IMargin, IScale, IScaleMode, ITheme } from "@chart-io/types";
+import type { IData, ILegendItem, IMargin, IScale, IScaleMode, ITheme } from "@Types";
 import { memoizeWithArgs } from "proxy-memoize";
 
 import type {

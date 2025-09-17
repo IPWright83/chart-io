@@ -1,4 +1,4 @@
-import { IBandwidthScale, IColor, IDatum, INumericValue, IScale } from "@chart-io/types";
+import { IBandwidthScale, IColor, IDatum, INumericValue, IScale } from "@Types";
 import { d3 } from "../../d3";
 
 import type { IRenderProps } from "../../types";

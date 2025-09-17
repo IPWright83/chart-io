@@ -1,4 +1,4 @@
-import type { IData, IScale } from "@chart-io/types";
+import type { IData, IScale } from "@Types";
 import { d3 } from "../../d3";
 
 import { logWarning } from "../logger";

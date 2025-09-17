@@ -9,7 +9,7 @@
     "build:package": "node scripts/choice build",
     "changeset": "changeset",
     "clean": "rm -rf node_modules && pnpm -r clean",
-    "dev": "turbo run build --scope=@chart-io/* --no-deps && turbo run dev --no-cache --parallel --continue",
+    "dev": "turbo run build && turbo run dev --no-cache --parallel --continue",
     "graph": "turbo run build --graph=graph.html",
     "lint": "turbo run lint",
     "publish": "changeset publish",

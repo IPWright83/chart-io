@@ -1,4 +1,4 @@
-import type { IColor, ITheme } from "@chart-io/types";
+import type { IColor, ITheme } from "@Types";
 
 const light: ITheme = {
     axis: {

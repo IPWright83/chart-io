@@ -1,4 +1,4 @@
-import { IBandwidthScale, IScale } from "@chart-io/types";
+import { IBandwidthScale, IScale } from "@Types";
 
 import { BAND_PADDING } from "../constants";
 

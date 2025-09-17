@@ -1,4 +1,4 @@
-import type { IValue } from "@chart-io/types";
+import type { IValue } from "@Types";
 
 /**
  * Determines if all the values are unique
