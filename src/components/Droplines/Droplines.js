@@ -37,7 +37,9 @@ const Droplines = ({ layer, showVertical = true, showHorizontal = true }) => {
             .attr("x2", (d) => d.x1)
             .attr("y1", (d) => d.y1)
             .attr("y2", (d) => d.y1)
-            .transition(animationDuration)
+            .transition()
+            .delay(animationDuration)
+            .duration(animationDuration)
             .attr("x2", (d) => d.x2)
             .attr("y2", (d) => d.y2);
     }, [animationDuration, layer, droplines]);
