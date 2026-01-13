@@ -1,10 +1,9 @@
 /* eslint-disable react/prop-types */
 import * as d3 from "@chart-io/d3";
+import { chartSelectors, IState, logDebug } from "@chart-io/core";
+
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-
-import { chartSelectors, IState } from "../store";
-import { logDebug } from "../utils";
 
 /**
  * Wraps a plot and handles some of the basics such as missing layers or scales

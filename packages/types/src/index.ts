@@ -1,3 +1,4 @@
+export * from "./IBandwidthScale";
 export * from "./IColor";
 export * from "./IColorLegendItem";
 export * from "./ICoordinate";
@@ -22,3 +23,5 @@ export * from "./IShape";
 export * from "./ITheme";
 export * from "./ITooltipItem";
 export * from "./IValue";
+export * from "./IFocused";
+export * from "./IInvertScale";

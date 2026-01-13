@@ -1,10 +1,11 @@
 import * as d3 from "@chart-io/d3";
+import { themes } from "@chart-io/core";
+
 import { Provider } from "react-redux";
 import React from "react";
 import { render } from "@testing-library/react";
 
 import { createMockStore } from "../../../testUtils";
-import { themes } from "../../../themes";
 
 import { Axis } from ".";
 import { getTransform } from "./getTransform";
@@ -48,7 +49,7 @@ describe("Axis", () => {
                     <svg>
                         <Axis title="y" position="left" fields="y" showGridlines={false} />
                     </svg>
-                </Provider>
+                </Provider>,
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -60,7 +61,7 @@ describe("Axis", () => {
                     <svg>
                         <Axis title="y" position="right" fields={["y"]} showGridlines={false} />
                     </svg>
-                </Provider>
+                </Provider>,
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -72,7 +73,7 @@ describe("Axis", () => {
                     <svg>
                         <Axis title="x" position="top" fields="x" showGridlines={false} />
                     </svg>
-                </Provider>
+                </Provider>,
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -84,7 +85,7 @@ describe("Axis", () => {
                     <svg>
                         <Axis title="x" position="left" fields={["x"]} showGridlines={false} />
                     </svg>
-                </Provider>
+                </Provider>,
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -97,7 +98,7 @@ describe("Axis", () => {
                 render(
                     <svg>
                         <Axis title="x" position="left" fields={[]} showGridlines={false} />
-                    </svg>
+                    </svg>,
                 );
             }).rejects.toThrow();
         });

@@ -1,7 +1,7 @@
+import { PROGRESSIVE_RENDER_THRESHOLD } from "@chart-io/core";
 import type { Transition } from "@chart-io/d3";
 
 import { canvasRenderLoop, progressiveCanvasRenderLoop } from "../../hoc/canvas";
-import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
 
 /**
  * Renders to a canvas if one is provided
@@ -19,7 +19,7 @@ export async function renderCanvas(
     width: number,
     height: number,
     update: Transition<Element, unknown, any, unknown>,
-    exit?: Transition<Element, unknown, any, unknown>
+    exit?: Transition<Element, unknown, any, unknown>,
 ) {
     if (!canvas) {
         return;

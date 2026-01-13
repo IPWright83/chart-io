@@ -1,4 +1,6 @@
 import * as d3 from "@chart-io/d3";
+import { createStore } from "@chart-io/core";
+
 import { act, render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import React from "react";
@@ -6,7 +8,6 @@ import { toMatchImageSnapshot } from "jest-image-snapshot";
 
 import { actionsIncludes, getBuffer, renderChart, wait } from "../../../../testUtils";
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
-import { createStore } from "../../../../store";
 
 import { StackedArea } from "./StackedArea";
 
@@ -68,7 +69,7 @@ describe("StackedArea", () => {
                         <svg>
                             <StackedArea x="x" ys={["y", "y2"]} />
                         </svg>
-                    </Provider>
+                    </Provider>,
                 );
 
                 await wait(1);
@@ -138,7 +139,7 @@ describe("StackedArea", () => {
                                 <StackedArea x="x" ys={["y", "y2"]} useCanvas={true} />
                             </VirtualCanvas>
                         </svg>
-                    </Provider>
+                    </Provider>,
                 );
 
                 await wait(1);

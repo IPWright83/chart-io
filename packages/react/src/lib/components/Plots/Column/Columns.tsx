@@ -1,9 +1,8 @@
+import { chartSelectors, IState, logAndThrowError } from "@chart-io/core";
 import type { IPlotsProps } from "@chart-io/types";
+
 import React from "react";
 import { useSelector } from "react-redux";
-
-import { chartSelectors, IState } from "../../../store";
-import { logAndThrowError } from "../../../utils";
 
 import { Column } from "./Column";
 import { GroupedColumn } from "./GroupedColumn";

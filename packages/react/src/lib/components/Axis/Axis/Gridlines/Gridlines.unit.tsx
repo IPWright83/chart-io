@@ -1,10 +1,11 @@
 import * as d3 from "@chart-io/d3";
+import { themes } from "@chart-io/core";
+
 import { Provider } from "react-redux";
 import React from "react";
 import { render } from "@testing-library/react";
 
 import { createMockStore } from "../../../../testUtils";
-import { themes } from "../../../../themes";
 
 import { getTickSize } from "./getTickSize";
 import { Gridlines } from ".";
@@ -74,7 +75,7 @@ describe("Gridlines", () => {
                     <svg>
                         <Gridlines position="bottom" scale={scale} />
                     </svg>
-                </Provider>
+                </Provider>,
             );
 
             expect(asFragment()).toMatchSnapshot();
@@ -91,7 +92,7 @@ describe("Gridlines", () => {
                     <svg>
                         <Gridlines position="left" scale={scale} />
                     </svg>
-                </Provider>
+                </Provider>,
             );
 
             expect(asFragment()).toMatchSnapshot();

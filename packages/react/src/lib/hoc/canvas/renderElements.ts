@@ -1,7 +1,7 @@
 import type { IColor } from "@chart-io/types";
+import { logWarning } from "@chart-io/core";
 import type { Transition } from "@chart-io/d3";
 
-import { logWarning } from "../../utils";
 import { renderCircle } from "./renderCircle";
 import { renderRect } from "./renderRect";
 
@@ -14,7 +14,7 @@ import { renderRect } from "./renderRect";
 export function renderElements(
     context: CanvasRenderingContext2D,
     join: Transition<Element, unknown, any, unknown>,
-    colors?: IColor[]
+    colors?: IColor[],
 ) {
     if (!join) {
         return;

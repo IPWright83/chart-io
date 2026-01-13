@@ -1,11 +1,11 @@
 import * as d3 from "@chart-io/d3";
+import { chartActions, chartSelectors, createStore } from "@chart-io/core";
+
 import { Provider } from "react-redux";
 import React from "react";
 import { render } from "@testing-library/react";
 
 import { YAxis } from "./YAxis";
-
-import { chartActions, chartSelectors, createStore } from "../../../store";
 
 describe("YAxis", () => {
     const store = createStore();
@@ -21,7 +21,7 @@ describe("YAxis", () => {
                 <svg>
                     <YAxis position="left" fields={["y"]} />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -38,7 +38,7 @@ describe("YAxis", () => {
                 <svg>
                     <YAxis position="left" fields={["y"]} />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         const scale = chartSelectors.scales.getScale(store.getState(), "y", "plot");

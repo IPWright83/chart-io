@@ -1,16 +1,14 @@
 import * as d3 from "@chart-io/d3";
-import type { IDatum, IEventPlotProps, INumericValue } from "@chart-io/types";
-import type { Selection, Transition } from "@chart-io/d3";
+import { bar, chartSelectors, IState } from "@chart-io/core";
+import type { IEventPlotProps } from "@chart-io/types";
+import type { Transition } from "@chart-io/d3";
 
-import { useEffect, useState } from "react";
-import { useSelector, useStore } from "react-redux";
+import { useSelector } from "react-redux";
 
-import { chartSelectors, eventActions, IState } from "../../../../store";
-import { ensureBandwidth, ensureValuesAreUnique, getBandwidthAndOffset } from "../../../../utils";
 import { useLegendItem, useRender } from "../../../../hooks";
 
-import { getDropline } from "../getDropline";
 import { renderCanvas } from "../../renderCanvas";
+import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
 
 export interface IBarBaseProps extends IEventPlotProps {
@@ -39,9 +37,6 @@ export function BarBase({
     onClick,
     layer,
 }: IBarBaseProps) {
-    const [focused, setFocused] = useState(null);
-    const store = useStore();
-
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
@@ -54,87 +49,27 @@ export function BarBase({
     fillColor.opacity = theme.series.opacity;
 
     useLegendItem(x, "square", showInLegend, fillColor);
-    const setTooltip = useTooltip(store.dispatch, y);
-
-    // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
-    useEffect(() => {
-        if (!focused) return;
-
-        const selection = d3.select(focused.element).style("opacity", theme.series.selectedOpacity);
-        const dropline = getDropline(selection, yScale, false);
-        store.dispatch(eventActions.addDropline(dropline));
-
-        // Clean up operations on exit
-        return () => {
-            selection.style("opacity", theme.series.opacity);
-            store.dispatch(eventActions.removeDropline(dropline));
-        };
-    }, [store.dispatch, focused, yScale, theme.series.selectedOpacity]);
+    const onTooltip = useTooltip({ y });
+    const onFocus = useFocused({ yScale, theme, grouped: false });
 
     useRender(() => {
-        const { bandwidth, offset } = getBandwidthAndOffset(yScale, y, data);
-
-        if (ensureBandwidth(bandwidth, "Bar") === false) return null;
-        ensureValuesAreUnique(data, y, "Bar");
-
-        // D3 data join
-        const join = d3
-            .select(layer.current)
-            .selectAll(".bar")
-            .data(data, (d) => d[y]) as Selection<SVGRectElement, IDatum, Element, unknown>;
-
-        // Exit bars
-        join.exit().remove();
-
-        // Enter bars
-        const enter = join
-            .enter()
-            .append("rect")
-            .attr("class", "bar")
-            .attr("x", xScale.range()[0])
-            // @ts-ignore: TODO: Need to work out casting
-            .attr("y", (d) => yScale(d[y]) - offset)
-            .attr("width", 0)
-            .attr("height", bandwidth)
-            .style("fill", fillColor.toString());
-
-        // Update new and existing points
-        const update = enter
-            .merge(join)
-            .on("mouseover", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
-
-                onMouseOver && onMouseOver(datum, this, event);
-                setFocused({ element: this, event, datum });
-                setTooltip({ datum, event, fillColors: [fillColor], xs: [x] });
-            })
-            .on("mouseout", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
-
-                onMouseOut && onMouseOut(datum, this, event);
-                setFocused(null);
-                setTooltip(null);
-            })
-            .on("click", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
-
-                onClick(datum, this, event);
-            })
-            .transition("position")
-            .duration(animationDuration / 2)
-            // @ts-ignore: How do we deal with the scale here? y is likely a string
-            .attr("y", (d) => yScale(d[y]) - offset)
-            .attr("height", bandwidth)
-            .style("fill", () => fillColor.toString())
-            // @ts-expect-error: Looks like the type defs are wrong missing named transitions
-            .transition("width")
-            .duration(animationDuration / 2)
-            .delay(animationDuration / 2)
-            .attr("x", () => xScale.range()[0])
-            .attr("width", (d) => xScale(d[x] as INumericValue) - xScale.range()[0]);
+        const { update } = bar.render({
+            animationDuration,
+            interactive,
+            layer: layer.current,
+            data,
+            fillColor,
+            onMouseOver,
+            onMouseOut,
+            onClick,
+            onFocus,
+            onTooltip,
+            theme,
+            x,
+            y,
+            xScale,
+            yScale,
+        });
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [

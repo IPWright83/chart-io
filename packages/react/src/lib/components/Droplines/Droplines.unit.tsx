@@ -1,9 +1,10 @@
+import { themes } from "@chart-io/core";
+
 import { Provider } from "react-redux";
 import React from "react";
 import { render } from "@testing-library/react";
 
 import { createMockStore } from "../../testUtils";
-import { themes } from "../../themes";
 
 import { Droplines } from ".";
 import { Droplines as DroplinesBase } from "./Droplines";
@@ -27,7 +28,7 @@ describe("Droplines", () => {
                 <svg>
                     <Droplines />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -39,7 +40,7 @@ describe("Droplines", () => {
                 <svg>
                     <Droplines showHorizontal={false} />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -51,7 +52,7 @@ describe("Droplines", () => {
                 <svg>
                     <Droplines showVertical={false} />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -65,7 +66,7 @@ describe("Droplines", () => {
                 <svg>
                     <DroplinesBase layer={layer} />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         // Should be empty

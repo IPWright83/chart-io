@@ -1,8 +1,7 @@
+import { chartSelectors, eventSelectors, IState } from "@chart-io/core";
+
 import React from "react";
-
 import { useSelector } from "react-redux";
-
-import { chartSelectors, eventSelectors, IState } from "../../store";
 
 export interface ICrosshairProps {
     /**

@@ -1,7 +1,8 @@
+import { themes } from "@chart-io/core";
+
 import React from "react";
 import { Provider } from "react-redux";
 
-import { themes } from "../../themes";
 import { TooltipOverlay } from "./";
 import { TooltipItem } from "./";
 

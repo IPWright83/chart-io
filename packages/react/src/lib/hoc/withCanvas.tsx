@@ -1,8 +1,7 @@
+import { chartSelectors, IState, logWarning } from "@chart-io/core";
+
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-
-import { chartSelectors, IState } from "../store";
-import { logWarning } from "../utils";
 
 /**
  * Wraps a D3 layer to make it work as a Canvas component

@@ -1,15 +1,13 @@
-import * as d3 from "@chart-io/d3";
-import type { IColor, IDatum, IEventPlotProps, INumericValue } from "@chart-io/types";
-import { useEffect, useState } from "react";
-import { useSelector, useStore } from "react-redux";
+import { chartSelectors, column, IState } from "@chart-io/core";
+import type { IColor, IEventPlotProps } from "@chart-io/types";
 import type { Transition } from "@chart-io/d3";
 
-import { chartSelectors, eventActions, IState } from "../../../../store";
-import { ensureBandwidth, getBandwidthAndOffset } from "../../../../utils";
+import { useSelector } from "react-redux";
+
 import { useLegendItems, useRender } from "../../../../hooks";
 
-import { getDropline } from "../getDropline";
 import { renderCanvas } from "../../renderCanvas";
+import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
 
 export interface IGroupedColumnBaseProps extends Omit<IEventPlotProps, "y"> {
@@ -47,9 +45,6 @@ export function GroupedColumnBase({
     canvas,
     renderVirtualCanvas,
 }: IGroupedColumnBaseProps) {
-    const [focused, setFocused] = useState(null);
-    const store = useStore();
-
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
@@ -58,97 +53,29 @@ export function GroupedColumnBase({
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
-    const setTooltip = useTooltip(store.dispatch, x);
+    const onTooltip = useTooltip({ x });
+    const onFocus = useFocused({ xScale, theme, grouped: true });
 
     useLegendItems(ys, "square", showInLegend, colors);
 
-    // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
-    useEffect(() => {
-        if (!focused) return;
-
-        const selection = d3.select(focused.element).style("opacity", theme.series.selectedOpacity);
-        const dropline = getDropline(selection, xScale, true);
-        store.dispatch(eventActions.addDropline(dropline));
-
-        // Clean up operations on exit
-        return () => {
-            selection.style("opacity", theme.series.opacity);
-            store.dispatch(eventActions.removeDropline(dropline));
-        };
-    }, [store.dispatch, focused, xScale, theme.series.opacity, theme.series.selectedOpacity]);
-
     useRender(() => {
-        const { bandwidth, offset } = getBandwidthAndOffset(xScale, x, data);
-
-        if (ensureBandwidth(bandwidth, "GroupedColumn") === false) return null;
-
-        // Create a scale for each series to fit along the x-axis and the series colors
-        const colorScale = d3.scaleOrdinal().domain(ys).range(colors);
-        const x1Scale = d3.scaleBand().domain(ys).rangeRound([0, bandwidth]).padding(0.05);
-
-        // prettier-ignore
-        const groupJoin = d3.select(layer.current)
-            .selectAll<SVGGElement, IDatum>("g")
-            .data(data);
-
-        // Clean up old groups
-        groupJoin.exit().remove();
-
-        const join = groupJoin
-            .enter()
-            .append("g")
-            .merge(groupJoin)
-            .selectAll(".column")
-            .data((d) => ys.map((y) => ({ ...d, key: y, value: d[y] })));
-
-        join.exit().remove();
-        const enter = join
-            .enter()
-            .append("rect")
-            .attr("class", "column")
-            .attr("x", (d) => xScale(d[x]) + x1Scale(d.key) - offset)
-            .attr("y", yScale.range()[0])
-            .attr("height", 0)
-            .attr("width", x1Scale.bandwidth())
-            .style("fill", (d) => colorScale(d.key).toString())
-            .style("opacity", theme.series.opacity);
-
-        // prettier-ignore
-        const update = join
-            .merge(enter)
-            .on("mouseover", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
-
-                onMouseOver && onMouseOver(datum, this as Element, event);
-                setFocused({ element: this, event, datum });
-                setTooltip({ datum, event, fillColors: [colorScale(datum.key) as IColor], ys: [datum.key] });
-            })
-            .on("mouseout", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
-
-                onMouseOut && onMouseOut(datum, this as Element, event);
-                setFocused(null);
-                setTooltip(null);
-            })
-            .on("click", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
-
-                onClick && onClick(datum, this as Element, event);
-            })
-            .transition("position")
-            .duration(animationDuration / 2)
-            .attr("x", (d) => xScale(d[x]) + x1Scale(d.key) - offset)
-            .attr("width", x1Scale.bandwidth())
-            .style("fill", (d) => colorScale(d.key).toString())
-            // @ts-expect-error: Looks like the type defs are wrong missing named transitions
-            .transition("height")
-            .duration(animationDuration / 2)
-            .delay(animationDuration / 2)
-            .attr("height", (d) => yScale.range()[0] - yScale(d.value as INumericValue))
-            .attr("y", (d) => yScale(d.value as INumericValue));
+        const { update } = column.grouped.render({
+            animationDuration,
+            interactive,
+            layer: layer.current,
+            data,
+            colors,
+            onMouseOver,
+            onMouseOut,
+            onClick,
+            onFocus,
+            onTooltip,
+            theme,
+            x,
+            ys,
+            xScale,
+            yScale,
+        });
 
         // @ts-ignore: TODO: Work out how to fix this
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);

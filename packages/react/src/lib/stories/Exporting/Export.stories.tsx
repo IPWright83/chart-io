@@ -1,8 +1,9 @@
+import { themes } from "@chart-io/core";
+
 import React, { useRef } from "react";
 
 import { sales_records_dataset } from "../../../data/sales_records_dataset";
 import { XYChart, XAxis, YAxis, Scatters } from "../../components";
-import { themes } from "../../themes";
 
 export default {
     title: "Exporting",

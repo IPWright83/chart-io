@@ -1,9 +1,10 @@
+import { themes } from "@chart-io/core";
+
 import { Provider } from "react-redux";
 import React from "react";
 import { render } from "@testing-library/react";
 
 import { createMockStore } from "../../testUtils";
-import { themes } from "../../themes";
 
 import { Crosshair } from ".";
 import { Crosshair as CrosshairBase } from "./Crosshair";
@@ -28,7 +29,7 @@ describe("Crosshair", () => {
                 <svg>
                     <Crosshair />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -50,7 +51,7 @@ describe("Crosshair", () => {
                 <svg>
                     <Crosshair />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -62,7 +63,7 @@ describe("Crosshair", () => {
                 <svg>
                     <Crosshair showHorizontal={false} />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -74,7 +75,7 @@ describe("Crosshair", () => {
                 <svg>
                     <Crosshair showVertical={false} />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         expect(asFragment()).toMatchSnapshot();
@@ -89,7 +90,7 @@ describe("Crosshair", () => {
                     {/* @ts-expect-error: Validating runtime protection */}
                     <CrosshairBase layer={layer} />
                 </svg>
-            </Provider>
+            </Provider>,
         );
 
         // Should be empty

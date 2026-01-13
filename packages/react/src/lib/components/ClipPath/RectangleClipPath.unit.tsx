@@ -1,9 +1,9 @@
+import { chartSelectors, IState, themes } from "@chart-io/core";
+
 import { Provider, useSelector } from "react-redux";
 import React from "react";
 
-import { chartSelectors, IState } from "../../store";
 import { createMockStore, renderChart, wait } from "../../testUtils";
-import { themes } from "../../themes";
 
 import { RectangleClipPath } from "./RectangleClipPath";
 

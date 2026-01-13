@@ -1,10 +1,9 @@
+import { eventActions, IDispatch, MOUSE_MOVE_THROTTLE } from "@chart-io/core";
 import type { IDatum } from "@chart-io/types";
+
 import { throttle } from "lodash";
 
 import type { IColorToData, IColorToDataMap } from "./types";
-
-import { eventActions, IDispatch } from "../../../store";
-import { MOUSE_MOVE_THROTTLE } from "../../../constants";
 
 /**
  * Crazy interface for TypeScript gymnastics
