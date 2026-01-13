@@ -20,7 +20,7 @@ import { chartSelectors } from "../../../store";
 const Axis = ({ position, fields, tickSizeInner, tickSizeOuter, tickPadding, showGridlines, title }) => {
     if (fields.length === 0) {
         throw new Error(
-            "Unable to render an Axis without a field. Ensure that you have provided at least one field in the 'fields' prop."
+            "Unable to render an Axis without a field. Ensure that you have provided at least one field in the 'fields' prop.",
         );
     }
 

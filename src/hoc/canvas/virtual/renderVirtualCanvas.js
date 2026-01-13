@@ -16,12 +16,17 @@ const renderVirtualCanvas = async (canvas, width, height, update) => {
     // Ensure we've got the contexts to draw upon
     const context = canvas.getContext("2d");
 
+    // Used a manual index, as the `i` parameter for `.each` resets
+    // when dealing with a nested selection. Start at 1 to avoid choosing black
+    let index = 1;
     let lookup = {};
+
     for (let i = 0; i < update.length; i++) {
         const { selection } = update[i];
 
-        const results = await renderVirtualElements(context, selection);
-        lookup = { ...lookup, ...results };
+        const results = await renderVirtualElements(context, selection, index);
+        lookup = { ...lookup, ...results.colorToData };
+        index = results.index;
     }
 
     // Return a keyed lookup object from color -> datum
