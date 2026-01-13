@@ -16,7 +16,7 @@
     "lint": "eslint -c .eslintrc.json .",
     "storybook": "start-storybook -p 6006",
     "deploy-storybook": "storybook-to-ghpages",
-    "build-storybook": "build-storybook",
+    "build-storybook": "ls && build-storybook",
     "dev": "pnpm run build",
     "build": "babel src/ --out-dir lib --copy-files --no-copy-ignored --ignore src/**/*.stories.js"
   },
