@@ -33,7 +33,7 @@ describe("Areas", () => {
 
                 // Wait for the second render of the area, as
                 // first render we put in a placeholder to animate
-                await wait(10);
+                await wait(50);
 
                 expect(asFragment()).toMatchSnapshot();
             });
@@ -53,7 +53,7 @@ describe("Areas", () => {
 
                 // Wait for the second render of the area, as
                 // first render we put in a placeholder to animate
-                await wait(10);
+                await wait(50);
 
                 await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
 

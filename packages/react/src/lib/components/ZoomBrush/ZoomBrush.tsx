@@ -20,7 +20,7 @@ export interface IZoomBrushProps {
      * The type of brush to use. Either an "inline" brush which sits beside the
      * chart or an "overlay" brush which sits on top of the chart
      */
-    type: "inline" | "overlay";
+    type?: "inline" | "overlay";
 
     /**
      * The margin to apply around the brush
@@ -33,7 +33,7 @@ export interface IZoomBrushProps {
  * Represents a zoomable Brush component on the chart
  * @return The Brush component
  */
-export function ZoomBrush({ children, size = 60, type = "overlay", margin = DEFAULT_BRUSH_MARGIN }: IZoomBrushProps) {
+export function ZoomBrush({ children, size = 60, type = "inline", margin = DEFAULT_BRUSH_MARGIN }: IZoomBrushProps) {
     // Find all the interactive plots
     const plots = getBrushPlots(children);
 

@@ -6,7 +6,7 @@ import { chartSelectors, IState } from "../../../store";
 
 import { Line } from "./Line";
 
-export type ILinesProps = Omit<IPlotsProps, "interactive">;
+export type ILinesProps = IPlotsProps;
 
 /**
  * Represents a set of Line Plots
