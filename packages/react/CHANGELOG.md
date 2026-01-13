@@ -1,5 +1,11 @@
 # @chart-it/react-d3
 
+## 0.3.0
+
+### Minor Changes
+
+- ccedcd6: Updated Storybook docs
+
 ## 0.2.0
 
 ### Minor Changes
