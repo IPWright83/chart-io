@@ -1,9 +1,4 @@
-import { Area, CanvasArea, SVGArea } from "./Area";
+import { Area, AreaBase } from "./Area";
 import { Areas } from "./Areas";
 
-export { 
-    Area, 
-    Areas, 
-    SVGArea, 
-    CanvasArea 
-};
+export { Area, AreaBase, Areas };

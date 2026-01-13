@@ -6,9 +6,9 @@ const commonDefaultArgs = {
     useCanvas: false,
     animationDuration: 500,
     margin,
-    onClick: console.log,
-    onMouseOver: console.log,
-    onMouseOut: console.log,
+    onClick: console.debug,
+    onMouseOver: console.debug,
+    onMouseOut: console.debug,
 };
 
 export { commonDefaultArgs };
