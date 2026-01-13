@@ -1,5 +1,7 @@
-import { Story, Canvas } from "@storybook/addon-docs/blocks";
+import { Story, Canvas, Meta } from "@storybook/blocks";
 import LinkTo from "@storybook/addon-links/react";
+
+<Meta title="Components/TooltipOverlay" />
 
 # TooltipOverlay Component
 
@@ -20,7 +22,7 @@ The `<TooltipOverlay>` extracts out tooltip item information from the Redux stor
 
 The contents of a format object should match:
 
-| Prop         | Type       | Note        |
+| Prop         | Type       | Default     | Note                                                                                      |
 | ------------ | ---------- | ----------- | ----------------------------------------------------------------------------------------- |
 | `prefix`     | `string`   | `undefined` | A string to prefix the tooltip value with                                                 |
 | `suffix`     | `string`   | `undefined` | A string to suffix the tooltip value with                                                 |
@@ -48,12 +50,12 @@ useEffect(() => {
 
 > **Note**: This is referring to the shape of the data in the Redux store. Not the `<TooltipItem>` component.
 
-| Prop         | Type      | Note                                                                    |
-| ------------ | --------- | ----------------------------------------------------------------------- |
-| **`datum*`** | `object`  | The datum from the dataset that triggered the tooltip                   |
-| **`name*`**  | `boolean` | The name of the value/series being shown in the tooltip                 |
-| `value`      | primitive | The value of the point to display in the tooltip                        |
-| `seriesType` | `string`  | One of ["scatter", "bar", "column", "area", "line", "circle", "square"] |
-| `fill`       | `string`  | The colour of the series                                                |
+| Prop         | Type      | Note                                                    |
+| ------------ | --------- | ------------------------------------------------------- |
+| **`datum*`** | `object`  | The datum from the dataset that triggered the tooltip   |
+| **`name*`**  | `boolean` | The name of the value/series being shown in the tooltip |
+| `value`      | primitive | The value of the point to display in the tooltip        |
+| `icon`       | `string`  | One of ["circle", "square", "line", "none"]             |
+| `fill`       | `string`  | The colour of the series                                |
 
 <br />

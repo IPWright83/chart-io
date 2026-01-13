@@ -1,0 +1,28 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Errors & Warnings/Warnings/W005 - Invalid Margin" />
+
+# W005 Invalid Margin
+
+For charts to operate properly they need a valid margin. This warning protects against a margin that is missing one of the sides.
+
+> `"W005 - The left of the margin was not specified and is required"` > `"W005 - The right of the margin was not specified and is required"` > `"W005 - The top of the margin was not specified and is required"` > `"W005 - The bottom of the margin was not specified and is required"`
+
+We use the D3 margin convention - https://observablehq.com/@d3/margin-convention
+
+## Cause
+
+The margin is missing one of the sides that are required, as specified in the error message. A margin requires a non null value for all sides and should take the shape:
+
+```
+{
+    left: number;
+    top: number;
+    right: number;
+    bottom: number;
+}
+```
+
+## Fix
+
+Provide a value for the missing side of the margin, using `0` if no margin is required.

@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`XYChart should create empty template correctly 1`] = `
+<DocumentFragment>
+  <svg
+    class="chart-svg"
+    height="500"
+    style="background-color: rgb(255, 255, 255);"
+    width="500"
+  >
+    <g
+      class="g-event-receiver"
+    >
+      <rect
+        class="d3-chart event-receiver"
+        height="440"
+        style="fill: none; pointer-events: all;"
+        transform="translate(30, 30)"
+        width="440"
+      />
+    </g>
+    <g
+      class="g-markers"
+    />
+    <g
+      class="g-droplines"
+    />
+    <g
+      class="g-tooltip-overlay"
+    />
+  </svg>
+</DocumentFragment>
+`;

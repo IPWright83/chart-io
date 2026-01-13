@@ -1,0 +1,54 @@
+{
+  "name": "@d3-chart/d3",
+  "version": "0.1.0",
+  "packageManager": "pnpm@7.5.2",
+  "description": "Provides a custom d3 bundle",
+  "repository": "git@github.com:IPWright83/chart-it.git",
+  "author": "Ian Wright - IPWright83",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "clean": "rm -rf node_modules"
+  },
+  "np": {
+    "publish": false,
+    "tests": false
+  },
+  "keywords": [
+    "d3",
+    "react",
+    "chart"
+  ],
+  "devDependencies": {
+    "rollup": "0.36",
+    "rollup-plugin-node-resolve": "2",
+    "uglify-js": "2"
+  },
+  "dependencies": {
+    "@types/d3-array": "^3.0.4",
+    "@types/d3-axis": "^3.0.2",
+    "@types/d3-color": "^3.1.0",
+    "@types/d3-ease": "^3.0.0",
+    "@types/d3-format": "^3.0.1",
+    "@types/d3-scale": "^4.0.3",
+    "@types/d3-selection": "^3.0.4",
+    "@types/d3-shape": "^3.1.1",
+    "@types/d3-time": "^3.0.0",
+    "@types/d3-time-format": "^4.0.0",
+    "@types/d3-timer": "^3.0.0",
+    "@types/d3-transition": "^3.0.3",
+    "@types/react": "^18.0.28",
+    "d3-array": "^3.2.2",
+    "d3-axis": "^3.0.0",
+    "d3-color": "^3.1.0",
+    "d3-ease": "^3.0.1",
+    "d3-format": "^3.1.0",
+    "d3-scale": "^4.0.2",
+    "d3-selection": "^3.0.0",
+    "d3-shape": "^3.2.0",
+    "d3-time": "^3.1.0",
+    "d3-time-format": "^4.1.0",
+    "d3-timer": "^3.0.1",
+    "d3-transition": "^3.0.1"
+  }
+}

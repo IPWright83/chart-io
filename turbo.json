@@ -14,6 +14,11 @@
       "dependsOn": ["^dev"]
     },
     "lint": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "types": {
+      "dependsOn": ["^build"],
       "outputs": []
     },
     "test": {

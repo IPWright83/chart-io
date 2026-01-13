@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Square renders correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="d3-chart indicator-square"
+    style="background: steelblue; height: 10px; width: 10px; margin-top: 4px; margin-right: 5px; margin-left: 5px;"
+  />
+</DocumentFragment>
+`;

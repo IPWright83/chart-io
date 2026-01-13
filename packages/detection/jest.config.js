@@ -9,6 +9,10 @@ module.exports = {
     resetMocks: true,
     roots: ["<rootDir>/src"],
     testEnvironment: "jsdom",
-    testMatch: ["**/*.unit.js"],
+    testMatch: ["**/*.unit.js", "**/*.unit.ts"],
     watchPlugins: ["jest-watch-typeahead/filename", "jest-watch-typeahead/testname"],
+    transformIgnorePatterns: ["<rootDir>/node_modules/(?!@d3-chart/d3/.*)"],
+    transform: {
+        "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": ["@swc/jest"],
+    },
 };

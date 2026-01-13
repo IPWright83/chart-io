@@ -1,0 +1,37 @@
+{
+  "name": "@d3-chart/types",
+  "version": "0.4.0",
+  "packageManager": "pnpm@7.26.2",
+  "description": "Provides core type definitions for d3-chart packages",
+  "repository": "git@github.com:IPWright83/chart-it.git",
+  "author": "Ian Wright - IPWright83",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "clean": "rm -rf node_modules && rm -rf build",
+    "types": "tsc --noEmit",
+    "lint": "eslint src",
+    "publish": ""
+  },
+  "np": {
+    "publish": false,
+    "tests": false
+  },
+  "keywords": [
+    "d3",
+    "react",
+    "chart"
+  ],
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.51.0",
+    "@typescript-eslint/parser": "^5.51.0",
+    "eslint": "^8.33.0",
+    "identity-obj-proxy": "^3.0.0"
+  },
+  "dependencies": {
+    "@d3-chart/d3": "workspace:^0.1.0",
+    "@types/react": "^18.0.28"
+  }
+}

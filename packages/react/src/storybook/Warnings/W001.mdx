@@ -1,0 +1,17 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Errors & Warnings/Warnings/W001 - Scale is too small" />
+
+# W001 Scale is too small
+
+This warning indicates that some of the values that need plotting fall outside the range of the scale. While the chart can be plotted, some data may not be visible in the chart.
+
+> `The scale appears too small for the dataset. Are you missing the 'aggregate={true}' in your <Axis /> or <Scale /> component?`
+
+## Cause
+
+The cause of this is usually that you're showing aggregated data (such as a stacked column chart) but the scale doesn't know it needs to sum the values when calculating the extents of the scale.
+
+## Fix
+
+Add an `aggregate={true}` prop to either the `<Axis>` or `<AutoScale>` component. The error message should detail the fields affected to help you determine which Axis or Scale is affected.
