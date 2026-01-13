@@ -16,7 +16,7 @@ module.exports = {
     resetMocks: true,
     roots: ["<rootDir>/src"],
     setupFiles: ["react-app-polyfill/jsdom"],
-    setupFilesAfterEnv: ["<rootDir>/config/jest/setupTests.js"],
+    setupFilesAfterEnv: ["<rootDir>/src/setupTests.js"],
     testEnvironment: "jsdom",
     testMatch: ["**/*.unit.js", "**/*.unit.jsx"],
     transformIgnorePatterns: [

@@ -30,3 +30,4 @@ __snapshots__
 __image_snapshots__
 scripts
 turbo.json
+setupTests.js
