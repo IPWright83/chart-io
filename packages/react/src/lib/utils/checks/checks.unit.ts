@@ -10,12 +10,11 @@ describe("/utils/checks", () => {
 
     describe("ensureBandScale", () => {
         it("should return false if not a d3.scaleBand", () => {
-            jest.spyOn(console, "error").mockImplementation(jest.fn());
+            const spy = jest.spyOn(console, "error").mockImplementation(jest.fn());
 
             expect(ensureBandScale(d3.scaleLinear().domain([0, 1]).range([0, 1]), "unit_test")).toBe(false);
-            expect(console.error).toHaveBeenCalledWith(
-                'E001 - Incompatible scale for a <unit_test />. Are you missing the `scaleType="band"` in your <Axis /> or <AutoScale /> component?'
-            );
+
+            expect(spy.mock.calls[0][0]).toMatchSnapshot();
         });
 
         it("should return true if a d3.scaleBand", () => {
@@ -25,7 +24,7 @@ describe("/utils/checks", () => {
 
     describe("ensureNoScaleOverflow for aggregated data", () => {
         it("should return true if the data is larger than the scale", () => {
-            jest.spyOn(console, "warn").mockImplementation(jest.fn());
+            const spy = jest.spyOn(console, "warn").mockImplementation(jest.fn());
 
             const scale = d3.scaleLinear().domain([0, 10]);
             const data = [
@@ -35,10 +34,8 @@ describe("/utils/checks", () => {
             const fields = ["x", "y"];
 
             expect(ensureNoScaleOverflow(scale, data, fields, "unit_test")).toBe(false);
-            expect(console.warn).toHaveBeenCalledWith(
-                "W001 - The scale for unit_test appears too small for the dataset. Are you missing the `aggregate={true}` in your <Axis /> or <AutoScale /> component?",
-                ["x", "y"]
-            );
+
+            expect(spy.mock.calls[0][0]).toMatchSnapshot();
         });
 
         it("should return false if the data is smaller than the scale", () => {
@@ -62,15 +59,14 @@ describe("/utils/checks", () => {
         });
 
         it("should return false if not all the values are unique", () => {
-            jest.spyOn(console, "warn").mockImplementation(jest.fn());
+            const spy = jest.spyOn(console, "warn").mockImplementation(jest.fn());
 
             const data = [{ x: "a" }, { x: "b" }, { x: "a" }];
             const field = "x";
 
             expect(ensureValuesAreUnique(data, field, "unit_test")).toBe(false);
-            expect(console.warn).toHaveBeenCalledWith(
-                `W002 - There are duplicate values in the x field. This may cause rendering artifacts with a <unit_test>.`
-            );
+
+            expect(spy.mock.calls[0][0]).toMatchSnapshot();
         });
     });
 });

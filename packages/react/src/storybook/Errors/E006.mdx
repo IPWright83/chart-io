@@ -1,0 +1,25 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Errors & Warnings/Errors/E006" />
+
+# E006 Scale requires at least one field
+
+> `Unable to create a Scale without a field. Ensure that you have provided at least one field in the 'fields' prop`
+
+## Cause
+
+To render a `<Scale>` a field that keys into the data is required. This is needed to allow a scale to be calculated so the data range can be converted to screen co-ordinates. It appears that no field was provided.
+
+## Fix
+
+Supply one or more fields as either a string or string array, that refer to values in your data objects. For example in the following data `x` or `y` could be used:
+
+```
+[
+    { x: 1, y: 1 },
+    { x: 2, y: 2 },
+    { x: 3, y: 3 },
+    { x: 4, y: 4 },
+    { x: 5, y: 5 },
+]
+```

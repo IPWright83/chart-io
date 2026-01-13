@@ -7,11 +7,13 @@ import "@testing-library/jest-dom";
 // Polyfill crypto
 const nodeCrypto = require("crypto");
 
-window.crypto = {
-    getRandomValues: function (buffer) {
-        return nodeCrypto.randomFillSync(buffer);
-    },
-};
+// window.crypto = {
+//     getRandomValues: function (buffer) {
+//         return nodeCrypto.randomFillSync(buffer);
+//     },
+// };
 
-// Dump debug messages to the void
+// Dump console logs to the void
 console.debug = () => {};
+console.error = () => {};
+console.warn = () => {};

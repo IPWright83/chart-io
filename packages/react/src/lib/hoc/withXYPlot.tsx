@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { chartSelectors, IState } from "../store";
+import { logDebug } from "../utils";
 
 /**
  * Wraps a plot and handles some of the basics such as missing layers or scales
@@ -30,14 +31,14 @@ const withXYPlot = <P extends object>(WrappedComponent: React.ComponentType<P>) 
 
         // Unable to render without the layer avaliable
         if (!layer.current) {
-            console.debug("Skipping render - layer not yet avaliable");
+            logDebug("Skipping render - layer not yet avaliable");
             return null;
         }
 
         if (!xScale) {
-            console.debug("Skipping render - X scale not avaliable");
+            logDebug("Skipping render - X scale not avaliable");
         } else if (!yScale) {
-            console.debug("Skipping render - Y scale not avaliable");
+            logDebug("Skipping render - Y scale not avaliable");
         }
 
         if (!xScale || !yScale) {

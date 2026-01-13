@@ -1,0 +1,20 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Errors & Warnings/Errors/E002" />
+
+# E002 Invalid Position
+
+> `Invalid position (${position}) was provided to the Axis`
+
+## Cause
+
+A position was provided to an Axis, which was not one of the valid values
+
+## Fix
+
+Provide a position that is one of the following strings:
+
+    - "left"
+    - "right"
+    - "top"
+    - "bottom"

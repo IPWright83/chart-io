@@ -1,0 +1,22 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Errors & Warnings/Errors/E004" />
+
+# E004 Multiple Plots must be Stacked or Grouped
+
+> `Multiple Bar plots must be either stacked or grouped`  
+> `Multiple Column plots must be either stacked or grouped`
+
+## Cause
+
+When multiple plots are created for a bar on column chart they must be either stacked or grouped otherwise they would
+render on top of each other.
+
+## Fix
+
+Decide whether you want to apply:
+
+-   Stacking (bars/columns) sit on top of each other
+-   Grouping (bars/columns) sit side by side
+
+Then set either the `grouped` or `stacked` option to `true`.

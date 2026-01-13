@@ -3,6 +3,7 @@ import type { IData, IScale, IScaleType, IValue } from "@chart-it/types";
 import type { NumberValue } from "@chart-it/d3";
 
 import { getDataType, Type, typeEnumToName } from "@chart-it/detection";
+import { logAndThrowError, logDebug } from "../../utils";
 
 /**
  * Return a scale as defined by the scaleType property
@@ -57,7 +58,7 @@ const getScaleTypeFromType = (scaleType: IScaleType, values: IValue[], range: nu
                 .domain(domain ?? [zeroOrMin, maxValue])
                 .range(range);
         default:
-            throw new Error(`Unknown scale type: ${scaleType}`);
+            logAndThrowError("E007", `Unknown scale type: ${scaleType}`);
     }
 };
 
@@ -104,7 +105,7 @@ const calculateScale = (
 
     // Use the specified scale type if provided
     if (scaleType) {
-        console.debug(`Manually assigning scale ${scaleType}`, fields);
+        logDebug(`Manually assigning scale ${scaleType}`, fields);
         return getScaleTypeFromType(scaleType, values, range, domain);
     }
 
@@ -114,17 +115,17 @@ const calculateScale = (
     switch (type) {
         case Type.Integer:
         case Type.Double:
-            console.debug(`Automatically assigning scale (linear) for data type (${typeEnumToName(type)})`, fields);
+            logDebug(`Automatically assigning scale (linear) for data type (${typeEnumToName(type)})`, fields);
             return getScaleTypeFromType("linear", values, range, domain);
 
         case Type.Date:
         case Type.DateTime:
-            console.debug(`Automatically assigning scale (time) for data type (${typeEnumToName(type)})`, fields);
+            logDebug(`Automatically assigning scale (time) for data type (${typeEnumToName(type)})`, fields);
             return getScaleTypeFromType("time", values, range, domain);
 
         case Type.String:
         case Type.Boolean:
-            console.debug(`Automatically assigning scale (band) for data type (${typeEnumToName(type)})`, fields);
+            logDebug(`Automatically assigning scale (band) for data type (${typeEnumToName(type)})`, fields);
             return getScaleTypeFromType("band", values, range, domain);
 
         default:

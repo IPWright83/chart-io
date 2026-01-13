@@ -3,6 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { chartSelectors, IState } from "../../../store";
+import { logAndThrowError } from "../../../utils";
 
 import { Column } from "./Column";
 import { GroupedColumn } from "./GroupedColumn";
@@ -29,11 +30,11 @@ export function Columns({ ys, colors, stacked = false, grouped = false, ...props
     const palette = colors || theme.series.colors;
 
     if (stacked && grouped) {
-        throw new Error("Column plots currently do not support both being stacked and grouped");
+        logAndThrowError("E003", "Column plots do not support both being stacked and grouped");
     }
 
     if (!stacked && !grouped) {
-        throw new Error("Multiple column plots must be either stacked or grouped");
+        logAndThrowError("E004", "Multiple Column plots must be either stacked or grouped");
     }
 
     if (stacked) {
