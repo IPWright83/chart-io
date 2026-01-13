@@ -1,5 +1,12 @@
 # react-demo
 
+## 0.1.6
+
+### Patch Changes
+
+- Updated dependencies [71eaab3]
+  - @chart-it/react-d3@0.7.0
+
 ## 0.1.5
 
 ### Patch Changes
