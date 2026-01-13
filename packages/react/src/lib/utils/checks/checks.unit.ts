@@ -1,5 +1,5 @@
 import * as d3 from "@chart-it/d3";
-import { ensureBandScale } from "./ensureBandScale";
+import { ensureBandwidth } from "./ensureBandwidth";
 import { ensureNoScaleOverflow } from "./ensureNoScaleOverflow";
 import { ensureValuesAreUnique } from "./ensureValuesAreUnique";
 
@@ -9,16 +9,16 @@ describe("/utils/checks", () => {
     });
 
     describe("ensureBandScale", () => {
-        it("should return false if not a d3.scaleBand", () => {
+        it("should return false if a zero bandwidth is found", () => {
             const spy = jest.spyOn(console, "error").mockImplementation(jest.fn());
 
-            expect(ensureBandScale(d3.scaleLinear().domain([0, 1]).range([0, 1]), "unit_test")).toBe(false);
+            expect(ensureBandwidth(0, "unit_test")).toBe(false);
 
             expect(spy.mock.calls[0][0]).toMatchSnapshot();
         });
 
-        it("should return true if a d3.scaleBand", () => {
-            expect(ensureBandScale(d3.scaleBand(), "unit_test")).toBe(true);
+        it("should return true if a non zero bandwidth is found", () => {
+            expect(ensureBandwidth(4, "unit_test")).toBe(true);
         });
     });
 
