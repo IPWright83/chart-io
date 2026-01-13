@@ -1,14 +1,14 @@
+import type { Meta } from "@storybook/react";
+import { expect, fn, within } from "@storybook/test";
 import React, { useMemo } from "react";
-import { expect } from "@storybook/test";
-import { within } from "@storybook/test";
 
+import { waves } from "../../../../data/waves";
 import { argTypes } from "../../../../storybook/argTypes";
-import { sales_records_dataset } from "../../../../data/sales_records_dataset";
+import { createEventReceiverTest } from "../../../testUtils";
+import { XAxis, YAxis } from "../../Axis";
+import { XYChart } from "../../XYChart";
 import { Area } from "./Area";
 import { Areas } from "./Areas";
-import { XYChart } from "../../XYChart";
-import { XAxis, YAxis } from "../../Axis";
-import { createEventReceiverTest } from "../../../testUtils";
 
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
@@ -26,6 +26,11 @@ export default {
     },
     chromatic: { delay: 300 },
   },
+  args: {
+    onClick: fn(),
+    onMouseOver: fn(),
+    onMouseOut: fn(),
+  },
   argTypes: {
     useCanvas,
     width,
@@ -36,15 +41,12 @@ export default {
     rightMargin: margin,
     topMargin: margin,
     bottomMargin: margin,
-    onClick: { action: "clicked" },
-    onMouseOver: { action: "onMouseOver" },
-    onMouseOut: { action: "onMouseOut" },
   },
-};
+} as Meta<typeof Area>;;
 
 const AreaTemplate = (args) => (
   <XYChart
-    data={sales_records_dataset}
+    data={waves}
     plotMargin={{
       left: args.leftMargin,
       right: args.rightMargin,
@@ -58,7 +60,7 @@ const AreaTemplate = (args) => (
     zoomBrush={args.zoomBrush}
   >
     <Area x={args.x} y={args.y} y2={args.y2} color={args.color} />
-    <YAxis fields={[args.y, args.y2, args.y3]} />
+    <YAxis fields={[args.y]} />
     <XAxis fields={[args.x]} />
   </XYChart>
 );
@@ -71,7 +73,7 @@ const AreasTemplate = (args) => (
       top: args.topMargin,
       bottom: args.bottomMargin,
     }}
-    data={sales_records_dataset}
+    data={waves}
     height={args.height}
     width={args.width}
     animationDuration={args.animationDuration}
@@ -83,9 +85,9 @@ const AreasTemplate = (args) => (
     zoomBrush={args.zoomBrush}
     groupEvents={args.groupEvents}
   >
-    <YAxis fields={[args.y, args.y2, args.y3]} />
+    <YAxis fields={[args.y, args.y2]} />
     <XAxis fields={[args.x]} />
-    <Areas x={args.x} ys={[args.y, args.y2, args.y3]} />
+    <Areas x={args.x} ys={[args.y, args.y2]} />
   </XYChart>
 );
 
@@ -98,7 +100,7 @@ const StackedAreasTemplate = (args) => {
         top: args.topMargin,
         bottom: args.bottomMargin,
       }}
-      data={sales_records_dataset}
+      data={waves}
       height={args.height}
       width={args.width}
       animationDuration={args.animationDuration}
@@ -109,9 +111,9 @@ const StackedAreasTemplate = (args) => {
       onMouseOut={args.onMouseOut}
       zoomBrush={args.zoomBrush}
     >
-      <YAxis fields={[args.y, args.y2, args.y3]} aggregate={true} />
+      <YAxis fields={[args.y, args.y2]} aggregate={true} />
       <XAxis fields={[args.x]} />
-      <Areas x={args.x} ys={[args.y, args.y2, args.y3]} stacked={true} />
+      <Areas x={args.x} ys={[args.y, args.y2]} stacked={true} />
     </XYChart>
   );
 };
@@ -130,8 +132,8 @@ export const Basic = {
     rightMargin: 40,
     topMargin: 40,
     bottomMargin: 40,
-    y: "Total Profit",
-    x: "Order Date",
+    y: "sin",
+    x: "x",
     y2: undefined,
   },
   play: createEventReceiverTest(
@@ -159,7 +161,7 @@ export const Stream = {
   render: AreaTemplate,
   args: {
     ...Basic.args,
-    y2: "Total Cost",
+    y2: "cos",
   },
 };
 
@@ -196,9 +198,8 @@ export const MultipleAreas = {
   render: AreasTemplate,
   args: {
     ...Basic.args,
-    y: "Total Revenue",
-    y2: "Total Cost",
-    y3: "Total Profit",
+    y: "sin",
+    y2: "cos",
   },
   play: createEventReceiverTest(
     { clientX: 273, clientY: 408 },
@@ -217,9 +218,8 @@ export const MultipleAreasGrouped = {
   args: {
     ...Basic.args,
     groupEvents: true,
-    y: "Total Revenue",
-    y2: "Total Cost",
-    y3: "Total Profit",
+    y: "sin",
+    y2: "cos",
   },
   play: createEventReceiverTest(
     { clientX: 273, clientY: 408 },
@@ -237,9 +237,8 @@ export const StackedAreas = {
   render: StackedAreasTemplate,
   args: {
     ...Basic.args,
-    y: "Total Revenue",
-    y2: "Total Cost",
-    y3: "Total Profit",
+    y: "sin",
+    y2: "cos",
   },
   play: createEventReceiverTest(
     { clientX: 273, clientY: 408 },
@@ -257,9 +256,8 @@ export const StackedAreasWithBrush = {
   render: StackedAreasTemplate,
   args: {
     ...Basic.args,
-    y: "Total Revenue",
-    y2: "Total Cost",
-    y3: "Total Profit",
+    y: "sin",
+    y2: "cos",
     zoomBrush: "inline",
     bottomMargin: 10,
   },

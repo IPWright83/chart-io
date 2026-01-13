@@ -40,9 +40,9 @@ export const XYChart = forwardRef<IChartRef, IXYChartProps>(({ children, groupEv
             <EventReceiver />
             <RectangleClipPath />
             {children}
+            {showCrosshair && <Crosshair />}
             <Markers onlyNearest={!groupEvents} />
             {showDroplines && <Droplines onlyNearest={!groupEvents} />}
-            {showCrosshair && <Crosshair />}
             {props.zoomBrush && (
                 <ZoomBrush type={props.zoomBrush} margin={props.brushMargin}>
                     {children}
