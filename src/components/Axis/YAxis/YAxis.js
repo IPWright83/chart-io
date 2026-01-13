@@ -20,7 +20,15 @@ const YAxis = ({
 }) => {
     return (
         <React.Fragment>
-            <Axis position={position} fields={fields} showGridlines={showGridlines} title={title} />
+            <Axis
+                position={position}
+                fields={fields}
+                showGridlines={showGridlines}
+                title={title}
+                tickSizeInner={tickSizeInner}
+                tickSizeOuter={tickSizeOuter}
+                tickPadding={tickPadding}
+            />
             <YScale fields={fields} scaleType={scaleType} aggregate={aggregate} />
         </React.Fragment>
     );
