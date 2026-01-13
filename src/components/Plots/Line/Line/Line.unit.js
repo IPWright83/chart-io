@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import React from "react";
 import { Provider } from "react-redux";
-import { render } from "@testing-library/react";
+import { render, act } from "@testing-library/react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
 import { VirtualCanvas, VIRTUAL_CANVAS_DEBOUNCE } from "../../../VirtualCanvas";
@@ -78,10 +78,12 @@ describe("Line", () => {
 
                 await wait(1);
 
-                store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["x"], scale: scales.x } });
-                store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["y"], scale: scales.y } });
-                store.dispatch({ type: "CHART.SET_DATA", payload: data });
-                store.dispatch({ type: "CHART.SET_DIMENSIONS", payload: { width: 200, height: 200 } });
+                act(() => {
+                    store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["x"], scale: scales.x } });
+                    store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["y"], scale: scales.y } });
+                    store.dispatch({ type: "CHART.SET_DATA", payload: data });
+                    store.dispatch({ type: "CHART.SET_DIMENSIONS", payload: { width: 200, height: 200 } });
+                });
 
                 // Spy on the store for the updates from the Area chart
                 const originalDispatch = store.dispatch;
@@ -89,8 +91,11 @@ describe("Line", () => {
                     originalDispatch(action);
                 });
 
-                // Simulate a mouse move on the background
-                store.dispatch({ type: "EVENT.MOUSE_ENTER", payload: { offsetX: 25, offsetY: 80 } });
+                act(() => {
+                    // Simulate a mouse move on the background
+                    store.dispatch({ type: "EVENT.MOUSE_ENTER", payload: { offsetX: 25, offsetY: 80 } });
+                });
+
                 await wait(1);
 
                 const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);
@@ -144,10 +149,12 @@ describe("Line", () => {
 
                 await wait(1);
 
-                store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["x"], scale: scales.x } });
-                store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["y"], scale: scales.y } });
-                store.dispatch({ type: "CHART.SET_DATA", payload: data });
-                store.dispatch({ type: "CHART.SET_DIMENSIONS", payload: { width: 200, height: 200 } });
+                act(() => {
+                    store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["x"], scale: scales.x } });
+                    store.dispatch({ type: "CHART.SET_SCALES", payload: { fields: ["y"], scale: scales.y } });
+                    store.dispatch({ type: "CHART.SET_DATA", payload: data });
+                    store.dispatch({ type: "CHART.SET_DIMENSIONS", payload: { width: 200, height: 200 } });
+                });
 
                 // Spy on the store for the updates from the Area chart
                 const originalDispatch = store.dispatch;
@@ -156,7 +163,10 @@ describe("Line", () => {
                 });
 
                 // Simulate a mouse move on the background
-                store.dispatch({ type: "EVENT.MOUSE_ENTER", payload: { offsetX: 25, offsetY: 80 } });
+                act(() => {
+                    store.dispatch({ type: "EVENT.MOUSE_ENTER", payload: { offsetX: 25, offsetY: 80 } });
+                });
+
                 await wait(1);
 
                 const dispatchCalls = store.dispatch.mock.calls.map((c) => c[0].type);

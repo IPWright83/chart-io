@@ -1,0 +1,35 @@
+import { Story, Canvas } from "@storybook/addon-docs/blocks";
+
+# Droplines Component
+
+The `<Droplines>` component allows us to define a layer to render drop lines on top of the plots. This is useful in highlighting a particular data point and can be combined with the `<Markers>` layer for additional affect.
+
+<Canvas>
+    <Story id="components-droplines--default" />
+</Canvas>
+
+### Props
+
+Also includes all props from [XY Plot Components API](XYPlot.md)
+
+| Prop             | Type          | Default | Note                                                                                                         |
+| ---------------- | ------------- | ------- | ------------------------------------------------------------------------------------------------------------ |
+| `layer`\*        | `HTMLElement` |         | This is an _internal_ field and should not need setting manually. It is populated `withSVG` or `withCanvas`. |
+| `showHorizontal` | `boolean`     | true    | Should horizontal droplines be shown?                                                                        |
+| `showVertical`   | `boolean`     | true    | Should vertical droplines be shown?                                                                          |
+
+## Adding Droplines Programatically
+
+// TODO
+
+## Visual Styling
+
+The colour of the Droplines is usually derived from the colour of the data point and is set per dropline entry in the Redux store.
+
+It is possible to style the following properties by changing the `theme.droplines` object:
+
+| Property            | Type     | Default | Note                                            |
+| ------------------- | -------- | ------- | ----------------------------------------------- |
+| `strokeDasharray`\* | `number` | 4       | The dash array pattern to use for the droplines |
+| `strokeOpacity`     | `number` | 1       | The opacity to use for the droplines            |
+| `strokeWidth`       | `number` | 2       | The stroke width to use for the droplines       |
