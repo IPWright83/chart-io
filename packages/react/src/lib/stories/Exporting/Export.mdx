@@ -1,0 +1,34 @@
+import { Meta, Story, Canvas } from "@storybook/blocks";
+
+<Meta title="Exporting" />
+
+# Exporting Charts
+
+chart-io provides the ability to export a chart to an image file so you can download and save charts for later. While embedding charts usually provides a better experience this is a great fallback alternative.
+
+## Accessing the chart-ref
+
+Firstly to trigger the export function, you are going to need to get a reference to the chart instance itself. This can simply be done by using the following:
+
+```
+const chartRef = useRef(null);
+
+// Assuming you have a button to trigger the export
+const onExportClick = useCallback(() => {
+    if (chartRef.current) {
+        chartRef.current.exportImage(...);
+    }
+});
+
+return (<XYChart ref={chartRef} .../>)
+```
+
+## `exportImage` parameters
+
+These are the parameters that you can pass to `exportImage`. Note that `filename` is required.
+
+| Category         | Type   | Default     | Note                                                                                                |
+| ---------------- | ------ | ----------- | --------------------------------------------------------------------------------------------------- |
+| **`filename`\*** | string | `undefined` | The filename to save the chart to. Note that you do not need to provide the extension               |
+| `format`         | string | `"PNG"`     | The format to save the chart to, either "JPG" or "PNG"                                              |
+| `scale`          | number | `1`         | The scale to save the chart to. Increasing this increases the dimensions and file size of the image |

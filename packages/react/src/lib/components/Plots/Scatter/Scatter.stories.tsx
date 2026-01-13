@@ -48,7 +48,12 @@ export default {
 const ScatterTemplate = (args) => (
     <XYChart
         data={args.data}
-        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        plotMargin={{
+            left: args.leftMargin,
+            right: args.rightMargin,
+            top: args.topMargin,
+            bottom: args.bottomMargin,
+        }}
         width={args.width}
         height={args.height}
         animationDuration={args.animationDuration}
@@ -66,7 +71,12 @@ const ScatterTemplate = (args) => (
 
 const ScattersTemplate = (args) => (
     <XYChart
-        plotMargin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
+        plotMargin={{
+            left: args.leftMargin,
+            right: args.rightMargin,
+            top: args.topMargin,
+            bottom: args.bottomMargin,
+        }}
         data={sales_records_dataset}
         width={args.width}
         height={args.height}
@@ -86,7 +96,7 @@ const ScattersTemplate = (args) => (
 export const Basic = ScatterTemplate.bind({});
 Basic.storyName = "Basic Plot";
 Basic.args = {
-    useCanvas: false,
+    useCanvas: true,
     width: 800,
     height: 500,
     animationDuration: 250,

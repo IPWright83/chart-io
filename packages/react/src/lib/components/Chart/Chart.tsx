@@ -1,5 +1,5 @@
 import type { IData, IMargin, IOnClick, IOnMouseOut, IOnMouseOver, ITheme } from "@chart-io/types";
-import React, { useEffect } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { useStore } from "react-redux";
 
 import { VirtualCanvas } from "../VirtualCanvas";
@@ -7,6 +7,7 @@ import { VirtualCanvas } from "../VirtualCanvas";
 // import { getColumnInfos } from "@chart-io/detection";
 import { chartActions } from "../../store";
 
+import { exportAsImage } from "./exportAsImage";
 import { generateRandomID } from "./generateRandomID";
 import { getChildrenWithProps } from "./getChildrenWithProps";
 import { getTheme } from "./getTheme";
@@ -73,21 +74,39 @@ export interface IChartBaseProps {
     theme?: "light" | "dark" | ITheme;
 }
 
-export function Chart({
-    children,
-    id,
-    animationDuration = 250,
-    width = 500,
-    height = 500,
-    plotMargin = DEFAULT_MARGIN,
-    data,
-    useCanvas,
-    onMouseOver,
-    onMouseOut,
-    onClick,
-    theme = "light" as const,
-}: IChartBaseProps) {
+export interface IChartRef {
+    /**
+     * Saves the chart as a PNG or JPG
+     * @param  {string} filename     The filename to save the chart to
+     * @param {"PNG" | "JPG"} format    The format of the export
+     * @param {number} scale            The scale of the image
+     * @return {Promise<string>}     Resolves with the PNG data
+     */
+    exportImage: (filename: string, format?: "PNG" | "JPG", scale?: number) => Promise<string>;
+}
+
+export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
+    const {
+        children,
+        id,
+        animationDuration = 250,
+        width = 500,
+        height = 500,
+        plotMargin = DEFAULT_MARGIN,
+        data,
+        useCanvas,
+        onMouseOver,
+        onMouseOut,
+        onClick,
+        theme = "light" as const,
+    } = props;
+
     const store = useStore();
+    const svgNode = useRef();
+
+    useImperativeHandle(ref, () => ({
+        exportImage: exportAsImage(svgNode.current, theme, width, height),
+    }));
 
     // Ensure that the store is updated whenever the dimensions change. This typically
     // triggers scale recalculations which should trigger cascading updates
@@ -130,13 +149,18 @@ export function Chart({
     const themeOrCustom = getTheme(theme);
 
     return (
-        <svg
-            className="chart-svg"
-            width={width}
-            height={height}
-            style={{ backgroundColor: themeOrCustom.background?.toString() }}
-        >
-            {useCanvas ? <VirtualCanvas>{childrenWithProps}</VirtualCanvas> : childrenWithProps}
-        </svg>
+        <div ref={ref} style={{ display: "inline-block" }}>
+            <svg
+                className="chart-svg"
+                width={width}
+                height={height}
+                ref={svgNode}
+                style={{ backgroundColor: themeOrCustom.background?.toString() }}
+            >
+                {useCanvas ? <VirtualCanvas>{childrenWithProps}</VirtualCanvas> : childrenWithProps}
+            </svg>
+        </div>
     );
-}
+});
+
+Chart.displayName = "Chart";
