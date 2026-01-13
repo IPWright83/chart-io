@@ -9,11 +9,12 @@ import { useEffect } from "react";
  * @param  {String} y          The key of the field used for the y position
  * @param  {d3.Scale} xScale   The d3 scale for the x axis
  * @param  {d3.Scale} yScale   The d3 scale for the y axis
+ * @param  {Object} canvas     If a canvas is provided this will supress the path creator in a React hook safe way
  */
-const usePathCreator = (layer, x, y, xScale, yScale) => {
+const usePathCreator = (layer, x, y, xScale, yScale, canvas) => {
     useEffect(() => {
         // Ensure that we've got the SVG group to render to
-        if (!layer.current) {
+        if (!layer.current || canvas) {
             return;
         }
 

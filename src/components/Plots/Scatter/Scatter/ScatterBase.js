@@ -39,8 +39,8 @@ const ScatterBase = ({
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     const fillColor = d3.color(color || theme.colors[0]);
-    const strokeColor = fillColor.darker();
     fillColor.opacity = 0.8;
+    const strokeColor = fillColor.darker();
 
     const [focused, setFocused] = useState(null);
 

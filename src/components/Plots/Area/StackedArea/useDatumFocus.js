@@ -52,7 +52,7 @@ const useDatumFocus = (dispatch, layer, x, ys, xScale, yScale, data, eventMode, 
         const { markers, horizontalDroplines, verticalDroplines } = ys.reduce((result, y, i) => {
             const sum = result.sum + datum[y];
             const cy = yScale(sum);
-            const color = colors[i];
+            const color = d3.color(colors[i]).darker();
 
             const marker = { fill: color, r1: 5, r2: 5, cx, cy };
             const horizontalDropline = {

@@ -31,11 +31,11 @@ const AreaBase = ({ x, y, y2, color, layer, canvas }) => {
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
 
     const fillColor = d3.color(color || theme.colors[0]);
-    const strokeColor = fillColor.darker();
     fillColor.opacity = 0.8;
+    const strokeColor = fillColor.darker();
 
     // Used to create our initial path
-    usePathCreator(layer, x, y, xScale, yScale);
+    usePathCreator(layer, x, y, xScale, yScale, canvas);
 
     /* On future renders we want to update the path */
     useRender(() => {
@@ -52,6 +52,7 @@ const AreaBase = ({ x, y, y2, color, layer, canvas }) => {
         if (canvas) {
             const context = canvas.getContext("2d");
             area.context(context);
+
             // Clear and then re-render the path
             context.clearRect(0, 0, width, height);
             context.beginPath();
@@ -60,6 +61,7 @@ const AreaBase = ({ x, y, y2, color, layer, canvas }) => {
             context.strokeStyle = strokeColor;
             context.fill();
             context.stroke();
+
             return;
         }
 
