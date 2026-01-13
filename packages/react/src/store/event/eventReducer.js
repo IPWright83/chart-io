@@ -16,7 +16,8 @@ const defaultState = {
  * @return {Object}         The new state
  */
 const eventReducer = (state = defaultState, action) => {
-    const payload = action.payload || {};
+    const payload = action.payload;
+
     switch (action.type) {
         case "EVENT.MOUSE_MOVE":
             // Ignore events if no MOUSE_ENTER was recieved. This prevents

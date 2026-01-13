@@ -48,9 +48,8 @@ const useDatumFocus = (dispatch, layer, x, y, xScale, yScale, data, eventMode, p
         const cx = xScale(datum[x]);
         const cy = yScale(datum[y]);
         const fill = color;
-        const markerRadius = 4;
 
-        const marker = { fill, r1: markerRadius, r2: markerRadius, cx, cy };
+        const marker = { fill, cx, cy };
         const horizontalDropline = {
             isHorizontal: true,
             color: fill,

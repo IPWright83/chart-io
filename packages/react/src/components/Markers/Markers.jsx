@@ -13,6 +13,7 @@ import { chartSelectors, eventSelectors } from "../../store";
  */
 const Markers = ({ layer }) => {
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
+    const theme = useSelector((s) => chartSelectors.theme(s));
     const markers = useSelector((s) => eventSelectors.markers(s));
 
     useEffect(() => {
@@ -30,10 +31,12 @@ const Markers = ({ layer }) => {
             .enter()
             .append("circle")
             .attr("class", "chart-it marker")
-            .style("stroke", (d) => d.stroke || "none")
+            .style("stroke", (d) => d.stroke || theme.markers.stroke)
+            .style("stroke-width", theme.markers.strokeWidth)
+            .style("filter", (d) => (theme.markers.shadow ? `drop-shadow(0px 0px 10px ${d.fill})` : undefined))
             .style("fill", (d) => d.fill || "none")
             .style("point-events", "none")
-            .attr("r", (d) => d.r1 ?? d.r2)
+            .attr("r", (d) => d.r1 ?? d.r2 ?? theme.markers.size)
             .attr("cx", (d) => d.cx)
             .attr("cy", (d) => d.cy);
 
@@ -43,7 +46,7 @@ const Markers = ({ layer }) => {
             .attr("cy", (d) => d.cy)
             .transition()
             .duration(animationDuration)
-            .attr("r", (d) => d.r2);
+            .attr("r", (d) => d.r2 ?? theme.markers.size);
     }, [animationDuration, layer, markers]);
 
     return null;
