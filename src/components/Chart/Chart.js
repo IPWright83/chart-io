@@ -175,7 +175,7 @@ Chart.propTypes = {
      * The name of the theme to use
      * @type {[type]}
      */
-    theme: PropTypes.oneOfType([PropTypes.oneOf[("light", "dark")], PropTypes.object]),
+    theme: PropTypes.oneOfType([PropTypes.oneOf(["light", "dark"]), PropTypes.object]),
 };
 
 Chart.defaultProps = {

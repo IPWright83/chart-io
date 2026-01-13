@@ -1,0 +1,69 @@
+import { Story, Canvas } from "@storybook/addon-docs/blocks";
+
+# Column Component
+
+The `<Column>` component allows us to define a column plot on our chart.
+
+<Canvas>
+    <Story id="xycharts-column--basic" />
+</Canvas>
+
+### Props
+
+Also includes all props from [XY Plot Components API](XYPlot.md)
+
+| Prop           | Type          | Default            | Note                                                                                                         |
+| -------------- | ------------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `color`        | `string`      | Derived from Theme | The colour of the data.                                                                                      |
+| `layer`\*      | `HTMLElement` |                    | This is an _internal_ field and should not need setting manually. It is populated `withSVG` or `withCanvas`. |
+| `x`\*          | `string`      | null               | The key of the field that contains the value along the x-axis.                                               |
+| `y`\*          | `string`      | null               | The key of the field that contains the value along the y-axis.                                               |
+| `onMouseOver`  | `Function`    | `() => {}`         | Event handler to call when the mouse enter a DataPoint.                                                      |
+| `onMouseOut`   | `Function`    | `() => {}`         | Event handler to call when the mouse exits a DataPoint.                                                      |
+| `onMouseClick` | `Function`    | `() => {}`         | Event handler to call when the mouse clicks a DataPoint.                                                     |
+
+#### Scale
+
+When you are using a Column chart you may need help the chart by specifying the type of scale. You can do this by configuring your `<XAxis>` like so `<XAxis ... scaleType="band" />`
+
+## Visual Styling
+
+Most of the configuration for a `<Column>` is similar to other plots. Currently the only styling property avaliable is the colour option.
+
+<Canvas>
+    <Story id="xycharts-column--color" />
+</Canvas>
+
+## Multiple Series
+
+There are three ways to go about defining multiple column plots, depending on the type of column chart you wish to produce.
+
+-   Ratio Columns
+-   Stacked Columns
+-   Grouped Columns
+
+### Ratio Charts
+
+One way of combining Column plots is to display one over the top of the other. This is useful if you want to show one value as a ratio of another.
+
+<Canvas>
+    <Story id="xycharts-column--ratio" />
+</Canvas>
+
+### Stacked Charts
+
+Another way to to combine column plots is to stack them on top of each other. To stack column plots you **must** use the `<Columns>` (plural) component and ensure that you set stacked field `<Columns ... stacked={true} />`.
+
+The chart will attempt to warn you, but you should also set the `aggregate` field on your Y Axis/Scale as otherwise the data will overflow of the top of the scale `<YAxis ... aggregate={true} />`.
+
+<Canvas>
+    <Story id="xycharts-column--stacked" />
+</Canvas>
+
+### Grouped Charts
+
+Another way to to combine column plots is to group them together in multiple series. To group column plots you **must** use the `<Columns>` (plural) component and ensure that you set grouped field `<Columns ... grouped={true} />`.
+
+<Canvas>
+    <Story id="xycharts-column--grouped" />
+</Canvas>
