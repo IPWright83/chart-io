@@ -42,6 +42,10 @@
     "@storybook/storybook-deployer": "^2.8.10",
     "@types/react": "^17.0.0",
     "babel-loader": "^8.2.2",
+    "eslint": "^8.0.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jest": "^25.2.1",
+    "eslint-plugin-react": "^7.26.1",
     "postcss": "^8.2.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
@@ -68,10 +72,20 @@
   },
   "eslintConfig": {
     "extends": [
-      "react-app",
-      "react-app/jest",
+      "eslint:recommended",
+      "plugin:react/recommended",
       "plugin:import/recommended"
     ],
+    "plugins": [
+      "jest"
+    ],
+    "ignorePatterns": [
+      "lib"
+    ],
+    "env": {
+      "jest/globals": true,
+      "browser": true
+    },
     "overrides": [
       {
         "files": [
@@ -91,31 +105,17 @@
           "requireReturnType": true
         }
       ],
-      "import/order": [
-        1,
+      "import/no-unresolved": "off",
+      "no-console": [
+        "error",
         {
-          "groups": [
-            "builtin",
-            "external",
-            "internal",
-            "parent",
-            "sibling",
-            "index"
-          ],
-          "alphabetize": {
-            "order": "asc",
-            "caseInsensitive": true
-          },
-          "pathGroups": [
-            {
-              "pattern": "^/**",
-              "group": "internal"
-            }
-          ],
-          "newlines-between": "ignore"
+          "allow": [
+            "error",
+            "warn",
+            "debug"
+          ]
         }
-      ],
-      "import/no-unresolved": "off"
+      ]
     }
   }
 }
