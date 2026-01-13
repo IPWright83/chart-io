@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { Axis } from "../Axis";
-import { YScale } from "../Scale";
+import { YScale } from "../../Scale";
 
 /**
  * Represents a YAxis component
@@ -21,7 +21,7 @@ YAxis.propTypes = {
      * The position of the axis [left, right]
      * @type {String}
      */
-    position: PropTypes.string,
+    position: PropTypes.oneOf(["left", "right"]).isRequired,
     /**
      * The keys of the fields that will share this scale
      * @type {String[]}

@@ -1,0 +1,263 @@
+<!--- Axis.stories.mdx --->
+
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+
+import { Axis } from "./Axis";
+import { XAxis } from "../XAxis";
+import { Chart } from "../../Chart";
+
+<Meta title="Components/Axis/Axis" component={Axis} />
+
+export const axisData = [
+    {
+        stringValue: "aardvark",
+        integerValue: 5,
+        doubleValue: 5.5,
+        negativeDoubleValue: -5.5,
+        positiveAndNegativeDoubleValue: 5,
+        dateValue: new Date("2021-02-15"),
+        dateTimeValue: new Date("2021-05-15T09:59:54.378Z"),
+        boolValue: true,
+    },
+    {
+        stringValue: "badger",
+        integerValue: 13,
+        doubleValue: 96.3,
+        negativeDoubleValue: -9.15,
+        positiveAndNegativeDoubleValue: -12.5,
+        dateValue: new Date("2021-02-16"),
+        dateTimeValue: new Date("2021-05-16T09:59:54.378Z"),
+        boolValue: false,
+    },
+    {
+        stringValue: "cat",
+        integerValue: 9,
+        doubleValue: 27.9,
+        negativeDoubleValue: -11.2,
+        positiveAndNegativeDoubleValue: 8.009,
+        dateValue: new Date("2021-02-17T00:00:00.000Z"),
+        dateTimeValue: new Date("2021-05-17T09:59:54.378Z"),
+        boolValue: true,
+    },
+    {
+        stringValue: "dog",
+        integerValue: 14,
+        doubleValue: 54.1245,
+        negativeDoubleValue: -19.22,
+        positiveAndNegativeDoubleValue: -11,
+        dateValue: new Date("2021-02-18"),
+        dateTimeValue: new Date("2021-05-18T09:59:54.378Z"),
+        boolValue: false,
+    },
+    {
+        stringValue: "elephant",
+        integerValue: 18,
+        doubleValue: 31.646,
+        negativeDoubleValue: -22.3333,
+        positiveAndNegativeDoubleValue: 18,
+        dateValue: new Date("2021-02-19"),
+        dateTimeValue: new Date("2021-05-19T09:59:54.378Z"),
+        boolValue: true,
+    },
+    {
+        stringValue: null,
+        integerValue: null,
+        doubleValue: null,
+        negativeDoubleValue: null,
+        positiveAndNegativeDoubleValue: null,
+        dateValue: null,
+        dateTimeValue: null,
+        boolValue: null,
+    },
+];
+
+export const AxisTemplate = (args) => (
+    <Chart {...args} data={axisData}>
+        <XAxis
+            fields={args.fields}
+            tickSizeInner={args.tickSizeInner}
+            tickSizeOuter={args.tickSizeOuter}
+            tickPadding={args.tickPadding}
+        />
+    </Chart>
+);
+
+# Axis Component
+
+This `<Axis>` component allows you to define an Axis on a chart. Underneath this automatically creates a `d3.Scale` too, which is used by most plots to correctly translate data to on screen co-ordinates. The component takes an array of fields that you wish to display along that axis, for example:
+
+```
+<YAxis fields={["Profit", "Loss"]} />
+```
+
+Typically you should use the `<XAxis>` or `<YAxis>` component depending on the orientation, unless you want more fine grained control in which case you can use an `<Axis>`. Each of these components will attempt to automatically determine the best axis & scale type for the data.
+
+### Props
+
+| Prop            | Type            | Default | Note                                                                                                                                                                      |
+| --------------- | --------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `position`      | `string`        |         | The position of the axis. One of `top`, `bottom`, `left` or `right`. This will use the appropriate [d3.axis](https://github.com/d3/d3-axis#axisTop) orientation function. |
+| `fields`        | `Array<string>` |         | The set of fields that this axis represents. These should correspond to the fields being displayed on this Axis within the data.                                          |
+| `tickSizeInner` | `number`        | 6       | See https://github.com/d3/d3-axis#axis_tickSizeInner.                                                                                                                     |
+| `tickSizeOuter` | `number`        | 6       | See https://github.com/d3/d3-axis#axis_tickSizeOuter.                                                                                                                     |
+| `tickPadding`   | `number`        | 3       | See https://github.com/d3/d3-axis#axis_tickPadding.                                                                                                                       |
+
+<br />
+
+## Discrete Scales
+
+Discrete scales are best suited for `<Bar>` or `<Column>` plots but can also be used for `<Scatter>` plots too and are the usual scale for the following types and will produce axis like the following examples:
+
+-   String
+-   Boolean
+
+<Story
+    name="String Axis"
+    args={{
+        fields: ["stringValue"],
+        height: 100,
+        width: 800,
+        tickSizeInner: 6,
+        tickSizeOuter: 6,
+        tickPadding: 3,
+    }}
+>
+    {AxisTemplate.bind({})}
+</Story>
+
+<Story
+    name="Boolean Axis"
+    args={{
+        fields: ["boolValue"],
+        height: 100,
+        width: 800,
+        tickSizeInner: 6,
+        tickSizeOuter: 6,
+        tickPadding: 3,
+    }}
+>
+    {AxisTemplate.bind({})}
+</Story>
+
+## Numerical Axis
+
+Numerical continuous scales are best for plotting `<Area>`, `<Line>` and `<Scatter` plots, although are freqeuently the scale of choice for the `<YAxis>` on a `<Column>` chart for example. Here are some examples showing different data types and ranges:
+
+-   Integer
+-   Double
+
+<Story
+    name="Integer Axis"
+    args={{
+        fields: ["integerValue"],
+        height: 100,
+        width: 800,
+        tickSizeInner: 6,
+        tickSizeOuter: 6,
+        tickPadding: 3,
+    }}
+>
+    {AxisTemplate.bind({})}
+</Story>
+
+<Story
+    name="Double Axis"
+    args={{
+        fields: ["doubleValue"],
+        height: 100,
+        width: 800,
+        tickSizeInner: 6,
+        tickSizeOuter: 6,
+        tickPadding: 3,
+    }}
+>
+    {AxisTemplate.bind({})}
+</Story>
+
+<Story
+    name="Double Axis (with exclusive negative values)"
+    args={{
+        fields: ["negativeDoubleValue"],
+        height: 100,
+        width: 800,
+        tickSizeInner: 6,
+        tickSizeOuter: 6,
+        tickPadding: 3,
+    }}
+>
+    {AxisTemplate.bind({})}
+</Story>
+
+<Story
+    name="Double Axis (with mixed positive and negative values)"
+    args={{
+        fields: ["positiveAndNegativeDoubleValue"],
+        height: 100,
+        width: 800,
+        tickSizeInner: 6,
+        tickSizeOuter: 6,
+        tickPadding: 3,
+    }}
+>
+    {AxisTemplate.bind({})}
+</Story>
+
+### Aggregate
+
+Sometimes when using multiple fields, rather than sharing an Axis, you instead want to aggregate those values together. This is often the case if you're stacking your data. To do this you can just set the `aggregate` property to true. If you omit this value then plots will attempt to warn you if data is going to be cropped.
+
+```
+<YAxis fields={["Sales_Revenue", "Consulting_Revenue"]} aggregate />
+```
+
+### ScaleType
+
+There are occasions where you may want to speicfy the type of d3.Scale that is used underneath. To do this you can specify the `scaleType` explicitly. Currently you can choose one of the following options:
+
+-   power
+-   linear
+-   time
+-   log
+-   band
+-   point
+
+A common example when you may wish to do this is when if you wish to display numerical data on a `<Column>` or `<Bar>` plot. These plots require a **band** scale but a linear scale would be returned by default.
+
+```
+<XAxis fields={["dayOfWeek"]} scaleType="band" />
+```
+
+## Time Axis
+
+Time scales are best for plotting `<Area>`, `<Line>` and showing data across time. The data types supported are:
+
+-   Date
+-   DateTime
+
+<Story
+    name="Date Axis"
+    args={{
+        fields: ["dateValue"],
+        height: 100,
+        width: 800,
+        tickSizeInner: 6,
+        tickSizeOuter: 6,
+        tickPadding: 3,
+    }}
+>
+    {AxisTemplate.bind({})}
+</Story>
+
+<Story
+    name="DateTime Axis"
+    args={{
+        fields: ["dateTimeValue"],
+        height: 100,
+        width: 800,
+        tickSizeInner: 6,
+        tickSizeOuter: 6,
+        tickPadding: 3,
+    }}
+>
+    {AxisTemplate.bind({})}
+</Story>

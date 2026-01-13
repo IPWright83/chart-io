@@ -6,14 +6,15 @@ import { useSelector } from "react-redux";
 
 import { getD3Axis } from "./getD3Axis";
 import { getTransform } from "./getTransform";
+import { Gridlines } from "./Gridlines";
 
-import { chartSelectors } from "../../store";
+import { chartSelectors } from "../../../store";
 
 /**
  * Represents an Axis component
- * @return {ReactDOMComponent}  The Axis component
+ * @return {ReactElement}  The Axis component
  */
-const Axis = ({ position, fields, tickSizeInner, tickSizeOuter, tickPadding }) => {
+const Axis = ({ position, fields, tickSizeInner, tickSizeOuter, tickPadding, showGridlines = true }) => {
     if (fields.length === 0) {
         throw new Error(
             "Unable to render an Axis without a field. Ensure that you have provided at least one field in the 'fields' prop."
@@ -46,14 +47,29 @@ const Axis = ({ position, fields, tickSizeInner, tickSizeOuter, tickPadding }) =
             // Render the axis
             selection.call(d3Axis).attr("color", theme.foreground).style("user-select", "none");
         }
-    }, [theme.foreground, position, axis, scale, animationDuration, tickPadding, tickSizeInner, tickSizeOuter]);
+    }, [
+        theme.foreground,
+        position,
+        axis,
+        scale,
+        animationDuration,
+        tickPadding,
+        tickSizeInner,
+        tickSizeOuter,
+        showGridlines,
+    ]);
 
-    return <g ref={axis} transform={transform} />;
+    return (
+        <g transform={transform}>
+            <Gridlines position={position} scale={scale} />
+            <g ref={axis} />
+        </g>
+    );
 };
 
 Axis.propTypes = {
     /** @type {String} The position of the axis [top, bottom, left, right] */
-    position: PropTypes.string.isRequired,
+    position: PropTypes.oneOf(["top", "bottom", "left", "right"]),
     /** @type {String[]} The keys of the fields that will share this scale */
     fields: PropTypes.arrayOf(PropTypes.string).isRequired,
     /** @type {Number} https://github.com/d3/d3-axis#axis_tickSizeInner */
