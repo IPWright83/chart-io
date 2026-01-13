@@ -29,7 +29,7 @@ const Background = ({ layer }) => {
                 dispatch(eventActions.mouseMove(e));
             },
             25,
-            { leading: true }
+            { leading: true },
         );
 
         // prettier-ignore
@@ -45,7 +45,7 @@ const Background = ({ layer }) => {
     }, [dispatch, layer, width, height, margin]);
 
     const transform = `translate(${margin.left || 0}, ${margin.top || 0})`;
-    return <rect transform={transform} />;
+    return <rect className="chart-it background" transform={transform} />;
 };
 
 Background.propTypes = {
