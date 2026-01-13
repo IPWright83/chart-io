@@ -1,5 +1,11 @@
 # @chart-it/react-d3
 
+## 0.27.0
+
+### Minor Changes
+
+- 491d050: Added ZoomBrush support
+
 ## 0.26.0
 
 ### Minor Changes
