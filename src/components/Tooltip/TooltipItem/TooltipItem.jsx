@@ -3,32 +3,17 @@ import PropTypes from "prop-types";
 
 import { getShape } from "./getShape";
 
+import "./TooltipItem.css";
+
 const TooltipItem = ({ name, value, seriesType, fill }) => {
     const Shape = getShape(seriesType);
 
-    const styles = {
-        container: {
-            display: "flex",
-            flexDirection: "row",
-            width: "100%",
-        },
-        values: {
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            width: "100%",
-        },
-        name: {
-            marginRight: 15,
-        },
-    };
-
     return (
-        <div style={styles.container}>
+        <div className="chart-it tooltip-item">
             <Shape fill={fill} />
-            <div style={styles.values}>
-                <span style={styles.name}>{name}:</span>
-                <span>{value}</span>
+            <div className="chart-it tooltip-values">
+                <span className="chart-it tooltip-series-name">{name}:</span>
+                <span className="chart-it tooltip-series-value">{value}</span>
             </div>
         </div>
     );
