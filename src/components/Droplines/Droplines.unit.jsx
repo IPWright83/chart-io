@@ -1,6 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
-import TestRenderer from "react-test-renderer";
+
 import { render } from "@testing-library/react";
 
 import { Droplines } from "./Droplines";
@@ -25,7 +25,7 @@ describe("Droplines", () => {
         render(
             <Provider store={store}>
                 <Droplines layer={layer} />
-            </Provider>
+            </Provider>,
         );
 
         expect(layer.current).toMatchSnapshot();
@@ -34,42 +34,37 @@ describe("Droplines", () => {
     it("should render just vertical lines correctly", () => {
         const layer = { current: document.createElement("custom") };
 
-        TestRenderer.act(() => {
-            TestRenderer.create(
-                <Provider store={store}>
-                    <Droplines layer={layer} showHorizontal={false} />
-                </Provider>
-            ).toJSON();
-        });
+        render(
+            <Provider store={store}>
+                <Droplines layer={layer} showHorizontal={false} />
+            </Provider>,
+        );
 
-        expect(layer.current).toMatchSnapshot();
+        expect(layer).toMatchSnapshot();
     });
 
     it("should render just horizontal lines correctly", () => {
         const layer = { current: document.createElement("custom") };
 
-        TestRenderer.act(() => {
-            TestRenderer.create(
-                <Provider store={store}>
-                    <Droplines layer={layer} showVertical={false} />
-                </Provider>
-            ).toJSON();
-        });
+        render(
+            <Provider store={store}>
+                <Droplines layer={layer} showVertical={false} />
+            </Provider>,
+        );
 
-        expect(layer.current).toMatchSnapshot();
+        expect(layer).toMatchSnapshot();
     });
 
     it("should skip if there is no layer avaliable", () => {
         const layer = { current: null };
-        TestRenderer.act(() => {
-            TestRenderer.create(
-                <Provider store={store}>
-                    <Droplines layer={layer} />
-                </Provider>
-            ).toJSON();
-        });
+
+        render(
+            <Provider store={store}>
+                <Droplines layer={layer} />
+            </Provider>,
+        );
 
         // Should be empty
-        expect(layer.current).toMatchSnapshot();
+        expect(layer).toMatchSnapshot();
     });
 });

@@ -44,7 +44,7 @@ TooltipItem.propTypes = {
      * The value for the datum for the series
      * @type {String|Number|Boolean|Date}
      */
-    value: PropTypes.oneOf([PropTypes.string, PropTypes.number, PropTypes.boolean, PropTypes.Date]),
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.instanceOf(Date)]),
     /**
      * The type of the series being displayed
      * @type {String}

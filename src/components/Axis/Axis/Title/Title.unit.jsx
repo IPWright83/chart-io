@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 
-import TestRenderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 
 import { Title } from "./Title";
 import { getTransform } from "./getTransform";
@@ -61,61 +61,45 @@ describe("Title", () => {
     describe("component", () => {
         describe("with title set", () => {
             it("renders horizontal title", async () => {
-                let root;
+                const { asFragment } = render(
+                    <Provider store={store}>
+                        <Title position="bottom" title="horizontal" fields={["a", "b"]} />
+                    </Provider>,
+                );
 
-                TestRenderer.act(() => {
-                    root = TestRenderer.create(
-                        <Provider store={store}>
-                            <Title position="bottom" title="horizontal" fields={["a", "b"]} />
-                        </Provider>
-                    ).toJSON();
-                });
-
-                expect(root).toMatchSnapshot();
+                expect(asFragment()).toMatchSnapshot();
             });
 
             it("renders vertical title", async () => {
-                let root;
+                const { asFragment } = render(
+                    <Provider store={store}>
+                        <Title position="left" title="vertical" fields={["a", "b"]} />
+                    </Provider>,
+                );
 
-                TestRenderer.act(() => {
-                    root = TestRenderer.create(
-                        <Provider store={store}>
-                            <Title position="left" title="vertical" fields={["a", "b"]} />
-                        </Provider>
-                    ).toJSON();
-                });
-
-                expect(root).toMatchSnapshot();
+                expect(asFragment()).toMatchSnapshot();
             });
         });
 
         describe("with no explicit title", () => {
             it("renders fields as horizontal title", async () => {
-                let root;
+                const { asFragment } = render(
+                    <Provider store={store}>
+                        <Title position="bottom" fields={["a", "b"]} />
+                    </Provider>,
+                );
 
-                TestRenderer.act(() => {
-                    root = TestRenderer.create(
-                        <Provider store={store}>
-                            <Title position="bottom" fields={["a", "b"]} />
-                        </Provider>
-                    ).toJSON();
-                });
-
-                expect(root).toMatchSnapshot();
+                expect(asFragment()).toMatchSnapshot();
             });
 
             it("renders fields as vertical title", async () => {
-                let root;
+                const { asFragment } = render(
+                    <Provider store={store}>
+                        <Title position="left" fields={["a", "b"]} />
+                    </Provider>,
+                );
 
-                TestRenderer.act(() => {
-                    root = TestRenderer.create(
-                        <Provider store={store}>
-                            <Title position="left" fields={["a", "b"]} />
-                        </Provider>
-                    ).toJSON();
-                });
-
-                expect(root).toMatchSnapshot();
+                expect(asFragment()).toMatchSnapshot();
             });
         });
     });
