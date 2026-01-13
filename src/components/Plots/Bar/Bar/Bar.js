@@ -1,3 +1,5 @@
+import "./Bar.css";
+
 import PropTypes from "prop-types";
 import React from "react";
 
@@ -5,8 +7,8 @@ import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
 import { BarBase } from "./BarBase";
 
-const CanvasBar = withCanvas(withXYPlot(BarBase));
-const SVGBar = withSVG(withXYPlot(BarBase));
+const CanvasBar = withCanvas(withXYPlot(BarBase), "plot bar");
+const SVGBar = withSVG(withXYPlot(BarBase), "plot bar");
 
 /**
  * Represents a Bar plot
