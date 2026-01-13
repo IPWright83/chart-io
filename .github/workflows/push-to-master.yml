@@ -61,7 +61,7 @@ jobs:
         with:
           node-version: 16
       - name: "Automated Version Bump"
-        uses: "phips28/gh-action-bump-version@master"
+        uses: "IPWright83/gh-action-bump-version@master"
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
         with:
