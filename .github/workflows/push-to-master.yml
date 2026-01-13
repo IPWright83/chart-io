@@ -127,8 +127,8 @@ jobs:
     steps:
       - name: Log
         run: echo "debug_changesets running"
-      - run: echo ${{ changesets_version.outputs.hasChangesets }}
-      - run: echo ${{ changesets_version.outputs.changes }}
+      - run: echo ${{ needs.changesets_version.outputs.hasChangesets }}
+      - run: echo ${{ needs.changesets_version.outputs.changes }}
 
   debug_publish:
     needs: changesets_version
@@ -137,8 +137,8 @@ jobs:
     steps:
       - name: Log
         run: echo "debug_publish running"
-      - run: echo ${{ changesets_version.outputs.published }}
-
+      - run: echo ${{ needs.changesets_version.outputs.published }}
+      
   deploy_storybook:
     needs: changesets_version
     if: "needs.changesets_version.outputs.hasChangesets == false"
