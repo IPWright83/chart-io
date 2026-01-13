@@ -105,6 +105,8 @@ export function VirtualCanvas({ children }: IVirtualCanvasProps) {
     const style = {
         position: "absolute" as const,
         opacity: 0,
+        left: 0,
+        top: 0,
         zindex: 10000,
     };
 

@@ -51,6 +51,8 @@ const withCanvas = <P extends object>(WrappedComponent: React.ComponentType<P>, 
 const styles = {
     canvas: {
         position: "absolute" as const,
+        left: 0,
+        top: 0,
     },
     foreignObject: {
         pointerEvents: "none" as const,
