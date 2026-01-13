@@ -1,13 +1,12 @@
-import {
-    Types,
-    getColumnInfos,
-    getDataCardinality,
-    getDataPointCount,
-    getMaxStringLength,
-    getNullCount,
-} from "../src";
+import { Types } from "../Types";
 
-describe("lib/detection", () => {
+import { getColumnInfos } from "./getColumnInfos";
+import { getDataCardinality } from "./getDataCardinality";
+import { getDataPointCount } from "./getDataPointCount";
+import { getMaxStringLength } from "./getMaxStringLength";
+import { getNullCount } from "./getNullCount";
+
+describe("/detection/getInfos", () => {
     it("getDataPointCount returns correct count", () => {
         expect(getDataPointCount([])).toBe(0);
         expect(getDataPointCount([1, 2, 3])).toBe(3);
