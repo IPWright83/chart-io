@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Title component with no explicit title renders fields as horizontal title 1`] = `
+<DocumentFragment>
+  <svg />
+</DocumentFragment>
+`;
+
+exports[`Title component with no explicit title renders fields as vertical title 1`] = `
+<DocumentFragment>
+  <svg />
+</DocumentFragment>
+`;
+
+exports[`Title component with title set renders horizontal title 1`] = `
+<DocumentFragment>
+  <svg>
+    <text
+      class="chart-it axis-title"
+      style="text-anchor: middle; font-size: 14px; user-select: none;"
+      transform="translate(470, 495)"
+    >
+      horizontal
+    </text>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`Title component with title set renders vertical title 1`] = `
+<DocumentFragment>
+  <svg>
+    <text
+      class="chart-it axis-title"
+      style="text-anchor: middle; font-size: 14px; user-select: none;"
+      transform="translate(0, 230)rotate(270)"
+    >
+      vertical
+    </text>
+  </svg>
+</DocumentFragment>
+`;
