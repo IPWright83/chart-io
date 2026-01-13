@@ -11,6 +11,7 @@ import { interpolateMultiPath, isNullOrUndefined } from "../../../../utils";
 
 import { useDatumFocus } from "./useDatumFocus";
 import { usePathCreator } from "./usePathCreator";
+import { useTooltip } from "./useTooltip";
 
 /**
  * Represents an Area Plot on an SVG Element
@@ -85,6 +86,7 @@ const AreaBase = ({ x, y, y2, color, interactive, layer, canvas }) => {
     // If possible respond to global mouse events for tooltips etc
     if (interactive) {
         useDatumFocus(dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, strokeColor.toString());
+        useTooltip(dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, strokeColor.toString());
     }
 
     return null;

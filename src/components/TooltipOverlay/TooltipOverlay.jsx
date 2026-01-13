@@ -16,13 +16,13 @@ const TooltipOverlay = ({ offset = 20 }) => {
     const showTooltip = useSelector((s) => eventSelectors.tooltip.show(s));
     const borderColor = useSelector((s) => eventSelectors.tooltip.color(s));
     const tooltipItems = useSelector((s) => eventSelectors.tooltip.items(s));
-    const mouseEvent = useSelector((s) => eventSelectors.tooltip.event(s));
+    const position = useSelector((s) => eventSelectors.tooltip.position(s));
 
     if (!showTooltip) {
         return null;
     }
 
-    const positionStyle = getTooltipPosition(mouseEvent, width, height, offset);
+    const positionStyle = getTooltipPosition(position, width, height, offset);
 
     const style = {
         width: "100%",

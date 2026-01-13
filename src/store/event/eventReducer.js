@@ -78,6 +78,11 @@ const eventReducer = (state = defaultState, action) => {
             };
 
         case "EVENT.ADD_TOOLTIP_ITEM":
+            // Don't add duplicate items (e.g. the x for multiple series)
+            if (state?.tooltip?.tooltipItems?.map((item) => item.name).includes(payload.name)) {
+                return state;
+            }
+
             return {
                 ...state,
                 tooltip: {
@@ -100,7 +105,7 @@ const eventReducer = (state = defaultState, action) => {
                 ...state,
                 tooltip: {
                     ...state.tooltip,
-                    event: payload,
+                    position: payload,
                 },
             };
 

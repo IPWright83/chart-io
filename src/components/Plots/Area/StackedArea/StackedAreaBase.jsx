@@ -9,6 +9,7 @@ import { eventDefaultProps, eventPropTypes, plotsDefaultProps, plotsPropTypes } 
 import { ensureNoScaleOverflow } from "../../../../utils";
 
 import { useDatumFocus } from "./useDatumFocus";
+import { useTooltip } from "./useTooltip";
 import { useMultiPathCreator } from "./useMultiPathCreator";
 
 /**
@@ -97,6 +98,7 @@ const StackedAreaBase = ({ x, ys, colors, interactive, layer, canvas }) => {
     // If possible respond to global mouse events for tooltips etc
     if (interactive) {
         useDatumFocus(dispatch, layer, x, ys, xScale, yScale, sortedData, eventMode, position, colors);
+        useTooltip(dispatch, layer, x, ys, xScale, yScale, sortedData, eventMode, position, colors);
     }
 
     return null;

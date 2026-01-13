@@ -7,6 +7,7 @@ import { plotDefaultProps, plotPropTypes } from "../../../../../types";
 import { interpolateMultiPath, isNullOrUndefined } from "../../../../../utils";
 
 import { useDatumFocus } from "../useDatumFocus";
+import { useTooltip } from "../useTooltip";
 import { usePathCreator } from "./usePathCreator";
 
 /**
@@ -58,6 +59,7 @@ const SVGLine = ({ x, y, color, interactive, layer, canvas }) => {
     // If possible respond to global mouse events for tooltips etc
     if (interactive) {
         useDatumFocus(dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
+        useTooltip(dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
     }
 
     return null;

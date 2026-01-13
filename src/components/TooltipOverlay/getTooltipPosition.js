@@ -7,8 +7,7 @@
  * @return {Object}             The tooltip position style object
  */
 export const getTooltipPosition = (mouseEvent, width, height, offset) => {
-    const x = mouseEvent.offsetX;
-    const y = mouseEvent.offsetY;
+    const { x, y } = mouseEvent;
 
     if (!mouseEvent) {
         return { x: 0, y: 0 };

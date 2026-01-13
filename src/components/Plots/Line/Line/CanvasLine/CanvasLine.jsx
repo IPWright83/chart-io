@@ -8,6 +8,7 @@ import { chartSelectors, eventSelectors } from "../../../../../store";
 import { plotDefaultProps, plotPropTypes } from "../../../../../types";
 import { isNullOrUndefined } from "../../../../../utils";
 import { useDatumFocus } from "../useDatumFocus";
+import { useTooltip } from "../useTooltip";
 
 /**
  * Represents a Line Plot on a Canvas element
@@ -64,6 +65,7 @@ const CanvasLine = ({ x, y, color, layer, canvas }) => {
 
     // If possible respond to global mouse events for tooltips etc
     useDatumFocus(dispatch, gRef, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
+    useTooltip(dispatch, gRef, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
 
     return <g ref={gRef} />;
 };

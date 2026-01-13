@@ -38,17 +38,17 @@ const useTooltip = ({ dispatch, x }) => {
             fill: colors[index],
         }));
 
-        yTooltipItems.forEach(y => {
+        yTooltipItems.forEach((y) => {
             dispatch(eventActions.addTooltipItem(y));
         });
 
-        dispatch(eventActions.setPositionEvent(positionEvent));
+        dispatch(eventActions.setPositionEvent(positionEvent.offsetX, positionEvent.offsetY));
 
         return () => {
             dispatch(eventActions.setTooltipBorderColor(undefined));
             dispatch(eventActions.removeTooltipItem(tooltipItemX));
-            
-            yTooltipItems.forEach(y => {
+
+            yTooltipItems.forEach((y) => {
                 dispatch(eventActions.removeTooltipItem(y));
             });
         };
