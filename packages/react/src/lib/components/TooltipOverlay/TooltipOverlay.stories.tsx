@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 
 import { themes } from "../../themes";
 import { TooltipOverlay } from "./";
+import { TooltipItem } from "./";
 
 import { createMockStorybookStore } from "../../testUtils";
 
@@ -50,7 +51,11 @@ const TooltipOverlayTemplate = (args) => {
     return (
         <Provider store={store}>
             <svg width="400px">
-                <TooltipOverlay borderColor={args.borderColor} />
+                <TooltipOverlay
+                    borderColor={args.borderColor}
+                    tooltipComponent={args.tooltipComponent}
+                    tooltipItemComponent={args.tooltipItemComponent}
+                />
             </svg>
         </Provider>
     );
@@ -58,17 +63,53 @@ const TooltipOverlayTemplate = (args) => {
 
 export const Default = TooltipOverlayTemplate.bind({});
 Default.storyName = "TooltipOverlay";
-Default.args = {
-    items: [
-        {
-            name: "Line Series with a very long title that should be truncated at some point",
-            icon: "line",
-            fill: "steelblue",
-            value: 155000,
-        },
-        { name: "Scatter Series", icon: "circle", fill: "steelblue", value: "foobar" },
-        { name: "Bar Series", icon: "square", fill: "steelblue", value: true },
-        { name: "Column Series", icon: "square", fill: "steelblue", value: 1500 },
-        { name: "Area Series", icon: "square", fill: "steelblue", value: 1500 },
-    ],
+Default.args = {};
+
+export const CustomTooltip = TooltipOverlayTemplate.bind({});
+CustomTooltip.storyName = "Custom Tooltip";
+CustomTooltip.args = {
+    tooltipComponent: ({ items }) => {
+        return (
+            <div
+                style={{
+                    opacity: 0.8,
+                    border: "1px solid black",
+                    borderRadius: 5,
+                    padding: 5,
+                    fontSize: 18,
+                    lineHeight: 1.2,
+                    backgroundColor: "#EEE",
+                    boxShadow: "rgba(0, 0, 0, 0.3) 0 2px 10px",
+                }}
+            >
+                <div>This is a Custom Tooltip</div>
+                {items.map((item) => (
+                    <TooltipItem key={`${item.name}`} {...item} />
+                ))}
+            </div>
+        );
+    },
+};
+
+export const CustomTooltipItems = TooltipOverlayTemplate.bind({});
+CustomTooltipItems.storyName = "Custom Tooltip Items";
+CustomTooltipItems.args = {
+    tooltipItemComponent: ({ name, value, icon, fill }) => {
+        return (
+            <div
+                style={{
+                    width: "100%",
+                    flexGrow: 1,
+                    flexShrink: 1,
+                    fontSize: 12,
+                    display: "flex",
+                    whiteSpace: "nowrap" as const,
+                    overflow: "hidden" as const,
+                    textOverflow: "ellipsis" as const,
+                }}
+            >
+                {`${value}`}
+            </div>
+        );
+    },
 };
