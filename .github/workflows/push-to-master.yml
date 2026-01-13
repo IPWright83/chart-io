@@ -82,7 +82,7 @@ jobs:
     needs: changesets_version
     # This will only run if there were no changesets.
     ## the next triggered build from the push will then pass this step and continue with the release
-    if: always() && needs.changesets_version.version.outputs.changes == 'false'
+    if: always() && needs.changesets_version.steps.version.outputs.changes == 'false'
     #if: always() && needs.version.outputs.changes == 'false'
     steps:
       - name: Checkout
