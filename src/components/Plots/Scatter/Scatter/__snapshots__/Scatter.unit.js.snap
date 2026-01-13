@@ -1,5 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Scatter using Canvas should handle event mouseexit correctly: REMOVE_DROPLINE action 1`] = `
+Array [
+  Object {
+    "payload": FakeMouseEvent {
+      "isTrusted": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "pageX": 95,
+      "pageY": 95,
+      "x": 0,
+      "y": 0,
+    },
+    "type": "EVENT.MOUSE_MOVE",
+  },
+]
+`;
+
+exports[`Scatter using Canvas should handle event mouseexit correctly: REMOVE_DROPLINE action 2`] = `
+Array [
+  Object {
+    "payload": Object {
+      "cx": 25,
+      "cy": 25,
+      "r1": 5,
+      "r2": 9,
+      "stroke": "rgba(153, 193, 220, 0.7)",
+    },
+    "type": "EVENT.REMOVE_MARKER",
+  },
+]
+`;
+
+exports[`Scatter using Canvas should handle event mouseexit correctly: REMOVE_MARKER action 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "x": 0,
+      "y": 0,
+    },
+    "type": "EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT",
+  },
+]
+`;
+
 exports[`Scatter using Canvas should handle event mouseover correctly: ADD_DROPLINE action 1`] = `
 Array [
   Object {

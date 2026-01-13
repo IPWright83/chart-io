@@ -4,9 +4,11 @@ import { Provider } from "react-redux";
 import { render, fireEvent } from "@testing-library/react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 
-import { VirtualCanvas } from "../../../VirtualCanvas";
+import { VirtualCanvas, VIRTUAL_CANVAS_DEBOUNCE } from "../../../VirtualCanvas";
 import { themes } from "../../../../themes";
 import { Scatter } from "./Scatter";
+
+import { MOUSE_MOVE_THROTTLE } from "../../../../hoc/canvas/virtual/addEventHandlers";
 
 expect.extend({ toMatchImageSnapshot });
 
@@ -175,7 +177,7 @@ describe("Scatter", () => {
                 </Provider>,
             );
 
-            await wait();
+            await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
 
             const canvasBuffer = getBuffer(container.querySelector(".canvas"));
             expect(canvasBuffer).toMatchImageSnapshot();
@@ -196,7 +198,7 @@ describe("Scatter", () => {
                     </Provider>,
                 );
 
-                await wait();
+                await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
 
                 const canvasBuffer = getBuffer(container.querySelector(".canvas"));
                 expect(canvasBuffer).toMatchImageSnapshot();
@@ -213,7 +215,7 @@ describe("Scatter", () => {
                     </Provider>,
                 );
 
-                await wait();
+                await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
 
                 const canvasBuffer = getBuffer(container.querySelector(".canvas"));
                 expect(canvasBuffer).toMatchImageSnapshot();
@@ -235,7 +237,7 @@ describe("Scatter", () => {
                     </Provider>,
                 );
 
-                await wait();
+                await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
 
                 fireEvent(
                     container.querySelector(".virtual-canvas"),
@@ -274,7 +276,7 @@ describe("Scatter", () => {
                     </Provider>,
                 );
 
-                await wait();
+                await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
 
                 fireEvent(
                     container.querySelector(".virtual-canvas"),
@@ -284,6 +286,9 @@ describe("Scatter", () => {
                         pageY: 25,
                     }),
                 );
+
+                await wait(MOUSE_MOVE_THROTTLE * 2);
+
                 fireEvent(
                     container.querySelector(".virtual-canvas"),
                     new FakeMouseEvent("mousemove", {
@@ -322,7 +327,7 @@ describe("Scatter", () => {
                 );
 
                 // Need to wait for longer than the debounce timeout in VirtualCanvas
-                await wait();
+                await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
 
                 fireEvent(
                     container.querySelector(".virtual-canvas"),
