@@ -64,7 +64,10 @@ jobs:
       - name: pnpm Install
         run: pnpm install
       - name: test3
+        id: test3
         run: echo ::set-output name=changes::$(pnpm bump 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
+      - name: echo test3
+        run: echo "The value is ${{ steps.test3.outputs.changes }}"
       - name: Version command
         run: echo ::set-output name=changes::$(pnpm bump 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
       - name: Push changes
