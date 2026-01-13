@@ -4,7 +4,7 @@ import { argTypes } from "../../../../stories/argTypes";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
 import { Area } from "./Area";
 import { Areas } from "./Areas";
-import { Chart } from "../../Chart";
+import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
 
 import mdx from "./Area.mdx";
@@ -18,19 +18,8 @@ export default {
         docs: {
             page: mdx,
             transformSource: (src) => {
-                src = src.replace(/No Display Name/, "Chart");
-                src = src.replace(/No Display Name/, "Chart");
                 src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
-                src = src.replace(/leftMargin={.*?}/gs, "\r");
-                src = src.replace(/rightMargin={.*?}/gs, "");
-                src = src.replace(/topMargin={.*?}/gs, "");
-                src = src.replace(/bottomMargin={.*?}/gs, "");
-                src = src.replace(/x=".*?"/gs, "");
-                src = src.replace(/x2=".*?"/gs, "");
-                src = src.replace(/x3=".*?"/gs, "");
-                src = src.replace(/y=".*?"/gs, "");
-                src = src.replace(/y2=".*?"/gs, "");
-                src = src.replace(/y3=".*?"/gs, "");
+                src = src.replaceAll(/undefined,?/g, "");
                 src = src.replace(/^\s*\n/gm, "");
                 return src;
             },
@@ -51,41 +40,45 @@ export default {
 };
 
 const AreaTemplate = (args) => (
-    <Chart
+    <XYChart
         data={sales_records_dataset}
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
-        ys={[args.y, args.y2, args.y3]}
-        xs={[args.x]}
-        {...args}
+        height={args.height}
+        width={args.width}
+        animationDuration={args.animationDuration}
     >
-        <Area x={args.x} y={args.y} y2={args.y2} color={args.color} animationDuration={args.animationDuration} />
+        <Area x={args.x} y={args.y} y2={args.y2} color={args.color} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
-    </Chart>
+    </XYChart>
 );
 
 const AreasTemplate = (args) => (
-    <Chart
+    <XYChart
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         data={sales_records_dataset}
-        {...args}
+        height={args.height}
+        width={args.width}
+        animationDuration={args.animationDuration}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
-        <Areas x={args.x} ys={[args.y, args.y2, args.y3]} animationDuration={args.animationDuration} />
-    </Chart>
+        <Areas x={args.x} ys={[args.y, args.y2, args.y3]} />
+    </XYChart>
 );
 
 const StackedAreasTemplate = (args) => (
-    <Chart
+    <XYChart
         margin={{ left: args.leftMargin, right: args.rightMargin, top: args.topMargin, bottom: args.bottomMargin }}
         data={sales_records_dataset}
-        {...args}
+        height={args.height}
+        width={args.width}
+        animationDuration={args.animationDuration}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} aggregate={true} />
         <XAxis fields={[args.x]} />
-        <Areas x={args.x} ys={[args.y, args.y2, args.y3]} stacked={true} animationDuration={args.animationDuration} />
-    </Chart>
+        <Areas x={args.x} ys={[args.y, args.y2, args.y3]} stacked={true} />
+    </XYChart>
 );
 
 export const Basic = AreaTemplate.bind({});

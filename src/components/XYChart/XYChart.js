@@ -5,15 +5,12 @@ import { Background } from "../Background";
 import { Droplines } from "../Droplines";
 import { Markers } from "../Markers";
 import { Chart } from "../Chart";
-import { XAxis, YAxis } from "../Axis";
 
-const XYChart = ({ children, xs, ys, ...props }) => {
+const XYChart = ({ children, ...props }) => {
     return (
         <Chart {...props}>
             <Background />
             {children}
-            <YAxis fields={xs} />
-            <XAxis fields={ys} />
             <Markers />
             <Droplines />
         </Chart>
@@ -21,16 +18,6 @@ const XYChart = ({ children, xs, ys, ...props }) => {
 };
 
 XYChart.propTypes = {
-    /**
-     * The set of x fields to use to access the data for each plot
-     * @type {Array<String>}
-     */
-    xs: PropTypes.arrayOf(PropTypes.string).isRequired,
-    /**
-     * The set of y fields to use to access the data for each plot
-     * @type {Array<String>}
-     */
-    ys: PropTypes.arrayOf(PropTypes.string).isRequired,
     /**
      * The child components (Plots) for the chart
      * @type {Array<Node>}
