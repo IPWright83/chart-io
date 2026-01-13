@@ -32,4 +32,6 @@ Line.propTypes = {
     useCanvas: PropTypes.bool,
 };
 
+Line.requiresVirtualCanvas = false;
+
 export { Line };

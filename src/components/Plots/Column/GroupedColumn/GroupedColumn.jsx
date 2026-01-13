@@ -36,4 +36,6 @@ GroupedColumn.defaultProps = {
     useCanvas: false,
 };
 
+GroupedColumn.requiresVirtualCanvas = true;
+
 export { GroupedColumn };

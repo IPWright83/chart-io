@@ -35,4 +35,6 @@ Scatter.defaultProps = {
     useCanvas: false,
 };
 
+Scatter.requiresVirtualCanvas = true;
+
 export { Scatter };

@@ -30,7 +30,7 @@ const withCanvas = (WrappedComponent, className) =>
             <React.Fragment>
                 <foreignObject width={width} height={height} style={styles.foreignObject}>
                     <canvas
-                        className={className}
+                        className={`canvas ${className}`}
                         width={width}
                         height={height}
                         ref={canvas}

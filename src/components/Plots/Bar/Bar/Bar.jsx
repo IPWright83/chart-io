@@ -36,4 +36,6 @@ Bar.defaultProps = {
     useCanvas: false,
 };
 
+Bar.requiresVirtualCanvas = true;
+
 export { Bar };

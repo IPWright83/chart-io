@@ -14,10 +14,7 @@ import {
 import { chartSelectors } from "../../store";
 import { getChildrenWithProps } from "./getChildrenWithProps";
 
-// These types of layers don't need a virtual canvas
-// as they don't/can't support events in the same way
-// a layer with physical elements can
-const ignoreTypes = ["XAxis", "YAxis", "Axis", "XScale", "YScale", "ZScale", "Scale", "Line", "Lines", "Area", "Areas"];
+import { isVirtualCanvasRequired } from "./isVirtualCanvasRequired";
 
 /**
  * The virtual canvas, draws elements to a non dom canvas and is used to
@@ -77,14 +74,7 @@ const VirtualCanvas = (props) => {
 
     // Many layers don't require the virtual canvas. If
     // they are all of these types then disable the canvas
-    const childTypes = children
-        // Fix for storybook
-        .filter((c) => !!c && !!c.props)
-        .map((c) => c.props.mdxType);
-
-    const typesNeedingCanvas = childTypes.filter((type) => !ignoreTypes.includes(type));
-    const includeVirtualCanvas = typesNeedingCanvas.length > 0;
-
+    const includeVirtualCanvas = isVirtualCanvasRequired(children);
     if (includeVirtualCanvas === false) {
         return <React.Fragment>{children}</React.Fragment>;
     }

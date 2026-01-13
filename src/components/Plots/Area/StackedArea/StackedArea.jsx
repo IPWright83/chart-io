@@ -38,4 +38,6 @@ StackedArea.defaultProps = {
     useCanvas: false,
 };
 
+StackedArea.requiresVirtualCanvas = false;
+
 export { StackedArea };

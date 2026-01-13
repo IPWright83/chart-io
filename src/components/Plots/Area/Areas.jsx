@@ -42,4 +42,6 @@ Areas.propTypes = {
 
 Areas.defaultProps = plotsDefaultProps;
 
+Areas.requiresVirtualCanvas = false;
+
 export { Areas };

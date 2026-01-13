@@ -36,4 +36,6 @@ StackedBar.defaultProps = {
     useCanvas: false,
 };
 
+StackedBar.requiresVirtualCanvas = true;
+
 export { StackedBar };
