@@ -1,4 +1,4 @@
-import type { ILegendFormatter, ILegendItem } from "@chart-it/types";
+import type { ILegendFormatter, ILegendItem } from "@chart-io/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -49,7 +49,7 @@ export function Legend({ items, positionStyle, horizontal, formatters = {} }: IL
     }
 
     return (
-        <div className="chart-it legend" style={style}>
+        <div className="chart-io legend" style={style}>
             {items.map((item, index) => {
                 /**
                  * A format is of the shape:

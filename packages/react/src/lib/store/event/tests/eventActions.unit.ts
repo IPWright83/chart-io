@@ -1,4 +1,4 @@
-import type { IDropline, IMarker, IMouseEvent } from "@chart-it/types";
+import type { IDropline, IMarker, IMouseEvent } from "@chart-io/types";
 
 import { eventActions } from "../eventActions";
 

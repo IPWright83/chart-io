@@ -1,5 +1,5 @@
-import * as d3 from "@chart-it/d3";
-import type { IDropline } from "@chart-it/types";
+import * as d3 from "@chart-io/d3";
+import type { IDropline } from "@chart-io/types";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -49,7 +49,7 @@ export function Droplines({ layer, showVertical = true, showHorizontal = true }:
         // Add any new droplines
         join.enter()
             .append("line")
-            .attr("class", "chart-it dropline")
+            .attr("class", "chart-io dropline")
             .attr("point-events", "none")
             .style("stroke-dasharray", theme.droplines.strokeDasharray)
             .style("stroke-opacity", theme.droplines.strokeOpacity)

@@ -1,6 +1,6 @@
-import * as d3 from "@chart-it/d3";
+import * as d3 from "@chart-io/d3";
 import type { AnyAction, Store } from "redux";
-import { IScale } from "@chart-it/types";
+import { IScale } from "@chart-io/types";
 
 import { logAndThrowError, logDebug, logError, logWarning } from "./logger";
 import { areValuesUnique } from "./areValuesUnique";
@@ -169,7 +169,7 @@ describe("utils", () => {
             logWarning("W100", "Foobar");
 
             expect(spy).toHaveBeenCalledWith(
-                "@chart-it/react encountered an warning. W100: Foobar. You can read more about this https://ipwright83.github.io/chart-it/?path=/docs/errors-warnings-warnings-W100."
+                "@chart-io/react encountered an warning. W100: Foobar. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-warnings-W100."
             );
         });
 
@@ -178,7 +178,7 @@ describe("utils", () => {
 
             logDebug("Foobar");
 
-            expect(spy).toHaveBeenCalledWith("@chart-it/react", "Foobar", []);
+            expect(spy).toHaveBeenCalledWith("@chart-io/react", "Foobar", []);
         });
 
         it("logError outputs correctly to the console", () => {
@@ -187,7 +187,7 @@ describe("utils", () => {
             logError("E100", "Foobar");
 
             expect(spy).toHaveBeenCalledWith(
-                "@chart-it/react encountered an error. E100: Foobar. You can read more about this https://ipwright83.github.io/chart-it/?path=/docs/errors-warnings-errors-E100."
+                "@chart-io/react encountered an error. E100: Foobar. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-errors-E100."
             );
         });
 
@@ -199,7 +199,7 @@ describe("utils", () => {
             }).toThrow("Foobar");
 
             expect(spy).toHaveBeenCalledWith(
-                "@chart-it/react encountered an error. E100: Foobar. You can read more about this https://ipwright83.github.io/chart-it/?path=/docs/errors-warnings-errors-E100."
+                "@chart-io/react encountered an error. E100: Foobar. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-errors-E100."
             );
         });
     });

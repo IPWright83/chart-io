@@ -1,4 +1,4 @@
-import type { ITooltipFormatter, ITooltipItem } from "@chart-it/types";
+import type { ITooltipFormatter, ITooltipItem } from "@chart-io/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -48,7 +48,7 @@ export function Tooltip({ borderColor, items, positionStyle, formatters = {} }: 
     }
 
     return (
-        <div className="chart-it tooltip" style={style}>
+        <div className="chart-io tooltip" style={style}>
             {items.map((item) => {
                 /**
                  * A format is of the shape:

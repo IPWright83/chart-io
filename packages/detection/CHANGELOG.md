@@ -1,4 +1,4 @@
-# @chart-it/detection
+# @chart-io/detection
 
 ## 0.7.0
 
@@ -11,24 +11,24 @@
 ### Patch Changes
 
 - Updated dependencies [f0231e1]
-  - @chart-it/d3@0.6.0
-  - @chart-it/types@0.6.3
+  - @chart-io/d3@0.6.0
+  - @chart-io/types@0.6.3
 
 ## 0.6.2
 
 ### Patch Changes
 
 - Updated dependencies [ce6284f]
-  - @chart-it/d3@0.5.0
-  - @chart-it/types@0.6.2
+  - @chart-io/d3@0.5.0
+  - @chart-io/types@0.6.2
 
 ## 0.6.1
 
 ### Patch Changes
 
 - Updated dependencies [6f8b2af]
-  - @chart-it/d3@0.4.0
-  - @chart-it/types@0.6.1
+  - @chart-io/d3@0.4.0
+  - @chart-io/types@0.6.1
 
 ## 0.6.0
 
@@ -41,8 +41,8 @@
 
 - Updated dependencies [494a204]
 - Updated dependencies [5c9ca11]
-  - @chart-it/d3@0.3.0
-  - @chart-it/types@0.6.0
+  - @chart-io/d3@0.3.0
+  - @chart-io/types@0.6.0
 
 ## 0.5.0
 
@@ -53,8 +53,8 @@
 ### Patch Changes
 
 - Updated dependencies [feddec9]
-  - @chart-it/d3@0.2.0
-  - @chart-it/types@0.5.0
+  - @chart-io/d3@0.2.0
+  - @chart-io/types@0.5.0
 
 ## 0.4.0
 

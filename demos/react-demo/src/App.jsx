@@ -1,5 +1,5 @@
 import React from "react";
-import { XYChart, XAxis, YAxis, Scatter } from "@chart-it/react";
+import { XYChart, XAxis, YAxis, Scatter } from "@chart-io/react";
 
 import "./App.css";
 

@@ -1,10 +1,10 @@
 {
-  "name": "@chart-it/d3",
+  "name": "@chart-io/d3",
   "version": "0.9.0",
   "private": true,
   "packageManager": "pnpm@7.5.2",
   "description": "Provides a custom d3 bundle",
-  "repository": "git@github.com:IPWright83/chart-it.git",
+  "repository": "git@github.com:IPWright83/chart-io.git",
   "author": "Ian Wright - IPWright83",
   "main": "index.ts",
   "types": "index.ts",

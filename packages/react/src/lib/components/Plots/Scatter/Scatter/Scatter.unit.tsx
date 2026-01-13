@@ -1,4 +1,4 @@
-import * as d3 from "@chart-it/d3";
+import * as d3 from "@chart-io/d3";
 import React from "react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 

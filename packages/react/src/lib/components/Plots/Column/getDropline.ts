@@ -1,5 +1,5 @@
-import * as d3 from "@chart-it/d3";
-import type { IColor, IDropline, IScale } from "@chart-it/types";
+import * as d3 from "@chart-io/d3";
+import type { IColor, IDropline, IScale } from "@chart-io/types";
 import type { Selection } from "d3-selection";
 
 import { getXYFromTransform } from "../../../utils";

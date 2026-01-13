@@ -1,4 +1,4 @@
-import type { IColor } from "@chart-it/types";
+import type { IColor } from "@chart-io/types";
 import React from "react";
 
 export interface ISquareProps {
@@ -19,5 +19,5 @@ export function Square({ fill }: ISquareProps) {
         flexShrink: 0,
     };
 
-    return <div className="chart-it indicator-square" style={style} />;
+    return <div className="chart-io indicator-square" style={style} />;
 }

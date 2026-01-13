@@ -1,5 +1,5 @@
-import * as d3 from "@chart-it/d3";
-import type { IColor, IEventPlotProps } from "@chart-it/types";
+import * as d3 from "@chart-io/d3";
+import type { IColor, IEventPlotProps } from "@chart-io/types";
 import { useSelector, useStore } from "react-redux";
 import { interpolatePath } from "d3-interpolate-path";
 

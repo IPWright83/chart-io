@@ -1,4 +1,4 @@
-import { IValue } from "@chart-it/types";
+import { IValue } from "@chart-io/types";
 
 import { formatDate } from "./formatDate";
 import { formatNumber } from "./formatNumber";

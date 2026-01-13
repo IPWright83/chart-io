@@ -1,4 +1,4 @@
-import type { ILegendFormatter, ILegendItem } from "@chart-it/types";
+import type { ILegendFormatter, ILegendItem } from "@chart-io/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -50,10 +50,10 @@ export function LegendItem({ name, icon, color, format = (name) => name }: ILege
     };
 
     return (
-        <div className="chart-it legend-item" style={styles.legendItem}>
+        <div className="chart-io legend-item" style={styles.legendItem}>
             {Shape && <Shape fill={color} />}
-            <div className="chart-it legend-values" style={styles.legendValues}>
-                <span className="chart-it legend-series-name" style={styles.legendSeriesName}>
+            <div className="chart-io legend-values" style={styles.legendValues}>
+                <span className="chart-io legend-series-name" style={styles.legendSeriesName}>
                     {format(name)}
                 </span>
             </div>

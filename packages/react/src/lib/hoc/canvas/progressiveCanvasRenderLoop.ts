@@ -1,5 +1,5 @@
-import * as d3 from "@chart-it/d3";
-import type { Transition } from "@chart-it/d3";
+import * as d3 from "@chart-io/d3";
+import type { Transition } from "@chart-io/d3";
 
 import { renderElements } from "./renderElements";
 

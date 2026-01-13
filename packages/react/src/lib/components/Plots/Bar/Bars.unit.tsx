@@ -1,4 +1,4 @@
-import { scaleBand, scaleLinear } from "@chart-it/d3";
+import { scaleBand, scaleLinear } from "@chart-io/d3";
 import React from "react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 

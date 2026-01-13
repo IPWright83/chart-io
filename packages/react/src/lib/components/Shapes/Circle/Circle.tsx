@@ -1,4 +1,4 @@
-import type { IColor } from "@chart-it/types";
+import type { IColor } from "@chart-io/types";
 import React from "react";
 
 export interface ICircleProps {
@@ -20,5 +20,5 @@ export function Circle({ fill }: ICircleProps) {
         flexShrink: 0,
     };
 
-    return <div className="chart-it indicator-circle" style={style} />;
+    return <div className="chart-io indicator-circle" style={style} />;
 }

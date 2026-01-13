@@ -1,4 +1,4 @@
-import type { IColor, ICoordinate, IDropline, IMarker, IMouseEvent, ITooltipItem } from "@chart-it/types";
+import type { IColor, ICoordinate, IDropline, IMarker, IMouseEvent, ITooltipItem } from "@chart-io/types";
 
 export interface MouseMoveAction {
   type: "EVENT.MOUSE_MOVE";
