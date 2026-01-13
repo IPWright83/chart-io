@@ -3,7 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { chartSelectors } from "../../store";
-import { Scale } from "./Scale";
+import { AutoScale } from "./AutoScale";
 
 /**
  * Represents an XScale
@@ -16,7 +16,7 @@ const XScale = ({ fields, scaleType, aggregate, domain, fromAxis }) => {
     const range = [margin.left, width - margin.right];
 
     return (
-        <Scale
+        <AutoScale
             fields={fields}
             fromAxis={fromAxis}
             range={range}
@@ -53,8 +53,12 @@ XScale.propTypes = {
      * @type {Array}
      */
     domain: PropTypes.arrayOf(
-        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool]),
+        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool])
     ),
+};
+
+XScale.defaultProps = {
+    fromAxis: false,
 };
 
 export { XScale };

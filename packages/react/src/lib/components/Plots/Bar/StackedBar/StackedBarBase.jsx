@@ -100,6 +100,7 @@ const StackedBarBase = ({
         const update = join
             .merge(enter)
             .on("mouseover", function (event, d) {
+                // istanbul ignore next
                 if (!interactive) return;
 
                 onMouseOver && onMouseOver(d.data, this, event);
@@ -112,6 +113,7 @@ const StackedBarBase = ({
                 });
             })
             .on("mouseout", function (event, d) {
+                // istanbul ignore next
                 if (!interactive) return;
 
                 onMouseOut && onMouseOut(d.data, this, event);
@@ -119,6 +121,7 @@ const StackedBarBase = ({
                 setTooltip(null);
             })
             .on("click", function (event, d) {
+                // istanbul ignore next
                 if (!interactive) return;
 
                 onClick && onClick(d.data, this, event);

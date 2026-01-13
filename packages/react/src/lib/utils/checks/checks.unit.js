@@ -14,7 +14,7 @@ describe("/utils/checks", () => {
 
             expect(ensureBandScale(d3.scaleLinear(), "unit_test")).toBe(false);
             expect(console.error).toHaveBeenCalledWith(
-                `E001 - Incompatible scale for a <unit_test />. Are you missing the 'scaleType="band"' in your <Axis /> or <Scale /> component?`
+                `E001 - Incompatible scale for a <unit_test />. Are you missing the 'scaleType="band"' in your <Axis /> or <AutoScale /> component?`
             );
         });
 
@@ -35,10 +35,8 @@ describe("/utils/checks", () => {
             const fields = ["x", "y"];
 
             expect(ensureNoScaleOverflow(scale, data, fields)).toBe(false);
-            expect(
-                console.warn
-            ).toHaveBeenCalledWith(
-                "W001 - The scale appears too small for the dataset. Are you missing the `aggregate={true}` in your <Axis /> or <Scale /> component?",
+            expect(console.warn).toHaveBeenCalledWith(
+                "W001 - The scale appears too small for the dataset. Are you missing the `aggregate={true}` in your <Axis /> or <AutoScale /> component?",
                 ["x", "y"]
             );
         });

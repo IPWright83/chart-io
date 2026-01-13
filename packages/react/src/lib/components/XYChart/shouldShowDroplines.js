@@ -3,7 +3,7 @@
  * @param  {Array} children     The array of React elements
  * @return {Boolean}            True if droplines should be enabled
  */
-export const shouldShowDroplines = (children) => {
+export const shouldShowDroplines = (children = []) => {
     // Just a single child
     if (children.props && children.type) {
         return true;

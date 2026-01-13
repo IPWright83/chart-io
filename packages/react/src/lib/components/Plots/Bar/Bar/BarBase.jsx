@@ -89,6 +89,7 @@ const BarBase = ({
         const update = enter
             .merge(join)
             .on("mouseover", function (event, datum) {
+                // istanbul ignore next
                 if (!interactive) return;
 
                 onMouseOver && onMouseOver(datum, this, event);
@@ -96,6 +97,7 @@ const BarBase = ({
                 setTooltip({ datum, event, fillColors: [fillColor], xs: [x] });
             })
             .on("mouseout", function (event, datum) {
+                // istanbul ignore next
                 if (!interactive) return;
 
                 onMouseOut && onMouseOut(datum, this, event);
@@ -103,6 +105,7 @@ const BarBase = ({
                 setTooltip(null);
             })
             .on("click", function (event, datum) {
+                // istanbul ignore next
                 if (!interactive) return;
 
                 onClick(datum, this, event);

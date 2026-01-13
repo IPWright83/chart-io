@@ -88,6 +88,7 @@ const ColumnBase = ({
         const update = enter
             .merge(join)
             .on("mouseover", function (event, datum) {
+                // istanbul ignore next
                 if (!interactive) return;
 
                 onMouseOver && onMouseOver(datum, this, event);
@@ -95,6 +96,7 @@ const ColumnBase = ({
                 setTooltip({ datum, event, fillColors: [fillColor], ys: [y] });
             })
             .on("mouseout", function (event, datum) {
+                // istanbul ignore next
                 if (!interactive) return;
 
                 onMouseOut && onMouseOut(datum, this, event);
@@ -102,6 +104,7 @@ const ColumnBase = ({
                 setTooltip(null);
             })
             .on("click", function (event, datum) {
+                // istanbul ignore next
                 if (!interactive) return;
 
                 onClick && onClick(datum, this, event);

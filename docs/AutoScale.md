@@ -1,4 +1,4 @@
-# `<Scale />` Component API
+# `<AutoScale />` Component API
 
 Used to define a scale to render data values to screen. Each [`<Axis>`](Axis.md) needs at least one scale which are automatically generated for `<XAxis>` and `<YAxis>` components.
 

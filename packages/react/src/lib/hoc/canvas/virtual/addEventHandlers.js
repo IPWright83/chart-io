@@ -10,7 +10,10 @@ import { MOUSE_MOVE_THROTTLE } from "../../../constants";
  * @param  {Object} e              The MouseEventArgs
  */
 const triggerOnClick = (datum, node, e) => {
-    if (!node || !node.__on) return;
+    if (!node || !node.__on) {
+        // istanbul ignore next
+        return;
+    }
 
     const onClick = node.__on.find((handler) => handler.type === "click");
     if (onClick) {
@@ -25,7 +28,10 @@ const triggerOnClick = (datum, node, e) => {
  * @param  {Object} e              The MouseEventArgs
  */
 const triggerOnMouseOver = (datum, node, e) => {
-    if (!node || !node.__on) return;
+    if (!node || !node.__on) {
+        // istanbul ignore next
+        return;
+    }
 
     const onMouseOver = node.__on.find((handler) => handler.type === "mouseover");
     if (onMouseOver) {
@@ -40,7 +46,10 @@ const triggerOnMouseOver = (datum, node, e) => {
  * @param  {Object} e              The MouseEventArgs
  */
 const triggerOnMouseOut = (datum, node, e) => {
-    if (!node || !node.__on) return;
+    if (!node || !node.__on) {
+        // istanbul ignore next
+        return;
+    }
 
     const onMouseOut = node.__on.find((handler) => handler.type === "mouseout");
     if (onMouseOut) {

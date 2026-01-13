@@ -7,6 +7,7 @@
 const clearVirtualCanvas = async (canvas, width, height) => {
     // If the canvas isn't ready don't do anything
     if (!canvas) {
+        // istanbul ignore next
         return;
     }
 

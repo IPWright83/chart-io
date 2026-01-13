@@ -42,6 +42,7 @@ const TooltipOverlayTemplate = (args) => {
                     { name: "Bar Series", seriesType: "bar", fill: "steelblue", value: true },
                     { name: "Column Series", seriesType: "column", fill: "steelblue", value: 1500 },
                     { name: "Area Series", seriesType: "area", fill: "steelblue", value: 1500 },
+                    { name: "Timestamp", fill: "steeblue", seriesType: "value", value: new Date(2023, 1, 1) },
                 ],
                 color: "green",
             },

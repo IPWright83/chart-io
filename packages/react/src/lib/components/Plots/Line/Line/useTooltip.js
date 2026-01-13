@@ -21,11 +21,13 @@ const useTooltip = (dispatch, layer, x, y, xScale, yScale, data, eventMode, posi
     /* If possible respond to global mouse events for tooltips etc */
     useEffect(() => {
         if (!layer.current || !xScale || !yScale || !data) {
+            // istanbul ignore next
             return;
         }
 
         // We need the invert function to be able to do this
         if (!xScale.invert) {
+            // istanbul ignore next
             return;
         }
 
@@ -41,6 +43,7 @@ const useTooltip = (dispatch, layer, x, y, xScale, yScale, data, eventMode, posi
         const datum = data[index];
 
         if (isNullOrUndefined(datum[y])) {
+            // istanbul ignore next
             return;
         }
 

@@ -4,7 +4,7 @@ exports[`Lines Multiple Series using SVG should render correctly 1`] = `
 <DocumentFragment>
   <svg>
     <g
-      class="g-undefined"
+      class="g-plot line"
     >
       <path
         class="line"
@@ -18,7 +18,7 @@ exports[`Lines Multiple Series using SVG should render correctly 1`] = `
       />
     </g>
     <g
-      class="g-undefined"
+      class="g-plot line"
     >
       <path
         class="line"

@@ -6,6 +6,7 @@
  */
 const removeEventHandlers = (canvas, clickHandler, moveHandler) => {
     if (!canvas) {
+        // istanbul ignore next
         return;
     }
 

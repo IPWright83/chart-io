@@ -25,6 +25,7 @@ const Axis = ({
     showGridlines,
     title,
     tickFormat,
+    tickValues,
 }) => {
     if (fields.length === 0) {
         throw new Error(
@@ -65,6 +66,7 @@ const Axis = ({
                 .tickSizeOuter(tickSizeOuter)
                 .tickPadding(tickPadding)
                 .tickFormat(tickFormat)
+                .tickValues(tickValues)
                 .ticks(ticks);
 
             // Render the axis
@@ -76,7 +78,9 @@ const Axis = ({
         <React.Fragment>
             <Title position={position} title={title} className={`axis-title-${position}`} />
             <g transform={transform}>
-                {showGridlines ? <Gridlines position={position} scale={scale} ticks={ticks} /> : null}
+                {showGridlines ? (
+                    <Gridlines position={position} scale={scale} ticks={ticks} tickValues={tickValues} />
+                ) : null}
                 <g className={`chart-it axis axis-${position}`} ref={axis} style={{ userSelect: "none" }} />
             </g>
         </React.Fragment>
@@ -119,6 +123,11 @@ Axis.propTypes = {
      * @type {Function}
      */
     tickFormat: PropTypes.func,
+    /**
+     * https://github.com/d3/d3-axis#axis_tickValues
+     * @type {Array}
+     */
+    tickValues: PropTypes.array,
     /**
      * Should gridlines be drawn?
      * @type {Boolean}

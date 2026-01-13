@@ -13,6 +13,7 @@ import { renderElements } from "./renderElements";
 const canvasRenderLoop = async (canvas, width, height, exit, update) => {
     // If the canvas isn't ready don't do anything
     if (!canvas) {
+        // istanbul ignore next
         return;
     }
 

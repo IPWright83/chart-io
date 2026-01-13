@@ -13,9 +13,18 @@ The `<TooltipOverlay>` extracts out tooltip item information from the Redux stor
 
 ### `<TooltipOverlay>` Props
 
-| Prop     | Type     | Default | Note                                                                   |
-| -------- | -------- | ------- | ---------------------------------------------------------------------- |
-| `offset` | `number` | 20      | The number of pixels from the cursor that the tooltip should be offset |
+| Prop         | Type     | Default | Note                                                                                                                           |
+| ------------ | -------- | ------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `offset`     | `number` | 20      | The number of pixels from the cursor that the tooltip should be offset                                                         |
+| `formatters` | `object` | {}      | A keyed collection of format object. Key should align with `x` or `y` fields provided to axis/scales or plots. See table below |
+
+The contents of a format object should match:
+
+| Prop         | Type       | Note        |
+| ------------ | ---------- | ----------- | ----------------------------------------------------------------------------------------- |
+| `prefix`     | `string`   | `undefined` | A string to prefix the tooltip value with                                                 |
+| `suffix`     | `string`   | `undefined` | A string to suffix the tooltip value with                                                 |
+| `formatFunc` | `function` | `undefined` | A function that returns a custom tooltip value. `(name: string, value: string) => string` |
 
 <br />
 
