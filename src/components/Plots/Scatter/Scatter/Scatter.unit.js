@@ -177,7 +177,6 @@ describe("Scatter", () => {
                 setTimeout(resolve, 250);
             });
 
-            console.log("Taking snapshot");
             const canvas = container.querySelector("canvas");
             expect(canvas).toMatchSnapshot();
         });

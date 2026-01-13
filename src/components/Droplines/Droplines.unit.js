@@ -1,8 +1,7 @@
-import * as d3 from "d3";
 import React from "react";
 import { Provider } from "react-redux";
 import TestRenderer from "react-test-renderer";
-import { act, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
 import { Droplines } from "./Droplines";
 
