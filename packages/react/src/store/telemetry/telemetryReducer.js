@@ -1,4 +1,4 @@
-import { uuidv4 } from "../../utils";
+import { v4 as uuidv4 } from "uuid";
 
 const defaultState = {
     id: uuidv4(),

@@ -1,0 +1,43 @@
+[35m@chart-it/react-d3:test[0m: cache hit, replaying output [2mfaf5432a580be8b8[0m
+[35m@chart-it/react-d3:test: [0m
+[35m@chart-it/react-d3:test: [0m> @chart-it/react-d3@0.1.31 test /home/ian/src/chart-it/packages/react
+[35m@chart-it/react-d3:test: [0m> jest "--watchAll=false"
+[35m@chart-it/react-d3:test: [0m
+[35m@chart-it/react-d3:test: [0mPASS src/components/TooltipOverlay/Tooltip/TooltipItem/getShape.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/store/event/tests/eventSelectors.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/store/event/tests/eventReducer.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/store/event/tests/eventActions.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/store/chart/tests/chartSelectors.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/store/chart/tests/chartReducer.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/store/chart/tests/chartActions.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Plots/Area/Area/Area.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Plots/Line/Line/Line.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Plots/Area/StackedArea/StackedArea.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Plots/Bar/Bar/Bar.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Plots/Bar/GroupedBar/GroupedBar.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Plots/Column/GroupedColumn/GroupedColumn.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Plots/Column/Column/Column.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Plots/Bar/StackedBar/StackedBar.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Plots/Column/StackedColumn/StackedColumn.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Plots/Scatter/Scatters.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/detection/getTypes/getTypes.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/utils/checks/checks.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/detection/getInfos/getInfos.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Plots/Line/Lines.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/TooltipOverlay/getTooltipPosition.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Scale/calculateScale.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/detection/detection.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/utils/utils.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Axis/XAxis/XAxis.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Axis/YAxis/YAxis.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/TooltipOverlay/TooltipOverlay.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Plots/Column/Columns.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Plots/Scatter/Scatter/Scatter.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Plots/Bar/Bars.unit.js
+[35m@chart-it/react-d3:test: [0mPASS src/components/Plots/Area/Areas.unit.js
+[35m@chart-it/react-d3:test: [0m
+[35m@chart-it/react-d3:test: [0mTest Suites: 32 passed, 32 total
+[35m@chart-it/react-d3:test: [0mTests:       225 passed, 225 total
+[35m@chart-it/react-d3:test: [0mSnapshots:   84 passed, 84 total
+[35m@chart-it/react-d3:test: [0mTime:        4.348 s
+[35m@chart-it/react-d3:test: [0mRan all test suites.
