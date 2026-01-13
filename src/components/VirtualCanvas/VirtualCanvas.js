@@ -80,7 +80,7 @@ const VirtualCanvas = (props) => {
 
     // Many layers don't require the virtual canvas. If
     // they are all of these types then disable the canvas
-    const childTypes = children.map((c) => c.props.mdxType);
+    const childTypes = children.filter((c) => !!c).map((c) => c.props.mdxType);
     const typesNeedingCanvas = childTypes.filter((type) => !ignoreTypes.includes(type));
     const includeVirtualCanvas = typesNeedingCanvas.length > 0;
 
