@@ -24,6 +24,7 @@ const progressiveCanvasRenderLoop = async (canvas, width, height, exit, update) 
     // the next async tick
     try {
         await update.end();
+        // eslint-disable-next-line no-empty
     } catch (e) {}
 
     context.clearRect(0, 0, width, height);

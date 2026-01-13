@@ -24,6 +24,7 @@
         "requireReturnType": true
       }
     ],
+    "react/display-name": "off",
     "import/no-unresolved": "off",
     "no-console": [
       "error",
@@ -31,5 +32,6 @@
         "allow": ["error", "warn", "debug"]
       }
     ]
-  }
+  },
+  "parser": "@babel/eslint-parser"
 }

@@ -107,6 +107,12 @@ const VirtualCanvas = (props) => {
 
 VirtualCanvas.propTypes = {
     /**
+     * The plots that are children of the virtual canvas
+     * @type {Array}
+     */
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]),
+
+    /**
      * A function that will be triggered whenever the mouse moves over an element for the first time
      * @default `() => {}`
      * @type {Function}
