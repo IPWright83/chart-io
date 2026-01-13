@@ -31,6 +31,7 @@ const Droplines = ({ layer, showVertical = true, showHorizontal = true }) => {
         join.enter()
             .append("line")
             .attr("class", "dropline")
+            .style("point-events", "none")
             .style("stroke", (d) => d.color)
             .attr("x1", (d) => d.x1)
             .attr("x2", (d) => d.x1)

@@ -29,6 +29,7 @@ const Markers = ({ layer }) => {
             .attr("class", "marker")
             .style("stroke", (d) => d.stroke || "none")
             .style("fill", (d) => d.fill || "none")
+            .style("point-events", "none")
             .attr("r", (d) => d.r1)
             .attr("cx", (d) => d.cx)
             .attr("cy", (d) => d.cy);
