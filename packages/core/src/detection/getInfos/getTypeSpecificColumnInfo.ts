@@ -1,8 +1,8 @@
-import * as d3 from "@chart-io/d3";
+import { d3 } from "../../d3";
 
-import { getMaxStringLength } from "./getMaxStringLength";
-import type { IColumnInfo } from "../types";
 import { Type } from "../Type";
+import type { IColumnInfo } from "../types";
+import { getMaxStringLength } from "./getMaxStringLength";
 
 /**
  * Gets column information specific to the type of the field

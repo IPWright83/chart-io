@@ -1,5 +1,5 @@
 import { chartActions, logAndThrowError } from "@chart-io/core";
-import type { IScale } from "@chart-io/types";
+import type { IScale } from "@chart-io/core";
 
 import React, { useEffect } from "react";
 import { useStore } from "react-redux";

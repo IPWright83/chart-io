@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import type { IData } from "@chart-io/types";
+import type { IData } from "@chart-io/core";
 
 import { Areas, Bars, Columns, Lines, Scatters } from "../Plots";
 import type { IXAxisProps, IYAxisProps } from "../Axis";

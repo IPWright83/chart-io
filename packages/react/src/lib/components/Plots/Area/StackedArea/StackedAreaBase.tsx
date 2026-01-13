@@ -1,6 +1,6 @@
 import { area, chartSelectors, IState } from "@chart-io/core";
-import * as d3 from "@chart-io/d3";
-import type { IColor, IEventPlotProps } from "@chart-io/types";
+import { d3 } from "@chart-io/core";
+import type { IColor, IEventPlotProps } from "@chart-io/core";
 
 import { useMemo } from "react";
 import { useSelector } from "react-redux";

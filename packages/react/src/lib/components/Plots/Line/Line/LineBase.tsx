@@ -1,6 +1,6 @@
 import { chartSelectors, IState, line } from "@chart-io/core";
-import * as d3 from "@chart-io/d3";
-import type { IPlotProps } from "@chart-io/types";
+import { d3 } from "@chart-io/core";
+import type { IPlotProps } from "@chart-io/core";
 
 import { useMemo } from "react";
 import { useSelector } from "react-redux";

@@ -1,4 +1,4 @@
-import * as d3 from "@chart-io/d3";
+import { d3 } from "../../d3";
 import { ensureBandwidth } from "./ensureBandwidth";
 import { ensureNoScaleOverflow } from "./ensureNoScaleOverflow";
 import { ensureValuesAreUnique } from "./ensureValuesAreUnique";

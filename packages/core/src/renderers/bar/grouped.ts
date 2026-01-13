@@ -1,8 +1,5 @@
-import type { Transition } from "@chart-io/d3";
-import * as d3 from "@chart-io/d3";
-import { IColor, IDatum, INumericValue, IValue } from "@chart-io/types";
-
-import type { IRenderProps } from "../../types";
+import { d3 } from "../../d3";
+import type { IColor, IDatum, INumericValue, IRenderProps, IValue } from "../../types";
 import { ensureBandwidth, getBandwidthAndOffset } from "../../utils";
 
 export interface IRenderGroupedBarPlotProps extends Omit<IRenderProps, "x"> {
@@ -122,7 +119,7 @@ export function grouped({
         .duration(animationDuration / 2)
         .delay(animationDuration / 2)
         .attr("width", (d) => xScale(d.value as INumericValue) - (xScale.range()[0] as number))
-        .attr("x", () => xScale.range()[0] as number) as Transition<SVGRectElement, { key: string; value: IValue; }, SVGGElement, IDatum>;
+        .attr("x", () => xScale.range()[0] as number) as d3.Transition<SVGRectElement, { key: string; value: IValue; }, SVGGElement, IDatum>;
 
     return { update, exit };
 }

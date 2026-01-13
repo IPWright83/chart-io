@@ -1,6 +1,6 @@
-import { scaleBand, scaleLinear } from "@chart-io/d3";
-import React from "react";
+import { d3 } from "@chart-io/core";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
+import React from "react";
 
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
 import { Bar } from "./Bar";
@@ -29,8 +29,8 @@ describe("Bar", () => {
     ];
 
     const scales = {
-        y: scaleBand().domain(["A", "B"]).range([0, 100]),
-        x: scaleLinear().domain([0, 20]).range([0, 100]),
+        y: d3.scaleBand().domain(["A", "B"]).range([0, 100]),
+        x: d3.scaleLinear().domain([0, 20]).range([0, 100]),
     };
 
     describe("using SVG", () => {

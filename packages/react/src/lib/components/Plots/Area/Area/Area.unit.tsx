@@ -1,5 +1,5 @@
 import { chartActions, createStore, eventActions } from "@chart-io/core";
-import * as d3 from "@chart-io/d3";
+import { d3 } from "@chart-io/core";
 
 import { act, render } from "@testing-library/react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";

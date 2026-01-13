@@ -1,4 +1,4 @@
-import type { IPlotProps } from "@chart-io/types";
+import type { IPlotProps } from "@chart-io/core";
 import React from "react";
 
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";

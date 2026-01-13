@@ -1,7 +1,5 @@
-import * as d3 from "@chart-io/d3";
-import { IBandwidthScale, IColor } from "@chart-io/types";
-
-import type { IRenderProps } from "../../types";
+import { d3 } from "../../d3";
+import type { IBandwidthScale, IColor, IRenderProps } from "../../types";
 import { interpolateMultiPath, isNullOrUndefined } from "../../utils";
 
 export interface IRenderAreaPlotProps

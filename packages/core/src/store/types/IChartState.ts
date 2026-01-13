@@ -1,6 +1,4 @@
-import type { IData, ILegendItem, IMargin, IScale, ITheme } from "@chart-io/types";
-
-//export type IChartStoreScales = Record<string, d3.AxisScale<d3.AxisDomain>>;
+import type { IData, ILegendItem, IMargin, IScale, ITheme } from "../../types";
 
 export interface IChartScaleInfo {
   scale?: IScale;

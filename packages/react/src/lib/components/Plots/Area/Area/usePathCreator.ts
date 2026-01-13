@@ -1,5 +1,5 @@
-import * as d3 from "@chart-io/d3";
-import type { IScale } from "@chart-io/types";
+import { d3 } from "@chart-io/core";
+import type { IScale } from "@chart-io/core";
 import { useEffect } from "react";
 
 /**

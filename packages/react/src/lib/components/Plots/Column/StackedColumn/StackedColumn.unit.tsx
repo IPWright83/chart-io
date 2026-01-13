@@ -1,6 +1,6 @@
-import { scaleBand, scaleLinear } from "@chart-io/d3";
-import React from "react";
+import { d3 } from "@chart-io/core";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
+import React from "react";
 
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
 import { StackedColumn } from "./StackedColumn";
@@ -30,9 +30,9 @@ describe("StackedColumn", () => {
     ];
 
     const scales = {
-        x: scaleBand().domain(["A", "B"]).range([0, 100]),
-        y: scaleLinear().domain([0, 30]).range([100, 0]),
-        y2: scaleLinear().domain([0, 30]).range([100, 0]),
+        x: d3.scaleBand().domain(["A", "B"]).range([0, 100]),
+        y: d3.scaleLinear().domain([0, 30]).range([100, 0]),
+        y2: d3.scaleLinear().domain([0, 30]).range([100, 0]),
     };
 
     describe("using SVG", () => {

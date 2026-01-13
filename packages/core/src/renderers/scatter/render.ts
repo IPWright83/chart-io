@@ -1,8 +1,5 @@
-import * as d3 from "@chart-io/d3";
-import { IBandwidthScale, IColor, IDatum, INumericValue, IScale } from "@chart-io/types";
-import type { Selection } from "@chart-io/d3";
-
-import type { IRenderProps } from "../../types";
+import { d3 } from "../../d3";
+import type { IBandwidthScale, IColor, IDatum, INumericValue, IRenderProps, IScale } from "../../types";
 
 export interface IRenderScatterPlotProps extends IRenderProps {
     /**
@@ -69,17 +66,17 @@ export function render({
     // D3 data join
     // prettier-ignore
     const join = d3.select(layer)
-            .selectAll("circle")
-            .data(data.filter((d) => d[y] !== null && d[y] !== undefined)) as Selection<SVGCircleElement, IDatum, Element, unknown>;
+        .selectAll("circle")
+        .data(data.filter((d) => d[y] !== null && d[y] !== undefined)) as d3.Selection<SVGCircleElement, IDatum, Element, unknown>;
 
     // Exit points
     // prettier-ignore
     const exit = join
-            .exit()
-            .transition("scatter")
-            .duration(animationDuration)
-            .attr("r", 0)
-            .remove();
+        .exit()
+        .transition("scatter")
+        .duration(animationDuration)
+        .attr("r", 0)
+        .remove();
 
     // Enter in new points
     const enter = join

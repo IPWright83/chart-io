@@ -1,4 +1,4 @@
-import type { IPosition, IScaleType, IValue } from "@chart-io/types";
+import type { IPosition, IScaleType, IValue } from "@chart-io/core";
 import React from "react";
 
 import { Axis, IAxisProps } from "../Axis";

@@ -1,4 +1,4 @@
-import type { IShape } from "@chart-io/types";
+import type { IShape } from "@chart-io/core";
 
 import { Circle } from "./Circle";
 import { Line } from "./Line";

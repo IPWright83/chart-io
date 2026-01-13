@@ -1,6 +1,6 @@
-import React from "react";
-import { scaleLinear } from "@chart-io/d3";
+import { d3 } from "@chart-io/core";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
+import React from "react";
 
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../VirtualCanvas";
 import { Scatters } from "./Scatters";
@@ -15,9 +15,9 @@ describe("Scatters", () => {
         { x: 10, y: 10, y2: 12 },
     ];
     const scales = {
-        x: scaleLinear().domain([0, 20]).range([0, 100]),
-        y: scaleLinear().domain([0, 20]).range([0, 100]),
-        y2: scaleLinear().domain([0, 20]).range([0, 100]),
+        x: d3.scaleLinear().domain([0, 20]).range([0, 100]),
+        y: d3.scaleLinear().domain([0, 20]).range([0, 100]),
+        y2: d3.scaleLinear().domain([0, 20]).range([0, 100]),
     };
 
     describe("using SVG", () => {
