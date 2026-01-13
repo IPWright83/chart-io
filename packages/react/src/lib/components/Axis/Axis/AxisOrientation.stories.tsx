@@ -50,39 +50,47 @@ const HorizontalAxisTemplate = (args) => (
     </Chart>
 );
 
-export const Left = VerticalAxisTemplate.bind({});
-Left.storyName = "Left";
-Left.args = {
-    position: "left",
-    fields: ["integerValue"],
-    height: 400,
-    width: 800,
-    showGridlines: false,
+export const Left = {
+    name: "Left",
+    render: VerticalAxisTemplate,
+    args: {
+        position: "left",
+        fields: ["integerValue"],
+        height: 400,
+        width: 800,
+        showGridlines: false,
+    },
 };
 
-export const Right = VerticalAxisTemplate.bind({});
-Right.storyName = "Right";
-Right.args = {
-    ...Left.args,
-    position: "right",
+export const Right = {
+    name: "Right",
+    render: VerticalAxisTemplate,
+    args: {
+        ...Left.args,
+        position: "right",
+    },
 };
 
-export const Bottom = HorizontalAxisTemplate.bind({});
-Bottom.storyName = "Bottom";
-Bottom.args = {
-    position: "bottom",
-    fields: ["integerValue"],
-    height: 100,
-    width: 800,
-    tickSizeInner: 6,
-    tickSizeOuter: 6,
-    tickPadding: 3,
-    showGridlines: false,
+export const Bottom = {
+    name: "Bottom",
+    render: HorizontalAxisTemplate,
+    args: {
+        position: "bottom",
+        fields: ["integerValue"],
+        height: 100,
+        width: 800,
+        tickSizeInner: 6,
+        tickSizeOuter: 6,
+        tickPadding: 3,
+        showGridlines: false,
+    },
 };
 
-export const Top = HorizontalAxisTemplate.bind({});
-Top.storyName = "Top";
-Top.args = {
-    ...Bottom.args,
-    position: "top",
+export const Top = {
+    name: "Top",
+    render: HorizontalAxisTemplate,
+    args: {
+        ...Bottom.args,
+        position: "top",
+    },
 };

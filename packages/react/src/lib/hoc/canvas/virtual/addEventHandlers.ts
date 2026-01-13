@@ -93,7 +93,7 @@ export const addEventHandlers = (
 
     // This is a fairly slow operation so let's do it just the once
     const rect = canvas.getBoundingClientRect();
-    const eventContext = canvas.getContext("2d");
+    const eventContext = canvas.getContext("2d", { willReadFrequently: true });
 
     /**
      * Retrieve a datum from the click event
@@ -154,7 +154,7 @@ export const addEventHandlers = (
         if (datum) {
             // Trigger the onMouseOver event provided by the Plot. This allows
             // for custom rendering/interaction on a per plot basis.
-            triggerOnMouseOut(lastDatum, lastNode, e);
+            lastDatum && triggerOnMouseOut(lastDatum, lastNode, e);
             triggerOnMouseOver(datum, node, e);
 
             // Tracking variables to help support the onMouseOut events

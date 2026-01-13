@@ -7,6 +7,7 @@ import { Bars } from "./Bars";
 import { XYChart } from "../../XYChart";
 import { XAxis, YAxis } from "../../Axis";
 import { themes } from "../../../themes";
+import { createSVGTest, createCanvasTest } from "../../../testUtils";
 
 import { uniqBy } from "lodash";
 
@@ -83,64 +84,80 @@ const BarsTemplate = (args) => (
     </XYChart>
 );
 
-export const Basic = BarTemplate.bind({});
-Basic.storyName = "Basic Plot";
-Basic.args = {
-    useCanvas: false,
-    width: 800,
-    height: 500,
-    animationDuration: 250,
-    color: "#99C1DC",
-    color2: "#fc998e",
-    theme: themes.light,
-    leftMargin: 120,
-    rightMargin: 40,
-    topMargin: 40,
-    bottomMargin: 40,
-    x: "Unit Price",
-    y: "Item Type",
+export const Basic = {
+    name: "Basic Plot",
+    render: BarTemplate,
+    args: {
+        useCanvas: false,
+        width: 800,
+        height: 500,
+        animationDuration: 250,
+        color: "#99C1DC",
+        color2: "#fc998e",
+        theme: themes.light,
+        leftMargin: 120,
+        rightMargin: 40,
+        topMargin: 40,
+        bottomMargin: 40,
+        x: "Unit Price",
+        y: "Item Type",
+    },
+    play: createSVGTest("rect.bar", { clientX: 107, clientY: 396 }),
 };
 
-export const Color = BarTemplate.bind({});
-Color.storyName = "Custom Color";
-Color.args = {
-    ...Basic.args,
-    color: "orange",
+export const Color = {
+    name: "Custom Color",
+    render: BarTemplate,
+    args: {
+        ...Basic.args,
+        color: "orange",
+    },
 };
 
-export const Canvas = BarTemplate.bind({});
-Canvas.storyName = "Using Canvas";
-Canvas.args = {
-    ...Basic.args,
-    useCanvas: true,
+export const Canvas = {
+    name: "Using Canvas",
+    render: BarTemplate,
+    args: {
+        ...Basic.args,
+        useCanvas: true,
+    },
+    play: createCanvasTest({ clientX: 245, clientY: 455 }),
 };
 
-export const Ratio = BarTemplate.bind({});
-Ratio.storyName = "Ratio Bars";
-Ratio.args = {
-    ...Basic.args,
-    x2: "Unit Cost",
-    theme: {
-        ...themes.light,
-        series: {
-            ...themes.light.series,
-            opacity: 1,
+export const Ratio = {
+    name: "Ratio Bars",
+    render: BarTemplate,
+    args: {
+        ...Basic.args,
+        x2: "Unit Cost",
+        theme: {
+            ...themes.light,
+            series: {
+                ...themes.light.series,
+                opacity: 1,
+            },
         },
     },
 };
 
-export const Stacked = BarsTemplate.bind({});
-Stacked.storyName = "Stacked Bars";
-Stacked.args = {
-    ...Basic.args,
-    x2: "Unit Cost",
-    stacked: true,
+export const Stacked = {
+    name: "Stacked Bars",
+    render: BarsTemplate,
+    args: {
+        ...Basic.args,
+        x2: "Unit Cost",
+        stacked: true,
+    },
+    play: createSVGTest("rect.bar", { clientX: 107, clientY: 396 }),
 };
 
-export const Grouped = BarsTemplate.bind({});
-Grouped.storyName = "Grouped Bars";
-Grouped.args = {
-    ...Basic.args,
-    x2: "Unit Cost",
-    grouped: true,
+export const Grouped = {
+    name: "Grouped Bars",
+    render: BarsTemplate,
+    args: {
+        ...Basic.args,
+        x2: "Unit Cost",
+        grouped: true,
+    },
+    play: createSVGTest("rect.bar", { clientX: 107, clientY: 396 }),
 };

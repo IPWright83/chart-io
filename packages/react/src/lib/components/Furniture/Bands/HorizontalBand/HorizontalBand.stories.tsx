@@ -68,8 +68,12 @@ const ScatterWithRectsTemplate = () => {
     );
 };
 
-export const Default = HorizontalBandTemplate.bind({});
-Default.storyName = "HorizontalBand";
+export const Default = {
+    name: "HorizontalBand",
+    render: HorizontalBandTemplate,
+};
 
-export const ThresholdsExample = ScatterWithRectsTemplate.bind({});
-ThresholdsExample.storyName = "Thresholds Example";
+export const ThresholdsExample = {
+    name: "Thresholds Example",
+    render: ScatterWithRectsTemplate,
+};

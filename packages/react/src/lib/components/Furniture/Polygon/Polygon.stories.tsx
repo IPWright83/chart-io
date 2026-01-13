@@ -18,5 +18,7 @@ const PolygonTemplate = () => {
     );
 };
 
-export const Default = PolygonTemplate.bind({});
-Default.storyName = "Polygon";
+export const Default = {
+    name: "Polygon",
+    render: PolygonTemplate,
+};

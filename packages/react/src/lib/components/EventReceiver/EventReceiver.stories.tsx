@@ -44,5 +44,7 @@ const EventReceiverTemplate = (args) => {
     );
 };
 
-export const Default = EventReceiverTemplate.bind({});
-Default.storyName = "EventReceiver";
+export const Default = {
+    name: "EventReceiver",
+    render: EventReceiverTemplate,
+};

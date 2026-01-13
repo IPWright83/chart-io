@@ -1,20 +1,20 @@
-# @chart-io/react-d3
+# @chart-io/react
 
-@chart-io/react-d3 provides a set of reusable chart components to make data visualization easy. All the components are built using a combination of [React](https://reactjs.org/) and [D3](https://d3js.org/).
+@chart-io/react provides a set of reusable chart components to make data visualization easy. All the components are built using a combination of [React](https://reactjs.org/) and [D3](https://d3js.org/).
 
 It aims to provide high-level components that require minial configuration to provide great looking charts, while also providing access to the low level components giving you the flexibility to customize them as you see fit.
 
-> :warning: @chart-io/react-d3 is currently in pre-release. While you're welcome to give it a try some interfaces may change.
+> :warning: @chart-io/react is currently in pre-release. While you're welcome to give it a try some interfaces may change.
 
 # Install
 
 #### npm
 
-`npm install --save @chart-io/react-d3`
+`npm install --save @chart-io/react`
 
 #### yarn
 
-`yarn add @chart-io/react-d3`
+`yarn add @chart-io/react`
 
 # Getting Started
 
@@ -58,6 +58,6 @@ Start the storybook server
 
 ## FAQ
 
-#### Is @chart-io/react-d3 free to use?
+#### Is @chart-io/react free to use?
 
-@chart-io/react-d3 is free to use and the aim is that it will always be free in open source/non-commercial projects. There may be costs for commercial use in the future, purely to help support the development and improvement of @chart-io/react-d3.
+@chart-io/react is free to use and the aim is that it will always be free in open source/non-commercial projects. There may be costs for commercial use in the future, purely to help support the development and improvement of @chart-io/react.

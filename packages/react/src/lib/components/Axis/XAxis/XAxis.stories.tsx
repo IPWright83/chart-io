@@ -14,11 +14,13 @@ const XAxisTemplate = (args) => (
     </Chart>
 );
 
-export const XAxisStory = XAxisTemplate.bind({});
-XAxisStory.storyName = "X Axis";
-XAxisStory.args = {
-    data: [{ x: 0 }, { x: 10 }],
-    fields: ["x"],
-    height: 100,
-    width: 800,
+export const XAxisStory = {
+    name: "X Axis",
+    render: XAxisTemplate,
+    args: {
+        data: [{ x: 0 }, { x: 10 }],
+        fields: ["x"],
+        height: 100,
+        width: 800,
+    },
 };

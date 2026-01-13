@@ -72,6 +72,7 @@ export function CanvasLine({
         line(sortedData);
 
         context.strokeStyle = `${seriesColor}`;
+        context.lineWidth = 2;
         context.stroke();
 
         // Note that because we've drawn directly to the canvas, there is no need

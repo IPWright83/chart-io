@@ -22,6 +22,11 @@ export interface IPlotProps {
     y: string;
 
     /**
+     * Should we supress clipping for this plot.
+     */
+    noClip?: boolean;
+
+    /**
      * The color to use for the points
      */
     color?: IColor;
