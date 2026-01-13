@@ -5,8 +5,8 @@ import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
 import { ColumnBase } from "./ColumnBase";
 
-const CanvasColumn = withCanvas(withXYPlot(ColumnBase));
-const SVGColumn = withSVG(withXYPlot(ColumnBase));
+const CanvasColumn = withCanvas(withXYPlot(ColumnBase), "plot column");
+const SVGColumn = withSVG(withXYPlot(ColumnBase), "plot column");
 
 /**
  * Represents a Column plot

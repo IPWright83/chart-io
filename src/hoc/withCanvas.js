@@ -23,19 +23,17 @@ const withCanvas = (WrappedComponent, className) =>
         const height = useSelector((s) => chartSelectors.dimensions.height(s));
 
         useEffect(() => {
-            setLayer({ current: document.createElement("custom") });
+            const element = document.createElement("custom");
+            document.body.appendChild(element);
+            element.className = `g-${className}`;
+            console.log(element.className);
+            setLayer({ current: element });
         }, []);
 
         return (
             <React.Fragment>
                 <foreignObject width={width} height={height} style={styles.foreignObject}>
-                    <canvas
-                        className={`g-${className}`}
-                        width={width}
-                        height={height}
-                        ref={canvas}
-                        style={styles.canvas}
-                    ></canvas>
+                    <canvas width={width} height={height} ref={canvas} style={styles.canvas}></canvas>
                 </foreignObject>
                 <WrappedComponent {...props} layer={layer} canvas={canvas.current} />
             </React.Fragment>
