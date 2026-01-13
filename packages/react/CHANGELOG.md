@@ -1,5 +1,11 @@
 # @chart-it/react-d3
 
+## 0.26.0
+
+### Minor Changes
+
+- 83b620c: Updates warnings & errors
+
 ## 0.25.0
 
 ### Minor Changes
