@@ -86,6 +86,7 @@ jobs:
 
   chromatic:
     needs: [lint, audit, unit]
+    if: "!contains(github.event.head_commit.message, 'skip chromatic')"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -108,6 +109,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: false
+          automatic_release_tag: ${{steps.version_bump.outputs.newTag}}
 
   pnpm_publish:
     runs-on: ubuntu-latest
