@@ -10,12 +10,12 @@ import { Scale } from "./Scale";
  * @param  {Object} props   Props for the scale
  * @return {ReactDOMComponent}   A scale component
  */
-const YScale = ({ fields, scaleType, aggregate }) => {
+const YScale = ({ fields, scaleType, aggregate, domain }) => {
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
     const range = [height - margin.bottom, margin.top];
 
-    return <Scale fields={fields} range={range} scaleType={scaleType} aggregate={aggregate} />;
+    return <Scale fields={fields} range={range} scaleType={scaleType} domain={domain} aggregate={aggregate} />;
 };
 
 YScale.propTypes = {
@@ -34,6 +34,13 @@ YScale.propTypes = {
      * @type {Boolean}
      */
     aggregate: PropTypes.bool,
+    /**
+     * (Optional) An override of the domain to use with the d3 scale
+     * @type {Array}
+     */
+    domain: PropTypes.arrayOf(
+        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.boolean]),
+    ),
 };
 
 export { YScale };

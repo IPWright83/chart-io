@@ -9,7 +9,7 @@ import { calculateScale } from "./calculateScale";
  * Represents a Scale component
  * @return {ReactDOMComponent}   A scale component
  */
-const Scale = ({ fields, range, scaleType, aggregate }) => {
+const Scale = ({ fields, range, scaleType, aggregate, domain }) => {
     const dispatch = useDispatch();
     const data = useSelector((s) => chartSelectors.data(s));
 
@@ -18,7 +18,7 @@ const Scale = ({ fields, range, scaleType, aggregate }) => {
         if (isNaN(range[0]) || isNaN(range[1])) return;
 
         // Use the fixed range if one was provided
-        const scale = calculateScale(data, fields, range, aggregate, scaleType);
+        const scale = calculateScale(data, fields, range, domain, aggregate, scaleType);
         dispatch(chartActions.setScales(fields, scale));
     }, [fields, data, range, scaleType, aggregate, dispatch]);
 
@@ -46,6 +46,13 @@ Scale.propTypes = {
      * @type {Boolean}
      */
     aggregate: PropTypes.bool,
+    /**
+     * (Optional) An override of the domain to use with the d3 scale
+     * @type {Array}
+     */
+    domain: PropTypes.arrayOf(
+        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.boolean]),
+    ),
 };
 
 Scale.defaultProps = {

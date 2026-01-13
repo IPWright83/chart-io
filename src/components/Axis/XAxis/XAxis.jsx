@@ -19,6 +19,7 @@ const XAxis = ({
     tickPadding,
     tickFormat,
     ticks,
+    domain,
 }) => {
     return (
         <React.Fragment>
@@ -33,7 +34,7 @@ const XAxis = ({
                 tickFormat={tickFormat}
                 ticks={ticks}
             />
-            <XScale fields={fields} scaleType={scaleType} aggregate={aggregate} />
+            <XScale fields={fields} scaleType={scaleType} aggregate={aggregate} domain={domain} />
         </React.Fragment>
     );
 };
@@ -54,6 +55,13 @@ XAxis.propTypes = {
      * @type {String}
      */
     scaleType: PropTypes.oneOf(["linear", "time", "power", "log", "band", "point"]),
+    /**
+     * (Optional) An override of the domain to use with the d3 scale
+     * @type {Array}
+     */
+    domain: PropTypes.arrayOf(
+        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.boolean]),
+    ),
     /**
      * Whether this scale is an aggregate (of multiple y values)
      * @type {Boolean}

@@ -12,6 +12,7 @@ const YAxis = ({
     fields,
     scaleType,
     aggregate,
+    domain,
     showGridlines,
     title,
     tickSizeInner,
@@ -33,7 +34,7 @@ const YAxis = ({
                 ticks={ticks}
                 tickFormat={tickFormat}
             />
-            <YScale fields={fields} scaleType={scaleType} aggregate={aggregate} />
+            <YScale fields={fields} scaleType={scaleType} aggregate={aggregate} domain={domain} />
         </React.Fragment>
     );
 };
@@ -54,6 +55,13 @@ YAxis.propTypes = {
      * @type {String}
      */
     scaleType: PropTypes.oneOf(["linear", "time", "power", "log", "band", "point"]),
+    /**
+     * (Optional) An override of the domain to use with the d3 scale
+     * @type {Array}
+     */
+    domain: PropTypes.arrayOf(
+        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.boolean]),
+    ),
     /**
      * Whether this scale is an aggregate (of multiple y values)
      * @type {Boolean}
