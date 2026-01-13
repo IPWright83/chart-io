@@ -7,87 +7,6 @@ on:
       - "master"
 
 jobs:
-  # lint:
-  #   runs-on: ubuntu-latest
-  #   if: "!contains(github.event.head_commit.message, 'ci skip')"
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 16
-  #     - uses: pnpm/action-setup@v2.2.2
-  #       with:
-  #         run_install: false
-  #     - name: Get pnpm store directory
-  #       id: pnpm-cache
-  #       run: |
-  #         echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-  #     - uses: actions/cache@v3
-  #       name: Setup pnpm cache
-  #       with:
-  #         path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-  #         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-pnpm-store-
-  #     - name: pnpm Install
-  #       run: pnpm install
-  #     - name: Lint
-  #       run: pnpm run lint
-
-  # audit:
-  #   runs-on: ubuntu-latest
-  #   if: "!contains(github.event.head_commit.message, 'ci skip')"
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 16
-  #     - uses: pnpm/action-setup@v2.2.2
-  #       with:
-  #         run_install: false
-  #     - name: Get pnpm store directory
-  #       id: pnpm-cache
-  #       run: |
-  #         echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-  #     - uses: actions/cache@v3
-  #       name: Setup pnpm cache
-  #       with:
-  #         path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-  #         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-pnpm-store-
-  #     - name: pnpm Install
-  #       run: pnpm install
-  #     - name: Run Linting
-  #       run: pnpm audit --production --audit-level moderate
-
-  # unit:
-  #   runs-on: ubuntu-latest
-  #   if: "!contains(github.event.head_commit.message, 'ci skip')"
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 16
-  #     - uses: pnpm/action-setup@v2.2.2
-  #       with:
-  #         run_install: false
-  #     - name: Get pnpm store directory
-  #       id: pnpm-cache
-  #       run: |
-  #         echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-  #     - uses: actions/cache@v3
-  #       name: Setup pnpm cache
-  #       with:
-  #         path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-  #         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-pnpm-store-
-  #     - name: pnpm Install
-  #       run: pnpm install
-  #     - name: Run Unit Tests
-  #       run: pnpm test
-
   changesets_version:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, 'ci skip')"
@@ -171,72 +90,9 @@ jobs:
   #         git commit -m "Version packages" || echo "No changes to commit"
   #         git push --follow-tags
 
-  # publish:
-  #   runs-on: ubuntu-latest
-  #   needs: changesets_version
-  #   # This will only run if there were no changesets.
-  #   ## the next triggered build from the push will then pass this step and continue with the release
-  #   if: always() && needs.changesets_version.outputs.changes == 'false'
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #       with:
-  #         token: ${{ secrets.DEPLOY_TOKEN }}
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 16
-  #         registry-url: "https://registry.npmjs.org"
-  #         scope: "@<scope>"
-  #       env:
-  #         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  #     - uses: pnpm/action-setup@v2.2.2
-  #       with:
-  #         run_install: false
-  #     - name: Get pnpm store directory
-  #       id: pnpm-cache
-  #       run: |
-  #         echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-  #     - uses: actions/cache@v3
-  #       name: Setup pnpm cache
-  #       with:
-  #         path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-  #         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-  #         restore-keys: |
-  #           ${{ runner.os }}-pnpm-store-
-  #     - name: pnpm Install
-  #       run: pnpm install
-  #     - name: Build
-  #       run: pnpm run build
-  #     - name: Setup Git Config
-  #       run: |
-  #         git config user.name "GitHub Actions Bot"
-  #         git config user.email "<>"
-  #     - name: Create Tags
-  #       run: pnpm changeset tag
-  #     - name: Push tags
-  #       run: git push --follow-tags
-  #     - name: Release packages
-  #       run: pnpm publish -r --access=public --filter "@chart-it/*"
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-
-  debugging:
-    needs: changesets_version
-    runs-on: ubuntu-latest
-    steps:
-      - name: Debug logs
-        run: echo ${{needs.changesets_version.outputs.hasChangesets}}
-      - name: Equality log string true
-        run: echo ${{needs.changesets_version.outputs.hasChangesets == 'true' }}
-      - name: Equality log true
-        run: echo ${{needs.changesets_version.outputs.hasChangesets == true }}
-      - name: Equality log string false
-        run: echo ${{needs.changesets_version.outputs.hasChangesets == 'false' }}
-      - name: Equality log false
-        run: echo ${{needs.changesets_version.outputs.hasChangesets == false }}
-
   deploy_storybook:
     needs: changesets_version
-    if: "needs.changesets_version.outputs.hasChangesets == 'true'"
+    if: "needs.changesets_version.outputs.published == 'true'"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -269,7 +125,7 @@ jobs:
 
   update_chromatic_baseline:
     needs: changesets_version
-    if: "needs.changesets_version.outputs.hasChangesets == 'true'"
+    if: "needs.changesets_version.outputs.published == 'true'"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
