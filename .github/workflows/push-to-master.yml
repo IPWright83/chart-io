@@ -169,6 +169,8 @@ jobs:
         run: pnpm run build
       - name: Create Tags
         run: pnpm changeset tag
+      - name: Tag debug
+        run: git tag
       - name: Push tags
         run: git push --follow-tags
       - name: Release packages
