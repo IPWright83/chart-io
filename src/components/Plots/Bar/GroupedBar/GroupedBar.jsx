@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { useSelector } from "react-redux";
 
+import { chartSelectors } from "../../../../store";
 import { withCanvas, withSVG, withXYPlot } from "../../../../hoc";
 
 import { GroupedBarBase } from "./GroupedBarBase";
@@ -13,12 +15,15 @@ const GroupedSVGBar = withSVG(withXYPlot(GroupedBarBase), "plot grouped-bar");
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Bar plot component
  */
-const GroupedBar = ({ useCanvas, ...props }) => {
+const GroupedBar = ({ useCanvas, colors, ...props }) => {
+    const theme = useSelector((s) => chartSelectors.theme(s));
+    const palette = colors || theme.colors;
+
     if (useCanvas) {
-        return <GroupedCanvasBar {...props} />;
+        return <GroupedCanvasBar {...props} colors={palette} />;
     }
 
-    return <GroupedSVGBar {...props} />;
+    return <GroupedSVGBar {...props} colors={palette} />;
 };
 
 GroupedBar.propTypes = {

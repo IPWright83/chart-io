@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GroupedColumn using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot grouped-bar"
+    >
+      <g>
+        <rect
+          class="bar"
+          height="23"
+          style="stroke: #fff; fill: #99c1dc; opacity: 0.7;"
+          width="0"
+          x="0"
+          y="2"
+        />
+        <rect
+          class="bar"
+          height="23"
+          style="stroke: #fff; fill: #fc998e; opacity: 0.7;"
+          width="0"
+          x="0"
+          y="26"
+        />
+      </g>
+      <g>
+        <rect
+          class="bar"
+          height="23"
+          style="stroke: #fff; fill: #99c1dc; opacity: 0.7;"
+          width="0"
+          x="0"
+          y="52"
+        />
+        <rect
+          class="bar"
+          height="23"
+          style="stroke: #fff; fill: #fc998e; opacity: 0.7;"
+          width="0"
+          x="0"
+          y="76"
+        />
+      </g>
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`GroupedColumn using SVG should skip rendering if there is no x scale avaliable 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot grouped-bar"
+    />
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`GroupedColumn using SVG should skip rendering if there is no y scale avaliable 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot grouped-bar"
+    />
+  </svg>
+</DocumentFragment>
+`;
