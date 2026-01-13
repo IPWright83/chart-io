@@ -1,0 +1,35 @@
+---
+name: Auto Merge Version Packages
+
+on:
+  pull_request:
+    types:
+      - opened
+    branches:
+      - master
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check if auto merge possible
+        id: check
+        run: |
+          commit_message=$(git log --format=%B -n 1 $GITHUB_SHA)
+          pr_title=$(jq --raw-output '.pull_request.title' $GITHUB_EVENT_PATH)
+          bot_username='github-actions[bot]'
+          echo "::set-output name=merge::$(echo "$commit_message" | grep -q 'Version Packages' && echo "$pr_title" | grep -q 'Version Packages' && [ "$bot_username" == "$GITHUB_ACTOR" ])"
+      - name: Auto merge pull request
+        if: steps.check.outputs.merge == 'true'
+        uses: octokit/request-action@v2.x
+        with:
+          route: PUT /repos/IPWright83/chart-io/pulls/${{ github.event.pull_request.number }}/merge
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            {
+              "commit_title": "Auto merge",
+              "commit_message": "Automatically merged",
+              "sha": "${{ github.event.pull_request.head.sha }}"
+            }
