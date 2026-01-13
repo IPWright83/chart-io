@@ -65,6 +65,7 @@ const AreasTemplate = (args) => (
         width={args.width}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        theme={args.theme}
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
@@ -82,6 +83,7 @@ const StackedAreasTemplate = (args) => (
         height={args.height}
         width={args.width}
         animationDuration={args.animationDuration}
+        theme={args.theme}
         useCanvas={args.useCanvas}
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
@@ -97,8 +99,8 @@ export const Basic = AreaTemplate.bind({});
 Basic.storyName = "Basic Plot";
 Basic.args = {
     useCanvas: false,
-    width: 500,
-    height: 400,
+    width: 800,
+    height: 500,
     animationDuration: 250,
     color: "#99C1DC",
     theme: "light",

@@ -17,7 +17,19 @@ import { getParentKey } from "./getParentKey";
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Column plot component
  */
-const StackedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, layer, canvas, renderVirtualCanvas }) => {
+const StackedColumnBase = ({
+    x,
+    ys,
+    colors,
+    opacity,
+    interactive,
+    onMouseOver,
+    onMouseOut,
+    onClick,
+    layer,
+    canvas,
+    renderVirtualCanvas,
+}) => {
     const [focused, setFocused] = useState(null);
     const dispatch = useDispatch();
 
@@ -26,6 +38,7 @@ const StackedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, la
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
     const yScale = useSelector((s) => chartSelectors.scales.getScale(s, ys[0]));
+    const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
     const strokeColor = "#fff";
@@ -34,16 +47,16 @@ const StackedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, la
     useEffect(() => {
         if (!focused) return;
 
-        const selection = d3.select(focused.element).style("opacity", 1);
+        const selection = d3.select(focused.element).style("opacity", theme.selectedOpacity);
         const dropline = getDropline(selection, xScale);
         dispatch(eventActions.addDropline(dropline));
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", 0.8);
+            selection.style("opacity", opacity ?? theme.opacity);
             dispatch(eventActions.removeDropline(dropline));
         };
-    }, [dispatch, focused, xScale]);
+    }, [dispatch, focused, xScale, theme.opacity, theme.selectedOpacity]);
 
     useRender(() => {
         if (ensureBandScale(xScale, "StackedColumnBase") === false) return null;
@@ -81,27 +94,32 @@ const StackedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, la
                 return colorScale(key);
             })
             .style("stroke", strokeColor)
-            .style("opacity", 0.8);
+            .style("opacity", opacity ?? theme.opacity);
 
         const update = join
             .merge(enter)
             .on("mouseover", function (event, d) {
+                if (!interactive) return;
+
                 onMouseOver && onMouseOver(d.data, this, event);
                 setFocused({ element: this, event, datum: d.data });
-
-                setTooltip({ 
-                    datum: d.data, 
-                    event, 
-                    fillColors: ys.map(y => colorScale(y)),
+                setTooltip({
+                    datum: d.data,
+                    event,
+                    fillColors: ys.map((y) => colorScale(y)),
                     ys,
                 });
             })
             .on("mouseout", function (event, d) {
+                if (!interactive) return;
+
                 onMouseOut && onMouseOut(d.data, this, event);
                 setFocused(null);
                 setTooltip(null);
             })
             .on("click", function (event, d) {
+                if (!interactive) return;
+
                 onClick && onClick(d.data, this, event);
             })
             .transition("position")

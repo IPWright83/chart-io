@@ -18,7 +18,19 @@ import { getParentKey } from "./getParentKey";
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Column plot component
  */
-const StackedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer, canvas, renderVirtualCanvas }) => {
+const StackedBarBase = ({
+    xs,
+    y,
+    colors,
+    opacity,
+    interactive,
+    onMouseOver,
+    onMouseOut,
+    onClick,
+    layer,
+    canvas,
+    renderVirtualCanvas,
+}) => {
     const [focused, setFocused] = useState(null);
     const dispatch = useDispatch();
 
@@ -37,13 +49,13 @@ const StackedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
     useEffect(() => {
         if (!focused) return;
 
-        const selection = d3.select(focused.element).style("opacity", 1);
+        const selection = d3.select(focused.element).style("opacity", theme.selectedOpacity);
         const dropline = getDropline(selection, yScale, false);
         dispatch(eventActions.addDropline(dropline));
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", 0.8);
+            selection.style("opacity", opacity ?? theme.opacity);
             dispatch(eventActions.removeDropline(dropline));
         };
     }, [dispatch, focused, yScale, theme.opacity, theme.selectedOpacity]);
@@ -84,27 +96,32 @@ const StackedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
                 const key = getParentKey(elements[i]);
                 return colorScale(key);
             })
-            .style("opacity", 0.8);
+            .style("opacity", opacity ?? theme.opacity);
 
         const update = join
             .merge(enter)
             .on("mouseover", function (event, d) {
+                if (!interactive) return;
+
                 onMouseOver && onMouseOver(d.data, this, event);
                 setFocused({ element: this, event, datum: d.data });
-                
-                setTooltip({ 
-                    datum: d.data, 
-                    event, 
-                    fillColors: xs.map(x => colorScale(x)),
-                    xs
+                setTooltip({
+                    datum: d.data,
+                    event,
+                    fillColors: xs.map((x) => colorScale(x)),
+                    xs,
                 });
             })
             .on("mouseout", function (event, d) {
+                if (!interactive) return;
+
                 onMouseOut && onMouseOut(d.data, this, event);
                 setFocused(null);
                 setTooltip(null);
             })
             .on("click", function (event, d) {
+                if (!interactive) return;
+
                 onClick && onClick(d.data, this, event);
             })
             .transition("position")

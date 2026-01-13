@@ -16,7 +16,19 @@ import { useTooltip } from "../useTooltip";
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Column plot component
  */
-const ColumnBase = ({ x, y, canvas, renderVirtualCanvas, color, opacity, onMouseOver, onMouseOut, onClick, layer }) => {
+const ColumnBase = ({
+    x,
+    y,
+    canvas,
+    renderVirtualCanvas,
+    color,
+    opacity,
+    interactive,
+    onMouseOver,
+    onMouseOut,
+    onClick,
+    layer,
+}) => {
     const [focused, setFocused] = useState(null);
     const dispatch = useDispatch();
 
@@ -28,9 +40,10 @@ const ColumnBase = ({ x, y, canvas, renderVirtualCanvas, color, opacity, onMouse
     const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
-    const fillColor = d3.color(color || theme.colors[0]);
-    fillColor.opacity = opacity;
     const strokeColor = "#fff";
+    const fillColor = d3.color(color || theme.colors[0]);
+    fillColor.opacity = opacity ?? theme.opacity;
+
     const setTooltip = useTooltip({ dispatch, x });
 
     useEffect(() => {
@@ -77,16 +90,22 @@ const ColumnBase = ({ x, y, canvas, renderVirtualCanvas, color, opacity, onMouse
         const update = enter
             .merge(join)
             .on("mouseover", function (event, datum) {
+                if (!interactive) return;
+
                 onMouseOver && onMouseOver(datum, this, event);
                 setFocused({ element: this, event, datum });
                 setTooltip({ datum, event, fillColors: [fillColor], ys: [y] });
             })
             .on("mouseout", function (event, datum) {
+                if (!interactive) return;
+
                 onMouseOut && onMouseOut(datum, this, event);
                 setFocused(null);
                 setTooltip(null);
             })
             .on("click", function (event, datum) {
+                if (!interactive) return;
+
                 onClick && onClick(datum, this, event);
             })
             .transition("position")

@@ -61,7 +61,7 @@ const ColumnTemplate = (args) => (
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} scaleType="band" showGridlines={false} />
         <Column x={args.x} y={args.y} color={args.color} />
-        {args.y2 ? <Column x={args.x} y={args.y2} color={args.color2} /> : undefined}
+        {args.y2 && <Column x={args.x} y={args.y2} color={args.color2} />}
     </XYChart>
 );
 
@@ -89,7 +89,7 @@ Basic.storyName = "Basic Plot";
 Basic.args = {
     useCanvas: false,
     width: 800,
-    height: 400,
+    height: 500,
     animationDuration: 250,
     color: "#99C1DC",
     color2: "#FF7F28",

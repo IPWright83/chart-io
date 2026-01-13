@@ -17,7 +17,19 @@ import { useTooltip } from "../useTooltip";
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Column plot component
  */
-const GroupedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer, canvas, renderVirtualCanvas }) => {
+const GroupedBarBase = ({
+    xs,
+    y,
+    colors,
+    opacity,
+    interactive,
+    onMouseOver,
+    onMouseOut,
+    onClick,
+    layer,
+    canvas,
+    renderVirtualCanvas,
+}) => {
     const [focused, setFocused] = useState(null);
     const dispatch = useDispatch();
 
@@ -36,13 +48,13 @@ const GroupedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
     useEffect(() => {
         if (!focused) return;
 
-        const selection = d3.select(focused.element).style("opacity", 1);
+        const selection = d3.select(focused.element).style("opacity", theme.selectedOpacity);
         const dropline = getDropline(selection, yScale, true);
         dispatch(eventActions.addDropline(dropline));
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", 0.8);
+            selection.style("opacity", opacity ?? theme.opacity);
             dispatch(eventActions.removeDropline(dropline));
         };
     }, [dispatch, focused, yScale, theme.opacity, theme.selectedOpacity]);
@@ -77,26 +89,32 @@ const GroupedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
             .attr("height", y1Scale.bandwidth())
             .style("stroke", strokeColor)
             .style("fill", (d) => colorScale(d.key))
-            .style("opacity", 0.8);
+            .style("opacity", opacity ?? theme.opacity);
 
         const update = join
             .merge(enter)
             .on("mouseover", function (event, datum) {
+                if (!interactive) return;
+
                 onMouseOver && onMouseOver(datum, this, event);
                 setFocused({ element: this, event, datum });
-                setTooltip({ 
-                    datum, 
-                    event, 
-                    fillColors: [colorScale(datum.key)], 
-                    xs: [datum.key] 
+                setTooltip({
+                    datum,
+                    event,
+                    fillColors: [colorScale(datum.key)],
+                    xs: [datum.key],
                 });
             })
             .on("mouseout", function (event, datum) {
+                if (!interactive) return;
+
                 onMouseOut && onMouseOut(datum, this, event);
                 setFocused(null);
                 setTooltip(null);
             })
             .on("click", function (event, datum) {
+                if (!interactive) return;
+
                 onClick && onClick(datum, this, event);
             })
             .transition("position")

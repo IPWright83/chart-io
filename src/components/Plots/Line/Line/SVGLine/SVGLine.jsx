@@ -14,7 +14,7 @@ import { usePathCreator } from "./usePathCreator";
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Line plot component
  */
-const SVGLine = ({ x, y, color, layer, canvas }) => {
+const SVGLine = ({ x, y, color, interactive, layer, canvas }) => {
     const dispatch = useDispatch();
     const data = useSelector((s) => chartSelectors.data(s));
     const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
@@ -56,7 +56,9 @@ const SVGLine = ({ x, y, color, layer, canvas }) => {
     }, [x, y, sortedData, xScale, yScale, layer, animationDuration, canvas]);
 
     // If possible respond to global mouse events for tooltips etc
-    useDatumFocus(dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
+    if (interactive) {
+        useDatumFocus(dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
+    }
 
     return null;
 };

@@ -19,6 +19,12 @@ const eventReducer = (state = defaultState, action) => {
     const payload = action.payload || {};
     switch (action.type) {
         case "EVENT.MOUSE_MOVE":
+            // Ignore events if no MOUSE_ENTER was recieved. This prevents
+            // bugs where a MouseMove fires straight after a MouseExit
+            if (!state.mouse) {
+                return state;
+            }
+
             return {
                 ...state,
                 mouse: { x: payload.offsetX, y: payload.offsetY, mode: "MOVE" },

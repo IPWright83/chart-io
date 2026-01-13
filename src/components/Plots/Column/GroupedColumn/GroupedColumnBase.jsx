@@ -16,7 +16,19 @@ import { useTooltip } from "../useTooltip";
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Column plot component
  */
-const GroupedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, layer, canvas, renderVirtualCanvas }) => {
+const GroupedColumnBase = ({
+    x,
+    ys,
+    colors,
+    opacity,
+    interactive,
+    onMouseOver,
+    onMouseOut,
+    onClick,
+    layer,
+    canvas,
+    renderVirtualCanvas,
+}) => {
     const [focused, setFocused] = useState(null);
     const dispatch = useDispatch();
 
@@ -25,6 +37,7 @@ const GroupedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, la
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
     const yScale = useSelector((s) => chartSelectors.scales.getScale(s, ys[0]));
+    const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
     const strokeColor = "#fff";
@@ -34,16 +47,16 @@ const GroupedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, la
     useEffect(() => {
         if (!focused) return;
 
-        const selection = d3.select(focused.element).style("opacity", 1);
+        const selection = d3.select(focused.element).style("opacity", theme.selectedOpacity);
         const dropline = getDropline(selection, xScale, true);
         dispatch(eventActions.addDropline(dropline));
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", 0.8);
+            selection.style("opacity", opacity ?? theme.opacity);
             dispatch(eventActions.removeDropline(dropline));
         };
-    }, [dispatch, focused, xScale]);
+    }, [dispatch, focused, xScale, theme.opacity, theme.selectedOpacity]);
 
     useRender(() => {
         if (ensureBandScale(xScale, "GroupedColumn") === false) return null;
@@ -75,26 +88,32 @@ const GroupedColumnBase = ({ x, ys, colors, onMouseOver, onMouseOut, onClick, la
             .attr("width", x1Scale.bandwidth())
             .style("fill", (d) => colorScale(d.key))
             .style("stroke", strokeColor)
-            .style("opacity", 0.8);
+            .style("opacity", opacity ?? theme.opacity);
 
         const update = join
             .merge(enter)
             .on("mouseover", function (event, datum) {
+                if (!interactive) return;
+
                 onMouseOver && onMouseOver(datum, this, event);
                 setFocused({ element: this, event, datum });
-                setTooltip({ 
-                    datum, 
-                    event, 
-                    fillColors: [colorScale(datum.key)], 
-                    ys: [datum.key] 
+                setTooltip({
+                    datum,
+                    event,
+                    fillColors: [colorScale(datum.key)],
+                    ys: [datum.key],
                 });
             })
             .on("mouseout", function (event, datum) {
+                if (!interactive) return;
+
                 onMouseOut && onMouseOut(datum, this, event);
                 setFocused(null);
                 setTooltip(null);
             })
             .on("click", function (event, datum) {
+                if (!interactive) return;
+
                 onClick && onClick(datum, this, event);
             })
             .transition("position")

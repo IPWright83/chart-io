@@ -16,7 +16,7 @@ import { useMultiPathCreator } from "./useMultiPathCreator";
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Line plot component
  */
-const StackedAreaBase = ({ x, ys, colors, layer, canvas }) => {
+const StackedAreaBase = ({ x, ys, colors, opacity, interactive, layer, canvas }) => {
     const dispatch = useDispatch();
     const data = useSelector((s) => chartSelectors.data(s));
     const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
@@ -25,6 +25,7 @@ const StackedAreaBase = ({ x, ys, colors, layer, canvas }) => {
     const position = useSelector((s) => eventSelectors.position(s));
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
+    const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
@@ -60,7 +61,7 @@ const StackedAreaBase = ({ x, ys, colors, layer, canvas }) => {
             join.enter().each((d) => {
                 const color = colorScale(d.key);
                 const fillColor = d3.color(color);
-                fillColor.opacity = 0.8;
+                fillColor.opacity = opacity ?? theme.opacity;
                 const strokeColor = fillColor.darker();
 
                 context.beginPath();
@@ -79,6 +80,7 @@ const StackedAreaBase = ({ x, ys, colors, layer, canvas }) => {
 
         join.style("fill", (d) => colorScale(d.key))
             .style("stroke", (d) => d3.color(colorScale(d.key)).darker())
+            .style("opacity", opacity ?? theme.opacity)
             .transition("area")
             .duration(animationDuration)
             .delay((d, i) => (animationDuration / keys.length) * i)
@@ -90,10 +92,12 @@ const StackedAreaBase = ({ x, ys, colors, layer, canvas }) => {
                     return a.x === b.x && a.x === xScale.range()[1];
                 });
             });
-    }, [x, ys, sortedData, xScale, yScale, layer, animationDuration]);
+    }, [x, ys, sortedData, xScale, yScale, layer, animationDuration, theme.opacity]);
 
     // If possible respond to global mouse events for tooltips etc
-    useDatumFocus(dispatch, layer, x, ys, xScale, yScale, sortedData, eventMode, position, colors);
+    if (interactive) {
+        useDatumFocus(dispatch, layer, x, ys, xScale, yScale, sortedData, eventMode, position, colors);
+    }
 
     return null;
 };

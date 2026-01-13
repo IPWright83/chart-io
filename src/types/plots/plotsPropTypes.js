@@ -29,6 +29,12 @@ const plotsPropTypes = {
      * @type {Array<String>}
      */
     colors: PropTypes.arrayOf(PropTypes.string),
+
+    /**
+     * The opacity to use for the Plot
+     * @type {Number}
+     */
+    opacity: PropTypes.number,
 };
 
 export { plotsPropTypes };
