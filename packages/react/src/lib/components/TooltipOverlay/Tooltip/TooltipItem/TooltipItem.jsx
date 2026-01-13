@@ -37,7 +37,7 @@ const TooltipItem = ({ name, value, seriesType, fill }) => {
         <div className="chart-it tooltip-item" style={styles.tooltipItem}>
             {Shape && <Shape fill={fill} />}
             <div className="chart-it tooltip-values" style={styles.tooltipValues}>
-                <span className="chart-it tooltip-series-name" styles={styles.tooltipSeriesName}>
+                <span className="chart-it tooltip-series-name" style={styles.tooltipSeriesName}>
                     {name}:
                 </span>
                 <span className="chart-it tooltip-series-value">{`${value}`}</span>

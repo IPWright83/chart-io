@@ -1,6 +1,5 @@
 import { XYChart, XAxis, YAxis, Scatter } from "@chart-it/react-d3";
 
-import logo from "./logo.svg";
 import "./App.css";
 
 function App() {

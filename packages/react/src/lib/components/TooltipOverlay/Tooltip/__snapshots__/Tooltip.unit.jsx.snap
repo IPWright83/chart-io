@@ -20,7 +20,7 @@ exports[`Tooltip should render correctly 1`] = `
       >
         <span
           class="chart-it tooltip-series-name"
-          styles="[object Object]"
+          style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
         >
           a:
         </span>
@@ -45,7 +45,7 @@ exports[`Tooltip should render correctly 1`] = `
       >
         <span
           class="chart-it tooltip-series-name"
-          styles="[object Object]"
+          style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
         >
           b:
         </span>
@@ -70,7 +70,7 @@ exports[`Tooltip should render correctly 1`] = `
       >
         <span
           class="chart-it tooltip-series-name"
-          styles="[object Object]"
+          style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
         >
           c:
         </span>
