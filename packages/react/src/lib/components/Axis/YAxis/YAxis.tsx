@@ -1,4 +1,4 @@
-import type { IPosition, IScaleType, IValue } from "@d3-chart/types";
+import type { IPosition, IScaleType, IValue } from "@chart-it/types";
 import React from "react";
 
 import { Axis, IAxisProps } from "../Axis";

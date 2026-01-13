@@ -1,4 +1,4 @@
-import type { IColor } from "@d3-chart/types";
+import type { IColor } from "@chart-it/types";
 import React from "react";
 
 export interface IPolygonProps {

@@ -1,4 +1,4 @@
-import type { ICoordinate } from "@d3-chart/types";
+import type { ICoordinate } from "@chart-it/types";
 
 /**
  * Returns a position for the tooltip from the moust event

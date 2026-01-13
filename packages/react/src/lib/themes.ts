@@ -1,4 +1,4 @@
-import type { IColor, ITheme } from "@d3-chart/types";
+import type { IColor, ITheme } from "@chart-it/types";
 
 const light: ITheme = {
     axis: {

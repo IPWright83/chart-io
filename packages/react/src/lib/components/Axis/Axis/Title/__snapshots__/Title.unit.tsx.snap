@@ -10,7 +10,7 @@ exports[`Title component with title set renders horizontal title 1`] = `
 <DocumentFragment>
   <svg>
     <text
-      class="d3-chart axis-title axis-title-bottom"
+      class="chart-it axis-title axis-title-bottom"
       style="text-anchor: middle; font-size: 14px; user-select: none;"
       transform="translate(470, 495)"
     >
@@ -24,7 +24,7 @@ exports[`Title component with title set renders vertical title 1`] = `
 <DocumentFragment>
   <svg>
     <text
-      class="d3-chart axis-title axis-title-left"
+      class="chart-it axis-title axis-title-left"
       style="text-anchor: middle; font-size: 14px; user-select: none;"
       transform="translate(0, 230)rotate(270)"
     >

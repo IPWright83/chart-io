@@ -1,9 +1,9 @@
 {
-  "name": "@d3-chart/detection",
+  "name": "@chart-it/detection",
   "version": "0.7.0",
   "private": true,
   "packageManager": "pnpm@7.26.2",
-  "description": "Provides data type detection utilities for @d3-chart",
+  "description": "Provides data type detection utilities for @chart-it",
   "repository": "git@github.com:IPWright83/chart-it.git",
   "author": "\"Ian Wright\" <\"ipwright83+dev@gmail.com\">",
   "main": "src/index.ts",
@@ -30,8 +30,8 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "@d3-chart/d3": "workspace:*",
-    "@d3-chart/types": "workspace:*",
+    "@chart-it/d3": "workspace:*",
+    "@chart-it/types": "workspace:*",
     "@swc/core": "^1.3.36",
     "@swc/jest": "^0.2.24",
     "@testing-library/jest-dom": "^5.16.4",

@@ -1,5 +1,5 @@
-import * as d3 from "@d3-chart/d3";
-import { IColor, IScale } from "@d3-chart/types";
+import * as d3 from "@chart-it/d3";
+import { IColor, IScale } from "@chart-it/types";
 import { useEffect, useState } from "react";
 
 import { eventActions, IDispatch } from "../../../../store";

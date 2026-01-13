@@ -1,5 +1,5 @@
 {
-  "name": "@d3-chart/d3",
+  "name": "@chart-it/d3",
   "version": "0.8.0",
   "private": true,
   "packageManager": "pnpm@7.5.2",

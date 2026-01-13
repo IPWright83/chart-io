@@ -1,4 +1,4 @@
-import type { IShape } from "@d3-chart/types";
+import type { IShape } from "@chart-it/types";
 
 import { Circle } from "./Circle";
 import { Line } from "./Line";

@@ -1,4 +1,4 @@
-import type { ILegendFormatter, ILegendItem } from "@d3-chart/types";
+import type { ILegendFormatter, ILegendItem } from "@chart-it/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
@@ -50,10 +50,10 @@ export function LegendItem({ name, icon, color, format = (name) => name }: ILege
     };
 
     return (
-        <div className="d3-chart legend-item" style={styles.legendItem}>
+        <div className="chart-it legend-item" style={styles.legendItem}>
             {Shape && <Shape fill={color} />}
-            <div className="d3-chart legend-values" style={styles.legendValues}>
-                <span className="d3-chart legend-series-name" style={styles.legendSeriesName}>
+            <div className="chart-it legend-values" style={styles.legendValues}>
+                <span className="chart-it legend-series-name" style={styles.legendSeriesName}>
                     {format(name)}
                 </span>
             </div>

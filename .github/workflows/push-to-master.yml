@@ -140,4 +140,4 @@ jobs:
       - name: Chromatic
         run: |
           cd packages/react
-          npx chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }} --exit-zero-on-changes --auto-accept-changes
+          npx chromatic --project-token ${{ secrets.CHROMATIC_PROJECT_TOKEN }} --exit-zero-on-changes --auto-accept-changes --only-changed

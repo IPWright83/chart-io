@@ -1,4 +1,4 @@
-# @d3-chart/types
+# @chart-it/types
 
 ## 0.9.0
 
@@ -23,21 +23,21 @@
 ### Patch Changes
 
 - Updated dependencies [f0231e1]
-  - @d3-chart/d3@0.6.0
+  - @chart-it/d3@0.6.0
 
 ## 0.6.2
 
 ### Patch Changes
 
 - Updated dependencies [ce6284f]
-  - @d3-chart/d3@0.5.0
+  - @chart-it/d3@0.5.0
 
 ## 0.6.1
 
 ### Patch Changes
 
 - Updated dependencies [6f8b2af]
-  - @d3-chart/d3@0.4.0
+  - @chart-it/d3@0.4.0
 
 ## 0.6.0
 
@@ -50,7 +50,7 @@
 
 - Updated dependencies [494a204]
 - Updated dependencies [5c9ca11]
-  - @d3-chart/d3@0.3.0
+  - @chart-it/d3@0.3.0
 
 ## 0.5.0
 
@@ -61,4 +61,4 @@
 ### Patch Changes
 
 - Updated dependencies [feddec9]
-  - @d3-chart/d3@0.2.0
+  - @chart-it/d3@0.2.0
