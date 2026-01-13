@@ -39,7 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, 'ci skip')"
     outputs:
-      published: ${{ steps.release.published }}
+      published: ${{ steps.published.outputs.published }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -75,7 +75,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Update output
-        id: foo
+        id: published
         if: steps.release.outputs.published == 'true'
         run: echo "published=true" >> "$GITHUB_OUTPUT"
 
