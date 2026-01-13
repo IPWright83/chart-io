@@ -17,6 +17,8 @@ const YAxis = ({
     tickSizeInner,
     tickSizeOuter,
     tickPadding,
+    ticks,
+    tickFormat,
 }) => {
     return (
         <React.Fragment>
@@ -28,6 +30,8 @@ const YAxis = ({
                 tickSizeInner={tickSizeInner}
                 tickSizeOuter={tickSizeOuter}
                 tickPadding={tickPadding}
+                ticks={ticks}
+                tickFormat={tickFormat}
             />
             <YScale fields={fields} scaleType={scaleType} aggregate={aggregate} />
         </React.Fragment>
@@ -80,6 +84,16 @@ YAxis.propTypes = {
      * @type {Number}
      */
     tickPadding: PropTypes.number,
+    /**
+     * https://github.com/d3/d3-axis#axis_ticks
+     * @type {Number}
+     */
+    ticks: PropTypes.number,
+    /**
+     * https://github.com/d3/d3-axis#axis_tickFormat
+     * @type {Function}
+     */
+    tickFormat: PropTypes.func,
 };
 
 YAxis.defaultProps = {

@@ -15,7 +15,7 @@ import { chartSelectors } from "../../../../store";
  * Represents an Axis component
  * @return {ReactElement}  The Axis component
  */
-const Gridlines = ({ layer, position, scale, tickPadding }) => {
+const Gridlines = ({ layer, position, scale, tickPadding, ticks }) => {
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
@@ -36,7 +36,7 @@ const Gridlines = ({ layer, position, scale, tickPadding }) => {
                 .attr("class", `g-gridlines ${position}`)
                 .transition()
                 .duration(animationDuration)
-                .call(d3Axis.tickSize(-tickSize).tickFormat(""));
+                .call(d3Axis.tickSize(-tickSize).ticks(ticks).tickFormat(""));
         }
     }, [position, scale, animationDuration, tickPadding]);
 
@@ -61,6 +61,11 @@ Gridlines.propTypes = {
      * @type {Number}
      */
     tickPadding: PropTypes.number,
+    /**
+     * https://github.com/d3/d3-axis#axis_ticks
+     * @type {Number}
+     */
+    ticks: PropTypes.number,
 };
 
 Gridlines.defaultProps = {

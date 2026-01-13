@@ -17,6 +17,8 @@ const XAxis = ({
     tickSizeInner,
     tickSizeOuter,
     tickPadding,
+    tickFormat,
+    ticks,
 }) => {
     return (
         <React.Fragment>
@@ -28,6 +30,8 @@ const XAxis = ({
                 tickSizeInner={tickSizeInner}
                 tickSizeOuter={tickSizeOuter}
                 tickPadding={tickPadding}
+                tickFormat={tickFormat}
+                ticks={ticks}
             />
             <XScale fields={fields} scaleType={scaleType} aggregate={aggregate} />
         </React.Fragment>
@@ -80,6 +84,16 @@ XAxis.propTypes = {
      * @type {Number}
      */
     tickPadding: PropTypes.number,
+    /**
+     * https://github.com/d3/d3-axis#axis_ticks
+     * @type {Number}
+     */
+    ticks: PropTypes.number,
+    /**
+     * https://github.com/d3/d3-axis#axis_tickFormat
+     * @type {Function}
+     */
+    tickFormat: PropTypes.func,
 };
 
 XAxis.defaultProps = {

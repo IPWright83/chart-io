@@ -7,6 +7,9 @@
 /coverage
 *.dirty.png
 
+# internal
+infogrid
+
 # production
 /build
 /dist

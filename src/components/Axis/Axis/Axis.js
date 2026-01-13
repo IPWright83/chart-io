@@ -17,7 +17,17 @@ import { chartSelectors } from "../../../store";
  * Represents an Axis component
  * @return {ReactElement}  The Axis component
  */
-const Axis = ({ position, fields, tickSizeInner, tickSizeOuter, tickPadding, showGridlines, title }) => {
+const Axis = ({
+    position,
+    fields,
+    tickSizeInner,
+    tickSizeOuter,
+    tickPadding,
+    ticks,
+    showGridlines,
+    title,
+    tickFormat,
+}) => {
     if (fields.length === 0) {
         throw new Error(
             "Unable to render an Axis without a field. Ensure that you have provided at least one field in the 'fields' prop.",
@@ -44,7 +54,13 @@ const Axis = ({ position, fields, tickSizeInner, tickSizeOuter, tickPadding, sho
             const d3Axis = getD3Axis(position);
 
             // Set some scale props
-            d3Axis.scale(scale).tickSizeInner(tickSizeInner).tickSizeOuter(tickSizeOuter).tickPadding(tickPadding);
+            d3Axis
+                .scale(scale)
+                .tickSizeInner(tickSizeInner)
+                .tickSizeOuter(tickSizeOuter)
+                .tickPadding(tickPadding)
+                .tickFormat(tickFormat)
+                .ticks(ticks);
 
             // Render the axis
             selection.call(d3Axis);
@@ -53,10 +69,10 @@ const Axis = ({ position, fields, tickSizeInner, tickSizeOuter, tickPadding, sho
 
     return (
         <React.Fragment>
-            <Title position={position} title={title} fields={fields} />
+            <Title position={position} title={title} fields={fields} className={`axis-title-${position}`} />
             <g transform={transform}>
-                {showGridlines ? <Gridlines position={position} scale={scale} /> : null}
-                <g className="axis" ref={axis} />
+                {showGridlines ? <Gridlines position={position} scale={scale} ticks={ticks} /> : null}
+                <g className={`axis-${position}`} ref={axis} />
             </g>
         </React.Fragment>
     );
@@ -88,6 +104,16 @@ Axis.propTypes = {
      * @type {Number}
      */
     tickPadding: PropTypes.number,
+    /**
+     * https://github.com/d3/d3-axis#axis_ticks
+     * @type {Number}
+     */
+    ticks: PropTypes.number,
+    /**
+     * https://github.com/d3/d3-axis#axis_tickFormat
+     * @type {Function}
+     */
+    tickFormat: PropTypes.func,
     /**
      * Should gridlines be drawn?
      * @type {Boolean}
