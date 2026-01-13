@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Lines Multiple Series using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-undefined"
+    >
+      <path
+        class="line"
+        d="M0,100L100,100"
+        style="fill: none; pointer-events: none;"
+      />
+    </g>
+    <g
+      class="g-undefined"
+    />
+  </svg>
+</DocumentFragment>
+`;

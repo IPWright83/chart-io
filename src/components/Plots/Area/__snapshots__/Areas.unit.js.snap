@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Areas Multiple Series using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot area"
+    >
+      <path
+        class="area"
+        d="M0,100L100,100L100,100L0,100Z"
+        style="fill: rgba(153, 193, 220, 0.7); stroke: rgba(107, 135, 154, 0.7);"
+      />
+    </g>
+    <g
+      class="g-plot area"
+    />
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`Areas Stacked using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot stacked-area"
+    >
+      <path
+        class="area"
+        d="M0,100L100,100L100,100L0,100Z"
+        style="fill: #99c1dc; stroke: rgb(107, 135, 154); opacity: 0.7;"
+      />
+      <path
+        class="area"
+        d="M0,100L100,100L100,100L0,100Z"
+        style="fill: #fc998e; stroke: rgb(176, 107, 99); opacity: 0.7;"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;

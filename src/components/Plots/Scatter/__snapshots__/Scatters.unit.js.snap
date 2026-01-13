@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Scatters using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot scatter"
+    >
+      <circle
+        class="scatter-point"
+        cx="25"
+        cy="25"
+        r="5"
+        style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+      />
+      <circle
+        class="scatter-point"
+        cx="50"
+        cy="50"
+        r="5"
+        style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+      />
+    </g>
+    <g
+      class="g-plot scatter"
+    >
+      <circle
+        class="scatter-point"
+        cx="25"
+        cy="40"
+        r="5"
+        style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+      />
+      <circle
+        class="scatter-point"
+        cx="50"
+        cy="60"
+        r="5"
+        style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;

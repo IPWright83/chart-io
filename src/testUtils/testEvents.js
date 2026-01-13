@@ -3,7 +3,7 @@ import { fireEvent } from "@testing-library/react";
 
 import { FakeMouseEvent } from "./FakeMouseEvent";
 import { wait } from "./wait";
-import { MOUSE_MOVE_THROTTLE } from "../hoc/canvas/virtual/addEventHandlers";
+import { MOUSE_MOVE_THROTTLE } from "../constants";
 
 /**
  * [description]

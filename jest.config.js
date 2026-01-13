@@ -7,6 +7,7 @@ module.exports = {
         "uuidv4.js",
         "interpolateMultiPath.js",
         "infogrid/*.*",
+        "hoc/withTheme/*.*",
     ],
     moduleFileExtensions: ["web.js", "js", "web.ts", "ts", "web.tsx", "tsx", "json", "web.jsx", "jsx", "node"],
     moduleNameMapper: {

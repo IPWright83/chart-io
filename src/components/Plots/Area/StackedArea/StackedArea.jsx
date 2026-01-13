@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { useSelector } from "react-redux";
 
+import { chartSelectors } from "../../../../store";
 import { withSVG, withCanvas, withXYPlot } from "../../../../hoc";
 import { plotsPropTypes, eventPropTypes, eventDefaultProps, plotsDefaultProps } from "../../../../types";
 import { StackedAreaBase } from "./StackedAreaBase";
@@ -13,12 +15,15 @@ const StackedSVGArea = withSVG(withXYPlot(StackedAreaBase), "plot stacked-area")
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Column plot component
  */
-const StackedArea = ({ useCanvas, ...props }) => {
+const StackedArea = ({ useCanvas, colors, ...props }) => {
+    const theme = useSelector((s) => chartSelectors.theme(s));
+    const palette = colors || theme.colors;
+
     if (useCanvas) {
-        return <StackedCanvasArea {...props} />;
+        return <StackedCanvasArea {...props} colors={palette} />;
     }
 
-    return <StackedSVGArea {...props} />;
+    return <StackedSVGArea {...props} colors={palette} />;
 };
 
 StackedArea.propTypes = {

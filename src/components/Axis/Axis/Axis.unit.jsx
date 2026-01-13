@@ -5,41 +5,41 @@ import { themes } from "../../../themes";
 
 import { render } from "@testing-library/react";
 
+import { createMockStore } from "../../../testUtils";
+
 import { getTransform } from "./getTransform";
-import { Axis } from "./Axis";
+import { Axis } from ".";
 
 describe("Axis", () => {
     const width = 1000;
     const height = 500;
     const margin = { left: 10, right: 20, top: 30, bottom: 40 };
 
-    const store = {
-        getState: () => ({
-            chart: {
-                theme: themes.light,
-                dimensions: {
-                    width,
-                    height,
-                    margin,
-                },
-                scales: {
-                    x: d3.scaleLinear().domain([0, width]).range([0, 100]),
-                    y: d3.scaleLinear().domain([0, width]).range([0, 50]),
-                },
+    const store = createMockStore({
+        chart: {
+            theme: themes.light,
+            dimensions: {
+                width,
+                height,
+                margin,
             },
-        }),
-        dispatch: () => {},
-        subscribe: () => {},
-    };
+            scales: {
+                x: d3.scaleLinear().domain([0, width]).range([0, 100]),
+                y: d3.scaleLinear().domain([0, width]).range([0, 50]),
+            },
+        },
+    });
 
     describe("component", () => {
-        it("renders a left axis", async () => {
-            const layer = { current: document.createElement("custom") };
+        afterEach(() => {
+            jest.clearAllMocks();
+        });
 
+        it("renders a left axis", async () => {
             const { asFragment } = render(
                 <Provider store={store}>
                     <svg>
-                        <Axis layer={layer} title="y" position="left" fields={["y"]} showGridlines={false} />
+                        <Axis title="y" position="left" fields={["y"]} showGridlines={false} />
                     </svg>
                 </Provider>,
             );
@@ -48,12 +48,10 @@ describe("Axis", () => {
         });
 
         it("renders a right axis", () => {
-            const layer = { current: document.createElement("custom") };
-
             const { asFragment } = render(
                 <Provider store={store}>
                     <svg>
-                        <Axis layer={layer} title="y" position="right" fields={["y"]} showGridlines={false} />
+                        <Axis title="y" position="right" fields={["y"]} showGridlines={false} />
                     </svg>
                 </Provider>,
             );
@@ -62,12 +60,10 @@ describe("Axis", () => {
         });
 
         it("renders a top axis", () => {
-            const layer = { current: document.createElement("custom") };
-
             const { asFragment } = render(
                 <Provider store={store}>
                     <svg>
-                        <Axis layer={layer} title="x" position="top" fields={["x"]} showGridlines={false} />
+                        <Axis title="x" position="top" fields={["x"]} showGridlines={false} />
                     </svg>
                 </Provider>,
             );
@@ -76,17 +72,27 @@ describe("Axis", () => {
         });
 
         it("renders a bottom axis", () => {
-            const layer = { current: document.createElement("custom") };
-
             const { asFragment } = render(
                 <Provider store={store}>
                     <svg>
-                        <Axis layer={layer} title="x" position="left" fields={["x"]} showGridlines={false} />
+                        <Axis title="x" position="left" fields={["x"]} showGridlines={false} />
                     </svg>
                 </Provider>,
             );
 
             expect(asFragment()).toMatchSnapshot();
+        });
+
+        it("throws an error with no field", async () => {
+            jest.spyOn(console, "error").mockImplementation((e) => e);
+
+            await expect(async () => {
+                render(
+                    <svg>
+                        <Axis title="x" position="left" fields={[]} showGridlines={false} />
+                    </svg>,
+                );
+            }).rejects.toThrow();
         });
     });
 
