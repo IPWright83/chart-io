@@ -38,10 +38,10 @@ export interface IChartBaseProps {
      */
     height?: number;
     /**
-     * The margin of the chart
+     * The margin of the plot portion of the chart
      * @default { left: 30, top: 30, right: 30, bottom: 30 }
      */
-    margin?: IMargin;
+    plotMargin?: IMargin;
     /**
      * The data for the chart
      */
@@ -79,7 +79,7 @@ export function Chart({
     animationDuration = 250,
     width = 500,
     height = 500,
-    margin = DEFAULT_MARGIN,
+    plotMargin = DEFAULT_MARGIN,
     data,
     useCanvas,
     onMouseOver,
@@ -92,8 +92,8 @@ export function Chart({
     // Ensure that the store is updated whenever the dimensions change. This typically
     // triggers scale recalculations which should trigger cascading updates
     useEffect(() => {
-        store.dispatch(chartActions.setDimensions(width, height, margin));
-    }, [store.dispatch, width, height, margin]);
+        store.dispatch(chartActions.setDimensions(width, height, plotMargin));
+    }, [store.dispatch, width, height, plotMargin]);
 
     // Generate a unique ID for the chart which is required for clip paths
     useEffect(() => {

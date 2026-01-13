@@ -14,7 +14,7 @@ describe("EventReceiver", () => {
             dimensions: {
                 width: 800,
                 height: 400,
-                margin: { left: 10, right: 20, top: 30, bottom: 40 },
+                plotMargin: { left: 10, right: 20, top: 30, bottom: 40 },
             },
         },
     });

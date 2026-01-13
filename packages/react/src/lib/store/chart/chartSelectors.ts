@@ -1,5 +1,5 @@
 import type { IData, ILegendItem, IMargin, IScale, IScaleMode, ITheme } from "@chart-it/types";
-import { memoizeWithArgs } from "proxy-memoize";
+import { memoize, memoizeWithArgs } from "proxy-memoize";
 
 import type {
     IChartScaleInfo,
@@ -99,7 +99,7 @@ interface IChartSelectors {
         store: (state: IState) => IChartStateDimensions;
 
         /**
-         * Returns the width of the chart
+         * Returns the overall width of the chart
          * @param  state The application state
          * @return       The width
          */
@@ -112,12 +112,56 @@ interface IChartSelectors {
          */
         height: (state: IState) => number;
 
-        /**
-         * Returns the margin of the chart
-         * @param  state The application state
-         * @return       The margin
-         */
-        margin: (state: IState) => IMargin;
+        plot: {
+            /**
+             * Returns the margin of the plot
+             * @param  state The application state
+             * @return       The margin
+             */
+            margin: (state: IState) => IMargin;
+
+            /**
+             * The width of the actual plot area, taking margins into account
+             * @param  state The application state
+             * @return       The width
+             */
+            width: (state: IState) => number;
+
+            /**
+             * The height of the actual plot area, taking margins into account
+             * @param  state The application state
+             * @return       The height
+             */
+            height: (state: IState) => number;
+
+            /**
+             * The top of the actual plot area, taking margins into account
+             * @param  state The application state
+             * @return       The top
+             */
+            top: (state: IState) => number;
+
+            /**
+             * The bottom of the actual plot area, taking margins into account
+             * @param  state The application state
+             * @return       The bottom
+             */
+            bottom: (state: IState) => number;
+
+            /**
+             * The left of the actual plot area, taking margins into account
+             * @param  state The application state
+             * @return       The left
+             */
+            left: (state: IState) => number;
+
+            /**
+             * The right of the actual plot area, taking margins into account
+             * @param  state The application state
+             * @return       The right
+             */
+            right: (state: IState) => number;
+        };
     };
     /**
      * Legend information for the chart
@@ -163,6 +207,20 @@ interface IChartSelectors {
          * @param  state     The application state
          */
         width: (state: IState) => number;
+
+        /**
+         * Returns the margin around the brush
+         * @param  state The application state
+         * @return       The margin
+         */
+        margin: (state: IState) => IMargin;
+
+        /**
+         * Returns whether the brush is visible or not
+         * @param  state The application state
+         * @return       True if the brush is visible
+         */
+        isVisible: (state: IState) => boolean;
     };
 
     /**
@@ -255,44 +313,94 @@ export const chartSelectors: IChartSelectors = {
     // @inheritDoc
     dimensions: {
         // @inheritDoc
-        store: (state: IState): IChartStateDimensions => chartSelectors.store(state).dimensions,
+        store: (state) => chartSelectors.store(state).dimensions,
 
         // @inheritDoc
-        width: (state: IState): number =>
-            chartSelectors.dimensions.store(state).width - chartSelectors.brush.width(state) || 0,
+        width: (state) => chartSelectors.dimensions.store(state).width || 0,
 
         // @inheritDoc
-        height: (state: IState): number =>
-            chartSelectors.dimensions.store(state).height - chartSelectors.brush.height(state) || 0,
+        height: (state) => chartSelectors.dimensions.store(state).height || 0,
 
         // @inheritDoc
-        margin: (state: IState): IMargin => chartSelectors.dimensions.store(state).margin || EMPTY_MARGIN,
+        plot: {
+            // @inheritDoc
+            margin: (state) => chartSelectors.dimensions.store(state).plotMargin || EMPTY_MARGIN,
+
+            // @inheritDoc
+            left: (state) => chartSelectors.dimensions.plot.margin(state).left,
+
+            // @inheritDoc
+            right: (state) => {
+                const { left } = chartSelectors.dimensions.plot.margin(state);
+                const plotWidth = chartSelectors.dimensions.plot.width(state);
+                return plotWidth + left;
+            },
+
+            // @inheritDoc
+            top: (state) => chartSelectors.dimensions.plot.margin(state).top,
+
+            // @inheritDoc
+            bottom: (state) => {
+                const plotHeight = chartSelectors.dimensions.plot.height(state);
+                const { top } = chartSelectors.dimensions.plot.margin(state);
+                return plotHeight + top;
+            },
+
+            // @inheritDoc
+            width: (state) => {
+                const width = chartSelectors.dimensions.width(state);
+                const { left, right } = chartSelectors.dimensions.plot.margin(state);
+                return Math.max(0, width - left - right);
+            },
+
+            // @inheritDoc
+            height: (state) => {
+                const height = chartSelectors.dimensions.height(state);
+                const { top, bottom } = chartSelectors.dimensions.plot.margin(state);
+                const calculatedHeight = height - bottom - top;
+
+                if (chartSelectors.brush.isVisible(state)) {
+                    const brushHeight = chartSelectors.brush.height(state);
+                    const { top, bottom } = chartSelectors.brush.margin(state);
+
+                    return Math.max(0, calculatedHeight - brushHeight - top - bottom);
+                }
+
+                return Math.max(0, calculatedHeight);
+            },
+        },
     },
 
     // @inheritDoc
     brush: {
         // @inheritDoc
-        store: (state: IState): IChartStateBrush => chartSelectors.store(state).brush,
+        store: (state) => chartSelectors.store(state).brush,
 
         // @inheritDoc
-        height: (state: IState): number => chartSelectors.brush.store(state).height,
+        height: (state) => chartSelectors.brush.store(state).height,
 
         // @inheritDoc
-        width: (state: IState): number => chartSelectors.brush.store(state).width,
+        width: (state) => chartSelectors.brush.store(state).width,
+
+        // @inheritDoc
+        margin: (state) => chartSelectors.brush.store(state).margin,
+
+        // @inheritDoc
+        isVisible: (state) => chartSelectors.brush.width(state) > 0 || chartSelectors.brush.height(state) > 0,
     },
 
     // @inheritDoc
     legend: {
         // @inheritDoc
-        store: (state: IState): IChartStateLegend => chartSelectors.store(state).legend,
+        store: (state) => chartSelectors.store(state).legend,
 
         // @inheritDoc
-        isVisible: (state: IState): boolean => chartSelectors.legend.items(state).length > 1,
+        isVisible: (state) => chartSelectors.legend.items(state).length > 1,
 
         // @inheritDoc
-        items: (state: IState): ILegendItem[] => chartSelectors.legend.store(state).items || EMPTY_ARRAY,
+        items: (state) => chartSelectors.legend.store(state).items || EMPTY_ARRAY,
     },
 
     // @inheritDoc
-    theme: (state: IState): ITheme => chartSelectors.store(state).theme,
+    theme: (state) => chartSelectors.store(state).theme,
 };

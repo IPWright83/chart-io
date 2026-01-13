@@ -41,9 +41,9 @@ In the code below we can see that we do a few things:
 
 ```
 const data = [{ itemType: "Baby Food", price: 255 }, { itemType: "Cereal", price: 205 }, ...]
-const margin = { left: 70, top: 40, right: 40, bottom: 40 };
+const plotMargin = { left: 70, top: 40, right: 40, bottom: 40 };
 
-<XYChart data={data} margin={margin} width={800} height={500}>
+<XYChart data={data} plotMargin={plotMargin} width={800} height={500}>
     <YAxis fields="price" />
     <XAxis fields="itemType" scaleType="band" />
     <Column x="itemType" y="price" />
@@ -58,7 +58,6 @@ To build the example above you would use the following code. You can read about 
 
 ```
 const data = [{ itemType: "Baby Food", price: 255 }, { itemType: "Cereal", price: 205 }, ...]
-const margin = { left: 70, top: 40, right: 40, bottom: 40 };
 
 <Chart {...props}>
     <EventReceiver />

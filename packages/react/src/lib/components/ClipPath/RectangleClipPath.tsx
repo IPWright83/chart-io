@@ -17,13 +17,12 @@ export interface IRectangleClipPathProps {
  * @return The ClipPath component
  */
 export function RectangleClipPath({ children }: IRectangleClipPathProps) {
-    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
-    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
     const chartID = useSelector((s: IState) => chartSelectors.id(s));
 
-    const plotWidth = Math.max(0, width - margin.left - margin.right);
-    const plotHeight = Math.max(0, height - margin.top - margin.bottom);
+    const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
+    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
+    const left = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
+    const top = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
 
     const childrenWithProps = extendChildrenProps(children, { clipPath: `clip-path-${chartID}` });
 
@@ -31,7 +30,7 @@ export function RectangleClipPath({ children }: IRectangleClipPathProps) {
         <>
             <defs>
                 <clipPath id={`clip-path-${chartID}`}>
-                    <rect width={plotWidth} height={plotHeight} x={margin.left} y={margin.top} />
+                    <rect width={plotWidth} height={plotHeight} x={left} y={top} />
                 </clipPath>
             </defs>
             {childrenWithProps}

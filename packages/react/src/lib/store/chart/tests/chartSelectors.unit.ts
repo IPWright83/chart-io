@@ -155,6 +155,23 @@ describe("chartSelectors", () => {
         it("width returns the reserved width for the brush", () => {
             expect(chartSelectors.brush.width(state)).toEqual(50);
         });
+
+        describe("isVisible", () => {
+            it("returns true if the height > 0", () => {
+                expect(chartSelectors.brush.isVisible(state)).toEqual(true);
+            });
+
+            it("returns false if the height is 0", () => {
+                const state = {
+                    event: defaultEventState,
+                    chart: {
+                        ...defaultChartState,
+                    },
+                };
+
+                expect(chartSelectors.brush.isVisible(state)).toEqual(false);
+            });
+        });
     });
 
     describe("dimensions", () => {
@@ -169,7 +186,7 @@ describe("chartSelectors", () => {
                 dimensions: {
                     width,
                     height,
-                    margin,
+                    plotMargin: margin,
                 },
             },
         };
@@ -178,7 +195,7 @@ describe("chartSelectors", () => {
             expect(chartSelectors.dimensions.store(state)).toEqual({
                 width,
                 height,
-                margin,
+                plotMargin: margin,
             });
         });
 
@@ -186,42 +203,60 @@ describe("chartSelectors", () => {
             expect(chartSelectors.dimensions.width(state)).toBe(width);
         });
 
-        it("width removes any brush reserved spacing", () => {
-            const testState = {
-                ...state,
-                chart: {
-                    ...state.chart,
-                    brush: {
-                        width: 50,
-                        height: 0,
-                    },
-                },
-            };
-
-            expect(chartSelectors.dimensions.width(testState)).toBe(width - 50);
-        });
-
         it("height returns the value from the store", () => {
             expect(chartSelectors.dimensions.height(state)).toBe(height);
         });
 
-        it("height removes any brush reserved spacing", () => {
-            const testState = {
-                ...state,
-                chart: {
-                    ...state.chart,
-                    brush: {
-                        width: 0,
-                        height: 75,
-                    },
-                },
-            };
+        describe("plot", () => {
+            it("margin returns the value from the store", () => {
+                expect(chartSelectors.dimensions.plot.margin(state)).toBe(margin);
+            });
 
-            expect(chartSelectors.dimensions.height(testState)).toBe(height - 75);
-        });
+            it("left returns the left hand margin for the plot", () => {
+                expect(chartSelectors.dimensions.plot.left(state)).toBe(margin.left);
+            });
 
-        it("margin returns the value from the store", () => {
-            expect(chartSelectors.dimensions.margin(state)).toBe(margin);
+            it("top returns the top hand margin for the plot", () => {
+                expect(chartSelectors.dimensions.plot.top(state)).toBe(margin.top);
+            });
+
+            it("plotWidth is calculated based on the margins correctly", () => {
+                expect(chartSelectors.dimensions.plot.width(state)).toBe(width - margin.left - margin.right);
+            });
+
+            describe("plotHeight is calculated based on the margins correctly", () => {
+                it("without a brush", () => {
+                    const expectedHeight = height - margin.top - margin.bottom;
+
+                    expect(expectedHeight).toBe(480);
+                    expect(chartSelectors.dimensions.plot.height(state)).toBe(expectedHeight);
+                });
+
+                it("with a brush", () => {
+                    const testState = {
+                        ...state,
+                        chart: {
+                            ...state.chart,
+                            brush: {
+                                width: 0,
+                                height: 75,
+                                margin: { top: 20, left: 10, bottom: 20, right: 10 },
+                            },
+                        },
+                    };
+
+                    const expectedHeight =
+                        height -
+                        margin.top -
+                        margin.bottom -
+                        testState.chart.brush.height -
+                        testState.chart.brush.margin.top -
+                        testState.chart.brush.margin.bottom;
+
+                    expect(expectedHeight).toBe(365);
+                    expect(chartSelectors.dimensions.plot.height(testState)).toBe(expectedHeight);
+                });
+            });
         });
     });
 

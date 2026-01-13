@@ -22,7 +22,7 @@ const HorizontalZoomBrushTemplate = (args) => {
             dimensions: {
                 width: 500,
                 height: 0,
-                margin: { left: 0, top: 0, right: 0, bottom: 0 },
+                plotMargin: { left: 0, top: 0, right: 0, bottom: 0 },
             },
             data: [
                 { x: 10, y: 10 },

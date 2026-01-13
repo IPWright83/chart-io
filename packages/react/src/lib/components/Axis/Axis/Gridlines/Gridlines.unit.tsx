@@ -20,42 +20,45 @@ describe("Gridlines", () => {
             dimensions: {
                 width,
                 height,
-                margin,
+                plotMargin: margin,
             },
         },
     });
 
     describe("getTickSize", () => {
+        const plotHeight = height - margin.top - margin.bottom;
+        const plotWidth = width - margin.left - margin.right;
+
         describe("should return full width", () => {
             it("for left axis", () => {
-                expect(getTickSize("left", width, height, margin)).toBe(970);
+                expect(getTickSize("left", plotWidth, plotHeight)).toBe(970);
             });
             it("for right axis", () => {
-                expect(getTickSize("right", width, height, margin)).toBe(970);
+                expect(getTickSize("right", plotWidth, plotHeight)).toBe(970);
             });
         });
 
         describe("should return 0", () => {
             it("for 0 width", () => {
-                expect(getTickSize("right", 0, height, margin)).toBe(0);
+                expect(getTickSize("right", 0, plotHeight)).toBe(0);
             });
             it("for 0 height", () => {
-                expect(getTickSize("right", width, 0, margin)).toBe(0);
+                expect(getTickSize("right", plotWidth, 0)).toBe(0);
             });
         });
 
         describe("should return full height", () => {
             it("for top axis", () => {
-                expect(getTickSize("top", width, height, margin)).toBe(430);
+                expect(getTickSize("top", plotWidth, plotHeight)).toBe(430);
             });
             it("for bottom axis", () => {
-                expect(getTickSize("bottom", width, height, margin)).toBe(430);
+                expect(getTickSize("bottom", plotWidth, plotHeight)).toBe(430);
             });
         });
 
         it("throws an error with an invalid position", () => {
             // @ts-expect-error: Testing out the runtime validation
-            expect(() => getTickSize("invalid", width, height, margin)).toThrow();
+            expect(() => getTickSize("invalid", plotWidth, plotHeight, margin)).toThrow();
         });
     });
 

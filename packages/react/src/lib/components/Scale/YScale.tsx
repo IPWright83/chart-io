@@ -13,9 +13,10 @@ export type IYScaleProps = Omit<IAutoScaleProps, "range">;
  * @return         A scale component
  */
 export function YScale({ fields, scaleType, aggregate, domain }: IYScaleProps) {
-    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
-    const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
-    const range = [height - margin.bottom, margin.top];
+    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
+    const top = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
+
+    const range = [plotHeight + top, top];
 
     const fieldsArray = useArray(fields);
 

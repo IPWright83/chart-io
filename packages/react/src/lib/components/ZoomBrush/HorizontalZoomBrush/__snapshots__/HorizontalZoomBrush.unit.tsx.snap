@@ -6,7 +6,7 @@ exports[`HorizontalZoomBrush renders correctly 1`] = `
     <g
       fill="none"
       pointer-events="all"
-      transform="translate(0, 200)"
+      transform="translate(0, 210)"
     >
       <g
         class="g-plot line"

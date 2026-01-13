@@ -9,6 +9,15 @@ export interface SetDimensionAction {
   };
 }
 
+export interface SetBrushDimensionsAction {
+  type: "CHART.SET_BRUSH_DIMENSIONS";
+  payload: {
+    width: number;
+    height: number;
+    margin: IMargin;
+  };
+}
+
 export interface SetScaleAction {
   type: "CHART.SET_SCALES";
   payload: {
@@ -22,14 +31,6 @@ export interface SetBrushRangeAction {
   payload: {
     field: string;
     range: number[];
-  };
-}
-
-export interface SetBrushReservedDimensionsAction {
-  type: "CHART.SET_BRUSH_RESERVED_DIMENSIONS";
-  payload: {
-    width: number;
-    height: number;
   };
 }
 
@@ -73,6 +74,7 @@ export interface RemoveLegendItemAction {
 
 export type ChartAction =
   | SetDimensionAction
+  | SetBrushDimensionsAction
   | SetScaleAction
   | SetThemeAction
   | SetAnimationDurationAction
@@ -81,5 +83,4 @@ export type ChartAction =
   | RemoveLegendItemAction
   | SetBrushRangeAction
   | SetScaleZoomAction
-  | SetChartIDAction
-  | SetBrushReservedDimensionsAction;
+  | SetChartIDAction;
