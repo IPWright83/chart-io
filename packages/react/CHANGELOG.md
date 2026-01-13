@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.57.0
+
+### Minor Changes
+
+- 7616e14: Make @chart-io/core a full dependency
+
 ## 0.56.0
 
 ### Minor Changes
