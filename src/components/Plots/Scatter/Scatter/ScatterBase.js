@@ -45,7 +45,7 @@ const ScatterBase = ({
         if (!focused) return;
 
         // Get the appropriate attributes
-        const { element, event, datum } = focused;
+        const { element } = focused;
         const selection = d3.select(element);
         const r = +selection.attr("r");
         const cx = +selection.attr("cx");
@@ -103,7 +103,8 @@ const ScatterBase = ({
             .attr("cy", (d) => yScale(d[y]))
             .attr("r", 0)
             .style("stroke", (d) => d3.color(seriesColor).darker())
-            .style("fill", (d) => seriesColor);
+            .style("fill", (d) => seriesColor)
+            .style("opacity", 0.8);
 
         // Update new and existing points
         const update = enter

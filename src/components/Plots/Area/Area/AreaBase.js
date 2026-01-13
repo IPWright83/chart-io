@@ -31,8 +31,8 @@ const AreaBase = ({ x, y, y2, color, layer, canvas }) => {
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
 
     const fillColor = d3.color(color || theme.colors[0]);
-    fillColor.opacity = 0.8;
     const strokeColor = fillColor.darker();
+    fillColor.opacity = 0.8;
 
     // Used to create our initial path
     usePathCreator(layer, x, y, xScale, yScale);
