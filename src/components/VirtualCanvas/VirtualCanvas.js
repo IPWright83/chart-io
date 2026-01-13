@@ -1,6 +1,6 @@
 import "./VirtualCanvas.css";
 
-import debounce from "lodash.debounce";
+import { debounce } from "lodash";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
