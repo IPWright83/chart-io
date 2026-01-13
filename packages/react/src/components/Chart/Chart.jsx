@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 
 import { VirtualCanvas } from "../VirtualCanvas";
 
-// import { getColumnInfos } from "../../detection";
+// import { getColumnInfos } from "@chart-it/detection";
 import { chartActions } from "../../store";
 
 import { getChildrenWithProps } from "./getChildrenWithProps";

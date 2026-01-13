@@ -5,6 +5,8 @@
   "type": "module",
   "author": "\"Ian Wright\" <\"ipwright83+dev@gmail.com\">",
   "scripts": {
+    "bump": "changeset version",
+    "changeset": "changeset",
     "test": "turbo run test -- --watchAll=false",
     "testw": "node scripts/choice test --watchAll=true",
     "testp": "node scripts/choice test --watchAll=false",

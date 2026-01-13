@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 
-import { getDataType, typeEnumToName, Types } from "../../detection";
+import { getDataType, typeEnumToName, Types } from "@chart-it/detection";
 
 /**
  * Return a scale as defined by the scaleType property
@@ -70,7 +70,7 @@ const getValues = (data, fields, aggregate) => {
             fields.reduce((sum, key) => {
                 const value = d[key];
                 return value ? sum + value : sum;
-            }, 0),
+            }, 0)
         );
     }
 
