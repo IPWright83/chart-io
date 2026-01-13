@@ -1,19 +1,21 @@
 import type { IColor, ICoordinate, IDropline, IMarker, IMouseEventType, ITooltipItem } from "@chart-io/types";
+import { memoizeWithArgs } from "proxy-memoize";
 
 import type { IEventState, IEventStateTooltip, IState } from "../types";
+import { findNearest } from "../../utils";
 
 const EMPTY_OBJECT = {};
 const EMPTY_ARRAY = [];
 
 interface IEventSelectors {
     store: (state: IState) => IEventState;
-    droplines: (state: IState) => IDropline[];
-    markers: (state: IState) => IMarker[];
+    droplines: (state: IState, onlyNearest: boolean) => IDropline[];
+    markers: (state: IState, onlyNearest: boolean) => IMarker[];
     tooltip: {
         store: (state: IState) => IEventStateTooltip;
         show: (state: IState) => boolean;
         color: (state: IState) => IColor;
-        items: (state: IState) => ITooltipItem[];
+        items: (state: IState, onlyNearest: boolean) => ITooltipItem[];
         position: (state: IState) => ICoordinate | undefined;
     };
     mode: (state: IState) => IMouseEventType;
@@ -30,17 +32,41 @@ export const eventSelectors: IEventSelectors = {
 
     /**
      * Returns the set of droplines
-     * @param  state   The application state
-     * @return         The droplines
+     * @param  state       The application state
+     * @param  onlyNearest Whether to only return the nearest droplines
+     * @return             The droplines
      */
-    droplines: (state: IState): IDropline[] => eventSelectors.store(state).droplines,
+    droplines: memoizeWithArgs(
+        (state: IState, onlyNearest: boolean): IDropline[] => {
+            const droplines = eventSelectors.store(state).droplines;
+
+            if (onlyNearest) {
+                return findNearest(droplines, (m) => m.distance);
+            }
+
+            return droplines;
+        },
+        { size: 20 },
+    ),
 
     /**
      * Returns the set of markers
-     * @param  state   The application state
-     * @return         The markers
+     * @param  state           The application state
+     * @param  onlyNearest     Should only the nearest marker be returned?
+     * @return                 The markers
      */
-    markers: (state: IState): IMarker[] => eventSelectors.store(state).markers,
+    markers: memoizeWithArgs(
+        (state: IState, onlyNearest: boolean): IMarker[] => {
+            const markers = eventSelectors.store(state).markers;
+
+            if (onlyNearest) {
+                return findNearest(markers, (m) => m.distance);
+            }
+
+            return markers;
+        },
+        { size: 20 },
+    ),
 
     tooltip: {
         /**
@@ -55,7 +81,7 @@ export const eventSelectors: IEventSelectors = {
          * @param  state   The application state
          * @return        True if the tooltip should be shown
          */
-        show: (state: IState): boolean => eventSelectors.tooltip.items(state).length > 0,
+        show: (state: IState): boolean => eventSelectors.tooltip.items(state, false).length > 0,
 
         /**
          * The colour that the tooltip should take
@@ -66,10 +92,22 @@ export const eventSelectors: IEventSelectors = {
 
         /**
          * The set of tooltip tiems
-         * @param  state   The application state
-         * @return          The array of tooltip items
+         * @param  state       The application state
+         * @param  onlyNearest Whether to only return the nearest tooltip items
+         * @return             The array of tooltip items
          */
-        items: (state: IState): ITooltipItem[] => eventSelectors.tooltip.store(state).items || EMPTY_ARRAY,
+        items: memoizeWithArgs(
+            (state: IState, onlyNearest: boolean): ITooltipItem[] => {
+                const tooltipItems = eventSelectors.tooltip.store(state).items || EMPTY_ARRAY;
+
+                if (onlyNearest) {
+                    return findNearest(tooltipItems, (m) => m.distance);
+                }
+
+                return tooltipItems;
+            },
+            { size: 20 },
+        ),
 
         /**
          * A moust event that triggered

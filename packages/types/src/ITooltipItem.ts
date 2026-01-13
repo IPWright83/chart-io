@@ -22,4 +22,6 @@ export interface ITooltipItem {
      * The colour of the icon
      */
     fill?: IColor;
+    /** Optional distance to the datum, if provided only the nearest marker will be shown */
+    distance?: number;
 }

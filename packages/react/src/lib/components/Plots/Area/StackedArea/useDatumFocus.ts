@@ -3,6 +3,7 @@ import type { IColor, ICoordinate, IData, IMouseEventType, INumericValue, IScale
 import { useEffect } from "react";
 
 import { eventActions, IDispatch } from "../../../../store";
+import { getDistance } from "../../../../utils";
 
 const defaultValues = {
     markers: [],
@@ -34,7 +35,7 @@ export function useDatumFocus(
     data: IData,
     eventMode: IMouseEventType,
     position: ICoordinate,
-    colors: IColor[]
+    colors: IColor[],
 ) {
     /* If possible respond to global mouse events for tooltips etc */
     useEffect(() => {
@@ -71,7 +72,9 @@ export function useDatumFocus(
             const cy = yScale(sum);
             const color = d3.color(colors[i].toString()).darker();
 
-            const marker = { fill: color, r1: 5, r2: 5, cx, cy };
+            const distance = getDistance(position.x, position.y, cx, cy);
+
+            const marker = { fill: color, r1: 5, r2: 5, cx, cy, distance };
             const horizontalDropline = {
                 isHorizontal: true,
                 color,
@@ -79,6 +82,7 @@ export function useDatumFocus(
                 x2: xScale.range()[0],
                 y1: cy,
                 y2: cy,
+                distance,
             };
             const verticalDropline = {
                 isVertical: true,
@@ -87,6 +91,7 @@ export function useDatumFocus(
                 x2: cx,
                 y1: cy,
                 y2: yScale.range()[0],
+                distance,
             };
             return {
                 sum,

@@ -1,11 +1,8 @@
 import React from "react";
 import { render } from "@testing-library/react";
 
-import { sales_records_dataset } from "../../../data/sales_records_dataset";
-
-import { wait } from "../../testUtils";
-
 import { JsonChart } from "./JsonChart";
+import { wait } from "../../testUtils";
 
 describe("JsonChart", () => {
     it("should create empty template correctly", async () => {

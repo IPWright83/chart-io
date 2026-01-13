@@ -24,11 +24,15 @@ export interface IXYChartProps extends IChartProps {
      * @default { left: 0, top: 10, right: 0, bottom: 10 }
      */
     brushMargin?: IMargin;
+
+    /**
+     * Should markers & tooltips be grouped together, or only show the nearest one?
+     */
+    groupEvents?: boolean;
 }
 
-export const XYChart = forwardRef<IChartRef, IXYChartProps>((props, ref) => {
-    const { children } = props;
-    const showDroplines = shouldShowDroplines(children);
+export const XYChart = forwardRef<IChartRef, IXYChartProps>(({ children, groupEvents = false, ...props }, ref) => {
+    const showDroplines = !groupEvents || shouldShowDroplines(children);
     const showCrosshair = !showDroplines;
 
     return (
@@ -36,15 +40,15 @@ export const XYChart = forwardRef<IChartRef, IXYChartProps>((props, ref) => {
             <EventReceiver />
             <RectangleClipPath />
             {children}
-            <Markers />
-            {showDroplines && <Droplines />}
+            <Markers onlyNearest={!groupEvents} />
+            {showDroplines && <Droplines onlyNearest={!groupEvents} />}
             {showCrosshair && <Crosshair />}
             {props.zoomBrush && (
                 <ZoomBrush type={props.zoomBrush} margin={props.brushMargin}>
                     {children}
                 </ZoomBrush>
             )}
-            <TooltipOverlay />
+            <TooltipOverlay onlyNearest={!groupEvents} />
             <LegendOverlay />
         </Chart>
     );
