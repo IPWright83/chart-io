@@ -46,6 +46,7 @@ const AreaTemplate = (args) => (
         height={args.height}
         width={args.width}
         animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
         <Area x={args.x} y={args.y} y2={args.y2} color={args.color} />
         <YAxis fields={[args.y, args.y2, args.y3]} />
@@ -60,6 +61,7 @@ const AreasTemplate = (args) => (
         height={args.height}
         width={args.width}
         animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
@@ -74,6 +76,7 @@ const StackedAreasTemplate = (args) => (
         height={args.height}
         width={args.width}
         animationDuration={args.animationDuration}
+        useCanvas={args.useCanvas}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} aggregate={true} />
         <XAxis fields={[args.x]} />
