@@ -1,3 +1,7 @@
+import { useState, useEffect } from "react";
+
+import { eventActions } from "../../../../store";
+
 /**
  * Handles the user interacting with a DataPoint on the Scatter chart and the need to display a tooltip
  * @param  {Function} options.dispatch     The redux store dispatch function
@@ -34,7 +38,7 @@ const useTooltip = ({ dispatch, fillColor, x, y }) => {
             dispatch(eventActions.removeTooltipItem(tooltipItemX));
             dispatch(eventActions.removeTooltipItem(tooltipItemY));
         };
-    }, [dispatch, fillColor, name, key, value]);
+    }, [dispatch, fillColor, x, y]);
 
     return setDatum;
 };
