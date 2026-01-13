@@ -116,17 +116,6 @@ const setBrushRange = (field: string, range: number[]): SetBrushRangeAction => (
 });
 
 /**
- * Reserves some space for the brush to be rendered on the chart
- * @param width     The amount of space that needs reserving in the width for the brush
- * @param height    The amount of space that needs reserving in the height for the brush
- * @return            A redux action object
- */
-const setBrushReservedDimensions = (width: number, height: number): SetBrushReservedDimensionsAction => ({
-    type: "CHART.SET_BRUSH_RESERVED_DIMENSIONS",
-    payload: { width, height },
-});
-
-/**
  * Zooms a particular scale to the given domain
  * @param  field      The names of the field to zoom the scale for
  * @param  domain     The new domain for the scale
@@ -235,7 +224,6 @@ const chartActions = {
     setBrushRange,
     setScaleZoom,
     setChartID,
-    setBrushReservedDimensions,
 };
 
 export { chartActions };
