@@ -1,5 +1,18 @@
 # @d3-chart/types
 
+## 0.6.0
+
+### Minor Changes
+
+- 494a204: Test
+- 5c9ca11: testing
+
+### Patch Changes
+
+- Updated dependencies [494a204]
+- Updated dependencies [5c9ca11]
+  - @d3-chart/d3@0.3.0
+
 ## 0.5.0
 
 ### Minor Changes
