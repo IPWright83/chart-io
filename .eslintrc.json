@@ -1,0 +1,34 @@
+{
+  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:import/recommended"],
+  "plugins": ["jest"],
+  "ignorePatterns": ["lib", "rollup.config.js", "storybook-static"],
+  "env": {
+    "jest/globals": true,
+    "browser": true
+  },
+  "overrides": [
+    {
+      "files": ["**/*.stories.*"],
+      "rules": {
+        "import/no-anonymous-default-export": "off"
+      }
+    }
+  ],
+  "rules": {
+    "valid-jsdoc": [
+      1,
+      {
+        "requireReturn": false,
+        "requireParamType": true,
+        "requireReturnType": true
+      }
+    ],
+    "import/no-unresolved": "off",
+    "no-console": [
+      "error",
+      {
+        "allow": ["error", "warn", "debug"]
+      }
+    ]
+  }
+}
