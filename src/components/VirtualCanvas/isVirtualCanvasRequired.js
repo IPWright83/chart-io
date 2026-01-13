@@ -6,9 +6,9 @@
 export const isVirtualCanvasRequired = (children) => {
     // Array of children
     if (children.length) {
-        return children.filter((c) => c.requiresVirtualCanvas).length > 0;
+        return children.filter((c) => c?.type?.requiresVirtualCanvas).length > 0;
     }
 
     // Single child
-    return children.needsVirtualCanvas;
+    return children.requiresVirtualCanvas;
 };
