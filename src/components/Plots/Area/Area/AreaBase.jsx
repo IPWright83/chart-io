@@ -17,7 +17,7 @@ import { usePathCreator } from "./usePathCreator";
  * @param  {Object} props       The set of React properties
  * @return {ReactElement}  The Line plot component
  */
-const AreaBase = ({ x, y, y2, color, layer, canvas }) => {
+const AreaBase = ({ x, y, y2, color, opacity, layer, canvas }) => {
     const dispatch = useDispatch();
     const data = useSelector((s) => chartSelectors.data(s));
     const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
@@ -31,8 +31,10 @@ const AreaBase = ({ x, y, y2, color, layer, canvas }) => {
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
 
     const fillColor = d3.color(color || theme.colors[0]);
-    fillColor.opacity = 0.8;
+    fillColor.opacity = opacity;
     const strokeColor = fillColor.darker();
+
+    const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
     // Used to create our initial path
     usePathCreator(layer, x, y, xScale, yScale, canvas);
@@ -43,7 +45,7 @@ const AreaBase = ({ x, y, y2, color, layer, canvas }) => {
         const area = d3
             .area()
             .curve(d3.curveLinear)
-            .x((d) => xScale(d[x]))
+            .x((d) => xScale(d[x]) + bandwidth)
             .y0((d) => (y2 ? yScale(d[y]) : yScale.range()[0]))
             .y1((d) => (y2 ? yScale(d[y] + d[y2]) : yScale(d[y])))
             .defined((d) => !isNullOrUndefined(d[y]));
@@ -88,6 +90,13 @@ const AreaBase = ({ x, y, y2, color, layer, canvas }) => {
 
 AreaBase.propTypes = {
     ...plotPropTypes,
+
+    /**
+     * The key of the field used for the y2 position for a stream graph
+     * @type {String}
+     */
+    y2: PropTypes.string,
+
     /**
      * The canvas element that the line chart should render to
      * @type {Object}
@@ -95,6 +104,9 @@ AreaBase.propTypes = {
     canvas: PropTypes.object,
 };
 
-AreaBase.defaultProps = plotDefaultProps;
+AreaBase.defaultProps = {
+    ...plotDefaultProps,
+    opacity: 0.8,
+};
 
 export { AreaBase };

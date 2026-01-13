@@ -26,6 +26,18 @@ const chartReducer = (state = defaultState, action) => {
             };
 
         case "CHART.SET_SCALES":
+            if (payload.fromAxis) {
+                return {
+                    ...state,
+                    axisScales: {
+                        ...state.axisScales,
+                        ...payload.fields.reduce((result, field) => {
+                            return { ...result, [field]: payload.scale };
+                        }, {}),
+                    }
+                }
+            }
+            
             return {
                 ...state,
                 scales: {

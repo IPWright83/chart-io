@@ -10,12 +10,12 @@ import { Scale } from "./Scale";
  * @param  {Object} props   Props for the scale
  * @return {ReactDOMComponent}   A scale component
  */
-const XScale = ({ fields, scaleType, aggregate, domain }) => {
+const XScale = ({ fields, scaleType, aggregate, domain, fromAxis }) => {
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
     const range = [margin.left, width - margin.right];
 
-    return <Scale fields={fields} range={range} scaleType={scaleType} domain={domain} aggregate={aggregate} />;
+    return <Scale fields={fields} fromAxis={fromAxis} range={range} scaleType={scaleType} domain={domain} aggregate={aggregate} />;
 };
 
 XScale.propTypes = {
@@ -24,6 +24,11 @@ XScale.propTypes = {
      * @type {String[]}
      */
     fields: PropTypes.arrayOf(PropTypes.string).isRequired,
+    /**
+     * Has this scale been created automatically from an Axis?
+     * @type {Boolean}
+     */
+    fromAxis: PropTypes.bool,
     /**
      * (Optional) Force the type of d3 scale to use - https://github.com/d3/d3-scale
      * @type {String}
@@ -39,7 +44,7 @@ XScale.propTypes = {
      * @type {Array}
      */
     domain: PropTypes.arrayOf(
-        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.boolean]),
+        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool]),
     ),
 };
 

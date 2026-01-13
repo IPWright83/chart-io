@@ -31,7 +31,7 @@ Area.propTypes = {
 
     /**
      * Should this plot use an HTML Canvas instead of SVG?
-     * @type {[type]}
+     * @type {Boolean}
      */
     useCanvas: PropTypes.bool,
 };

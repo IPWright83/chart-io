@@ -9,13 +9,14 @@ import { ensureBandScale, ensureValuesAreUnique } from "../../../../utils";
 
 import { renderCanvas } from "../../renderCanvas";
 import { getDropline } from "../getDropline";
+import { useTooltip } from "../useTooltip";
 
 /**
  * Represents a Column Plot
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Column plot component
  */
-const ColumnBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onMouseOut, onClick, layer }) => {
+const ColumnBase = ({ x, y, canvas, renderVirtualCanvas, color, opacity, onMouseOver, onMouseOut, onClick, layer }) => {
     const [focused, setFocused] = useState(null);
     const dispatch = useDispatch();
 
@@ -27,8 +28,10 @@ const ColumnBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onM
     const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
-    const fillColor = color || theme.colors[0];
+    const fillColor = d3.color(color || theme.colors[0]);
+    fillColor.opacity = opacity;
     const strokeColor = "#fff";
+    const setTooltip = useTooltip({ dispatch, x });
 
     useEffect(() => {
         if (!focused) return;
@@ -76,10 +79,12 @@ const ColumnBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onM
             .on("mouseover", function (event, datum) {
                 onMouseOver && onMouseOver(datum, this, event);
                 setFocused({ element: this, event, datum });
+                setTooltip({ datum, event, fillColors: [fillColor], ys: [y] });
             })
             .on("mouseout", function (event, datum) {
                 onMouseOut && onMouseOut(datum, this, event);
                 setFocused(null);
+                setTooltip(null);
             })
             .on("click", function (event, datum) {
                 onClick && onClick(datum, this, event);

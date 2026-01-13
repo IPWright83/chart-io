@@ -9,7 +9,7 @@ import { calculateScale } from "./calculateScale";
  * Represents a Scale component
  * @return {ReactDOMComponent}   A scale component
  */
-const Scale = ({ fields, range, scaleType, aggregate, domain }) => {
+const Scale = ({ fields, range, scaleType, aggregate, domain, fromAxis }) => {
     const dispatch = useDispatch();
     const data = useSelector((s) => chartSelectors.data(s));
 
@@ -19,7 +19,7 @@ const Scale = ({ fields, range, scaleType, aggregate, domain }) => {
 
         // Use the fixed range if one was provided
         const scale = calculateScale(data, fields, range, domain, aggregate, scaleType);
-        dispatch(chartActions.setScales(fields, scale));
+        dispatch(chartActions.setScales(fields, scale, fromAxis));
     }, [fields, data, range, scaleType, aggregate, dispatch]);
 
     return <React.Fragment />;
@@ -31,6 +31,11 @@ Scale.propTypes = {
      * @type {String[]}
      */
     fields: PropTypes.arrayOf(PropTypes.string).isRequired,
+    /**
+     * Has this scale been created automatically from an Axis?
+     * @type {Boolean}
+     */
+    fromAxis: PropTypes.bool,
     /**
      * Force the range of the scale, this is required if you haven't provided a type
      * @type {number[]}
@@ -51,7 +56,7 @@ Scale.propTypes = {
      * @type {Array}
      */
     domain: PropTypes.arrayOf(
-        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.boolean]),
+        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool]),
     ),
 };
 

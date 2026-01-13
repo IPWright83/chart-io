@@ -23,6 +23,7 @@ const ScatterBase = ({
     renderVirtualCanvas,
     radius,
     color,
+    opacity,
     onMouseOver,
     onMouseOut,
     onClick,
@@ -40,8 +41,10 @@ const ScatterBase = ({
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     const fillColor = d3.color(color || theme.colors[0]);
-    fillColor.opacity = 0.8;
+    fillColor.opacity = opacity;
     const strokeColor = fillColor.darker();
+
+    const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
     const setFocused = useFocused({ dispatch, xScale, yScale });
     const setTooltip = useTooltip({ dispatch, x, y });
@@ -62,7 +65,7 @@ const ScatterBase = ({
             .enter()
             .append("circle")
             .attr("class", "scatter-point")
-            .attr("cx", (d) => xScale(d[x]))
+            .attr("cx", (d) => xScale(d[x]) + bandwidth)
             .attr("cy", (d) => yScale(d[y]))
             .attr("r", 0)
             .style("stroke", () => strokeColor)
@@ -139,6 +142,7 @@ ScatterBase.defaultProps = {
     ...plotDefaultProps,
     ...eventDefaultProps,
     radius: 5,
+    opacity: 0.8,
 };
 
 export { ScatterBase };

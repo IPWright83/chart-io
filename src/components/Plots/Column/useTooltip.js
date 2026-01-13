@@ -1,68 +1,81 @@
 import { useState, useEffect } from "react";
 
-import { eventActions } from "../../../../store";
+import { eventActions } from "../../../store";
 
 /**
- * Handles the user interacting with a DataPoint on the Scatter chart and the need to display a tooltip
+ * Handles the user interacting with a DataPoint on the Column chart and the need to display a tooltip
  * @param  {Function} options.dispatch     The redux store dispatch function
- 
  * @param  {String} options.x              The key for the x value
- * @param  {String} options.y              The key for the y value
  * @return {Function}                      A function to set the tooltip datum
  */
-const useTooltip = ({ dispatch, x, y }) => {
+const useTooltip = ({ dispatch, x }) => {
     const [datum, setDatum] = useState(null);
-    const [color, setColor] = useState(null);
+    const [colors, setColors] = useState(null);
+    const [ys, setYs] = useState(null);
     const [positionEvent, setPositionEvent] = useState(null);
 
     useEffect(() => {
         if (!datum) return;
 
+        // Only use border colors for a single item
+        if (colors && colors.length === 1) {
+            dispatch(eventActions.setTooltipBorderColor(colors[0]));
+        }
+
+        // Common x value
         const tooltipItemX = {
             datum,
             name: x,
             value: datum[x],
         };
-        
-        const tooltipItemY = {
+        dispatch(eventActions.addTooltipItem(tooltipItemX));
+
+        const yTooltipItems = ys.map((y, index) => ({
             datum,
             name: y,
-            seriesType: "scatter",
-            fill: color,
             value: datum[y],
-        };
+            seriesType: "column",
+            fill: colors[index],
+        }));
 
-        dispatch(eventActions.setTooltipBorderColor(color));
-        dispatch(eventActions.addTooltipItem(tooltipItemX));
-        dispatch(eventActions.addTooltipItem(tooltipItemY));
+        yTooltipItems.forEach(y => {
+            dispatch(eventActions.addTooltipItem(y));
+        });
+
         dispatch(eventActions.setPositionEvent(positionEvent));
 
         return () => {
             dispatch(eventActions.setTooltipBorderColor(undefined));
             dispatch(eventActions.removeTooltipItem(tooltipItemX));
-            dispatch(eventActions.removeTooltipItem(tooltipItemY));
+            
+            yTooltipItems.forEach(y => {
+                dispatch(eventActions.removeTooltipItem(y));
+            });
         };
-    }, [dispatch, color, x, y, positionEvent]);
+    }, [dispatch, colors, x, ys, datum, positionEvent]);
 
     /**
      * A function to set the tooltip parameters
      * @param  {String} options.datum      The datum that triggered the tooltip event
-     * @param  {String} options.fillColor  The border color of the tooltip
+     * @param  {Array}  options.fillColors The fill colors for each series
      * @param  {Object} options.event      The MouseEvent that triggered the tooltip
+     * @param  {Array}  options.ys         The keys for the y value
      */
     return (tooltipParams) => {
         if (!tooltipParams) {
             setDatum(undefined);
-            setColor(undefined);
+            setColors(undefined);
             setPositionEvent(undefined);
+            setYs(undefined);
             return;
         }
 
-        const { datum, event, fillColor } = tooltipParams;
+        const { datum, event, fillColors, ys } = tooltipParams;
 
-        setDatum(datum);
-        setColor(fillColor);
+        setColors(fillColors);
         setPositionEvent(event);
+        setYs(ys);
+        setDatum(datum);
     };
 };
 

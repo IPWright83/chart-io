@@ -38,7 +38,7 @@ const Axis = ({
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
-    const scale = useSelector((s) => chartSelectors.scales.getScale(s, field));
+    const scale = useSelector((s) => chartSelectors.scales.getAxisScale(s, field));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
     const transform = getTransform(position, width, height, margin);
 

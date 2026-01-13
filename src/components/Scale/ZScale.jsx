@@ -8,8 +8,8 @@ import { Scale } from "./Scale";
  * @param  {Object} props   Props for the scale
  * @return {ReactDOMComponent}   A scale component
  */
-const ZScale = ({ fields, scaleType, range, domain }) => {
-    return <Scale fields={fields} range={range} domain={domain} scaleType={scaleType} />;
+const ZScale = ({ fields, scaleType, range, domain, fromAxis }) => {
+    return <Scale fields={fields} fromAxis={fromAxis} range={range} domain={domain} scaleType={scaleType} />;
 };
 
 ZScale.propTypes = {
@@ -18,6 +18,11 @@ ZScale.propTypes = {
      * @type {String[]}
      */
     fields: PropTypes.arrayOf(PropTypes.string).isRequired,
+    /**
+     * Has this scale been created automatically from an Axis?
+     * @type {Boolean}
+     */
+    fromAxis: PropTypes.bool,
     /**
      *
      * Force the range of the scale, this is required if you haven't provided a type
@@ -34,7 +39,7 @@ ZScale.propTypes = {
      * @type {Array}
      */
     domain: PropTypes.arrayOf(
-        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.boolean]),
+        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool]),
     ),
 };
 

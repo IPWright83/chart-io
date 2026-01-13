@@ -10,6 +10,8 @@ import { ensureBandScale, ensureNoScaleOverflow, ensureValuesAreUnique } from ".
 
 import { renderCanvas } from "../../renderCanvas";
 import { getDropline } from "../getDropline";
+import { useTooltip } from "../useTooltip";
+import { getParentKey } from "./getParentKey";
 
 /**
  * Represents a Column Plot
@@ -29,6 +31,7 @@ const StackedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
     const strokeColor = "#fff";
+    const setTooltip = useTooltip({ dispatch, y });
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     useEffect(() => {
@@ -63,7 +66,6 @@ const StackedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
         const join = groupJoin
             .enter()
             .append("g")
-            .attr("fill", (d) => colorScale(d.key))
             .merge(groupJoin)
             .selectAll(".bar")
             .data((d) => d);
@@ -78,7 +80,10 @@ const StackedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
             .attr("height", yScale.bandwidth())
             .attr("width", 0)
             .style("stroke", strokeColor)
-            .style("fill", (d, i, elements) => d3.select(elements[i].parentNode).attr("fill"))
+            .style("fill", (_d, i, elements) => {
+                const key = getParentKey(elements[i]);
+                return colorScale(key);
+            })
             .style("opacity", 0.8);
 
         const update = join
@@ -86,17 +91,28 @@ const StackedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
             .on("mouseover", function (event, d) {
                 onMouseOver && onMouseOver(d.data, this, event);
                 setFocused({ element: this, event, datum: d.data });
+                
+                setTooltip({ 
+                    datum: d.data, 
+                    event, 
+                    fillColors: xs.map(x => colorScale(x)),
+                    xs
+                });
             })
             .on("mouseout", function (event, d) {
                 onMouseOut && onMouseOut(d.data, this, event);
                 setFocused(null);
+                setTooltip(null);
             })
             .on("click", function (event, d) {
                 onClick && onClick(d.data, this, event);
             })
             .transition("position")
             .duration(animationDuration / 2)
-            .style("fill", (d, i, elements) => d3.select(elements[i].parentNode).attr("fill"))
+            .style("fill", (_d, i, elements) => {
+                const key = getParentKey(elements[i]);
+                return colorScale(key);
+            })
             .attr("y", (d) => yScale(d.data[y]))
             .attr("height", () => yScale.bandwidth())
             .transition("width")

@@ -3,7 +3,7 @@
 exports[`Droplines should render correctly 1`] = `
 <custom>
   <line
-    class="dropline"
+    class="chart-it dropline"
     style="stroke: red;"
     x1="50"
     x2="50"
@@ -11,7 +11,7 @@ exports[`Droplines should render correctly 1`] = `
     y2="50"
   />
   <line
-    class="dropline"
+    class="chart-it dropline"
     style="stroke: red;"
     x1="50"
     x2="50"
@@ -25,7 +25,7 @@ exports[`Droplines should render just horizontal lines correctly 1`] = `
 Object {
   "current": <custom>
     <line
-      class="dropline"
+      class="chart-it dropline"
       style="stroke: red;"
       x1="50"
       x2="50"
@@ -40,7 +40,7 @@ exports[`Droplines should render just vertical lines correctly 1`] = `
 Object {
   "current": <custom>
     <line
-      class="dropline"
+      class="chart-it dropline"
       style="stroke: red;"
       x1="50"
       x2="50"

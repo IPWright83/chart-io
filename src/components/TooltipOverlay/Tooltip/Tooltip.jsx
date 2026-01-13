@@ -9,10 +9,11 @@ import "./Tooltip.css";
  * Represents a Tooltip
  * @return {ReactElement}  The Tooltip component
  */
-const Tooltip = ({ borderColor, items }) => {
+const Tooltip = ({ borderColor, items, positionStyle }) => {
     const style = {
         border: borderColor ? `thin solid ${borderColor}` : undefined,
         display: "inline-block",
+        ...positionStyle,
     };
 
     if (!items || items.length === 0) {
@@ -22,7 +23,7 @@ const Tooltip = ({ borderColor, items }) => {
     return (
         <div className="chart-it tooltip" style={style}>
             {items.map((item) => (
-                <TooltipItem key={`${item.name}:${item.type}`} {...item} />
+                <TooltipItem key={`${item.name}`} {...item} />
             ))}
         </div>
     );
@@ -34,6 +35,11 @@ Tooltip.propTypes = {
      * @type {String}
      */
     borderColor: PropTypes.string,
+    /**
+     * A style object controling the position of the toolip
+     * @type {Object}
+     */
+    positionStyle: PropTypes.object,
     /**
      * An array of tooltip items to display
      * @type {Array<TooltipItem>}

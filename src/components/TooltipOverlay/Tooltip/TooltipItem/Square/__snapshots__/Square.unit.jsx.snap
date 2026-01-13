@@ -3,7 +3,8 @@
 exports[`Square renders correctly 1`] = `
 <DocumentFragment>
   <div
-    style="height: 10px; width: 10px; margin-top: 4px; margin-right: 5px; margin-left: 5px; background: steelblue;"
+    class="chart-it indicator-square"
+    style="background: steelblue;"
   />
 </DocumentFragment>
 `;
