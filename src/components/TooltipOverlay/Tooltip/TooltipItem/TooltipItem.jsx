@@ -5,6 +5,10 @@ import { getShape } from "./getShape";
 
 import "./TooltipItem.css";
 
+/**
+ * Represents a row within a Tooltip
+ * @return {ReactElement}  The TooltipItem component
+ */
 const TooltipItem = ({ name, value, seriesType, fill }) => {
     const Shape = getShape(seriesType);
 

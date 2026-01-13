@@ -44,7 +44,7 @@ const ScatterBase = ({
     const strokeColor = fillColor.darker();
 
     const setFocused = useFocused({ dispatch, xScale, yScale });
-    const setTooltip = useTooltip({ dispatch, fillColor, x, y });
+    const setTooltip = useTooltip({ dispatch, x, y });
 
     // This is the main render function
     useEffect(() => {
@@ -74,7 +74,7 @@ const ScatterBase = ({
             .merge(join)
             .on("mouseover", function (event, datum) {
                 onMouseOver(datum, this, event);
-                setTooltip({ dispatch, datum, fillColor, event, key: x, value: y, type: "scatter" });
+                setTooltip({ datum, event, fillColor });
                 setFocused({ element: this, event, datum });
             })
             .on("mouseout", function (event, datum) {
