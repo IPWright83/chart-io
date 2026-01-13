@@ -1,0 +1,9 @@
+.customAxis .tick:nth-child(3n) line,
+.customAxis .tick:nth-child(3n + 1) line {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 22;
+}
+
+.customAxis .tick text {
+  transform: translate(22px, -12px);
+}
