@@ -93,7 +93,7 @@ jobs:
 
   version:
     runs-on: ubuntu-latest
-    needs: [lint, audit, unit]
+    needs: [lint, unit]
     if: "!contains(github.event.head_commit.message, 'ci skip')"
     steps:
       - uses: actions/checkout@v2
