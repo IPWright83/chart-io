@@ -1,5 +1,11 @@
 # @chart-io/d3
 
+## 0.11.0
+
+### Minor Changes
+
+- 6eba8e0: Upgraded Storybook
+
 ## 0.10.0
 
 ### Minor Changes

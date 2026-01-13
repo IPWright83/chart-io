@@ -1,5 +1,11 @@
 # @chart-io/types
 
+## 0.13.0
+
+### Minor Changes
+
+- 6eba8e0: Upgraded Storybook
+
 ## 0.12.0
 
 ### Minor Changes
