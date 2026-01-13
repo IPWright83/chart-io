@@ -123,9 +123,6 @@ jobs:
       - name: Update lockfile
         if: steps.version.outputs.changes == 'true'
         run: pnpm install --no-frozen-lockfile
-      - name: Create Tags
-        if: steps.version.outputs.changes == 'true'
-        run: pnpm changeset tag
       - name: Push changes
         if: steps.version.outputs.changes == 'true'
         run: |
@@ -170,6 +167,10 @@ jobs:
         run: pnpm install
       - name: Build
         run: pnpm run build
+      - name: Create Tags
+        run: pnpm changeset tag
+      - name: Push tags
+        run: git push --follow-tags
       - name: Release packages
         run: pnpm publish -r --access=public
         env:
