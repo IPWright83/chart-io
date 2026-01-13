@@ -1,3 +1,5 @@
+import "./Axis.css";
+
 import * as d3 from "d3";
 
 import PropTypes from "prop-types";
@@ -26,7 +28,6 @@ const Axis = ({ position, fields, tickSizeInner, tickSizeOuter, tickPadding, sho
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
     const scale = useSelector((s) => chartSelectors.scales.getScale(s, field));
-    const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
     const transform = getTransform(position, width, height, margin);
 
@@ -45,24 +46,14 @@ const Axis = ({ position, fields, tickSizeInner, tickSizeOuter, tickPadding, sho
             d3Axis.scale(scale).tickSizeInner(tickSizeInner).tickSizeOuter(tickSizeOuter).tickPadding(tickPadding);
 
             // Render the axis
-            selection.call(d3Axis).attr("color", theme.foreground).style("user-select", "none");
+            selection.call(d3Axis);
         }
-    }, [
-        theme.foreground,
-        position,
-        axis,
-        scale,
-        animationDuration,
-        tickPadding,
-        tickSizeInner,
-        tickSizeOuter,
-        showGridlines,
-    ]);
+    }, [position, axis, scale, animationDuration, tickPadding, tickSizeInner, tickSizeOuter, showGridlines]);
 
     return (
         <g transform={transform}>
             {showGridlines ? <Gridlines position={position} scale={scale} /> : null}
-            <g ref={axis} />
+            <g className="axis" ref={axis} />
         </g>
     );
 };

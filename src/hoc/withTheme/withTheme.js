@@ -16,7 +16,7 @@ const withTheme = (WrappedComponent) =>
     ({ theme = "light", ...props }) => {
         return (
             <ThemeSelector theme={theme}>
-                <WrappedComponent {...props} />
+                <WrappedComponent theme={theme} {...props} />
             </ThemeSelector>
         );
     };

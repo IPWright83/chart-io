@@ -1,4 +1,16 @@
+.chart {
+    background-color: #333333;
+}
+
+.chart-svg {
+    background: #333333;
+}
+
+.g-axis {
+    color: #cccccc;
+}
+
 .g-gridlines {
-    color: red;
+    color: blue;
     stroke-opacity: 0.8;
 }
