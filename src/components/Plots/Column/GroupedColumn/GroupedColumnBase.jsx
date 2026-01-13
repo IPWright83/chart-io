@@ -20,7 +20,6 @@ const GroupedColumnBase = ({
     x,
     ys,
     colors,
-    opacity,
     interactive,
     onMouseOver,
     onMouseOut,
@@ -53,7 +52,7 @@ const GroupedColumnBase = ({
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", opacity ?? theme.opacity);
+            selection.style("opacity", theme.opacity);
             dispatch(eventActions.removeDropline(dropline));
         };
     }, [dispatch, focused, xScale, theme.opacity, theme.selectedOpacity]);
@@ -88,7 +87,7 @@ const GroupedColumnBase = ({
             .attr("width", x1Scale.bandwidth())
             .style("fill", (d) => colorScale(d.key))
             .style("stroke", strokeColor)
-            .style("opacity", opacity ?? theme.opacity);
+            .style("opacity", theme.opacity);
 
         const update = join
             .merge(enter)

@@ -16,7 +16,7 @@ import { useMultiPathCreator } from "./useMultiPathCreator";
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Line plot component
  */
-const StackedAreaBase = ({ x, ys, colors, opacity, interactive, layer, canvas }) => {
+const StackedAreaBase = ({ x, ys, colors, interactive, layer, canvas }) => {
     const dispatch = useDispatch();
     const data = useSelector((s) => chartSelectors.data(s));
     const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
@@ -61,7 +61,7 @@ const StackedAreaBase = ({ x, ys, colors, opacity, interactive, layer, canvas })
             join.enter().each((d) => {
                 const color = colorScale(d.key);
                 const fillColor = d3.color(color);
-                fillColor.opacity = opacity ?? theme.opacity;
+                fillColor.opacity = theme.opacity;
                 const strokeColor = fillColor.darker();
 
                 context.beginPath();
@@ -80,7 +80,7 @@ const StackedAreaBase = ({ x, ys, colors, opacity, interactive, layer, canvas })
 
         join.style("fill", (d) => colorScale(d.key))
             .style("stroke", (d) => d3.color(colorScale(d.key)).darker())
-            .style("opacity", opacity ?? theme.opacity)
+            .style("opacity", theme.opacity)
             .transition("area")
             .duration(animationDuration)
             .delay((d, i) => (animationDuration / keys.length) * i)

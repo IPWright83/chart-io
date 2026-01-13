@@ -22,7 +22,6 @@ const ColumnBase = ({
     canvas,
     renderVirtualCanvas,
     color,
-    opacity,
     interactive,
     onMouseOver,
     onMouseOut,
@@ -42,20 +41,20 @@ const ColumnBase = ({
 
     const strokeColor = "#fff";
     const fillColor = d3.color(color || theme.colors[0]);
-    fillColor.opacity = opacity ?? theme.opacity;
+    fillColor.opacity = theme.opacity;
 
     const setTooltip = useTooltip({ dispatch, x });
 
     useEffect(() => {
         if (!focused) return;
 
-        const selection = d3.select(focused.element).style("opacity", 1);
+        const selection = d3.select(focused.element).style("opacity", theme.selectedOpacity);
         const dropline = getDropline(selection, xScale, true);
         dispatch(eventActions.addDropline(dropline));
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", 0.8);
+            selection.style("opacity", theme.opacity);
             dispatch(eventActions.removeDropline(dropline));
         };
     }, [dispatch, focused, xScale]);

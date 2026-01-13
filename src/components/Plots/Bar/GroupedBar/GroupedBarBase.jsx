@@ -21,7 +21,6 @@ const GroupedBarBase = ({
     xs,
     y,
     colors,
-    opacity,
     interactive,
     onMouseOver,
     onMouseOut,
@@ -54,7 +53,7 @@ const GroupedBarBase = ({
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", opacity ?? theme.opacity);
+            selection.style("opacity", theme.opacity);
             dispatch(eventActions.removeDropline(dropline));
         };
     }, [dispatch, focused, yScale, theme.opacity, theme.selectedOpacity]);
@@ -89,7 +88,7 @@ const GroupedBarBase = ({
             .attr("height", y1Scale.bandwidth())
             .style("stroke", strokeColor)
             .style("fill", (d) => colorScale(d.key))
-            .style("opacity", opacity ?? theme.opacity);
+            .style("opacity", theme.opacity);
 
         const update = join
             .merge(enter)
