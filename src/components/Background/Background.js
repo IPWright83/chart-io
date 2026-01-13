@@ -1,3 +1,5 @@
+import "./Background.css";
+
 import * as d3 from "d3";
 import { throttle } from "lodash";
 import PropTypes from "prop-types";
@@ -8,7 +10,7 @@ import { chartSelectors, eventActions } from "../../store";
 
 /**
  * Creates a background layer which is used to capture mouse events
- * @return {ReactDOMComponent}  The Background component
+ * @return {ReactElement}  The Background component
  */
 const Background = ({ layer }) => {
     const dispatch = useDispatch();
@@ -33,8 +35,6 @@ const Background = ({ layer }) => {
         // prettier-ignore
         d3.select(layer.current)
             .select("rect")
-            .attr("fill", "none")
-            .attr("pointer-events", "all")
             .attr("width", width - margin.left - margin.right)
             .attr("height", height - margin.top - margin.bottom)
             .on("mouseout", (e) => { dispatch(eventActions.mouseExit(e)); })
