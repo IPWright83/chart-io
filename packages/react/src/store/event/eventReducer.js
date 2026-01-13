@@ -25,6 +25,11 @@ const eventReducer = (state = defaultState, action) => {
                 return state;
             }
 
+            // Optimisation
+            if (state.mouse.x === payload.offsetX && state.mouse.y === payload.offsetY && state.mode === "MOVE") {
+                return state;
+            }
+
             return {
                 ...state,
                 mouse: { x: payload.offsetX, y: payload.offsetY, mode: "MOVE" },
