@@ -14,8 +14,7 @@
     "deploy-storybook": "storybook-to-ghpages",
     "build-storybook": "build-storybook",
     "build": "rollup -c",
-    "prepublishOnly": "yarn build",
-    "chromatic": "npx chromatic --project-token=c88bb0cc9630"
+    "prepublishOnly": "yarn build"
   },
   "np": {
     "publish": false,
