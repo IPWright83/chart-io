@@ -81,7 +81,7 @@ const AreaBase = ({ x, y, y2, color, layer, canvas }) => {
     }, [x, y, sortedData, xScale, yScale, layer, canvas, width, height, theme.colors, animationDuration]);
 
     // If possible respond to global mouse events for tooltips etc
-    useDatumFocus(dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, strokeColor);
+    useDatumFocus(dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, strokeColor.toString());
 
     return null;
 };
