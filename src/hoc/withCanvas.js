@@ -23,11 +23,7 @@ const withCanvas = (WrappedComponent, className) =>
         const height = useSelector((s) => chartSelectors.dimensions.height(s));
 
         useEffect(() => {
-            const element = document.createElement("custom");
-            document.body.appendChild(element);
-            element.className = `g-${className}`;
-            console.log(element.className);
-            setLayer({ current: element });
+            setLayer({ current: document.createElement("custom") });
         }, []);
 
         return (
