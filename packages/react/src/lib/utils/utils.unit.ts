@@ -1,13 +1,13 @@
 import * as d3 from "@chart-it/d3";
 import type { AnyAction, Store } from "redux";
+import { IScale } from "@chart-it/types";
 
 import { logAndThrowError, logDebug, logError, logWarning } from "./logger";
 import { areValuesUnique } from "./areValuesUnique";
+import { getBandwidthAndOffset } from "./getBandwidthAndOffset";
 import { getXYFromTransform } from "./getXYFromTransform";
 import { isNullOrUndefined } from "./isNullOrUndefined";
 import { linkStores } from "./linkStores";
-import { getBandwidthAndOffset } from "./getBandwidthAndOffset";
-import { IScale } from "@chart-it/types";
 
 describe("utils", () => {
     describe("areValuesUnique", () => {

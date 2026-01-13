@@ -7,6 +7,7 @@ import { chartSelectors, eventSelectors, IState } from "../../../../store";
 import { useLegendItems, useRender } from "../../../../hooks";
 import { ensureNoScaleOverflow } from "../../../../utils";
 
+import { IBandwidthScale } from "../../IBandwidthScale";
 import { useDatumFocus } from "./useDatumFocus";
 import { useMultiPathCreator } from "./useMultiPathCreator";
 import { useTooltip } from "./useTooltip";
@@ -51,6 +52,8 @@ export function StackedAreaBase({
 
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
 
+    const bandwidth = (xScale as IBandwidthScale).bandwidth ? (xScale as IBandwidthScale).bandwidth() / 2 : 0;
+
     // Used to create our initial path
     useMultiPathCreator(layer, x, ys, xScale, yScale, canvas);
     useLegendItems(ys, "line", showInLegend, colors);
@@ -70,7 +73,7 @@ export function StackedAreaBase({
             .area()
             .curve(d3.curveLinear)
             // @ts-ignore: TODO: Not sure how to fix this
-            .x((d) => xScale(d.data[x]))
+            .x((d) => xScale(d.data[x]) + bandwidth)
             .y0((d) => yScale(d[0]))
             .y1((d) => yScale(d[1]));
 
