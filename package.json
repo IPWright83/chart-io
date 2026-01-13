@@ -65,6 +65,7 @@
     "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.4.1",
+    "rollup": "^2.77.2",
     "web-vitals": "^2.1.4",
     "webpack": "5"
   },
