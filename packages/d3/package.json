@@ -1,6 +1,7 @@
 {
   "name": "@d3-chart/d3",
   "version": "0.6.0",
+  "private": true,
   "packageManager": "pnpm@7.5.2",
   "description": "Provides a custom d3 bundle",
   "repository": "git@github.com:IPWright83/chart-it.git",
