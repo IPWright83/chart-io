@@ -16,20 +16,6 @@ jobs:
         with:
           node-version: 16
       - uses: pnpm/action-setup@v2.2.2
-        with:
-          run_install: false
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
       - name: pnpm Install
         run: pnpm install
       - name: Lint
@@ -44,20 +30,6 @@ jobs:
         with:
           node-version: 16
       - uses: pnpm/action-setup@v2.2.2
-        with:
-          run_install: false
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
       - name: pnpm Install
         run: pnpm install
       - name: Run Linting
@@ -72,20 +44,6 @@ jobs:
         with:
           node-version: 16
       - uses: pnpm/action-setup@v2.2.2
-        with:
-          run_install: false
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
       - name: pnpm Install
         run: pnpm install
       - name: Run Unit Tests
@@ -103,23 +61,8 @@ jobs:
         with:
           node-version: 16
       - uses: pnpm/action-setup@v2.2.2
-        with:
-          run_install: false
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
       - name: Version command
-        run: |
-          pnpm install --no-package-lock --no-save @changesets/cli
-          echo ::set-output name=changes::$(pnpm bump version 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
+        run: echo ::set-output name=changes::$(pnpm bump version 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
       - name: Push changes
         if: steps.version.outputs.changes == 'true'
         run: |
@@ -146,20 +89,6 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - uses: pnpm/action-setup@v2.2.2
-        with:
-          run_install: false
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
       - name: pnpm Install
         run: pnpm install
       - name: Build
