@@ -124,7 +124,7 @@ export function Chart({
         animationDuration,
         onMouseOver,
         onMouseOut,
-        onClick
+        onClick,
     );
 
     const themeOrCustom = getTheme(theme);

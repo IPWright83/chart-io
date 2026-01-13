@@ -9,13 +9,18 @@ import { chartActions } from "../store";
  * @param {string}  name             The name of the series
  * @param {IShape}  shape            The shape to use for any icon in the legend
  * @param {boolean} showInLegend     True if this hook should use the legend. Setting to false bypasses the hook
- * @param {IColor}  color            The color to use for the shape
+ * @param {IColor}  shapeColor       The color to use for the shape
  */
-export function useLegendItem(name: string, shape: IShape, showInLegend: boolean, color?: IColor) {
+export function useLegendItem(name: string, shape: IShape, showInLegend: boolean, shapeColor?: IColor) {
     const dispatch = useDispatch();
+    const color = shapeColor?.toString();
 
     useEffect(() => {
-        const legendItem = { name, color, icon: shape };
+        const legendItem = {
+            name,
+            color: color as IColor,
+            icon: shape,
+        };
 
         if (showInLegend) {
             dispatch(chartActions.addLegendItem(legendItem));

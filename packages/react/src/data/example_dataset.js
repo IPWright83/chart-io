@@ -46659,8 +46659,8 @@ const example = [
   },
 ];
 
-const parseDate = d3.timeParse("%d/%m/%Y");
-const parseMonth = d3.timeParse("%b-%y");
+const parseDate = d3.utcParse("%d/%m/%Y");
+const parseMonth = d3.utcParse("%b-%y");
 
 const example_dataset = example.map((r) => ({
   ...r,

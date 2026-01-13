@@ -146,10 +146,10 @@ ProgresssiveRendering.args = {
     ...Basic.args,
     animationDuration: 0,
     data: huge_data_set,
-    height: 250,
+    height: 500,
     useCanvas: true,
     radius: 3,
-    width: 400,
+    width: 800,
 };
 ProgresssiveRendering.parameters = {
     chromatic: { disableSnapshot: true },
