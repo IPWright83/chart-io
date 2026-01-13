@@ -1,9 +1,9 @@
+import type { Transition } from "@chart-io/d3";
 import * as d3 from "@chart-io/d3";
 import { IColor, IDatum, INumericValue, IValue } from "@chart-io/types";
-import type { Transition } from "@chart-io/d3";
 
-import { ensureBandwidth, getBandwidthAndOffset } from "../../utils";
 import type { IRenderProps } from "../../types";
+import { ensureBandwidth, getBandwidthAndOffset } from "../../utils";
 
 export interface IRenderGroupedBarPlotProps extends Omit<IRenderProps, "x"> {
     /**
@@ -81,7 +81,7 @@ export function grouped({
         .append("rect")
         .attr("class", "bar")
         .attr("y", (d) => yScale(d[y]) + y1Scale(d.key) - offset)
-        .attr("x", xScale.range()[0])
+        .attr("x", xScale.range()[0] as number)
         .attr("width", 0)
         .attr("height", y1Scale.bandwidth())
         .style("fill", (d) => colorScale(d.key).toString())
@@ -89,40 +89,40 @@ export function grouped({
 
     // prettier-ignore
     const update = join
-            .merge(enter)
-            .on("mouseover", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
+        .merge(enter)
+        .on("mouseover", function (event, datum) {
+            // istanbul ignore next
+            if (!interactive) return;
 
-                onMouseOver && onMouseOver(datum, this as Element, event);
-                onFocus && onFocus({ element: this as Element, event, datum });
-                onTooltip && onTooltip({ datum, event, fillColors: [colorScale(datum.key) as IColor], xs: [datum.key] });
-            })
-            .on("mouseout", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
+            onMouseOver && onMouseOver(datum, this as Element, event);
+            onFocus && onFocus({ element: this as Element, event, datum });
+            onTooltip && onTooltip({ datum, event, fillColors: [colorScale(datum.key) as IColor], xs: [datum.key] });
+        })
+        .on("mouseout", function (event, datum) {
+            // istanbul ignore next
+            if (!interactive) return;
 
-                onMouseOut && onMouseOut(datum, this as Element, event);
-                onFocus && onFocus(null);
-                onTooltip && onTooltip(null);
-            })
-            .on("click", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
+            onMouseOut && onMouseOut(datum, this as Element, event);
+            onFocus && onFocus(null);
+            onTooltip && onTooltip(null);
+        })
+        .on("click", function (event, datum) {
+            // istanbul ignore next
+            if (!interactive) return;
 
-                onClick && onClick(datum, this as Element, event);
-            })
-            .transition("position")
-            .duration(animationDuration / 2)
-            .attr("y", (d) => yScale(d[y]) + y1Scale(d.key) - offset)
-            .attr("height", y1Scale.bandwidth())
-            .style("fill", (d) => colorScale(d.key).toString())
-            // @ts-expect-error: Looks like the type defs are wrong missing named transitions
-            .transition("width")
-            .duration(animationDuration / 2)
-            .delay(animationDuration / 2)
-            .attr("width", (d) => xScale(d.value as INumericValue) - xScale.range()[0])
-            .attr("x", () => xScale.range()[0]) as Transition<SVGRectElement, { key: string; value: IValue; }, SVGGElement, IDatum>;
+            onClick && onClick(datum, this as Element, event);
+        })
+        .transition("position")
+        .duration(animationDuration / 2)
+        .attr("y", (d) => yScale(d[y]) + y1Scale(d.key) - offset)
+        .attr("height", y1Scale.bandwidth())
+        .style("fill", (d) => colorScale(d.key).toString())
+        // @ts-expect-error: Looks like the type defs are wrong missing named transitions
+        .transition("width")
+        .duration(animationDuration / 2)
+        .delay(animationDuration / 2)
+        .attr("width", (d) => xScale(d.value as INumericValue) - (xScale.range()[0] as number))
+        .attr("x", () => xScale.range()[0] as number) as Transition<SVGRectElement, { key: string; value: IValue; }, SVGGElement, IDatum>;
 
     return { update, exit };
 }
