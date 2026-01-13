@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.42.0
+
+### Minor Changes
+
+- d9091cf: Allow easier Tooltip customizations
+
 ## 0.41.0
 
 ### Minor Changes
