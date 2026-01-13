@@ -1,5 +1,11 @@
 # @chart-it/react-d3
 
+## 0.19.0
+
+### Minor Changes
+
+- bb81e3a: Test
+
 ## 0.18.0
 
 ### Minor Changes
