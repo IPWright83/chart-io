@@ -1,5 +1,3 @@
-import "./GroupedBar.css";
-
 import * as d3 from "d3";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
@@ -30,6 +28,8 @@ const GroupedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
     const theme = useSelector((s) => chartSelectors.theme(s));
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
+    const strokeColor = "#fff";
+
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     useEffect(() => {
         if (!focused) return;
@@ -40,7 +40,7 @@ const GroupedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", undefined);
+            selection.style("opacity", 0.8);
             dispatch(eventActions.removeDropline(dropline));
         };
     }, [dispatch, focused, yScale, theme.opacity, theme.selectedOpacity]);
@@ -73,7 +73,9 @@ const GroupedBarBase = ({ xs, y, colors, onMouseOver, onMouseOut, onClick, layer
             .attr("x", () => xScale.range()[0])
             .attr("width", 0)
             .attr("height", y1Scale.bandwidth())
-            .style("fill", (d) => colorScale(d.key));
+            .style("stroke", strokeColor)
+            .style("fill", (d) => colorScale(d.key))
+            .style("opacity", 0.8);
 
         const update = join
             .merge(enter)
