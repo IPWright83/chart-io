@@ -12,6 +12,7 @@
     "testp": "node scripts/choice test --watchAll=false",
     "storybookw": "node scripts/choice storybook",
     "storybookp": "node scripts/choice build-storybook",
+    "deploy-storybook": "pnpm --filter react deploy-storybook",
     "clean": "rm -rf node_modules && pnpm -r clean",
     "refresh": "pnpm clean && pnpm install",
     "build": "turbo run build",
