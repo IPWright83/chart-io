@@ -1,4 +1,5 @@
 import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as ScatterStories from "./Scatter.stories";
 
 <Meta title="XYCharts/Scatter" />
 
@@ -13,9 +14,7 @@ There are two different Scatter based components, these include:
 
 The `<Scatter>` component should be used when you want to plot a single scatter plot on a chart.
 
-<Canvas>
-    <Story id="xycharts-scatter--basic" />
-</Canvas>
+<Canvas of={ScatterStories.Basic} />
 
 ### Props
 
@@ -33,17 +32,13 @@ The `<Scatter>` component should be used when you want to plot a single scatter 
 
 Most of the configuration for a `<Scatter>` is similar to other plots. The main styling properties are that of a `radius` property allowing us to adjust the size of the points and a colour option.
 
-<Canvas>
-    <Story id="xycharts-scatter--radius" />
-</Canvas>
+<Canvas of={ScatterStories.Radius} />
 
 ## `<Scatters> Component`
 
 The `<Scatters>` component allows us to define multiple scatter series.
 
-<Canvas>
-    <Story id="xycharts-scatter--multiple-scatter" />
-</Canvas>
+<Canvas of={ScatterStories.MultipleScatter} />
 
 ### Props
 

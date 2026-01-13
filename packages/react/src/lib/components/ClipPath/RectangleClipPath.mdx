@@ -1,4 +1,5 @@
 import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as RectangleClipPathStories from "./RectangleClipPath.stories";
 
 <Meta title="Components/RectangleClipPath" />
 
@@ -8,15 +9,13 @@ The `<RectangleClipPath>` component allows us to create a clip path to ensure th
 
     In the example below a black rectangle has been added to show the dimensions of the `<RectangleClipPath>` component. You can see how the circle has been chopped in half and anything outside of the clip path does not render.
 
-<Canvas>
-    <Story id="components-rectangleclippath--default" />
-</Canvas>
+<Canvas of={RectangleClipPathStories.Default} />
 
 ## Adding a RectangleClipPath
 
 To use a `<RectangleClipPath>` component you should wrap it around all your children that require clipping. For example you may wrap several plots like so:
 
-```
+```javascript
 <RectangleClipPath>
     <Line x="x" y="y" />
     <Line x="x" y="y2" />
@@ -25,7 +24,7 @@ To use a `<RectangleClipPath>` component you should wrap it around all your chil
 
 This will dynamically inject a `clipPath` prop into the components which can be consumed using the form:
 
-```
+```javascript
 const MyClippedComponent = ({ clipPath }: { clipPath?: string }) => {
     return <circle clipPath={`url(#${clipPath})`} ... />;
 };

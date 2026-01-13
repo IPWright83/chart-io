@@ -1,4 +1,5 @@
 import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as DroplineStories from "./Droplines.stories";
 
 <Meta title="Components/Droplines" />
 
@@ -6,9 +7,7 @@ import { Story, Canvas, Meta } from "@storybook/blocks";
 
 The `<Droplines>` component allows us to define a layer to render drop lines on top of the plots. This is useful in highlighting a particular data point and can be combined with the `<Markers>` layer for additional affect.
 
-<Canvas>
-    <Story id="components-droplines--default" />
-</Canvas>
+<Canvas of={DroplineStories.Default} />
 
 ### `<Droplines>` Props
 
@@ -23,7 +22,7 @@ The `<Droplines>` component allows us to define a layer to render drop lines on 
 
 To add a dropline programatically you should call the `eventActions.addDropline` function and `eventActions.removeDropline` function for clean up:
 
-```
+```javascript
 const dropline = {
     isHorizontal: true,
     isVertical: false,

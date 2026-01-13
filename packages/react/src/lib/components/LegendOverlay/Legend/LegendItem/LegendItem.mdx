@@ -1,4 +1,5 @@
 import { Meta, Story, Canvas } from "@storybook/blocks";
+import * as LegendItemStories from "./LegendItem.stories";
 
 import { LegendItem } from "./index";
 
@@ -8,17 +9,13 @@ import { LegendItem } from "./index";
 
 A LegendItem components represents an entry within the Legend. Typically this is a value from a series in a chart. For a known series a shape will be returned, with appropraite styling to reflect the current entry. For example:
 
-<Canvas>
-    <Story id="components-legendoverlay-legend-legenditem--scatter" />
-</Canvas>
+<Canvas of={LegendItemStories.Scatter} />
 
 There are a number of different shapes avaliable for use:
 
-<Canvas>
-    <Story id="components-tooltipoverlay-tooltip-tooltipitem-line--default" />
-    <Story id="components-tooltipoverlay-tooltip-tooltipitem-square--default" />
-    <Story id="components-tooltipoverlay-tooltip-tooltipitem-circle--default" />
-</Canvas>
+<Canvas of={LegendItemStories.Line} />
+<Canvas of={LegendItemStories.Area} />
+<Canvas of={LegendItemStories.Bar} />
 
 ### Props
 

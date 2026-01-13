@@ -1,4 +1,5 @@
 import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as BarStories from "./Bar.stories"
 
 <Meta title="XYCharts/Bar" />
 
@@ -11,9 +12,7 @@ There are two different Bar based components, these include:
 
 > **Note**: When you are using a Bar plot you may need help the chart by specifying the type of scale. You can do this by configuring your `<XAxis>` like so `<XAxis ... scaleType="band" />`
 
-<Canvas>
-    <Story id="xycharts-bar--basic" />
-</Canvas>
+<Canvas of={BarStories.Basic} />
 
 ## `<Bar>` Component
 
@@ -34,9 +33,7 @@ The `<Bar>` component should be used when you want to plot a single bar plot (ho
 
 Most of the configuration for a `<Bar>` is similar to other plots. Currently the only styling property avaliable is the colour option.
 
-<Canvas>
-    <Story id="xycharts-bar--color" />
-</Canvas>
+<Canvas of={BarStories.Color} />
 
 ## `<Bars>` Component
 
@@ -60,9 +57,7 @@ The `<Bars>` component allows us to define multiple bar series. There are three 
 
 One way of combining Bars plots is to display one over the top of the other. This is useful if you want to show one value as a ratio of another. Remember if you do this that you need to disable the default opacity on a bar.
 
-<Canvas>
-    <Story id="xycharts-bar--ratio" />
-</Canvas>
+<Canvas of={BarStories.Ratio} />
 
 ### Stacked Charts
 
@@ -70,14 +65,10 @@ Another way to to combine bar plots is to stack them on top of each other. To st
 
 The chart will attempt to warn you, but you should also set the `aggregate` field on your X Axis/Scale as otherwise the data will overflow of the top of the scale `<XAxis ... aggregate={true} />`.
 
-<Canvas>
-    <Story id="xycharts-bar--stacked" />
-</Canvas>
+<Canvas of={BarStories.Stacked} />
 
 ### Grouped Charts
 
 Another way to to combine bar plots is to group them together in multiple series. To group bar plots you **must** use the `<Bars>` (plural) component and ensure that you set grouped field `<Bars ... grouped={true} />`.
 
-<Canvas>
-    <Story id="xycharts-bar--grouped" />
-</Canvas>
+<Canvas of={BarStories.Grouped} />

@@ -1,4 +1,5 @@
 import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as ColumnStories from "./Column.stories";
 
 <Meta title="XYCharts/Column" />
 
@@ -11,9 +12,7 @@ There are two different Column based components, these include:
 
 > **Note**: When you are using a Column plot you may need help the chart by specifying the type of scale. You can do this by configuring your `<YAxis>` like so `<YAxis ... scaleType="band" />`
 
-<Canvas>
-    <Story id="xycharts-column--basic" />
-</Canvas>
+<Canvas of={ColumnStories.Basic} />
 
 ## `<Column>` Component
 
@@ -34,9 +33,7 @@ The `<Column>` component should be used when you want to plot a single column pl
 
 Most of the configuration for a `<Column>` is similar to other plots. Currently the only styling property avaliable is the colour option.
 
-<Canvas>
-    <Story id="xycharts-column--color" />
-</Canvas>
+<Canvas of={ColumnStories.Color} />
 
 ## `<Columns>` Component
 
@@ -60,9 +57,7 @@ The `<Columns>` component allows us to define multiple column series. There are 
 
 One way of combining Column plots is to display one over the top of the other. This is useful if you want to show one value as a ratio of another. Remember if you do this that you need to disable the default opacity on a bar.
 
-<Canvas>
-    <Story id="xycharts-column--ratio" />
-</Canvas>
+<Canvas of={ColumnStories.Ratio} />
 
 ### Stacked Charts
 
@@ -70,14 +65,10 @@ Another way to to combine column plots is to stack them on top of each other. To
 
 The chart will attempt to warn you, but you should also set the `aggregate` field on your Y Axis/Scale as otherwise the data will overflow of the top of the scale `<YAxis ... aggregate={true} />`.
 
-<Canvas>
-    <Story id="xycharts-column--stacked" />
-</Canvas>
+<Canvas of={ColumnStories.Stacked} />
 
 ### Grouped Charts
 
 Another way to to combine column plots is to group them together in multiple series. To group column plots you **must** use the `<Columns>` (plural) component and ensure that you set grouped field `<Columns ... grouped={true} />`.
 
-<Canvas>
-    <Story id="xycharts-column--grouped" />
-</Canvas>
+<Canvas of={ColumnStories.Grouped} />

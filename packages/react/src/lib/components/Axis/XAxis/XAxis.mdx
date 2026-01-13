@@ -1,17 +1,15 @@
 import { Meta, Story, Canvas } from "@storybook/blocks";
-import LinkTo from "@storybook/addon-links/react";
+import * as XAxisStories from './XAxis.stories';
 
 <Meta title="Components/Axis/XAxis" />
 
-# Axis Component
+# X Axis Component
 
-This `<XAxis>` component allows you to define a horizontal Axis on a chart. This is a utility component that combines both an <LinkTo kind="components-axis-types--string-axis#axis-component">`<Axis>`</LinkTo> component, along with an `<AutoScale>` component. It is recommended to use this component where possible to save duplicate configuration for an `<AutoScale>`.
+This `<XAxis>` component allows you to define a horizontal Axis on a chart. This is a utility component that combines both an [Axis](?path=/docs/components-axis--docs) component, along with an `<AutoScale>` component. It is recommended to use this component where possible to save duplicate configuration for an `<AutoScale>`.
 
-Please see the <LinkTo kind="components-axis-types--string-axis#axis-component">Axis</LinkTo> component for more information on it's capabilities and configuration.
+Please see the [Axis](?path=/docs/components-axis--docs) component for more information on it's capabilities and configuration.
 
-<Canvas>
-    <Story id="components-axis-xaxis--x-axis-story" />
-</Canvas>
+<Canvas of={XAxisStories.XAxisStory} />
 
 ### Props
 
