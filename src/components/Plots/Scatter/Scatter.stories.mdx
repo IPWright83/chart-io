@@ -2,18 +2,40 @@
 
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 
-import { defaultArgTypes } from "./defaultArgTypes";
-import { defaultArgs } from "./defaultArgs";
-import { seriesArgTypes } from "../seriesArgTypes";
-import { sales_records_dataset } from "../sales_records_dataset";
-import { huge_data_set } from "../huge_data_set";
-import { Chart, XAxis, YAxis, Scatter, Scatters } from "../../src/components";
+import { commonDefaultArgs } from "../../../../stories/commonDefaultArgs";
+import { commonDefaultArgTypes } from "../../../../stories/commonDefaultArgTypes";
+import { seriesArgTypes } from "../../../../stories/seriesArgTypes";
+import { sales_records_dataset } from "../../../../data/sales_records_dataset";
+import { huge_data_set } from "../../../../data/huge_data_set";
+import { Scatter } from "./Scatter";
+import { Scatters } from "./Scatters";
+import { Chart } from "../../Chart";
+import { XAxis, YAxis } from "../../Axis";
 
 export const scatterArgTypes = {
-    ...defaultArgTypes,
+    ...commonDefaultArgTypes,
+    x: seriesArgTypes,
+    y: seriesArgTypes,
+    radius: {
+        description: "The radius of each point",
+        control: { type: "range", min: 1, max: 25 },
+        defaultValue: { summary: 5 },
+    },
 };
 
-<Meta title="XYCharts/3. Scatter" component={Scatter} argTypes={scatterArgTypes} />
+export const scattersArgTypes = {
+    ...scatterArgTypes,
+    y2: seriesArgTypes,
+    y3: seriesArgTypes,
+};
+
+export const defaultArgs = {
+    ...commonDefaultArgs,
+    y: "Total Profit",
+    x: "Units Sold",
+};
+
+<Meta title="XYCharts/Scatter Plot" component={Scatter} argTypes={scatterArgTypes} />
 
 export const ScatterTemplate = (args) => (
     <Chart {...args} data={sales_records_dataset}>
@@ -78,12 +100,6 @@ There are two ways to go about defining multiple scatter plots. The simplest way
 The long hand way is to define each `<Scatter>`, and configure with a colour manually. The only advantage to this approach is if you wish to control other settings (such as radius or events) differently between the plots.
 
 The results of either approach, render in exactly the same way:
-
-export const scattersArgTypes = {
-    ...defaultArgTypes,
-    y2: seriesArgTypes,
-    y3: seriesArgTypes,
-};
 
 export const ScattersTemplate = (args) => (
     <Chart {...args} data={sales_records_dataset}>
