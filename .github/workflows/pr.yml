@@ -59,7 +59,7 @@ jobs:
             ${{ runner.os }}-pnpm-store-
       - name: pnpm Install
         run: pnpm install
-      - name: Run Linting
+      - name: Run Audit
         run: pnpm audit --production --audit-level moderate
 
   unit:
