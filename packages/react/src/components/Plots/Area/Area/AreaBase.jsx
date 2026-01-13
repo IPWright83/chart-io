@@ -31,8 +31,8 @@ const AreaBase = ({ x, y, y2, color, interactive, layer, canvas }) => {
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
 
-    const fillColor = d3.color(color || theme.colors[0]);
-    fillColor.opacity = theme.opacity;
+    const fillColor = d3.color(color || theme.series.colors[0]);
+    fillColor.opacity = theme.series.opacity;
     const strokeColor = fillColor.darker();
 
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
@@ -76,12 +76,12 @@ const AreaBase = ({ x, y, y2, color, interactive, layer, canvas }) => {
             .style("stroke", strokeColor)
             .transition("area")
             .duration(animationDuration)
-            .attrTween("d", function (d) {
+            .attrTween("d", function(d) {
                 const previous = d3.select(this).attr("d");
                 const current = area(d);
                 return interpolateMultiPath(previous, current);
             });
-    }, [x, y, sortedData, xScale, yScale, layer, canvas, width, height, theme.colors, animationDuration]);
+    }, [x, y, sortedData, xScale, yScale, layer, canvas, width, height, theme.series.colors, animationDuration]);
 
     // If possible respond to global mouse events for tooltips etc
     if (interactive) {

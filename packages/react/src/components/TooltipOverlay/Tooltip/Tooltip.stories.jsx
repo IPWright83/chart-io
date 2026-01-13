@@ -1,12 +1,14 @@
 import React from "react";
 import { Tooltip } from "./Tooltip";
 
+import mdx from "./Tooltip.mdx";
+
 export default {
-    title: "Components/Tooltip",
+    title: "Components/TooltipOverlay/Tooltip",
     component: Tooltip,
     parameters: {
         docs: {
-            // page: mdx,
+            page: mdx,
             transformSource: (src) => {
                 src = src.replace(/data={\[.*?\]}/gs, "data={[ ...dataset ]}");
                 src = src.replaceAll(/undefined,?/g, "");

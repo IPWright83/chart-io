@@ -48,16 +48,16 @@ const StackedBarBase = ({
     useEffect(() => {
         if (!focused) return;
 
-        const selection = d3.select(focused.element).style("opacity", theme.selectedOpacity);
+        const selection = d3.select(focused.element).style("opacity", theme.series.selectedOpacity);
         const dropline = getDropline(selection, yScale, false);
         dispatch(eventActions.addDropline(dropline));
 
         // Clean up operations on exit
         return () => {
-            selection.style("opacity", theme.opacity);
+            selection.style("opacity", theme.series.opacity);
             dispatch(eventActions.removeDropline(dropline));
         };
-    }, [dispatch, focused, yScale, theme.opacity, theme.selectedOpacity]);
+    }, [dispatch, focused, yScale, theme.series.opacity, theme.series.selectedOpacity]);
 
     useRender(() => {
         if (ensureBandScale(yScale, "StackedBar") === false) return null;
@@ -67,9 +67,15 @@ const StackedBarBase = ({
         // Create the stacked variant of the data
         const keys = xs;
         const stackedData = d3.stack().keys(keys)(data);
-        const colorScale = d3.scaleOrdinal().domain(keys).range(colors);
+        const colorScale = d3
+            .scaleOrdinal()
+            .domain(keys)
+            .range(colors);
 
-        const groupJoin = d3.select(layer.current).selectAll("g").data(stackedData);
+        const groupJoin = d3
+            .select(layer.current)
+            .selectAll("g")
+            .data(stackedData);
 
         // Clean up old stacks
         groupJoin.exit().remove();
@@ -95,11 +101,11 @@ const StackedBarBase = ({
                 const key = getParentKey(elements[i]);
                 return colorScale(key);
             })
-            .style("opacity", theme.opacity);
+            .style("opacity", theme.series.opacity);
 
         const update = join
             .merge(enter)
-            .on("mouseover", function (event, d) {
+            .on("mouseover", function(event, d) {
                 if (!interactive) return;
 
                 onMouseOver && onMouseOver(d.data, this, event);
@@ -111,14 +117,14 @@ const StackedBarBase = ({
                     xs,
                 });
             })
-            .on("mouseout", function (event, d) {
+            .on("mouseout", function(event, d) {
                 if (!interactive) return;
 
                 onMouseOut && onMouseOut(d.data, this, event);
                 setFocused(null);
                 setTooltip(null);
             })
-            .on("click", function (event, d) {
+            .on("click", function(event, d) {
                 if (!interactive) return;
 
                 onClick && onClick(d.data, this, event);

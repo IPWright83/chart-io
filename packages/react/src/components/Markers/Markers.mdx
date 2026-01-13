@@ -1,0 +1,39 @@
+import { Story, Canvas } from "@storybook/addon-docs/blocks";
+
+# Markers Component
+
+The `<Markers>` component allows us to define a layer to render markers on top of the plots. This is useful in highlighting a particular data point and can be combined with the `<Droplines>` layer for additional affect.
+
+<Canvas>
+    <Story id="components-markers--default" />
+</Canvas>
+<br />
+
+## Adding Markers Programatically
+
+To add a marker programatically you should call the `eventActions.addMarker` function and `eventActions.removeMarker` function for clean up:
+
+```
+const marker = {
+    fill: "steelblue",
+    stroke: "lightblue",
+    cx: 50,
+    cy: 50,
+    r1: 10,
+    r2: 30,
+};
+
+eventActions.addMarker(marker);
+eventActions.removeMarker(marker);  // clean up
+```
+
+### Markers Schema:
+
+| Prop       | Type     | Note                                                              |
+| ---------- | -------- | ----------------------------------------------------------------- |
+| `fill`     | `string` | The fill color of the marker                                      |
+| `stroke`   | `string` | The stroke color of the marker                                    |
+| **`cx`\*** | `number` | The x-coordinate of the marker                                    |
+| **`cy`\*** | `number` | The y-coordinate of the marker                                    |
+| `r1`       | `number` | The start radius of the marker (used to animate a growing marker) |
+| **`r2`\*** | `number` | The end radius of the marker                                      |

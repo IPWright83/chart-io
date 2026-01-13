@@ -7,13 +7,13 @@ import { chartSelectors, eventSelectors } from "../../store";
 
 /**
  * This component renders the droplines that are triggered from various plots
- * @return {ReactElement}  The Background component
+ * @return {ReactElement}  The Droplines component
  */
 const Droplines = ({ layer, showVertical = true, showHorizontal = true }) => {
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
     const theme = useSelector((s) => chartSelectors.theme(s));
     const droplines = useSelector((s) => eventSelectors.droplines(s)).filter(
-        (dl) => (dl.isVertical && showVertical) || (dl.isHorizontal && showHorizontal),
+        (dl) => (dl.isVertical && showVertical) || (dl.isHorizontal && showHorizontal)
     );
 
     useEffect(() => {

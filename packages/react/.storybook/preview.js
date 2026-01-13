@@ -3,7 +3,17 @@ export const parameters = {
   layout: "centered",
   options: {
     storySort: {
-      order: ["Introduction", "**"],
+      order: [
+        "Introduction",
+        "Getting Started",
+        "XYCharts",
+        "Components",
+        "Errors & Warnings",
+        ["Introduction", "**"],
+        "Architecture",
+        "**",
+        ["Introduction", "**"],
+      ],
     },
   },
 };

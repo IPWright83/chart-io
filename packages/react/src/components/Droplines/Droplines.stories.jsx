@@ -1,3 +1,4 @@
+import isChromatic from "chromatic/isChromatic";
 import React from "react";
 import { Provider } from "react-redux";
 
@@ -21,12 +22,13 @@ export default {
 const DroplinesTemplate = (args) => {
     const store = createMockStorybookStore({
         chart: {
+            animationDuration: isChromatic() ? 0 : 1000,
             theme: themes.light,
         },
         event: {
             droplines: [
                 { isHorizontal: true, color: "steelblue", x1: 150, x2: 0, y1: 50, y2: 50 },
-                { isVertical: true, color: "steelblue", x1: 150, x2: 150, y1: 150, y2: 50 },
+                { isVertical: true, color: "steelblue", x1: 150, x2: 150, y1: 50, y2: 150 },
             ],
         },
     });

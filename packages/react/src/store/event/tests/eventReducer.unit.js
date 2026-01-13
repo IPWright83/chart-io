@@ -136,7 +136,7 @@ describe("eventReducer", () => {
         it("EVENT.SET_TOOLTIP_COLOR", () => {
             const previousState = {
                 tooltip: {
-                    tooltipItems: [],
+                    items: [],
                 },
             };
 
@@ -147,7 +147,7 @@ describe("eventReducer", () => {
 
             expect(eventReducer(previousState, action)).toEqual({
                 tooltip: {
-                    tooltipItems: [],
+                    items: [],
                     color: "#FF0000",
                 },
             });
@@ -156,7 +156,7 @@ describe("eventReducer", () => {
         it("EVENT.ADD_TOOLTIP_ITEM", () => {
             const previousState = {
                 tooltip: {
-                    tooltipItems: [],
+                    items: [],
                 },
             };
 
@@ -167,7 +167,7 @@ describe("eventReducer", () => {
 
             expect(eventReducer(previousState, action)).toEqual({
                 tooltip: {
-                    tooltipItems: [{ name: "A", value: 0 }],
+                    items: [{ name: "A", value: 0 }],
                 },
             });
         });
@@ -175,7 +175,7 @@ describe("eventReducer", () => {
         it("EVENT.ADD_TOOLTIP_ITEM skips duplicates", () => {
             const previousState = {
                 tooltip: {
-                    tooltipItems: [{ name: "A", value: 0 }],
+                    items: [{ name: "A", value: 0 }],
                 },
             };
 
@@ -186,7 +186,7 @@ describe("eventReducer", () => {
 
             expect(eventReducer(previousState, action)).toEqual({
                 tooltip: {
-                    tooltipItems: [{ name: "A", value: 0 }],
+                    items: [{ name: "A", value: 0 }],
                 },
             });
         });
@@ -194,7 +194,7 @@ describe("eventReducer", () => {
         it("EVENT.REMOVE_TOOLTIP_ITEM", () => {
             const previousState = {
                 tooltip: {
-                    tooltipItems: [{ name: "A", value: 0 }],
+                    items: [{ name: "A", value: 0 }],
                 },
             };
 
@@ -205,7 +205,7 @@ describe("eventReducer", () => {
 
             expect(eventReducer(previousState, action)).toEqual({
                 tooltip: {
-                    tooltipItems: [],
+                    items: [],
                 },
             });
         });
@@ -213,7 +213,7 @@ describe("eventReducer", () => {
         it("EVENT.SET_POSITION_TOOLTIP_ITEM_EVENT", () => {
             const previousState = {
                 tooltip: {
-                    tooltipItems: [],
+                    items: [],
                 },
             };
 
@@ -224,7 +224,7 @@ describe("eventReducer", () => {
 
             expect(eventReducer(previousState, action)).toEqual({
                 tooltip: {
-                    tooltipItems: [],
+                    items: [],
                     position: { x: 5, y: 10 },
                 },
             });

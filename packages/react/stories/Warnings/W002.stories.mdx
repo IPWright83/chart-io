@@ -1,0 +1,17 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Errors & Warnings/W002 - Duplicate Values" />
+
+# W002 Duplicate Values
+
+This warning indicates that there were unexpected duplicate values along an axis (within the same series). For some charts this is perfectly acceptable (such as a Scatter where more than 1 point can share the same x value). However for many charts such as Line or Column charts, this could lead to a rendering artifiact where you attempt to render 2 items at that same point.
+
+> `W002 - There are duplicate values in the ${field} field. This may cause rendering artifacts with a <${componentName}>.`
+
+## Cause
+
+Within the field mentioned there were duplicate values (e.g. multiple x values of 5 - `{ x: 5, y: 2 }, { x: 5, y: 3 }`) which the plot selected can not support.
+
+## Fix
+
+Choose a different plot type, or filter out the duplicate records from the dataset.

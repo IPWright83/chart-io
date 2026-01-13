@@ -8,19 +8,47 @@ The `<Droplines>` component allows us to define a layer to render drop lines on 
     <Story id="components-droplines--default" />
 </Canvas>
 
-### Props
+### `<Droplines>` Props
 
-Also includes all props from [XY Plot Components API](XYPlot.md)
+| Prop             | Type      | Default | Note                                  |
+| ---------------- | --------- | ------- | ------------------------------------- |
+| `showHorizontal` | `boolean` | true    | Should horizontal droplines be shown? |
+| `showVertical`   | `boolean` | true    | Should vertical droplines be shown?   |
 
-| Prop             | Type          | Default | Note                                                                                                         |
-| ---------------- | ------------- | ------- | ------------------------------------------------------------------------------------------------------------ |
-| `layer`\*        | `HTMLElement` |         | This is an _internal_ field and should not need setting manually. It is populated `withSVG` or `withCanvas`. |
-| `showHorizontal` | `boolean`     | true    | Should horizontal droplines be shown?                                                                        |
-| `showVertical`   | `boolean`     | true    | Should vertical droplines be shown?                                                                          |
+<br />
 
 ## Adding Droplines Programatically
 
-// TODO
+To add a dropline programatically you should call the `eventActions.addDropline` function and `eventActions.removeDropline` function for clean up:
+
+```
+const dropline = {
+    isHorizontal: true,
+    isVertical: false,
+    x1: 0,
+    x2: 100,
+    y1: 100,
+    y2: 100,
+    color: "steelblue"
+};
+
+eventActions.addDropline(dropline);
+eventActions.removeDropline(dropline);
+```
+
+### Dropline Schema:
+
+| Prop           | Type      | Note                                   |
+| -------------- | --------- | -------------------------------------- |
+| `isHorizontal` | `boolean` | Is this a horizontal dropline?         |
+| `isVertical`   | `boolean` | Is this a vertical dropline?           |
+| `color`        | `string`  | The color of the dropline              |
+| `x1`           | `number`  | The start x-coordinate of the dropline |
+| `x2`           | `number`  | The end x-coordinate of the dropline   |
+| `y1`           | `number`  | The start y-coordinate of the dropline |
+| `y2`           | `number`  | The end y-coordinate of the dropline   |
+
+<br />
 
 ## Visual Styling
 

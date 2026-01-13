@@ -1,8 +1,17 @@
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 
-# Line Component
+# Line Plots
 
-The `<Line>` component allows us to define a line plot on our chart.
+There are two different Line based components, these include:
+
+-   `<Line>` - allows us to define a line plot on our chart
+-   `<Lines>` - allows us to define multiple line series
+
+> **Note**: To ensure interactivity this component should be used with the `<EventRecorder>` component which picks up events on the background and pipes them to the plot.
+
+## `<Line>` Component
+
+The `<Line>` component should be used when you want to plot a single line plot on a chart.
 
 <Canvas>
     <Story id="xycharts-line--basic" />
@@ -10,19 +19,14 @@ The `<Line>` component allows us to define a line plot on our chart.
 
 ### Props
 
-Also includes all props from [XY Plot Components API](XYPlot.md)
+| Prop          | Type      | Default            | Note                                                                                                         |
+| ------------- | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
+| `color`       | `string`  | Derived from Theme | Override the colour of the series                                                                            |
+| **`x`\***     | `string`  | null               | The key of the field that contains the value along the x-axis.                                               |
+| **`y`\***     | `string`  | null               | The key of the field that contains the value along the y-axis.                                               |
+| `interactive` | `boolean` | true               | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot |
 
-| Prop           | Type          | Default            | Note                                                                                                         |
-| -------------- | ------------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
-| `color`        | `string`      | Derived from Theme | The colour of the data.                                                                                      |
-| `layer`\*      | `HTMLElement` |                    | This is an _internal_ field and should not need setting manually. It is populated `withSVG` or `withCanvas`. |
-| `x`\*          | `string`      | null               | The key of the field that contains the value along the x-axis.                                               |
-| `y`\*          | `string`      | null               | The key of the field that contains the value along the y-axis.                                               |
-| `onMouseOver`  | `Function`    | `() => {}`         | Event handler to call when the mouse enter a DataPoint.                                                      |
-| `onMouseOut`   | `Function`    | `() => {}`         | Event handler to call when the mouse exits a DataPoint.                                                      |
-| `onMouseClick` | `Function`    | `() => {}`         | Event handler to call when the mouse clicks a DataPoint.                                                     |
-
-## Visual Styling
+### Visual Styling
 
 Most of the configuration for a `<Line>` is similar to other plots. Currently the only styling property avaliable is the colour option.
 
@@ -30,20 +34,24 @@ Most of the configuration for a `<Line>` is similar to other plots. Currently th
     <Story id="xycharts-scatter--color" />
 </Canvas>
 
-## Multiple Series
+## `<Lines> Component`
 
-There are two ways to go about defining multiple line plots. The simplest way is to use the `<Lines>` (plural) component. The `<Lines>` component allows us to define multiple series at once and takes care of automaticallying layering and assigning colors.
+The `<Lines>` component allows us to define multiple line series. When plotting multiple line series they do not stack, but always behave by overlaying on top of one another.
 
-The long hand way is to define each `<Line>`, and configure with a colour manually. The only advantage to this approach is if you wish to control other settings (such as events) differently between the plots.
+### Props
+
+| Prop       | Type       | Default            | Note                                                           |
+| ---------- | ---------- | ------------------ | -------------------------------------------------------------- |
+| `colors`   | `string[]` | Derived from Theme | Override the colours for the series                            |
+| **`x`\***  | `string`   | null               | The key of the field that contains the value along the x-axis. |
+| **`ys`\*** | `string[]` | null               | The keys of the fields that contains values along the y-axis.  |
+
+### Overlapping Lines
+
+The simplest way is to use the `<Lines>` (plural) component. The `<Lines>` component allows us to define multiple series at once and takes care of automaticallying layering and assigning colors. It is however possible to do this manually if required by defining multiple `<Line>` components, configuring with a colour manually.
 
 The results of either approach, render in exactly the same way:
 
 <Canvas>
-    <Story id="xycharts-line--multiple-lines" />
+    <Story id="xycharts-area--multiple-areas" />
 </Canvas>
-
-#### Scale
-
-It is however important to remember whichever approach you use to insert any additional keys that you are using into your `<YAxis>` or `<YScale>` component.
-
-`<YAxis fields={["Total Profit", "Total Revenue", "Total Cost"]} />`
