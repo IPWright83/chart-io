@@ -80,6 +80,9 @@ jobs:
       - name: Update lockfile
         if: steps.version.outputs.changes == 'true'
         run: pnpm install
+      - name: Create Tags
+        if: steps.version.outputs.changes == 'true'
+        run: pnpm changeset tag
       - name: Push changes
         if: steps.version.outputs.changes == 'true'
         run: |
@@ -87,7 +90,7 @@ jobs:
           git config user.name "Ian Wright"
           git add -A
           git commit -m "Version packages" || echo "No changes to commit"
-          git push
+          git push --follow-tags
 
   publish:
     runs-on: ubuntu-latest
@@ -110,7 +113,7 @@ jobs:
       - name: Build
         run: pnpm run build
       - name: Release packages
-        run: pnpm changeset publish --access=public
+        run: pnpm publish -r --access=public
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
