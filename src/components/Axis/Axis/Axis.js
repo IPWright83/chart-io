@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { getD3Axis } from "./getD3Axis";
 import { getTransform } from "./getTransform";
 import { Gridlines } from "./Gridlines";
+import { Title } from "./Title";
 
 import { chartSelectors } from "../../../store";
 
@@ -16,7 +17,7 @@ import { chartSelectors } from "../../../store";
  * Represents an Axis component
  * @return {ReactElement}  The Axis component
  */
-const Axis = ({ position, fields, tickSizeInner, tickSizeOuter, tickPadding, showGridlines }) => {
+const Axis = ({ position, fields, tickSizeInner, tickSizeOuter, tickPadding, showGridlines, title }) => {
     if (fields.length === 0) {
         throw new Error(
             "Unable to render an Axis without a field. Ensure that you have provided at least one field in the 'fields' prop."
@@ -51,10 +52,13 @@ const Axis = ({ position, fields, tickSizeInner, tickSizeOuter, tickPadding, sho
     }, [position, axis, scale, animationDuration, tickPadding, tickSizeInner, tickSizeOuter, showGridlines]);
 
     return (
-        <g transform={transform}>
-            {showGridlines ? <Gridlines position={position} scale={scale} /> : null}
-            <g className="axis" ref={axis} />
-        </g>
+        <React.Fragment>
+            <Title position={position} title={title} fields={fields} />
+            <g transform={transform}>
+                {showGridlines ? <Gridlines position={position} scale={scale} /> : null}
+                <g className="axis" ref={axis} />
+            </g>
+        </React.Fragment>
     );
 };
 
@@ -89,6 +93,11 @@ Axis.propTypes = {
      * @type {Boolean}
      */
     showGridlines: PropTypes.bool,
+    /**
+     * A title for the Axis
+     * @type {String}
+     */
+    title: PropTypes.string,
 };
 
 Axis.defaultProps = {

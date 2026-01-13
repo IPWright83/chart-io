@@ -1,4 +1,4 @@
-const margin = { left: 70, top: 30, right: 30, bottom: 30 };
+const margin = { left: 70, top: 40, right: 40, bottom: 40 };
 
 const commonDefaultArgs = {
     width: 500,

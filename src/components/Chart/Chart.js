@@ -175,7 +175,7 @@ Chart.propTypes = {
      * The name of the theme to use
      * @type {[type]}
      */
-    theme: PropTypes.oneOfType(PropTypes.oneOf[("light", "dark")], PropTypes.object),
+    theme: PropTypes.oneOfType([PropTypes.oneOf[("light", "dark")], PropTypes.object]),
 };
 
 Chart.defaultProps = {
@@ -183,10 +183,10 @@ Chart.defaultProps = {
     height: 500,
     animationDuration: 250,
     margin: {
-        left: 30,
-        right: 30,
-        bottom: 30,
-        top: 30,
+        left: 40,
+        right: 40,
+        bottom: 40,
+        top: 40,
     },
     data: [],
     useCanvas: false,
