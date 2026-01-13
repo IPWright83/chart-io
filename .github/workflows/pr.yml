@@ -30,7 +30,7 @@ jobs:
           node-version: 14
       - name: NPM Install
         run: npm ci
-      - name: Lint
+      - name: Run Linting
         run: npm audit --production --audit-level moderate
 
   unit:
@@ -43,7 +43,7 @@ jobs:
           node-version: 14
       - name: NPM Install
         run: npm ci
-      - name: Lint
+      - name: Run Unit Tests
         run: npm test
 
   chromatic:
