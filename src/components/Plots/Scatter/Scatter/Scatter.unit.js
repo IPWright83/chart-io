@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import React from "react";
 import { Provider } from "react-redux";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import { themes } from "../../../../themes";
 
 import { Scatter } from "./Scatter";
@@ -31,164 +31,8 @@ describe("Scatter", () => {
         subscribe: () => {},
     };
 
-    it("should render correctly", () => {
-        const { asFragment } = render(
-            <Provider store={store}>
-                <svg>
-                    <Scatter x="x" y="y" />
-                </svg>
-            </Provider>
-        );
-
-        expect(asFragment()).toMatchSnapshot();
-    });
-
-    describe("should handle event", () => {
-        it("mouseover correctly", () => {
-            const onMouseOver = jest.fn();
-            jest.spyOn(store, "dispatch");
-
-            const { container } = render(
-                <Provider store={store}>
-                    <svg>
-                        <Scatter x="x" y="y" onMouseOver={onMouseOver} />
-                    </svg>
-                </Provider>
-            );
-
-            fireEvent.mouseOver(container.querySelector("circle"));
-            expect(onMouseOver).toHaveBeenCalledWith(
-                {
-                    x: 5,
-                    y: 5,
-                },
-                expect.anything(),
-                expect.anything()
-            );
-
-            expect(store.dispatch).toHaveBeenNthCalledWith(1, {
-                type: "EVENT.ADD_MARKER",
-                payload: {
-                    cx: expect.any(Number),
-                    cy: expect.any(Number),
-                    r1: expect.any(Number),
-                    r2: expect.any(Number),
-                    stroke: expect.any(String),
-                },
-            });
-
-            expect(store.dispatch).toHaveBeenNthCalledWith(2, {
-                type: "EVENT.ADD_DROPLINE",
-                payload: {
-                    isHorizontal: true,
-                    x1: expect.any(Number),
-                    x2: expect.any(Number),
-                    y1: expect.any(Number),
-                    y2: expect.any(Number),
-                    color: expect.any(String),
-                },
-            });
-
-            expect(store.dispatch).toHaveBeenNthCalledWith(3, {
-                type: "EVENT.ADD_DROPLINE",
-                payload: {
-                    isVertical: true,
-                    x1: expect.any(Number),
-                    x2: expect.any(Number),
-                    y1: expect.any(Number),
-                    y2: expect.any(Number),
-                    color: expect.any(String),
-                },
-            });
-        });
-
-        it("mouseexit correctly", () => {
-            const onMouseOut = jest.fn();
-            jest.spyOn(store, "dispatch");
-
-            const { container } = render(
-                <Provider store={store}>
-                    <svg>
-                        <Scatter x="x" y="y" onMouseOut={onMouseOut} />
-                    </svg>
-                </Provider>
-            );
-
-            fireEvent.mouseOver(container.querySelector("circle"));
-            fireEvent.mouseLeave(container.querySelector("circle"));
-            expect(onMouseOut).toHaveBeenCalledWith(
-                {
-                    x: 5,
-                    y: 5,
-                },
-                expect.anything(),
-                expect.anything()
-            );
-
-            expect(store.dispatch).toHaveBeenNthCalledWith(4, {
-                type: "EVENT.REMOVE_MARKER",
-                payload: {
-                    cx: expect.any(Number),
-                    cy: expect.any(Number),
-                    r1: expect.any(Number),
-                    r2: expect.any(Number),
-                    stroke: expect.any(String),
-                },
-            });
-
-            expect(store.dispatch).toHaveBeenNthCalledWith(5, {
-                type: "EVENT.REMOVE_DROPLINE",
-                payload: {
-                    isHorizontal: true,
-                    x1: expect.any(Number),
-                    x2: expect.any(Number),
-                    y1: expect.any(Number),
-                    y2: expect.any(Number),
-                    color: expect.any(String),
-                },
-            });
-
-            expect(store.dispatch).toHaveBeenNthCalledWith(6, {
-                type: "EVENT.REMOVE_DROPLINE",
-                payload: {
-                    isVertical: true,
-                    x1: expect.any(Number),
-                    x2: expect.any(Number),
-                    y1: expect.any(Number),
-                    y2: expect.any(Number),
-                    color: expect.any(String),
-                },
-            });
-        });
-
-        it("click correctly", () => {
-            const onClick = jest.fn();
-            jest.spyOn(store, "dispatch");
-
-            const { container } = render(
-                <Provider store={store}>
-                    <svg>
-                        <Scatter x="x" y="y" onClick={onClick} />
-                    </svg>
-                </Provider>
-            );
-
-            fireEvent.click(container.querySelector("circle"));
-            expect(onClick).toHaveBeenCalledWith(
-                {
-                    x: 5,
-                    y: 5,
-                },
-                expect.anything(),
-                expect.anything()
-            );
-        });
-    });
-
-    describe("should skip rendering if", () => {
-        it("there is no x scale avaliable", () => {
-            delete chartState.scales.x;
-
+    describe("using SVG", () => {
+        it("should render correctly", () => {
             const { asFragment } = render(
                 <Provider store={store}>
                     <svg>
@@ -200,18 +44,114 @@ describe("Scatter", () => {
             expect(asFragment()).toMatchSnapshot();
         });
 
-        it("there is no y scale avaliable", () => {
-            delete chartState.scales.y;
+        describe("should handle event", () => {
+            it("mouseover correctly", () => {
+                const onMouseOver = jest.fn();
+                jest.spyOn(store, "dispatch");
 
-            const { asFragment } = render(
-                <Provider store={store}>
-                    <svg>
-                        <Scatter x="x" y="y" />
-                    </svg>
-                </Provider>
-            );
+                const { container } = render(
+                    <Provider store={store}>
+                        <svg>
+                            <Scatter x="x" y="y" onMouseOver={onMouseOver} />
+                        </svg>
+                    </Provider>
+                );
 
-            expect(asFragment()).toMatchSnapshot();
+                fireEvent.mouseOver(container.querySelector("circle"));
+                expect(onMouseOver).toHaveBeenCalledWith(
+                    {
+                        x: 5,
+                        y: 5,
+                    },
+                    expect.anything(),
+                    expect.anything()
+                );
+
+                expect(store.dispatch.mock.calls[0]).toMatchSnapshot("ADD_MARKER action");
+                expect(store.dispatch.mock.calls[1]).toMatchSnapshot("ADD_DROPLINE action");
+                expect(store.dispatch.mock.calls[2]).toMatchSnapshot("ADD_DROPLINE action");
+            });
+
+            it("mouseexit correctly", () => {
+                const onMouseOut = jest.fn();
+                jest.spyOn(store, "dispatch");
+
+                const { container } = render(
+                    <Provider store={store}>
+                        <svg>
+                            <Scatter x="x" y="y" onMouseOut={onMouseOut} />
+                        </svg>
+                    </Provider>
+                );
+
+                fireEvent.mouseOver(container.querySelector("circle"));
+                fireEvent.mouseLeave(container.querySelector("circle"));
+                expect(onMouseOut).toHaveBeenCalledWith(
+                    {
+                        x: 5,
+                        y: 5,
+                    },
+                    expect.anything(),
+                    expect.anything()
+                );
+
+                expect(store.dispatch.mock.calls[3]).toMatchSnapshot("REMOVE_MARKER action");
+                expect(store.dispatch.mock.calls[4]).toMatchSnapshot("REMOVE_DROPLINE action");
+                expect(store.dispatch.mock.calls[5]).toMatchSnapshot("REMOVE_DROPLINE action");
+            });
+
+            it("click correctly", () => {
+                const onClick = jest.fn();
+                jest.spyOn(store, "dispatch");
+
+                const { container } = render(
+                    <Provider store={store}>
+                        <svg>
+                            <Scatter x="x" y="y" onClick={onClick} />
+                        </svg>
+                    </Provider>
+                );
+
+                fireEvent.click(container.querySelector("circle"));
+                expect(onClick).toHaveBeenCalledWith(
+                    {
+                        x: 5,
+                        y: 5,
+                    },
+                    expect.anything(),
+                    expect.anything()
+                );
+            });
+        });
+
+        describe("should skip rendering if", () => {
+            it("there is no x scale avaliable", () => {
+                delete chartState.scales.x;
+
+                const { asFragment } = render(
+                    <Provider store={store}>
+                        <svg>
+                            <Scatter x="x" y="y" />
+                        </svg>
+                    </Provider>
+                );
+
+                expect(asFragment()).toMatchSnapshot();
+            });
+
+            it("there is no y scale avaliable", () => {
+                delete chartState.scales.y;
+
+                const { asFragment } = render(
+                    <Provider store={store}>
+                        <svg>
+                            <Scatter x="x" y="y" />
+                        </svg>
+                    </Provider>
+                );
+
+                expect(asFragment()).toMatchSnapshot();
+            });
         });
     });
 });
