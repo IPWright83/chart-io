@@ -120,7 +120,7 @@ jobs:
         uses: changesets/action@v1
         with:
           publish: pnpm publish
-          version: pnpm version
+          version: pnpm run version
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
