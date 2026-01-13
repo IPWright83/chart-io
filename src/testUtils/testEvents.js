@@ -1,5 +1,5 @@
 // prettier-ignore
-import { fireEvent, act } from "@testing-library/react";
+import { fireEvent } from "@testing-library/react";
 
 import { FakeMouseEvent } from "./FakeMouseEvent";
 import { wait } from "./wait";

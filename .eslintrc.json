@@ -25,6 +25,7 @@
       }
     ],
     "react/display-name": "off",
+    "import/export": "off",
     "import/no-unresolved": "off",
     "no-console": [
       "error",
