@@ -219,9 +219,24 @@ jobs:
   #       env:
   #         GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
+  debugging:
+    needs: changesets_version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug logs
+        run: echo ${{needs.changesets_version.outputs.hasChangesets}}
+      - name: Equality log string true
+        run: echo ${{needs.changesets_version.outputs.hasChangesets == 'true' }}
+      - name: Equality log true
+        run: echo ${{needs.changesets_version.outputs.hasChangesets == true }}
+      - name: Equality log string false
+        run: echo ${{needs.changesets_version.outputs.hasChangesets == 'false' }}
+      - name: Equality log false
+        run: echo ${{needs.changesets_version.outputs.hasChangesets == false }}
+
   deploy_storybook:
     needs: changesets_version
-    if: "!contains(github.event.head_commit.message, 'skip chromatic') && needs.changesets_version.outputs.hasChangesets == 'false'"
+    if: "needs.changesets_version.outputs.hasChangesets == 'true'"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -254,7 +269,7 @@ jobs:
 
   update_chromatic_baseline:
     needs: changesets_version
-    if: "!contains(github.event.head_commit.message, 'skip chromatic') && needs.changesets_version.outputs.hasChangesets == 'false'"
+    if: "needs.changesets_version.outputs.hasChangesets == 'true'"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
