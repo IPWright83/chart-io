@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useRender } from "../../../../hooks";
 import { chartSelectors, eventActions } from "../../../../store";
 import { eventDefaultProps, eventPropTypes, plotDefaultProps, plotPropTypes } from "../../../../types";
 
@@ -74,7 +73,6 @@ const ScatterBase = ({
             y2: yScale.range()[0],
         };
 
-        console.log(marker);
         dispatch(eventActions.addMarker(marker));
         dispatch(eventActions.addDropline(horizontalDropline));
         dispatch(eventActions.addDropline(verticalDropline));
@@ -88,7 +86,7 @@ const ScatterBase = ({
     }, [dispatch, xScale, yScale, focused]);
 
     // This is the main render function
-    useRender(() => {
+    useEffect(() => {
         // D3 data join
         const join = d3
             .select(layer.current)

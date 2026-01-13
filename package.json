@@ -29,7 +29,6 @@
   "dependencies": {
     "d3": "^6.2.0",
     "d3-interpolate-path": "^2.2.3",
-    "emptyfunction": "^1.0.0",
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0"
   },
@@ -46,6 +45,7 @@
     "@storybook/addon-links": "^6.1.9",
     "@storybook/react": "^6.1.9",
     "@storybook/storybook-deployer": "^2.8.10",
+    "@testing-library/react": "^12.1.2",
     "@types/d3": "^7.1.0",
     "@types/react": "^17.0.0",
     "babel-jest": "^27.3.1",

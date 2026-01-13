@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Scatter should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot scatter"
+    >
+      <circle
+        class="scatter-point"
+        cx="25"
+        cy="25"
+        r="0"
+        style="stroke: rgba(107, 135, 154, 0.8); fill: rgba(153, 193, 220, 0.8); opacity: 0.8;"
+      />
+      <circle
+        class="scatter-point"
+        cx="50"
+        cy="50"
+        r="0"
+        style="stroke: rgba(107, 135, 154, 0.8); fill: rgba(153, 193, 220, 0.8); opacity: 0.8;"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`Scatter should skip rendering if there is no x scale avaliable 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot scatter"
+    />
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`Scatter should skip rendering if there is no y scale avaliable 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot scatter"
+    />
+  </svg>
+</DocumentFragment>
+`;

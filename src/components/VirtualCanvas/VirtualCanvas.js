@@ -1,6 +1,5 @@
 import "./VirtualCanvas.css";
 
-import emptyFunction from "emptyfunction";
 import debounce from "lodash.debounce";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef } from "react";
@@ -135,9 +134,9 @@ VirtualCanvas.propTypes = {
 };
 
 VirtualCanvas.defaultProps = {
-    onMouseOver: emptyFunction,
-    onMouseOut: emptyFunction,
-    onClick: emptyFunction,
+    onMouseOver: () => {},
+    onMouseOut: () => {},
+    onClick: () => {},
 };
 
 export { VirtualCanvas };
