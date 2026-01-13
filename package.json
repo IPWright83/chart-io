@@ -66,10 +66,5 @@
     "turbo": "^1.3.4",
     "web-vitals": "^2.1.4",
     "webpack": "5"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "@changesets/git@1.5.0": "patches/@changesets__git@1.5.0.patch"
-    }
   }
 }
