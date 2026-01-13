@@ -4,19 +4,20 @@ import { TooltipItem } from "./TooltipItem";
 
 import "./Tooltip.css";
 
-const Tooltip = () => {
+const Tooltip = ({ items }) => {
+    const style = {
+        borderColor: "steelblue",
+    };
+
+    if (!items || items.length === 0) {
+        return null;
+    }
+
     return (
-        <div className="chart-it tooltip">
-            <TooltipItem
-                name="Line Series with a very long title that should be truncated at some point"
-                value={155000}
-                seriesType="line"
-                fill="steelblue"
-            />
-            <TooltipItem name="Scatter Series" value={150000} seriesType="scatter" fill="steelblue" />
-            <TooltipItem name="Bar Series" value={150} seriesType="bar" fill="steelblue" />
-            <TooltipItem name="Column Series" value={1500} seriesType="column" fill="steelblue" />
-            <TooltipItem name="Area Series" value={1500} seriesType="area" fill="steelblue" />
+        <div className="chart-it tooltip" style={style}>
+            {items.map((item) => (
+                <TooltipItem {...item} />
+            ))}
         </div>
     );
 };

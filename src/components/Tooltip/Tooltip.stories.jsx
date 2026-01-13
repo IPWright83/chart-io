@@ -21,15 +21,29 @@ export default {
     },
 };
 
-const TooltipTemplate = (args) => <Tooltip></Tooltip>;
+const TooltipTemplate = (args) => <Tooltip items={args.items} />;
 
 export const Default = TooltipTemplate.bind({});
-Default.storyName = "Example Tooltip";
+Default.storyName = "All Series Types";
 Default.args = {
-    // position: "bottom",
-    // fields: ["integerValue"],
-    // height: 100,
-    // width: 800,
-    // tickSizeOuter: 40,
-    // showGridlines: false,
+    items: [
+        {
+            name: "Line Series with a very long title that should be truncated at some point",
+            seriesType: "line",
+            fill: "steelblue",
+            value: 155000,
+        },
+        { name: "Scatter Series", seriesType: "scatter", fill: "steelblue", value: "foobar" },
+        { name: "Bar Series", seriesType: "bar", fill: "steelblue", value: true },
+        { name: "Column Series", seriesType: "column", fill: "steelblue", value: 1500 },
+        { name: "Area Series", seriesType: "area", fill: "steelblue", value: 1500 },
+    ],
+};
+
+export const Scatter = TooltipTemplate.bind({});
+Scatter.args = {
+    items: [
+        { name: "x", seriesType: "value", value: 5 },
+        { name: "y", seriesType: "value", value: 150000 },
+    ],
 };
