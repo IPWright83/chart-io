@@ -46,7 +46,7 @@
     "@babel/plugin-transform-react-jsx": "^7.18.6",
     "@babel/preset-env": "^7.18.9",
     "@babel/preset-react": "^7.18.6",
-    "@storybook/storybook-deployer": "^2.8.16",
+    "storybook-deployer": "2.8.12",
     "@storybook/addon-actions": "^7.0.0-beta.54",
     "@storybook/addon-docs": "^7.0.0-beta.54",
     "@storybook/addon-essentials": "^7.0.0-beta.54",
