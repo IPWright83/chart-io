@@ -2,23 +2,36 @@
 
 import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
 
-import { defaultArgTypes } from "./defaultArgTypes";
-import { defaultArgs } from "./defaultArgs";
-import { seriesArgTypes } from "../seriesArgTypes";
-import { sales_records_dataset } from "../sales_records_dataset";
-import { Chart, XAxis, YAxis, Bar, Bars } from "../../src/components";
+import { commonDefaultArgs } from "../../../../stories/commonDefaultArgs";
+import { commonDefaultArgTypes } from "../../../../stories/commonDefaultArgTypes";
+import { seriesArgTypes } from "../../../../stories/seriesArgTypes";
+import { sales_records_dataset } from "../../../../data/sales_records_dataset";
+import { Bar } from "./Bar";
+import { Bars } from "./Bars";
+import { Chart } from "../../Chart";
+import { XAxis, YAxis } from "../../Axis";
 
 export const barArgTypes = {
-    ...defaultArgTypes,
+    ...commonDefaultArgTypes,
+    y: seriesArgTypes,
+    x: seriesArgTypes,
+    x2: seriesArgTypes,
 };
 
-<Meta title="XYCharts/2. Bar" component={Bar} argTypes={barArgTypes} />
+export const defaultArgs = {
+    ...commonDefaultArgs,
+    x: "Unit Price",
+    y: "Item Type",
+    x2: null,
+};
+
+<Meta title="XYCharts/Bar Plots" component={Bar} argTypes={barArgTypes} />
 
 export const BarTemplate = (args) => (
     <Chart {...args} data={sales_records_dataset}>
-        <Bar x={args.x} y={args.y} color={args.color} animationDuration={args.animationDuration} />
         <XAxis fields={[args.x]} />
-        <YAxis fields={[args.y]} />
+        <YAxis fields={[args.y]} showGridlines={false} />
+        <Bar x={args.x} y={args.y} color={args.color} animationDuration={args.animationDuration} />
     </Chart>
 );
 

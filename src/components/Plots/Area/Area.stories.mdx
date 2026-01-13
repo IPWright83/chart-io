@@ -12,12 +12,6 @@ import { Areas } from "./Areas";
 import { Chart } from "../../Chart";
 import { XAxis, YAxis } from "../../Axis";
 
-export const defaultArgTypes = {
-    ...commonDefaultArgTypes,
-    x: seriesArgTypes,
-    y: seriesArgTypes,
-};
-
 export const defaultArgs = {
     ...commonDefaultArgs,
     x: "Order Date",
@@ -30,7 +24,7 @@ export const lineArgTypes = {
     y: seriesArgTypes,
 };
 
-<Meta title="XYCharts/Area" component={Area} argTypes={lineArgTypes} />
+<Meta title="XYCharts/Area Plots" component={Area} argTypes={lineArgTypes} />
 
 export const AreaTemplate = (args) => (
     <Chart {...args} data={sales_records_dataset}>
