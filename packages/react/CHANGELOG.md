@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.49.0
+
+### Minor Changes
+
+- 3cac3a9: Update peer dependency versions
+
 ## 0.48.0
 
 ### Minor Changes
