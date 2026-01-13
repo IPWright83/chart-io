@@ -1,9 +1,16 @@
 import React from "react";
 import { TooltipItem } from "./TooltipItem";
 
+import mdx from "./TooltipItem.mdx";
+
 export default {
     title: "Components/Tooltip/TooltipItem",
     component: TooltipItem,
+    parameters: {
+        docs: {
+            page: mdx,
+        },
+    },
 };
 
 const TooltipItemTemplate = (args) => (
