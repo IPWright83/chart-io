@@ -33,3 +33,17 @@ The contents of a format object should match:
 | `formatFunc` | `function` | `undefined` | A function that returns a custom tooltip value. `(name: string, value: string) => string` |
 
 <br />
+
+### TooltipItem Schema:
+
+> **Note**: This is referring to the shape of the data in the Redux store. Not the `<TooltipItem>` component.
+
+| Prop         | Type      | Note                                                    |
+| ------------ | --------- | ------------------------------------------------------- |
+| **`datum*`** | `object`  | The datum from the dataset that triggered the tooltip   |
+| **`name*`**  | `boolean` | The name of the value/series being shown in the tooltip |
+| `value`      | primitive | The value of the point to display in the tooltip        |
+| `icon`       | `string`  | One of ["circle", "square", "line", "none"]             |
+| `fill`       | `string`  | The colour of the series                                |
+
+<br />

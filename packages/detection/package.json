@@ -12,7 +12,8 @@
   "homepage": "http://localhost:6006/?path=/story/introduction--page",
   "scripts": {
     "build": "tsc --noEmit",
-    "test": "jest",
+    "test": "jest --config jest.config.js",
+    "test:coverage": "jest --config jest.config.js --coverage",
     "clean": "rm -rf node_modules",
     "lint": "eslint src",
     "types": "tsc --noEmit",

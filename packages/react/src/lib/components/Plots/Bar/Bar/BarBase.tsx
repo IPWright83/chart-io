@@ -1,16 +1,16 @@
 import * as d3 from "@d3-chart/d3";
+import type { IDatum, IEventPlotProps, INumericValue } from "@d3-chart/types";
 import type { Selection, Transition } from "@d3-chart/d3";
-import type { IEventPlotProps, IDatum, INumericValue } from "@d3-chart/types";
 
 import { useEffect, useState } from "react";
-import { useStore, useSelector } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 
-import { useRender } from "../../../../hooks";
 import { chartSelectors, eventActions, IState } from "../../../../store";
 import { ensureBandScale, ensureValuesAreUnique } from "../../../../utils";
+import { useLegendItem, useRender } from "../../../../hooks";
 
-import { renderCanvas } from "../../renderCanvas";
 import { getDropline } from "../getDropline";
+import { renderCanvas } from "../../renderCanvas";
 import { useTooltip } from "../useTooltip";
 
 export interface IBarBaseProps extends IEventPlotProps {
@@ -51,6 +51,8 @@ export function BarBase({
     const fillColor = d3.color(`${color ?? theme.series.colors[0]}`);
     fillColor.opacity = theme.series.opacity;
     const strokeColor = theme.background;
+
+    useLegendItem(x, "square", fillColor);
     const setTooltip = useTooltip(store.dispatch, y);
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value

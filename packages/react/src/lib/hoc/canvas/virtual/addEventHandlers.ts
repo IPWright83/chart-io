@@ -1,7 +1,7 @@
 import type { IDatum } from "@d3-chart/types";
 import { throttle } from "lodash";
 
-import type { IColorToDataMap, IColorToData } from "./types";
+import type { IColorToData, IColorToDataMap } from "./types";
 
 import { eventActions, IDispatch } from "../../../store";
 import { MOUSE_MOVE_THROTTLE } from "../../../constants";

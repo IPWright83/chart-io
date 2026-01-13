@@ -1,10 +1,10 @@
-import type { IFormatter } from "@d3-chart/types";
+import type { ITooltipFormatter } from "@d3-chart/types";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { Tooltip } from "./Tooltip";
 import { chartSelectors, eventSelectors, IState } from "../../store";
 import { getTooltipPosition } from "./getTooltipPosition";
+import { Tooltip } from "./Tooltip";
 
 export interface ITooltipOverlayProps {
     /**
@@ -15,7 +15,7 @@ export interface ITooltipOverlayProps {
     /**
      * A set of custom formatters for the Tooltip
      */
-    formatters?: Record<string, IFormatter>;
+    formatters?: Record<string, ITooltipFormatter>;
 }
 
 /**

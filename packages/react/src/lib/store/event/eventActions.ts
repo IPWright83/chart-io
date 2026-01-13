@@ -1,15 +1,16 @@
-import type { IMarker, IDropline, IColor, ITooltipItem, IMouseEvent } from "@d3-chart/types";
+import type { IColor, IDropline, IMarker, IMouseEvent, ITooltipItem } from "@d3-chart/types";
+
 import type {
-    MouseMoveAction,
+    AddDroplineAction,
+    AddMarkerAction,
+    AddTooltipItemAction,
     MouseEnterAction,
     MouseExitAction,
-    AddDroplineAction,
+    MouseMoveAction,
     RemoveDroplineAction,
-    AddMarkerAction,
     RemoveMarkerAction,
-    SetTooltipBorderColorAction,
-    AddTooltipItemAction,
     RemoveTooltipItemAction,
+    SetTooltipBorderColorAction,
     SetTooltipPositionAction,
 } from "./types";
 

@@ -1,5 +1,4 @@
 import * as d3 from "@d3-chart/d3";
-import type { Selection } from "@d3-chart/d3";
 import type { IMarker } from "@d3-chart/types";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";

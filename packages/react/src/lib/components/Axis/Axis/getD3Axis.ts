@@ -1,5 +1,5 @@
 import * as d3 from "@d3-chart/d3";
-import type { Axis, AxisScale, AxisDomain } from "@d3-chart/d3";
+import type { Axis, AxisDomain, AxisScale } from "@d3-chart/d3";
 import type { IPosition, IScale } from "@d3-chart/types";
 
 /**
@@ -19,6 +19,7 @@ const getD3Axis = (position: IPosition, scale: IScale): Axis<AxisDomain> => {
         case "bottom":
             return d3.axisBottom(scale as AxisScale<AxisDomain>);
         default:
+            // istanbul ignore next
             throw new Error(`Invalid position ${position}`);
     }
 };

@@ -14,5 +14,12 @@ module.exports = {
     plugins: ["@typescript-eslint"],
     rules: {
         "@typescript-eslint/no-explicit-any": "off",
+        "sort-imports": [
+            "warn",
+            {
+                allowSeparatedGroups: true,
+                ignoreCase: true,
+            },
+        ],
     },
 };

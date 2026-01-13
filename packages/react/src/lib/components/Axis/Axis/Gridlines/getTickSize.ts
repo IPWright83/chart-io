@@ -1,4 +1,4 @@
-import type { IPosition, IMargin } from "@d3-chart/types";
+import type { IMargin, IPosition } from "@d3-chart/types";
 
 /**
  * Obtain the tick size used for gridlines

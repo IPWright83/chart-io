@@ -12,15 +12,15 @@ exports[`Tooltip should render correctly 1`] = `
     >
       <div
         class="d3-chart indicator-circle"
-        style="background: blue; width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%;"
+        style="background: blue; width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%; flex-shrink: 0;"
       />
       <div
         class="d3-chart tooltip-values"
-        style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;"
+        style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"
       >
         <span
           class="d3-chart tooltip-series-name"
-          style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+          style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
         >
           a:
         </span>
@@ -37,15 +37,15 @@ exports[`Tooltip should render correctly 1`] = `
     >
       <div
         class="d3-chart indicator-square"
-        style="background: orange; height: 10px; width: 10px; margin-top: 4px; margin-right: 5px; margin-left: 5px;"
+        style="background: orange; height: 10px; width: 10px; margin-top: 4px; margin-right: 5px; margin-left: 5px; flex-shrink: 0;"
       />
       <div
         class="d3-chart tooltip-values"
-        style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;"
+        style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"
       >
         <span
           class="d3-chart tooltip-series-name"
-          style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+          style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
         >
           b:
         </span>
@@ -62,15 +62,15 @@ exports[`Tooltip should render correctly 1`] = `
     >
       <div
         class="d3-chart indicator-line"
-        style="background: green; width: 10px; height: 3px; margin-top: 7px; margin-left: 5px; margin-right: 5px;"
+        style="background: green; width: 10px; height: 3px; margin-top: 7px; margin-left: 5px; margin-right: 5px; flex-shrink: 0;"
       />
       <div
         class="d3-chart tooltip-values"
-        style="display: flex; flex-direction: row; justify-content: space-between; width: 100%;"
+        style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"
       >
         <span
           class="d3-chart tooltip-series-name"
-          style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
+          style="margin-right: 15px; max-width: 215px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
         >
           c:
         </span>

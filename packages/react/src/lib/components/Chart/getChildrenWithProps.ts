@@ -1,4 +1,4 @@
-import type { IOnMouseOver, IOnMouseOut, IOnClick } from "@d3-chart/types";
+import type { IOnClick, IOnMouseOut, IOnMouseOver } from "@d3-chart/types";
 import React from "react";
 
 /**

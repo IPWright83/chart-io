@@ -1,5 +1,5 @@
+import type { IOnClick, IOnMouseOut, IOnMouseOver } from "./IMouseEvents";
 import type { IPlotProps } from "./IPlotProps";
-import type { IOnMouseOver, IOnMouseOut, IOnClick } from "./IMouseEvents";
 
 /**
  * PropTypes that are common broadly common for Props

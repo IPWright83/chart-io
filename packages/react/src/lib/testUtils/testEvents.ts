@@ -1,9 +1,9 @@
 // prettier-ignore
 import { fireEvent } from "@testing-library/react";
 
-import { IFakeMouseEventValues, FakeMouseEvent } from "./FakeMouseEvent";
-import { wait } from "./wait";
+import { FakeMouseEvent, IFakeMouseEventValues } from "./FakeMouseEvent";
 import { MOUSE_MOVE_THROTTLE } from "../constants";
+import { wait } from "./wait";
 
 /**
  * Simulates a click on an element

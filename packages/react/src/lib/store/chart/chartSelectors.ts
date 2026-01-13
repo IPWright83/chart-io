@@ -1,6 +1,6 @@
-import type { IData, IMargin, ITheme, IScale } from "@d3-chart/types";
+import type { IData, ILegendItem, IMargin, IScale, ITheme } from "@d3-chart/types";
 
-import type { IState, IChartState, IChartStateDimensions, IChartStateScales } from "../types";
+import type { IChartState, IChartStateDimensions, IChartStateLegend, IChartStateScales, IState } from "../types";
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
 
 const EMPTY_ARRAY = [];
@@ -20,6 +20,11 @@ interface IChartSelectors {
         width: (state: IState) => number;
         height: (state: IState) => number;
         margin: (state: IState) => IMargin;
+    };
+    legend: {
+        store: (state: IState) => IChartStateLegend;
+        isVisible: (state: IState) => boolean;
+        items: (state: IState) => ILegendItem[];
     };
     theme: (state: IState) => ITheme;
 }
@@ -59,7 +64,6 @@ export const chartSelectors: IChartSelectors = {
 
     /**
      * Represents the scales that the chart uses
-     * @type {Object}
      */
     scales: {
         store: (state: IState): IChartStateScales => chartSelectors.store(state).scales,
@@ -139,6 +143,27 @@ export const chartSelectors: IChartSelectors = {
          * @return       The margin
          */
         margin: (state: IState): IMargin => chartSelectors.dimensions.store(state).margin || EMPTY_MARGIN,
+    },
+
+    /**
+     * Returns legend information for the chart
+     */
+    legend: {
+        store: (state: IState): IChartStateLegend => chartSelectors.store(state).legend,
+
+        /**
+         * Should the legend be visible?
+         * @param  state     The application state
+         * @return           True if the legend should be visible
+         */
+        isVisible: (state: IState): boolean => chartSelectors.legend.items(state).length > 1,
+
+        /**
+         * Returns the set of items required to be in the legend
+         * @param  state     The application state
+         * @return           The items for the legend to render
+         */
+        items: (state: IState): ILegendItem[] => chartSelectors.legend.store(state).items || EMPTY_ARRAY,
     },
 
     /**

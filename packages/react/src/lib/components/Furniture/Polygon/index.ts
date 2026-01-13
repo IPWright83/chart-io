@@ -1,5 +1,5 @@
+import { IPolygonProps, Polygon as PolygonBase } from "./Polygon";
 import { withSVG } from "../../../hoc";
-import { Polygon as PolygonBase, IPolygonProps } from "./Polygon";
 
 export const Polygon = withSVG(PolygonBase, "polygon");
 

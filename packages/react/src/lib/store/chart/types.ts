@@ -1,4 +1,4 @@
-import type { IMargin, ITheme, IData, IScale } from "@d3-chart/types";
+import type { IData, ILegendItem, IMargin, IScale, ITheme } from "@d3-chart/types";
 
 export interface SetDimensionAction {
   type: "CHART.SET_DIMENSIONS";
@@ -33,9 +33,21 @@ export interface SetDataAction {
   payload: IData;
 }
 
+export interface AddLegendItemAction {
+  type: "CHART.ADD_LEGEND_ITEM";
+  payload: ILegendItem;
+}
+
+export interface RemoveLegendItemAction {
+  type: "CHART.REMOVE_LEGEND_ITEM";
+  payload: ILegendItem;
+}
+
 export type ChartAction =
   | SetDimensionAction
   | SetScaleAction
   | SetThemeAction
   | SetAnimationDurationAction
-  | SetDataAction;
+  | SetDataAction
+  | AddLegendItemAction
+  | RemoveLegendItemAction;

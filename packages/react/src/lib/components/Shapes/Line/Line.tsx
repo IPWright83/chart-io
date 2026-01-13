@@ -16,6 +16,7 @@ export function Line({ fill }: ILineProps) {
         marginTop: 7,
         marginLeft: 5,
         marginRight: 5,
+        flexShrink: 0,
     };
 
     return <div className="d3-chart indicator-line" style={style} />;
