@@ -1,5 +1,11 @@
 # @chart-it/react-d3
 
+## 0.25.0
+
+### Minor Changes
+
+- 7febde1: Fixing deploy
+
 ## 0.24.0
 
 ### Minor Changes
