@@ -12,7 +12,7 @@
     "test:package": "node scripts/choice test --watchAll=false",
     "storybook:watch": "node scripts/choice storybook",
     "storybook:package": "node scripts/choice build-storybook",
-    "deploy-storybook": "pnpm --filter react deploy-storybook",
+    "storybook:deploy": "pnpm --filter @chart-it/react-d3 deploy-storybook",
     "clean": "rm -rf node_modules && pnpm -r clean",
     "refresh": "pnpm clean && pnpm install",
     "build": "turbo run build",
