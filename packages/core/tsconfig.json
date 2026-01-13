@@ -14,7 +14,8 @@
         "composite": true,
         "allowJs": true,
         "strict": false,
-        "outDir": "./dist"
+        "outDir": "./dist",
+        "lib": ["ESNext", "dom", "dom.iterable"],
     },
     "include": ["src"]
 }

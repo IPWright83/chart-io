@@ -1,5 +1,5 @@
-import * as d3 from "@chart-io/d3";
 import { chartActions, chartSelectors, IState, logWarning } from "@chart-io/core";
+import * as d3 from "@chart-io/d3";
 import { IMargin } from "@chart-io/types";
 
 import React, { useEffect, useRef } from "react";
@@ -55,17 +55,17 @@ export function HorizontalZoomBrush({
     // Update the range, to be used by any plots that are set to use a brush
     // This allows us to shrink and re-use the plots within the brush
     useEffect(() => {
-        dispatch(chartActions.setBrushRange(x, [left, right]));
+        dispatch(chartActions.setBrushRange({ field: x, range: [left, right] }));
     }, [x, right, left]);
 
     // Reserve some space for the brush if it's visible
     useEffect(() => {
         const reservedHeight = plots.length > 0 ? height : 0;
-        dispatch(chartActions.setBrushDimensions(0, reservedHeight, margin));
+        dispatch(chartActions.setBrushDimensions({ width: 0, height: reservedHeight, margin }));
     }, [height, plots, margin]);
 
     useEffect(() => {
-        ys.forEach((key) => dispatch(chartActions.setBrushRange(key, [height, 0])));
+        ys.forEach((key) => dispatch(chartActions.setBrushRange({ field: key, range: [height, 0] })));
     }, [ys]);
 
     useEffect(() => {
@@ -77,10 +77,10 @@ export function HorizontalZoomBrush({
                 .extent([[left, 0], [Math.max(left, right), height]])
                 .on("end", event => {
                     const extent = event.selection;
-    
+
                     // Clear the brush 
                     if (!extent || !xScale) {
-                        dispatch(chartActions.setScaleZoom(x, undefined));    
+                        dispatch(chartActions.setScaleZoom({ field: x, domain: undefined }));
                         return;
                     }
 
@@ -90,16 +90,16 @@ export function HorizontalZoomBrush({
                         return;
                     }
 
-// var eachBand = self.yScale.step();
-// var index = Math.round((d3.event.y / eachBand));
-// var val = self.yScale.domain()[index];
+                    // var eachBand = self.yScale.step();
+                    // var index = Math.round((d3.event.y / eachBand));
+                    // var val = self.yScale.domain()[index];
 
                     // Calculate the new domain and then zoom
                     const domain = [
-                        (xScale as IScaleWithInvert).invert(extent[0]), 
+                        (xScale as IScaleWithInvert).invert(extent[0]),
                         (xScale as IScaleWithInvert).invert(extent[1])
                     ];
-                    dispatch(chartActions.setScaleZoom(x, domain));
+                    dispatch(chartActions.setScaleZoom({ field: x, domain }));
                 });
 
             d3.select(brush.current).call(xBrush);

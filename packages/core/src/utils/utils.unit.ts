@@ -1,14 +1,15 @@
 import * as d3 from "@chart-io/d3";
-import type { AnyAction, Store } from "redux";
 import { IScale } from "@chart-io/types";
 
-import { logAndThrowError, logDebug, logError, logWarning } from "./logger";
+import type { AnyAction, Store } from "@reduxjs/toolkit";
+
 import { areValuesUnique } from "./areValuesUnique";
 import { downloadFile } from "./downloadFile";
 import { getBandwidthAndOffset } from "./getBandwidthAndOffset";
 import { getXYFromTransform } from "./getXYFromTransform";
 import { isNullOrUndefined } from "./isNullOrUndefined";
 import { linkStores } from "./linkStores";
+import { logAndThrowError, logDebug, logError, logWarning } from "./logger";
 
 describe("utils", () => {
     describe("areValuesUnique", () => {
@@ -110,7 +111,7 @@ describe("utils", () => {
 
             linkStores([store1, store2, store3]);
 
-            const action = { type: "EVENT.MOUSE_MOVE" };
+            const action = { type: "event/mouseMove" };
             store1.dispatch(action);
 
             expect(dispatch1).toHaveBeenCalledWith(action);
@@ -129,7 +130,7 @@ describe("utils", () => {
 
             linkStores([store1, store2, store3]);
 
-            const action = { type: "EVENT.MOUSE_MOVE" };
+            const action = { type: "event/mouseMove" };
             store2.dispatch(action);
 
             expect(dispatch1).toHaveBeenCalledWith(action);
@@ -148,7 +149,7 @@ describe("utils", () => {
 
             linkStores([store1, store2, store3], /FOO_EVENTS/);
 
-            const action = { type: "EVENT.MOUSE_MOVE" };
+            const action = { type: "event/mouseMove" };
             store1.dispatch(action);
 
             expect(dispatch1).toHaveBeenCalledWith(action);
