@@ -1,5 +1,11 @@
 # @chart-it/react-d3
 
+## 0.4.0
+
+### Minor Changes
+
+- 1c8f120: Fixes issues with linkStores in production builds
+
 ## 0.3.0
 
 ### Minor Changes
