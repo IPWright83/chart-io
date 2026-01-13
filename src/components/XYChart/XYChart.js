@@ -31,6 +31,11 @@ XYChart.propTypes = {
      * @type {Array<String>}
      */
     ys: PropTypes.arrayOf(PropTypes.string).isRequired,
+    /**
+     * The child components (Plots) for the chart
+     * @type {Array<Node>}
+     */
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
 };
 
 XYChart.defaultProps = {
