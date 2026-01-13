@@ -5,6 +5,7 @@ exports[`Area using SVG should render correctly 1`] = `
   <svg>
     <g
       class="g-plot area"
+      clip-path="url(#clip-path-test)"
     >
       <path
         class="area"
@@ -25,6 +26,7 @@ exports[`Area using SVG should skip rendering if there is no x scale avaliable 1
   <svg>
     <g
       class="g-plot area"
+      clip-path="url(#clip-path-test)"
     />
   </svg>
 </DocumentFragment>
@@ -35,6 +37,7 @@ exports[`Area using SVG should skip rendering if there is no y scale avaliable 1
   <svg>
     <g
       class="g-plot area"
+      clip-path="url(#clip-path-test)"
     />
   </svg>
 </DocumentFragment>

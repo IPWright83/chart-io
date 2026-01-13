@@ -5,6 +5,7 @@ exports[`Columns Grouped using SVG should render correctly 1`] = `
   <svg>
     <g
       class="g-plot grouped-column"
+      clip-path="url(#clip-path-test)"
     >
       <g>
         <rect
@@ -52,6 +53,7 @@ exports[`Columns Stacked using SVG should render correctly 1`] = `
   <svg>
     <g
       class="g-plot stacked-column"
+      clip-path="url(#clip-path-test)"
     >
       <g>
         <rect

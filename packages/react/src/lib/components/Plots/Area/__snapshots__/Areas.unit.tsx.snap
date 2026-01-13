@@ -5,6 +5,7 @@ exports[`Areas Multiple Series using SVG should render correctly 1`] = `
   <svg>
     <g
       class="g-plot area"
+      clip-path="url(#clip-path-test)"
     >
       <path
         class="area"
@@ -18,6 +19,7 @@ exports[`Areas Multiple Series using SVG should render correctly 1`] = `
     </g>
     <g
       class="g-plot area"
+      clip-path="url(#clip-path-test)"
     >
       <path
         class="area"
@@ -38,6 +40,7 @@ exports[`Areas Stacked using SVG should render correctly 1`] = `
   <svg>
     <g
       class="g-plot stacked-area"
+      clip-path="url(#clip-path-test)"
     >
       <path
         class="area"
