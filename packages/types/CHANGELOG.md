@@ -1,5 +1,11 @@
 # @chart-it/types
 
+## 0.10.0
+
+### Minor Changes
+
+- f462652: Allow non-array inputs for Scale/Axis
+
 ## 0.9.0
 
 ### Minor Changes
