@@ -120,9 +120,9 @@ jobs:
       - name: Release
         id: release
         uses: changesets/action@v1
-        # with:
-        #   publish: pnpm run publish
-        #   version: pnpm run version
+        with:
+          publish: pnpm run publish
+          version: pnpm run version
         env:
           GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
