@@ -1,5 +1,16 @@
 # @chart-it/react-d3
 
+## 0.12.0
+
+### Minor Changes
+
+- a6cc33a: Testing changesets
+
+### Patch Changes
+
+- Updated dependencies [a6cc33a]
+  - @chart-it/detection@0.4.0
+
 ## 0.11.0
 
 ### Minor Changes
