@@ -91,7 +91,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
 
-  chromatic:
+  update_chromatic_baseline:
     needs: [lint, audit, unit]
     if: "!contains(github.event.head_commit.message, 'skip chromatic')"
     runs-on: ubuntu-latest
