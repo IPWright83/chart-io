@@ -64,7 +64,7 @@ jobs:
       - name: pnpm Install
         run: pnpm install
       - name: test1
-        run: echo pnpm bump
+        run: echo $(pnpm bump)
       # - name: test2
       #   run: echo pnpm bump 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true'
       - name: Version command
