@@ -81,6 +81,7 @@ const LineTemplate = (args) => (
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
+        zoomBrush={args.zoomBrush}
     >
         <Line x={args.x} y={args.y} color={args.color} interactive={!args.withScatter} />
         {args.withScatter ? <Scatter x={args.x} y={args.y} /> : null}
@@ -101,6 +102,7 @@ const LinesTemplate = (args) => (
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
+        zoomBrush={args.zoomBrush}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} />
@@ -146,6 +148,14 @@ Canvas.args = {
     useCanvas: true,
 };
 
+export const LineWithBrush = LineTemplate.bind({});
+LineWithBrush.storyName = "Line with Brush";
+LineWithBrush.args = {
+    ...Basic.args,
+    withScatter: true,
+    zoomBrush: "inline",
+};
+
 export const MultipleLines = LinesTemplate.bind({});
 MultipleLines.storyName = "Mutiple Line Plots";
 MultipleLines.args = {
@@ -153,4 +163,5 @@ MultipleLines.args = {
     y: "Operating Profit",
     y2: "Sales Value",
     y3: "Gross Profit",
+    withBrush: true,
 };

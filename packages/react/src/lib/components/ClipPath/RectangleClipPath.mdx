@@ -1,0 +1,30 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+
+<Meta title="Components/RectangleClipPath" />
+
+# RectangleClipPath Component
+
+The `<RectangleClipPath>` component allows us to create a clip path to ensure that any artifacts that appear outside the visible range are not rendered. This is especially useful when zooming into the domain on a chart so is frequently used with Brushes.
+
+<Canvas>
+    <Story id="components-rectangleclippath--default" />
+</Canvas>
+
+## Adding a RectangleClipPath
+
+To use a `<RectangleClipPath>` component you should wrap it around all your children that require clipping. For example you may wrap several plots like so:
+
+```
+<RectangleClipPath>
+    <Line x="x" y="y" />
+    <Line x="x" y="y2" />
+</RectangleClipPath>
+```
+
+This will dynamically inject a `clipPath` prop into the components which can be consumed using the form:
+
+```
+const MyClippedComponent = ({ clipPath }: { clipPath?: string }) => {
+    return <circle clipPath={`url(#${clipPath})`} ... />;
+};
+```

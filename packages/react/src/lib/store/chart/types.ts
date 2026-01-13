@@ -14,13 +14,41 @@ export interface SetScaleAction {
   payload: {
     fields: string[];
     scale: IScale;
-    fromAxis: boolean;
+  };
+}
+
+export interface SetBrushRangeAction {
+  type: "CHART.SET_BRUSH_RANGE";
+  payload: {
+    field: string;
+    range: number[];
+  };
+}
+
+export interface SetBrushReservedDimensionsAction {
+  type: "CHART.SET_BRUSH_RESERVED_DIMENSIONS";
+  payload: {
+    width: number;
+    height: number;
+  };
+}
+
+export interface SetScaleZoomAction {
+  type: "CHART.SET_SCALE_ZOOM";
+  payload: {
+    field: string;
+    domain: number[] | Date[];
   };
 }
 
 export interface SetThemeAction {
   type: "CHART.SET_THEME";
   payload: ITheme;
+}
+
+export interface SetChartIDAction {
+  type: "CHART.SET_CHART_ID";
+  payload: string;
 }
 
 export interface SetAnimationDurationAction {
@@ -50,4 +78,8 @@ export type ChartAction =
   | SetAnimationDurationAction
   | SetDataAction
   | AddLegendItemAction
-  | RemoveLegendItemAction;
+  | RemoveLegendItemAction
+  | SetBrushRangeAction
+  | SetScaleZoomAction
+  | SetChartIDAction
+  | SetBrushReservedDimensionsAction;

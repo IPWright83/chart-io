@@ -1,4 +1,5 @@
 import type { AnyAction, Store } from "redux";
+
 import { logAndThrowError } from "./logger";
 
 /**

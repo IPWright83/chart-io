@@ -10,3 +10,4 @@ export * from "./LegendOverlay";
 export * from "./XYChart";
 export * from "./Crosshair";
 export * from "./Furniture";
+export * from "./ZoomBrush";

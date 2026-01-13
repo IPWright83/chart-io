@@ -12,10 +12,6 @@ export interface IScaleProps {
      */
     fields: string | Array<string>;
     /**
-     * Has this scale been created automatically from an Axis?
-     */
-    fromAxis?: boolean;
-    /**
      * (Optional) Force the type of d3 scale to use - https://github.com/d3/d3-scale
      */
     scale: IScale;
@@ -25,7 +21,7 @@ export interface IScaleProps {
  * Represents a Scale
  * @return A scale component
  */
-export function Scale({ fields, scale, fromAxis }: IScaleProps) {
+export function Scale({ fields, scale }: IScaleProps) {
     const store = useStore();
 
     const fieldsArray = useArray(fields).filter((f) => !!f);
@@ -36,12 +32,8 @@ export function Scale({ fields, scale, fromAxis }: IScaleProps) {
 
     useEffect(() => {
         // @ts-ignore: TODO: Fix this
-        store.dispatch(chartActions.setScales(fieldsArray, scale, fromAxis));
+        store.dispatch(chartActions.setScales(fieldsArray, scale));
     }, [fieldsArray, scale, store.dispatch]);
 
     return <React.Fragment />;
 }
-
-Scale.defaultProps = {
-    fromAxis: false,
-};

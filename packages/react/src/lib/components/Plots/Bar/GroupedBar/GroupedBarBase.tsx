@@ -40,6 +40,8 @@ export function GroupedBarBase({
     xs,
     y,
     colors,
+    scaleMode = "plot",
+    showInLegend = true,
     interactive = true,
     onMouseOver,
     onMouseOut,
@@ -54,15 +56,15 @@ export function GroupedBarBase({
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
-    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, xs[0]));
-    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, xs[0], scaleMode));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y, scaleMode));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, y);
 
-    useLegendItems(xs, "square", colors);
+    useLegendItems(xs, "square", showInLegend, colors);
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     useEffect(() => {

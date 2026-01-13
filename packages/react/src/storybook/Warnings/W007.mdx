@@ -1,0 +1,17 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Errors & Warnings/Warnings/W007" />
+
+# W007 Incompatible Scale
+
+This warning indicates that a brush was being used, but the scale associated with it does not support the `.invert()` function, which is required to translate from screen coordinates back to data coordinates.
+
+> `An incompatible scale was used with a <HorizontalBrush>`
+
+## Cause
+
+The cause of this is usually that you're trying to include a brush for zooming, with a type of plot that doesn't support it.
+
+## Fix
+
+Remove the `<Brush>` component or swap out the plots that you are using to ones which support brushes.

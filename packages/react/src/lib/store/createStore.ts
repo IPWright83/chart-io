@@ -4,7 +4,6 @@ import ReduxThunk from "redux-thunk";
 
 import { chartReducer } from "./chart";
 import { eventReducer } from "./event";
-import { telemetryReducer } from "./telemetry";
 
 /**
  * Creates a Redux store
@@ -16,7 +15,6 @@ const createStore = (customReducers = {}) => {
         ...customReducers,
         chart: chartReducer,
         event: eventReducer,
-        telemetry: telemetryReducer,
     });
 
     const composeEnhancers = composeWithDevTools({});

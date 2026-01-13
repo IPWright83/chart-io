@@ -56,7 +56,7 @@ export function YAxis({
                 tickFormat={tickFormat}
                 tickValues={tickValues}
             />
-            <YScale fields={fields} scaleType={scaleType} aggregate={aggregate} domain={domain} fromAxis={true} />
+            <YScale fields={fields} scaleType={scaleType} aggregate={aggregate} domain={domain} />
         </React.Fragment>
     );
 }

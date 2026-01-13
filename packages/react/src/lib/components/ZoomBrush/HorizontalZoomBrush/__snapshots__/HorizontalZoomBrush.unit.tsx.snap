@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HorizontalZoomBrush renders correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      fill="none"
+      pointer-events="all"
+      transform="translate(0, 200)"
+    >
+      <g
+        class="g-plot line"
+      >
+        <path
+          class="line"
+          d="M25,25L50,50                      "
+          style="fill: none; pointer-events: none; stroke: rgb(153, 193, 220); stroke-width: 2px;"
+        />
+        <path
+          class="line"
+          d="M0,0L100,0"
+          style="fill: none; pointer-events: none;"
+        />
+      </g>
+      <rect
+        class="overlay"
+        cursor="crosshair"
+        height="100"
+        pointer-events="all"
+        width="200"
+        x="0"
+        y="0"
+      />
+      <rect
+        class="selection"
+        cursor="move"
+        fill="#777"
+        fill-opacity="0.3"
+        shape-rendering="crispEdges"
+        stroke="#fff"
+        style="display: none;"
+      />
+      <rect
+        class="handle handle--w"
+        cursor="ew-resize"
+        style="display: none;"
+      />
+      <rect
+        class="handle handle--e"
+        cursor="ew-resize"
+        style="display: none;"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;

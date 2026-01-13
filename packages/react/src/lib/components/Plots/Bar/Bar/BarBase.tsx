@@ -31,6 +31,8 @@ export function BarBase({
     canvas,
     renderVirtualCanvas,
     color,
+    scaleMode = "plot",
+    showInLegend = true,
     interactive = true,
     onMouseOver,
     onMouseOut,
@@ -43,8 +45,8 @@ export function BarBase({
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
-    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
-    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, scaleMode));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y, scaleMode));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
@@ -52,7 +54,7 @@ export function BarBase({
     fillColor.opacity = theme.series.opacity;
     const strokeColor = theme.background;
 
-    useLegendItem(x, "square", fillColor);
+    useLegendItem(x, "square", showInLegend, fillColor);
     const setTooltip = useTooltip(store.dispatch, y);
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value

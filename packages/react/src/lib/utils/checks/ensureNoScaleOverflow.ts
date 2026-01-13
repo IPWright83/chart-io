@@ -1,5 +1,6 @@
 import * as d3 from "@chart-it/d3";
 import type { IData, IScale } from "@chart-it/types";
+
 import { logWarning } from "../logger";
 
 /**

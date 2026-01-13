@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <XYChart data={data}>
+        <XYChart data={data} id="test-chart">
           <YAxis fields={y} />
           <XAxis fields={x} />
           <Scatter x={x} y={y} />

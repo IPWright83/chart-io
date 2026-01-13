@@ -15,7 +15,11 @@ describe("HorizontalBand", () => {
                 height: 400,
             },
             scales: {
-                y: d3.scaleLinear().domain([0, 1000]).range([200, 0]),
+                y: {
+                    scale: d3.scaleLinear(),
+                    domain: [0, 1000],
+                    range: [200, 0],
+                },
             },
         },
     });

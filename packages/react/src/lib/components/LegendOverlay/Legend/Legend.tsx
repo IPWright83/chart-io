@@ -50,7 +50,7 @@ export function Legend({ items, positionStyle, horizontal, formatters = {} }: IL
 
     return (
         <div className="chart-it legend" style={style}>
-            {items.map((item) => {
+            {items.map((item, index) => {
                 /**
                  * A format is of the shape:
                  * {
@@ -59,7 +59,7 @@ export function Legend({ items, positionStyle, horizontal, formatters = {} }: IL
                  */
                 const formatter = formatters[item.name] || undefined;
 
-                return <LegendItem key={`${item.name}`} format={formatter} {...item} />;
+                return <LegendItem key={index} format={formatter} {...item} />;
             })}
         </div>
     );

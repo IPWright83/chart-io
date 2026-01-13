@@ -1,4 +1,5 @@
 import type { IScale } from "@chart-it/types";
+
 import { logError } from "../logger";
 
 /**

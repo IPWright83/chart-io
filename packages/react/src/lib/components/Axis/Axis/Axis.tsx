@@ -6,12 +6,12 @@ import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { chartSelectors, IState } from "../../../store";
+import { logAndThrowError } from "../../../utils";
 import { useArray } from "../../../hooks";
 
 import { getD3Axis } from "./getD3Axis";
 import { getTransform } from "./getTransform";
 import { Gridlines } from "./Gridlines";
-import { logAndThrowError } from "../../../utils";
 import { Title } from "./Title";
 
 export interface IAxisProps {
@@ -86,7 +86,7 @@ export function Axis({
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const margin = useSelector((s: IState) => chartSelectors.dimensions.margin(s));
-    const scale = useSelector((s: IState) => chartSelectors.scales.getAxisScale(s, field));
+    const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, field, "plot"));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
     const transform = getTransform(position, width, height, margin);
@@ -96,7 +96,7 @@ export function Axis({
 
     // Render the x-axis using D3
     useEffect(() => {
-        if (axis.current && scale) {
+        if (axis.current && scale && scale.domain().length > 0 && scale.range().length > 0) {
             const selection = d3
                 .select(axis.current)
                 .style("color", `${theme.axis.stroke}`)

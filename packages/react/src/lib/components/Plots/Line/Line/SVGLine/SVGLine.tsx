@@ -17,23 +17,30 @@ export type ISVGLineProps = Omit<IPlotProps, "canvas">;
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Line plot component
  */
-export function SVGLine({ x, y, color, interactive = true, layer }: ISVGLineProps) {
+export function SVGLine({
+    x,
+    y,
+    color,
+    scaleMode = "plot",
+    showInLegend = true,
+    interactive = true,
+    layer,
+}: ISVGLineProps) {
     const store = useStore();
     const data = useSelector((s: IState) => chartSelectors.data(s));
-    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
-    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, scaleMode));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y, scaleMode));
     const eventMode = useSelector((s: IState) => eventSelectors.mode(s));
     const position = useSelector((s: IState) => eventSelectors.position(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
-
     const seriesColor = color || theme.series.colors[0];
     const sortedData = data.sort((a, b) => d3.ascending(a[x], b[x]));
 
     // @ts-expect-error: We handle a missing bandwidth fine
     const bandwidth = xScale.bandwidth ? xScale.bandwidth() / 2 : 0;
 
-    useLegendItem(y, "line", seriesColor);
+    useLegendItem(y, "line", showInLegend, seriesColor);
 
     // Used to create our initial path
     usePathCreator(layer, x, y, xScale, yScale);

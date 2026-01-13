@@ -56,7 +56,7 @@ export function XAxis({
                 ticks={ticks}
                 tickValues={tickValues}
             />
-            <XScale fields={fields} scaleType={scaleType} aggregate={aggregate} domain={domain} fromAxis={true} />
+            <XScale fields={fields} scaleType={scaleType} aggregate={aggregate} domain={domain} />
         </React.Fragment>
     );
 }

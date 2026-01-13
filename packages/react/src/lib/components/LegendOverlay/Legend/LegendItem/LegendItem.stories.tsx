@@ -15,7 +15,7 @@ const LegendItemTemplate = (args) => {
 
     return (
         <Provider store={store}>
-            <LegendItem name={args.name} fill={args.color} icon={args.icon} format={args.formatFunc}></LegendItem>
+            <LegendItem name={args.name} color={args.color} icon={args.icon} format={args.formatFunc}></LegendItem>
         </Provider>
     );
 };

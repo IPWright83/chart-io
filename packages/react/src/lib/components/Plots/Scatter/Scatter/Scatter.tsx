@@ -29,3 +29,12 @@ export function Scatter({ useCanvas = false, ...props }: IScatterProps) {
 }
 
 Scatter.requiresVirtualCanvas = true;
+Scatter.isPlot = true;
+Scatter.brush = {
+    horizontal: true,
+    vertical: true,
+};
+Scatter.zoom = {
+    horizontal: true,
+    vertical: true,
+};

@@ -28,11 +28,20 @@ export interface IStackedAreaBaseProps extends Omit<IEventPlotProps, "y"> {
  * @param  {Object} props       The set of React properties
  * @return {ReactDOMComponent}  The Line plot component
  */
-export function StackedAreaBase({ x, ys, colors, interactive = true, layer, canvas }: IStackedAreaBaseProps) {
+export function StackedAreaBase({
+    x,
+    ys,
+    colors,
+    scaleMode = "plot",
+    showInLegend = true,
+    interactive = true,
+    layer,
+    canvas,
+}: IStackedAreaBaseProps) {
     const store = useStore();
     const data = useSelector((s: IState) => chartSelectors.data(s));
-    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x));
-    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, ys[0]));
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, x, scaleMode));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, ys[0], scaleMode));
     const eventMode = useSelector((s: IState) => eventSelectors.mode(s));
     const position = useSelector((s: IState) => eventSelectors.position(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
@@ -44,7 +53,7 @@ export function StackedAreaBase({ x, ys, colors, interactive = true, layer, canv
 
     // Used to create our initial path
     useMultiPathCreator(layer, x, ys, xScale, yScale, canvas);
-    useLegendItems(ys, "line", colors);
+    useLegendItems(ys, "line", showInLegend, colors);
 
     /* On future renders we want to update the path */
     useRender(async () => {
@@ -103,7 +112,6 @@ export function StackedAreaBase({ x, ys, colors, interactive = true, layer, canv
             .style("pointer-events", "none")
             .transition("area")
             .duration(animationDuration)
-            .delay((d, i) => (animationDuration / keys.length) * i)
             .ease(d3.easeCubicInOut)
             .attrTween("d", function (d) {
                 const previous = d3.select(this).attr("d");

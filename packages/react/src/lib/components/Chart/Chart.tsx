@@ -7,12 +7,17 @@ import { VirtualCanvas } from "../VirtualCanvas";
 // import { getColumnInfos } from "@chart-it/detection";
 import { chartActions } from "../../store";
 
+import { generateRandomID } from "./generateRandomID";
 import { getChildrenWithProps } from "./getChildrenWithProps";
 import { getTheme } from "./getTheme";
 
 const DEFAULT_MARGIN = { left: 30, top: 30, right: 30, bottom: 30 };
 
 export interface IChartBaseProps {
+    /**
+     * Optionally override the ID
+     */
+    id?: string;
     /**
      * The child components for the chart
      */
@@ -70,6 +75,7 @@ export interface IChartBaseProps {
 
 export function Chart({
     children,
+    id,
     animationDuration = 250,
     width = 500,
     height = 500,
@@ -88,6 +94,11 @@ export function Chart({
     useEffect(() => {
         store.dispatch(chartActions.setDimensions(width, height, margin));
     }, [store.dispatch, width, height, margin]);
+
+    // Generate a unique ID for the chart which is required for clip paths
+    useEffect(() => {
+        store.dispatch(chartActions.setChartID(id ?? generateRandomID()));
+    }, [store.dispatch]);
 
     // Ensure that the data used by all plots is updated in the store
     useEffect(() => {

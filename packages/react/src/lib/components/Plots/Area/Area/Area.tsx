@@ -28,3 +28,12 @@ export function Area({ useCanvas = false, ...props }: IAreaProps) {
 }
 
 Area.requiresVirtualCanvas = false;
+Area.isPlot = true;
+Area.brush = {
+    horizontal: true,
+    vertical: false,
+};
+Area.zoom = {
+    horizontal: true,
+    vertical: false,
+};
