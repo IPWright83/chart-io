@@ -61,24 +61,42 @@ const Axis = ({ position, fields, tickSizeInner, tickSizeOuter, tickPadding, sho
 
     return (
         <g transform={transform}>
-            <Gridlines position={position} scale={scale} />
+            {showGridlines ? <Gridlines position={position} scale={scale} /> : null}
             <g ref={axis} />
         </g>
     );
 };
 
 Axis.propTypes = {
-    /** @type {String} The position of the axis [top, bottom, left, right] */
+    /**
+     * The position of the axis [top, bottom, left, right]
+     * @type {String}
+     */
     position: PropTypes.oneOf(["top", "bottom", "left", "right"]),
-    /** @type {String[]} The keys of the fields that will share this scale */
+    /**
+     * The keys of the fields that will share this scale
+     * @type {String[]}
+     */
     fields: PropTypes.arrayOf(PropTypes.string).isRequired,
-    /** @type {Number} https://github.com/d3/d3-axis#axis_tickSizeInner */
+    /**
+     * https://github.com/d3/d3-axis#axis_tickSizeInner
+     * @type {Number}
+     */
     tickSizeInner: PropTypes.number,
-    /** @type {Number} https://github.com/d3/d3-axis#axis_tickSizeOuter */
+    /**
+     * https://github.com/d3/d3-axis#axis_tickSizeOuter
+     * @type {Number}
+     */
     tickSizeOuter: PropTypes.number,
-    /** @type {Number} https://github.com/d3/d3-axis#axis_tickPadding */
+    /**
+     * https://github.com/d3/d3-axis#axis_tickPadding
+     * @type {Number}
+     */
     tickPadding: PropTypes.number,
-    /** @type {Boolean} Should gridlines be drawn? */
+    /**
+     * Should gridlines be drawn?
+     * @type {Boolean}
+     */
     showGridlines: PropTypes.bool,
 };
 
