@@ -120,6 +120,25 @@ jobs:
   #         git commit -m "Version packages" || echo "No changes to commit"
   #         git push --follow-tags
 
+  debug_changesets:
+    needs: changesets_version
+    if: "needs.changesets_version.outputs.hasChangesets == false"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log
+        run: echo "debug_changesets running"
+      - run: echo ${{ changesets_version.outputs.hasChangesets }}
+      - run: echo ${{ changesets_version.outputs.changes }}
+
+  debug_publish:
+    needs: changesets_version
+    if: "needs.changesets_version.outputs.published"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log
+        run: echo "debug_publish running"
+      - run: echo ${{ changesets_version.outputs.published }}
+
   deploy_storybook:
     needs: changesets_version
     if: "needs.changesets_version.outputs.hasChangesets == false"
