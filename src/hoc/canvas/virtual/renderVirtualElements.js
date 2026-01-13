@@ -34,14 +34,13 @@ const renderVirtualElements = (context, join) => {
     // when dealing with a nested selection. Start at 1 to avoid choosing black
     let index = 1;
 
-    join.each((d) => {
+    join.each((d, i, elements) => {
         // Get a unique color for each node so we can map from
         // the color back to a datum. +1 to ignore white as
         // this will be the background color of the canvas
         const color = getColor(index);
-
         colors.push(color);
-        colorToData[color] = d;
+        colorToData[color] = { datum: d, node: elements[i] };
         index++;
     });
 
