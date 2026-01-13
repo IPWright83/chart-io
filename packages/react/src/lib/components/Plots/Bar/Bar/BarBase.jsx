@@ -42,7 +42,7 @@ const BarBase = ({
 
     const fillColor = d3.color(color || theme.series.colors[0]);
     fillColor.opacity = theme.series.opacity;
-    const strokeColor = "#fff";
+    const strokeColor = theme.background;
     const setTooltip = useTooltip(store.dispatch, y);
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
