@@ -1,6 +1,6 @@
 {
   "name": "@d3-chart/detection",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "packageManager": "pnpm@7.26.2",
   "description": "Provides data type detection utilities for @d3-chart",
   "repository": "git@github.com:IPWright83/chart-it.git",
