@@ -3,13 +3,6 @@ import { useEffect } from "react";
 
 import { eventActions } from "../../../../store";
 
-const defaultValues = {
-    markers: [],
-    horizontalDroplines: [],
-    verticalDroplines: [],
-    sum: 0,
-};
-
 /**
  * Responds to events from an event layer to focus the nearest datum
  * @param  {Function} dispatch The redux store dispatch function
@@ -45,9 +38,6 @@ const useTooltip = (dispatch, layer, x, ys, xScale, yScale, data, eventMode, pos
         const xValue = xScale.invert(position.x);
         const index = d3.bisector((d) => d[x]).center(data, xValue);
         const datum = data[index];
-
-        // Get the appropriate attributes
-        const cx = xScale(datum[x]);
 
         // Common x value
         const tooltipItemX = {
