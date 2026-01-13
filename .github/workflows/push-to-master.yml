@@ -18,6 +18,11 @@ jobs:
       - uses: pnpm/action-setup@v2.2.2
         with:
           run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
@@ -41,6 +46,11 @@ jobs:
       - uses: pnpm/action-setup@v2.2.2
         with:
           run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
@@ -64,6 +74,11 @@ jobs:
       - uses: pnpm/action-setup@v2.2.2
         with:
           run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
@@ -90,6 +105,10 @@ jobs:
       - uses: pnpm/action-setup@v2.2.2
         with:
           run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
@@ -129,6 +148,11 @@ jobs:
       - uses: pnpm/action-setup@v2.2.2
         with:
           run_install: false
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        run: |
+          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
       - uses: actions/cache@v3
         name: Setup pnpm cache
         with:
