@@ -10,6 +10,20 @@ The `<Polygon>` component allows us to define a layer to render a custom polygon
     <Story id="components-polygon--default" />
 </Canvas>
 
+The points that are provided should be pixel coordinates. If you need to plot based on your data points you can simply access the relevant scale and call the scale function. For example:
+
+```
+import { useSelector } from "react-redux";
+
+// Within a component obtain some scales
+const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, "x"));
+const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, "y"));
+
+// Given a data point we can translate this to a co-ordinate
+const data = { x : 5000, y: 100000 };
+const coordinate = { x: xScale(data.x), y: yScale(data.y) };
+```
+
 ### Props
 
 | Prop           | Type     | Default | Note                                                                                                 |

@@ -17,10 +17,11 @@ The legend itself displays rows of <LinkTo kind="components-legendoverlay-legend
 
 > **Note:** Normally you don't interact with the Legend component directly, instead letting the <LinkTo kind="components-legendoverlay--default">`<LegendOverlay>`</LinkTo> component handle the displaying of the tooltip which provides all the required props.
 
-| Prop            | Type     | Default   | Note                                                                                                          |
-| --------------- | -------- | --------- | ------------------------------------------------------------------------------------------------------------- |
-| `items`         | `array`  | undefined | The list if items that should be renders as `<LegendItem>`s                                                   |
-| `positionStyle` | `object` | {}        | Additional css to control the position, typically containing just the top, left, bottom, right css properties |
-| `formatters`    | `object` | {}        | A keyed collection of format functions `(name: string) => string`                                             |
+| Prop            | Type      | Default     | Note                                                                                                          |
+| --------------- | --------- | ----------- | ------------------------------------------------------------------------------------------------------------- |
+| `items`         | `array`   | `undefined` | The list if items that should be renders as `<LegendItem>`s                                                   |
+| `horizontal`    | `boolean` | `false`     | Indicates whether the legend should use a horizontal or vertical layout                                       |
+| `positionStyle` | `object`  | `{}`        | Additional css to control the position, typically containing just the top, left, bottom, right css properties |
+| `formatters`    | `object`  | `{}`        | A keyed collection of format functions `(name: string) => string`                                             |
 
 <br />
