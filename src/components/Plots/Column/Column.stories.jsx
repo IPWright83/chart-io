@@ -36,6 +36,9 @@ export default {
         rightMargin: margin,
         topMargin: margin,
         bottomMargin: margin,
+        onClick: { action: "clicked" },
+        onMouseOver: { action: "onMouseOver" },
+        onMouseOut: { action: "onMouseOut" },
     },
 };
 
@@ -48,6 +51,9 @@ const ColumnTemplate = (args) => (
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
         theme={args.theme}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} />
         <XAxis fields={[args.x]} scaleType="band" showGridlines={false} />
@@ -65,6 +71,9 @@ const ColumnsTemplate = (args) => (
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
         theme={args.theme}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
     >
         <YAxis fields={[args.y, args.y2, args.y3]} aggregate={args.stacked} />
         <XAxis fields={[args.x]} scaleType="band" showGridlines={false} />
@@ -86,9 +95,6 @@ Basic.args = {
     rightMargin: 40,
     topMargin: 40,
     bottomMargin: 40,
-    onClick: console.debug,
-    onMouseOver: console.debug,
-    onMouseOut: console.debug,
     y: "Unit Price",
     x: "Item Type",
 };

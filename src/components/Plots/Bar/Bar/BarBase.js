@@ -20,6 +20,8 @@ const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onMous
     const [focused, setFocused] = useState(null);
     const dispatch = useDispatch();
 
+    console.log(onClick.toString());
+
     const data = useSelector((s) => chartSelectors.data(s));
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
@@ -84,7 +86,7 @@ const BarBase = ({ x, y, canvas, renderVirtualCanvas, color, onMouseOver, onMous
                 setFocused(null);
             })
             .on("click", function (event, datum) {
-                onClick && onClick(datum, this, event);
+                onClick(datum, this, event);
             })
             .transition("position")
             .duration(animationDuration / 2)

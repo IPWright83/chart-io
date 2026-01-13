@@ -36,6 +36,9 @@ export default {
         rightMargin: margin,
         topMargin: margin,
         bottomMargin: margin,
+        onClick: { action: "clicked" },
+        onMouseOver: { action: "onMouseOver" },
+        onMouseOut: { action: "onMouseOut" },
     },
 };
 
@@ -47,6 +50,9 @@ const BarTemplate = (args) => (
         height={args.height}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
     >
         <YAxis fields={[args.y]} scaleType="band" showGridlines={false} />
         <XAxis fields={[args.x, args.x2, args.x3]} />
@@ -63,6 +69,9 @@ const BarsTemplate = (args) => (
         height={args.height}
         animationDuration={args.animationDuration}
         useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
     >
         <YAxis fields={[args.y]} scaleType="band" showGridlines={false} />
         <XAxis fields={[args.x, args.x2, args.x3]} aggregate={args.stacked} />
@@ -84,9 +93,6 @@ Basic.args = {
     rightMargin: 40,
     topMargin: 40,
     bottomMargin: 40,
-    onClick: console.debug,
-    onMouseOver: console.debug,
-    onMouseOut: console.debug,
     x: "Unit Price",
     y: "Item Type",
 };
