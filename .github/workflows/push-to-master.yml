@@ -259,6 +259,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
+          fetch-depth: 0
           token: ${{ secrets.DEPLOY_TOKEN }}
       - uses: actions/setup-node@v3
         with:
