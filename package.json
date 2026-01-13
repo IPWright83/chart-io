@@ -51,6 +51,7 @@
     "crypto": "^1.0.1",
     "identity-obj-proxy": "^3.0.0",
     "inquirer": "^9.0.2",
+    "eslint": "^8.3.0",
     "jest": "27.5.1",
     "jest-environment-jsdom": "27.5.1",
     "jest-image-snapshot": "^5.1.0",
