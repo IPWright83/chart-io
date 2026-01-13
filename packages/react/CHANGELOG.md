@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.35.0
+
+### Minor Changes
+
+- 2c3e88d: CI testing
+
 ## 0.34.0
 
 ### Minor Changes
