@@ -66,7 +66,10 @@ jobs:
       - name: Version command
         id: version
         run: echo ::set-output name=changes::$(pnpm bump 2>&1 | grep -q 'No unreleased changesets found' && echo 'false' || echo 'true')
+      - name: check_foo
+        run: echo $(steps.version.outputs.changes)
       - name: Update lockfile
+        if: steps.version.outputs.changes == 'true'
         run: pnpm install
       - name: Push changes
         if: steps.version.outputs.changes == 'true'
