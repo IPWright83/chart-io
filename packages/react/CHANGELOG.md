@@ -1,5 +1,11 @@
 # @chart-it/react-d3
 
+## 0.23.0
+
+### Minor Changes
+
+- 245192e: Allow non-array inputs for Scale/Axis
+
 ## 0.22.0
 
 ### Minor Changes
