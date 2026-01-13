@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { useDispatch, useSelector } from "react-redux";
+import { useStore, useSelector } from "react-redux";
 
 import { useRender } from "../../../../../hooks";
 import { chartSelectors, eventSelectors } from "../../../../../store";
@@ -16,7 +16,7 @@ import { usePathCreator } from "./usePathCreator";
  * @return {ReactDOMComponent}  The Line plot component
  */
 const SVGLine = ({ x, y, color, interactive, layer, canvas }) => {
-    const dispatch = useDispatch();
+    const store = useStore();
     const data = useSelector((s) => chartSelectors.data(s));
     const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
     const yScale = useSelector((s) => chartSelectors.scales.getScale(s, y));
@@ -58,8 +58,8 @@ const SVGLine = ({ x, y, color, interactive, layer, canvas }) => {
 
     // If possible respond to global mouse events for tooltips etc
     if (interactive) {
-        useDatumFocus(dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
-        useTooltip(dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
+        useDatumFocus(store.dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
+        useTooltip(store.dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, seriesColor);
     }
 
     return null;

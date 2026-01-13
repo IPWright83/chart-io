@@ -3,7 +3,7 @@ import "./VirtualCanvas.css";
 import { debounce } from "lodash";
 import PropTypes from "prop-types";
 import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useStore, useSelector } from "react-redux";
 
 import {
     addEventHandlers,
@@ -33,7 +33,7 @@ export const VirtualCanvas = (props) => {
     const canvas = useRef(null);
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
-    const dispatch = useDispatch();
+    const store = useStore();
 
     // Render all the virtual nodes - this is debounced to ensure that we only trigger it once
     // after all of the child layers finished their render as we don't want layers to overwrite each other
@@ -66,13 +66,13 @@ export const VirtualCanvas = (props) => {
             return;
         }
 
-        const { clickHandler, moveHandler } = addEventHandlers(canvasElement, colorToData, dispatch);
+        const { clickHandler, moveHandler } = addEventHandlers(canvasElement, colorToData, store.dispatch);
 
         // Ensure we clean up the handlers otherwise they'll double fire
         return () => {
             removeEventHandlers(canvasElement, clickHandler, moveHandler);
         };
-    }, [canvas, colorToData, onClick, onMouseOut, onMouseOver, dispatch]);
+    }, [canvas, colorToData, onClick, onMouseOut, onMouseOver, store.dispatch]);
 
     // Many layers don't require the virtual canvas. If
     // they are all of these types then disable the canvas

@@ -1,7 +1,7 @@
 import "./Area.css";
 
 import * as d3 from "d3";
-import { useDispatch, useSelector } from "react-redux";
+import { useStore, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 import { useRender } from "../../../../hooks";
@@ -19,7 +19,7 @@ import { useTooltip } from "./useTooltip";
  * @return {ReactElement}  The Line plot component
  */
 const AreaBase = ({ x, y, y2, color, interactive, layer, canvas }) => {
-    const dispatch = useDispatch();
+    const store = useStore();
     const data = useSelector((s) => chartSelectors.data(s));
     const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
     const yScale = useSelector((s) => chartSelectors.scales.getScale(s, y));
@@ -85,8 +85,8 @@ const AreaBase = ({ x, y, y2, color, interactive, layer, canvas }) => {
 
     // If possible respond to global mouse events for tooltips etc
     if (interactive) {
-        useDatumFocus(dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, strokeColor.toString());
-        useTooltip(dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, strokeColor.toString());
+        useDatumFocus(store.dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, strokeColor.toString());
+        useTooltip(store.dispatch, layer, x, y, xScale, yScale, sortedData, eventMode, position, strokeColor.toString());
     }
 
     return null;

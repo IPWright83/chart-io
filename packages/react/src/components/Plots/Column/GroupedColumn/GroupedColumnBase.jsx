@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useStore, useSelector } from "react-redux";
 
 import { useRender } from "../../../../hooks";
 import { chartSelectors, eventActions } from "../../../../store";
@@ -29,7 +29,7 @@ const GroupedColumnBase = ({
     renderVirtualCanvas,
 }) => {
     const [focused, setFocused] = useState(null);
-    const dispatch = useDispatch();
+    const store = useStore();
 
     const data = useSelector((s) => chartSelectors.data(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
@@ -40,7 +40,7 @@ const GroupedColumnBase = ({
     const animationDuration = useSelector((s) => chartSelectors.animationDuration(s));
 
     const strokeColor = "#fff";
-    const setTooltip = useTooltip({ dispatch, x });
+    const setTooltip = useTooltip(store.dispatch, x);
 
     // This useEffect handles mouseOver/mouseExit through the use of the `focused` value
     useEffect(() => {
@@ -48,14 +48,14 @@ const GroupedColumnBase = ({
 
         const selection = d3.select(focused.element).style("opacity", theme.series.selectedOpacity);
         const dropline = getDropline(selection, xScale, true);
-        dispatch(eventActions.addDropline(dropline));
+        store.dispatch(eventActions.addDropline(dropline));
 
         // Clean up operations on exit
         return () => {
             selection.style("opacity", theme.series.opacity);
-            dispatch(eventActions.removeDropline(dropline));
+            store.dispatch(eventActions.removeDropline(dropline));
         };
-    }, [dispatch, focused, xScale, theme.series.opacity, theme.series.selectedOpacity]);
+    }, [store.dispatch, focused, xScale, theme.series.opacity, theme.series.selectedOpacity]);
 
     useRender(() => {
         if (ensureBandScale(xScale, "GroupedColumn") === false) return null;

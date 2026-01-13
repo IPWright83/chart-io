@@ -1,6 +1,6 @@
 import * as d3 from "d3";
 import { interpolatePath } from "d3-interpolate-path";
-import { useDispatch, useSelector } from "react-redux";
+import { useStore, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 import { useRender } from "../../../../hooks";
@@ -18,7 +18,7 @@ import { useMultiPathCreator } from "./useMultiPathCreator";
  * @return {ReactDOMComponent}  The Line plot component
  */
 const StackedAreaBase = ({ x, ys, colors, interactive, layer, canvas }) => {
-    const dispatch = useDispatch();
+    const store = useStore();
     const data = useSelector((s) => chartSelectors.data(s));
     const xScale = useSelector((s) => chartSelectors.scales.getScale(s, x));
     const yScale = useSelector((s) => chartSelectors.scales.getScale(s, ys[0]));
@@ -107,8 +107,8 @@ const StackedAreaBase = ({ x, ys, colors, interactive, layer, canvas }) => {
 
     // If possible respond to global mouse events for tooltips etc
     if (interactive) {
-        useDatumFocus(dispatch, layer, x, ys, xScale, yScale, sortedData, eventMode, position, colors);
-        useTooltip(dispatch, layer, x, ys, xScale, yScale, sortedData, eventMode, position, colors);
+        useDatumFocus(store.dispatch, layer, x, ys, xScale, yScale, sortedData, eventMode, position, colors);
+        useTooltip(store.dispatch, layer, x, ys, xScale, yScale, sortedData, eventMode, position, colors);
     }
 
     return null;

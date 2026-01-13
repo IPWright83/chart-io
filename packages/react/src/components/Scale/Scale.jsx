@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useStore, useSelector } from "react-redux";
 
 import { chartActions, chartSelectors } from "../../store";
 import { calculateScale } from "./calculateScale";
@@ -10,7 +10,7 @@ import { calculateScale } from "./calculateScale";
  * @return {ReactDOMComponent}   A scale component
  */
 const Scale = ({ fields, range, scaleType, aggregate, domain, fromAxis }) => {
-    const dispatch = useDispatch();
+    const store = useStore();
     const data = useSelector((s) => chartSelectors.data(s));
 
     useEffect(() => {
@@ -19,8 +19,8 @@ const Scale = ({ fields, range, scaleType, aggregate, domain, fromAxis }) => {
 
         // Use the fixed range if one was provided
         const scale = calculateScale(data, fields, range, domain, aggregate, scaleType);
-        dispatch(chartActions.setScales(fields, scale, fromAxis));
-    }, [fields, data, range, scaleType, aggregate, dispatch]);
+        store.dispatch(chartActions.setScales(fields, scale, fromAxis));
+    }, [fields, data, range, scaleType, aggregate, store.dispatch]);
 
     return <React.Fragment />;
 };
@@ -56,7 +56,7 @@ Scale.propTypes = {
      * @type {Array}
      */
     domain: PropTypes.arrayOf(
-        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool]),
+        PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date), PropTypes.string, PropTypes.bool])
     ),
 };
 

@@ -4,7 +4,7 @@ import * as d3 from "d3";
 import { throttle } from "lodash";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useStore, useSelector } from "react-redux";
 
 import { chartSelectors, eventActions } from "../../store";
 import { MOUSE_MOVE_THROTTLE } from "../../constants";
@@ -14,7 +14,7 @@ import { MOUSE_MOVE_THROTTLE } from "../../constants";
  * @return {ReactElement}  The EventReceiver component
  */
 const EventReceiver = ({ layer }) => {
-    const dispatch = useDispatch();
+    const store = useStore();
     const width = useSelector((s) => chartSelectors.dimensions.width(s));
     const height = useSelector((s) => chartSelectors.dimensions.height(s));
     const margin = useSelector((s) => chartSelectors.dimensions.margin(s));
@@ -27,7 +27,7 @@ const EventReceiver = ({ layer }) => {
 
         const mouseMove = throttle(
             (e) => {
-                dispatch(eventActions.mouseMove(e));
+                store.dispatch(eventActions.mouseMove(e));
             },
             MOUSE_MOVE_THROTTLE,
             { leading: true }
@@ -38,12 +38,12 @@ const EventReceiver = ({ layer }) => {
             .select("rect")
             .attr("width", width - margin.left - margin.right)
             .attr("height", height - margin.top - margin.bottom)
-            .on("mouseout", (e) => { dispatch(eventActions.mouseExit(e)); })
-            .on("mouseover", (e) => { dispatch(eventActions.mouseEnter(e)); })
+            .on("mouseout", (e) => { store.dispatch(eventActions.mouseExit(e)); })
+            .on("mouseover", (e) => { store.dispatch(eventActions.mouseEnter(e)); })
             .on("mousemove", mouseMove);
 
         // Wire up events
-    }, [dispatch, layer, width, height, margin]);
+    }, [store.dispatch, layer, width, height, margin]);
 
     const transform = `translate(${margin.left || 0}, ${margin.top || 0})`;
     return <rect className="chart-it event-receiver" transform={transform} />;
