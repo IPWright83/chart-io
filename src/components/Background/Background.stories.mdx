@@ -1,0 +1,13 @@
+<!--- Background.stories.mdx --->
+
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+
+import { Background } from "./Background";
+
+<Meta title="Components/Background" component={Background} />
+
+# Background Component
+
+The background component is an internal component used for capturing mouse events on SVG based charts.
+
+Some plots do not provide a suitable element to capture events on (such as a Line chart) so instead they are captured on this component and events are dispatched to the internal redux store - giving plots a chance to respond to these changes.

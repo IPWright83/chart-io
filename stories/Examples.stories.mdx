@@ -1,0 +1,44 @@
+<!--- Examples.stories.mdx --->
+
+import { Meta, Story, Canvas } from "@storybook/addon-docs/blocks";
+
+import { defaultArgTypes } from "./Scatter/defaultArgTypes";
+import { defaultArgs } from "./Scatter/defaultArgs";
+import { seriesArgTypes } from "./seriesArgTypes";
+import { sales_records_dataset } from "./sales_records_dataset";
+import { Chart, XAxis, YAxis, Scatter, Scatters, Foo } from "../src";
+
+<Meta title="Examples" />
+
+# Basic Examples
+
+export const scatterArgTypes = {
+    ...defaultArgTypes,
+};
+
+export const ScatterTemplate = (args) => (
+    <Chart {...args} data={sales_records_dataset}>
+        <YAxis fields={[args.y, args.y2, args.y3]} />
+        <XAxis fields={[args.x]} />
+        <Scatter
+            x={args.x}
+            y={args.y}
+            radius={args.radius}
+            color={args.color}
+            animationDuration={args.animationDuration}
+        />
+    </Chart>
+);
+
+<Story
+    name="Basic Scatter"
+    args={{
+        ...defaultArgs,
+        radius: 5,
+        width: 590,
+        height: 400,
+        theme: "light",
+    }}
+>
+    {ScatterTemplate.bind({})}
+</Story>
