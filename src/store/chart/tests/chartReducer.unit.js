@@ -66,6 +66,30 @@ describe("chartReducer", () => {
         });
     });
 
+    it("CHART.SET_ANIMATION_DURATION", () => {
+        const action = {
+            type: "CHART.SET_ANIMATION_DURATION",
+            payload: 12549,
+        };
+
+        expect(chartReducer(previousState, action)).toEqual({
+            ...previousState,
+            animationDuration: 12549,
+        });
+    });
+
+    it("CHART.SET_THEME", () => {
+        const action = {
+            type: "CHART.SET_THEME",
+            payload: { foo: "bar" },
+        };
+
+        expect(chartReducer(previousState, action)).toEqual({
+            ...previousState,
+            theme: { foo: "bar" },
+        });
+    });
+
     it("returns state for unknown action", () => {
         const action = {
             type: "RANDOM_ACTION",

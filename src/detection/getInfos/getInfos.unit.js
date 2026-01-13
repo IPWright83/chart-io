@@ -32,6 +32,11 @@ describe("/detection/getInfos", () => {
     });
 
     describe("getColumnInfos", () => {
+        it("returns nothing for an empty dataset", () => {
+            const result = getColumnInfos([]);
+            expect(result).toEqual({});
+        });
+
         it("returns correct info for a String column", () => {
             const data = [{ s: "abc" }, { s: "qwerty" }, { s: "ag" }, { s: null }];
             const result = getColumnInfos(data);
