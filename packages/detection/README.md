@@ -1,3 +1,3 @@
 # Detection
 
-To do
+This is an internal package
