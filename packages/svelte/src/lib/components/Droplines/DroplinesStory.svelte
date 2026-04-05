@@ -38,7 +38,7 @@
     });
 </script>
 
-<StoreProvider {store}>
+<StoreProvider overrideStore={store}>
     <svg>
          <g bind:this={layer}>
         <Droplines {layer} {showVertical} {showHorizontal} />

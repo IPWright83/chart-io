@@ -10,12 +10,12 @@
 
     let animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
     let theme = useSelector((s: IState) => chartSelectors.theme(s));
-    let droplines = useSelector((s: IState) => eventSelectors.droplines(s, true)).filter(
-        (dl) => (dl.isVertical && showVertical) || (dl.isHorizontal && showHorizontal),
-    );
+    let droplinesStore = useSelector((s: IState) => eventSelectors.droplines(s, true));
 
     // Track store values in component state
-    $: currentDroplines = $droplines;
+    $: currentDroplines = ($droplinesStore ?? []).filter(
+        (dl) => (dl.isVertical && showVertical) || (dl.isHorizontal && showHorizontal),
+    );
     $: currentTheme = $theme;
     $: currentAnimationDuration = $animationDuration;
 
@@ -25,7 +25,7 @@
         const join = d3
             .select(layer)
             .selectAll(".dropline")
-            .data(droplines, (d: IDropline) => `${d.x1}-${d.x2}-${d.y1}-${d.y2}`);
+            .data(currentDroplines, (d: IDropline) => `${d.x1}-${d.x2}-${d.y1}-${d.y2}`);
 
         join.exit().remove();
 
@@ -34,17 +34,17 @@
             .append("line")
             .attr("class", "chart-io dropline")
             .attr("point-events", "none")
-            .style("stroke-dasharray", theme.droplines.strokeDasharray)
-            .style("stroke-opacity", theme.droplines.strokeOpacity)
-            .style("stroke-width", theme.droplines.strokeWidth)
+            .style("stroke-dasharray", currentTheme.droplines.strokeDasharray)
+            .style("stroke-opacity", currentTheme.droplines.strokeOpacity)
+            .style("stroke-width", currentTheme.droplines.strokeWidth)
             .style("stroke", (d) => `${d.color}`)
             .attr("x1", (d) => d.x1)
             .attr("x2", (d) => d.x1)
             .attr("y1", (d) => d.y1)
             .attr("y2", (d) => d.y1)
             .transition()
-            .delay(animationDuration)
-            .duration(animationDuration)
+            .delay(currentAnimationDuration)
+            .duration(currentAnimationDuration)
             .attr("x2", (d) => d.x2)
             .attr("y2", (d) => d.y2);
     }
