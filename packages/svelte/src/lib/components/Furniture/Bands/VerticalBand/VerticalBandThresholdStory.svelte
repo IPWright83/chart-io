@@ -43,7 +43,7 @@
 </script>
 
 <div style="width: 800px; height: 400px;">
-    <Provider {store}>
+    <Provider overrideStore={store}>
         <XYChart {data} width={800} height={400}>
             <YAxis fields={[y]} />
             <XAxis fields={[x]} />

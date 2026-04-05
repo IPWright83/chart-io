@@ -10,18 +10,18 @@
     export let fill: IColor | undefined = undefined;
     export let stroke: IColor | undefined = undefined;
 
-    $: left = useSelector((s) => chartSelectors.dimensions.plot.left(s));
-    $: plotWidth = useSelector((s) => chartSelectors.dimensions.plot.width(s));
-    $: scale = useSelector((s) => chartSelectors.scales.getScale(s, y, "plot"));
+    let left = useSelector((s) => chartSelectors.dimensions.plot.left(s));
+    let plotWidth = useSelector((s) => chartSelectors.dimensions.plot.width(s));
+    let _scale = useSelector((s) => chartSelectors.scales.getScale(s, y, "plot"));
 
-    $: startY = scale && yStart ? scale(yStart) : scale?.range()?.[0];
-    $: stopY = scale && yStop ? scale(yStop) : scale?.range()?.[scale.range().length - 1];
+    $: startY = $_scale && yStart ? $_scale(yStart) : $_scale?.range()?.[0];
+    $: stopY = $_scale && yStop ? $_scale(yStop) : $_scale?.range()?.[$_scale.range().length - 1];
 </script>
 
-{#if scale && startY !== undefined && stopY !== undefined}
+{#if $_scale && startY !== undefined && stopY !== undefined}
     <rect
-        x={left}
-        width={plotWidth}
+        x={$left}
+        width={$plotWidth}
         y={stopY}
         height={startY - stopY}
         class="rect"
@@ -30,4 +30,4 @@
         style:fill={fill?.toString()}
         style:pointer-events="none"
     />
-{/if} 
+{/if}

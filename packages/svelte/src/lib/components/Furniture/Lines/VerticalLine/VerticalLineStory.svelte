@@ -30,7 +30,7 @@
 
 <div style="width: 500px; height: 200px;">
     <svg>
-        <Provider {store}>
+        <Provider overrideStore={store}>
             <VerticalLine {x} {value} {stroke} {opacity} />
         </Provider>
     </svg>

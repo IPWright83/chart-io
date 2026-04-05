@@ -32,7 +32,7 @@
 
 <div style="width: 500px; height: 200px;">
     <svg>
-        <Provider {store}>
+        <Provider overrideStore={store}>
             <VerticalBand {x} {xStart} {xStop} {fill} {stroke} {opacity} />
         </Provider>
     </svg>

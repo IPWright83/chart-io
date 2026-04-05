@@ -8,20 +8,21 @@
     export let opacity: number = 1;
     export let stroke: IColor | undefined = undefined;
 
-    $: left = useSelector((s) => chartSelectors.dimensions.plot.left(s));
-    $: right = useSelector((s) => chartSelectors.dimensions.plot.right(s));
-    $: scale = useSelector((s) => chartSelectors.scales.getScale(s, y, "plot"));
-    $: yValue = scale ? scale(value as INumericValue) : null;
+    let left = useSelector((s) => chartSelectors.dimensions.plot.left(s));
+    let right = useSelector((s) => chartSelectors.dimensions.plot.right(s));
+    let _scale = useSelector((s) => chartSelectors.scales.getScale(s, y, "plot"));
+
+    $: yValue = $_scale ? $_scale(value as INumericValue) : null;
 </script>
 
-{#if scale && yValue !== null}
+{#if $_scale && yValue !== null}
     <line
-        x1={left}
-        x2={right}
+        x1={$left}
+        x2={$right}
         y1={yValue}
         y2={yValue}
         style:stroke={stroke?.toString()}
         style:opacity={opacity}
         style:pointer-events="none"
     />
-{/if} 
+{/if}
