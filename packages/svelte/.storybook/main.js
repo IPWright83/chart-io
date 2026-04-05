@@ -25,6 +25,9 @@ const config = {
   "framework": {
     "name": getAbsolutePath('@storybook/sveltekit'),
     "options": {}
+  },
+  "docs": {
+    "autodocs": true
   }
 };
 export default config;
