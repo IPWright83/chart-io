@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { IPosition, IScaleType, IValue } from "@chart-io/types";
     import Axis from "../Axis/Axis.svelte";
-    import XScale from "../../Scale/XScale.svelte";
+    import YScale from "../../Scale/YScale.svelte";
 
-    export let position: IPosition = "bottom";
+    export let position: IPosition = "left";
     export let fields: string | string[];
     export let scaleType: IScaleType | undefined = undefined;
     export let aggregate: boolean = false;
@@ -32,4 +32,4 @@
     {ticks}
     {tickValues}
 />
-<XScale fields={fieldsArray} {scaleType} {aggregate} {domain} />
+<YScale fields={fieldsArray} {scaleType} {aggregate} {domain} />
