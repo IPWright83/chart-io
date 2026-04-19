@@ -17,6 +17,6 @@ export const YAxisStoryDefault: Story = {
     args: {
         fields: ["y"],
         position: "left",
-        showGridlines: false,
+        showGridlines: true,
     },
 };

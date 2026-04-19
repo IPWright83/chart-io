@@ -17,6 +17,6 @@ export const XAxisStoryDefault: Story = {
     args: {
         fields: ["x"],
         position: "bottom",
-        showGridlines: false,
+        showGridlines: true,
     },
 };

@@ -20,7 +20,7 @@
     const isVertical = position === "left" || position === "right";
     const width = 800;
     const height = isVertical ? 400 : 100;
-    const plotMargin = { left: 80, right: 40, top: isVertical ? 30 : 10, bottom: isVertical ? 30 : 50 };
+    const plotMargin = { left: 30, right: 30, top: 30, bottom: 30 };
 
     const plotWidth = width - plotMargin.left - plotMargin.right;
     const plotHeight = height - plotMargin.top - plotMargin.bottom;
