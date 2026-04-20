@@ -1,4 +1,4 @@
-import type { StoreCreator, Reducer, Action } from "@reduxjs/toolkit";
+import type { Action, Reducer, StoreCreator } from "@reduxjs/toolkit";
 
 export function svelteStoreEnhancer(createStoreApi: StoreCreator) {
     return function (reducer: Reducer<unknown, Action>, initialState: unknown) {

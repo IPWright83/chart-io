@@ -1,5 +1,5 @@
-import { configureStore } from "@reduxjs/toolkit";
 import { chartSlice, eventSlice } from "@chart-io/core";
+import { configureStore } from "@reduxjs/toolkit";
 
 import { svelteStoreEnhancer } from "./svelteStoreEnhancer";
 

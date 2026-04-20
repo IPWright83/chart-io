@@ -1,6 +1,6 @@
-import { vi } from "vitest";
-import { defaultChartState, defaultEventState } from "@chart-io/core";
 import type { IChartState, IEventState, IStore } from "@chart-io/core";
+import { defaultChartState, defaultEventState } from "@chart-io/core";
+import { vi } from "vitest";
 
 interface MockStoreState {
     chart?: Partial<IChartState>;

@@ -1,7 +1,7 @@
+import type { IStore } from "@chart-io/core";
 import type { Selector } from "@reduxjs/toolkit";
 import { getContext } from "svelte";
 import { derived, readable, type Readable } from "svelte/store";
-import type { IStore } from "@chart-io/core";
 
 import { STORE_KEY } from "./constants";
 
@@ -29,6 +29,7 @@ export function useSelector<T, S>(
         throw new Error("No Redux store found in context. Did you forget to wrap your component with StoreProvider?");
     }
 
+    // Create a Svelte readable store from the Redux store
     const reduxStore = readable(store.getState(), (set) => {
         return store.subscribe(() => {
             set(store.getState());
@@ -36,6 +37,7 @@ export function useSelector<T, S>(
     });
 
     let lastValue: S;
+    // Use derived to only update when selected value changes
     return derived(
         reduxStore,
         ($state, set) => {
@@ -45,6 +47,6 @@ export function useSelector<T, S>(
                 set(nextValue);
             }
         },
-        selector(store.getState())
+        selector(store.getState()) // Initialize with current value
     );
 }
