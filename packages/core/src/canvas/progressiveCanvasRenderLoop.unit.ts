@@ -1,4 +1,4 @@
-import { d3 } from "@chart-io/core";
+import { d3 } from "../d3";
 
 import { progressiveCanvasRenderLoop } from "./progressiveCanvasRenderLoop";
 import { renderElements } from "./renderElements";
