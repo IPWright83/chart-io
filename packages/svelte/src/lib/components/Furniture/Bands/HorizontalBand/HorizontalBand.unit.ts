@@ -1,9 +1,9 @@
-import { describe, it, expect } from "vitest";
-import { render } from "@testing-library/svelte";
 import { d3 } from "@chart-io/core";
+import { render } from "@testing-library/svelte";
+import { describe, expect, it } from "vitest";
 import { STORE_KEY } from "../../../../redux/constants";
-import HorizontalBand from "./HorizontalBand.svelte";
 import { createMockStore } from "../../../../testUtils/createMockStore";
+import HorizontalBand from "./HorizontalBand.svelte";
 
 describe("HorizontalBand", () => {
     const store = createMockStore({
@@ -57,7 +57,6 @@ describe("HorizontalBand", () => {
 
         const rect = container.querySelector("rect") as SVGRectElement;
         expect(rect).toBeTruthy();
-        // stopY=scale(500)=100, startY=range[0]=200, so y=100 height=100
         expect(rect?.getAttribute("y")).toBe("100");
         expect(rect?.getAttribute("height")).toBe("100");
     });

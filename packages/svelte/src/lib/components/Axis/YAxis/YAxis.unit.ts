@@ -1,9 +1,8 @@
-import { describe, it, expect } from "vitest";
+import { d3, themes } from "@chart-io/core";
 import { render } from "@testing-library/svelte";
-import { d3 } from "@chart-io/core";
-import { themes } from "@chart-io/core";
-import { createMockStore } from "../../../testUtils/createMockStore";
+import { describe, expect, it } from "vitest";
 import { STORE_KEY } from "../../../redux/constants";
+import { createMockStore } from "../../../testUtils/createMockStore";
 import YAxis from "./YAxis.svelte";
 
 describe("YAxis", () => {

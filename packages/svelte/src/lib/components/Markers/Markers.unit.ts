@@ -1,8 +1,8 @@
-import { describe, it, expect } from "vitest";
-import { render } from "@testing-library/svelte";
 import { themes } from "@chart-io/core";
-import { createMockStore } from "../../testUtils/createMockStore";
+import { render } from "@testing-library/svelte";
+import { describe, expect, it } from "vitest";
 import { STORE_KEY } from "../../redux/constants";
+import { createMockStore } from "../../testUtils/createMockStore";
 import Markers from "./Markers.svelte";
 
 describe("Markers", () => {

@@ -1,7 +1,7 @@
-import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/svelte";
-import { createMockStore } from "../../testUtils/createMockStore";
+import { describe, expect, it } from "vitest";
 import { STORE_KEY } from "../../redux/constants";
+import { createMockStore } from "../../testUtils/createMockStore";
 import RectangleClipPath from "./RectangleClipPath.svelte";
 
 describe("RectangleClipPath", () => {

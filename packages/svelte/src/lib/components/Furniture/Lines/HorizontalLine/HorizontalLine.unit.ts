@@ -1,9 +1,9 @@
-import { describe, it, expect } from "vitest";
-import { render } from "@testing-library/svelte";
 import { d3 } from "@chart-io/core";
+import { render } from "@testing-library/svelte";
+import { describe, expect, it } from "vitest";
 import { STORE_KEY } from "../../../../redux/constants";
-import HorizontalLine from "./HorizontalLine.svelte";
 import { createMockStore } from "../../../../testUtils/createMockStore";
+import HorizontalLine from "./HorizontalLine.svelte";
 
 describe("HorizontalLine", () => {
     const store = createMockStore({
@@ -35,7 +35,6 @@ describe("HorizontalLine", () => {
 
         const line = container.querySelector("line") as SVGLineElement;
         expect(line).toBeTruthy();
-        // scale(500) with domain=[0,1000] range=[200,0] = 100
         expect(line?.getAttribute("y1")).toBe("100");
         expect(line?.getAttribute("y2")).toBe("100");
         expect(line?.style.stroke).toBe("red");
