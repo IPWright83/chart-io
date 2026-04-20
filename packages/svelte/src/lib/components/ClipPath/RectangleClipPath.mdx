@@ -1,0 +1,29 @@
+import { Canvas, Meta } from "@storybook/blocks";
+import * as RectangleClipPathStories from "./RectangleClipPath.stories";
+
+<Meta of={RectangleClipPathStories} />
+
+# RectangleClipPath Component
+
+The `<RectangleClipPath>` component allows us to create a clip path to ensure that any artifacts that appear outside the visible range are not rendered. This is especially useful when zooming into the domain on a chart so is frequently used with Brushes.
+
+In the example below a black rectangle has been added to show the dimensions of the `<RectangleClipPath>` component. You can see how the circle has been chopped in half and anything outside of the clip path does not render.
+
+<Canvas of={RectangleClipPathStories.Default} />
+
+## Adding a RectangleClipPath
+
+To use a `<RectangleClipPath>` component, add it inside your chart's SVG and reference the clip path ID on the elements you want to clip. The clip path ID is derived from the chart's `id` in the store:
+
+```svelte
+<script>
+    import { chartSelectors } from "@chart-io/core";
+    import { useSelector } from "../redux";
+    import RectangleClipPath from "./RectangleClipPath.svelte";
+
+    let plotClipPath = useSelector((s) => chartSelectors.plotClipPath(s));
+</script>
+
+<RectangleClipPath />
+<SomePlot clip-path="url(#{$plotClipPath})" />
+```
