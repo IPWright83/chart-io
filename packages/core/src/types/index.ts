@@ -6,6 +6,7 @@ export * from "./IData";
 export * from "./IDropline";
 export * from "./IEventPlotProps";
 export * from "./IFocused";
+export * from "./IGridlinesBaseProps";
 export * from "./IInvertScale";
 export * from "./ILegendFormatter";
 export * from "./ILegendItem";
