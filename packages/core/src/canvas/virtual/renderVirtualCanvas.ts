@@ -1,4 +1,4 @@
-import { d3 } from "@chart-io/core";
+import { d3 } from "../../d3";
 
 import { renderVirtualElements } from "./renderVirtualElements";
 import type { IColorToDataMap } from "./types";

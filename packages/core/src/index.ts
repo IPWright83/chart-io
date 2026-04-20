@@ -1,3 +1,4 @@
+export * from "./canvas";
 export * from "./constants";
 export * from "./d3";
 export * as detection from "./detection";
