@@ -1,5 +1,6 @@
-import { Gridlines as GridlinesBase, IGridlinesBaseProps } from "./Gridlines";
+import type { IGridlinesBaseProps } from "@chart-io/core";
 import { withSVG } from "../../../../hoc";
+import { Gridlines as GridlinesBase } from "./Gridlines";
 
 import { getTickSize } from "./getTickSize";
 

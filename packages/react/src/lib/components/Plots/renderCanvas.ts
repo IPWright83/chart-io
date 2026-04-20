@@ -1,6 +1,4 @@
-import { d3, PROGRESSIVE_RENDER_THRESHOLD } from "@chart-io/core";
-
-import { canvasRenderLoop, progressiveCanvasRenderLoop } from "../../hoc/canvas";
+import { canvasRenderLoop, d3, PROGRESSIVE_RENDER_THRESHOLD, progressiveCanvasRenderLoop } from "@chart-io/core";
 
 /**
  * Renders to a canvas if one is provided
