@@ -6,6 +6,7 @@ export * from "./IData";
 export * from "./IDropline";
 export * from "./IEventPlotProps";
 export * from "./IFocused";
+export * from "./IGridlinesBaseProps";
 export * from "./IInvertScale";
 export * from "./ILegendFormatter";
 export * from "./ILegendItem";
@@ -23,7 +24,7 @@ export * from "./IScaleMode";
 export * from "./IScaleType";
 export * from "./IShape";
 export * from "./ITheme";
+export * from "./ITitleProps";
 export * from "./ITooltipFormatter";
 export * from "./ITooltipItem";
 export * from "./IValue";
-

@@ -1,38 +1,11 @@
+import type { IGridlinesBaseProps } from "@chart-io/core";
 import { chartSelectors, d3, IState } from "@chart-io/core";
-import type { IPosition, IScale } from "@chart-io/core";
 
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import { getD3Axis } from "../getD3Axis";
 import { getTickSize } from "./getTickSize";
-
-export interface IGridlinesBaseProps {
-    /**
-     * The position of the axis [top, bottom, left, right]
-     */
-    position: IPosition;
-    /**
-     * The D3 scale object used for the axis
-     */
-    scale: IScale;
-    /**
-     * Internal parameter - the SVG useRef layer
-     */
-    layer: any;
-    /**
-     * https://github.com/d3/d3-axis#axis_ticks
-     */
-    ticks: any;
-    /**
-     * https://github.com/d3/d3-axis#axis_tickPadding
-     */
-    tickPadding: number;
-    /**
-     * https://github.com/d3/d3-axis#axis_tickValues
-     */
-    tickValues?: string[];
-}
 
 /**
  * Represents a Gridlines component

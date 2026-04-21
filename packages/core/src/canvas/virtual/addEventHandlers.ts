@@ -1,5 +1,7 @@
-import { eventActions, IDispatch, MOUSE_MOVE_THROTTLE } from "@chart-io/core";
-import type { IDatum } from "@chart-io/core";
+import { eventActions } from "../../store";
+import type { IDispatch } from "../../store";
+import { MOUSE_MOVE_THROTTLE } from "../../constants";
+import type { IDatum } from "../../types";
 
 import { throttle } from "lodash";
 
