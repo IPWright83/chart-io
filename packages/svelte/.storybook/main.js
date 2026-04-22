@@ -1,6 +1,7 @@
 
 
 import { dirname, join } from "path";
+import remarkGfm from "remark-gfm";
 
 /**
 * This function is used to resolve the absolute path of a package.
@@ -21,6 +22,9 @@ const config = {
     getAbsolutePath('@storybook/addon-essentials'),
     getAbsolutePath('@chromatic-com/storybook'),
     getAbsolutePath('@storybook/addon-interactions')
+  ],
+  "presets": [
+    require.resolve("./preset.js")
   ],
   "framework": {
     "name": getAbsolutePath('@storybook/svelte-vite'),
