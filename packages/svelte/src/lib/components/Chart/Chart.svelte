@@ -17,7 +17,7 @@
     const chartId = `chart-${Math.random().toString(36).slice(2, 9)}`;
     store.dispatch(chartActions.setChartID(chartId));
 
-    $: store.dispatch(chartActions.setDimensions(width, height, plotMargin));
+    $: store.dispatch(chartActions.setDimensions({ width, height, margin: plotMargin }));
     $: store.dispatch(chartActions.setChartData(data));
     $: store.dispatch(chartActions.setAnimationDuration(animationDuration));
     $: store.dispatch(chartActions.setTheme(theme) as any);

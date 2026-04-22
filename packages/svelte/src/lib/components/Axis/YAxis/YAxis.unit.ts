@@ -30,4 +30,25 @@ describe("YAxis", () => {
 
         expect(container.querySelector(".axis-left")).toBeTruthy();
     });
+
+    it("creates a scale in the store correctly", () => {
+        const store = createStore();
+        store.dispatch(chartActions.setDimensions({ width: 300, height: 400, margin: { left: 60, right: 40, top: 20, bottom: 40 } }));
+        store.dispatch(chartActions.setChartData([{ y: 0 }, { y: 5 }, { y: 10 }]));
+
+        const { container } = render(StoreProvider, {
+            props: { overrideStore: store as IStore },
+        });
+
+        new YAxis({
+            target: container,
+            context: new Map([["store", store]]),
+            props: { position: "left", fields: ["y"], showGridlines: false },
+        });
+
+        const scale = chartSelectors.scales.getScale(store.getState(), "y", "plot");
+        expect(scale).toBeDefined();
+        expect(scale.domain()).toEqual([0, 10]);
+        expect(scale.range()).toEqual([340, 20]);
+    });
 });

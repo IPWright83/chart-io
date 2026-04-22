@@ -124,9 +124,10 @@ export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
         store.dispatch(chartActions.setChartID(id ?? generateRandomID()));
     }, [store.dispatch]);
 
-    // Ensure that the data used by all plots is updated in the store
+    // Ensure that the data used by all plots is updated in the store.
+    // Spread to a new array so immer doesn't freeze the original reference (e.g. Storybook args).
     useEffect(() => {
-        store.dispatch(chartActions.setChartData(data));
+        store.dispatch(chartActions.setChartData(data ? [...data] : data));
     }, [store.dispatch, data]);
 
     useEffect(() => {

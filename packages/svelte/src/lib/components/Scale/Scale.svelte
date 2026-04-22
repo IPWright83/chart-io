@@ -9,6 +9,6 @@
     const store = useStore();
 
     $: if (fields && scale) {
-        store.dispatch(chartActions.setScales(fields, scale) as any);
+        store.dispatch(chartActions.setScales({ fields, scale }) as any);
     }
 </script>
