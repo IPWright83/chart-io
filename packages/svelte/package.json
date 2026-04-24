@@ -53,6 +53,9 @@
 		"redux-thunk": "^3.0.0",
 		"svelte": "^5.0.0"
 	},
+	"dependencies": {
+		"lodash": "^4.17.21"
+	},
 	"devDependencies": {
 		"@chart-io/core": "workspace:*",
 		"@chromatic-com/storybook": "^3.2.2",

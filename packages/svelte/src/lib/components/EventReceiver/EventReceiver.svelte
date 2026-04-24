@@ -1,6 +1,7 @@
 <script lang="ts">
     import { d3 } from "@chart-io/core";
     import { chartSelectors, eventActions, MOUSE_MOVE_THROTTLE, type IState } from "@chart-io/core";
+    import { throttle } from "lodash";
     import { useSelector, useDispatch } from "../../redux";
 
     const dispatch = useDispatch();
@@ -10,17 +11,6 @@
     const top = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
 
     let rect: SVGRectElement;
-
-    function throttle(fn: (e: any) => void, delay: number) {
-        let lastCall = 0;
-        return (e: any) => {
-            const now = Date.now();
-            if (now - lastCall >= delay) {
-                lastCall = now;
-                fn(e);
-            }
-        };
-    }
 
     const onMouseMove = throttle((e) => dispatch(eventActions.mouseMove(e)), MOUSE_MOVE_THROTTLE);
 

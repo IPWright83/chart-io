@@ -1,7 +1,7 @@
 <script lang="ts">
     import { d3 } from "@chart-io/core";
     import type { AxisDomain, AxisScale } from "@chart-io/core";
-    import { chartSelectors, type IState } from "@chart-io/core";
+    import { chartSelectors, logAndThrowError, type IState } from "@chart-io/core";
     import type { IPosition } from "@chart-io/core";
 
     import { useSelector } from "../../../redux";
@@ -23,7 +23,14 @@
 
     let axisGroup: SVGGElement;
 
-    const field = Array.isArray(fields) ? fields[0] : fields;
+    const fieldsArray = Array.isArray(fields) ? fields : [fields];
+
+    if (fieldsArray.length === 0) {
+        // prettier-ignore
+        logAndThrowError("E005", "Unable to render an Axis without a field. Ensure that you have provided at least one field in the 'fields' prop");
+    }
+
+    const field = fieldsArray[0];
 
     let plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
     let plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
