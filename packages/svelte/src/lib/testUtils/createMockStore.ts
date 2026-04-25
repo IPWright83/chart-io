@@ -1,8 +1,13 @@
 import { vi } from "vitest";
 import { defaultChartState, defaultEventState } from "@chart-io/core";
-import type { IStore } from "@chart-io/core";
+import type { IChartState, IEventState, IStore } from "@chart-io/core";
 
-export function createMockStore(state: { chart?: any; event?: any }): IStore {
+interface MockStoreState {
+    chart?: Partial<IChartState>;
+    event?: Partial<IEventState>;
+}
+
+export function createMockStore(state: MockStoreState): IStore {
     const { dimensions: chartDimensions, ...restChart } = state.chart ?? {};
     return {
         getState: () => ({
@@ -25,7 +30,7 @@ export function createMockStore(state: { chart?: any; event?: any }): IStore {
     } as unknown as IStore;
 }
 
-export function createMockStorybookStore(state: { chart?: any; event?: any }): IStore {
+export function createMockStorybookStore(state: MockStoreState): IStore {
     const { dimensions: chartDimensions, ...restChart } = state.chart ?? {};
     return {
         getState: () => ({

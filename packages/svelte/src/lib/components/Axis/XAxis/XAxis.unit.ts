@@ -2,14 +2,14 @@ import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/svelte";
 import { d3 } from "@chart-io/core";
 import { themes } from "@chart-io/core";
-import { createMockStorybookStore } from "../../../testUtils/createMockStore";
+import { createMockStore } from "../../../testUtils/createMockStore";
 import { STORE_KEY } from "../../../redux/constants";
 import XAxis from "./XAxis.svelte";
 
 describe("XAxis", () => {
     it("renders correctly", () => {
         const scale = d3.scaleLinear().domain([0, 10]).range([40, 760]);
-        const store = createMockStorybookStore({
+        const store = createMockStore({
             chart: {
                 theme: themes.light,
                 animationDuration: 0,

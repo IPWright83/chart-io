@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { IPosition, IScaleType, IValue } from "@chart-io/core";
+    import type { IPosition, IScaleType, IValue, AxisDomain } from "@chart-io/core";
     import Axis from "../Axis/Axis.svelte";
     import XScale from "../../Scale/XScale.svelte";
 
@@ -13,8 +13,8 @@
     export let tickSizeInner: number = 6;
     export let tickSizeOuter: number = 6;
     export let tickPadding: number = 3;
-    export let tickFormat: ((domainValue: any, index: number) => string) | undefined = undefined;
-    export let ticks: any[] | undefined = undefined;
+    export let tickFormat: ((domainValue: AxisDomain, index: number) => string) | undefined = undefined;
+    export let ticks: number | undefined = undefined;
     export let tickValues: string[] | number[] | Date[] | undefined = undefined;
 
     $: fieldsArray = Array.isArray(fields) ? fields : [fields];

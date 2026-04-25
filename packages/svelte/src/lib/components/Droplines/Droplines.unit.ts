@@ -1,12 +1,12 @@
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/svelte";
 import { themes } from "@chart-io/core";
-import { createMockStorybookStore } from "../../testUtils/createMockStore";
+import { createMockStore } from "../../testUtils/createMockStore";
 import { STORE_KEY } from "../../redux/constants";
 import Droplines from "./Droplines.svelte";
 
 describe("Droplines", () => {
-    const store = createMockStorybookStore({
+    const store = createMockStore({
         chart: {
             theme: themes.light,
         },

@@ -1,8 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/svelte";
+import type { ComponentProps } from "svelte";
 import { d3 } from "@chart-io/core";
 import { themes } from "@chart-io/core";
-import { createMockStorybookStore } from "../../../testUtils/createMockStore";
+import { createMockStore } from "../../../testUtils/createMockStore";
 import { STORE_KEY } from "../../../redux/constants";
 import Axis from "./Axis.svelte";
 import { getTransform } from "./getTransform";
@@ -13,7 +14,7 @@ describe("Axis", () => {
     const plotMargin = { left: 10, right: 20, top: 30, bottom: 40 };
     const scale = d3.scaleLinear().domain([0, 100]).range([0, 970]);
 
-    const store = createMockStorybookStore({
+    const store = createMockStore({
         chart: {
             theme: themes.light,
             animationDuration: 0,
@@ -25,9 +26,9 @@ describe("Axis", () => {
         },
     });
 
-    function renderAxis(props: object) {
+    function renderAxis(props: ComponentProps<typeof Axis>) {
         const { container } = render(Axis, {
-            props: props as any,
+            props,
             context: new Map([[STORE_KEY, store]]),
         });
         return container;

@@ -1,12 +1,12 @@
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/svelte";
 import { themes } from "@chart-io/core";
-import { createMockStorybookStore } from "../../testUtils/createMockStore";
+import { createMockStore } from "../../testUtils/createMockStore";
 import { STORE_KEY } from "../../redux/constants";
 import Crosshair from "./Crosshair.svelte";
 
 describe("Crosshair", () => {
-    const baseStore = createMockStorybookStore({
+    const baseStore = createMockStore({
         chart: {
             theme: themes.light,
             dimensions: { width: 800, height: 400 },
@@ -21,7 +21,7 @@ describe("Crosshair", () => {
     });
 
     it("renders both lines when position is set", () => {
-        const store = createMockStorybookStore({
+        const store = createMockStore({
             chart: {
                 theme: themes.light,
                 dimensions: { width: 800, height: 400 },
@@ -39,7 +39,7 @@ describe("Crosshair", () => {
     });
 
     it("renders only vertical line when showHorizontal is false", () => {
-        const store = createMockStorybookStore({
+        const store = createMockStore({
             chart: {
                 theme: themes.light,
                 dimensions: { width: 800, height: 400 },
@@ -58,7 +58,7 @@ describe("Crosshair", () => {
     });
 
     it("renders only horizontal line when showVertical is false", () => {
-        const store = createMockStorybookStore({
+        const store = createMockStore({
             chart: {
                 theme: themes.light,
                 dimensions: { width: 800, height: 400 },

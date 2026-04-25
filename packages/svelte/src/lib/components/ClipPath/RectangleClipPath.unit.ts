@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/svelte";
-import { createMockStorybookStore } from "../../testUtils/createMockStore";
+import { createMockStore } from "../../testUtils/createMockStore";
 import { STORE_KEY } from "../../redux/constants";
 import RectangleClipPath from "./RectangleClipPath.svelte";
 
@@ -9,7 +9,7 @@ describe("RectangleClipPath", () => {
     // plotWidth = 800 - 30 - 30 = 740
     // plotHeight = 400 - 30 - 30 = 340
     // left = 30, top = 30
-    const store = createMockStorybookStore({
+    const store = createMockStore({
         chart: {
             id: "test",
             dimensions: {

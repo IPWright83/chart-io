@@ -15,10 +15,10 @@
     export let tickSizeInner: number = 6;
     export let tickSizeOuter: number = 6;
     export let tickPadding: number = 3;
-    export let ticks: any[] | undefined = undefined;
+    export let ticks: number | undefined = undefined;
     export let showGridlines: boolean = true;
     export let title: string | undefined = undefined;
-    export let tickFormat: ((domainValue: any, index: number) => string) | undefined = undefined;
+    export let tickFormat: ((domainValue: AxisDomain, index: number) => string) | undefined = undefined;
     export let tickValues: string[] | number[] | Date[] | undefined = undefined;
 
     let axisGroup: SVGGElement;

@@ -4,7 +4,6 @@
     import { createMockStorybookStore } from "../../testUtils";
     import Markers from "./Markers.svelte";
     import { StoreProvider } from "../../redux";
-    import { onMount } from "svelte";
 
     export let fill: string | null;
     export let stroke: string;

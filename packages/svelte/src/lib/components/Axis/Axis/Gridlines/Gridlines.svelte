@@ -9,9 +9,9 @@
     import { getTickSize } from "./getTickSize";
 
     export let position: IPosition;
-    export let scale: any;
+    export let scale: AxisScale<AxisDomain> | null | undefined;
     export let tickPadding: number = 3;
-    export let ticks: any = undefined;
+    export let ticks: number | undefined = undefined;
     export let tickValues: string[] | undefined = undefined;
 
     let gridlinesGroup: SVGGElement;
