@@ -1,0 +1,35 @@
+import { Canvas, Meta } from "@storybook/blocks";
+import * as PolygonStories from "./Polygon.stories";
+
+<Meta of={PolygonStories} />
+
+# Polygon Component
+
+The `<Polygon>` component allows us to define a layer to render a custom polygon either underneath or on top of the plots. This can be useful for defining threshold bands in the background, along with a variety of other use cases.
+
+<Canvas of={PolygonStories.Default} />
+
+The points that are provided should be pixel coordinates. If you need to plot based on your data points you can simply access the relevant scale and call the scale function. For example:
+
+```javascript
+import { useSelector } from "../redux";
+
+// Within a component obtain some scales
+const xScale = useSelector((s) => chartSelectors.scales.getScale(s, "x"));
+const yScale = useSelector((s) => chartSelectors.scales.getScale(s, "y"));
+
+// Given a data point we can translate this to a co-ordinate
+const data = { x: 5000, y: 100000 };
+const coordinate = { x: $xScale(data.x), y: $yScale(data.y) };
+```
+
+### Props
+
+| Prop           | Type     | Default | Note                                                                                                 |
+| -------------- | -------- | ------- | ---------------------------------------------------------------------------------------------------- |
+| **`points`\*** | `string` |         | The set of points as a string. See https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/points |
+| `fill`         | `string` |         | An optional fill colour to apply to the polygon                                                      |
+| `stroke`       | `string` |         | An optional stroke color to apply to the polygon                                                     |
+| `opacity`      | `number` |         | The opacity of the polygon                                                                           |
+
+<br />

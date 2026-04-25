@@ -1,0 +1,28 @@
+import { Canvas, Meta } from "@storybook/blocks";
+import * as ShapesStories from "./Shapes.stories";
+
+<Meta of={ShapesStories} />
+
+# Shapes Components
+
+The Shapes components provide a set of simple SVG primitives used as legend markers and data point indicators within charts.
+
+## Circle
+
+<Canvas of={ShapesStories.CircleShape} />
+
+## Line
+
+<Canvas of={ShapesStories.LineShape} />
+
+## Square
+
+<Canvas of={ShapesStories.SquareShape} />
+
+### Props
+
+All shape components accept the same props:
+
+| Prop     | Type     | Default | Note                    |
+| -------- | -------- | ------- | ----------------------- |
+| **`fill`\*** | `string` |         | The fill color to apply |
