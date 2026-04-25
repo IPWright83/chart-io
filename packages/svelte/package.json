@@ -57,6 +57,7 @@
 	},
 	"devDependencies": {
 		"@chart-io/core": "workspace:*",
+		"jsdom": "^25.0.0",
 		"@chromatic-com/storybook": "^3.2.2",
 		"@eslint/compat": "^1.2.3",
 		"@reduxjs/toolkit": "^2.0.0",

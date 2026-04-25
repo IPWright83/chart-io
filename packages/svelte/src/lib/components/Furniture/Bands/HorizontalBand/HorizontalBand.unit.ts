@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/svelte";
 import { d3 } from "@chart-io/core";
-import { Provider } from "../../../../redux/Provider.svelte";
+import { STORE_KEY } from "../../../../redux/constants";
 import HorizontalBand from "./HorizontalBand.svelte";
-import { createMockStore } from "../../../../../testUtils/createMockStore.js";
+import { createMockStore } from "../../../../testUtils/createMockStore";
 
 describe("HorizontalBand", () => {
     const store = createMockStore({
@@ -23,28 +23,22 @@ describe("HorizontalBand", () => {
     });
 
     it("should render correctly with all props", () => {
-        const { container } = render(Provider, {
+        const { container } = render(HorizontalBand, {
             props: {
-                store,
+                y: "y",
+                yStart: 250,
+                yStop: 750,
+                fill: "steelblue",
+                stroke: "red",
+                opacity: 0.3,
             },
-            slots: {
-                default: {
-                    component: HorizontalBand,
-                    props: {
-                        y: "y",
-                        yStart: 250,
-                        yStop: 750,
-                        fill: "steelblue",
-                        stroke: "red",
-                        opacity: 0.3,
-                    },
-                },
-            },
+            context: new Map([[STORE_KEY, store]]),
         });
 
         const rect = container.querySelector("rect") as SVGRectElement;
         expect(rect).toBeTruthy();
-        expect(rect?.getAttribute("y")).toBe("150");
+        // scale(750)=50 is the top of the band in screen space (stopY), scale(250)=150 is the bottom (startY)
+        expect(rect?.getAttribute("y")).toBe("50");
         expect(rect?.getAttribute("height")).toBe("100");
         expect(rect?.style.fill).toBe("steelblue");
         expect(rect?.style.stroke).toBe("red");
@@ -52,55 +46,35 @@ describe("HorizontalBand", () => {
     });
 
     it("should render correctly with no yStart", () => {
-        const { container } = render(Provider, {
+        const { container } = render(HorizontalBand, {
             props: {
-                store,
+                y: "y",
+                yStop: 500,
+                fill: "steelblue",
             },
-            slots: {
-                default: {
-                    component: HorizontalBand,
-                    props: {
-                        y: "y",
-                        yStop: 500,
-                        fill: "steelblue",
-                    },
-                },
-            },
+            context: new Map([[STORE_KEY, store]]),
         });
 
         const rect = container.querySelector("rect") as SVGRectElement;
         expect(rect).toBeTruthy();
+        // stopY=scale(500)=100, startY=range[0]=200, so y=100 height=100
         expect(rect?.getAttribute("y")).toBe("100");
         expect(rect?.getAttribute("height")).toBe("100");
     });
 
     it("should not render without scale", () => {
-        const store = createMockStore({
+        const emptyStore = createMockStore({
             chart: {
-                dimensions: {
-                    width: 800,
-                    height: 400,
-                },
+                dimensions: { width: 800, height: 400 },
                 scales: {},
             },
         });
 
-        const { container } = render(Provider, {
-            props: {
-                store,
-            },
-            slots: {
-                default: {
-                    component: HorizontalBand,
-                    props: {
-                        y: "y",
-                        yStart: 250,
-                        yStop: 750,
-                    },
-                },
-            },
+        const { container } = render(HorizontalBand, {
+            props: { y: "y", yStart: 250, yStop: 750 },
+            context: new Map([[STORE_KEY, emptyStore]]),
         });
 
         expect(container.querySelector("rect")).toBeFalsy();
     });
-}); 
+});

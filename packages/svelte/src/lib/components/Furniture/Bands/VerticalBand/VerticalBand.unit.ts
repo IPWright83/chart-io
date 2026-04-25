@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/svelte";
 import { d3 } from "@chart-io/core";
-import { Provider } from "../../../../redux/Provider.svelte";
+import { STORE_KEY } from "../../../../redux/constants";
 import VerticalBand from "./VerticalBand.svelte";
-import { createMockStore } from "../../../../../testUtils/createMockStore.js";
+import { createMockStore } from "../../../../testUtils/createMockStore";
 
 describe("VerticalBand", () => {
     const store = createMockStore({
@@ -23,23 +23,16 @@ describe("VerticalBand", () => {
     });
 
     it("should render correctly with all props", () => {
-        const { container } = render(Provider, {
+        const { container } = render(VerticalBand, {
             props: {
-                store,
+                x: "x",
+                xStart: 250,
+                xStop: 750,
+                fill: "steelblue",
+                stroke: "red",
+                opacity: 0.3,
             },
-            slots: {
-                default: {
-                    component: VerticalBand,
-                    props: {
-                        x: "x",
-                        xStart: 250,
-                        xStop: 750,
-                        fill: "steelblue",
-                        stroke: "red",
-                        opacity: 0.3,
-                    },
-                },
-            },
+            context: new Map([[STORE_KEY, store]]),
         });
 
         const rect = container.querySelector("rect") as SVGRectElement;
@@ -52,20 +45,13 @@ describe("VerticalBand", () => {
     });
 
     it("should render correctly with no xStart", () => {
-        const { container } = render(Provider, {
+        const { container } = render(VerticalBand, {
             props: {
-                store,
+                x: "x",
+                xStop: 500,
+                fill: "steelblue",
             },
-            slots: {
-                default: {
-                    component: VerticalBand,
-                    props: {
-                        x: "x",
-                        xStop: 500,
-                        fill: "steelblue",
-                    },
-                },
-            },
+            context: new Map([[STORE_KEY, store]]),
         });
 
         const rect = container.querySelector("rect") as SVGRectElement;
@@ -75,32 +61,18 @@ describe("VerticalBand", () => {
     });
 
     it("should not render without scale", () => {
-        const store = createMockStore({
+        const emptyStore = createMockStore({
             chart: {
-                dimensions: {
-                    width: 800,
-                    height: 400,
-                },
+                dimensions: { width: 800, height: 400 },
                 scales: {},
             },
         });
 
-        const { container } = render(Provider, {
-            props: {
-                store,
-            },
-            slots: {
-                default: {
-                    component: VerticalBand,
-                    props: {
-                        x: "x",
-                        xStart: 250,
-                        xStop: 750,
-                    },
-                },
-            },
+        const { container } = render(VerticalBand, {
+            props: { x: "x", xStart: 250, xStop: 750 },
+            context: new Map([[STORE_KEY, emptyStore]]),
         });
 
         expect(container.querySelector("rect")).toBeFalsy();
     });
-}); 
+});

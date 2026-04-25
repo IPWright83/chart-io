@@ -2,9 +2,8 @@ import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/svelte";
 import { d3 } from "@chart-io/core";
 import { themes } from "@chart-io/core";
-import { createMockStorybookStore } from "../../../testUtils/createMockStore.ts";
-import StoreProvider from "../../../redux/StoreProvider.svelte";
-import type { IStore } from "@chart-io/core";
+import { createMockStorybookStore } from "../../../testUtils/createMockStore";
+import { STORE_KEY } from "../../../redux/constants";
 import Axis from "./Axis.svelte";
 import { getTransform } from "./getTransform";
 
@@ -27,10 +26,10 @@ describe("Axis", () => {
     });
 
     function renderAxis(props: object) {
-        const { container } = render(StoreProvider, {
-            props: { overrideStore: store as IStore },
+        const { container } = render(Axis, {
+            props: props as any,
+            context: new Map([[STORE_KEY, store]]),
         });
-        new Axis({ target: container, props } as any);
         return container;
     }
 

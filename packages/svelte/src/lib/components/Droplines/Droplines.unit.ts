@@ -1,10 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/svelte";
 import { themes } from "@chart-io/core";
-import { createMockStorybookStore } from "../../../testUtils/createMockStore.ts";
+import { createMockStorybookStore } from "../../testUtils/createMockStore";
+import { STORE_KEY } from "../../redux/constants";
 import Droplines from "./Droplines.svelte";
-import Provider from "../../../redux/StoreProvider.svelte";
-import type { IStore } from "@chart-io/core";
 
 describe("Droplines", () => {
     const store = createMockStorybookStore({
@@ -20,69 +19,39 @@ describe("Droplines", () => {
     });
 
     it("should render correctly", () => {
-        const { container } = render(Provider, {
-            props: {
-                overrideStore: store as IStore,
-            },
+        const layer = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        render(Droplines, {
+            props: { showHorizontal: true, showVertical: true, layer },
+            context: new Map([[STORE_KEY, store]]),
         });
 
-        const droplinesComponent = new Droplines({
-            target: container,
-            props: {
-                showHorizontal: true,
-                showVertical: true,
-            },
-        });
-
-        const droplines = container.querySelectorAll(".dropline");
+        const droplines = layer.querySelectorAll(".dropline");
         expect(droplines.length).toBe(2);
-
-        droplinesComponent.$destroy();
     });
 
     it("should render just vertical lines correctly", () => {
-        const { container } = render(Provider, {
-            props: {
-                overrideStore: store as IStore,
-            },
+        const layer = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        render(Droplines, {
+            props: { showHorizontal: false, showVertical: true, layer },
+            context: new Map([[STORE_KEY, store]]),
         });
 
-        const droplinesComponent = new Droplines({
-            target: container,
-            props: {
-                showHorizontal: false,
-                showVertical: true,
-            },
-        });
-
-        const droplines = container.querySelectorAll(".dropline");
+        const droplines = layer.querySelectorAll(".dropline");
         expect(droplines.length).toBe(1);
         expect(droplines[0].getAttribute("x1")).toBe("50");
         expect(droplines[0].getAttribute("x2")).toBe("50");
-
-        droplinesComponent.$destroy();
     });
 
     it("should render just horizontal lines correctly", () => {
-        const { container } = render(Provider, {
-            props: {
-                overrideStore: store as IStore,
-            },
+        const layer = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        render(Droplines, {
+            props: { showHorizontal: true, showVertical: false, layer },
+            context: new Map([[STORE_KEY, store]]),
         });
 
-        const droplinesComponent = new Droplines({
-            target: container,
-            props: {
-                showHorizontal: true,
-                showVertical: false,
-            },
-        });
-
-        const droplines = container.querySelectorAll(".dropline");
+        const droplines = layer.querySelectorAll(".dropline");
         expect(droplines.length).toBe(1);
         expect(droplines[0].getAttribute("y1")).toBe("50");
         expect(droplines[0].getAttribute("y2")).toBe("50");
-
-        droplinesComponent.$destroy();
     });
-}); 
+});

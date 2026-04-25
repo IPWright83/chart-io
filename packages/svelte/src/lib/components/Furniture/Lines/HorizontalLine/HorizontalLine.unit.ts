@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/svelte";
 import { d3 } from "@chart-io/core";
-import { Provider } from "../../../../redux/Provider.svelte";
+import { STORE_KEY } from "../../../../redux/constants";
 import HorizontalLine from "./HorizontalLine.svelte";
-import { createMockStore } from "../../../../../testUtils/createMockStore.js";
+import { createMockStore } from "../../../../testUtils/createMockStore";
 
 describe("HorizontalLine", () => {
     const store = createMockStore({
@@ -23,25 +23,19 @@ describe("HorizontalLine", () => {
     });
 
     it("should render correctly", () => {
-        const { container } = render(Provider, {
+        const { container } = render(HorizontalLine, {
             props: {
-                store,
+                y: "y",
+                value: 500,
+                stroke: "red",
+                opacity: 0.5,
             },
-            slots: {
-                default: {
-                    component: HorizontalLine,
-                    props: {
-                        y: "y",
-                        value: 500,
-                        stroke: "red",
-                        opacity: 0.5,
-                    },
-                },
-            },
+            context: new Map([[STORE_KEY, store]]),
         });
 
         const line = container.querySelector("line") as SVGLineElement;
         expect(line).toBeTruthy();
+        // scale(500) with domain=[0,1000] range=[200,0] = 100
         expect(line?.getAttribute("y1")).toBe("100");
         expect(line?.getAttribute("y2")).toBe("100");
         expect(line?.style.stroke).toBe("red");
@@ -49,31 +43,18 @@ describe("HorizontalLine", () => {
     });
 
     it("should not render without scale", () => {
-        const store = createMockStore({
+        const emptyStore = createMockStore({
             chart: {
-                dimensions: {
-                    width: 800,
-                    height: 400,
-                },
+                dimensions: { width: 800, height: 400 },
                 scales: {},
             },
         });
 
-        const { container } = render(Provider, {
-            props: {
-                store,
-            },
-            slots: {
-                default: {
-                    component: HorizontalLine,
-                    props: {
-                        y: "y",
-                        value: 500,
-                    },
-                },
-            },
+        const { container } = render(HorizontalLine, {
+            props: { y: "y", value: 500 },
+            context: new Map([[STORE_KEY, emptyStore]]),
         });
 
         expect(container.querySelector("line")).toBeFalsy();
     });
-}); 
+});

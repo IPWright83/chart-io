@@ -1,0 +1,13 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Markers > should render correctly 1`] = `
+<div>
+  
+</div>
+`;
+
+exports[`Markers > should skip if there is no layer available 1`] = `
+<div>
+  
+</div>
+`;

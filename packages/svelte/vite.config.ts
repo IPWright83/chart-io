@@ -4,6 +4,9 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 
 export default defineConfig({
 	plugins: [svelte()],
+	resolve: {
+		conditions: ['browser'],
+	},
 	build: {
 		sourcemap: true,
 		lib: {
@@ -17,6 +20,7 @@ export default defineConfig({
 		},
 	},
 	test: {
+		environment: 'jsdom',
 		include: ['src/**/*.{test,spec,unit}.{js,ts}'],
 	},
 });

@@ -1,9 +1,8 @@
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/svelte";
-import { createMockStorybookStore } from "../../testUtils";
+import { createMockStorybookStore } from "../../testUtils/createMockStore";
+import { STORE_KEY } from "../../redux/constants";
 import RectangleClipPath from "./RectangleClipPath.svelte";
-import Provider from "../../redux/StoreProvider.svelte";
-import type { IStore } from "@chart-io/core";
 
 describe("RectangleClipPath", () => {
     // With width: 800, height: 400 and default plotMargin (left: 30, right: 30, top: 30, bottom: 30):
@@ -21,11 +20,9 @@ describe("RectangleClipPath", () => {
     });
 
     it("should render a clipPath with the correct id", () => {
-        const { container } = render(Provider, {
-            props: { overrideStore: store as IStore },
+        const { container } = render(RectangleClipPath, {
+            context: new Map([[STORE_KEY, store]]),
         });
-
-        new RectangleClipPath({ target: container });
 
         const clipPath = container.querySelector("clipPath");
         expect(clipPath).toBeTruthy();
@@ -33,11 +30,9 @@ describe("RectangleClipPath", () => {
     });
 
     it("should render a rect with the correct plot dimensions", () => {
-        const { container } = render(Provider, {
-            props: { overrideStore: store as IStore },
+        const { container } = render(RectangleClipPath, {
+            context: new Map([[STORE_KEY, store]]),
         });
-
-        new RectangleClipPath({ target: container });
 
         const rect = container.querySelector("clipPath rect");
         expect(rect).toBeTruthy();

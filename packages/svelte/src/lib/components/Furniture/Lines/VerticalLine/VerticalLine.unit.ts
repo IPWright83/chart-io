@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/svelte";
 import { d3 } from "@chart-io/core";
-import { Provider } from "../../../../redux/Provider.svelte";
+import { STORE_KEY } from "../../../../redux/constants";
 import VerticalLine from "./VerticalLine.svelte";
-import { createMockStore } from "../../../../../testUtils/createMockStore.js";
+import { createMockStore } from "../../../../testUtils/createMockStore";
 
 describe("VerticalLine", () => {
     const store = createMockStore({
@@ -23,25 +23,19 @@ describe("VerticalLine", () => {
     });
 
     it("should render correctly", () => {
-        const { container } = render(Provider, {
+        const { container } = render(VerticalLine, {
             props: {
-                store,
+                x: "x",
+                value: 500,
+                stroke: "red",
+                opacity: 0.5,
             },
-            slots: {
-                default: {
-                    component: VerticalLine,
-                    props: {
-                        x: "x",
-                        value: 500,
-                        stroke: "red",
-                        opacity: 0.5,
-                    },
-                },
-            },
+            context: new Map([[STORE_KEY, store]]),
         });
 
         const line = container.querySelector("line") as SVGLineElement;
         expect(line).toBeTruthy();
+        // scale(500) with domain=[0,1000] range=[0,800] = 400
         expect(line?.getAttribute("x1")).toBe("400");
         expect(line?.getAttribute("x2")).toBe("400");
         expect(line?.style.stroke).toBe("red");
@@ -49,31 +43,18 @@ describe("VerticalLine", () => {
     });
 
     it("should not render without scale", () => {
-        const store = createMockStore({
+        const emptyStore = createMockStore({
             chart: {
-                dimensions: {
-                    width: 800,
-                    height: 400,
-                },
+                dimensions: { width: 800, height: 400 },
                 scales: {},
             },
         });
 
-        const { container } = render(Provider, {
-            props: {
-                store,
-            },
-            slots: {
-                default: {
-                    component: VerticalLine,
-                    props: {
-                        x: "x",
-                        value: 500,
-                    },
-                },
-            },
+        const { container } = render(VerticalLine, {
+            props: { x: "x", value: 500 },
+            context: new Map([[STORE_KEY, emptyStore]]),
         });
 
         expect(container.querySelector("line")).toBeFalsy();
     });
-}); 
+});

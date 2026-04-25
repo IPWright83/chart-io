@@ -15,15 +15,11 @@
 </script>
 
 {#if title}
-    <text class={`chart-io axis-title axis-title-${position}`} {transform}>
+    <text
+        class={`chart-io axis-title axis-title-${position}`}
+        {transform}
+        style="text-anchor: middle; font-size: 14px; user-select: none"
+    >
         {title}
     </text>
 {/if}
-
-<style>
-    .axis-title {
-        text-anchor: middle;
-        font-size: 14px;
-        user-select: none;
-    }
-</style>

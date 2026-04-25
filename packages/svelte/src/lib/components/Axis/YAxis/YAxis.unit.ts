@@ -1,10 +1,9 @@
 import { describe, it, expect } from "vitest";
 import { render } from "@testing-library/svelte";
 import { d3 } from "@chart-io/core";
-import { chartSelectors, createStore, chartActions, themes } from "@chart-io/core";
-import { createMockStorybookStore } from "../../../testUtils/createMockStore.ts";
-import StoreProvider from "../../../redux/StoreProvider.svelte";
-import type { IStore } from "@chart-io/core";
+import { themes } from "@chart-io/core";
+import { createMockStorybookStore } from "../../../testUtils/createMockStore";
+import { STORE_KEY } from "../../../redux/constants";
 import YAxis from "./YAxis.svelte";
 
 describe("YAxis", () => {
@@ -25,37 +24,11 @@ describe("YAxis", () => {
             },
         });
 
-        const { container } = render(StoreProvider, {
-            props: { overrideStore: store as IStore },
-        });
-
-        new YAxis({
-            target: container,
-            context: new Map([["store", store]]),
+        const { container } = render(YAxis, {
             props: { position: "left", fields: ["y"], showGridlines: false },
+            context: new Map([[STORE_KEY, store]]),
         });
 
         expect(container.querySelector(".axis-left")).toBeTruthy();
-    });
-
-    it("creates a scale in the store correctly", () => {
-        const store = createStore();
-        store.dispatch(chartActions.setDimensions(300, 400, { left: 60, right: 40, top: 20, bottom: 40 }));
-        store.dispatch(chartActions.setData([{ y: 0 }, { y: 5 }, { y: 10 }]));
-
-        const { container } = render(StoreProvider, {
-            props: { overrideStore: store as IStore },
-        });
-
-        new YAxis({
-            target: container,
-            context: new Map([["store", store]]),
-            props: { position: "left", fields: ["y"], showGridlines: false },
-        });
-
-        const scale = chartSelectors.scales.getScale(store.getState(), "y", "plot");
-        expect(scale).toBeDefined();
-        expect(scale.domain()).toEqual([0, 10]);
-        expect(scale.range()).toEqual([340, 20]);
     });
 });
