@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PieChart should create empty template correctly 1`] = `
+<DocumentFragment>
+  <div
+    style="display: inline-block;"
+  >
+    <svg
+      class="chart-svg"
+      height="500"
+      style="background-color: rgb(255, 255, 255);"
+      width="500"
+    >
+      <g
+        class="g-tooltip-overlay"
+      />
+      <g
+        class="g-legend-overlay"
+      />
+    </svg>
+  </div>
+</DocumentFragment>
+`;

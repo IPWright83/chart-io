@@ -1,0 +1,17 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Errors & Warnings/Warnings/W008" />
+
+# W008 Duplicate Category Combination
+
+> `There are duplicate combinations of the x and x2 fields. This may cause rendering artifacts with a <StackedDonut>.`
+
+This warning indicates that the same combination of the `x` (inner ring) and `x2` (outer ring) fields appears more than once in the dataset.
+
+## Cause
+
+A `<StackedDonut>` expects at most one row per unique `x`/`x2` combination, since each combination maps to a single slice on the outer ring.
+
+## Fix
+
+Aggregate your data so that there is only one row per `x`/`x2` combination before passing it to the chart.

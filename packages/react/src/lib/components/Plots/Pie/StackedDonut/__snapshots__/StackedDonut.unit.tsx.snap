@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StackedDonut using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot stacked-donut"
+    >
+      <path
+        class="pie-slice"
+        d="M0.376,-66.499A66.5,66.5,0,0,1,0.376,66.499L0.376,34.998A35,35,0,0,0,0.376,-34.998Z"
+        data-corner-radius="0"
+        data-cx="100"
+        data-cy="100"
+        data-end-angle="3.141592653589793"
+        data-inner-radius="35"
+        data-outer-radius="66.5"
+        data-pad-angle="0.01"
+        data-start-angle="0"
+        style="fill: #99c1dc; opacity: 0.7;"
+        transform="translate(100, 100)"
+      />
+      <path
+        class="pie-slice"
+        d="M-0.376,66.499A66.5,66.5,0,0,1,-0.376,-66.499L-0.376,-34.998A35,35,0,0,0,-0.376,34.998Z"
+        data-corner-radius="0"
+        data-cx="100"
+        data-cy="100"
+        data-end-angle="6.283185307179586"
+        data-inner-radius="35"
+        data-outer-radius="66.5"
+        data-pad-angle="0.01"
+        data-start-angle="3.141592653589793"
+        style="fill: #fc998e; opacity: 0.7;"
+        transform="translate(100, 100)"
+      />
+      <path
+        class="pie-slice"
+        d="M0.606,-99.998A100,100,0,0,1,99.998,-0.606L68.497,-0.606A68.5,68.5,0,0,0,0.606,-68.497Z"
+        data-corner-radius="0"
+        data-cx="100"
+        data-cy="100"
+        data-end-angle="1.5707963267948966"
+        data-inner-radius="68.5"
+        data-outer-radius="100"
+        data-pad-angle="0.01"
+        data-start-angle="0"
+        style="fill: rgb(153, 193, 220); opacity: 0.7;"
+        transform="translate(100, 100)"
+      />
+      <path
+        class="pie-slice"
+        d="M99.998,0.606A100,100,0,0,1,0.606,99.998L0.606,68.497A68.5,68.5,0,0,0,68.497,0.606Z"
+        data-corner-radius="0"
+        data-cx="100"
+        data-cy="100"
+        data-end-angle="3.141592653589793"
+        data-inner-radius="68.5"
+        data-outer-radius="100"
+        data-pad-angle="0.01"
+        data-start-angle="1.5707963267948966"
+        style="fill: rgb(232, 241, 247); opacity: 0.7;"
+        transform="translate(100, 100)"
+      />
+      <path
+        class="pie-slice"
+        d="M-0.606,99.998A100,100,0,0,1,-0.606,-99.998L-0.606,-68.497A68.5,68.5,0,0,0,-0.606,68.497Z"
+        data-corner-radius="0"
+        data-cx="100"
+        data-cy="100"
+        data-end-angle="6.283185307179586"
+        data-inner-radius="68.5"
+        data-outer-radius="100"
+        data-pad-angle="0.01"
+        data-start-angle="3.141592653589793"
+        style="fill: rgb(252, 153, 142); opacity: 0.7;"
+        transform="translate(100, 100)"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;

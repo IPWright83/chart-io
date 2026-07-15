@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Donut should allow the innerRadius to be overridden 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot pie"
+    >
+      <path
+        class="pie-slice"
+        d="M0.51,-99.999A100,100,0,0,1,86.856,49.558L17.57,9.555A20,20,0,0,0,0.51,-19.993Z"
+        data-corner-radius="0"
+        data-cx="100"
+        data-cy="100"
+        data-end-angle="2.0943951023931953"
+        data-inner-radius="20"
+        data-outer-radius="100"
+        data-pad-angle="0.01"
+        data-start-angle="0"
+        style="fill: #99c1dc; opacity: 0.7;"
+        transform="translate(100, 100)"
+      />
+      <path
+        class="pie-slice"
+        d="M86.346,50.441A100,100,0,1,1,-0.51,-99.999L-0.51,-19.993A20,20,0,1,0,17.06,10.438Z"
+        data-corner-radius="0"
+        data-cx="100"
+        data-cy="100"
+        data-end-angle="6.283185307179586"
+        data-inner-radius="20"
+        data-outer-radius="100"
+        data-pad-angle="0.01"
+        data-start-angle="2.0943951023931953"
+        style="fill: #fc998e; opacity: 0.7;"
+        transform="translate(100, 100)"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`Donut should default to a non-zero innerRadius 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot pie"
+    >
+      <path
+        class="pie-slice"
+        d="M0.583,-99.998A100,100,0,0,1,86.893,49.494L52.251,29.494A60,60,0,0,0,0.583,-59.997Z"
+        data-corner-radius="0"
+        data-cx="100"
+        data-cy="100"
+        data-end-angle="2.0943951023931953"
+        data-inner-radius="60"
+        data-outer-radius="100"
+        data-pad-angle="0.01"
+        data-start-angle="0"
+        style="fill: #99c1dc; opacity: 0.7;"
+        transform="translate(100, 100)"
+      />
+      <path
+        class="pie-slice"
+        d="M86.31,50.504A100,100,0,1,1,-0.583,-99.998L-0.583,-59.997A60,60,0,1,0,51.668,30.504Z"
+        data-corner-radius="0"
+        data-cx="100"
+        data-cy="100"
+        data-end-angle="6.283185307179586"
+        data-inner-radius="60"
+        data-outer-radius="100"
+        data-pad-angle="0.01"
+        data-start-angle="2.0943951023931953"
+        style="fill: #fc998e; opacity: 0.7;"
+        transform="translate(100, 100)"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;

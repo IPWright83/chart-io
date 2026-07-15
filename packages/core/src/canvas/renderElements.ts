@@ -2,6 +2,7 @@ import { d3 } from "../d3";
 import { logWarning } from "../utils";
 import type { IColor } from "../types";
 
+import { renderArc } from "./renderArc";
 import { renderCircle } from "./renderCircle";
 import { renderRect } from "./renderRect";
 
@@ -36,6 +37,10 @@ export function renderElements(
 
             case "RECT":
                 renderRect(context, node, overrideColor);
+                break;
+
+            case "PATH":
+                renderArc(context, node, overrideColor);
                 break;
 
             default:
