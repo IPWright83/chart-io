@@ -11,4 +11,3 @@ export * from "./logger";
 export * from "./getBandwidthAndOffset";
 export { exportImage } from "./exportImage";
 export * from "./downloadFile";
-export * from "./getParentKey";

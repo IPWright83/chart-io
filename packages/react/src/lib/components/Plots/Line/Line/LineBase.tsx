@@ -1,5 +1,4 @@
-import { chartSelectors, IState, line } from "@chart-io/core";
-import { d3 } from "@chart-io/core";
+import { chartSelectors, d3, interpolateMultiPath, isNullOrUndefined, IState } from "@chart-io/core";
 import type { IPlotProps } from "@chart-io/core";
 
 import { useMemo } from "react";
@@ -7,6 +6,7 @@ import { useSelector } from "react-redux";
 
 import { useLegendItem, useRender } from "../../../../hooks";
 
+import { IBandwidthScale } from "../../IBandwidthScale";
 import { useDatumFocus } from "./useDatumFocus";
 import { usePathCreator } from "./usePathCreator";
 import { useTooltip } from "./useTooltip";
@@ -39,14 +39,54 @@ export function LineBase({
 
     /* On future renders we want to update the path */
     useRender(() => {
-        const props = { x, y, xScale, yScale, data: sortedData, color: seriesColor, theme };
+        const bandwidth = (xScale as IBandwidthScale).bandwidth ? (xScale as IBandwidthScale).bandwidth() / 2 : 0;
+
+        // Line renderer that starts at the 0 point
+        const lineShape = d3
+            .line()
+            .x((d) => xScale(d[x]) + bandwidth)
+            .y((d) => yScale(d[y]))
+            .defined((d) => !isNullOrUndefined(d[y]));
 
         // Handle Canvas rendering
         if (canvas) {
-            return line.canvas.render({ ...props, height, width, canvas });
+            const context = canvas.getContext("2d");
+            lineShape.context(context);
+
+            // Clear and then re-render the path
+            context.clearRect(0, 0, width, height);
+            context.beginPath();
+
+            // @ts-ignore: TODO: Need to work out casting
+            lineShape(sortedData);
+
+            context.strokeStyle = `${seriesColor}`;
+            context.lineWidth = 2;
+            context.stroke();
+
+            // Note that because we've drawn directly to the canvas, there is no need
+            // for us to use the canvas render loop
+            return;
         }
 
-        line.render({ ...props, layer: layer.current, animationDuration });
+        if (!layer.current) {
+            return;
+        }
+
+        d3.select(layer.current)
+            .select("path")
+            .datum(sortedData)
+            .transition("line")
+            .duration(animationDuration)
+            .attrTween("d", function (d) {
+                const previous = d3.select(this).attr("d");
+
+                // @ts-ignore: TODO: Work out how to fix this line
+                const current = lineShape(d);
+                return interpolateMultiPath(previous, current);
+            })
+            .style("stroke", `${seriesColor}`)
+            .style("stroke-width", "2px");
     }, [x, y, sortedData, xScale, yScale, width, height, seriesColor, theme, layer, canvas, animationDuration]);
 
     // If possible respond to global mouse events for tooltips etc

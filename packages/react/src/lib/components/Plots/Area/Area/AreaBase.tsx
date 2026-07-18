@@ -1,5 +1,4 @@
-import { area, chartSelectors, IState } from "@chart-io/core";
-import { d3 } from "@chart-io/core";
+import { chartSelectors, d3, interpolateMultiPath, isNullOrUndefined, IState } from "@chart-io/core";
 import type { IPlotProps } from "@chart-io/core";
 
 import { useMemo } from "react";
@@ -7,6 +6,7 @@ import { useSelector } from "react-redux";
 
 import { useLegendItem, useRender } from "../../../../hooks";
 
+import { IBandwidthScale } from "../../IBandwidthScale";
 import { useDatumFocus } from "./useDatumFocus";
 import { usePathCreator } from "./usePathCreator";
 import { useTooltip } from "./useTooltip";
@@ -55,14 +55,57 @@ export function AreaBase({
 
     /* On future renders we want to update the path */
     useRender(() => {
-        const props = { x, y, y2, xScale, yScale, data: sortedData, fillColor, strokeColor, theme };
+        const bandwidth = (xScale as IBandwidthScale).bandwidth ? (xScale as IBandwidthScale).bandwidth() / 2 : 0;
+
+        // Area renderer that starts at the 0 point
+        const areaShape = d3
+            .area()
+            .curve(d3.curveLinear)
+            .x((d) => xScale(d[x]) + bandwidth)
+            .y0((d) => (y2 ? yScale(d[y]) : (yScale.range()[0] as number)))
+            .y1((d) => (y2 ? yScale(d[y2]) : yScale(d[y])))
+            .defined((d) => !isNullOrUndefined(d[y]));
 
         // Handle Canvas rendering
         if (canvas) {
-            return area.canvas.render({ ...props, height, width, canvas });
+            const context = canvas.getContext("2d");
+            areaShape.context(context);
+
+            // Clear and then re-render the path
+            context.clearRect(0, 0, width, height);
+            context.beginPath();
+
+            // @ts-ignore: TODO: Not sure how to fix this
+            areaShape(sortedData);
+
+            context.fillStyle = fillColor.toString();
+            context.strokeStyle = strokeColor.toString();
+            context.fill();
+            context.stroke();
+
+            // Note that because we've drawn directly to the canvas, there is no need
+            // for us to use the canvas render loop
+            return;
         }
 
-        area.render({ ...props, layer: layer.current, animationDuration });
+        if (!layer.current) {
+            return;
+        }
+
+        d3.select(layer.current)
+            .select("path")
+            .datum(sortedData)
+            .style("fill", fillColor.toString())
+            .style("stroke", strokeColor.toString())
+            .style("pointer-events", "none")
+            .transition("area")
+            .duration(animationDuration)
+            .attrTween("d", function (d) {
+                const previous = d3.select(this).attr("d");
+                // @ts-ignore: TODO: Not sure how to fix this
+                const current = areaShape(d);
+                return interpolateMultiPath(previous, current);
+            });
     }, [x, y, sortedData, xScale, yScale, layer, canvas, width, height, theme.series.colors, animationDuration]);
 
     // If possible respond to global mouse events for tooltips etc
