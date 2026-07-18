@@ -1,5 +1,5 @@
-import { chartSelectors, d3, IState, pie } from "@chart-io/core";
-import type { IColor, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
+import { chartSelectors, d3, ensureValuesAreUnique, IState } from "@chart-io/core";
+import type { IColor, IDatum, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
 
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
@@ -7,6 +7,8 @@ import { useSelector } from "react-redux";
 import { useLegendItems, useRender } from "../../../../hooks";
 
 import { renderCanvas } from "../../renderCanvas";
+import type { IArcAngles } from "../interpolateArc";
+import { interpolateArc } from "../interpolateArc";
 import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
 
@@ -131,29 +133,110 @@ export function PieBase({
     const onFocus = useFocused(theme);
 
     useRender(() => {
-        const { update } = pie.render({
-            animationDuration,
-            interactive,
-            layer: layer.current,
-            data,
-            colors: palette,
-            onMouseOver,
-            onMouseOut,
-            onClick,
-            onFocus,
-            onTooltip,
-            theme,
-            x,
-            y,
-            cx,
-            cy,
-            maxRadius,
-            innerRadius,
-            outerRadius,
-            padAngle,
-            cornerRadius,
-            sort,
-        });
+        ensureValuesAreUnique(data, x, "Pie");
+
+        // @ts-ignore: TODO: Not sure how to fix this
+        const colorScale = d3.scaleOrdinal<string>().domain(categories).range(palette);
+
+        const innerRadiusPx = innerRadius * maxRadius;
+        const outerRadiusPx = outerRadius * maxRadius;
+
+        const pieLayout = d3
+            .pie<IDatum>()
+            .value((d) => Number(d[y]) || 0)
+            // @ts-ignore: TODO: Not sure how to fix this
+            .sort(sort ? (a, b) => d3.descending(Number(a[y]), Number(b[y])) : null);
+
+        const arcGenerator = d3
+            .arc<{ startAngle: number; endAngle: number; innerRadius: number; outerRadius: number }>()
+            .padAngle(padAngle)
+            .cornerRadius(cornerRadius);
+
+        const arcs = pieLayout(data);
+
+        // D3 data join
+        const join = d3
+            .select(layer.current)
+            .selectAll<SVGPathElement, d3.PieArcDatum<IDatum>>(".pie-slice")
+            .data(arcs, (d) => `${d.data[x]}`);
+
+        // Exit slices
+        join.exit().remove();
+
+        // Enter slices
+        const enter = join
+            .enter()
+            .append("path")
+            .attr("class", "pie-slice")
+            .attr("transform", `translate(${cx}, ${cy})`)
+            .attr("data-cx", cx)
+            .attr("data-cy", cy)
+            .attr("data-pad-angle", padAngle)
+            .attr("data-corner-radius", cornerRadius)
+            .style("fill", (d) => colorScale(`${d.data[x]}`).toString());
+
+        // Update new and existing points
+        const update = enter
+            .merge(join)
+            .attr("transform", `translate(${cx}, ${cy})`)
+            .attr("data-cx", cx)
+            .attr("data-cy", cy)
+            .attr("data-pad-angle", padAngle)
+            .attr("data-corner-radius", cornerRadius)
+            .style("opacity", theme.series.opacity)
+            .style("fill", (d) => colorScale(`${d.data[x]}`).toString())
+            .on("mouseover", function (event, d) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                const color = colorScale(`${d.data[x]}`) as IColor;
+                onMouseOver && onMouseOver(d.data, this, event);
+                onFocus && onFocus({ element: this, event, datum: d.data });
+                onTooltip && onTooltip({ datum: d.data, event, name: `${d.data[x]}`, value: d.data[y], color });
+            })
+            .on("mouseout", function (event, d) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOut && onMouseOut(d.data, this, event);
+                onFocus && onFocus(null);
+                onTooltip && onTooltip(null);
+            })
+            .on("click", function (event, d) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onClick && onClick(d.data, this, event);
+            })
+            .transition("arc")
+            .duration(animationDuration)
+            .attrTween("d", function (d) {
+                const node = this as unknown as { _current?: IArcAngles };
+                const previous = node._current || {
+                    startAngle: d.startAngle,
+                    endAngle: d.startAngle,
+                    innerRadius: innerRadiusPx,
+                    outerRadius: outerRadiusPx,
+                };
+                const target = {
+                    startAngle: d.startAngle,
+                    endAngle: d.endAngle,
+                    innerRadius: innerRadiusPx,
+                    outerRadius: outerRadiusPx,
+                };
+                node._current = target;
+
+                return (t: number) => {
+                    const interpolated = interpolateArc(previous, target, t);
+                    d3.select(this)
+                        .attr("data-start-angle", interpolated.startAngle)
+                        .attr("data-end-angle", interpolated.endAngle)
+                        .attr("data-inner-radius", interpolated.innerRadius)
+                        .attr("data-outer-radius", interpolated.outerRadius);
+
+                    return arcGenerator(interpolated);
+                };
+            });
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [
@@ -176,6 +259,7 @@ export function PieBase({
         onMouseOut,
         onClick,
         palette,
+        categories,
     ]);
 
     return null;
