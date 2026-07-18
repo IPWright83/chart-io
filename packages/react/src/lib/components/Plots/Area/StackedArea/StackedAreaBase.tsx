@@ -64,14 +64,14 @@ export function StackedAreaBase({
             .y0((d) => yScale(d[0]))
             .y1((d) => yScale(d[1]));
 
+        ensureNoScaleOverflow(yScale, sortedData, ys, "StackedSVGArea");
+
+        // @ts-ignore: TODO: Not sure how to fix this
+        const stackedData = d3.stack().keys(ys)(sortedData);
+        const colorScale = d3.scaleOrdinal().domain(ys).range(colors);
+
         // Handle Canvas rendering
         if (canvas) {
-            ensureNoScaleOverflow(yScale, sortedData, ys, "StackedSVGArea");
-
-            // @ts-ignore: TODO: Not sure how to fix this
-            const stackedData = d3.stack().keys(ys)(sortedData);
-            const colorScale = d3.scaleOrdinal().domain(ys).range(colors);
-
             const context = canvas.getContext("2d");
             areaShape.context(context);
 
@@ -103,12 +103,6 @@ export function StackedAreaBase({
         if (!layer.current) {
             return;
         }
-
-        ensureNoScaleOverflow(yScale, sortedData, ys, "StackedSVGArea");
-
-        // @ts-ignore: TODO: Not sure how to fix this
-        const stackedData = d3.stack().keys(ys)(sortedData);
-        const colorScale = d3.scaleOrdinal().domain(ys).range(colors);
 
         const join = d3.select(layer.current).selectAll("path").data(stackedData);
 
