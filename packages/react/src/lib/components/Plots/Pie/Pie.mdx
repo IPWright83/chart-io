@@ -7,16 +7,17 @@ import * as PieStories from "./Pie.stories"
 
 There are two closely related components for polar plots, these include:
 
--   `<Pie>` - allows us to define a Pie plot on a `<PieChart>`
--   `<Donut>` - a `<Pie>` with a hole in the middle, defaulting `innerRadius` to `0.6`
+-   `<Donut>` - allows us to define a Donut plot on a `<PieChart>`, with a configurable hole in the middle
+-   `<Pie>` - a `<Donut>` with no hole (`innerRadius` fixed to `0`), since a Pie segment always reaches the center
 
 Both should be used within a `<PieChart>`, which is the polar equivalent of the `<XYChart>`.
 
 <Canvas of={PieStories.Basic} />
 
-## `<Pie>` Component
+## `<Donut>` Component
 
-The `<Pie>` component plots one slice per row of data, with the angle of each slice proportional to its value.
+The `<Donut>` component plots one slice per row of data, with the angle of each slice proportional to its
+value, and a configurable hole in the middle.
 
 ### Props
 
@@ -24,8 +25,8 @@ The `<Pie>` component plots one slice per row of data, with the angle of each sl
 | --------------- | ---------- | -------------------- | ------------------------------------------------------------------------------------------------------------ |
 | **`x`\***       | `string`   | `null`               | The key of the field that contains the category/label for each slice.                                        |
 | **`y`\***       | `string`   | `null`               | The key of the field that contains the value for each slice.                                                  |
-| `innerRadius`   | `number`   | `0`                  | The inner radius of the Pie, as a fraction (0-1) of the maximum available radius.                             |
-| `outerRadius`   | `number`   | `1`                  | The outer radius of the Pie, as a fraction (0-1) of the maximum available radius.                             |
+| `innerRadius`   | `number`   | `0.6`                | The inner radius of the Donut, as a fraction (0-1) of the maximum available radius. Set to `0` for a Pie.     |
+| `outerRadius`   | `number`   | `1`                  | The outer radius of the Donut, as a fraction (0-1) of the maximum available radius.                           |
 | `padAngle`      | `number`   | `0.01`                | The angular gap, in radians, to leave between each slice.                                                     |
 | `cornerRadius`  | `number`   | `0`                  | The corner radius, in pixels, to apply to each slice.                                                         |
 | `sort`          | `boolean`  | `false`               | Should the slices be sorted by value (descending), rather than using the order of the data?                   |
@@ -33,9 +34,11 @@ The `<Pie>` component plots one slice per row of data, with the angle of each sl
 | `interactive`   | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot            |
 | `showInLegend`  | `boolean`  | `true`                | Whether the plot should feature in the legend or not.                                                         |
 
+<Canvas of={PieStories.AsDonut} />
+
 ### Using Canvas
 
-Like other plots, a `<Pie>` can be rendered using an HTML Canvas instead of SVG by setting `useCanvas`.
+Like other plots, a `<Donut>` can be rendered using an HTML Canvas instead of SVG by setting `useCanvas`.
 
 <Canvas of={PieStories.Canvas} />
 
@@ -45,9 +48,9 @@ By default slices keep the order that they appear in the data. Set `sort` to ord
 
 <Canvas of={PieStories.Sorted} />
 
-## `<Donut>` Component
+## `<Pie>` Component
 
-The `<Donut>` component is a `<Pie>` with a hole in the middle. It accepts the same props as `<Pie>`, but
-defaults `innerRadius` to `0.6`.
+The `<Pie>` component is a `<Donut>` with no hole in the middle. It accepts the same props as `<Donut>`,
+except `innerRadius` - a Pie segment, by definition, always reaches the center, so it isn't exposed.
 
-<Canvas of={PieStories.AsDonut} />
+<Canvas of={PieStories.Basic} />

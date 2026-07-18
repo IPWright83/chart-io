@@ -4,7 +4,7 @@ exports[`Donut should allow the innerRadius to be overridden 1`] = `
 <DocumentFragment>
   <svg>
     <g
-      class="g-plot pie"
+      class="g-plot donut"
     >
       <path
         class="pie-slice"
@@ -16,6 +16,7 @@ exports[`Donut should allow the innerRadius to be overridden 1`] = `
         data-inner-radius="20"
         data-outer-radius="100"
         data-pad-angle="0.01"
+        data-path-type="arc"
         data-start-angle="0"
         style="fill: #99c1dc; opacity: 0.7;"
         transform="translate(100, 100)"
@@ -30,6 +31,7 @@ exports[`Donut should allow the innerRadius to be overridden 1`] = `
         data-inner-radius="20"
         data-outer-radius="100"
         data-pad-angle="0.01"
+        data-path-type="arc"
         data-start-angle="2.0943951023931953"
         style="fill: #fc998e; opacity: 0.7;"
         transform="translate(100, 100)"
@@ -43,7 +45,7 @@ exports[`Donut should default to a non-zero innerRadius 1`] = `
 <DocumentFragment>
   <svg>
     <g
-      class="g-plot pie"
+      class="g-plot donut"
     >
       <path
         class="pie-slice"
@@ -55,6 +57,7 @@ exports[`Donut should default to a non-zero innerRadius 1`] = `
         data-inner-radius="60"
         data-outer-radius="100"
         data-pad-angle="0.01"
+        data-path-type="arc"
         data-start-angle="0"
         style="fill: #99c1dc; opacity: 0.7;"
         transform="translate(100, 100)"
@@ -69,6 +72,7 @@ exports[`Donut should default to a non-zero innerRadius 1`] = `
         data-inner-radius="60"
         data-outer-radius="100"
         data-pad-angle="0.01"
+        data-path-type="arc"
         data-start-angle="2.0943951023931953"
         style="fill: #fc998e; opacity: 0.7;"
         transform="translate(100, 100)"

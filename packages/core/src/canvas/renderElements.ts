@@ -2,8 +2,8 @@ import { d3 } from "../d3";
 import { logWarning } from "../utils";
 import type { IColor } from "../types";
 
-import { renderArc } from "./renderArc";
 import { renderCircle } from "./renderCircle";
+import { renderPath } from "./renderPath";
 import { renderRect } from "./renderRect";
 
 /**
@@ -40,7 +40,7 @@ export function renderElements(
                 break;
 
             case "PATH":
-                renderArc(context, node, overrideColor);
+                renderPath(context, node, overrideColor);
                 break;
 
             default:

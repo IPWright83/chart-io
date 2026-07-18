@@ -2,9 +2,10 @@ import { d3 } from "../d3";
 import type { IColor } from "../types";
 
 /**
- * Renders an arc (Pie/Donut slice) to the canvas. The geometry is read from a set of
- * `data-*` attributes that are stamped onto the node when it is rendered to SVG, since an
- * arc cannot be reconstructed from simple bounding box attributes like a `<rect>` or `<circle>` can
+ * Renders an arc (e.g. a Pie/Donut slice) to the canvas. Registered with `renderPath` under the `"arc"`
+ * path type. The geometry is read from a set of `data-*` attributes that are stamped onto the node when
+ * it is rendered to SVG, since an arc cannot be reconstructed from simple bounding box attributes like a
+ * `<rect>` or `<circle>` can
  * @param  context             The Canvas context object to render to
  * @param  node                The virtual DOM node that represents this element
  * @param  overrideColor       A custom color to override the node color which is used for the virtual canvas

@@ -12,7 +12,7 @@ import { interpolateArc } from "../interpolateArc";
 import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
 
-export interface IPieBaseProps {
+export interface IDonutBaseProps {
     /**
      * The layer to be rendered upon. Typically this is an `<svg:g>` or a fake HTMLElement when using canvas.
      */
@@ -26,12 +26,13 @@ export interface IPieBaseProps {
      */
     y: string;
     /**
-     * The inner radius of the Pie/Donut, as a fraction (0-1) of the maximum available radius
-     * @default 0
+     * The inner radius of the Donut, as a fraction (0-1) of the maximum available radius. Set this to `0`
+     * for a fully filled Pie segment
+     * @default 0.6
      */
     innerRadius?: number;
     /**
-     * The outer radius of the Pie/Donut, as a fraction (0-1) of the maximum available radius
+     * The outer radius of the Donut, as a fraction (0-1) of the maximum available radius
      * @default 1
      */
     outerRadius?: number;
@@ -73,15 +74,15 @@ export interface IPieBaseProps {
      */
     renderVirtualCanvas?: (update: d3.Transition<Element, unknown, any, unknown>) => void;
     /**
-     * The x-coordinate of the center of the Pie/Donut. Provided by `withPolarPlot`
+     * The x-coordinate of the center of the Donut. Provided by `withPolarPlot`
      */
     cx?: number;
     /**
-     * The y-coordinate of the center of the Pie/Donut. Provided by `withPolarPlot`
+     * The y-coordinate of the center of the Donut. Provided by `withPolarPlot`
      */
     cy?: number;
     /**
-     * The maximum radius, in pixels, available to the Pie/Donut. Provided by `withPolarPlot`
+     * The maximum radius, in pixels, available to the Donut. Provided by `withPolarPlot`
      */
     maxRadius?: number;
     onMouseOver?: IOnMouseOver;
@@ -90,11 +91,11 @@ export interface IPieBaseProps {
 }
 
 /**
- * Represents a Pie/Donut plot
+ * Represents a Donut plot. A Pie is just a Donut with `innerRadius` set to `0`, see `<Pie>`
  * @param  props       The set of React properties
- * @return             The Pie plot component
+ * @return             The Donut plot component
  */
-export function PieBase({
+export function DonutBase({
     x,
     y,
     canvas,
@@ -103,7 +104,7 @@ export function PieBase({
     cx,
     cy,
     maxRadius,
-    innerRadius = 0,
+    innerRadius = 0.6,
     outerRadius = 1,
     padAngle = 0.01,
     cornerRadius = 0,
@@ -114,7 +115,7 @@ export function PieBase({
     onMouseOver,
     onMouseOut,
     onClick,
-}: IPieBaseProps) {
+}: IDonutBaseProps) {
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
@@ -133,7 +134,7 @@ export function PieBase({
     const onFocus = useFocused(theme);
 
     useRender(() => {
-        ensureValuesAreUnique(data, x, "Pie");
+        ensureValuesAreUnique(data, x, "Donut");
 
         // @ts-ignore: TODO: Not sure how to fix this
         const colorScale = d3.scaleOrdinal<string>().domain(categories).range(palette);
@@ -168,6 +169,7 @@ export function PieBase({
             .enter()
             .append("path")
             .attr("class", "pie-slice")
+            .attr("data-path-type", "arc")
             .attr("transform", `translate(${cx}, ${cy})`)
             .attr("data-cx", cx)
             .attr("data-cy", cy)

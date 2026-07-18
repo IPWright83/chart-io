@@ -268,6 +268,7 @@ export function StackedDonutBase({
             .enter()
             .append("path")
             .attr("class", "pie-slice")
+            .attr("data-path-type", "arc")
             .attr("transform", `translate(${cx}, ${cy})`)
             .attr("data-cx", cx)
             .attr("data-cy", cy)

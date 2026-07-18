@@ -66,7 +66,7 @@ const PieTemplate = (args) => (
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
     >
-        <Pie x={args.x} y={args.y} innerRadius={args.innerRadius} sort={args.sort} />
+        <Pie x={args.x} y={args.y} sort={args.sort} />
     </PieChart>
 );
 

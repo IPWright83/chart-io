@@ -1,17 +1,31 @@
 import React from "react";
 
-import type { IPieProps } from "../Pie";
-import { Pie } from "../Pie";
+import { withCanvas, withPolarPlot, withSVG } from "../../../../hoc";
 
-export type IDonutProps = IPieProps;
+import { DonutBase, IDonutBaseProps } from "./DonutBase";
+
+export interface IDonutProps extends Omit<IDonutBaseProps, "layer" | "canvas" | "cx" | "cy" | "maxRadius"> {
+    /**
+     * Should Canvas be used instead of SVG?
+     */
+    useCanvas?: boolean;
+}
+
+const CanvasDonut = withCanvas(withPolarPlot<IDonutProps>(DonutBase), "plot donut");
+const SVGDonut = withSVG(withPolarPlot<IDonutProps>(DonutBase), "plot donut");
 
 /**
- * Represents a Donut plot. This is a `<Pie>` with a hole in the middle, defaulting `innerRadius` to `0.6`
+ * Represents a Donut plot
+ * @param  useCanvas   Should Canvas be used instead of SVG?
  * @param  props       The set of React properties
  * @return             The Donut plot component
  */
-export function Donut({ innerRadius = 0.6, ...props }: IDonutProps) {
-    return <Pie {...props} innerRadius={innerRadius} />;
+export function Donut({ useCanvas = false, ...props }: IDonutProps) {
+    if (useCanvas) {
+        return <CanvasDonut {...props} />;
+    }
+
+    return <SVGDonut {...props} />;
 }
 
 Donut.requiresVirtualCanvas = true;
