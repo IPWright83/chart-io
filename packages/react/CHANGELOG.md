@@ -1,5 +1,18 @@
 # @chart-io/react-d3
 
+## 0.58.0
+
+### Minor Changes
+
+- cc56bcb5: Move chart plot rendering out of @chart-io/core and into the React components/hooks that use it, removing the renderers abstraction. Also fixes a broken Svelte package build caused by barrel exports pointing at components that don't exist yet.
+- c21d0371: Moving some helper functions, adding Svelte package
+
+### Patch Changes
+
+- Updated dependencies [cc56bcb5]
+- Updated dependencies [c21d0371]
+  - @chart-io/core@0.5.0
+
 ## 0.57.0
 
 ### Minor Changes
