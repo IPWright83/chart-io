@@ -1,5 +1,5 @@
-import { chartSelectors, d3, IState, scatter } from "@chart-io/core";
-import { IEventPlotProps } from "@chart-io/core";
+import { chartSelectors, d3, IState } from "@chart-io/core";
+import type { IDatum, IEventPlotProps, INumericValue } from "@chart-io/core";
 
 import { useSelector } from "react-redux";
 
@@ -7,6 +7,7 @@ import { useFocused } from "./useFocused";
 import { useTooltip } from "./useTooltip";
 
 import { useLegendItem, useRender } from "../../../../hooks";
+import { IBandwidthScale } from "../../IBandwidthScale";
 import { renderCanvas } from "../../renderCanvas";
 
 export interface IScatterBaseProps extends IEventPlotProps {
@@ -66,27 +67,65 @@ export function ScatterBase({
 
     // This is the main render function
     useRender(() => {
-        const { update, exit } = scatter.render({
-            animationDuration,
-            interactive,
-            radius,
-            layer: layer.current,
-            data,
-            fillColor,
-            strokeColor,
-            onMouseOver,
-            onMouseOut,
-            onClick,
-            onFocus,
-            onTooltip,
-            theme,
-            x,
-            y,
-            z,
-            xScale,
-            yScale,
-            zScale,
-        });
+        if (!layer.current) return;
+
+        const bandwidth = (xScale as IBandwidthScale).bandwidth ? (xScale as IBandwidthScale).bandwidth() / 2 : 0;
+
+        // D3 data join
+        // prettier-ignore
+        const join = d3.select(layer.current)
+            .selectAll("circle")
+            .data(data.filter((d) => d[y] !== null && d[y] !== undefined)) as d3.Selection<SVGCircleElement, IDatum, Element, unknown>;
+
+        // Exit points
+        // prettier-ignore
+        const exit = join
+            .exit()
+            .transition("scatter")
+            .duration(animationDuration)
+            .attr("r", 0)
+            .remove();
+
+        // Enter in new points
+        const enter = join
+            .enter()
+            .append("circle")
+            .attr("class", "scatter-point")
+            .attr("cx", (d) => xScale(d[x] as INumericValue) + bandwidth)
+            .attr("cy", (d) => yScale(d[y] as INumericValue))
+            .attr("r", 0)
+            .style("stroke", () => strokeColor.toString())
+            .style("fill", () => fillColor.toString())
+            .style("opacity", theme.series.opacity);
+
+        // Update new and existing points
+        const update = enter // @ts-ignore
+            .merge(join)
+            .on("mouseover", function (event, datum) {
+                if (!interactive) return;
+
+                onMouseOver && onMouseOver(datum, this, event);
+                onTooltip && onTooltip({ datum, event, fillColor });
+                onFocus && onFocus({ element: this, event, datum });
+            })
+            .on("mouseout", function (event, datum) {
+                if (!interactive) return;
+
+                onMouseOut && onMouseOut(datum, this, event);
+                onTooltip && onTooltip(null);
+                onFocus && onFocus(null);
+            })
+            .on("click", function (event, datum) {
+                if (!interactive) return;
+
+                onClick && onClick(datum, this, event);
+            })
+            .transition("scatter")
+            .duration(animationDuration)
+            .attr("cx", (d) => xScale(d[x] as INumericValue) + bandwidth)
+            .attr("cy", (d) => yScale(d[y] as INumericValue))
+            .attr("r", (d) => (z ? zScale(d[z] as INumericValue) : radius))
+            .style("fill", () => fillColor.toString());
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update, exit);
     }, [

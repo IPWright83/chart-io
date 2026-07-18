@@ -18,7 +18,6 @@ export * from "./IOrientation";
 export * from "./IPlotProps";
 export * from "./IPlotsProps";
 export * from "./IPosition";
-export * from "./IRenderProps";
 export * from "./IScale";
 export * from "./IScaleMode";
 export * from "./IScaleType";

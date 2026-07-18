@@ -1,5 +1,5 @@
-import { bar, chartSelectors, d3, IState } from "@chart-io/core";
-import type { IColor, IEventPlotProps } from "@chart-io/core";
+import { chartSelectors, d3, ensureBandwidth, getBandwidthAndOffset, IState } from "@chart-io/core";
+import type { IColor, IDatum, IEventPlotProps, INumericValue, IValue } from "@chart-io/core";
 
 import { useSelector } from "react-redux";
 
@@ -62,23 +62,73 @@ export function GroupedBarBase({
 
     // prettier-ignore
     useRender(() => {
-        const { update } = bar.grouped.render({
-            animationDuration,
-            interactive,
-            layer: layer.current,
-            data,
-            colors,
-            onMouseOver,
-            onMouseOut,
-            onClick,
-            onFocus,
-            onTooltip,
-            theme,
-            xs,
-            y,
-            xScale,
-            yScale,
-        });
+        const { bandwidth, offset } = getBandwidthAndOffset(yScale, y, data);
+
+        if (ensureBandwidth(bandwidth, "GroupedBar") === false) return;
+
+        // Create a scale for each series to fit along the x-axis and the series colors
+        const colorScale = d3.scaleOrdinal().domain(xs).range(colors);
+        const y1Scale = d3.scaleBand().domain(xs).rangeRound([0, bandwidth]).padding(0.05);
+
+        const groupJoin = d3.select(layer.current).selectAll<SVGGElement, IDatum>("g").data(data);
+
+        // Clean up old groups
+        groupJoin.exit().remove();
+
+        const join = groupJoin
+            .enter()
+            .append("g")
+            .merge(groupJoin)
+            .selectAll(".bar")
+            .data((d) => xs.map((x) => ({ ...d, key: x, value: d[x] })));
+
+        join.exit().remove();
+        const enter = join
+            .enter()
+            .append("rect")
+            .attr("class", "bar")
+            .attr("y", (d) => yScale(d[y]) + y1Scale(d.key) - offset)
+            .attr("x", xScale.range()[0] as number)
+            .attr("width", 0)
+            .attr("height", y1Scale.bandwidth())
+            .style("fill", (d) => colorScale(d.key).toString())
+            .style("opacity", theme.series.opacity);
+
+        const update = join
+            .merge(enter)
+            .on("mouseover", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOver && onMouseOver(datum, this as Element, event);
+                onFocus && onFocus({ element: this as Element, event, datum });
+                onTooltip && onTooltip({ datum, event, fillColors: [colorScale(datum.key) as IColor], xs: [datum.key] });
+            })
+            .on("mouseout", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOut && onMouseOut(datum, this as Element, event);
+                onFocus && onFocus(null);
+                onTooltip && onTooltip(null);
+            })
+            .on("click", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onClick && onClick(datum, this as Element, event);
+            })
+            .transition("position")
+            .duration(animationDuration / 2)
+            .attr("y", (d) => yScale(d[y]) + y1Scale(d.key) - offset)
+            .attr("height", y1Scale.bandwidth())
+            .style("fill", (d) => colorScale(d.key).toString())
+            // @ts-expect-error: Looks like the type defs are wrong missing named transitions
+            .transition("width")
+            .duration(animationDuration / 2)
+            .delay(animationDuration / 2)
+            .attr("width", (d) => xScale(d.value as INumericValue) - (xScale.range()[0] as number))
+            .attr("x", () => xScale.range()[0] as number) as d3.Transition<SVGRectElement, { key: string; value: IValue; }, SVGGElement, IDatum>;
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [y, xs, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);
