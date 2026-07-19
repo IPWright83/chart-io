@@ -63,7 +63,7 @@ const StackedDonutTemplate = (args) => (
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
     >
-        <StackedDonut x={args.x} x2={args.x2} y={args.y} />
+        <StackedDonut category={args.category} subCategory={args.subCategory} value={args.value} />
     </RadialChart>
 );
 
@@ -80,9 +80,9 @@ export const Basic = {
         rightMargin: 40,
         topMargin: 40,
         bottomMargin: 40,
-        x: "Region",
-        x2: "Item Type",
-        y: "Total Revenue",
+        category: "Region",
+        subCategory: "Item Type",
+        value: "Total Revenue",
     },
     play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
 };

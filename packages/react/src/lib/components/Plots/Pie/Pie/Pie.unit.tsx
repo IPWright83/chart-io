@@ -30,7 +30,7 @@ describe("Pie", () => {
     describe("using SVG", () => {
         it("should render correctly", async () => {
             const { asFragment } = await renderChart({
-                children: <Pie x="category" y="value" />,
+                children: <Pie category="category" value="value" />,
                 data,
             });
 
@@ -45,7 +45,7 @@ describe("Pie", () => {
                 const onMouseOver = jest.fn();
 
                 const { container, store } = await renderChart({
-                    children: <Pie x="category" y="value" onMouseOver={onMouseOver} />,
+                    children: <Pie category="category" value="value" onMouseOver={onMouseOver} />,
                     data,
                 });
 
@@ -67,7 +67,7 @@ describe("Pie", () => {
                 const onMouseOut = jest.fn();
 
                 const { container, store } = await renderChart({
-                    children: <Pie x="category" y="value" onMouseOut={onMouseOut} />,
+                    children: <Pie category="category" value="value" onMouseOut={onMouseOut} />,
                     data,
                 });
 
@@ -93,7 +93,7 @@ describe("Pie", () => {
                 const onClick = jest.fn();
 
                 const { container, store } = await renderChart({
-                    children: <Pie x="category" y="value" onClick={onClick} />,
+                    children: <Pie category="category" value="value" onClick={onClick} />,
                     data,
                 });
 
@@ -108,7 +108,7 @@ describe("Pie", () => {
             const { container } = await renderChart({
                 children: (
                     <VirtualCanvas>
-                        <Pie x="category" y="value" useCanvas={true} />
+                        <Pie category="category" value="value" useCanvas={true} />
                     </VirtualCanvas>
                 ),
                 data,
@@ -130,7 +130,7 @@ describe("Pie", () => {
                 const { container, store } = await renderChart({
                     children: (
                         <VirtualCanvas>
-                            <Pie x="category" y="value" onMouseOver={onMouseOver} useCanvas={true} />
+                            <Pie category="category" value="value" onMouseOver={onMouseOver} useCanvas={true} />
                         </VirtualCanvas>
                     ),
                     data,
@@ -163,7 +163,7 @@ describe("Pie", () => {
                 const { container, store } = await renderChart({
                     children: (
                         <VirtualCanvas>
-                            <Pie x="category" y="value" onClick={onClick} useCanvas={true} />
+                            <Pie category="category" value="value" onClick={onClick} useCanvas={true} />
                         </VirtualCanvas>
                     ),
                     data,

@@ -66,7 +66,7 @@ const PieTemplate = (args) => (
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
     >
-        <Pie x={args.x} y={args.y} sort={args.sort} />
+        <Pie category={args.category} value={args.value} sort={args.sort} />
     </RadialChart>
 );
 
@@ -88,7 +88,7 @@ const DonutTemplate = (args) => (
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
     >
-        <Donut x={args.x} y={args.y} />
+        <Donut category={args.category} value={args.value} />
     </RadialChart>
 );
 
@@ -105,8 +105,8 @@ export const Basic = {
         rightMargin: 40,
         topMargin: 40,
         bottomMargin: 40,
-        x: "Item Type",
-        y: "Unit Price",
+        category: "Item Type",
+        value: "Unit Price",
     },
     play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
 };

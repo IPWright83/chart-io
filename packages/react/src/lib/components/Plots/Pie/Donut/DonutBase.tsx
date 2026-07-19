@@ -20,11 +20,11 @@ export interface IDonutBaseProps {
     /**
      * The key of the field used for the category/label of each slice
      */
-    x: string;
+    category: string;
     /**
      * The key of the field used for the value of each slice
      */
-    y: string;
+    value: string;
     /**
      * The inner radius of the Donut, as a fraction (0-1) of the maximum available radius. Set this to `0`
      * for a fully filled Pie segment
@@ -96,8 +96,8 @@ export interface IDonutBaseProps {
  * @return             The Donut plot component
  */
 export function DonutBase({
-    x,
-    y,
+    category,
+    value,
     canvas,
     renderVirtualCanvas,
     layer,
@@ -123,7 +123,7 @@ export function DonutBase({
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     const palette = colors ?? theme.series.colors;
-    const categories = useMemo(() => data.map((d) => `${d[x]}`), [data, x]);
+    const categories = useMemo(() => data.map((d) => `${d[category]}`), [data, category]);
     const legendColors = useMemo(
         () => categories.map((_, index) => palette[index % palette.length]),
         [categories, palette],
@@ -134,7 +134,7 @@ export function DonutBase({
     const onFocus = useFocused(theme);
 
     useRender(() => {
-        ensureValuesAreUnique(data, x, "Donut");
+        ensureValuesAreUnique(data, category, "Donut");
 
         // @ts-ignore: TODO: Not sure how to fix this
         const colorScale = d3.scaleOrdinal<string>().domain(categories).range(palette);
@@ -144,9 +144,9 @@ export function DonutBase({
 
         const pieLayout = d3
             .pie<IDatum>()
-            .value((d) => Number(d[y]) || 0)
+            .value((d) => Number(d[value]) || 0)
             // @ts-ignore: TODO: Not sure how to fix this
-            .sort(sort ? (a, b) => d3.descending(Number(a[y]), Number(b[y])) : null);
+            .sort(sort ? (a, b) => d3.descending(Number(a[value]), Number(b[value])) : null);
 
         const arcGenerator = d3
             .arc<{ startAngle: number; endAngle: number; innerRadius: number; outerRadius: number }>()
@@ -159,7 +159,7 @@ export function DonutBase({
         const join = d3
             .select(layer.current)
             .selectAll<SVGPathElement, d3.PieArcDatum<IDatum>>(".pie-slice")
-            .data(arcs, (d) => `${d.data[x]}`);
+            .data(arcs, (d) => `${d.data[category]}`);
 
         // Exit slices
         join.exit().remove();
@@ -175,7 +175,7 @@ export function DonutBase({
             .attr("data-cy", cy)
             .attr("data-pad-angle", padAngle)
             .attr("data-corner-radius", cornerRadius)
-            .style("fill", (d) => colorScale(`${d.data[x]}`).toString());
+            .style("fill", (d) => colorScale(`${d.data[category]}`).toString());
 
         // Update new and existing points
         const update = enter
@@ -186,15 +186,16 @@ export function DonutBase({
             .attr("data-pad-angle", padAngle)
             .attr("data-corner-radius", cornerRadius)
             .style("opacity", theme.series.opacity)
-            .style("fill", (d) => colorScale(`${d.data[x]}`).toString())
+            .style("fill", (d) => colorScale(`${d.data[category]}`).toString())
             .on("mouseover", function (event, d) {
                 // istanbul ignore next
                 if (!interactive) return;
 
-                const color = colorScale(`${d.data[x]}`) as IColor;
+                const color = colorScale(`${d.data[category]}`) as IColor;
                 onMouseOver && onMouseOver(d.data, this, event);
                 onFocus && onFocus({ element: this, event, datum: d.data });
-                onTooltip && onTooltip({ datum: d.data, event, name: `${d.data[x]}`, value: d.data[y], color });
+                onTooltip &&
+                    onTooltip({ datum: d.data, event, name: `${d.data[category]}`, value: d.data[value], color });
             })
             .on("mouseout", function (event, d) {
                 // istanbul ignore next
@@ -242,8 +243,8 @@ export function DonutBase({
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [
-        x,
-        y,
+        category,
+        value,
         data,
         canvas,
         renderVirtualCanvas,

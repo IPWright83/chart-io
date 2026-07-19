@@ -22,15 +22,15 @@ export interface IStackedDonutBaseProps {
     /**
      * The key of the field used for the inner ring category
      */
-    x: string;
+    category: string;
     /**
-     * The key of the field used for the outer ring subdivision, within each `x` category
+     * The key of the field used for the outer ring subdivision, within each `category`
      */
-    x2: string;
+    subCategory: string;
     /**
      * The key of the field used for the value of each slice
      */
-    y: string;
+    value: string;
     /**
      * The inner radius of the StackedDonut, as a fraction (0-1) of the maximum available radius
      * @default 0.35
@@ -101,14 +101,15 @@ export interface IStackedDonutBaseProps {
 }
 
 /**
- * Represents a StackedDonut plot, a 2-level radial subdivision of `x` (inner ring) and `x2` (outer ring)
+ * Represents a StackedDonut plot, a 2-level radial subdivision of `category` (inner ring) and
+ * `subCategory` (outer ring)
  * @param  props       The set of React properties
  * @return             The StackedDonut plot component
  */
 export function StackedDonutBase({
-    x,
-    x2,
-    y,
+    category,
+    subCategory,
+    value,
     canvas,
     renderVirtualCanvas,
     layer,
@@ -137,7 +138,7 @@ export function StackedDonutBase({
     // Only the inner ring categories are shown in the Legend, the outer ring can
     // contain many more values than is practical to list
     const palette = colors ?? theme.series.colors;
-    const categories = useMemo(() => Array.from(new Set(data.map((d) => `${d[x]}`))), [data, x]);
+    const categories = useMemo(() => Array.from(new Set(data.map((d) => `${d[category]}`))), [data, category]);
     const legendColors = useMemo(
         () => categories.map((_, index) => palette[index % palette.length]),
         [categories, palette],
@@ -148,9 +149,9 @@ export function StackedDonutBase({
     const onFocus = useFocused(theme);
 
     useRender(() => {
-        ensureCombinationsAreUnique(data, [x, x2], "StackedDonut");
+        ensureCombinationsAreUnique(data, [category, subCategory], "StackedDonut");
 
-        const root = buildHierarchy(data, x, x2, y, sort);
+        const root = buildHierarchy(data, category, subCategory, value, sort);
         const parentNodes = (root.children ?? []) as IPieHierarchyNode[];
         const leafNodes = parentNodes.flatMap((node) => (node.children ?? []) as IPieHierarchyNode[]);
         const allNodes = [...parentNodes, ...leafNodes];
@@ -229,7 +230,7 @@ export function StackedDonutBase({
 
                 onMouseOver && onMouseOver(datum, this, event);
                 onFocus && onFocus({ element: this, event, datum });
-                onTooltip && onTooltip({ datum, event, name, value: datum[y], color });
+                onTooltip && onTooltip({ datum, event, name, value: datum[value], color });
             })
             .on("mouseout", function (event, node) {
                 // istanbul ignore next
@@ -278,9 +279,9 @@ export function StackedDonutBase({
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [
-        x,
-        x2,
-        y,
+        category,
+        subCategory,
+        value,
         data,
         canvas,
         renderVirtualCanvas,

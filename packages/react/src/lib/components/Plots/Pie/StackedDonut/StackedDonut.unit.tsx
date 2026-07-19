@@ -24,7 +24,7 @@ describe("StackedDonut", () => {
     describe("using SVG", () => {
         it("should render correctly", async () => {
             const { asFragment } = await renderChart({
-                children: <StackedDonut x="region" x2="product" y="sales" />,
+                children: <StackedDonut category="region" subCategory="product" value="sales" />,
                 data,
             });
 
@@ -39,7 +39,7 @@ describe("StackedDonut", () => {
                 const onMouseOver = jest.fn();
 
                 const { container, store } = await renderChart({
-                    children: <StackedDonut x="region" x2="product" y="sales" onMouseOver={onMouseOver} />,
+                    children: <StackedDonut category="region" subCategory="product" value="sales" onMouseOver={onMouseOver} />,
                     data,
                 });
 
@@ -63,7 +63,7 @@ describe("StackedDonut", () => {
                 const onClick = jest.fn();
 
                 const { container, store } = await renderChart({
-                    children: <StackedDonut x="region" x2="product" y="sales" onClick={onClick} />,
+                    children: <StackedDonut category="region" subCategory="product" value="sales" onClick={onClick} />,
                     data,
                 });
 
@@ -84,7 +84,7 @@ describe("StackedDonut", () => {
             const { container } = await renderChart({
                 children: (
                     <VirtualCanvas>
-                        <StackedDonut x="region" x2="product" y="sales" useCanvas={true} />
+                        <StackedDonut category="region" subCategory="product" value="sales" useCanvas={true} />
                     </VirtualCanvas>
                 ),
                 data,
@@ -105,7 +105,7 @@ describe("StackedDonut", () => {
             const { container, store } = await renderChart({
                 children: (
                     <VirtualCanvas>
-                        <StackedDonut x="region" x2="product" y="sales" onMouseOver={onMouseOver} useCanvas={true} />
+                        <StackedDonut category="region" subCategory="product" value="sales" onMouseOver={onMouseOver} useCanvas={true} />
                     </VirtualCanvas>
                 ),
                 data,

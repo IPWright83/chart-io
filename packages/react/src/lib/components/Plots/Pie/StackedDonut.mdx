@@ -6,9 +6,9 @@ import * as StackedDonutStories from "./StackedDonut.stories"
 # StackedDonut Plots
 
 The `<StackedDonut>` component builds a 2-level radial subdivision from a flat dataset: the inner ring
-represents the `x` category, and the outer ring subdivides each `x` category by `x2`, with each slice's
-angle proportional to its value. It should be used within a `<RadialChart>`, which is the polar equivalent
-of the `<XYChart>`.
+represents the `category`, and the outer ring subdivides each `category` by `subCategory`, with each
+slice's angle proportional to its value. It should be used within a `<RadialChart>`, which is the polar
+equivalent of the `<XYChart>`.
 
 <Canvas of={StackedDonutStories.Basic} />
 
@@ -18,9 +18,9 @@ of the `<XYChart>`.
 
 | Prop            | Type       | Default             | Note                                                                                                          |
 | --------------- | ---------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
-| **`x`\***       | `string`   | `null`               | The key of the field that contains the inner ring category.                                                    |
-| **`x2`\***      | `string`   | `null`               | The key of the field that contains the outer ring subdivision, within each `x` category.                       |
-| **`y`\***       | `string`   | `null`               | The key of the field that contains the value for each slice.                                                   |
+| **`category`\*** | `string`   | `null`               | The key of the field that contains the inner ring category.                                                    |
+| **`subCategory`\*** | `string` | `null`              | The key of the field that contains the outer ring subdivision, within each `category`.                         |
+| **`value`\***   | `string`   | `null`               | The key of the field that contains the value for each slice.                                                   |
 | `innerRadius`   | `number`   | `0.35`               | The inner radius of the StackedDonut, as a fraction (0-1) of the maximum available radius.                     |
 | `outerRadius`   | `number`   | `1`                  | The outer radius of the StackedDonut, as a fraction (0-1) of the maximum available radius.                     |
 | `ringPadding`   | `number`   | `2`                  | The gap, in pixels, to leave between the inner and outer ring.                                                 |
@@ -31,8 +31,8 @@ of the `<XYChart>`.
 | `interactive`   | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot             |
 | `showInLegend`  | `boolean`  | `true`                | Whether the plot should feature in the legend or not. Only the inner ring categories appear in the legend.     |
 
-> **Note**: Every combination of `x`/`x2` should be unique in the data. If your data has multiple rows for
-> the same `x`/`x2` combination, aggregate it first.
+> **Note**: Every combination of `category`/`subCategory` should be unique in the data. If your data has
+> multiple rows for the same `category`/`subCategory` combination, aggregate it first.
 
 ### Using Canvas
 

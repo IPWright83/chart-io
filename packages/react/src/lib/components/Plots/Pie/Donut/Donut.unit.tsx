@@ -11,7 +11,7 @@ describe("Donut", () => {
 
     it("should default to a non-zero innerRadius", async () => {
         const { asFragment } = await renderChart({
-            children: <Donut x="category" y="value" />,
+            children: <Donut category="category" value="value" />,
             data,
         });
 
@@ -23,7 +23,7 @@ describe("Donut", () => {
 
     it("should allow the innerRadius to be overridden", async () => {
         const { asFragment } = await renderChart({
-            children: <Donut x="category" y="value" innerRadius={0.2} />,
+            children: <Donut category="category" value="value" innerRadius={0.2} />,
             data,
         });
 
