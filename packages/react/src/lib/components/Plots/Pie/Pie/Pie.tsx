@@ -6,8 +6,7 @@ import { Donut } from "../Donut";
 export type IPieProps = Omit<IDonutProps, "innerRadius">;
 
 /**
- * Represents a Pie plot. This is a `<Donut>` with no hole in the middle, so unlike `<Donut>` it doesn't
- * accept an `innerRadius` - a Pie segment, by definition, always reaches the center
+ * Represents a Pie plot
  * @param  props       The set of React properties
  * @return             The Pie plot component
  */

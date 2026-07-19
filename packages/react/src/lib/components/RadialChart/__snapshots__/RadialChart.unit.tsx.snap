@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PieChart should create empty template correctly 1`] = `
+exports[`RadialChart should create empty template correctly 1`] = `
 <DocumentFragment>
   <div
     style="display: inline-block;"

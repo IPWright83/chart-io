@@ -74,15 +74,15 @@ export interface IDonutBaseProps {
      */
     renderVirtualCanvas?: (update: d3.Transition<Element, unknown, any, unknown>) => void;
     /**
-     * The x-coordinate of the center of the Donut. Provided by `withPolarPlot`
+     * The x-coordinate of the center of the Donut. Provided by `withRadialPlot`
      */
     cx?: number;
     /**
-     * The y-coordinate of the center of the Donut. Provided by `withPolarPlot`
+     * The y-coordinate of the center of the Donut. Provided by `withRadialPlot`
      */
     cy?: number;
     /**
-     * The maximum radius, in pixels, available to the Donut. Provided by `withPolarPlot`
+     * The maximum radius, in pixels, available to the Donut. Provided by `withRadialPlot`
      */
     maxRadius?: number;
     onMouseOver?: IOnMouseOver;

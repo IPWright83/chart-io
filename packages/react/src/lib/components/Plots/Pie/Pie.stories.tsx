@@ -7,7 +7,7 @@ import React from "react";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
 import { argTypes } from "../../../../storybook/argTypes";
 import { createCanvasTest, createSVGTest } from "../../../testUtils";
-import { PieChart } from "../../PieChart";
+import { RadialChart } from "../../RadialChart";
 import { Donut } from "./Donut";
 import { Pie } from "./Pie";
 
@@ -16,7 +16,7 @@ import { uniqBy } from "lodash";
 const { width, height, margin, useCanvas, theme } = argTypes;
 
 export default {
-    title: "PieCharts/Pie",
+    title: "RadialCharts/Pie",
     component: Pie,
     parameters: {
         docs: {
@@ -49,7 +49,7 @@ export default {
 const data = uniqBy(sales_records_dataset, (d) => d["Item Type"]);
 
 const PieTemplate = (args) => (
-    <PieChart
+    <RadialChart
         data={data}
         plotMargin={{
             left: args.leftMargin,
@@ -67,11 +67,11 @@ const PieTemplate = (args) => (
         onMouseOut={args.onMouseOut}
     >
         <Pie x={args.x} y={args.y} sort={args.sort} />
-    </PieChart>
+    </RadialChart>
 );
 
 const DonutTemplate = (args) => (
-    <PieChart
+    <RadialChart
         data={data}
         plotMargin={{
             left: args.leftMargin,
@@ -89,7 +89,7 @@ const DonutTemplate = (args) => (
         onMouseOut={args.onMouseOut}
     >
         <Donut x={args.x} y={args.y} />
-    </PieChart>
+    </RadialChart>
 );
 
 export const Basic = {

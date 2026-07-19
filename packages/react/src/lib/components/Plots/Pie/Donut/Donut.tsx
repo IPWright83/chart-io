@@ -1,6 +1,6 @@
 import React from "react";
 
-import { withCanvas, withPolarPlot, withSVG } from "../../../../hoc";
+import { withCanvas, withRadialPlot, withSVG } from "../../../../hoc";
 
 import { DonutBase, IDonutBaseProps } from "./DonutBase";
 
@@ -11,8 +11,8 @@ export interface IDonutProps extends Omit<IDonutBaseProps, "layer" | "canvas" | 
     useCanvas?: boolean;
 }
 
-const CanvasDonut = withCanvas(withPolarPlot<IDonutProps>(DonutBase), "plot donut");
-const SVGDonut = withSVG(withPolarPlot<IDonutProps>(DonutBase), "plot donut");
+const CanvasDonut = withCanvas(withRadialPlot<IDonutProps>(DonutBase), "plot donut");
+const SVGDonut = withSVG(withRadialPlot<IDonutProps>(DonutBase), "plot donut");
 
 /**
  * Represents a Donut plot

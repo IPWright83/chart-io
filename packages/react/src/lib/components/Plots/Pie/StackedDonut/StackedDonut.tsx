@@ -1,6 +1,6 @@
 import React from "react";
 
-import { withCanvas, withPolarPlot, withSVG } from "../../../../hoc";
+import { withCanvas, withRadialPlot, withSVG } from "../../../../hoc";
 
 import { IStackedDonutBaseProps, StackedDonutBase } from "./StackedDonutBase";
 
@@ -12,8 +12,8 @@ export interface IStackedDonutProps
     useCanvas?: boolean;
 }
 
-const CanvasStackedDonut = withCanvas(withPolarPlot<IStackedDonutProps>(StackedDonutBase), "plot stacked-donut");
-const SVGStackedDonut = withSVG(withPolarPlot<IStackedDonutProps>(StackedDonutBase), "plot stacked-donut");
+const CanvasStackedDonut = withCanvas(withRadialPlot<IStackedDonutProps>(StackedDonutBase), "plot stacked-donut");
+const SVGStackedDonut = withSVG(withRadialPlot<IStackedDonutProps>(StackedDonutBase), "plot stacked-donut");
 
 /**
  * Represents a StackedDonut plot

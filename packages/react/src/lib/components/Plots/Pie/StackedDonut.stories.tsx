@@ -7,13 +7,13 @@ import React from "react";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
 import { argTypes } from "../../../../storybook/argTypes";
 import { createCanvasTest, createSVGTest } from "../../../testUtils";
-import { PieChart } from "../../PieChart";
+import { RadialChart } from "../../RadialChart";
 import { StackedDonut } from "./StackedDonut";
 
 const { width, height, margin, useCanvas, theme } = argTypes;
 
 export default {
-    title: "PieCharts/StackedDonut",
+    title: "RadialCharts/StackedDonut",
     component: StackedDonut,
     parameters: {
         docs: {
@@ -46,7 +46,7 @@ export default {
 const data = sales_records_dataset;
 
 const StackedDonutTemplate = (args) => (
-    <PieChart
+    <RadialChart
         data={data}
         plotMargin={{
             left: args.leftMargin,
@@ -64,7 +64,7 @@ const StackedDonutTemplate = (args) => (
         onMouseOut={args.onMouseOut}
     >
         <StackedDonut x={args.x} x2={args.x2} y={args.y} />
-    </PieChart>
+    </RadialChart>
 );
 
 export const Basic = {

@@ -18,7 +18,7 @@ const preview: Preview = {
           "Extensibility",
           "Theming",
           "XYCharts",
-          "PieCharts",
+          "RadialCharts",
           "Components",
           "Errors & Warnings",
           ["Introduction", "**"],

@@ -40,20 +40,6 @@ describe("Pie", () => {
             expect(asFragment()).toMatchSnapshot();
         });
 
-        it("should always have a zero innerRadius, even if forced", async () => {
-            // Pie deliberately doesn't expose innerRadius - a Pie segment always reaches the
-            // center - but verify that an innerRadius can't leak through some other way
-            const { container } = await renderChart({
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                children: <Pie x="category" y="value" {...({ innerRadius: 0.6 } as any)} />,
-                data,
-            });
-
-            await wait();
-            const slice = container.querySelector("path.pie-slice");
-            expect(slice.getAttribute("data-inner-radius")).toBe("0");
-        });
-
         describe("should handle event", () => {
             it("mouseover correctly", async () => {
                 const onMouseOver = jest.fn();

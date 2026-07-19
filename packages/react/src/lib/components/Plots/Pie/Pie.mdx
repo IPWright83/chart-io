@@ -1,16 +1,16 @@
 import { Story, Canvas, Meta } from "@storybook/blocks";
 import * as PieStories from "./Pie.stories"
 
-<Meta title="PieCharts/Pie" />
+<Meta title="RadialCharts/Pie" />
 
 # Pie Plots
 
 There are two closely related components for polar plots, these include:
 
--   `<Donut>` - allows us to define a Donut plot on a `<PieChart>`, with a configurable hole in the middle
+-   `<Donut>` - allows us to define a Donut plot on a `<RadialChart>`, with a configurable hole in the middle
 -   `<Pie>` - a `<Donut>` with no hole (`innerRadius` fixed to `0`), since a Pie segment always reaches the center
 
-Both should be used within a `<PieChart>`, which is the polar equivalent of the `<XYChart>`.
+Both should be used within a `<RadialChart>`, which is the polar equivalent of the `<XYChart>`.
 
 <Canvas of={PieStories.Basic} />
 

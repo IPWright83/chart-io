@@ -5,18 +5,18 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 /**
- * Wraps a polar plot (e.g. Pie/Donut) and handles some of the basics such as missing layers,
+ * Wraps a radial plot (e.g. Pie/Donut) and handles some of the basics such as missing layers,
  * along with calculating the center point & maximum radius available to the plot
  * @param  WrappedComponent     The D3 layer to render
  * @return                      The wrapped layer
  */
-const withPolarPlot = <P extends object>(WrappedComponent: React.ComponentType<P>) => {
+const withRadialPlot = <P extends object>(WrappedComponent: React.ComponentType<P>) => {
     /**
      * Wraps a component and handles some of the potentially missing parts
      * @param  {...any}    props        The rest of the props
      * @return {ReactDOMComponent}      The wrapped layer
      */
-    return function withPolarPlot(props) {
+    return function withRadialPlot(props) {
         const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
         const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
         const plotLeft = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
@@ -43,4 +43,4 @@ const withPolarPlot = <P extends object>(WrappedComponent: React.ComponentType<P
     };
 };
 
-export { withPolarPlot };
+export { withRadialPlot };
