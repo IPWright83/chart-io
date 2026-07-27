@@ -1,0 +1,41 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as StackedDonutStories from "./StackedDonut.stories"
+
+<Meta title="RadialCharts/StackedDonut" />
+
+# StackedDonut Plots
+
+The `<StackedDonut>` component builds a 2-level radial subdivision from a flat dataset: the inner ring
+represents the `category`, and the outer ring subdivides each `category` by `subCategory`, with each
+slice's angle proportional to its value. It should be used within a `<RadialChart>`, which is the polar
+equivalent of the `<XYChart>`.
+
+<Canvas of={StackedDonutStories.Basic} />
+
+## `<StackedDonut>` Component
+
+### Props
+
+| Prop            | Type       | Default             | Note                                                                                                          |
+| --------------- | ---------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **`category`\*** | `string`   | `null`               | The key of the field that contains the inner ring category.                                                    |
+| **`subCategory`\*** | `string` | `null`              | The key of the field that contains the outer ring subdivision, within each `category`.                         |
+| **`value`\***   | `string`   | `null`               | The key of the field that contains the value for each slice.                                                   |
+| `innerRadius`   | `number`   | `0.35`               | The inner radius of the StackedDonut, as a fraction (0-1) of the maximum available radius.                     |
+| `outerRadius`   | `number`   | `1`                  | The outer radius of the StackedDonut, as a fraction (0-1) of the maximum available radius.                     |
+| `ringPadding`   | `number`   | `2`                  | The gap, in pixels, to leave between the inner and outer ring.                                                 |
+| `padAngle`      | `number`   | `0.01`                | The angular gap, in radians, to leave between each slice.                                                      |
+| `cornerRadius`  | `number`   | `0`                  | The corner radius, in pixels, to apply to each slice.                                                          |
+| `sort`          | `boolean`  | `false`               | Should the slices be sorted by value (descending), rather than using the order of the data?                    |
+| `colors`        | `string[]` | Derived from Theme   | Override the colours used for each inner ring category. Outer ring slices inherit their parent's colour.       |
+| `interactive`   | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot             |
+| `showInLegend`  | `boolean`  | `true`                | Whether the plot should feature in the legend or not. Only the inner ring categories appear in the legend.     |
+
+> **Note**: Every combination of `category`/`subCategory` should be unique in the data. If your data has
+> multiple rows for the same `category`/`subCategory` combination, aggregate it first.
+
+### Using Canvas
+
+Like other plots, a `<StackedDonut>` can be rendered using an HTML Canvas instead of SVG by setting `useCanvas`.
+
+<Canvas of={StackedDonutStories.Canvas} />

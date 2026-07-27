@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Pie using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot donut"
+    >
+      <path
+        class="pie-slice"
+        d="M0.5,-99.999A100,100,0,0,1,86.851,49.566L0,0Z"
+        data-corner-radius="0"
+        data-cx="100"
+        data-cy="100"
+        data-end-angle="2.0943951023931953"
+        data-inner-radius="0"
+        data-outer-radius="100"
+        data-pad-angle="0.01"
+        data-path-type="arc"
+        data-start-angle="0"
+        style="fill: #99c1dc; opacity: 0.7;"
+        transform="translate(100, 100)"
+      />
+      <path
+        class="pie-slice"
+        d="M86.351,50.432A100,100,0,1,1,-0.5,-99.999L0,0Z"
+        data-corner-radius="0"
+        data-cx="100"
+        data-cy="100"
+        data-end-angle="6.283185307179586"
+        data-inner-radius="0"
+        data-outer-radius="100"
+        data-pad-angle="0.01"
+        data-path-type="arc"
+        data-start-angle="2.0943951023931953"
+        style="fill: #fc998e; opacity: 0.7;"
+        transform="translate(100, 100)"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;

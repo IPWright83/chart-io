@@ -8,6 +8,7 @@ export * from "./Droplines";
 export * from "./Markers";
 export * from "./LegendOverlay";
 export * from "./XYChart";
+export * from "./RadialChart";
 export * from "./Crosshair";
 export * from "./Furniture";
 export * from "./ZoomBrush";

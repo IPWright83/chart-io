@@ -1,0 +1,56 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as PieStories from "./Pie.stories"
+
+<Meta title="RadialCharts/Pie" />
+
+# Pie Plots
+
+There are two closely related components for polar plots, these include:
+
+-   `<Donut>` - allows us to define a Donut plot on a `<RadialChart>`, with a configurable hole in the middle
+-   `<Pie>` - a `<Donut>` with no hole (`innerRadius` fixed to `0`), since a Pie segment always reaches the center
+
+Both should be used within a `<RadialChart>`, which is the polar equivalent of the `<XYChart>`.
+
+<Canvas of={PieStories.Basic} />
+
+## `<Donut>` Component
+
+The `<Donut>` component plots one slice per row of data, with the angle of each slice proportional to its
+value, and a configurable hole in the middle.
+
+### Props
+
+| Prop            | Type       | Default             | Note                                                                                                         |
+| --------------- | ---------- | -------------------- | ------------------------------------------------------------------------------------------------------------ |
+| **`category`\*** | `string`   | `null`               | The key of the field that contains the category/label for each slice.                                        |
+| **`value`\***   | `string`   | `null`               | The key of the field that contains the value for each slice.                                                  |
+| `innerRadius`   | `number`   | `0.6`                | The inner radius of the Donut, as a fraction (0-1) of the maximum available radius. Set to `0` for a Pie.     |
+| `outerRadius`   | `number`   | `1`                  | The outer radius of the Donut, as a fraction (0-1) of the maximum available radius.                           |
+| `padAngle`      | `number`   | `0.01`                | The angular gap, in radians, to leave between each slice.                                                     |
+| `cornerRadius`  | `number`   | `0`                  | The corner radius, in pixels, to apply to each slice.                                                         |
+| `sort`          | `boolean`  | `false`               | Should the slices be sorted by value (descending), rather than using the order of the data?                   |
+| `colors`        | `string[]` | Derived from Theme   | Override the colours used for each category.                                                                  |
+| `interactive`   | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot            |
+| `showInLegend`  | `boolean`  | `true`                | Whether the plot should feature in the legend or not.                                                         |
+
+<Canvas of={PieStories.AsDonut} />
+
+### Using Canvas
+
+Like other plots, a `<Donut>` can be rendered using an HTML Canvas instead of SVG by setting `useCanvas`.
+
+<Canvas of={PieStories.Canvas} />
+
+### Sorting
+
+By default slices keep the order that they appear in the data. Set `sort` to order them by value instead.
+
+<Canvas of={PieStories.Sorted} />
+
+## `<Pie>` Component
+
+The `<Pie>` component is a `<Donut>` with no hole in the middle. It accepts the same props as `<Donut>`,
+except `innerRadius` - a Pie segment, by definition, always reaches the center, so it isn't exposed.
+
+<Canvas of={PieStories.Basic} />

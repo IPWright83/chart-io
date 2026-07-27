@@ -2,6 +2,7 @@ import { d3 } from "../d3";
 import { logWarning } from "../utils";
 import type { IColor } from "../types";
 
+import { renderArc } from "./renderArc";
 import { renderCircle } from "./renderCircle";
 import { renderRect } from "./renderRect";
 
@@ -36,6 +37,21 @@ export function renderElements(
 
             case "RECT":
                 renderRect(context, node, overrideColor);
+                break;
+
+            case "PATH":
+                // A <path> can represent many different shapes, so rather than assuming every path
+                // is the same kind of shape, dispatch using the `data-path-type` attribute stamped
+                // onto the node when it's rendered to SVG
+                switch (node.getAttribute("data-path-type")) {
+                    case "arc":
+                        renderArc(context, node, overrideColor);
+                        break;
+
+                    default:
+                        logWarning("W006", `Unsupported path type: ${node.getAttribute("data-path-type")}`);
+                        break;
+                }
                 break;
 
             default:
