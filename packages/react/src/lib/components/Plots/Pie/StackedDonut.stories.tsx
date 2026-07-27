@@ -4,7 +4,7 @@ import type { Meta } from "@storybook/react";
 import { fn } from "@storybook/test";
 import React from "react";
 
-import { sales_records_dataset } from "../../../../data/sales_records_dataset";
+import { gdp_dataset } from "../../../../data/gdp_dataset";
 import { argTypes } from "../../../../storybook/argTypes";
 import { createCanvasTest, createSVGTest } from "../../../testUtils";
 import { RadialChart } from "../../RadialChart";
@@ -43,7 +43,7 @@ export default {
     },
 } as Meta<typeof StackedDonut>;
 
-const data = sales_records_dataset;
+const data = gdp_dataset;
 
 const StackedDonutTemplate = (args) => (
     <RadialChart
@@ -59,11 +59,12 @@ const StackedDonutTemplate = (args) => (
         animationDuration={args.animationDuration}
         theme={args.theme}
         useCanvas={args.useCanvas}
+        centerValue={args.centerValue}
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
     >
-        <StackedDonut category={args.category} subCategory={args.subCategory} value={args.value} />
+        <StackedDonut categories={args.categories} value={args.value} sort={args.sort} />
     </RadialChart>
 );
 
@@ -80,9 +81,8 @@ export const Basic = {
         rightMargin: 40,
         topMargin: 40,
         bottomMargin: 40,
-        category: "Region",
-        subCategory: "Item Type",
-        value: "Total Revenue",
+        categories: ["continent", "country"],
+        value: "gdp",
     },
     play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
 };
@@ -95,4 +95,23 @@ export const Canvas = {
         useCanvas: true,
     },
     play: createCanvasTest({ clientX: 300, clientY: 250 }),
+};
+
+export const Sunburst = {
+    name: "N-level Sunburst",
+    render: StackedDonutTemplate,
+    args: {
+        ...Basic.args,
+        categories: ["continent", "country", "sector"],
+    },
+};
+
+export const CenterValue = {
+    name: "Center Value",
+    render: StackedDonutTemplate,
+    args: {
+        ...Basic.args,
+        categories: ["continent", "country", "sector"],
+        centerValue: true,
+    },
 };
