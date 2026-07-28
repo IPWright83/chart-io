@@ -4,7 +4,7 @@ import type { Meta } from "@storybook/react";
 import { fn } from "@storybook/test";
 import React from "react";
 
-import { sales_records_dataset } from "../../../../data/sales_records_dataset";
+import { gdp_dataset } from "../../../../data/gdp_dataset";
 import { argTypes } from "../../../../storybook/argTypes";
 import { createCanvasTest, createSVGTest } from "../../../testUtils";
 import { RadialChart } from "../../RadialChart";
@@ -43,11 +43,18 @@ export default {
     },
 } as Meta<typeof StackedDonut>;
 
-const data = sales_records_dataset;
+const data = gdp_dataset;
+
+// Split each row's GDP across two halves of the year, purely to demonstrate that `categories`
+// supports more than the 2-3 levels shown above - any number of fields can be chained together
+const fourLevelData = gdp_dataset.flatMap((d) => [
+    { ...d, half: "H1", gdp: Math.round(d.gdp * 0.45) },
+    { ...d, half: "H2", gdp: Math.round(d.gdp * 0.55) },
+]);
 
 const StackedDonutTemplate = (args) => (
     <RadialChart
-        data={data}
+        data={args.data ?? data}
         plotMargin={{
             left: args.leftMargin,
             right: args.rightMargin,
@@ -59,11 +66,12 @@ const StackedDonutTemplate = (args) => (
         animationDuration={args.animationDuration}
         theme={args.theme}
         useCanvas={args.useCanvas}
+        centerValue={args.centerValue}
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
     >
-        <StackedDonut category={args.category} subCategory={args.subCategory} value={args.value} />
+        <StackedDonut categories={args.categories} value={args.value} sort={args.sort} />
     </RadialChart>
 );
 
@@ -80,9 +88,8 @@ export const Basic = {
         rightMargin: 40,
         topMargin: 40,
         bottomMargin: 40,
-        category: "Region",
-        subCategory: "Item Type",
-        value: "Total Revenue",
+        categories: ["continent", "country"],
+        value: "gdp",
     },
     play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
 };
@@ -95,4 +102,36 @@ export const Canvas = {
         useCanvas: true,
     },
     play: createCanvasTest({ clientX: 300, clientY: 250 }),
+};
+
+export const Sunburst = {
+    name: "N-level Sunburst",
+    render: StackedDonutTemplate,
+    args: {
+        ...Basic.args,
+        categories: ["continent", "country", "sector"],
+    },
+    play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
+};
+
+export const DeepSunburst = {
+    name: "4-level Sunburst",
+    render: StackedDonutTemplate,
+    args: {
+        ...Basic.args,
+        categories: ["continent", "country", "sector", "half"],
+        data: fourLevelData,
+    },
+    play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
+};
+
+export const TraditionalTooltip = {
+    name: "Traditional Tooltip",
+    render: StackedDonutTemplate,
+    args: {
+        ...Basic.args,
+        categories: ["continent", "country", "sector"],
+        centerValue: false,
+    },
+    play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
 };

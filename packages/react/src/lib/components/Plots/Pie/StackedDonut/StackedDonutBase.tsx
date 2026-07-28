@@ -20,13 +20,11 @@ export interface IStackedDonutBaseProps {
      */
     layer?: React.MutableRefObject<Element>;
     /**
-     * The key of the field used for the inner ring category
+     * The ordered list of fields used to build each ring of the hierarchy, from the innermost ring
+     * outward. For example `["region", "product"]` produces a 2-ring donut, while
+     * `["region", "product", "sku"]` produces a 3-ring sunburst
      */
-    category: string;
-    /**
-     * The key of the field used for the outer ring subdivision, within each `category`
-     */
-    subCategory: string;
+    categories: string[];
     /**
      * The key of the field used for the value of each slice
      */
@@ -42,7 +40,7 @@ export interface IStackedDonutBaseProps {
      */
     outerRadius?: number;
     /**
-     * The gap, in pixels, to leave between the inner and outer ring
+     * The gap, in pixels, to leave between each ring
      * @default 2
      */
     ringPadding?: number;
@@ -101,14 +99,13 @@ export interface IStackedDonutBaseProps {
 }
 
 /**
- * Represents a StackedDonut plot, a 2-level radial subdivision of `category` (inner ring) and
- * `subCategory` (outer ring)
+ * Represents a StackedDonut plot, an N-level radial subdivision (sunburst) of the fields listed in
+ * `categories`, one ring per field, innermost ring first
  * @param  props       The set of React properties
  * @return             The StackedDonut plot component
  */
 export function StackedDonutBase({
-    category,
-    subCategory,
+    categories,
     value,
     canvas,
     renderVirtualCanvas,
@@ -135,53 +132,55 @@ export function StackedDonutBase({
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
-    // Only the inner ring categories are shown in the Legend, the outer ring can
+    // Only the innermost ring's categories are shown in the Legend, the outer rings can
     // contain many more values than is practical to list
+    const innermostCategory = categories[0];
     const palette = colors ?? theme.series.colors;
-    const categories = useMemo(() => Array.from(new Set(data.map((d) => `${d[category]}`))), [data, category]);
+    const legendKeys = useMemo(
+        () => Array.from(new Set(data.map((d) => `${d[innermostCategory]}`))),
+        [data, innermostCategory],
+    );
     const legendColors = useMemo(
-        () => categories.map((_, index) => palette[index % palette.length]),
-        [categories, palette],
+        () => legendKeys.map((_, index) => palette[index % palette.length]),
+        [legendKeys, palette],
     );
 
-    useLegendItems(categories, "square", showInLegend, legendColors);
+    useLegendItems(legendKeys, "square", showInLegend, legendColors);
     const onTooltip = useTooltip();
     const onFocus = useFocused(theme);
 
     useRender(() => {
-        ensureCombinationsAreUnique(data, [category, subCategory], "StackedDonut");
+        ensureCombinationsAreUnique(data, categories, "StackedDonut");
 
-        const root = buildHierarchy(data, category, subCategory, value, sort);
-        const parentNodes = (root.children ?? []) as IPieHierarchyNode[];
-        const leafNodes = parentNodes.flatMap((node) => (node.children ?? []) as IPieHierarchyNode[]);
-        const allNodes = [...parentNodes, ...leafNodes];
+        const root = buildHierarchy(data, categories, value, sort);
+        const allNodes = root.descendants().filter((node) => node.depth > 0) as IPieHierarchyNode[];
 
+        const levels = categories.length;
         const innerRadiusPx = innerRadius * maxRadius;
         const outerRadiusPx = outerRadius * maxRadius;
-        const ringWidth = Math.max(0, (outerRadiusPx - innerRadiusPx - ringPadding) / 2);
+        const totalRingPadding = ringPadding * (levels - 1);
+        const ringWidth = Math.max(0, (outerRadiusPx - innerRadiusPx - totalRingPadding) / levels);
 
-        const rings = {
-            1: { innerRadius: innerRadiusPx, outerRadius: innerRadiusPx + ringWidth },
-            2: { innerRadius: innerRadiusPx + ringWidth + ringPadding, outerRadius: outerRadiusPx },
-        };
+        const rings: Record<number, { innerRadius: number; outerRadius: number }> = {};
+        for (let depth = 1; depth <= levels; depth++) {
+            const ringInner = innerRadiusPx + (depth - 1) * (ringWidth + ringPadding);
+            rings[depth] = { innerRadius: ringInner, outerRadius: ringInner + ringWidth };
+        }
 
-        const parentKeys = parentNodes.map((node) => node.data.key);
         // @ts-ignore: TODO: Not sure how to fix this
-        const colorScale = d3.scaleOrdinal<string>().domain(parentKeys).range(palette);
+        const colorScale = d3.scaleOrdinal<string>().domain(legendKeys).range(palette);
 
         const colorFor = (node: IPieHierarchyNode): string => {
             if (node.depth === 1) {
                 return colorScale(node.data.key).toString();
             }
 
+            const parentColor = colorFor(node.parent as IPieHierarchyNode);
             const siblings = (node.parent?.children ?? []) as IPieHierarchyNode[];
             const index = siblings.indexOf(node);
             const t = siblings.length <= 1 ? 0 : index / siblings.length;
 
-            return d3
-                .hsl(colorScale(node.parent?.data.key).toString())
-                .brighter(t * 1.4)
-                .toString();
+            return d3.hsl(parentColor).brighter(t * 1.4).toString();
         };
 
         const arcGenerator = d3
@@ -189,7 +188,19 @@ export function StackedDonutBase({
             .padAngle(padAngle)
             .cornerRadius(cornerRadius);
 
-        const key = (node: IPieHierarchyNode) => `${node.depth}:${node.parent?.data.key}:${node.data.key}`;
+        // A node's ancestry (root excluded), e.g. ["North", "Widgets"]
+        const ancestry = (node: IPieHierarchyNode) =>
+            node
+                .ancestors()
+                .filter((n) => n.depth > 0)
+                .reverse()
+                .map((n) => n.data.key);
+
+        // A node's ancestry uniquely identifies it, e.g. "North:Widgets"
+        const key = (node: IPieHierarchyNode) => ancestry(node).join(":");
+
+        // The breadcrumb of category values leading to this node, e.g. "North / Widgets"
+        const breadcrumb = (node: IPieHierarchyNode) => ancestry(node).join(" / ");
 
         // D3 data join
         const join = d3.select(layer.current).selectAll<SVGPathElement, IPieHierarchyNode>(".pie-slice").data(allNodes, key);
@@ -226,7 +237,7 @@ export function StackedDonutBase({
 
                 const datum = node.data.datum;
                 const color = colorFor(node) as IColor;
-                const name = node.depth === 1 ? node.data.key : `${node.parent?.data.key} / ${node.data.key}`;
+                const name = breadcrumb(node);
 
                 onMouseOver && onMouseOver(datum, this, event);
                 onFocus && onFocus({ element: this, event, datum });
@@ -249,7 +260,7 @@ export function StackedDonutBase({
             .transition("arc")
             .duration(animationDuration)
             .attrTween("d", function (node) {
-                const { innerRadius: ringInner, outerRadius: ringOuter } = rings[node.depth as 1 | 2];
+                const { innerRadius: ringInner, outerRadius: ringOuter } = rings[node.depth];
                 const element = this as unknown as { _current?: IArcAngles };
                 const previous = element._current || {
                     startAngle: node.x0,
@@ -279,8 +290,7 @@ export function StackedDonutBase({
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
     }, [
-        category,
-        subCategory,
+        categories,
         value,
         data,
         canvas,
@@ -300,6 +310,7 @@ export function StackedDonutBase({
         onMouseOut,
         onClick,
         palette,
+        legendKeys,
     ]);
 
     return null;

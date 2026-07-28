@@ -4,14 +4,12 @@ import type { Meta } from "@storybook/react";
 import { fn } from "@storybook/test";
 import React from "react";
 
-import { sales_records_dataset } from "../../../../data/sales_records_dataset";
+import { gdp_dataset } from "../../../../data/gdp_dataset";
 import { argTypes } from "../../../../storybook/argTypes";
 import { createCanvasTest, createSVGTest } from "../../../testUtils";
 import { RadialChart } from "../../RadialChart";
 import { Donut } from "./Donut";
 import { Pie } from "./Pie";
-
-import { uniqBy } from "lodash";
 
 const { width, height, margin, useCanvas, theme } = argTypes;
 
@@ -46,7 +44,12 @@ export default {
     },
 } as Meta<typeof Pie>;
 
-const data = uniqBy(sales_records_dataset, (d) => d["Item Type"]);
+// Aggregate GDP by continent, since a Pie/Donut expects a single row per category
+const data = Array.from(
+    gdp_dataset
+        .reduce((byContinent, d) => byContinent.set(d.continent, (byContinent.get(d.continent) ?? 0) + d.gdp), new Map()),
+    ([continent, gdp]) => ({ continent, gdp }),
+);
 
 const PieTemplate = (args) => (
     <RadialChart
@@ -84,6 +87,7 @@ const DonutTemplate = (args) => (
         animationDuration={args.animationDuration}
         theme={args.theme}
         useCanvas={args.useCanvas}
+        centerValue={args.centerValue}
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
@@ -105,8 +109,8 @@ export const Basic = {
         rightMargin: 40,
         topMargin: 40,
         bottomMargin: 40,
-        category: "Item Type",
-        value: "Unit Price",
+        category: "continent",
+        value: "gdp",
     },
     play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
 };
@@ -137,4 +141,15 @@ export const Sorted = {
         ...Basic.args,
         sort: true,
     },
+    play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
+};
+
+export const TraditionalTooltip = {
+    name: "Traditional Tooltip",
+    render: DonutTemplate,
+    args: {
+        ...Basic.args,
+        centerValue: false,
+    },
+    play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
 };

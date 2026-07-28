@@ -24,7 +24,7 @@ describe("StackedDonut", () => {
     describe("using SVG", () => {
         it("should render correctly", async () => {
             const { asFragment } = await renderChart({
-                children: <StackedDonut category="region" subCategory="product" value="sales" />,
+                children: <StackedDonut categories={["region", "product"]} value="sales" />,
                 data,
             });
 
@@ -34,12 +34,28 @@ describe("StackedDonut", () => {
             expect(asFragment()).toMatchSnapshot();
         });
 
+        it("should render an N-level hierarchy correctly", async () => {
+            const threeLevelData = [
+                { region: "North", product: "Widgets", sku: "W1", sales: 5 },
+                { region: "North", product: "Gadgets", sku: "G1", sales: 5 },
+                { region: "South", product: "Widgets", sku: "W2", sales: 10 },
+            ];
+
+            const { asFragment } = await renderChart({
+                children: <StackedDonut categories={["region", "product", "sku"]} value="sales" />,
+                data: threeLevelData,
+            });
+
+            await wait();
+            expect(asFragment()).toMatchSnapshot();
+        });
+
         describe("should handle event", () => {
             it("mouseover correctly on the inner ring", async () => {
                 const onMouseOver = jest.fn();
 
                 const { container, store } = await renderChart({
-                    children: <StackedDonut category="region" subCategory="product" value="sales" onMouseOver={onMouseOver} />,
+                    children: <StackedDonut categories={["region", "product"]} value="sales" onMouseOver={onMouseOver} />,
                     data,
                 });
 
@@ -63,7 +79,7 @@ describe("StackedDonut", () => {
                 const onClick = jest.fn();
 
                 const { container, store } = await renderChart({
-                    children: <StackedDonut category="region" subCategory="product" value="sales" onClick={onClick} />,
+                    children: <StackedDonut categories={["region", "product"]} value="sales" onClick={onClick} />,
                     data,
                 });
 
@@ -84,7 +100,7 @@ describe("StackedDonut", () => {
             const { container } = await renderChart({
                 children: (
                     <VirtualCanvas>
-                        <StackedDonut category="region" subCategory="product" value="sales" useCanvas={true} />
+                        <StackedDonut categories={["region", "product"]} value="sales" useCanvas={true} />
                     </VirtualCanvas>
                 ),
                 data,
@@ -105,7 +121,7 @@ describe("StackedDonut", () => {
             const { container, store } = await renderChart({
                 children: (
                     <VirtualCanvas>
-                        <StackedDonut category="region" subCategory="product" value="sales" onMouseOver={onMouseOver} useCanvas={true} />
+                        <StackedDonut categories={["region", "product"]} value="sales" onMouseOver={onMouseOver} useCanvas={true} />
                     </VirtualCanvas>
                 ),
                 data,
