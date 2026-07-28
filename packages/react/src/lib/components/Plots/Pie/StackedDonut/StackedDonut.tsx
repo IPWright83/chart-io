@@ -31,3 +31,4 @@ export function StackedDonut({ useCanvas = false, ...props }: IStackedDonutProps
 
 StackedDonut.requiresVirtualCanvas = true;
 StackedDonut.isPlot = true;
+StackedDonut.hasCenterHole = true;

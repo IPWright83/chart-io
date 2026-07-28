@@ -30,3 +30,4 @@ export function Donut({ useCanvas = false, ...props }: IDonutProps) {
 
 Donut.requiresVirtualCanvas = true;
 Donut.isPlot = true;
+Donut.hasCenterHole = true;

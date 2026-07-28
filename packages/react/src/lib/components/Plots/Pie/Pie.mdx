@@ -50,10 +50,11 @@ By default slices keep the order that they appear in the data. Set `sort` to ord
 
 ### Center Value
 
-Since a `<Donut>` has a hole in the middle, `<RadialChart>` can display the hovered slice's name/value
-there instead of in a floating Tooltip by setting `centerValue`.
+Since a `<Donut>` has a hole in the middle, `<RadialChart>` displays the hovered slice's name/value there
+by default, instead of in a floating Tooltip - see the `<Donut>` example above. Set `centerValue={false}`
+to opt back into the traditional floating Tooltip instead.
 
-<Canvas of={PieStories.CenterValue} />
+<Canvas of={PieStories.TraditionalTooltip} />
 
 ## `<Pie>` Component
 

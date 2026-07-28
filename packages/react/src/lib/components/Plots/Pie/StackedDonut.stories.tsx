@@ -125,13 +125,13 @@ export const DeepSunburst = {
     play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
 };
 
-export const CenterValue = {
-    name: "Center Value",
+export const TraditionalTooltip = {
+    name: "Traditional Tooltip",
     render: StackedDonutTemplate,
     args: {
         ...Basic.args,
         categories: ["continent", "country", "sector"],
-        centerValue: true,
+        centerValue: false,
     },
     play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
 };

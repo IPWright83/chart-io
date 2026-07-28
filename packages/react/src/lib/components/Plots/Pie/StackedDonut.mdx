@@ -53,8 +53,9 @@ There's no fixed limit on the number of rings - `categories` accepts any number 
 
 ### Center Value
 
-Rather than a floating Tooltip, `<RadialChart>` can display the hovered slice's name/value in the center
-of the chart's hole by setting `centerValue` on the `<RadialChart>` itself. This is especially useful for
-deep hierarchies, where a floating tooltip can obscure the chart.
+Since a `<StackedDonut>` always has a hole in the middle, `<RadialChart>` displays the hovered slice's
+name/value there by default, instead of in a floating Tooltip - see the examples above. This is
+especially useful for deep hierarchies, where a floating tooltip can obscure the chart. Set
+`centerValue={false}` on the `<RadialChart>` to opt back into the traditional floating Tooltip instead.
 
-<Canvas of={StackedDonutStories.CenterValue} />
+<Canvas of={StackedDonutStories.TraditionalTooltip} />

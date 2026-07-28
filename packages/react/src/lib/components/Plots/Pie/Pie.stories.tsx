@@ -144,12 +144,12 @@ export const Sorted = {
     play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
 };
 
-export const CenterValue = {
-    name: "Center Value",
+export const TraditionalTooltip = {
+    name: "Traditional Tooltip",
     render: DonutTemplate,
     args: {
         ...Basic.args,
-        centerValue: true,
+        centerValue: false,
     },
     play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
 };
