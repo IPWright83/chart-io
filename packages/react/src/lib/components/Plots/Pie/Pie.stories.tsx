@@ -87,6 +87,7 @@ const DonutTemplate = (args) => (
         animationDuration={args.animationDuration}
         theme={args.theme}
         useCanvas={args.useCanvas}
+        centerValue={args.centerValue}
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
@@ -140,4 +141,15 @@ export const Sorted = {
         ...Basic.args,
         sort: true,
     },
+    play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
+};
+
+export const CenterValue = {
+    name: "Center Value",
+    render: DonutTemplate,
+    args: {
+        ...Basic.args,
+        centerValue: true,
+    },
+    play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
 };

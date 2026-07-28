@@ -45,9 +45,16 @@ export default {
 
 const data = gdp_dataset;
 
+// Split each row's GDP across two halves of the year, purely to demonstrate that `categories`
+// supports more than the 2-3 levels shown above - any number of fields can be chained together
+const fourLevelData = gdp_dataset.flatMap((d) => [
+    { ...d, half: "H1", gdp: Math.round(d.gdp * 0.45) },
+    { ...d, half: "H2", gdp: Math.round(d.gdp * 0.55) },
+]);
+
 const StackedDonutTemplate = (args) => (
     <RadialChart
-        data={data}
+        data={args.data ?? data}
         plotMargin={{
             left: args.leftMargin,
             right: args.rightMargin,
@@ -104,6 +111,18 @@ export const Sunburst = {
         ...Basic.args,
         categories: ["continent", "country", "sector"],
     },
+    play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
+};
+
+export const DeepSunburst = {
+    name: "4-level Sunburst",
+    render: StackedDonutTemplate,
+    args: {
+        ...Basic.args,
+        categories: ["continent", "country", "sector", "half"],
+        data: fourLevelData,
+    },
+    play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
 };
 
 export const CenterValue = {
@@ -114,4 +133,5 @@ export const CenterValue = {
         categories: ["continent", "country", "sector"],
         centerValue: true,
     },
+    play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
 };
