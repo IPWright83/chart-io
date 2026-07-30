@@ -1,5 +1,11 @@
 # @chart-io/react-d3
 
+## 0.60.0
+
+### Minor Changes
+
+- 6e30fec9: Generalize `<StackedDonut>` to support an arbitrary number of hierarchy levels via a `categories: string[]` prop (replacing the previous fixed 2-level `category`/`subCategory` props), producing an N-ring sunburst. `<RadialChart>` also gains a `centerValue` prop that displays the hovered slice's name/value in the center of the chart's hole instead of a floating Tooltip.
+
 ## 0.59.0
 
 ### Minor Changes
