@@ -9,8 +9,8 @@ import { useLegendItems, useRender } from "../../../../hooks";
 import { renderCanvas } from "../../renderCanvas";
 import type { IArcAngles } from "../interpolateArc";
 import { interpolateArc } from "../interpolateArc";
-import { useFocused } from "../useFocused";
-import { useTooltip } from "../useTooltip";
+import { useFocused } from "../../useFocused";
+import { useTooltip } from "../../useTooltip";
 import type { IPieHierarchyNode } from "./buildHierarchy";
 import { buildHierarchy } from "./buildHierarchy";
 

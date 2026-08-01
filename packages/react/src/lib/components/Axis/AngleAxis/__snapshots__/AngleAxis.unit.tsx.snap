@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AngleAxis should render a spoke and label per category 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="chart-io angle-axis"
+      style="pointer-events: none;"
+    >
+      <g
+        class="angle-axis-tick"
+      >
+        <line
+          class="angle-axis-spoke"
+          style="stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
+          x1="100"
+          x2="100"
+          y1="100"
+          y2="0"
+        />
+        <text
+          class="angle-axis-label"
+          dominant-baseline="auto"
+          style="fill: #000000; font-family: sans-serif; user-select: none;"
+          text-anchor="middle"
+          x="100"
+          y="-8"
+        >
+          A
+        </text>
+      </g>
+      <g
+        class="angle-axis-tick"
+      >
+        <line
+          class="angle-axis-spoke"
+          style="stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
+          x1="100"
+          x2="186.60254037844388"
+          y1="100"
+          y2="149.99999999999997"
+        />
+        <text
+          class="angle-axis-label"
+          dominant-baseline="hanging"
+          style="fill: #000000; font-family: sans-serif; user-select: none;"
+          text-anchor="start"
+          x="193.53074360871938"
+          y="153.99999999999997"
+        >
+          B
+        </text>
+      </g>
+      <g
+        class="angle-axis-tick"
+      >
+        <line
+          class="angle-axis-spoke"
+          style="stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
+          x1="100"
+          x2="13.397459621556152"
+          y1="100"
+          y2="150.00000000000006"
+        />
+        <text
+          class="angle-axis-label"
+          dominant-baseline="hanging"
+          style="fill: #000000; font-family: sans-serif; user-select: none;"
+          text-anchor="end"
+          x="6.469256391280638"
+          y="154.00000000000006"
+        >
+          C
+        </text>
+      </g>
+    </g>
+  </svg>
+</DocumentFragment>
+`;
