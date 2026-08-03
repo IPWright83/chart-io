@@ -16,8 +16,9 @@ export interface IRadialAxisProps {
      */
     fields: string | Array<string>;
     /**
-     * (Optional) An override of the domain to use for every field's d3 scale. If you need different
-     * explicit domains per field, render multiple `<RadialAxis>`/`<RadiusScale>` instead
+     * (Optional) An override of the domain to use for every field's d3 scale. Since fields are
+     * otherwise scaled independently, this is also how to compare multiple fields on one common
+     * domain (e.g. multiple `<RadialArea>` series measured in the same units)
      */
     domain?: IValue[];
     /**
@@ -35,19 +36,22 @@ export interface IRadialAxisProps {
      */
     ticks?: number;
     /**
-     * A function to format each ring's label. Since each spoke maps its own field's domain onto the
-     * same rings, the rings represent a normalized 0-1 position rather than any single field's real
-     * values, so this defaults to a percentage
-     * @default d3.format(".0%")
+     * A function to format each ring's label. When `fields` resolves to a single real scale (one
+     * field, or `aggregate`), this defaults to the field's raw value. Otherwise each spoke maps its
+     * own field's domain independently onto the same rings, so a ring represents a normalized 0-1
+     * position rather than any single field's real values, and this defaults to a percentage instead
+     * @default (value) => `${value}`, or d3.format(".0%") when normalized
      */
-    tickFormat?: (value: number) => string;
+    tickFormat?: (value: IValue) => string;
 }
 
-const defaultTickFormat = d3.format(".0%");
+// d3.format's own signature is narrower (number-like only) than the general IValue tickFormat prop
+const defaultNormalizedTickFormat = d3.format(".0%") as unknown as (value: IValue) => string;
+const defaultRealTickFormat = (value: IValue) => `${value}`;
 
 /**
  * Represents a RadialAxis, drawing a concentric ring and label for each value tick around a
- * radial plot such as `<Radar>`
+ * radial plot such as `<Radar>` or `<RadialArea>`
  * @return The RadialAxis component
  */
 export function RadialAxis({
@@ -56,13 +60,19 @@ export function RadialAxis({
     scaleType,
     aggregate = false,
     ticks = 5,
-    tickFormat = defaultTickFormat,
+    tickFormat,
 }: IRadialAxisProps) {
     const fieldsArray = useArray(fields);
 
+    // A single field (or an aggregate of several) resolves to one real, meaningful scale, so the
+    // rings can show its actual values. With multiple independently-scaled fields (e.g. a Radar
+    // with a different domain per spoke) there's no single "real" value a shared ring represents,
+    // so the rings fall back to a normalized 0-1 position instead
+    const realValueField = aggregate || fieldsArray.length === 1 ? fieldsArray[0] : undefined;
+
     return (
         <React.Fragment>
-            <RadialAxisRing ticks={ticks} tickFormat={tickFormat} />
+            <RadialAxisRing field={realValueField} ticks={ticks} tickFormat={tickFormat} />
             <RadiusScale fields={fieldsArray} scaleType={scaleType} domain={domain} aggregate={aggregate} />
         </React.Fragment>
     );
@@ -70,19 +80,27 @@ export function RadialAxis({
 
 /**
  * Renders the concentric rings and labels for a RadialAxis. Kept separate from `<RadialAxis>`
- * itself since this doesn't need to subscribe to any particular field's scale - the rings
- * represent a fixed, normalized 0-1 split of the available radius shared by every spoke - whereas
- * the sibling `<RadiusScale>` that registers each field's scale must not re-render because of it,
- * to avoid the two re-triggering one another
+ * itself since this subscribes to the resolved scale (and so re-renders whenever it's set), whereas
+ * the sibling `<RadiusScale>` that sets it must not, to avoid the two re-triggering one another
  * @return The visual part of the RadialAxis
  */
-function RadialAxisRing({ ticks, tickFormat }: { ticks: number; tickFormat: (value: number) => string }) {
+function RadialAxisRing({
+    field,
+    ticks,
+    tickFormat,
+}: {
+    field: string | undefined;
+    ticks: number;
+    tickFormat: ((value: IValue) => string) | undefined;
+}) {
     const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
     const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
     const plotLeft = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
     const plotTop = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
+    // Only subscribed to when a single real scale applies - see `realValueField` above
+    const fieldScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, field ?? "", "plot"));
 
     const cx = plotLeft + plotWidth / 2;
     const cy = plotTop + plotHeight / 2;
@@ -95,11 +113,26 @@ function RadialAxisRing({ ticks, tickFormat }: { ticks: number; tickFormat: (val
             return;
         }
 
-        // Rings are always an even, normalized [0, 1] split of the available radius - each spoke
-        // maps its own field's domain onto this same [0, maxRadius] pixel range independently, so a
-        // single ring doesn't correspond to one particular value when spokes have different domains
-        const scale = d3.scaleLinear().domain([0, 1]).range([0, maxRadius]);
-        const tickValues = scale.ticks(ticks);
+        // Without a single real field scale, rings are an even, normalized [0, 1] split of the
+        // available radius - each spoke maps its own field's domain onto this same range
+        // independently, so a single ring doesn't correspond to one particular value
+        const scale = field && fieldScale ? fieldScale : d3.scaleLinear().domain([0, 1]).range([0, maxRadius]);
+        const format = tickFormat ?? (field ? defaultRealTickFormat : defaultNormalizedTickFormat);
+
+        if (field && !fieldScale) {
+            d3.select(layer.current).selectAll("*").remove();
+            return;
+        }
+
+        // A continuous scale (e.g. time/linear) has `ticks()`; a categorical (band/point) scale
+        // doesn't, so fall back to its raw domain values
+        const tickValues =
+            typeof (scale as unknown as { ticks?: unknown }).ticks === "function"
+                ? (scale as unknown as { ticks: (count: number) => IValue[] }).ticks(ticks)
+                : (scale.domain() as IValue[]);
+
+        // The intersected call signature on IScale doesn't resolve cleanly against a plain IValue argument
+        const scaleOf = scale as unknown as (value: IValue) => number;
 
         const join = d3
             .select(layer.current)
@@ -124,11 +157,11 @@ function RadialAxisRing({ ticks, tickFormat }: { ticks: number; tickFormat: (val
             .attr("cy", cy)
             .transition()
             .duration(animationDuration)
-            .attr("r", (d) => Math.max(0, scale(d)));
+            .attr("r", (d) => Math.max(0, scaleOf(d)));
 
         update
             .select<SVGTextElement>("text.radial-axis-label")
-            .text((d) => tickFormat(d))
+            .text((d) => format(d))
             .style("fill", theme.tooltip.text?.toString())
             .style("font-size", theme.font.size * 0.85)
             .style("font-family", theme.font.family)
@@ -137,8 +170,8 @@ function RadialAxisRing({ ticks, tickFormat }: { ticks: number; tickFormat: (val
             .attr("x", cx)
             .transition()
             .duration(animationDuration)
-            .attr("y", (d) => cy - Math.max(0, scale(d)));
-    }, [layer, cx, cy, maxRadius, theme, animationDuration, ticks, tickFormat]);
+            .attr("y", (d) => cy - Math.max(0, scaleOf(d)));
+    }, [layer, cx, cy, maxRadius, theme, animationDuration, ticks, tickFormat, field, fieldScale]);
 
     return <g className="chart-io radial-axis" ref={layer} style={{ pointerEvents: "none" }} />;
 }

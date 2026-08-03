@@ -10,11 +10,13 @@ export type IRadiusScaleProps = Omit<IAutoScaleProps, "range">;
 
 /**
  * Represents a RadiusScale, mapping value field(s) to a radius (in pixels) from the center of a
- * circle. Used by radial plots such as `<Radar>` and their `<RadialAxis>`.
+ * circle. Used by radial plots such as `<Radar>`/`<RadialArea>` and their `<RadialAxis>`.
  *
  * Unless `aggregate` is set, each field is given its own independently computed domain (e.g. a
  * "1-5" field and a "percentage" field can coexist), all sharing the same `[0, maxRadius]` range -
- * this is what lets each spoke of a `<Radar>` represent a different domain
+ * this is what lets each spoke of a `<Radar>` represent a different domain. To instead compare
+ * multiple fields on one common domain (e.g. multiple `<RadialArea>` series in the same units),
+ * pass an explicit `domain` override - every field will then be scaled against that same domain
  * @param  props   Props for the scale
  * @return         A scale component
  */

@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RadialAreas using SVG should assign each series a different color from the palette 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot radial-area"
+      transform="translate(100, 100)"
+    >
+      <path
+        class="radial-area"
+        d="M0,-10L34.641,20L-17.321,10L0,-15L0,0L0,0L0,0L0,0Z                                                                                                  "
+        style="fill: rgba(153, 193, 220, 0.7); stroke: rgba(107, 135, 154, 0.7); pointer-events: none;"
+      />
+    </g>
+    <g
+      class="g-plot radial-area"
+      transform="translate(100, 100)"
+    >
+      <path
+        class="radial-area"
+        d="M0,-30L51.962,30L-69.282,40L0,-50L0,0L0,0L0,0L0,0Z                                                                                                  "
+        style="fill: rgba(252, 153, 142, 0.7); stroke: rgba(176, 107, 99, 0.7); pointer-events: none;"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;

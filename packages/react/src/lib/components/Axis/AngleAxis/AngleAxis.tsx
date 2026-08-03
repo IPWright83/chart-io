@@ -30,11 +30,18 @@ export interface IAngleAxisProps {
      * @default (value) => `${value}`
      */
     tickFormat?: (value: IValue) => string;
+    /**
+     * For a continuous `scaleType` (e.g. `"time"`/`"linear"`), the number of spokes to aim for
+     * around the circle. Has no effect for a categorical (`"point"`/`"band"`) scale, which always
+     * draws one spoke per category
+     * @default 8
+     */
+    ticks?: number;
 }
 
 /**
- * Represents an AngleAxis, drawing a spoke and label for each category around a radial plot
- * such as `<Radar>`
+ * Represents an AngleAxis, drawing a spoke and label for each category (or, for a continuous
+ * scale, each tick) around a radial plot such as `<Radar>` or `<RadialArea>`
  * @return The AngleAxis component
  */
 export function AngleAxis({
@@ -43,13 +50,14 @@ export function AngleAxis({
     scaleType,
     tickPadding = 8,
     tickFormat = (value) => `${value}`,
+    ticks = 8,
 }: IAngleAxisProps) {
     const fieldsArray = useArray(fields);
     const field = fieldsArray[0];
 
     return (
         <React.Fragment>
-            <AxisSpoke field={field} tickPadding={tickPadding} tickFormat={tickFormat} />
+            <AxisSpoke field={field} tickPadding={tickPadding} tickFormat={tickFormat} ticks={ticks} />
             <AngleScale fields={fieldsArray} scaleType={scaleType} domain={domain} />
         </React.Fragment>
     );
@@ -65,10 +73,12 @@ function AxisSpoke({
     field,
     tickPadding,
     tickFormat,
+    ticks,
 }: {
     field: string;
     tickPadding: number;
     tickFormat: (value: IValue) => string;
+    ticks: number;
 }) {
     const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
     const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
@@ -89,7 +99,12 @@ function AxisSpoke({
             return;
         }
 
-        const categories = scale.domain() as IValue[];
+        // A continuous scale (e.g. time/linear) has no discrete categories to draw a spoke per -
+        // instead draw an evenly-spaced set of ticks, the same way a linear/time XAxis/YAxis would
+        const hasTicks = typeof (scale as unknown as { ticks?: unknown }).ticks === "function";
+        const categories = (
+            hasTicks ? (scale as unknown as { ticks: (count: number) => IValue[] }).ticks(ticks) : scale.domain()
+        ) as IValue[];
         // The intersected call signature on IScale doesn't resolve cleanly against a plain IValue argument
         const angleOf = scale as unknown as (value: IValue) => number;
 
@@ -139,7 +154,7 @@ function AxisSpoke({
             .duration(animationDuration)
             .attr("x", (d) => cx + (maxRadius + tickPadding) * Math.sin(angleOf(d)))
             .attr("y", (d) => cy - (maxRadius + tickPadding) * Math.cos(angleOf(d)));
-    }, [field, scale, cx, cy, maxRadius, theme, animationDuration, tickPadding, tickFormat]);
+    }, [field, scale, cx, cy, maxRadius, theme, animationDuration, tickPadding, tickFormat, ticks]);
 
     return <g className="chart-io angle-axis" ref={layer} style={{ pointerEvents: "none" }} />;
 }

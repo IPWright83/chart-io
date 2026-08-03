@@ -1,0 +1,76 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as RadialAreaStories from "./RadialArea.stories"
+
+<Meta title="RadialCharts/RadialArea" />
+
+# RadialArea Plots
+
+A `<RadialArea>` fills the area from the center outward to a value, following a continuous angular
+domain around the circle - the polar equivalent of `<Area>`, and the shape behind
+[Observable's radial area chart example](https://observablehq.com/@d3/radial-area-chart/2). It's a
+good fit for data with a natural, continuous ordering around a circle - most commonly a full year
+of dates, but any continuous (date or number) field works.
+
+<Canvas of={RadialAreaStories.Basic} />
+
+Unlike `<Radar>`, which plots a fixed set of discrete categories as spokes, `<RadialArea>`'s angular
+axis is continuous - there's no gap between points, and hovering anywhere over the chart shows a
+tooltip for the nearest point, rather than requiring a hover directly over a vertex.
+
+## `<AngleAxis>` and `<RadialAxis>`
+
+Since the angular domain here is continuous rather than categorical, pass a continuous `scaleType`
+(`"time"` for dates, `"linear"` for numbers) to `<AngleAxis>`:
+
+```jsx
+<AngleAxis fields="date" scaleType="time" />
+<RadialAxis fields="temperature" />
+<RadialArea x="date" y="temperature" />
+```
+
+`<AngleAxis>` then draws an evenly-spaced set of spokes (controlled by `ticks`) rather than one per
+raw data point, the same way a `<XAxis>`/`<YAxis>` would for a linear/time scale.
+
+## `<RadialArea>` Component
+
+### Props
+
+| Prop           | Type      | Default             | Note                                                                                                          |
+| -------------- | --------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **`x`\***      | `string`  | `null`               | The key of the field used for the angular position, e.g. a date or number.                                      |
+| **`y`\***      | `string`  | `null`               | The key of the field used for the radial position, measured from the baseline (`0`) outward.                    |
+| `color`        | `string`  | Derived from Theme   | Override the colour of the series.                                                                              |
+| `closed`       | `boolean` | `false`               | Draw the area as a closed loop, joining the last point back to the first. Only appropriate for a fully cyclical domain (e.g. a full year of dates) - for a partial domain, closing the loop draws an incorrect line straight across the chart. |
+| `interactive`  | `boolean` | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot.  |
+| `showInLegend` | `boolean` | `true`                | Whether the plot should feature in the legend or not.                                                           |
+
+### Using Canvas
+
+Like other plots, a `<RadialArea>` can be rendered using an HTML Canvas instead of SVG by setting `useCanvas` on the parent `<RadialChart>`.
+
+<Canvas of={RadialAreaStories.Canvas} />
+
+## `<RadialAreas>` Component
+
+`<RadialAreas>` renders one `<RadialArea>` per field in `ys`, all sharing the same angular (`x`)
+scale - useful for comparing multiple series, e.g. the same measurement across several locations.
+
+### Props
+
+| Prop       | Type       | Default             | Note                                                                 |
+| ---------- | ---------- | -------------------- | --------------------------------------------------------------------- |
+| **`x`\***  | `string`   | `null`                | The key of the field used for the angular position.                   |
+| **`ys`\*** | `string[]` | `null`                | The keys of the fields used for the radial position, one per series.  |
+| `colors`   | `string[]` | Derived from Theme   | Override the colours for the series.                                  |
+| `closed`   | `boolean`  | `false`               | See `<RadialArea>`'s own `closed` prop.                                |
+
+Since each field is otherwise scaled independently (so, for example, a Radar spoke can mix
+different units), pass an explicit `domain` to `<RadialAxis>` to keep multiple `<RadialArea>`
+series measured in the same units directly comparable at the same radius:
+
+```jsx
+<RadialAxis fields={["New York", "Miami"]} domain={[0, 35]} />
+<RadialAreas x="date" ys={["New York", "Miami"]} closed={true} />
+```
+
+<Canvas of={RadialAreaStories.MultipleSeries} />
