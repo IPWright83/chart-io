@@ -5,21 +5,24 @@ import { renderChart, wait } from "../../../testUtils";
 import { Radar } from "./Radar";
 
 describe("Radar", () => {
+    // One row per series
     const data = [
-        { skill: "A", playerX: 50, playerY: 20 },
-        { skill: "B", playerX: 80, playerY: 40 },
-        { skill: "C", playerX: 30, playerY: 90 },
+        { player: "playerX", A: 50, B: 80, C: 30 },
+        { player: "playerY", A: 20, B: 40, C: 90 },
     ];
 
     const scales = {
-        skill: d3.scalePoint().domain(["A", "B", "C"]).range([0, (2 * Math.PI * 2) / 3]),
-        playerX: d3.scaleLinear().domain([0, 100]).range([0, 100]),
-        playerY: d3.scaleLinear().domain([0, 100]).range([0, 100]),
+        category: d3.scalePoint().domain(["A", "B", "C"]).range([0, (2 * Math.PI * 2) / 3]),
+        A: d3.scaleLinear().domain([0, 100]).range([0, 100]),
+        B: d3.scaleLinear().domain([0, 100]).range([0, 100]),
+        C: d3.scaleLinear().domain([0, 100]).range([0, 100]),
     };
 
-    it("should render one series per field in ys", async () => {
+    const ys = ["A", "B", "C"];
+
+    it("should render one series per row of data", async () => {
         const { container } = await renderChart({
-            children: <Radar category="skill" ys={["playerX", "playerY"]} />,
+            children: <Radar category="category" name="player" ys={ys} />,
             data,
             scales,
         });
@@ -30,7 +33,7 @@ describe("Radar", () => {
 
     it("should assign each series a different color from the palette", async () => {
         const { asFragment } = await renderChart({
-            children: <Radar category="skill" ys={["playerX", "playerY"]} />,
+            children: <Radar category="category" name="player" ys={ys} />,
             data,
             scales,
         });

@@ -5,34 +5,112 @@ import * as RadarStories from "./Radar.stories"
 
 # Radar Plots
 
-The `<Radar>` component plots one closed polygon per field in `ys`, connecting a point per
-category around a shared angular scale - useful for comparing several entities across multiple
+The `<Radar>` component plots one closed polygon per series, connecting a point for every field in
+`ys` around a shared angular scale - useful for comparing several entities across multiple
 quantitative variables. Unlike `<Pie>`/`<Donut>`/`<StackedDonut>`, a Radar plot needs an
-`<AngleAxis>` (spokes/category labels) and a `<RadiusAxis>` (concentric rings/value labels) to
+`<AngleAxis>` (spokes/category labels) and a `<RadialAxis>` (concentric rings/value labels) to
 provide its angular and radial scales, similar to how `<Line>` needs an `<XAxis>`/`<YAxis>` within
 an `<XYChart>`. All three should be used within a `<RadialChart>`.
 
 <Canvas of={RadarStories.Basic} />
 
+## Data shape: one row per series
+
+Unlike most other plots, `data` should have **one row per series**, with the value for each spoke
+read directly off that row. For example, comparing players across five skills:
+
+```js
+const data = [
+    { player: "Player A", Speed: 80, Power: 65, Defense: 70, Stamina: 85, Agility: 60 },
+    { player: "Player B", Speed: 60, Power: 90, Defense: 75, Stamina: 55, Agility: 80 },
+];
+
+const ys = ["Speed", "Power", "Defense", "Stamina", "Agility"];
+
+<Radar category="category" name="player" ys={ys} />
+```
+
+`name` is the field that identifies each row's series (`"player"` above), and `ys` is the ordered
+list of fields to plot - one spoke per field, read from that series' own row. `category` is just an
+arbitrary key used to register the shared angular scale in the store; it should match the `fields`
+prop of the sibling `<AngleAxis>`.
+
+## `<AngleAxis>` vs `<RadialAxis>`
+
+These two axes are easy to mix up since they're both "radial", but they scale different things:
+
+- **`<AngleAxis>`** places one spoke around the circle per entry in its `domain` (typically
+  `domain={ys}`) - it controls *where around the circle* each field's point is drawn.
+- **`<RadialAxis>`** draws the concentric rings *outward from the center* - it controls *how far
+  out* a value sits. Because each field in `ys` can have its own independent domain (see below),
+  the rings are always normalized to 0-100%, rather than any one field's raw values.
+
+<svg viewBox="0 0 520 260" width="100%" style={{ maxWidth: 520, height: "auto" }}>
+    <text x="130" y="20" textAnchor="middle" fontSize="13" fontWeight="bold" fill="currentColor">
+        AngleAxis: spokes
+    </text>
+    <g transform="translate(130, 140)">
+        <circle r="90" fill="none" stroke="currentColor" strokeOpacity="0.25" />
+        {[0, 72, 144, 216, 288].map((angle) => {
+            const rad = (angle - 90) * (Math.PI / 180);
+            const x2 = 90 * Math.cos(rad);
+            const y2 = 90 * Math.sin(rad);
+            return <line key={angle} x1="0" y1="0" x2={x2} y2={y2} stroke="currentColor" strokeWidth="1.5" />;
+        })}
+        {["Speed", "Power", "Defense", "Stamina", "Agility"].map((label, i) => {
+            const angle = i * 72;
+            const rad = (angle - 90) * (Math.PI / 180);
+            const x = 108 * Math.cos(rad);
+            const y = 108 * Math.sin(rad);
+            return (
+                <text key={label} x={x} y={y} textAnchor="middle" fontSize="11" fill="currentColor">
+                    {label}
+                </text>
+            );
+        })}
+    </g>
+    <text x="390" y="20" textAnchor="middle" fontSize="13" fontWeight="bold" fill="currentColor">
+        RadialAxis: rings
+    </text>
+    <g transform="translate(390, 140)">
+        {[90, 67.5, 45, 22.5].map((r) => (
+            <circle key={r} r={r} fill="none" stroke="currentColor" strokeOpacity="0.35" />
+        ))}
+        <text x="6" y="-92" fontSize="10" fill="currentColor">100%</text>
+        <text x="6" y="-47" fontSize="10" fill="currentColor">50%</text>
+        <text x="6" y="-2" fontSize="10" fill="currentColor">0%</text>
+    </g>
+</svg>
+
+### Per-spoke independent domains
+
+Each field in `ys` gets its own independently-computed d3 scale (its own domain, automatically
+typed - so a boolean or string field naturally becomes a band/point scale). This means one spoke
+can represent a `1-5` rating while another represents a raw count or a percentage, and they'll
+still land on the same normalized rings so they stay visually comparable - handy for something like
+comparing GPUs across memory size, CUDA core count, and a benchmark score:
+
+<Canvas of={RadarStories.DifferentDomains} />
+
+If you'd rather all fields share one literal domain/scale (e.g. every field is already a `1-10`
+score), pass `aggregate` to `<RadialAxis>`.
+
 ## `<Radar>` Component
 
 ### Props
 
-| Prop            | Type       | Default             | Note                                                                                                          |
-| --------------- | ---------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
-| **`category`\*** | `string`   | `null`              | The key of the field that contains the category/label for each point (must match the `<AngleAxis>` field).     |
-| **`ys`\***      | `string[]` | `null`               | The keys of the fields to plot, one series (polygon) per field.                                                 |
-| `colors`        | `string[]` | Derived from Theme   | Override the colours used for each series.                                                                      |
-| `fillOpacity`   | `number`   | `0.15`               | The opacity of each series' filled area.                                                                        |
-| `markerRadius`  | `number`   | `4`                  | The radius, in pixels, of each vertex marker.                                                                   |
-| `interactive`   | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot              |
-| `showInLegend`  | `boolean`  | `true`                | Whether the plot should feature in the legend or not.                                                           |
-
-### `<AngleAxis>` and `<RadiusAxis>`
-
-`<AngleAxis fields={[category]} />` draws a spoke and label for each category around the plot, and
-`<RadiusAxis fields={ys} />` draws concentric rings with value labels. Both register the underlying
-d3 scales that `<Radar>` reads, the same way `<XAxis>`/`<YAxis>` do for `<Line>`.
+| Prop            | Type                        | Default              | Note                                                                                                          |
+| --------------- | --------------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **`category`\*** | `string`                    | `null`                | An arbitrary store key for the shared angular scale; should match the sibling `<AngleAxis>`'s `fields`.       |
+| **`name`\***    | `string`                     | `null`                | The key of the field that identifies each series - `data` should have one row per series.                     |
+| **`ys`\***      | `string[]`                  | `null`                 | The ordered list of fields to plot, one spoke per field, read from each series' own row.                      |
+| `labeller`      | `(field: string) => string` | `(field) => field`    | Maps a `ys` field key to a display label, used for the tooltip name shown when hovering a vertex.               |
+| `colors`        | `string[]`                  | Derived from Theme    | Override the colours used for each series.                                                                     |
+| `filled`        | `boolean`                    | `true`                 | Whether the series' area is filled. Set to `false` for a stroke-only outline - useful when overlaying many series to compare trends without the fills obscuring one another. |
+| `fillOpacity`   | `number`                    | `0.15`                 | The opacity of each series' filled area, when `filled` is true.                                                 |
+| `markerRadius`  | `number`                    | `4`                    | The radius, in pixels, of each vertex marker.                                                                   |
+| `interactive`   | `boolean`                    | `true`                 | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot              |
+| `showInLegend`  | `boolean`                    | `true`                 | Whether the plot should feature in the legend or not.                                                           |
 
 ### Using Canvas
 
@@ -42,6 +120,20 @@ Like other plots, a `<Radar>` can be rendered using an HTML Canvas instead of SV
 
 ### Single Series
 
-`ys` accepts a single field for a single-series Radar.
+`data` accepts a single row for a single-series Radar.
 
 <Canvas of={RadarStories.SingleSeries} />
+
+### Multiple Series
+
+Add more rows to `data` to compare several series on the same axes.
+
+<Canvas of={RadarStories.ThreeSeries} />
+
+### Unfilled Series
+
+Set `filled={false}` to draw a stroke-only outline instead of a filled area. This keeps many
+overlapping series readable, since the fills no longer stack up and obscure one another - useful
+for spotting trends across a larger number of series at once.
+
+<Canvas of={RadarStories.Unfilled} />

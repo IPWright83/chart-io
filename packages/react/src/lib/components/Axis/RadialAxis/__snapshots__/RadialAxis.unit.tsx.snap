@@ -1,130 +1,130 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`RadiusAxis should render a concentric ring and label per value tick 1`] = `
+exports[`RadialAxis should render a normalized concentric ring and label per tick 1`] = `
 <DocumentFragment>
   <svg>
     <g
-      class="chart-io radius-axis"
+      class="chart-io radial-axis"
       style="pointer-events: none;"
     >
       <g
-        class="radius-axis-tick"
+        class="radial-axis-tick"
       >
         <circle
-          class="radius-axis-ring"
+          class="radial-axis-ring"
           cx="100"
           cy="100"
           r="0"
           style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
         />
         <text
-          class="radius-axis-label"
+          class="radial-axis-label"
           style="fill: #000000; font-family: sans-serif; user-select: none;"
           text-anchor="middle"
           x="100"
           y="100"
         >
-          0
+          0%
         </text>
       </g>
       <g
-        class="radius-axis-tick"
+        class="radial-axis-tick"
       >
         <circle
-          class="radius-axis-ring"
+          class="radial-axis-ring"
           cx="100"
           cy="100"
           r="20"
           style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
         />
         <text
-          class="radius-axis-label"
+          class="radial-axis-label"
           style="fill: #000000; font-family: sans-serif; user-select: none;"
           text-anchor="middle"
           x="100"
           y="80"
         >
-          20
+          20%
         </text>
       </g>
       <g
-        class="radius-axis-tick"
+        class="radial-axis-tick"
       >
         <circle
-          class="radius-axis-ring"
+          class="radial-axis-ring"
           cx="100"
           cy="100"
           r="40"
           style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
         />
         <text
-          class="radius-axis-label"
+          class="radial-axis-label"
           style="fill: #000000; font-family: sans-serif; user-select: none;"
           text-anchor="middle"
           x="100"
           y="60"
         >
-          40
+          40%
         </text>
       </g>
       <g
-        class="radius-axis-tick"
+        class="radial-axis-tick"
       >
         <circle
-          class="radius-axis-ring"
+          class="radial-axis-ring"
           cx="100"
           cy="100"
           r="60"
           style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
         />
         <text
-          class="radius-axis-label"
+          class="radial-axis-label"
           style="fill: #000000; font-family: sans-serif; user-select: none;"
           text-anchor="middle"
           x="100"
           y="40"
         >
-          60
+          60%
         </text>
       </g>
       <g
-        class="radius-axis-tick"
+        class="radial-axis-tick"
       >
         <circle
-          class="radius-axis-ring"
+          class="radial-axis-ring"
           cx="100"
           cy="100"
           r="80"
           style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
         />
         <text
-          class="radius-axis-label"
+          class="radial-axis-label"
           style="fill: #000000; font-family: sans-serif; user-select: none;"
           text-anchor="middle"
           x="100"
           y="20"
         >
-          80
+          80%
         </text>
       </g>
       <g
-        class="radius-axis-tick"
+        class="radial-axis-tick"
       >
         <circle
-          class="radius-axis-ring"
+          class="radial-axis-ring"
           cx="100"
           cy="100"
           r="100"
           style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
         />
         <text
-          class="radius-axis-label"
+          class="radial-axis-label"
           style="fill: #000000; font-family: sans-serif; user-select: none;"
           text-anchor="middle"
           x="100"
           y="0"
         >
-          100
+          100%
         </text>
       </g>
     </g>

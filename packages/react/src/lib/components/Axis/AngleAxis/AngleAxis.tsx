@@ -33,12 +33,35 @@ export interface IAngleAxisProps {
 }
 
 /**
+ * Represents an AngleAxis, drawing a spoke and label for each category around a radial plot
+ * such as `<Radar>`
+ * @return The AngleAxis component
+ */
+export function AngleAxis({
+    fields,
+    domain,
+    scaleType,
+    tickPadding = 8,
+    tickFormat = (value) => `${value}`,
+}: IAngleAxisProps) {
+    const fieldsArray = useArray(fields);
+    const field = fieldsArray[0];
+
+    return (
+        <React.Fragment>
+            <AxisSpoke field={field} tickPadding={tickPadding} tickFormat={tickFormat} />
+            <AngleScale fields={fieldsArray} scaleType={scaleType} domain={domain} />
+        </React.Fragment>
+    );
+}
+
+/**
  * Renders the spokes and category labels for an AngleAxis. Kept separate from `<AngleAxis>` itself
  * since this subscribes to the resolved scale (and so re-renders whenever it's set), whereas the
  * sibling `<AngleScale>` that sets it must not, to avoid the two re-triggering one another
  * @return The visual part of the AngleAxis
  */
-function AngleAxisRenderer({
+function AxisSpoke({
     field,
     tickPadding,
     tickFormat,
@@ -119,27 +142,4 @@ function AngleAxisRenderer({
     }, [field, scale, cx, cy, maxRadius, theme, animationDuration, tickPadding, tickFormat]);
 
     return <g className="chart-io angle-axis" ref={layer} style={{ pointerEvents: "none" }} />;
-}
-
-/**
- * Represents an AngleAxis, drawing a spoke and label for each category around a radial plot
- * such as `<Radar>`
- * @return The AngleAxis component
- */
-export function AngleAxis({
-    fields,
-    domain,
-    scaleType,
-    tickPadding = 8,
-    tickFormat = (value) => `${value}`,
-}: IAngleAxisProps) {
-    const fieldsArray = useArray(fields);
-    const field = fieldsArray[0];
-
-    return (
-        <React.Fragment>
-            <AngleAxisRenderer field={field} tickPadding={tickPadding} tickFormat={tickFormat} />
-            <AngleScale fields={fieldsArray} scaleType={scaleType} domain={domain} />
-        </React.Fragment>
-    );
 }

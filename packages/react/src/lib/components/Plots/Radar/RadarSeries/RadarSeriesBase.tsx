@@ -1,8 +1,8 @@
 import { chartSelectors, d3, ensureValuesAreUnique, IState } from "@chart-io/core";
-import type { IColor, IDatum, IOnClick, IOnMouseOut, IOnMouseOver, IValue } from "@chart-io/core";
+import type { IColor, ILabeller, IOnClick, IOnMouseOut, IOnMouseOver, IValue } from "@chart-io/core";
 
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useMemo } from "react";
+import { shallowEqual, useSelector } from "react-redux";
 
 import { useLegendItem, useRender } from "../../../../hooks";
 
@@ -17,19 +17,42 @@ export interface IRadarSeriesBaseProps {
      */
     layer?: React.MutableRefObject<Element>;
     /**
-     * The key of the field used for the angular (category) position of each point
+     * The key of the field used for the angular (category) scale. Should match the `fields` used by
+     * the sibling `<AngleAxis>`
      */
     category: string;
     /**
-     * The key of the field used for the radial (value) position of each point
+     * The key of the field used to identify each series - one row of `data` per series. Its value
+     * for this particular series is `seriesName`
      */
-    y: string;
+    name: string;
+    /**
+     * The value of the `name` field that identifies this particular series' row within `data`
+     */
+    seriesName: string;
+    /**
+     * The ordered list of fields to plot, one spoke per field, read from this series' single row.
+     * Each field can have its own domain (registered separately by a sibling `<RadialAxis>`)
+     */
+    ys: string[];
+    /**
+     * Maps a `ys` field key to a display label, used for the tooltip name shown when hovering a
+     * vertex. Also worth passing as `<AngleAxis>`'s `tickFormat` for consistent spoke labels
+     * @default (field) => field
+     */
+    labeller?: ILabeller;
     /**
      * The color of this series. Defaults to the theme's series colors
      */
     color?: IColor;
     /**
-     * The opacity of the filled area of the series
+     * Should the area within the series be filled? Set to false for a stroke-only outline, useful
+     * when overlaying many series to compare trends without the fills obscuring one another
+     * @default true
+     */
+    filled?: boolean;
+    /**
+     * The opacity of the filled area of the series, when `filled` is true
      * @default 0.15
      */
     fillOpacity?: number;
@@ -76,19 +99,28 @@ interface IRadarPoint {
 
 type IRadarElement =
     | { type: "shape"; key: string }
-    | { type: "marker"; key: string; datum: IDatum; point: IRadarPoint };
+    | { type: "marker"; key: string; field: string; point: IRadarPoint };
+
+// A stable identity used as the default `labeller`, so that omitting the prop doesn't create a new
+// function reference (and retrigger the render effect) on every render
+const identityLabeller: ILabeller = (field) => field;
 
 /**
- * Represents a single series of a Radar plot: a closed polygon connecting one point per category,
- * with a marker at each vertex to support hover/click interaction. Requires an `<AngleAxis>` and
- * `<RadiusAxis>` to be present to provide the angular/radial scales
+ * Represents a single series of a Radar plot: a closed polygon connecting one point per field in
+ * `ys` (read from this series' own row of `data`), with a marker at each vertex to support
+ * hover/click interaction. Requires an `<AngleAxis>` and `<RadialAxis>` to be present to provide
+ * the angular/radial scales
  * @param  props       The set of React properties
  * @return             The RadarSeries plot component
  */
 export function RadarSeriesBase({
     category,
-    y,
+    name,
+    seriesName,
+    ys,
+    labeller = identityLabeller,
     color,
+    filled = true,
     fillOpacity = 0.15,
     markerRadius = 4,
     canvas,
@@ -108,40 +140,48 @@ export function RadarSeriesBase({
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
     const angleScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, category, "plot"));
-    const radiusScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, y, "plot"));
+    // Each field in `ys` is independently scaled, so a spoke can represent a different domain
+    // (e.g. 1-5 on one spoke, a percentage on another)
+    const radiusScales = useSelector(
+        (s: IState) => ys.map((field) => chartSelectors.scales.getScale(s, field, "plot")),
+        // The mapped array is a new reference on every call even when its contents are identical,
+        // so use a shallow comparison to avoid re-rendering (and re-selecting) in an infinite loop
+        shallowEqual,
+    );
 
+    const row = useMemo(() => data.find((d) => `${d[name]}` === seriesName), [data, name, seriesName]);
     const seriesColor = (color ?? theme.series.colors[0]).toString();
 
-    useLegendItem(y, "square", showInLegend, seriesColor as IColor);
+    useLegendItem(labeller(seriesName), "square", showInLegend, seriesColor as IColor);
     const onTooltip = useTooltip();
     const onFocus = useFocused(theme);
 
     useRender(() => {
-        if (!angleScale || !radiusScale) {
+        if (!angleScale || !row || radiusScales.some((scale) => !scale)) {
             return;
         }
 
-        ensureValuesAreUnique(data, category, "Radar");
+        ensureValuesAreUnique(data, name, "Radar");
 
         // The intersected call signature on IScale doesn't resolve cleanly against a plain IValue argument
         const angleOf = angleScale as unknown as (value: IValue) => number;
-        const radiusOf = radiusScale as unknown as (value: IValue) => number;
 
         // Coordinates are computed in absolute (chart-relative) space rather than relative to the
         // origin plus an SVG `transform`, since the Canvas primitives that draw `points`/`cx`/`cy`
         // read those attributes directly and have no notion of an SVG transform
-        const toPoint = (d: IDatum): IRadarPoint => {
-            const angle = angleOf(d[category]);
-            const radius = Math.max(0, radiusOf(d[y]));
+        const toPoint = (field: string, index: number): IRadarPoint => {
+            const radiusOf = radiusScales[index] as unknown as (value: IValue) => number;
+            const angle = angleOf(field);
+            const radius = Math.max(0, radiusOf(row[field]));
             return { x: cx + radius * Math.sin(angle), y: cy - radius * Math.cos(angle) };
         };
 
-        const points = data.map(toPoint);
+        const points = ys.map(toPoint);
         const pointsAttr = points.map((p) => `${p.x},${p.y}`).join(" ");
 
         const elements: IRadarElement[] = [
             { type: "shape", key: "shape" },
-            ...data.map((datum, i) => ({ type: "marker" as const, key: `marker-${i}`, datum, point: points[i] })),
+            ...ys.map((field, i) => ({ type: "marker" as const, key: `marker-${field}`, field, point: points[i] })),
         ];
 
         // D3 data join
@@ -166,7 +206,7 @@ export function RadarSeriesBase({
         // Update new and existing elements
         const update = enter
             .merge(join as any)
-            .style("fill", seriesColor)
+            .style("fill", (d) => (d.type === "shape" && !filled ? "none" : seriesColor))
             .style("fill-opacity", (d) => (d.type === "shape" ? fillOpacity : null))
             .style("stroke", (d) => (d.type === "shape" ? seriesColor : null))
             .style("stroke-width", (d) => (d.type === "shape" ? 2 : null))
@@ -175,16 +215,18 @@ export function RadarSeriesBase({
                 // istanbul ignore next
                 if (!interactive || d.type !== "marker") return;
 
-                onMouseOver && onMouseOver(d.datum, this, event);
-                onFocus && onFocus({ element: this, event, datum: d.datum });
+                const value = row[d.field];
+
+                onMouseOver && onMouseOver(row, this, event);
+                onFocus && onFocus({ element: this, event, datum: row });
                 onTooltip &&
-                    onTooltip({ datum: d.datum, event, name: y, value: d.datum[y], color: seriesColor as IColor });
+                    onTooltip({ datum: row, event, name: labeller(d.field), value, color: seriesColor as IColor });
             })
             .on("mouseout", function (event, d) {
                 // istanbul ignore next
                 if (!interactive || d.type !== "marker") return;
 
-                onMouseOut && onMouseOut(d.datum, this, event);
+                onMouseOut && onMouseOut(row, this, event);
                 onFocus && onFocus(null);
                 onTooltip && onTooltip(null);
             })
@@ -192,7 +234,7 @@ export function RadarSeriesBase({
                 // istanbul ignore next
                 if (!interactive || d.type !== "marker") return;
 
-                onClick && onClick(d.datum, this, event);
+                onClick && onClick(row, this, event);
             });
 
         // A single transition covers both the polygon "shape" (animating its points) and the
@@ -220,17 +262,22 @@ export function RadarSeriesBase({
         renderCanvas(canvas, renderVirtualCanvas, width, height, transition);
     }, [
         category,
-        y,
+        name,
+        seriesName,
+        ys,
+        labeller,
+        row,
         data,
         canvas,
         renderVirtualCanvas,
         cx,
         cy,
         angleScale,
-        radiusScale,
+        radiusScales,
         layer,
         animationDuration,
         seriesColor,
+        filled,
         fillOpacity,
         markerRadius,
         showInLegend,

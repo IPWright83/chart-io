@@ -1,4 +1,4 @@
-import { d3, themes } from "@chart-io/core";
+import { themes } from "@chart-io/core";
 
 import { Provider } from "react-redux";
 import React from "react";
@@ -6,9 +6,9 @@ import { render } from "@testing-library/react";
 
 import { createMockStore, wait } from "../../../testUtils";
 
-import { RadiusAxis } from ".";
+import { RadialAxis } from ".";
 
-describe("RadiusAxis", () => {
+describe("RadialAxis", () => {
     const width = 200;
     const height = 200;
 
@@ -18,21 +18,14 @@ describe("RadiusAxis", () => {
             animationDuration: 0,
             dimensions: { width, height },
             data: [{ value: 10 }, { value: 90 }],
-            scales: {
-                value: {
-                    scale: d3.scaleLinear().domain([0, 100]).range([0, 100]),
-                    domain: [0, 100],
-                    range: [0, 100],
-                },
-            },
         },
     });
 
-    it("should render a concentric ring and label per value tick", async () => {
+    it("should render a normalized concentric ring and label per tick", async () => {
         const { asFragment } = render(
             <Provider store={store}>
                 <svg>
-                    <RadiusAxis fields="value" ticks={5} />
+                    <RadialAxis fields="value" ticks={5} />
                 </svg>
             </Provider>,
         );

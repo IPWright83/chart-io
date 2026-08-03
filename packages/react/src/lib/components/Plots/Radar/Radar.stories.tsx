@@ -1,4 +1,4 @@
-import { themes } from "@chart-io/core";
+import { createLabeller, themes } from "@chart-io/core";
 
 import type { Meta } from "@storybook/react";
 import { fn } from "@storybook/test";
@@ -6,7 +6,7 @@ import React from "react";
 
 import { argTypes } from "../../../../storybook/argTypes";
 import { createCanvasTest, createSVGTest } from "../../../testUtils";
-import { AngleAxis, RadiusAxis } from "../../Axis";
+import { AngleAxis, RadialAxis } from "../../Axis";
 import { RadialChart } from "../../RadialChart";
 import { Radar } from "./Radar";
 
@@ -35,17 +35,28 @@ export default {
     },
 } as Meta<typeof Radar>;
 
-const data = [
-    { skill: "Speed", playerA: 80, playerB: 60 },
-    { skill: "Power", playerA: 65, playerB: 90 },
-    { skill: "Defense", playerA: 70, playerB: 75 },
-    { skill: "Stamina", playerA: 85, playerB: 55 },
-    { skill: "Agility", playerA: 60, playerB: 80 },
+// One row per series - each field in `ys` becomes a spoke, read directly off that series' row
+const skills = ["Speed", "Power", "Defense", "Stamina", "Agility"];
+
+const twoPlayers = [
+    { player: "Player A", Speed: 80, Power: 65, Defense: 70, Stamina: 85, Agility: 60 },
+    { player: "Player B", Speed: 60, Power: 90, Defense: 75, Stamina: 55, Agility: 80 },
+];
+
+const threePlayers = [
+    ...twoPlayers,
+    { player: "Player C", Speed: 75, Power: 70, Defense: 85, Stamina: 65, Agility: 90 },
+];
+
+const manyPlayers = [
+    ...threePlayers,
+    { player: "Player D", Speed: 55, Power: 60, Defense: 50, Stamina: 90, Agility: 45 },
+    { player: "Player E", Speed: 90, Power: 45, Defense: 60, Stamina: 50, Agility: 85 },
 ];
 
 const RadarTemplate = (args) => (
     <RadialChart
-        data={data}
+        data={args.data}
         plotMargin={{
             left: args.leftMargin,
             right: args.rightMargin,
@@ -61,9 +72,9 @@ const RadarTemplate = (args) => (
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
     >
-        <AngleAxis fields={[args.category]} />
-        <RadiusAxis fields={args.ys} />
-        <Radar category={args.category} ys={args.ys} />
+        <AngleAxis fields="category" domain={args.ys} />
+        <RadialAxis fields={args.ys} />
+        <Radar category="category" name="player" ys={args.ys} filled={args.filled} />
     </RadialChart>
 );
 
@@ -80,8 +91,9 @@ export const Basic = {
         rightMargin: 60,
         topMargin: 60,
         bottomMargin: 60,
-        category: "skill",
-        ys: ["playerA", "playerB"],
+        data: twoPlayers,
+        ys: skills,
+        filled: true,
     },
     play: createSVGTest("circle.radar-marker", { clientX: 300, clientY: 250 }),
 };
@@ -93,7 +105,7 @@ export const Canvas = {
         ...Basic.args,
         useCanvas: true,
     },
-    // Targets the "Speed" vertex marker for playerA, near the top of the chart
+    // Targets the "Speed" vertex marker for Player A, near the top of the chart
     play: createCanvasTest({ clientX: 416, clientY: 97 }),
 };
 
@@ -102,7 +114,78 @@ export const SingleSeries = {
     render: RadarTemplate,
     args: {
         ...Basic.args,
-        ys: ["playerA"],
+        data: [twoPlayers[0]],
+    },
+    play: createSVGTest("circle.radar-marker", { clientX: 300, clientY: 250 }),
+};
+
+export const ThreeSeries = {
+    name: "Three Series",
+    render: RadarTemplate,
+    args: {
+        ...Basic.args,
+        data: threePlayers,
+    },
+    play: createSVGTest("circle.radar-marker", { clientX: 300, clientY: 250 }),
+};
+
+export const Unfilled = {
+    name: "Unfilled (Overlapping Trends)",
+    render: RadarTemplate,
+    args: {
+        ...Basic.args,
+        data: manyPlayers,
+        filled: false,
+    },
+    play: createSVGTest("circle.radar-marker", { clientX: 300, clientY: 250 }),
+};
+
+// GPUs are the series (one row each); each spec is its own spoke with its own natural domain -
+// e.g. memory in GB vs a 1-10 score - normalized onto the same rings so they're comparable
+const gpuFields = ["memory_gb", "cuda_cores", "tensor_tflops", "ai_score"];
+
+const gpuData = [
+    { gpu: "RTX 4060 Ti 16GB", memory_gb: 16, cuda_cores: 4352, tensor_tflops: 22, ai_score: 8 },
+    { gpu: "RTX 4060 Ti 8GB", memory_gb: 8, cuda_cores: 4352, tensor_tflops: 22, ai_score: 7 },
+    { gpu: "RTX 3060 Ti", memory_gb: 8, cuda_cores: 4864, tensor_tflops: 16, ai_score: 5 },
+];
+
+const gpuLabeller = createLabeller({
+    memory_gb: "Memory (GB)",
+    cuda_cores: "CUDA Cores",
+    tensor_tflops: "Tensor Perf (TFLOPS)",
+    ai_score: "AI Score (1-10)",
+});
+
+const DifferentDomainsTemplate = (args) => (
+    <RadialChart
+        data={gpuData}
+        plotMargin={{
+            left: args.leftMargin,
+            right: args.rightMargin,
+            top: args.topMargin,
+            bottom: args.bottomMargin,
+        }}
+        width={args.width}
+        height={args.height}
+        animationDuration={args.animationDuration}
+        theme={args.theme}
+        useCanvas={args.useCanvas}
+        onClick={args.onClick}
+        onMouseOver={args.onMouseOver}
+        onMouseOut={args.onMouseOut}
+    >
+        <AngleAxis fields="category" domain={gpuFields} tickFormat={gpuLabeller} />
+        <RadialAxis fields={gpuFields} />
+        <Radar category="category" name="gpu" ys={gpuFields} labeller={gpuLabeller} />
+    </RadialChart>
+);
+
+export const DifferentDomains = {
+    name: "Different Domains per Spoke",
+    render: DifferentDomainsTemplate,
+    args: {
+        ...Basic.args,
     },
     play: createSVGTest("circle.radar-marker", { clientX: 300, clientY: 250 }),
 };

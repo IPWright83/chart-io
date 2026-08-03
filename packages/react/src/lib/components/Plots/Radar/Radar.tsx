@@ -7,11 +7,12 @@ import { useSelector } from "react-redux";
 import type { IRadarSeriesProps } from "./RadarSeries";
 import { RadarSeries } from "./RadarSeries";
 
-export interface IRadarProps extends Omit<IRadarSeriesProps, "y" | "color"> {
+export interface IRadarProps extends Omit<IRadarSeriesProps, "name" | "seriesName" | "color"> {
     /**
-     * The keys of the fields used for the radial (value) position of each series
+     * The key of the field that identifies each series - `data` should have one row per series,
+     * e.g. `{ player: "RTX 4060 Ti", "Memory Size": 16, "CUDA Cores": 4352, ... }`
      */
-    ys: string[];
+    name: string;
     /**
      * The set of colors to use for each series. Defaults to the theme's series colors
      */
@@ -19,20 +20,28 @@ export interface IRadarProps extends Omit<IRadarSeriesProps, "y" | "color"> {
 }
 
 /**
- * Represents a Radar plot: one closed polygon per field in `ys`, sharing the same angular
- * (category) scale. Requires an `<AngleAxis>` and `<RadiusAxis>` to be present to provide the
- * angular/radial scales
+ * Represents a Radar plot: one closed polygon per row of `data` (one series per row), connecting
+ * a point for each field in `ys` around a shared angular scale. Requires an `<AngleAxis>` (with
+ * `domain={ys}`) and a `<RadialAxis fields={ys}>` to be present to provide the angular/radial
+ * scales
  * @param  props       The set of React properties
  * @return             The Radar plot component
  */
-export function Radar({ ys, colors, ...props }: IRadarProps) {
+export function Radar({ name, colors, ...props }: IRadarProps) {
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
+    const data = useSelector((s: IState) => chartSelectors.data(s));
     const palette = colors ?? theme.series.colors;
 
     return (
         <React.Fragment>
-            {ys.map((y, i) => (
-                <RadarSeries {...props} key={y} y={y} color={palette[i % palette.length]} />
+            {data.map((row, i) => (
+                <RadarSeries
+                    {...props}
+                    key={`${row[name]}`}
+                    name={name}
+                    seriesName={`${row[name]}`}
+                    color={palette[i % palette.length]}
+                />
             ))}
         </React.Fragment>
     );
