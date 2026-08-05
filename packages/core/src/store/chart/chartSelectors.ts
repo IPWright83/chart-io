@@ -169,6 +169,30 @@ interface IChartSelectors {
              * @return       The right
              */
             right: (state: IState) => number;
+
+            /**
+             * The x-coordinate of the center of the plot area - used by radial plots (`<Radar>`,
+             * `<RadialArea>`, `<Pie>`/`<Donut>`) to position themselves
+             * @param  state The application state
+             * @return       The x-coordinate of the center
+             */
+            cx: (state: IState) => number;
+
+            /**
+             * The y-coordinate of the center of the plot area - used by radial plots (`<Radar>`,
+             * `<RadialArea>`, `<Pie>`/`<Donut>`) to position themselves
+             * @param  state The application state
+             * @return       The y-coordinate of the center
+             */
+            cy: (state: IState) => number;
+
+            /**
+             * The largest radius that fits within the plot area - used by radial plots (`<Radar>`,
+             * `<RadialArea>`, `<Pie>`/`<Donut>`) to size themselves
+             * @param  state The application state
+             * @return       The maximum radius
+             */
+            maxRadius: (state: IState) => number;
         };
     };
     /**
@@ -386,6 +410,27 @@ export const chartSelectors: IChartSelectors = {
                 }
 
                 return Math.max(0, calculatedHeight);
+            },
+
+            // @inheritDoc
+            cx: (state) => {
+                const left = chartSelectors.dimensions.plot.left(state);
+                const width = chartSelectors.dimensions.plot.width(state);
+                return left + width / 2;
+            },
+
+            // @inheritDoc
+            cy: (state) => {
+                const top = chartSelectors.dimensions.plot.top(state);
+                const height = chartSelectors.dimensions.plot.height(state);
+                return top + height / 2;
+            },
+
+            // @inheritDoc
+            maxRadius: (state) => {
+                const width = chartSelectors.dimensions.plot.width(state);
+                const height = chartSelectors.dimensions.plot.height(state);
+                return Math.max(0, Math.min(width, height) / 2);
             },
         },
     },

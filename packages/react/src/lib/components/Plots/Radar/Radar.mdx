@@ -102,8 +102,10 @@ comparing GPUs across memory size, CUDA core count, and a benchmark score:
 
 <Canvas of={RadarStories.DifferentDomains} />
 
-If you'd rather all fields share one literal domain/scale (e.g. every field is already a `1-10`
-score), pass `aggregate` to `<RadialAxis>`.
+If you'd rather all fields share one literal domain/scale unchanged (e.g. every field is already a
+`1-10` score), pass an explicit `domain` to `<RadialAxis>` instead - `aggregate` computes a domain
+from the *sum* of every field's value per row (the same aggregation `<YAxis aggregate>` uses to fit
+a `<StackedArea>`'s stacked total), which is rarely what you want for independent Radar fields.
 
 ### Labelling fields
 

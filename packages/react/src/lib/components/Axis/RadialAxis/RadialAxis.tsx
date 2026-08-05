@@ -11,14 +11,14 @@ export interface IRadialAxisProps {
     /**
      * The key(s) of the field(s) used to build the radial (value) scale(s) - one per spoke. Each
      * field gets its own independently computed domain (e.g. one spoke can be 1-5 while another is
-     * a percentage), all mapped onto the same set of rings. Pass `aggregate` for a single shared
-     * domain across every field instead
+     * a percentage), all mapped onto the same set of rings. See `domain`/`aggregate` for ways to put
+     * multiple fields on one shared domain instead
      */
     fields: string | Array<string>;
     /**
-     * (Optional) An override of the domain to use for every field's d3 scale. Since fields are
-     * otherwise scaled independently, this is also how to compare multiple fields on one common
-     * domain (e.g. multiple `<RadialArea>` series measured in the same units)
+     * (Optional) An override of the domain to use for every field's d3 scale, unchanged. Since
+     * fields are otherwise scaled independently, this is how to compare multiple fields on one
+     * common domain (e.g. multiple `<RadialArea>` series measured in the same units)
      */
     domain?: IValue[];
     /**
@@ -26,7 +26,12 @@ export interface IRadialAxisProps {
      */
     scaleType?: IScaleType;
     /**
-     * Should every field share a single aggregated domain, rather than each getting its own?
+     * Should every field share a single domain computed from the *sum* of their values per row,
+     * rather than each field getting its own independent domain? The same aggregation
+     * `<XAxis>`/`<YAxis>` use for a stacked chart (e.g. `<YAxis aggregate>` sizing the scale to fit
+     * a `<StackedArea>`'s stacked total). Rarely needed here, since `<Radar>`/`<RadialArea>` fields
+     * are usually independent measurements rather than segments of a whole - if you just want
+     * multiple fields to share one domain unchanged (not summed), pass `domain` instead
      * @default false
      */
     aggregate?: boolean;
@@ -93,18 +98,13 @@ function RadialAxisRing({
     ticks: number;
     tickFormat: ((value: IValue) => string) | undefined;
 }) {
-    const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
-    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
-    const plotLeft = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
-    const plotTop = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
+    const cx = useSelector((s: IState) => chartSelectors.dimensions.plot.cx(s));
+    const cy = useSelector((s: IState) => chartSelectors.dimensions.plot.cy(s));
+    const maxRadius = useSelector((s: IState) => chartSelectors.dimensions.plot.maxRadius(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
     // Only subscribed to when a single real scale applies - see `realValueField` above
     const fieldScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, field ?? "", "plot"));
-
-    const cx = plotLeft + plotWidth / 2;
-    const cy = plotTop + plotHeight / 2;
-    const maxRadius = Math.max(0, Math.min(plotWidth, plotHeight) / 2);
 
     const layer = useRef(null);
 

@@ -36,8 +36,7 @@ export default {
     },
 } as Meta<typeof RadialArea>;
 
-// A year of daily temperatures, wrapped around a full circle by day of year - the classic
-// "radial area chart" shape (https://observablehq.com/@d3/radial-area-chart/2)
+// A year of daily temperatures, wrapped around a full circle by day of year
 function buildYearOfTemperatures(seed: number, amplitude: number, mean: number) {
     return Array.from({ length: 365 }, (_, day) => {
         const date = new Date(2024, 0, day + 1);
@@ -82,6 +81,8 @@ const RadialAreaTemplate = (args) => (
     </RadialChart>
 );
 
+// Passing an explicit domain to <RadialAxis> puts both series on the same scale, so their absolute
+// temperatures stay comparable - see the "Multiple Series" section of the docs
 const MultiSeriesTemplate = (args) => (
     <RadialChart
         data={twoCities}
@@ -101,7 +102,6 @@ const MultiSeriesTemplate = (args) => (
         onMouseOut={args.onMouseOut}
     >
         <AngleAxis fields="date" scaleType="time" ticks={12} tickFormat={(d) => (d as Date).toLocaleString("en-US", { month: "short" })} />
-        {/* An explicit domain puts both series on the same scale, so their absolute temperatures stay comparable */}
         <RadialAxis fields={["New York", "Miami"]} domain={[0, 35]} />
         <RadialAreas x="date" ys={["New York", "Miami"]} closed={true} />
     </RadialChart>

@@ -28,5 +28,8 @@ export function RadialArea({ useCanvas = false, ...props }: IRadialAreaProps) {
     return <SVGRadialArea {...props} />;
 }
 
+// Matches Area/Line, not Radar/Donut: RadialAreaBase draws directly to the real canvas context (see
+// its Canvas branch) and finds the hovered point via the global mouse position rather than
+// per-pixel colour hit-testing, so it doesn't need the virtual canvas
 RadialArea.requiresVirtualCanvas = false;
 RadialArea.isPlot = true;

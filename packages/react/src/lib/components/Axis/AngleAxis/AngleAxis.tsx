@@ -80,17 +80,12 @@ function AxisSpoke({
     tickFormat: (value: IValue) => string;
     ticks: number;
 }) {
-    const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
-    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
-    const plotLeft = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
-    const plotTop = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
+    const cx = useSelector((s: IState) => chartSelectors.dimensions.plot.cx(s));
+    const cy = useSelector((s: IState) => chartSelectors.dimensions.plot.cy(s));
+    const maxRadius = useSelector((s: IState) => chartSelectors.dimensions.plot.maxRadius(s));
     const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, field, "plot"));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
-
-    const cx = plotLeft + plotWidth / 2;
-    const cy = plotTop + plotHeight / 2;
-    const maxRadius = Math.max(0, Math.min(plotWidth, plotHeight) / 2);
 
     const layer = useRef(null);
 

@@ -33,5 +33,7 @@ export function RadialAreas({ ys, colors, ...props }: IRadialAreasProps) {
     );
 }
 
+// See RadialArea.tsx - each series draws directly to the real canvas and uses global mouse
+// position for hover, so none of them need the virtual canvas
 RadialAreas.requiresVirtualCanvas = false;
 RadialAreas.isPlot = true;
