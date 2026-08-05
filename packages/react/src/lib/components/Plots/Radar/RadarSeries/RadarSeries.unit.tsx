@@ -1,6 +1,8 @@
-import { d3 } from "@chart-io/core";
+import { d3, themes } from "@chart-io/core";
+import { render } from "@testing-library/react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import React from "react";
+import { Provider } from "react-redux";
 
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
 import { RadarSeries } from "./RadarSeries";
@@ -9,6 +11,7 @@ expect.extend({ toMatchImageSnapshot });
 
 import {
     actionsIncludes,
+    createMockStore,
     getBuffer,
     renderChart,
     testMouseClick,
@@ -88,6 +91,103 @@ describe("RadarSeries", () => {
                 (c) => c[0].type === "event/addTooltipItem",
             );
             expect(addTooltipItemCall[0].payload.name).toBe("Field A");
+        });
+
+        it("should fall back to the chart-level labeller when no labeller prop is given", async () => {
+            const onMouseOver = jest.fn();
+            const chartLabeller = (field: string) => `Global ${field}`;
+
+            const store = createMockStore({
+                chart: {
+                    animationDuration: 0,
+                    dimensions: { height: 200, width: 200 },
+                    data,
+                    labeller: chartLabeller,
+                    scales: Object.entries(scales).reduce((result, [key, scale]) => {
+                        result[key] = { domain: scale.domain(), range: scale.range(), scale };
+                        return result;
+                    }, {}),
+                    theme: themes.light,
+                },
+            });
+
+            const { container } = render(
+                <Provider store={store}>
+                    <svg>
+                        <RadarSeries
+                            category="category"
+                            name="player"
+                            seriesName="playerA"
+                            ys={ys}
+                            onMouseOver={onMouseOver}
+                        />
+                    </svg>
+                </Provider>,
+            );
+
+            await wait();
+            jest.spyOn(store, "dispatch");
+            testMouseOver(container, "circle.radar-marker", onMouseOver, expectedDatum);
+
+            const addTooltipItemCall = (store.dispatch as jest.Mock).mock.calls.find(
+                (c) => c[0].type === "event/addTooltipItem",
+            );
+            expect(addTooltipItemCall[0].payload.name).toBe("Global A");
+        });
+
+        it("should prefer its own labeller prop over the chart-level labeller", async () => {
+            const onMouseOver = jest.fn();
+            const chartLabeller = (field: string) => `Global ${field}`;
+            const seriesLabeller = (field: string) => `Series ${field}`;
+
+            const store = createMockStore({
+                chart: {
+                    animationDuration: 0,
+                    dimensions: { height: 200, width: 200 },
+                    data,
+                    labeller: chartLabeller,
+                    scales: Object.entries(scales).reduce((result, [key, scale]) => {
+                        result[key] = { domain: scale.domain(), range: scale.range(), scale };
+                        return result;
+                    }, {}),
+                    theme: themes.light,
+                },
+            });
+
+            const { container } = render(
+                <Provider store={store}>
+                    <svg>
+                        <RadarSeries
+                            category="category"
+                            name="player"
+                            seriesName="playerA"
+                            ys={ys}
+                            labeller={seriesLabeller}
+                            onMouseOver={onMouseOver}
+                        />
+                    </svg>
+                </Provider>,
+            );
+
+            await wait();
+            jest.spyOn(store, "dispatch");
+            testMouseOver(container, "circle.radar-marker", onMouseOver, expectedDatum);
+
+            const addTooltipItemCall = (store.dispatch as jest.Mock).mock.calls.find(
+                (c) => c[0].type === "event/addTooltipItem",
+            );
+            expect(addTooltipItemCall[0].payload.name).toBe("Series A");
+        });
+
+        it("should default category to \"category\" when not provided", async () => {
+            const { asFragment } = await renderChart({
+                children: <RadarSeries name="player" seriesName="playerA" ys={ys} />,
+                data,
+                scales,
+            });
+
+            await wait();
+            expect(asFragment()).toMatchSnapshot();
         });
 
         describe("should handle event", () => {

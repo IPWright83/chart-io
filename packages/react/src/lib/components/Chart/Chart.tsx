@@ -1,5 +1,5 @@
 import { chartActions, exportImage } from "@chart-io/core";
-import type { IData, IMargin, IOnClick, IOnMouseOut, IOnMouseOver, ITheme } from "@chart-io/core";
+import type { IData, ILabeller, IMargin, IOnClick, IOnMouseOut, IOnMouseOver, ITheme } from "@chart-io/core";
 
 import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
 import { useStore } from "react-redux";
@@ -71,6 +71,13 @@ export interface IChartBaseProps {
      * @default "light"
      */
     theme?: "light" | "dark" | ITheme;
+    /**
+     * Maps a field key (e.g. `"avg_score"`) to a display label (e.g. `"Mean Score"`), used by any
+     * plot in the chart for tooltips/legends/axis ticks - see `createLabeller`. Defaults to the
+     * identity function (returning the field key unchanged)
+     * @default undefined
+     */
+    labeller?: ILabeller;
 }
 
 export interface IChartRef {
@@ -103,6 +110,7 @@ export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
         onMouseOut,
         onClick,
         theme = "light" as const,
+        labeller,
     } = props;
 
     const store = useStore();
@@ -139,6 +147,12 @@ export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
             store.dispatch(chartActions.setTheme(theme));
         }
     }, [store.dispatch, theme]);
+
+    useEffect(() => {
+        if (labeller) {
+            store.dispatch(chartActions.setLabeller(labeller));
+        }
+    }, [store.dispatch, labeller]);
 
     // We need to extend the child components to provide the common props. We do this by
     // cloning them and piping the common props down

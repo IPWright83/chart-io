@@ -2,6 +2,7 @@ import { d3 } from "../../../d3";
 
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../../constants";
 import { themes } from "../../../themes";
+import { createLabeller } from "../../../utils";
 
 import { chartSelectors } from "../chartSelectors";
 import { defaultChartState } from "../chartSlice";
@@ -350,6 +351,21 @@ describe("chartSelectors", () => {
             };
 
             expect(chartSelectors.animationDuration(state)).toBe(0);
+        });
+    });
+
+    describe("labeller", () => {
+        it("defaults to the identity function", () => {
+            const state = { event: defaultEventState, chart: { ...defaultChartState } };
+
+            expect(chartSelectors.labeller(state)("avg_score")).toBe("avg_score");
+        });
+
+        it("returns the configured labeller", () => {
+            const labeller = createLabeller({ avg_score: "Mean Score" });
+            const state = { event: defaultEventState, chart: { ...defaultChartState, labeller } };
+
+            expect(chartSelectors.labeller(state)("avg_score")).toBe("Mean Score");
         });
     });
 });

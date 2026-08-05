@@ -3,6 +3,8 @@ import { isEqual } from "lodash";
 
 import { themes } from "../../themes";
 import type { IData, ILegendItem, IMargin, IScale, ITheme } from "../../types";
+import type { ILabeller } from "../../utils";
+import { createLabeller } from "../../utils";
 import type { IChartState } from "../types";
 import { validateMargin } from "./validateMargin";
 
@@ -10,6 +12,7 @@ export const defaultChartState = {
     id: "",
     animationDuration: 1000,
     theme: themes.light,
+    labeller: createLabeller(),
     data: [],
     dimensions: {
         plotMargin: {
@@ -222,6 +225,16 @@ const chartSlice = createSlice({
             } else {
                 state.theme = action.payload;
             }
+        },
+
+        /**
+         * Sets the labeller for the chart in the Redux store, used to map a field key to a display
+         * label (e.g. for tooltips/legends/axis ticks) across every plot in the chart
+         * @param state                      The current Redux store state
+         * @param action                     The payload containing the labeller
+         */
+        setLabeller: (state: IChartState, action: PayloadAction<ILabeller>) => {
+            state.labeller = action.payload;
         },
     },
 });

@@ -1,6 +1,7 @@
 import { d3 } from "../../../d3";
 
 import { themes } from "../../../themes";
+import { createLabeller } from "../../../utils";
 
 import { chartActions, chartSlice, defaultChartState } from "..";
 
@@ -208,6 +209,16 @@ describe("chartSlice.reducer", () => {
         expect(chartSlice.reducer(previousState, action)).toEqual({
             ...previousState,
             theme: themes.dark,
+        });
+    });
+
+    it("setLabeller()", () => {
+        const labeller = createLabeller({ a: "Field A" });
+        const action = chartActions.setLabeller(labeller);
+
+        expect(chartSlice.reducer(previousState, action)).toEqual({
+            ...previousState,
+            labeller,
         });
     });
 });

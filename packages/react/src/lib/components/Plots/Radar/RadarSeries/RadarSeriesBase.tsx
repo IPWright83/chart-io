@@ -17,10 +17,20 @@ export interface IRadarSeriesBaseProps {
      */
     layer?: React.MutableRefObject<Element>;
     /**
-     * The key of the field used for the angular (category) scale. Should match the `fields` used by
-     * the sibling `<AngleAxis>`
+     * An arbitrary key used to register the angular scale, matching the `fields` used by the
+     * sibling `<AngleAxis>`. Only needs to be set explicitly when a chart has more than one
+     * independent Radar - e.g. two separate `<Radar>`/`<AngleAxis>` pairs on the same
+     * `<RadialChart>` - since each pair otherwise registers its scale under the same default key
+     * and would overwrite one another:
+     * ```jsx
+     * <AngleAxis fields="skills" domain={skillFields} />
+     * <Radar category="skills" name="player" ys={skillFields} />
+     * <AngleAxis fields="metrics" domain={metricFields} />
+     * <Radar category="metrics" name="player" ys={metricFields} />
+     * ```
+     * @default "category"
      */
-    category: string;
+    category?: string;
     /**
      * The key of the field used to identify each series - one row of `data` per series. Its value
      * for this particular series is `seriesName`
@@ -37,8 +47,9 @@ export interface IRadarSeriesBaseProps {
     ys: string[];
     /**
      * Maps a `ys` field key to a display label, used for the tooltip name shown when hovering a
-     * vertex. Also worth passing as `<AngleAxis>`'s `tickFormat` for consistent spoke labels
-     * @default (field) => field
+     * vertex. Also worth passing as `<AngleAxis>`'s `tickFormat` for consistent spoke labels.
+     * Overrides the chart-level labeller set via `<Chart labeller>`, if any
+     * @default the chart-level labeller, or identity if none is set
      */
     labeller?: ILabeller;
     /**
@@ -101,10 +112,6 @@ type IRadarElement =
     | { type: "shape"; key: string }
     | { type: "marker"; key: string; field: string; point: IRadarPoint };
 
-// A stable identity used as the default `labeller`, so that omitting the prop doesn't create a new
-// function reference (and retrigger the render effect) on every render
-const identityLabeller: ILabeller = (field) => field;
-
 /**
  * Represents a single series of a Radar plot: a closed polygon connecting one point per field in
  * `ys` (read from this series' own row of `data`), with a marker at each vertex to support
@@ -114,11 +121,11 @@ const identityLabeller: ILabeller = (field) => field;
  * @return             The RadarSeries plot component
  */
 export function RadarSeriesBase({
-    category,
+    category = "category",
     name,
     seriesName,
     ys,
-    labeller = identityLabeller,
+    labeller,
     color,
     filled = true,
     fillOpacity = 0.15,
@@ -148,11 +155,15 @@ export function RadarSeriesBase({
         // so use a shallow comparison to avoid re-rendering (and re-selecting) in an infinite loop
         shallowEqual,
     );
+    // `labeller` overrides the chart-level one set via `<Chart labeller>`, which itself defaults to
+    // the identity function - both are stable references, so neither risks a render loop
+    const chartLabeller = useSelector((s: IState) => chartSelectors.labeller(s));
+    const effectiveLabeller = labeller ?? chartLabeller;
 
     const row = useMemo(() => data.find((d) => `${d[name]}` === seriesName), [data, name, seriesName]);
     const seriesColor = (color ?? theme.series.colors[0]).toString();
 
-    useLegendItem(labeller(seriesName), "square", showInLegend, seriesColor as IColor);
+    useLegendItem(effectiveLabeller(seriesName), "square", showInLegend, seriesColor as IColor);
     const onTooltip = useTooltip();
     const onFocus = useFocused(theme);
 
@@ -220,7 +231,13 @@ export function RadarSeriesBase({
                 onMouseOver && onMouseOver(row, this, event);
                 onFocus && onFocus({ element: this, event, datum: row });
                 onTooltip &&
-                    onTooltip({ datum: row, event, name: labeller(d.field), value, color: seriesColor as IColor });
+                    onTooltip({
+                        datum: row,
+                        event,
+                        name: effectiveLabeller(d.field),
+                        value,
+                        color: seriesColor as IColor,
+                    });
             })
             .on("mouseout", function (event, d) {
                 // istanbul ignore next
@@ -265,7 +282,7 @@ export function RadarSeriesBase({
         name,
         seriesName,
         ys,
-        labeller,
+        effectiveLabeller,
         row,
         data,
         canvas,

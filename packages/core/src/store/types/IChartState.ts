@@ -1,3 +1,4 @@
+import type { ILabeller } from "../../utils";
 import type { IData, ILegendItem, IMargin, IScale, ITheme } from "../../types";
 
 export interface IChartScaleInfo {
@@ -39,4 +40,5 @@ export interface IChartState {
   legend: IChartStateLegend;
   brush: IChartStateBrush;
   theme: ITheme;
+  labeller: ILabeller;
 }

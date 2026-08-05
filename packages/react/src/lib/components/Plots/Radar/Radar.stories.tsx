@@ -74,7 +74,9 @@ const RadarTemplate = (args) => (
     >
         <AngleAxis fields="category" domain={args.ys} />
         <RadialAxis fields={args.ys} />
-        <Radar category="category" name="player" ys={args.ys} filled={args.filled} />
+        {/* category defaults to "category", matching the AngleAxis fields above - only needs to be
+        set explicitly when a chart has more than one independent Radar */}
+        <Radar name="player" ys={args.ys} filled={args.filled} />
     </RadialChart>
 );
 
@@ -174,10 +176,13 @@ const DifferentDomainsTemplate = (args) => (
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
+        // Setting the labeller at the chart level (rather than on <Radar> itself) makes it
+        // available to every plot/axis in this chart, not just this one Radar
+        labeller={gpuLabeller}
     >
         <AngleAxis fields="category" domain={gpuFields} tickFormat={gpuLabeller} />
         <RadialAxis fields={gpuFields} />
-        <Radar category="category" name="gpu" ys={gpuFields} labeller={gpuLabeller} />
+        <Radar name="gpu" ys={gpuFields} />
     </RadialChart>
 );
 

@@ -27,13 +27,23 @@ const data = [
 
 const ys = ["Speed", "Power", "Defense", "Stamina", "Agility"];
 
-<Radar category="category" name="player" ys={ys} />
+<Radar name="player" ys={ys} />
 ```
 
 `name` is the field that identifies each row's series (`"player"` above), and `ys` is the ordered
-list of fields to plot - one spoke per field, read from that series' own row. `category` is just an
-arbitrary key used to register the shared angular scale in the store; it should match the `fields`
-prop of the sibling `<AngleAxis>`.
+list of fields to plot - one spoke per field, read from that series' own row. `category` is an
+arbitrary key used to register the shared angular scale in the store, matching the `fields` prop of
+the sibling `<AngleAxis>`; it defaults to `"category"` so it usually doesn't need to be set at all.
+Only pass it explicitly when a chart has more than one independent Radar - e.g. two separate
+`<Radar>`/`<AngleAxis>` pairs on the same `<RadialChart>` - since each pair would otherwise register
+its scale under the same default key and overwrite one another:
+
+```jsx
+<AngleAxis fields="skills" domain={skillFields} />
+<Radar category="skills" name="player" ys={skillFields} />
+<AngleAxis fields="metrics" domain={metricFields} />
+<Radar category="metrics" name="player" ys={metricFields} />
+```
 
 ## `<AngleAxis>` vs `<RadialAxis>`
 
@@ -95,16 +105,38 @@ comparing GPUs across memory size, CUDA core count, and a benchmark score:
 If you'd rather all fields share one literal domain/scale (e.g. every field is already a `1-10`
 score), pass `aggregate` to `<RadialAxis>`.
 
+### Labelling fields
+
+`ys` field keys are often not fit for display (`memory_gb` rather than `"Memory (GB)"`). Build a
+labeller with `createLabeller` and pass it to `<RadialChart labeller>` - as with `theme`, this makes
+it available to every plot/axis within that chart, not just `<Radar>`:
+
+```jsx
+const labeller = createLabeller({
+    memory_gb: "Memory (GB)",
+    cuda_cores: "CUDA Cores",
+});
+
+<RadialChart labeller={labeller}>
+    <AngleAxis fields="category" domain={gpuFields} tickFormat={labeller} />
+    <RadialAxis fields={gpuFields} />
+    <Radar name="gpu" ys={gpuFields} />
+</RadialChart>
+```
+
+`<Radar>` also accepts its own `labeller` prop directly, which overrides the chart-level one for
+just that series if you need a different mapping for a specific plot.
+
 ## `<Radar>` Component
 
 ### Props
 
 | Prop            | Type                        | Default              | Note                                                                                                          |
 | --------------- | --------------------------- | --------------------- | ---------------------------------------------------------------------------------------------------------- |
-| **`category`\*** | `string`                    | `null`                | An arbitrary store key for the shared angular scale; should match the sibling `<AngleAxis>`'s `fields`.       |
+| `category`      | `string`                    | `"category"`           | An arbitrary store key for the shared angular scale; should match the sibling `<AngleAxis>`'s `fields`. Only needs to be set when a chart has more than one independent Radar. |
 | **`name`\***    | `string`                     | `null`                | The key of the field that identifies each series - `data` should have one row per series.                     |
 | **`ys`\***      | `string[]`                  | `null`                 | The ordered list of fields to plot, one spoke per field, read from each series' own row.                      |
-| `labeller`      | `(field: string) => string` | `(field) => field`    | Maps a `ys` field key to a display label, used for the tooltip name shown when hovering a vertex.               |
+| `labeller`      | `(field: string) => string` | the chart-level labeller, or identity | Maps a `ys` field key to a display label, used for the tooltip name shown when hovering a vertex. Overrides the chart-level labeller set via `<RadialChart labeller>`, if any. |
 | `colors`        | `string[]`                  | Derived from Theme    | Override the colours used for each series.                                                                     |
 | `filled`        | `boolean`                    | `true`                 | Whether the series' area is filled. Set to `false` for a stroke-only outline - useful when overlaying many series to compare trends without the fills obscuring one another. |
 | `fillOpacity`   | `number`                    | `0.15`                 | The opacity of each series' filled area, when `filled` is true.                                                 |

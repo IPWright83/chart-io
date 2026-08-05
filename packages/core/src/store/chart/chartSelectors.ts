@@ -2,6 +2,7 @@ import { memoizeWithArgs } from "proxy-memoize";
 
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
 import type { IData, ILegendItem, IMargin, IScale, IScaleMode, ITheme } from "../../types";
+import type { ILabeller } from "../../utils";
 import type {
     IChartScaleInfo,
     IChartState,
@@ -236,6 +237,14 @@ interface IChartSelectors {
      * @return The theme object
      */
     theme: (state: IState) => ITheme;
+
+    /**
+     * Returns the labeller for the chart, mapping a field key to a display label. Defaults to the
+     * identity function (returning the field key unchanged) unless overridden via `<Chart labeller>`
+     * @param  state The application state
+     * @return The labeller function
+     */
+    labeller: (state: IState) => ILabeller;
 }
 
 export const chartSelectors: IChartSelectors = {
@@ -413,4 +422,7 @@ export const chartSelectors: IChartSelectors = {
 
     // @inheritDoc
     theme: (state) => chartSelectors.store(state).theme,
+
+    // @inheritDoc
+    labeller: (state) => chartSelectors.store(state).labeller,
 };
