@@ -108,7 +108,7 @@ export const Canvas = {
         useCanvas: true,
     },
     // Targets the "Speed" vertex marker for Player A, near the top of the chart
-    play: createCanvasTest({ clientX: 416, clientY: 97 }),
+    play: createCanvasTest({ clientX: 416, clientY: 76 }),
 };
 
 export const SingleSeries = {
