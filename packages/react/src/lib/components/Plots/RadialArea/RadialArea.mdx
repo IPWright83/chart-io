@@ -12,9 +12,20 @@ continuous (date or number) field works.
 
 <Canvas of={RadialAreaStories.Basic} />
 
-Unlike `<Radar>`, which plots a fixed set of discrete categories as spokes, `<RadialArea>`'s angular
-axis is continuous - there's no gap between points, and hovering anywhere over the chart shows a
-tooltip for the nearest point, rather than requiring a hover directly over a vertex.
+## `<RadialArea>` vs `<Radar>`
+
+Both plot data around a circle, but for different shapes of data:
+
+- **`<Radar>`** compares a handful of named categories (e.g. "Speed", "Power", "Defense") across one
+  or more series - each category is a fixed spoke, so a Radar with 5 categories always has exactly
+  5 points per series, connected by straight lines. Good for "how do these things compare across
+  these attributes?".
+- **`<RadialArea>`** plots a continuous measurement (e.g. a value per day across a year) as a smooth
+  filled area - there's no fixed set of categories, just as many points as there are rows of data,
+  and hovering anywhere shows the nearest one. Good for "how does this value trend over a cycle?".
+
+If your x-axis is a list of named things, reach for `<Radar>`. If it's a continuous range of dates
+or numbers, reach for `<RadialArea>`.
 
 ## `<AngleAxis>` and `<RadialAxis>`
 
