@@ -83,24 +83,31 @@ different units), pass an explicit `domain` to `<RadialAxis>` to keep multiple `
 series measured in the same units directly comparable at the same radius:
 
 ```jsx
-<RadialAxis fields={["New York", "Miami"]} domain={[0, 35]} />
-<RadialAreas x="date" ys={["New York", "Miami"]} closed={true} />
+<RadialAxis fields={["Miami", "New York"]} domain={[0, 35]} />
+<RadialAreas x="date" ys={["Miami", "New York"]} closed={true} />
 ```
 
 ### Overlapping series
 
 A filled series completely covers whatever's behind it wherever its own values are greater, at
-every angle - there's no z-order or opacity setting that reliably keeps a smaller series visible
-underneath a larger one, since with `fillOpacity` alone the buried series only ever shows through
-as a faint colour blend, easy to miss (or invisible entirely once a shape is fully contained). We
-deliberately don't try to detect this automatically (e.g. reordering series by size, or warning
-when one fully contains another) - reliably detecting "always greater at every angle" needs
-per-point comparison across every series pair, which is a lot of bookkeeping for a case with a
-simple manual fix: set `filled={false}` for a stroke-only outline instead, so every series stays
-visible regardless of how they overlap:
+every angle - `fillOpacity` alone doesn't reliably fix this, since a buried series only shows
+through as a faint colour blend, easy to miss (or invisible entirely once a shape is fully
+contained). We deliberately don't try to detect or fix this automatically (e.g. reordering by size,
+or warning when one series fully contains another) - reliably detecting "always greater at every
+angle" needs per-point comparison across every series pair, which is a lot of bookkeeping for a
+case with a couple of simple manual fixes:
 
-```jsx
-<RadialAreas x="date" ys={["New York", "Miami"]} closed={true} filled={false} />
-```
+- **List the larger series first in `ys`** (`RadialAreas` draws series in that order, so the first
+  is furthest back). Miami is warmer than New York at every point of the year, so it's listed first
+  here - New York, drawn on top, stays fully visible, and Miami still shows through wherever it
+  extends beyond New York's range:
 
-<Canvas of={RadialAreaStories.MultipleSeries} />
+  <Canvas of={RadialAreaStories.MultipleSeries} />
+
+- **If no single order works** - e.g. two series that cross over, each larger than the other at
+  different angles - reach for `filled={false}` instead, for a stroke-only outline that stays
+  visible regardless of how the series overlap:
+
+  ```jsx
+  <RadialAreas x="date" ys={["Miami", "New York"]} closed={true} filled={false} />
+  ```

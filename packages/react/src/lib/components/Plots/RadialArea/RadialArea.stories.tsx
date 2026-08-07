@@ -82,8 +82,9 @@ const RadialAreaTemplate = (args) => (
 );
 
 // Passing an explicit domain to <RadialAxis> puts both series on the same scale, so their absolute
-// temperatures stay comparable. filled={false} keeps New York visible even though it sits entirely
-// inside Miami's warmer range at every point of the year - see the docs for both
+// temperatures stay comparable. Miami is warmer than New York at every point of the year, so it's
+// listed first (drawn behind) and New York second (drawn in front) - otherwise a filled Miami would
+// completely hide a filled New York underneath it. See the docs for other ways to handle this.
 const MultiSeriesTemplate = (args) => (
     <RadialChart
         data={twoCities}
@@ -103,8 +104,8 @@ const MultiSeriesTemplate = (args) => (
         onMouseOut={args.onMouseOut}
     >
         <AngleAxis fields="date" scaleType="time" ticks={12} tickFormat={(d) => (d as Date).toLocaleString("en-US", { month: "short" })} />
-        <RadialAxis fields={["New York", "Miami"]} domain={[0, 35]} />
-        <RadialAreas x="date" ys={["New York", "Miami"]} closed={true} filled={false} />
+        <RadialAxis fields={["Miami", "New York"]} domain={[0, 35]} />
+        <RadialAreas x="date" ys={["Miami", "New York"]} closed={true} />
     </RadialChart>
 );
 
