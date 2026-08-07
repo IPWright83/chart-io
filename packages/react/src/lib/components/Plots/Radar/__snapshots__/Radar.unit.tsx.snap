@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Radar should assign each series a different color from the palette 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot radar-series"
+    >
+      <polygon
+        class="radar-element radar-shape"
+        points="100,50 169.2820323027551,140 74.01923788646684,115.00000000000001"
+        style="fill: #99c1dc; fill-opacity: 0.15; stroke: #99c1dc; stroke-width: 2;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="100"
+        cy="50"
+        r="4"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="169.2820323027551"
+        cy="140"
+        r="4"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="74.01923788646684"
+        cy="115.00000000000001"
+        r="4"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+    </g>
+    <g
+      class="g-plot radar-series"
+    >
+      <polygon
+        class="radar-element radar-shape"
+        points="100,80 134.64101615137756,120 22.057713659400534,145.00000000000006"
+        style="fill: #fc998e; fill-opacity: 0.15; stroke: #fc998e; stroke-width: 2;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="100"
+        cy="80"
+        r="4"
+        style="fill: #fc998e; opacity: 0.7;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="134.64101615137756"
+        cy="120"
+        r="4"
+        style="fill: #fc998e; opacity: 0.7;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="22.057713659400534"
+        cy="145.00000000000006"
+        r="4"
+        style="fill: #fc998e; opacity: 0.7;"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;

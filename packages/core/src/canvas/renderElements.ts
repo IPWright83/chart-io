@@ -4,6 +4,7 @@ import type { IColor } from "../types";
 
 import { renderArc } from "./renderArc";
 import { renderCircle } from "./renderCircle";
+import { renderPolygon } from "./renderPolygon";
 import { renderRect } from "./renderRect";
 
 /**
@@ -37,6 +38,10 @@ export function renderElements(
 
             case "RECT":
                 renderRect(context, node, overrideColor);
+                break;
+
+            case "POLYGON":
+                renderPolygon(context, node, overrideColor);
                 break;
 
             case "PATH":

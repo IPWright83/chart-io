@@ -1,0 +1,133 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RadarSeries using SVG should default category to "category" when not provided 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot radar-series"
+    >
+      <polygon
+        class="radar-element radar-shape"
+        points="100,50 180,100 100,130 40,100.00000000000001"
+        style="fill: #99c1dc; fill-opacity: 0.15; stroke: #99c1dc; stroke-width: 2;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="100"
+        cy="50"
+        r="4"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="180"
+        cy="100"
+        r="4"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="100"
+        cy="130"
+        r="4"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="40"
+        cy="100.00000000000001"
+        r="4"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`RadarSeries using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot radar-series"
+    >
+      <polygon
+        class="radar-element radar-shape"
+        points="100,50 180,100 100,130 40,100.00000000000001"
+        style="fill: #99c1dc; fill-opacity: 0.15; stroke: #99c1dc; stroke-width: 2;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="100"
+        cy="50"
+        r="4"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="180"
+        cy="100"
+        r="4"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="100"
+        cy="130"
+        r="4"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="40"
+        cy="100.00000000000001"
+        r="4"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`RadarSeries using SVG should render unfilled when filled is false 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot radar-series"
+    >
+      <polygon
+        class="radar-element radar-shape"
+        points="100,50 180,100 100,130 40,100.00000000000001"
+        style="fill: none; fill-opacity: 0.15; stroke: #99c1dc; stroke-width: 2;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="100"
+        cy="50"
+        r="4"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="180"
+        cy="100"
+        r="4"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="100"
+        cy="130"
+        r="4"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+      <circle
+        class="radar-element radar-marker"
+        cx="40"
+        cy="100.00000000000001"
+        r="4"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;

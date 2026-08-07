@@ -1,6 +1,24 @@
+import { createLabeller } from "./createLabeller";
 import { formatValue } from "./formatValue";
 
 describe("utils/formatters", () => {
+    describe("createLabeller", () => {
+        it("maps a field key to its configured label", () => {
+            const labeller = createLabeller({ avg_score: "Mean Score" });
+            expect(labeller("avg_score")).toBe("Mean Score");
+        });
+
+        it("falls back to the field key when unmapped", () => {
+            const labeller = createLabeller({ avg_score: "Mean Score" });
+            expect(labeller("unmapped_field")).toBe("unmapped_field");
+        });
+
+        it("acts as the identity function when given no map", () => {
+            const labeller = createLabeller();
+            expect(labeller("avg_score")).toBe("avg_score");
+        });
+    });
+
     it("correctly formats null", () => {
         expect(formatValue("", null)).toBe("-");
     });

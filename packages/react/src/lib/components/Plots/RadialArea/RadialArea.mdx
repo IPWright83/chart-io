@@ -1,0 +1,113 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as RadialAreaStories from "./RadialArea.stories"
+
+<Meta title="RadialCharts/RadialArea" />
+
+# RadialArea Plots
+
+A `<RadialArea>` fills the area from the center outward to a value, following a continuous angular
+domain around the circle - the polar equivalent of `<Area>`. It's a good fit for data with a
+natural, continuous ordering around a circle - most commonly a full year of dates, but any
+continuous (date or number) field works.
+
+<Canvas of={RadialAreaStories.Basic} />
+
+## `<RadialArea>` vs `<Radar>`
+
+Both plot data around a circle, but for different shapes of data:
+
+- **`<Radar>`** compares a handful of named categories (e.g. "Speed", "Power", "Defense") across one
+  or more series - each category is a fixed spoke, so a Radar with 5 categories always has exactly
+  5 points per series, connected by straight lines. Good for "how do these things compare across
+  these attributes?".
+- **`<RadialArea>`** plots a continuous measurement (e.g. a value per day across a year) as a smooth
+  filled area - there's no fixed set of categories, just as many points as there are rows of data,
+  and hovering anywhere shows the nearest one. Good for "how does this value trend over a cycle?".
+
+If your x-axis is a list of named things, reach for `<Radar>`. If it's a continuous range of dates
+or numbers, reach for `<RadialArea>`.
+
+## `<AngleAxis>` and `<RadialAxis>`
+
+Since the angular domain here is continuous rather than categorical, pass a continuous `scaleType`
+(`"time"` for dates, `"linear"` for numbers) to `<AngleAxis>`:
+
+```jsx
+<AngleAxis fields="date" scaleType="time" />
+<RadialAxis fields="temperature" />
+<RadialArea x="date" y="temperature" />
+```
+
+`<AngleAxis>` then draws an evenly-spaced set of spokes (controlled by `ticks`) rather than one per
+raw data point, the same way a `<XAxis>`/`<YAxis>` would for a linear/time scale.
+
+## `<RadialArea>` Component
+
+### Props
+
+| Prop           | Type      | Default             | Note                                                                                                          |
+| -------------- | --------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **`x`\***      | `string`  | `null`               | The key of the field used for the angular position, e.g. a date or number.                                      |
+| **`y`\***      | `string`  | `null`               | The key of the field used for the radial position, measured from the baseline (`0`) outward.                    |
+| `color`        | `string`  | Derived from Theme   | Override the colour of the series.                                                                              |
+| `closed`       | `boolean` | `false`               | Draw the area as a closed loop, joining the last point back to the first. Only appropriate for a fully cyclical domain (e.g. a full year of dates) - for a partial domain, closing the loop draws an incorrect line straight across the chart. |
+| `filled`       | `boolean` | `true`                | Whether the area is filled. Set to `false` for a stroke-only outline - see "Overlapping Series" below. |
+| `fillOpacity`  | `number`  | The theme's series opacity | The opacity of the filled area, when `filled` is true.                                                     |
+| `interactive`  | `boolean` | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot.  |
+| `showInLegend` | `boolean` | `true`                | Whether the plot should feature in the legend or not.                                                           |
+
+### Using Canvas
+
+Like other plots, a `<RadialArea>` can be rendered using an HTML Canvas instead of SVG by setting `useCanvas` on the parent `<RadialChart>`.
+
+<Canvas of={RadialAreaStories.Canvas} />
+
+## `<RadialAreas>` Component
+
+`<RadialAreas>` renders one `<RadialArea>` per field in `ys`, all sharing the same angular (`x`)
+scale - useful for comparing multiple series, e.g. the same measurement across several locations.
+
+### Props
+
+| Prop       | Type       | Default             | Note                                                                 |
+| ---------- | ---------- | -------------------- | --------------------------------------------------------------------- |
+| **`x`\***  | `string`   | `null`                | The key of the field used for the angular position.                   |
+| **`ys`\*** | `string[]` | `null`                | The keys of the fields used for the radial position, one per series.  |
+| `colors`   | `string[]` | Derived from Theme   | Override the colours for the series.                                  |
+| `closed`   | `boolean`  | `false`               | See `<RadialArea>`'s own `closed` prop.                                |
+| `filled`   | `boolean`  | `true`                | See `<RadialArea>`'s own `filled` prop.                                |
+| `fillOpacity` | `number` | The theme's series opacity | See `<RadialArea>`'s own `fillOpacity` prop.                       |
+
+Since each field is otherwise scaled independently (so, for example, a Radar spoke can mix
+different units), pass an explicit `domain` to `<RadialAxis>` to keep multiple `<RadialArea>`
+series measured in the same units directly comparable at the same radius:
+
+```jsx
+<RadialAxis fields={["Miami", "New York"]} domain={[0, 35]} />
+<RadialAreas x="date" ys={["Miami", "New York"]} closed={true} />
+```
+
+### Overlapping series
+
+A filled series completely covers whatever's behind it wherever its own values are greater, at
+every angle - `fillOpacity` alone doesn't reliably fix this, since a buried series only shows
+through as a faint colour blend, easy to miss (or invisible entirely once a shape is fully
+contained). We deliberately don't try to detect or fix this automatically (e.g. reordering by size,
+or warning when one series fully contains another) - reliably detecting "always greater at every
+angle" needs per-point comparison across every series pair, which is a lot of bookkeeping for a
+case with a couple of simple manual fixes:
+
+- **List the larger series first in `ys`** (`RadialAreas` draws series in that order, so the first
+  is furthest back). Miami is warmer than New York at every point of the year, so it's listed first
+  here - New York, drawn on top, stays fully visible, and Miami still shows through wherever it
+  extends beyond New York's range:
+
+  <Canvas of={RadialAreaStories.MultipleSeries} />
+
+- **If no single order works** - e.g. two series that cross over, each larger than the other at
+  different angles - reach for `filled={false}` instead, for a stroke-only outline that stays
+  visible regardless of how the series overlap:
+
+  ```jsx
+  <RadialAreas x="date" ys={["Miami", "New York"]} closed={true} filled={false} />
+  ```

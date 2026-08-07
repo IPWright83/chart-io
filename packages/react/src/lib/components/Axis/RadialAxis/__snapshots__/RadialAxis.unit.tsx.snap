@@ -1,0 +1,265 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RadialAxis with a single field should render a concentric ring and label per real tick value 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="chart-io radial-axis"
+      style="pointer-events: none;"
+    >
+      <g
+        class="radial-axis-tick"
+      >
+        <circle
+          class="radial-axis-ring"
+          cx="100"
+          cy="100"
+          r="0"
+          style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
+        />
+        <text
+          class="radial-axis-label"
+          style="fill: #000000; font-family: sans-serif; user-select: none;"
+          text-anchor="middle"
+          x="100"
+          y="100"
+        >
+          0
+        </text>
+      </g>
+      <g
+        class="radial-axis-tick"
+      >
+        <circle
+          class="radial-axis-ring"
+          cx="100"
+          cy="100"
+          r="20"
+          style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
+        />
+        <text
+          class="radial-axis-label"
+          style="fill: #000000; font-family: sans-serif; user-select: none;"
+          text-anchor="middle"
+          x="100"
+          y="80"
+        >
+          20
+        </text>
+      </g>
+      <g
+        class="radial-axis-tick"
+      >
+        <circle
+          class="radial-axis-ring"
+          cx="100"
+          cy="100"
+          r="40"
+          style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
+        />
+        <text
+          class="radial-axis-label"
+          style="fill: #000000; font-family: sans-serif; user-select: none;"
+          text-anchor="middle"
+          x="100"
+          y="60"
+        >
+          40
+        </text>
+      </g>
+      <g
+        class="radial-axis-tick"
+      >
+        <circle
+          class="radial-axis-ring"
+          cx="100"
+          cy="100"
+          r="60"
+          style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
+        />
+        <text
+          class="radial-axis-label"
+          style="fill: #000000; font-family: sans-serif; user-select: none;"
+          text-anchor="middle"
+          x="100"
+          y="40"
+        >
+          60
+        </text>
+      </g>
+      <g
+        class="radial-axis-tick"
+      >
+        <circle
+          class="radial-axis-ring"
+          cx="100"
+          cy="100"
+          r="80"
+          style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
+        />
+        <text
+          class="radial-axis-label"
+          style="fill: #000000; font-family: sans-serif; user-select: none;"
+          text-anchor="middle"
+          x="100"
+          y="20"
+        >
+          80
+        </text>
+      </g>
+      <g
+        class="radial-axis-tick"
+      >
+        <circle
+          class="radial-axis-ring"
+          cx="100"
+          cy="100"
+          r="100"
+          style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
+        />
+        <text
+          class="radial-axis-label"
+          style="fill: #000000; font-family: sans-serif; user-select: none;"
+          text-anchor="middle"
+          x="100"
+          y="0"
+        >
+          100
+        </text>
+      </g>
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`RadialAxis with multiple, independently-scaled fields should render a normalized concentric ring and label per tick 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="chart-io radial-axis"
+      style="pointer-events: none;"
+    >
+      <g
+        class="radial-axis-tick"
+      >
+        <circle
+          class="radial-axis-ring"
+          cx="100"
+          cy="100"
+          r="0"
+          style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
+        />
+        <text
+          class="radial-axis-label"
+          style="fill: #000000; font-family: sans-serif; user-select: none;"
+          text-anchor="middle"
+          x="100"
+          y="100"
+        >
+          0%
+        </text>
+      </g>
+      <g
+        class="radial-axis-tick"
+      >
+        <circle
+          class="radial-axis-ring"
+          cx="100"
+          cy="100"
+          r="20"
+          style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
+        />
+        <text
+          class="radial-axis-label"
+          style="fill: #000000; font-family: sans-serif; user-select: none;"
+          text-anchor="middle"
+          x="100"
+          y="80"
+        >
+          20%
+        </text>
+      </g>
+      <g
+        class="radial-axis-tick"
+      >
+        <circle
+          class="radial-axis-ring"
+          cx="100"
+          cy="100"
+          r="40"
+          style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
+        />
+        <text
+          class="radial-axis-label"
+          style="fill: #000000; font-family: sans-serif; user-select: none;"
+          text-anchor="middle"
+          x="100"
+          y="60"
+        >
+          40%
+        </text>
+      </g>
+      <g
+        class="radial-axis-tick"
+      >
+        <circle
+          class="radial-axis-ring"
+          cx="100"
+          cy="100"
+          r="60"
+          style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
+        />
+        <text
+          class="radial-axis-label"
+          style="fill: #000000; font-family: sans-serif; user-select: none;"
+          text-anchor="middle"
+          x="100"
+          y="40"
+        >
+          60%
+        </text>
+      </g>
+      <g
+        class="radial-axis-tick"
+      >
+        <circle
+          class="radial-axis-ring"
+          cx="100"
+          cy="100"
+          r="80"
+          style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
+        />
+        <text
+          class="radial-axis-label"
+          style="fill: #000000; font-family: sans-serif; user-select: none;"
+          text-anchor="middle"
+          x="100"
+          y="20"
+        >
+          80%
+        </text>
+      </g>
+      <g
+        class="radial-axis-tick"
+      >
+        <circle
+          class="radial-axis-ring"
+          cx="100"
+          cy="100"
+          r="100"
+          style="fill: none; stroke: #d3d3d3; stroke-opacity: 0.8; stroke-width: 1;"
+        />
+        <text
+          class="radial-axis-label"
+          style="fill: #000000; font-family: sans-serif; user-select: none;"
+          text-anchor="middle"
+          x="100"
+          y="0"
+        >
+          100%
+        </text>
+      </g>
+    </g>
+  </svg>
+</DocumentFragment>
+`;

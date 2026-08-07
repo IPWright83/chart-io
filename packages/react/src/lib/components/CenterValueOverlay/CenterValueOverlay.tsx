@@ -10,10 +10,8 @@ import { useSelector } from "react-redux";
  * @return  The center value overlay component
  */
 export function CenterValueOverlay() {
-    const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
-    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
-    const plotLeft = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
-    const plotTop = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
+    const cx = useSelector((s: IState) => chartSelectors.dimensions.plot.cx(s));
+    const cy = useSelector((s: IState) => chartSelectors.dimensions.plot.cy(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const items = useSelector((s: IState) => eventSelectors.tooltip.items(s, false));
 
@@ -22,9 +20,6 @@ export function CenterValueOverlay() {
     if (!item) {
         return null;
     }
-
-    const cx = plotLeft + plotWidth / 2;
-    const cy = plotTop + plotHeight / 2;
 
     const style = {
         pointerEvents: "none" as const,

@@ -17,10 +17,9 @@ const withRadialPlot = <P extends object>(WrappedComponent: React.ComponentType<
      * @return {ReactDOMComponent}      The wrapped layer
      */
     return function withRadialPlot(props) {
-        const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
-        const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
-        const plotLeft = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
-        const plotTop = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
+        const cx = useSelector((s: IState) => chartSelectors.dimensions.plot.cx(s));
+        const cy = useSelector((s: IState) => chartSelectors.dimensions.plot.cy(s));
+        const maxRadius = useSelector((s: IState) => chartSelectors.dimensions.plot.maxRadius(s));
 
         // We need to pass the ref through a useState due to the problem
         // of forwarding refs - https://reactjs.org/docs/forwarding-refs.html
@@ -34,10 +33,6 @@ const withRadialPlot = <P extends object>(WrappedComponent: React.ComponentType<
             logDebug("Skipping render - layer not yet avaliable");
             return null;
         }
-
-        const cx = plotLeft + plotWidth / 2;
-        const cy = plotTop + plotHeight / 2;
-        const maxRadius = Math.max(0, Math.min(plotWidth, plotHeight) / 2);
 
         return <WrappedComponent layer={layer} cx={cx} cy={cy} maxRadius={maxRadius} {...(props as P)} />;
     };

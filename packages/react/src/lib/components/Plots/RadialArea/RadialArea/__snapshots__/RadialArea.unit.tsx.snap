@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RadialArea using SVG should render as a closed loop when closed is true 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot radial-area"
+      transform="translate(100, 100)"
+    >
+      <path
+        class="radial-area"
+        d="M0,-10L34.641,20L-69.282,40L0,-50Z M0,0L0,0L0,0L0,0Z                                                                                                   "
+        style="fill: rgba(153, 193, 220, 0.7); stroke: rgb(107, 135, 154); pointer-events: none;"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`RadialArea using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot radial-area"
+      transform="translate(100, 100)"
+    >
+      <path
+        class="radial-area"
+        d="M0,-10L34.641,20L-69.282,40L0,-50L0,0L0,0L0,0L0,0Z                                                                                                  "
+        style="fill: rgba(153, 193, 220, 0.7); stroke: rgb(107, 135, 154); pointer-events: none;"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`RadialArea using SVG should skip rendering if there is no x scale avaliable 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot radial-area"
+    />
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`RadialArea using SVG should skip rendering if there is no y scale avaliable 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot radial-area"
+    />
+  </svg>
+</DocumentFragment>
+`;
