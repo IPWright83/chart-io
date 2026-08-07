@@ -97,7 +97,8 @@ export const Basic = {
         ys: skills,
         filled: true,
     },
-    play: createSVGTest("circle.radar-marker", { clientX: 300, clientY: 250 }),
+    // Targets the "Speed" vertex marker for Player A, near the top of the chart
+    play: createSVGTest("circle.radar-marker", { clientX: 416, clientY: 76 }),
 };
 
 export const Canvas = {
@@ -118,7 +119,8 @@ export const SingleSeries = {
         ...Basic.args,
         data: [twoPlayers[0]],
     },
-    play: createSVGTest("circle.radar-marker", { clientX: 300, clientY: 250 }),
+    // Targets the "Speed" vertex marker for Player A, near the top of the chart
+    play: createSVGTest("circle.radar-marker", { clientX: 416, clientY: 76 }),
 };
 
 export const ThreeSeries = {
@@ -128,7 +130,8 @@ export const ThreeSeries = {
         ...Basic.args,
         data: threePlayers,
     },
-    play: createSVGTest("circle.radar-marker", { clientX: 300, clientY: 250 }),
+    // Targets the "Speed" vertex marker for Player A, near the top of the chart
+    play: createSVGTest("circle.radar-marker", { clientX: 416, clientY: 76 }),
 };
 
 export const Unfilled = {
@@ -139,7 +142,10 @@ export const Unfilled = {
         data: manyPlayers,
         filled: false,
     },
-    play: createSVGTest("circle.radar-marker", { clientX: 300, clientY: 250 }),
+    // Targets the "Speed" vertex marker for Player A, near the top of the chart. Its radius (and so
+    // its screen position) differs slightly from the other stories, since the shared domain now
+    // spans 5 players instead of 2-3
+    play: createSVGTest("circle.radar-marker", { clientX: 416, clientY: 97 }),
 };
 
 // GPUs are the series (one row each); each spec is its own spoke with its own natural domain -
@@ -192,5 +198,6 @@ export const DifferentDomains = {
     args: {
         ...Basic.args,
     },
-    play: createSVGTest("circle.radar-marker", { clientX: 300, clientY: 250 }),
+    // Targets the "Memory (GB)" vertex marker for the first GPU, near the top of the chart
+    play: createSVGTest("circle.radar-marker", { clientX: 416, clientY: 76 }),
 };

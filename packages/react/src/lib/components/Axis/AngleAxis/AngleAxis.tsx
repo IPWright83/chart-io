@@ -21,8 +21,10 @@ export interface IAngleAxisProps {
      */
     scaleType?: IScaleType;
     /**
-     * The gap, in pixels, to leave between the outer edge of the plot and a category's label
-     * @default 8
+     * The gap, in pixels, to leave between the outer edge of the plot and a category's label.
+     * Should be large enough to clear a sibling `<RadialAxis>`'s outermost ring label too, since
+     * both sit at the same radius at the top of the chart
+     * @default 20
      */
     tickPadding?: number;
     /**
@@ -48,7 +50,7 @@ export function AngleAxis({
     fields,
     domain,
     scaleType,
-    tickPadding = 8,
+    tickPadding = 20,
     tickFormat = (value) => `${value}`,
     ticks = 8,
 }: IAngleAxisProps) {

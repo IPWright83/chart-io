@@ -51,6 +51,8 @@ raw data point, the same way a `<XAxis>`/`<YAxis>` would for a linear/time scale
 | **`y`\***      | `string`  | `null`               | The key of the field used for the radial position, measured from the baseline (`0`) outward.                    |
 | `color`        | `string`  | Derived from Theme   | Override the colour of the series.                                                                              |
 | `closed`       | `boolean` | `false`               | Draw the area as a closed loop, joining the last point back to the first. Only appropriate for a fully cyclical domain (e.g. a full year of dates) - for a partial domain, closing the loop draws an incorrect line straight across the chart. |
+| `filled`       | `boolean` | `true`                | Whether the area is filled. Set to `false` for a stroke-only outline - see "Overlapping Series" below. |
+| `fillOpacity`  | `number`  | The theme's series opacity | The opacity of the filled area, when `filled` is true.                                                     |
 | `interactive`  | `boolean` | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot.  |
 | `showInLegend` | `boolean` | `true`                | Whether the plot should feature in the legend or not.                                                           |
 
@@ -73,6 +75,8 @@ scale - useful for comparing multiple series, e.g. the same measurement across s
 | **`ys`\*** | `string[]` | `null`                | The keys of the fields used for the radial position, one per series.  |
 | `colors`   | `string[]` | Derived from Theme   | Override the colours for the series.                                  |
 | `closed`   | `boolean`  | `false`               | See `<RadialArea>`'s own `closed` prop.                                |
+| `filled`   | `boolean`  | `true`                | See `<RadialArea>`'s own `filled` prop.                                |
+| `fillOpacity` | `number` | The theme's series opacity | See `<RadialArea>`'s own `fillOpacity` prop.                       |
 
 Since each field is otherwise scaled independently (so, for example, a Radar spoke can mix
 different units), pass an explicit `domain` to `<RadialAxis>` to keep multiple `<RadialArea>`
@@ -81,6 +85,22 @@ series measured in the same units directly comparable at the same radius:
 ```jsx
 <RadialAxis fields={["New York", "Miami"]} domain={[0, 35]} />
 <RadialAreas x="date" ys={["New York", "Miami"]} closed={true} />
+```
+
+### Overlapping series
+
+A filled series completely covers whatever's behind it wherever its own values are greater, at
+every angle - there's no z-order or opacity setting that reliably keeps a smaller series visible
+underneath a larger one, since with `fillOpacity` alone the buried series only ever shows through
+as a faint colour blend, easy to miss (or invisible entirely once a shape is fully contained). We
+deliberately don't try to detect this automatically (e.g. reordering series by size, or warning
+when one fully contains another) - reliably detecting "always greater at every angle" needs
+per-point comparison across every series pair, which is a lot of bookkeeping for a case with a
+simple manual fix: set `filled={false}` for a stroke-only outline instead, so every series stays
+visible regardless of how they overlap:
+
+```jsx
+<RadialAreas x="date" ys={["New York", "Miami"]} closed={true} filled={false} />
 ```
 
 <Canvas of={RadialAreaStories.MultipleSeries} />

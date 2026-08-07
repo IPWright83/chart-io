@@ -43,6 +43,19 @@ export interface IRadialAreaBaseProps {
      */
     closed?: boolean;
     /**
+     * Should the area within the series be filled? Set to `false` for a stroke-only outline - useful
+     * with `<RadialAreas>` when one series' values sit entirely inside another's at every angle, since
+     * a filled series in front will otherwise hide a filled series behind it no matter the fill
+     * order or opacity
+     * @default true
+     */
+    filled?: boolean;
+    /**
+     * The opacity of the filled area, when `filled` is true
+     * @default the theme's series opacity
+     */
+    fillOpacity?: number;
+    /**
      * Should the plot be interactive and be able to trigger markers & tooltips?
      * @default true
      */
@@ -75,6 +88,8 @@ export function RadialAreaBase({
     y,
     color,
     closed = false,
+    filled = true,
+    fillOpacity,
     scaleMode = "plot",
     showInLegend = true,
     interactive = true,
@@ -94,8 +109,8 @@ export function RadialAreaBase({
     const sortedData = useMemo(() => data.toSorted((a, b) => d3.ascending(a[x], b[x])), [data, x]);
 
     const fillColor = d3.color(`${color ?? theme.series.colors[0]}`);
-    fillColor.opacity = theme.series.opacity;
-    const strokeColor = fillColor.darker();
+    fillColor.opacity = fillOpacity ?? theme.series.opacity;
+    const strokeColor = d3.color(`${color ?? theme.series.colors[0]}`).darker();
 
     useLegendItem(y, "line", showInLegend, fillColor);
 
@@ -127,9 +142,11 @@ export function RadialAreaBase({
             context.beginPath();
             // @ts-ignore: TODO: Not sure how to fix this
             areaShape.context(context)(sortedData);
-            context.fillStyle = fillColor.toString();
             context.strokeStyle = strokeColor.toString();
-            context.fill();
+            if (filled) {
+                context.fillStyle = fillColor.toString();
+                context.fill();
+            }
             context.stroke();
             context.restore();
 
@@ -154,7 +171,7 @@ export function RadialAreaBase({
 
         path
             .datum(sortedData)
-            .style("fill", fillColor.toString())
+            .style("fill", filled ? fillColor.toString() : "none")
             .style("stroke", strokeColor.toString())
             .style("pointer-events", "none")
             .transition("radial-area")
@@ -164,7 +181,26 @@ export function RadialAreaBase({
                 const previous = d3.select(this).attr("d") || current;
                 return interpolateMultiPath(previous, current);
             });
-    }, [x, y, sortedData, xScale, yScale, layer, canvas, width, height, cx, cy, closed, animationDuration, color, theme.series.colors, theme.series.opacity]);
+    }, [
+        x,
+        y,
+        sortedData,
+        xScale,
+        yScale,
+        layer,
+        canvas,
+        width,
+        height,
+        cx,
+        cy,
+        closed,
+        filled,
+        fillOpacity,
+        animationDuration,
+        color,
+        theme.series.colors,
+        theme.series.opacity,
+    ]);
 
     useRadialDatumFocus({ interactive, x, y, xScale, yScale, data: sortedData, color: strokeColor, cx, cy });
 

@@ -13,6 +13,19 @@ export interface IRadialAreasProps extends IPlotsProps {
      * @default false
      */
     closed?: boolean;
+    /**
+     * Should each series' area be filled? See `<RadialArea>`'s own `filled` prop - useful here in
+     * particular, since a filled series in front will hide a filled series behind it wherever the
+     * front series' values are greater at every angle, regardless of z-order or opacity
+     * @default true
+     */
+    filled?: boolean;
+    /**
+     * The opacity of each series' filled area, when `filled` is true. See `<RadialArea>`'s own
+     * `fillOpacity` prop
+     * @default the theme's series opacity
+     */
+    fillOpacity?: number;
 }
 
 /**
