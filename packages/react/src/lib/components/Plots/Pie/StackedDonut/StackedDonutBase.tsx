@@ -1,5 +1,5 @@
-import { chartSelectors, d3, ensureCombinationsAreUnique, IState } from "@chart-io/core";
-import type { IColor, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
+import { buildHierarchy, chartSelectors, d3, ensureCombinationsAreUnique, IState } from "@chart-io/core";
+import type { IColor, IHierarchyDatum, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
 
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
@@ -11,8 +11,9 @@ import type { IArcAngles } from "../interpolateArc";
 import { interpolateArc } from "../interpolateArc";
 import { useFocused } from "../../useFocused";
 import { useTooltip } from "../../useTooltip";
-import type { IPieHierarchyNode } from "./buildHierarchy";
-import { buildHierarchy } from "./buildHierarchy";
+
+// The rectangular layout `<StackedDonut>` applies on top of the shared, un-laid-out hierarchy
+type IPieHierarchyNode = d3.HierarchyRectangularNode<IHierarchyDatum>;
 
 export interface IStackedDonutBaseProps {
     /**
@@ -152,7 +153,8 @@ export function StackedDonutBase({
     useRender(() => {
         ensureCombinationsAreUnique(data, categories, "StackedDonut");
 
-        const root = buildHierarchy(data, categories, value, sort);
+        const hierarchy = buildHierarchy(data, categories, value, sort, "StackedDonut");
+        const root = d3.partition<IHierarchyDatum>().size([2 * Math.PI, 1])(hierarchy) as IPieHierarchyNode;
         const allNodes = root.descendants().filter((node) => node.depth > 0) as IPieHierarchyNode[];
 
         const levels = categories.length;
