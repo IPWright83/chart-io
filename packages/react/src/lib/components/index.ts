@@ -10,6 +10,7 @@ export * from "./LegendOverlay";
 export * from "./XYChart";
 export * from "./RadialChart";
 export * from "./RectangularChart";
+export * from "./ZoomBreadcrumb";
 export * from "./Crosshair";
 export * from "./Furniture";
 export * from "./ZoomBrush";

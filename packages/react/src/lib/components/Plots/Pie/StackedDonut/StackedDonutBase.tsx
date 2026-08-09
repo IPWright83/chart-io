@@ -193,7 +193,8 @@ export function StackedDonutBase({
 
         // @ts-ignore: TODO: Not sure how to fix this
         const colorScale = d3.scaleOrdinal<string>().domain(legendKeys).range(palette);
-        const colorFor = (node: IPieHierarchyNode) => colorHierarchyNode(node, (key) => colorScale(key));
+        const colorFor = (node: IPieHierarchyNode) =>
+            colorHierarchyNode(node, (key) => colorScale(key), theme.background.toString());
 
         const arcGenerator = d3
             .arc<{ startAngle: number; endAngle: number; innerRadius: number; outerRadius: number }>()

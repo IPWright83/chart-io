@@ -78,6 +78,12 @@ export interface IChartBaseProps {
      * @default undefined
      */
     labeller?: ILabeller;
+    /**
+     * Should hierarchical plots in the chart (e.g. `<Treemap>`) support clicking a node to zoom in
+     * and refocus on its subtree?
+     * @default false
+     */
+    zoomable?: boolean;
 }
 
 export interface IChartRef {
@@ -111,6 +117,7 @@ export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
         onClick,
         theme = "light" as const,
         labeller,
+        zoomable = false,
     } = props;
 
     const store = useStore();
@@ -153,6 +160,10 @@ export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
             store.dispatch(chartActions.setLabeller(labeller));
         }
     }, [store.dispatch, labeller]);
+
+    useEffect(() => {
+        store.dispatch(chartActions.setZoomable(zoomable));
+    }, [store.dispatch, zoomable]);
 
     // We need to extend the child components to provide the common props. We do this by
     // cloning them and piping the common props down

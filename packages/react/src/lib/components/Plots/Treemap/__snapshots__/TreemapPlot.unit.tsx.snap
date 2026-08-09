@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Treemap using SVG should render an N-level hierarchy correctly 1`] = `
+exports[`TreemapPlot using SVG should render an N-level hierarchy correctly 1`] = `
 <DocumentFragment>
   <svg>
     <g
@@ -41,7 +41,7 @@ exports[`Treemap using SVG should render an N-level hierarchy correctly 1`] = `
 </DocumentFragment>
 `;
 
-exports[`Treemap using SVG should render correctly 1`] = `
+exports[`TreemapPlot using SVG should render correctly 1`] = `
 <DocumentFragment>
   <svg>
     <g

@@ -7,7 +7,6 @@ import React from "react";
 import { gdp_dataset } from "../../../data/gdp_dataset";
 import { argTypes } from "../../../storybook/argTypes";
 import { createCanvasTest, createSVGTest } from "../../testUtils";
-import { RectangularChart } from "../RectangularChart";
 import { Treemap } from "./Treemap";
 
 const { width, height, margin, useCanvas, theme } = argTypes;
@@ -53,7 +52,7 @@ const fourLevelData = gdp_dataset.flatMap((d) => [
 ]);
 
 const TreemapTemplate = (args) => (
-    <RectangularChart
+    <Treemap
         data={args.data ?? data}
         plotMargin={{
             left: args.leftMargin,
@@ -66,12 +65,16 @@ const TreemapTemplate = (args) => (
         animationDuration={args.animationDuration}
         theme={args.theme}
         useCanvas={args.useCanvas}
+        zoomable={args.zoomable}
+        breadcrumb={args.breadcrumb}
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
-    >
-        <Treemap categories={args.categories} value={args.value} sort={args.sort} padding={args.padding} />
-    </RectangularChart>
+        categories={args.categories}
+        value={args.value}
+        sort={args.sort}
+        padding={args.padding}
+    />
 );
 
 export const Basic = {
@@ -122,6 +125,18 @@ export const DeepTreemap = {
         ...Basic.args,
         categories: ["continent", "country", "sector", "half"],
         data: fourLevelData,
+    },
+    play: createSVGTest("rect.treemap-cell", { clientX: 150, clientY: 150 }),
+};
+
+export const Zoomable = {
+    name: "Zoomable with Breadcrumb",
+    render: TreemapTemplate,
+    args: {
+        ...Basic.args,
+        categories: ["continent", "country", "sector"],
+        zoomable: true,
+        breadcrumb: true,
     },
     play: createSVGTest("rect.treemap-cell", { clientX: 150, clientY: 150 }),
 };

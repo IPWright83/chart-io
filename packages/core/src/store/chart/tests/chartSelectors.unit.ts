@@ -368,4 +368,35 @@ describe("chartSelectors", () => {
             expect(chartSelectors.labeller(state)("avg_score")).toBe("Mean Score");
         });
     });
+
+    describe("zoomable", () => {
+        it("defaults to false", () => {
+            const state = { event: defaultEventState, chart: { ...defaultChartState } };
+
+            expect(chartSelectors.zoomable(state)).toBe(false);
+        });
+
+        it("returns the configured value", () => {
+            const state = { event: defaultEventState, chart: { ...defaultChartState, zoomable: true } };
+
+            expect(chartSelectors.zoomable(state)).toBe(true);
+        });
+    });
+
+    describe("zoom", () => {
+        it("defaults to an empty path", () => {
+            const state = { event: defaultEventState, chart: { ...defaultChartState } };
+
+            expect(chartSelectors.zoom.path(state)).toEqual([]);
+        });
+
+        it("returns the configured zoom path", () => {
+            const state = {
+                event: defaultEventState,
+                chart: { ...defaultChartState, zoom: { path: ["North America", "United States"] } },
+            };
+
+            expect(chartSelectors.zoom.path(state)).toEqual(["North America", "United States"]);
+        });
+    });
 });

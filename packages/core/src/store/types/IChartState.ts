@@ -30,6 +30,12 @@ export interface IChartStateBrush {
   range?: number[];
 }
 
+export interface IChartStateZoom {
+  // The ancestry path (root excluded) of the currently focused node, e.g. ["North America",
+  // "United States"] - an empty array means fully zoomed out
+  path: string[];
+}
+
 export interface IChartState {
   id: string;
   data: IData;
@@ -41,4 +47,6 @@ export interface IChartState {
   brush: IChartStateBrush;
   theme: ITheme;
   labeller: ILabeller;
+  zoomable: boolean;
+  zoom: IChartStateZoom;
 }

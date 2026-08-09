@@ -7,9 +7,10 @@ import * as TreemapStories from "./Treemap.stories"
 
 The `<Treemap>` component subdivides the plot area into nested rectangles from a flat dataset:
 `categories` is an ordered list of fields, outermost group first. Each level subdivides its parent's
-rectangle, with every leaf cell's area proportional to its value. Since it lays itself out within the
-full plot area rather than against x/y scales, it should be used within a `<RectangularChart>` rather
-than an `<XYChart>` or `<RadialChart>`.
+rectangle, with every leaf cell's area proportional to its value. It's a self-contained chart - unlike
+`<Bar>`/`<Line>` (which need an `<XYChart>` wrapper) or `<Pie>`/`<Radar>` (which need a `<RadialChart>`
+wrapper), `<Treemap>` accepts chart-level props like `data`/`width`/`height` directly, since it only
+ever has a single plot.
 
 <Canvas of={TreemapStories.Basic} />
 
@@ -28,6 +29,10 @@ than an `<XYChart>` or `<RadialChart>`.
 | `interactive`   | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot             |
 | `showInLegend`  | `boolean`  | `true`                | Whether the plot should feature in the legend or not. Only the top-level categories appear in the legend.       |
 | `buildHierarchy`| `function` | `buildHierarchy` from `@chart-io/core` | Builds the hierarchy from the flat dataset. Override this if your data doesn't fit the flat, group-by-`categories` shape - see below. |
+
+`<Treemap>` also accepts the usual chart-level props - `data`, `width`, `height`, `plotMargin`,
+`theme`, `animationDuration`, `onClick`/`onMouseOver`/`onMouseOut` and so on - directly, since it's a
+self-contained chart.
 
 > **Note**: Every combination of the fields listed in `categories` should be unique in the data. If your
 > data has multiple rows for the same combination, aggregate it first.
@@ -52,6 +57,24 @@ treemap.
 There's no fixed limit on the number of levels - `categories` accepts any number of fields.
 
 <Canvas of={TreemapStories.DeepTreemap} />
+
+### Zooming
+
+Since only leaf cells are drawn, a group never has a cell of its own to click on - so set `zoomable` to
+let a click on any cell zoom in and refocus on that cell's immediate parent group instead, expanding it
+to fill the available space. Clicking a cell whose parent is already the focused group zooms back out
+one level. Add `breadcrumb` to also show the current zoom path as a clickable trail:
+
+<Canvas of={TreemapStories.Zoomable} />
+
+```jsx
+<Treemap
+    categories={["continent", "country", "sector"]}
+    value="gdp"
+    zoomable={true}
+    breadcrumb={true}
+/>
+```
 
 ### Negative values
 

@@ -16,6 +16,7 @@ import { useLegendItems, useRender } from "../../../hooks";
 import { renderCanvas } from "../renderCanvas";
 import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
+import { useZoom } from "../useZoom";
 
 // The rectangular layout `<Treemap>` applies on top of the shared, un-laid-out hierarchy
 type ITreemapNode = d3.HierarchyRectangularNode<IHierarchyDatum>;
@@ -85,22 +86,6 @@ export interface ITreemapBaseProps {
      * This is an internally used function to allow the plot to render to a virtual canvas
      */
     renderVirtualCanvas?: (update: d3.Transition<Element, unknown, any, unknown>) => void;
-    /**
-     * The x-coordinate of the left edge of the plot area. Provided by `withRectangularPlot`
-     */
-    plotLeft?: number;
-    /**
-     * The y-coordinate of the top edge of the plot area. Provided by `withRectangularPlot`
-     */
-    plotTop?: number;
-    /**
-     * The width, in pixels, available to the Treemap. Provided by `withRectangularPlot`
-     */
-    plotWidth?: number;
-    /**
-     * The height, in pixels, available to the Treemap. Provided by `withRectangularPlot`
-     */
-    plotHeight?: number;
     onMouseOver?: IOnMouseOver;
     onMouseOut?: IOnMouseOut;
     onClick?: IOnClick;
@@ -118,10 +103,6 @@ export function TreemapBase({
     canvas,
     renderVirtualCanvas,
     layer,
-    plotLeft,
-    plotTop,
-    plotWidth,
-    plotHeight,
     padding = 2,
     cornerRadius = 0,
     sort = false,
@@ -136,8 +117,13 @@ export function TreemapBase({
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const plotLeft = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
+    const plotTop = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
+    const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
+    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
+    const { zoomable, path: zoomPath, zoomTo } = useZoom();
 
     // Only the top-level category is shown in the Legend, deeper levels can contain many more
     // values than is practical to list
@@ -154,21 +140,15 @@ export function TreemapBase({
     const onFocus = useFocused(theme);
 
     useRender(() => {
+        // Unable to render without the layer avaliable
+        if (!layer.current) return;
+
         ensureCombinationsAreUnique(data, categories, "Treemap");
 
         const hierarchy = buildHierarchy(data, categories, value, sort, "Treemap");
-        const layout = d3
-            .treemap<IHierarchyDatum>()
-            .size([plotWidth, plotHeight])
-            .paddingInner(padding)(hierarchy) as ITreemapNode;
-        const leaves = layout.leaves() as ITreemapNode[];
-
-        // @ts-ignore: TODO: Not sure how to fix this
-        const colorScale = d3.scaleOrdinal<string>().domain(legendKeys).range(palette);
-        const colorFor = (node: ITreemapNode) => colorHierarchyNode(node, (key) => colorScale(key));
 
         // A node's ancestry (root excluded), e.g. ["North", "Widgets"]
-        const ancestry = (node: ITreemapNode) =>
+        const ancestry = (node: IHierarchyNode) =>
             node
                 .ancestors()
                 .filter((n) => n.depth > 0)
@@ -176,13 +156,47 @@ export function TreemapBase({
                 .map((n) => n.data.key);
 
         // A node's ancestry uniquely identifies it, e.g. "North:Widgets"
-        const key = (node: ITreemapNode) => ancestry(node).join(":");
+        const key = (node: IHierarchyNode) => ancestry(node).join(":");
 
         // The breadcrumb of category values leading to this node, e.g. "North / Widgets"
-        const breadcrumb = (node: ITreemapNode) => ancestry(node).join(" / ");
+        const breadcrumb = (node: IHierarchyNode) => ancestry(node).join(" / ");
+
+        // If zoomed in, lay out just the focused node's subtree - it stays a full member of the
+        // original hierarchy (its ancestors are still reachable via .parent), only the layout treats
+        // it as the root. Falls back to the full hierarchy if the path no longer matches (e.g. the
+        // underlying data changed)
+        const zoomTarget = zoomable && zoomPath.length > 0 ? zoomPath.join(":") : null;
+        const focusedNode = zoomTarget
+            ? (hierarchy.descendants().find((node) => key(node) === zoomTarget) ?? hierarchy)
+            : hierarchy;
+
+        // d3.treemap() indexes an internal padding stack by each node's absolute `.depth` (fixed when
+        // the hierarchy was built), assuming the node it's invoked on is depth 0 - so laying out a
+        // zoomed-in node directly (whose depth reflects its real ancestry) produces NaN as soon as
+        // padding is non-zero. Temporarily rebase every node in its subtree to be relative to itself.
+        // `depth` is typed readonly (it's fixed for the life of a normal hierarchy) but is a plain
+        // mutable property at runtime
+        const subtree = focusedNode.descendants() as unknown as { depth: number }[];
+        const depthOffset = focusedNode.depth;
+        subtree.forEach((node) => (node.depth -= depthOffset));
+        const layout = d3
+            .treemap<IHierarchyDatum>()
+            .size([plotWidth, plotHeight])
+            .paddingInner(padding)(focusedNode) as ITreemapNode;
+        subtree.forEach((node) => (node.depth += depthOffset));
+
+        const leaves = layout.leaves() as ITreemapNode[];
+
+        // @ts-ignore: TODO: Not sure how to fix this
+        const colorScale = d3.scaleOrdinal<string>().domain(legendKeys).range(palette);
+        const colorFor = (node: ITreemapNode) =>
+            colorHierarchyNode(node, (key) => colorScale(key), theme.background.toString());
 
         // D3 data join
-        const join = d3.select(layer.current).selectAll<SVGRectElement, ITreemapNode>(".treemap-cell").data(leaves, key);
+        const join = d3
+            .select(layer.current)
+            .selectAll<SVGRectElement, ITreemapNode>(".treemap-cell")
+            .data(leaves, key as (node: ITreemapNode) => string);
 
         // Exit cells
         join.exit().remove();
@@ -232,6 +246,19 @@ export function TreemapBase({
                 if (!interactive) return;
 
                 onClick && onClick(node.data.datum, this, event);
+
+                if (!zoomable) return;
+
+                // Only leaves are rendered, so a group's own cell is never directly clickable - the
+                // natural equivalent is clicking any of its leaves. Clicking a leaf whose immediate
+                // parent is already the focused node zooms back out one level; otherwise it zooms in
+                // to that leaf's immediate parent
+                const parent = node.parent as ITreemapNode;
+                if (parent === focusedNode) {
+                    zoomTo(zoomPath.slice(0, -1));
+                } else if (parent && parent.depth > 0) {
+                    zoomTo(ancestry(parent));
+                }
             })
             .transition("treemap-cell")
             .duration(animationDuration)
@@ -262,6 +289,9 @@ export function TreemapBase({
         onClick,
         palette,
         legendKeys,
+        zoomable,
+        zoomPath,
+        zoomTo,
     ]);
 
     return null;

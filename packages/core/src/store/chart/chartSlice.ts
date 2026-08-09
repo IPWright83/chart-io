@@ -44,6 +44,10 @@ export const defaultChartState = {
         height: 0,
         width: 0,
     },
+    zoomable: false,
+    zoom: {
+        path: [],
+    },
 };
 
 const chartSlice = createSlice({
@@ -235,6 +239,29 @@ const chartSlice = createSlice({
          */
         setLabeller: (state: IChartState, action: PayloadAction<ILabeller>) => {
             state.labeller = action.payload;
+        },
+
+        /**
+         * Sets whether hierarchical plots in the chart (e.g. Treemap) should support clicking a
+         * node to zoom in and refocus on its subtree
+         * @param state                      The current Redux store state
+         * @param action                     The payload containing whether zooming is enabled
+         */
+        setZoomable: (state: IChartState, action: PayloadAction<boolean>) => {
+            state.zoomable = action.payload;
+
+            if (!action.payload) {
+                state.zoom.path = [];
+            }
+        },
+
+        /**
+         * Sets the ancestry path of the node a zoomable hierarchical plot is currently focused on
+         * @param state                      The current Redux store state
+         * @param action                     The payload containing the new zoom path
+         */
+        setZoomPath: (state: IChartState, action: PayloadAction<string[]>) => {
+            state.zoom.path = action.payload;
         },
     },
 });
