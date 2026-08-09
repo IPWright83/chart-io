@@ -8,8 +8,8 @@ import * as CirclePackingStories from "./CirclePacking.stories"
 The `<CirclePacking>` component nests a circle per node of the hierarchy built from `categories` inside
 its parent's circle: `categories` is an ordered list of fields, outermost group first. Every node at
 every level is drawn (unlike `<Treemap>`, which only draws leaves), each sized proportionally to
-`value`. Since it lays itself out within the full plot area rather than against x/y scales, it should
-be used within a `<RectangularChart>` rather than an `<XYChart>` or `<RadialChart>`.
+`value`. It's a self-contained chart - like `<Treemap>`, it accepts chart-level props like
+`data`/`width`/`height` directly, since it only ever has a single plot.
 
 <Canvas of={CirclePackingStories.Basic} />
 
@@ -51,16 +51,14 @@ Like other plots, a `<CirclePacking>` can be rendered using an HTML Canvas inste
 
 ### Zooming
 
-Set `zoomable` on the enclosing `<RectangularChart>` to let a click on a node zoom in and refocus the
-chart on just its subtree - the layout re-runs framed to that node, so its descendants expand to fill
-the available space. Clicking the current top-level circle zooms back out one level.
+Set `zoomable` to let a click on a node zoom in and refocus the chart on just its subtree - the layout
+re-runs framed to that node, so its descendants expand to fill the available space. Clicking the
+current top-level circle zooms back out one level.
 
 Add `breadcrumb` to also show the current zoom path as a clickable trail above the chart:
 
 <Canvas of={CirclePackingStories.Zoomable} />
 
 ```jsx
-<RectangularChart zoomable={true} breadcrumb={true}>
-    <CirclePacking categories={["continent", "country", "sector"]} value="gdp" />
-</RectangularChart>
+<CirclePacking categories={["continent", "country", "sector"]} value="gdp" zoomable={true} breadcrumb={true} />
 ```

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CirclePacking using SVG should render correctly 1`] = `
+exports[`CirclePackingPlot using SVG should render correctly 1`] = `
 <DocumentFragment>
   <svg>
     <g
