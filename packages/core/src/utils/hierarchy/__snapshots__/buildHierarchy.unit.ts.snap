@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`/utils/hierarchy/buildHierarchy should treat negative values as 0 and log a W009 warning 1`] = `"@chart-io encountered an warning. W009: Negative values in the sales field aren't supported by <unit_test> and have been treated as 0.. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-warnings-W009."`;

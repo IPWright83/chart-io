@@ -29,6 +29,7 @@ used within a `<RadialChart>`, which is the polar equivalent of the `<XYChart>`.
 | `colors`        | `string[]` | Derived from Theme   | Override the colours used for each innermost ring category. Outer ring slices inherit their parent's colour.   |
 | `interactive`   | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot             |
 | `showInLegend`  | `boolean`  | `true`                | Whether the plot should feature in the legend or not. Only the innermost ring's categories appear in the legend.|
+| `buildHierarchy`| `function` | `buildHierarchy` from `@chart-io/core` | Builds the hierarchy from the flat dataset. Override this if your data doesn't fit the flat, group-by-`categories` shape - see below. |
 
 > **Note**: Every combination of the fields listed in `categories` should be unique in the data. If your
 > data has multiple rows for the same combination, aggregate it first.
@@ -50,6 +51,26 @@ sunburst.
 There's no fixed limit on the number of rings - `categories` accepts any number of fields.
 
 <Canvas of={StackedDonutStories.DeepSunburst} />
+
+### Custom hierarchy building
+
+By default `<StackedDonut>` builds its hierarchy by grouping the flat dataset by each field in
+`categories` in turn, summing `value` at every level. If your data doesn't fit that shape - it's already
+nested, or needs some custom aggregation - pass your own `buildHierarchy` function instead, matching the
+signature of the one exported from `@chart-io/core`:
+
+```jsx
+import { buildHierarchy } from "@chart-io/core";
+
+<StackedDonut
+    categories={["region", "product"]}
+    value="sales"
+    buildHierarchy={(data, categories, value, sort, componentName) => {
+        // Delegate to the default implementation, or build a d3.hierarchy some other way entirely
+        return buildHierarchy(data, categories, value, sort, componentName);
+    }}
+/>
+```
 
 ### Center Value
 

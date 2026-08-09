@@ -1,5 +1,5 @@
-import { buildHierarchy, chartSelectors, d3, ensureCombinationsAreUnique, IState } from "@chart-io/core";
-import type { IColor, IHierarchyDatum, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
+import { buildHierarchy as defaultBuildHierarchy, chartSelectors, d3, ensureCombinationsAreUnique, IState } from "@chart-io/core";
+import type { IColor, IData, IHierarchyDatum, IHierarchyNode, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
 
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
@@ -65,6 +65,20 @@ export interface IStackedDonutBaseProps {
      */
     colors?: Array<IColor>;
     /**
+     * Builds the hierarchy from the flat dataset, grouping/summing/sorting rows by `categories` and
+     * `value`. Override this if your data doesn't fit that flat, group-by-fields shape - e.g. it's
+     * already nested, or needs some custom aggregation - as long as the replacement returns an
+     * equivalent (summed, optionally sorted) `d3.hierarchy`
+     * @default buildHierarchy (from `@chart-io/core`)
+     */
+    buildHierarchy?: (
+        data: IData,
+        categories: string[],
+        value: string,
+        sort: boolean,
+        componentName: string,
+    ) => IHierarchyNode;
+    /**
      * Should the plot be interactive and be able to trigger tooltips?
      * @default true
      */
@@ -121,6 +135,7 @@ export function StackedDonutBase({
     cornerRadius = 0,
     sort = false,
     colors,
+    buildHierarchy = defaultBuildHierarchy,
     showInLegend = true,
     interactive = true,
     onMouseOver,
@@ -306,6 +321,7 @@ export function StackedDonutBase({
         padAngle,
         cornerRadius,
         sort,
+        buildHierarchy,
         layer,
         animationDuration,
         onMouseOver,
