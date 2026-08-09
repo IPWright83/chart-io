@@ -4,6 +4,7 @@ import type { IColor } from "../types";
 
 import { renderArc } from "./renderArc";
 import { renderCircle } from "./renderCircle";
+import { renderLink } from "./renderLink";
 import { renderPolygon } from "./renderPolygon";
 import { renderRect } from "./renderRect";
 
@@ -51,6 +52,10 @@ export function renderElements(
                 switch (node.getAttribute("data-path-type")) {
                     case "arc":
                         renderArc(context, node, overrideColor);
+                        break;
+
+                    case "link":
+                        renderLink(context, node, overrideColor);
                         break;
 
                     default:

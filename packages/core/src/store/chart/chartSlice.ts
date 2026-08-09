@@ -242,8 +242,8 @@ const chartSlice = createSlice({
         },
 
         /**
-         * Sets whether hierarchical plots in the chart (e.g. Treemap) should support clicking a
-         * node to zoom in and refocus on its subtree
+         * Sets whether hierarchical plots in the chart (e.g. Treemap, Dendrogram) should support
+         * clicking a node to zoom in and refocus on its subtree
          * @param state                      The current Redux store state
          * @param action                     The payload containing whether zooming is enabled
          */
