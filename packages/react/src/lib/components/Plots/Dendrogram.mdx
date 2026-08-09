@@ -7,9 +7,9 @@ import * as DendrogramStories from "./Dendrogram.stories"
 
 The `<Dendrogram>` component draws a tree of nodes from a flat dataset: `categories` is an ordered list
 of fields, outermost group first. Every node at every level is drawn - unlike `<Treemap>`, which only
-draws leaves - connected by links, with every leaf aligned at the same depth. Since it lays itself out
-within the full plot area rather than against x/y scales, it should be used within a
-`<RectangularChart>` rather than an `<XYChart>` or `<RadialChart>`.
+draws leaves - connected by links, with every leaf aligned at the same depth. It's a self-contained
+chart - like `<Treemap>`, it accepts chart-level props like `data`/`width`/`height` directly, since it
+only ever has a single plot.
 
 <Canvas of={DendrogramStories.Basic} />
 
@@ -46,10 +46,9 @@ Like other plots, a `<Dendrogram>` can be rendered using an HTML Canvas instead 
 
 ### Zooming
 
-Set `zoomable` on the enclosing `<RectangularChart>` (or `<RadialChart>`, for `<RadialDendrogram>`) to
-let a click on a node zoom in and refocus the chart on just its subtree - the layout re-runs framed to
-that node, so its descendants expand to fill the available space. Clicking the current top-level node
-zooms back out one level.
+Set `zoomable` to let a click on a node zoom in and refocus the chart on just its subtree - the layout
+re-runs framed to that node, so its descendants expand to fill the available space. Clicking the
+current top-level node zooms back out one level.
 
 Add `breadcrumb` to also show the current zoom path as a clickable trail above the chart, letting you
 jump back to any ancestor level (or all the way out via "All") in one click, rather than stepping out
@@ -58,7 +57,5 @@ one level at a time:
 <Canvas of={DendrogramStories.Zoomable} />
 
 ```jsx
-<RectangularChart zoomable={true} breadcrumb={true}>
-    <Dendrogram categories={["continent", "country", "sector"]} value="gdp" />
-</RectangularChart>
+<Dendrogram categories={["continent", "country", "sector"]} value="gdp" zoomable={true} breadcrumb={true} />
 ```

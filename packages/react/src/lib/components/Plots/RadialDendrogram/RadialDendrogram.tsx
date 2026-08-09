@@ -1,41 +1,44 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
-import { withCanvas, withRadialPlot, withSVG } from "../../../hoc";
+import { IChartRef } from "../../Chart";
+import { IRadialChartProps, RadialChart } from "../../RadialChart";
 
-import { IRadialDendrogramBaseProps, RadialDendrogramBase } from "./RadialDendrogramBase";
+import { IRadialDendrogramPlotProps, RadialDendrogramPlot } from "./RadialDendrogramPlot";
 
 export interface IRadialDendrogramProps
-    extends Omit<IRadialDendrogramBaseProps, "layer" | "canvas" | "cx" | "cy" | "maxRadius"> {
-    /**
-     * Should Canvas be used instead of SVG?
-     */
-    useCanvas?: boolean;
-}
-
-const CanvasRadialDendrogram = withCanvas(
-    withRadialPlot<IRadialDendrogramProps>(RadialDendrogramBase),
-    "plot radial-dendrogram",
-);
-const SVGRadialDendrogram = withSVG(
-    withRadialPlot<IRadialDendrogramProps>(RadialDendrogramBase),
-    "plot radial-dendrogram",
-);
+    extends Omit<IRadialChartProps, "children">,
+        Omit<IRadialDendrogramPlotProps, "useCanvas" | "onMouseOver" | "onMouseOut" | "onClick"> {}
 
 /**
- * Represents a RadialDendrogram plot, the polar equivalent of `<Dendrogram>` - a tree of nodes built
+ * Represents a RadialDendrogram chart, the polar equivalent of `<Dendrogram>` - a tree of nodes built
  * from the fields listed in `categories`, radiating outward from the center with every leaf aligned at
- * the same radius
- * @param  useCanvas   Should Canvas be used instead of SVG?
+ * the same radius. A self-contained chart: no need to wrap it in `<RadialChart>` yourself. Set
+ * `zoomable` to let a click on a node zoom in and refocus the layout on its subtree, and `breadcrumb`
+ * to also show the current zoom path as a clickable trail
  * @param  props       The set of React properties
- * @return             The RadialDendrogram plot component
+ * @return             The RadialDendrogram component
  */
-export function RadialDendrogram({ useCanvas = false, ...props }: IRadialDendrogramProps) {
-    if (useCanvas) {
-        return <CanvasRadialDendrogram {...props} />;
-    }
+export const RadialDendrogram = forwardRef<IChartRef, IRadialDendrogramProps>(
+    (
+        { categories, value, nodeRadius, sort, colors, buildHierarchy, labels, showInLegend, interactive, ...chartProps },
+        ref,
+    ) => {
+        return (
+            <RadialChart ref={ref} {...chartProps}>
+                <RadialDendrogramPlot
+                    categories={categories}
+                    value={value}
+                    nodeRadius={nodeRadius}
+                    sort={sort}
+                    colors={colors}
+                    buildHierarchy={buildHierarchy}
+                    labels={labels}
+                    showInLegend={showInLegend}
+                    interactive={interactive}
+                />
+            </RadialChart>
+        );
+    },
+);
 
-    return <SVGRadialDendrogram {...props} />;
-}
-
-RadialDendrogram.requiresVirtualCanvas = true;
-RadialDendrogram.isPlot = true;
+RadialDendrogram.displayName = "RadialDendrogram";

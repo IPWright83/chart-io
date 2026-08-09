@@ -7,7 +7,6 @@ import React from "react";
 import { gdp_dataset } from "../../../data/gdp_dataset";
 import { argTypes } from "../../../storybook/argTypes";
 import { createCanvasTest, createSVGTest } from "../../testUtils";
-import { RectangularChart } from "../RectangularChart";
 import { Dendrogram } from "./Dendrogram";
 
 const { width, height, margin, useCanvas, theme } = argTypes;
@@ -46,7 +45,7 @@ export default {
 const data = gdp_dataset;
 
 const DendrogramTemplate = (args) => (
-    <RectangularChart
+    <Dendrogram
         data={args.data ?? data}
         plotMargin={{
             left: args.leftMargin,
@@ -64,9 +63,10 @@ const DendrogramTemplate = (args) => (
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
-    >
-        <Dendrogram categories={args.categories} value={args.value} sort={args.sort} />
-    </RectangularChart>
+        categories={args.categories}
+        value={args.value}
+        sort={args.sort}
+    />
 );
 
 export const Basic = {

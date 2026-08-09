@@ -1,34 +1,44 @@
-import React from "react";
+import React, { forwardRef } from "react";
 
-import { withCanvas, withRectangularPlot, withSVG } from "../../../hoc";
+import { IChartRef } from "../../Chart";
+import { IRectangularChartProps, RectangularChart } from "../../RectangularChart";
 
-import { DendrogramBase, IDendrogramBaseProps } from "./DendrogramBase";
+import { DendrogramPlot, IDendrogramPlotProps } from "./DendrogramPlot";
 
 export interface IDendrogramProps
-    extends Omit<IDendrogramBaseProps, "layer" | "canvas" | "plotLeft" | "plotTop" | "plotWidth" | "plotHeight"> {
-    /**
-     * Should Canvas be used instead of SVG?
-     */
-    useCanvas?: boolean;
-}
-
-const CanvasDendrogram = withCanvas(withRectangularPlot<IDendrogramProps>(DendrogramBase), "plot dendrogram");
-const SVGDendrogram = withSVG(withRectangularPlot<IDendrogramProps>(DendrogramBase), "plot dendrogram");
+    extends Omit<IRectangularChartProps, "children">,
+        Omit<IDendrogramPlotProps, "useCanvas" | "onMouseOver" | "onMouseOut" | "onClick"> {}
 
 /**
- * Represents a Dendrogram plot, a tree of nodes built from the fields listed in `categories`, laid out
- * left-to-right with every leaf aligned at the same depth
- * @param  useCanvas   Should Canvas be used instead of SVG?
+ * Represents a Dendrogram chart, a tree of nodes built from the fields listed in `categories`
+ * connected by links, laid out left-to-right with every leaf aligned at the same depth. A
+ * self-contained chart: no need to wrap it in `<RectangularChart>` yourself. Set `zoomable` to let a
+ * click on a node zoom in and refocus the layout on its subtree, and `breadcrumb` to also show the
+ * current zoom path as a clickable trail
  * @param  props       The set of React properties
- * @return             The Dendrogram plot component
+ * @return             The Dendrogram component
  */
-export function Dendrogram({ useCanvas = false, ...props }: IDendrogramProps) {
-    if (useCanvas) {
-        return <CanvasDendrogram {...props} />;
-    }
+export const Dendrogram = forwardRef<IChartRef, IDendrogramProps>(
+    (
+        { categories, value, nodeRadius, sort, colors, buildHierarchy, labels, showInLegend, interactive, ...chartProps },
+        ref,
+    ) => {
+        return (
+            <RectangularChart ref={ref} {...chartProps}>
+                <DendrogramPlot
+                    categories={categories}
+                    value={value}
+                    nodeRadius={nodeRadius}
+                    sort={sort}
+                    colors={colors}
+                    buildHierarchy={buildHierarchy}
+                    labels={labels}
+                    showInLegend={showInLegend}
+                    interactive={interactive}
+                />
+            </RectangularChart>
+        );
+    },
+);
 
-    return <SVGDendrogram {...props} />;
-}
-
-Dendrogram.requiresVirtualCanvas = true;
-Dendrogram.isPlot = true;
+Dendrogram.displayName = "Dendrogram";

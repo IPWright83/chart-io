@@ -7,8 +7,9 @@ import * as RadialDendrogramStories from "./RadialDendrogram.stories"
 
 The `<RadialDendrogram>` component is the polar equivalent of [`<Dendrogram>`](/docs/plots-dendrogram--docs) -
 the same tree of nodes and links built from `categories`, radiating outward from the center instead of
-growing left-to-right, with every leaf aligned at the same radius. It should be used within a
-`<RadialChart>`, alongside `<Pie>`, `<Donut>`, `<StackedDonut>`, `<Radar>` and `<RadialArea>`.
+growing left-to-right, with every leaf aligned at the same radius. It's a self-contained chart - like
+`<Dendrogram>`, it accepts chart-level props like `data`/`width`/`height` directly, since it only ever
+has a single plot.
 
 <Canvas of={RadialDendrogramStories.Basic} />
 
@@ -30,13 +31,11 @@ the same thing here, just laid out radially instead of left-to-right.
 
 ### Zooming
 
-Just like `<Dendrogram>`, set `zoomable` (and optionally `breadcrumb`) on the enclosing `<RadialChart>`
-to let a click on a node zoom in and refocus on its subtree:
+Just like `<Dendrogram>`, set `zoomable` (and optionally `breadcrumb`) to let a click on a node zoom in
+and refocus on its subtree:
 
 <Canvas of={RadialDendrogramStories.Zoomable} />
 
 ```jsx
-<RadialChart zoomable={true} breadcrumb={true}>
-    <RadialDendrogram categories={["continent", "country", "sector"]} value="gdp" />
-</RadialChart>
+<RadialDendrogram categories={["continent", "country", "sector"]} value="gdp" zoomable={true} breadcrumb={true} />
 ```

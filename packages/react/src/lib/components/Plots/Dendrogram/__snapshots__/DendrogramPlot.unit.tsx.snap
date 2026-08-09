@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Dendrogram using SVG should render correctly 1`] = `
+exports[`DendrogramPlot using SVG should render correctly 1`] = `
 <DocumentFragment>
   <svg>
     <g

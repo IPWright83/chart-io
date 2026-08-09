@@ -90,22 +90,6 @@ export interface IDendrogramBaseProps {
      * This is an internally used function to allow the plot to render to a virtual canvas
      */
     renderVirtualCanvas?: (update: d3.Transition<Element, unknown, any, unknown>) => void;
-    /**
-     * The x-coordinate of the left edge of the plot area. Provided by `withRectangularPlot`
-     */
-    plotLeft?: number;
-    /**
-     * The y-coordinate of the top edge of the plot area. Provided by `withRectangularPlot`
-     */
-    plotTop?: number;
-    /**
-     * The width, in pixels, available to the Dendrogram. Provided by `withRectangularPlot`
-     */
-    plotWidth?: number;
-    /**
-     * The height, in pixels, available to the Dendrogram. Provided by `withRectangularPlot`
-     */
-    plotHeight?: number;
     onMouseOver?: IOnMouseOver;
     onMouseOut?: IOnMouseOut;
     onClick?: IOnClick;
@@ -113,10 +97,10 @@ export interface IDendrogramBaseProps {
 
 /**
  * Represents a Dendrogram plot, a tree of nodes (built from `categories`) connected by links, laid out
- * left-to-right with every leaf aligned at the same depth. Use `<RectangularChart zoomable>` to let a
- * click on a node zoom in and refocus on its subtree
+ * left-to-right with every leaf aligned at the same depth. Used internally by `<Dendrogram>` - use that
+ * unless you need to compose the plot into a chart of your own
  * @param  props       The set of React properties
- * @return             The Dendrogram plot component
+ * @return             The DendrogramPlot component
  */
 export function DendrogramBase({
     categories,
@@ -124,10 +108,6 @@ export function DendrogramBase({
     canvas,
     renderVirtualCanvas,
     layer,
-    plotLeft,
-    plotTop,
-    plotWidth,
-    plotHeight,
     nodeRadius = 4,
     sort = false,
     colors,
@@ -142,6 +122,10 @@ export function DendrogramBase({
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const plotLeft = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
+    const plotTop = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
+    const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
+    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
     const { zoomable, path: zoomPath, zoomTo } = useZoom();
@@ -161,6 +145,9 @@ export function DendrogramBase({
     const onFocus = useFocused(theme);
 
     useRender(() => {
+        // Unable to render without the layer avaliable
+        if (!layer.current) return;
+
         ensureCombinationsAreUnique(data, categories, "Dendrogram");
 
         const hierarchy = buildHierarchy(data, categories, value, sort, "Dendrogram");
@@ -200,7 +187,8 @@ export function DendrogramBase({
 
         // @ts-ignore: TODO: Not sure how to fix this
         const colorScale = d3.scaleOrdinal<string>().domain(legendKeys).range(palette);
-        const colorFor = (node: IDendrogramNode) => colorHierarchyNode(node, (k) => colorScale(k));
+        const colorFor = (node: IDendrogramNode) =>
+            colorHierarchyNode(node, (k) => colorScale(k), theme.background.toString());
 
         const linkGenerator = d3
             .linkHorizontal<unknown, IDendrogramNode>()

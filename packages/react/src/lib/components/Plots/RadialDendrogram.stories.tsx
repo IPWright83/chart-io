@@ -7,7 +7,6 @@ import React from "react";
 import { gdp_dataset } from "../../../data/gdp_dataset";
 import { argTypes } from "../../../storybook/argTypes";
 import { createSVGTest } from "../../testUtils";
-import { RadialChart } from "../RadialChart";
 import { RadialDendrogram } from "./RadialDendrogram";
 
 const { width, height, margin, useCanvas, theme } = argTypes;
@@ -46,7 +45,7 @@ export default {
 const data = gdp_dataset;
 
 const RadialDendrogramTemplate = (args) => (
-    <RadialChart
+    <RadialDendrogram
         data={args.data ?? data}
         plotMargin={{
             left: args.leftMargin,
@@ -64,9 +63,10 @@ const RadialDendrogramTemplate = (args) => (
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
-    >
-        <RadialDendrogram categories={args.categories} value={args.value} sort={args.sort} />
-    </RadialChart>
+        categories={args.categories}
+        value={args.value}
+        sort={args.sort}
+    />
 );
 
 export const Basic = {

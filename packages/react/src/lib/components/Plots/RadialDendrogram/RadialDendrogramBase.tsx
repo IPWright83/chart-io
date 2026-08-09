@@ -108,10 +108,11 @@ export interface IRadialDendrogramBaseProps {
 
 /**
  * Represents a RadialDendrogram plot, the polar equivalent of `<Dendrogram>` - a tree of nodes built
- * from `categories`, radiating outward from the center with every leaf aligned at the same radius. Use
- * `<RadialChart zoomable>` to let a click on a node zoom in and refocus on its subtree
+ * from `categories`, radiating outward from the center with every leaf aligned at the same radius. Used
+ * internally by `<RadialDendrogram>` - use that unless you need to compose the plot into a chart of
+ * your own
  * @param  props       The set of React properties
- * @return             The RadialDendrogram plot component
+ * @return             The RadialDendrogramPlot component
  */
 export function RadialDendrogramBase({
     categories,
@@ -155,6 +156,9 @@ export function RadialDendrogramBase({
     const onFocus = useFocused(theme);
 
     useRender(() => {
+        // Unable to render without the layer avaliable
+        if (!layer.current) return;
+
         ensureCombinationsAreUnique(data, categories, "RadialDendrogram");
 
         const hierarchy = buildHierarchy(data, categories, value, sort, "RadialDendrogram");
@@ -194,7 +198,8 @@ export function RadialDendrogramBase({
 
         // @ts-ignore: TODO: Not sure how to fix this
         const colorScale = d3.scaleOrdinal<string>().domain(legendKeys).range(palette);
-        const colorFor = (node: IRadialDendrogramNode) => colorHierarchyNode(node, (k) => colorScale(k));
+        const colorFor = (node: IRadialDendrogramNode) =>
+            colorHierarchyNode(node, (k) => colorScale(k), theme.background.toString());
 
         const linkGenerator = d3
             .linkRadial<unknown, IRadialDendrogramNode>()
