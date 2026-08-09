@@ -89,22 +89,6 @@ export interface ICirclePackingBaseProps {
      * This is an internally used function to allow the plot to render to a virtual canvas
      */
     renderVirtualCanvas?: (update: d3.Transition<Element, unknown, any, unknown>) => void;
-    /**
-     * The x-coordinate of the left edge of the plot area. Provided by `withRectangularPlot`
-     */
-    plotLeft?: number;
-    /**
-     * The y-coordinate of the top edge of the plot area. Provided by `withRectangularPlot`
-     */
-    plotTop?: number;
-    /**
-     * The width, in pixels, available to the CirclePacking. Provided by `withRectangularPlot`
-     */
-    plotWidth?: number;
-    /**
-     * The height, in pixels, available to the CirclePacking. Provided by `withRectangularPlot`
-     */
-    plotHeight?: number;
     onMouseOver?: IOnMouseOver;
     onMouseOut?: IOnMouseOut;
     onClick?: IOnClick;
@@ -112,10 +96,10 @@ export interface ICirclePackingBaseProps {
 
 /**
  * Represents a CirclePacking plot, nesting a circle per node of the hierarchy built from
- * `categories` inside its parent's circle, each sized proportionally to `value`. Use
- * `<RectangularChart zoomable>` to let a click on a node zoom in and refocus on its subtree
+ * `categories` inside its parent's circle, each sized proportionally to `value`. Used internally by
+ * `<CirclePacking>` - use that unless you need to compose the plot into a chart of your own
  * @param  props       The set of React properties
- * @return             The CirclePacking plot component
+ * @return             The CirclePackingPlot component
  */
 export function CirclePackingBase({
     categories,
@@ -123,10 +107,6 @@ export function CirclePackingBase({
     canvas,
     renderVirtualCanvas,
     layer,
-    plotLeft,
-    plotTop,
-    plotWidth,
-    plotHeight,
     padding = 3,
     sort = false,
     colors,
@@ -141,6 +121,10 @@ export function CirclePackingBase({
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const plotLeft = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
+    const plotTop = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
+    const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
+    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
     const { zoomable, path: zoomPath, zoomTo } = useZoom();
@@ -160,6 +144,9 @@ export function CirclePackingBase({
     const onFocus = useFocused(theme);
 
     useRender(() => {
+        // Unable to render without the layer avaliable
+        if (!layer.current) return;
+
         ensureCombinationsAreUnique(data, categories, "CirclePacking");
 
         const hierarchy = buildHierarchy(data, categories, value, sort, "CirclePacking");
@@ -205,7 +192,8 @@ export function CirclePackingBase({
 
         // @ts-ignore: TODO: Not sure how to fix this
         const colorScale = d3.scaleOrdinal<string>().domain(legendKeys).range(palette);
-        const colorFor = (node: ICirclePackingNode) => colorHierarchyNode(node, (k) => colorScale(k));
+        const colorFor = (node: ICirclePackingNode) =>
+            colorHierarchyNode(node, (k) => colorScale(k), theme.background.toString());
 
         // D3 data join
         const join = d3
