@@ -1,4 +1,11 @@
-import { buildHierarchy as defaultBuildHierarchy, chartSelectors, d3, ensureCombinationsAreUnique, IState } from "@chart-io/core";
+import {
+    buildHierarchy as defaultBuildHierarchy,
+    chartSelectors,
+    colorHierarchyNode,
+    d3,
+    ensureCombinationsAreUnique,
+    IState,
+} from "@chart-io/core";
 import type { IColor, IData, IHierarchyDatum, IHierarchyNode, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
 
 import React, { useMemo } from "react";
@@ -158,19 +165,7 @@ export function TreemapBase({
 
         // @ts-ignore: TODO: Not sure how to fix this
         const colorScale = d3.scaleOrdinal<string>().domain(legendKeys).range(palette);
-
-        const colorFor = (node: ITreemapNode): string => {
-            if (node.depth === 1) {
-                return colorScale(node.data.key).toString();
-            }
-
-            const parentColor = colorFor(node.parent as ITreemapNode);
-            const siblings = (node.parent?.children ?? []) as ITreemapNode[];
-            const index = siblings.indexOf(node);
-            const t = siblings.length <= 1 ? 0 : index / siblings.length;
-
-            return d3.hsl(parentColor).brighter(t * 1.4).toString();
-        };
+        const colorFor = (node: ITreemapNode) => colorHierarchyNode(node, (key) => colorScale(key));
 
         // A node's ancestry (root excluded), e.g. ["North", "Widgets"]
         const ancestry = (node: ITreemapNode) =>
