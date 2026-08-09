@@ -1,5 +1,5 @@
-import { chartSelectors, d3, ensureCombinationsAreUnique, IState } from "@chart-io/core";
-import type { IColor, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
+import { buildHierarchy as defaultBuildHierarchy, chartSelectors, d3, ensureCombinationsAreUnique, IState } from "@chart-io/core";
+import type { IColor, IData, IHierarchyDatum, IHierarchyNode, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
 
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
@@ -11,8 +11,9 @@ import type { IArcAngles } from "../interpolateArc";
 import { interpolateArc } from "../interpolateArc";
 import { useFocused } from "../../useFocused";
 import { useTooltip } from "../../useTooltip";
-import type { IPieHierarchyNode } from "./buildHierarchy";
-import { buildHierarchy } from "./buildHierarchy";
+
+// The rectangular layout `<StackedDonut>` applies on top of the shared, un-laid-out hierarchy
+type IPieHierarchyNode = d3.HierarchyRectangularNode<IHierarchyDatum>;
 
 export interface IStackedDonutBaseProps {
     /**
@@ -63,6 +64,20 @@ export interface IStackedDonutBaseProps {
      * The set of colors to use for each inner ring category. Defaults to the theme's series colors
      */
     colors?: Array<IColor>;
+    /**
+     * Builds the hierarchy from the flat dataset, grouping/summing/sorting rows by `categories` and
+     * `value`. Override this if your data doesn't fit that flat, group-by-fields shape - e.g. it's
+     * already nested, or needs some custom aggregation - as long as the replacement returns an
+     * equivalent (summed, optionally sorted) `d3.hierarchy`
+     * @default buildHierarchy (from `@chart-io/core`)
+     */
+    buildHierarchy?: (
+        data: IData,
+        categories: string[],
+        value: string,
+        sort: boolean,
+        componentName: string,
+    ) => IHierarchyNode;
     /**
      * Should the plot be interactive and be able to trigger tooltips?
      * @default true
@@ -120,6 +135,7 @@ export function StackedDonutBase({
     cornerRadius = 0,
     sort = false,
     colors,
+    buildHierarchy = defaultBuildHierarchy,
     showInLegend = true,
     interactive = true,
     onMouseOver,
@@ -152,7 +168,8 @@ export function StackedDonutBase({
     useRender(() => {
         ensureCombinationsAreUnique(data, categories, "StackedDonut");
 
-        const root = buildHierarchy(data, categories, value, sort);
+        const hierarchy = buildHierarchy(data, categories, value, sort, "StackedDonut");
+        const root = d3.partition<IHierarchyDatum>().size([2 * Math.PI, 1])(hierarchy) as IPieHierarchyNode;
         const allNodes = root.descendants().filter((node) => node.depth > 0) as IPieHierarchyNode[];
 
         const levels = categories.length;
@@ -304,6 +321,7 @@ export function StackedDonutBase({
         padAngle,
         cornerRadius,
         sort,
+        buildHierarchy,
         layer,
         animationDuration,
         onMouseOver,

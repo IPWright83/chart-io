@@ -1,3 +1,5 @@
+import { buildHierarchy as defaultBuildHierarchy } from "@chart-io/core";
+
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import React from "react";
 
@@ -48,6 +50,23 @@ describe("StackedDonut", () => {
 
             await wait();
             expect(asFragment()).toMatchSnapshot();
+        });
+
+        it("should use a custom buildHierarchy function when provided", async () => {
+            const customBuildHierarchy = jest.fn(defaultBuildHierarchy);
+
+            const { container } = await renderChart({
+                children: (
+                    <StackedDonut categories={["region", "product"]} value="sales" buildHierarchy={customBuildHierarchy} />
+                ),
+                data,
+            });
+
+            await wait();
+
+            expect(customBuildHierarchy).toHaveBeenCalledWith(data, ["region", "product"], "sales", false, "StackedDonut");
+            // 2 depth-1 region nodes (North, South) + 3 depth-2 leaf product nodes
+            expect(container.querySelectorAll("path.pie-slice").length).toBe(5);
         });
 
         describe("should handle event", () => {
