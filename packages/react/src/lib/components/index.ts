@@ -9,6 +9,7 @@ export * from "./Markers";
 export * from "./LegendOverlay";
 export * from "./XYChart";
 export * from "./RadialChart";
+export * from "./RectangularChart";
 export * from "./Crosshair";
 export * from "./Furniture";
 export * from "./ZoomBrush";

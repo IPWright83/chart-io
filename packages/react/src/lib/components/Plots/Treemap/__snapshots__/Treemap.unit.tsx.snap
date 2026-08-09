@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Treemap using SVG should render an N-level hierarchy correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot treemap"
+    >
+      <rect
+        class="treemap-cell"
+        height="99"
+        rx="0"
+        ry="0"
+        style="fill: rgb(153, 193, 220); opacity: 0.7;"
+        width="99"
+        x="0"
+        y="0"
+      />
+      <rect
+        class="treemap-cell"
+        height="99"
+        rx="0"
+        ry="0"
+        style="fill: rgb(232, 241, 247); opacity: 0.7;"
+        width="99"
+        x="101"
+        y="0"
+      />
+      <rect
+        class="treemap-cell"
+        height="99"
+        rx="0"
+        ry="0"
+        style="fill: rgb(252, 153, 142); opacity: 0.7;"
+        width="200"
+        x="0"
+        y="101"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`Treemap using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot treemap"
+    >
+      <rect
+        class="treemap-cell"
+        height="99"
+        rx="0"
+        ry="0"
+        style="fill: rgb(153, 193, 220); opacity: 0.7;"
+        width="99"
+        x="0"
+        y="0"
+      />
+      <rect
+        class="treemap-cell"
+        height="99"
+        rx="0"
+        ry="0"
+        style="fill: rgb(232, 241, 247); opacity: 0.7;"
+        width="99"
+        x="101"
+        y="0"
+      />
+      <rect
+        class="treemap-cell"
+        height="99"
+        rx="0"
+        ry="0"
+        style="fill: rgb(252, 153, 142); opacity: 0.7;"
+        width="200"
+        x="0"
+        y="101"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;
