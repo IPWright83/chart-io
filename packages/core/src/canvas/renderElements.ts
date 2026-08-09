@@ -5,6 +5,7 @@ import type { IColor } from "../types";
 import { renderArc } from "./renderArc";
 import { renderCircle } from "./renderCircle";
 import { renderLink } from "./renderLink";
+import { renderLinkRadial } from "./renderLinkRadial";
 import { renderPolygon } from "./renderPolygon";
 import { renderRect } from "./renderRect";
 
@@ -56,6 +57,10 @@ export function renderElements(
 
                     case "link":
                         renderLink(context, node, overrideColor);
+                        break;
+
+                    case "link-radial":
+                        renderLinkRadial(context, node, overrideColor);
                         break;
 
                     default:
