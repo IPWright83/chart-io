@@ -1,30 +1,59 @@
 import React, { forwardRef } from "react";
 
-import { IChartRef } from "../../Chart";
-import { IRectangularChartProps, RectangularChart } from "../../RectangularChart";
+import { Chart, IChartProps, IChartRef } from "../../Chart";
+import { LegendOverlay } from "../../LegendOverlay";
+import { TooltipOverlay } from "../../TooltipOverlay";
+import { ZoomBreadcrumb } from "../../ZoomBreadcrumb";
+import { SetZoomable } from "../SetZoomable";
 
 import { DendrogramPlot, IDendrogramPlotProps } from "./DendrogramPlot";
 
 export interface IDendrogramProps
-    extends Omit<IRectangularChartProps, "children">,
-        Omit<IDendrogramPlotProps, "useCanvas" | "onMouseOver" | "onMouseOut" | "onClick"> {}
+    extends Omit<IChartProps, "children">,
+        Omit<IDendrogramPlotProps, "useCanvas" | "onMouseOver" | "onMouseOut" | "onClick"> {
+    /**
+     * Should a click on a node zoom in and refocus on its subtree?
+     * @default false
+     */
+    zoomable?: boolean;
+    /**
+     * Shows the current zoom path as a clickable breadcrumb trail, letting the user jump back to any
+     * ancestor level. Only meaningful alongside `zoomable` - renders nothing while fully zoomed out
+     * @default false
+     */
+    breadcrumb?: boolean;
+}
 
 /**
  * Represents a Dendrogram chart, a tree of nodes built from the fields listed in `categories`
  * connected by links, laid out left-to-right with every leaf aligned at the same depth. A
- * self-contained chart: no need to wrap it in `<RectangularChart>` yourself. Set `zoomable` to let a
- * click on a node zoom in and refocus the layout on its subtree, and `breadcrumb` to also show the
+ * self-contained chart: no need to wrap it in another chart component yourself. Set `zoomable` to let
+ * a click on a node zoom in and refocus the layout on its subtree, and `breadcrumb` to also show the
  * current zoom path as a clickable trail
  * @param  props       The set of React properties
  * @return             The Dendrogram component
  */
 export const Dendrogram = forwardRef<IChartRef, IDendrogramProps>(
     (
-        { categories, value, nodeRadius, sort, colors, buildHierarchy, labels, showInLegend, interactive, ...chartProps },
+        {
+            categories,
+            value,
+            nodeRadius,
+            sort,
+            colors,
+            buildHierarchy,
+            labels,
+            showInLegend,
+            interactive,
+            zoomable = false,
+            breadcrumb = false,
+            ...chartProps
+        },
         ref,
     ) => {
         return (
-            <RectangularChart ref={ref} {...chartProps}>
+            <Chart ref={ref} {...chartProps}>
+                <SetZoomable zoomable={zoomable} />
                 <DendrogramPlot
                     categories={categories}
                     value={value}
@@ -36,7 +65,10 @@ export const Dendrogram = forwardRef<IChartRef, IDendrogramProps>(
                     showInLegend={showInLegend}
                     interactive={interactive}
                 />
-            </RectangularChart>
+                <TooltipOverlay onlyNearest={true} />
+                <LegendOverlay />
+                {breadcrumb && <ZoomBreadcrumb />}
+            </Chart>
         );
     },
 );

@@ -2,12 +2,19 @@ import React, { forwardRef } from "react";
 
 import { IChartRef } from "../../Chart";
 import { IRadialChartProps, RadialChart } from "../../RadialChart";
+import { SetZoomable } from "../SetZoomable";
 
 import { IRadialDendrogramPlotProps, RadialDendrogramPlot } from "./RadialDendrogramPlot";
 
 export interface IRadialDendrogramProps
     extends Omit<IRadialChartProps, "children">,
-        Omit<IRadialDendrogramPlotProps, "useCanvas" | "onMouseOver" | "onMouseOut" | "onClick"> {}
+        Omit<IRadialDendrogramPlotProps, "useCanvas" | "onMouseOver" | "onMouseOut" | "onClick"> {
+    /**
+     * Should a click on a node zoom in and refocus on its subtree?
+     * @default false
+     */
+    zoomable?: boolean;
+}
 
 /**
  * Represents a RadialDendrogram chart, the polar equivalent of `<Dendrogram>` - a tree of nodes built
@@ -20,11 +27,24 @@ export interface IRadialDendrogramProps
  */
 export const RadialDendrogram = forwardRef<IChartRef, IRadialDendrogramProps>(
     (
-        { categories, value, nodeRadius, sort, colors, buildHierarchy, labels, showInLegend, interactive, ...chartProps },
+        {
+            categories,
+            value,
+            nodeRadius,
+            sort,
+            colors,
+            buildHierarchy,
+            labels,
+            showInLegend,
+            interactive,
+            zoomable = false,
+            ...chartProps
+        },
         ref,
     ) => {
         return (
             <RadialChart ref={ref} {...chartProps}>
+                <SetZoomable zoomable={zoomable} />
                 <RadialDendrogramPlot
                     categories={categories}
                     value={value}
