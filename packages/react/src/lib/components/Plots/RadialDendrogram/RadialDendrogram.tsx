@@ -2,7 +2,6 @@ import React, { forwardRef } from "react";
 
 import { IChartRef } from "../../Chart";
 import { IRadialChartProps, RadialChart } from "../../RadialChart";
-import { SetZoomable } from "../SetZoomable";
 
 import { IRadialDendrogramPlotProps, RadialDendrogramPlot } from "./RadialDendrogramPlot";
 
@@ -44,7 +43,6 @@ export const RadialDendrogram = forwardRef<IChartRef, IRadialDendrogramProps>(
     ) => {
         return (
             <RadialChart ref={ref} {...chartProps}>
-                <SetZoomable zoomable={zoomable} />
                 <RadialDendrogramPlot
                     categories={categories}
                     value={value}
@@ -55,6 +53,7 @@ export const RadialDendrogram = forwardRef<IChartRef, IRadialDendrogramProps>(
                     labels={labels}
                     showInLegend={showInLegend}
                     interactive={interactive}
+                    zoomable={zoomable}
                 />
             </RadialChart>
         );

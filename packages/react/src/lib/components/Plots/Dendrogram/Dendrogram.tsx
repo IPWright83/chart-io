@@ -4,7 +4,6 @@ import { Chart, IChartProps, IChartRef } from "../../Chart";
 import { LegendOverlay } from "../../LegendOverlay";
 import { TooltipOverlay } from "../../TooltipOverlay";
 import { ZoomBreadcrumb } from "../../ZoomBreadcrumb";
-import { SetZoomable } from "../SetZoomable";
 
 import { DendrogramPlot, IDendrogramPlotProps } from "./DendrogramPlot";
 
@@ -53,7 +52,6 @@ export const Dendrogram = forwardRef<IChartRef, IDendrogramProps>(
     ) => {
         return (
             <Chart ref={ref} {...chartProps}>
-                <SetZoomable zoomable={zoomable} />
                 <DendrogramPlot
                     categories={categories}
                     value={value}
@@ -64,6 +62,7 @@ export const Dendrogram = forwardRef<IChartRef, IDendrogramProps>(
                     labels={labels}
                     showInLegend={showInLegend}
                     interactive={interactive}
+                    zoomable={zoomable}
                 />
                 <TooltipOverlay onlyNearest={true} />
                 <LegendOverlay />

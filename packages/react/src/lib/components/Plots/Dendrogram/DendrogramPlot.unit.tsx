@@ -102,7 +102,7 @@ describe("DendrogramPlot", () => {
                 store.dispatch = jest.fn();
 
                 const { container } = await renderChart({
-                    children: <DendrogramPlot categories={["region", "product"]} value="sales" />,
+                    children: <DendrogramPlot categories={["region", "product"]} value="sales" zoomable={true} />,
                     data,
                     store,
                 });
@@ -123,7 +123,7 @@ describe("DendrogramPlot", () => {
                 store.dispatch = jest.fn();
 
                 const { container } = await renderChart({
-                    children: <DendrogramPlot categories={["region", "product"]} value="sales" />,
+                    children: <DendrogramPlot categories={["region", "product"]} value="sales" zoomable={true} />,
                     data,
                     store,
                 });
@@ -134,7 +134,7 @@ describe("DendrogramPlot", () => {
                 const leafNode = container.querySelector("circle.dendrogram-node:last-of-type");
                 leafNode.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 
-                expect(store.dispatch).not.toHaveBeenCalledWith(expect.objectContaining({ type: expect.stringContaining("Zoom") }));
+                expect(store.dispatch).not.toHaveBeenCalledWith(expect.objectContaining({ type: "chart/setZoomPath" }));
             });
         });
     });

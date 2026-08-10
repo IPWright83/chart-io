@@ -103,7 +103,7 @@ describe("RadialDendrogramPlot", () => {
                 store.dispatch = jest.fn();
 
                 const { container } = await renderChart({
-                    children: <RadialDendrogramPlot categories={["region", "product"]} value="sales" />,
+                    children: <RadialDendrogramPlot categories={["region", "product"]} value="sales" zoomable={true} />,
                     data,
                     store,
                 });
@@ -124,7 +124,7 @@ describe("RadialDendrogramPlot", () => {
                 store.dispatch = jest.fn();
 
                 const { container } = await renderChart({
-                    children: <RadialDendrogramPlot categories={["region", "product"]} value="sales" />,
+                    children: <RadialDendrogramPlot categories={["region", "product"]} value="sales" zoomable={true} />,
                     data,
                     store,
                 });
@@ -135,7 +135,7 @@ describe("RadialDendrogramPlot", () => {
                 const leafNode = container.querySelector("circle.radial-dendrogram-node:last-of-type");
                 leafNode.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 
-                expect(store.dispatch).not.toHaveBeenCalledWith(expect.objectContaining({ type: expect.stringContaining("Zoom") }));
+                expect(store.dispatch).not.toHaveBeenCalledWith(expect.objectContaining({ type: "chart/setZoomPath" }));
             });
         });
     });

@@ -101,6 +101,11 @@ export interface IRadialDendrogramBaseProps {
      * The maximum radius, in pixels, available to the RadialDendrogram. Provided by `withRadialPlot`
      */
     maxRadius?: number;
+    /**
+     * Should a click on a node zoom in and refocus on its subtree?
+     * @default false
+     */
+    zoomable?: boolean;
     onMouseOver?: IOnMouseOver;
     onMouseOut?: IOnMouseOut;
     onClick?: IOnClick;
@@ -130,6 +135,7 @@ export function RadialDendrogramBase({
     labels = true,
     showInLegend = true,
     interactive = true,
+    zoomable = false,
     onMouseOver,
     onMouseOut,
     onClick,
@@ -139,7 +145,7 @@ export function RadialDendrogramBase({
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
-    const { zoomable, path: zoomPath, zoomTo } = useZoom();
+    const { path: zoomPath, zoomTo } = useZoom(zoomable);
 
     // Only the top-level category is shown in the Legend, deeper levels can contain many more
     // values than is practical to list
