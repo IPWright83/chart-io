@@ -4,7 +4,6 @@ import { Chart, IChartProps, IChartRef } from "../../Chart";
 import { LegendOverlay } from "../../LegendOverlay";
 import { TooltipOverlay } from "../../TooltipOverlay";
 import { ZoomBreadcrumb } from "../../ZoomBreadcrumb";
-import { SetZoomable } from "../SetZoomable";
 
 import { CirclePackingPlot, ICirclePackingPlotProps } from "./CirclePackingPlot";
 
@@ -53,7 +52,6 @@ export const CirclePacking = forwardRef<IChartRef, ICirclePackingProps>(
     ) => {
         return (
             <Chart ref={ref} {...chartProps}>
-                <SetZoomable zoomable={zoomable} />
                 <CirclePackingPlot
                     categories={categories}
                     value={value}
@@ -64,6 +62,7 @@ export const CirclePacking = forwardRef<IChartRef, ICirclePackingProps>(
                     labels={labels}
                     showInLegend={showInLegend}
                     interactive={interactive}
+                    zoomable={zoomable}
                 />
                 <TooltipOverlay onlyNearest={true} />
                 <LegendOverlay />

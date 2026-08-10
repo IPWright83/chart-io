@@ -117,7 +117,7 @@ describe("CirclePackingPlot", () => {
                 store.dispatch = jest.fn();
 
                 const { container } = await renderChart({
-                    children: <CirclePackingPlot categories={["region", "product"]} value="sales" />,
+                    children: <CirclePackingPlot categories={["region", "product"]} value="sales" zoomable={true} />,
                     data,
                     store,
                 });
@@ -138,7 +138,7 @@ describe("CirclePackingPlot", () => {
                 store.dispatch = jest.fn();
 
                 const { container } = await renderChart({
-                    children: <CirclePackingPlot categories={["region", "product"]} value="sales" />,
+                    children: <CirclePackingPlot categories={["region", "product"]} value="sales" zoomable={true} />,
                     data,
                     store,
                 });
@@ -149,7 +149,7 @@ describe("CirclePackingPlot", () => {
                 const leafNode = container.querySelector("circle.circle-packing-node:last-of-type");
                 leafNode.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 
-                expect(store.dispatch).not.toHaveBeenCalledWith(expect.objectContaining({ type: expect.stringContaining("Zoom") }));
+                expect(store.dispatch).not.toHaveBeenCalledWith(expect.objectContaining({ type: "chart/setZoomPath" }));
             });
 
             it("should lay out real (non-NaN) positions for a node's subtree once zoomed in", async () => {
@@ -164,7 +164,7 @@ describe("CirclePackingPlot", () => {
                 });
 
                 const { container } = await renderChart({
-                    children: <CirclePackingPlot categories={["region", "product"]} value="sales" />,
+                    children: <CirclePackingPlot categories={["region", "product"]} value="sales" zoomable={true} />,
                     data,
                     store,
                 });
