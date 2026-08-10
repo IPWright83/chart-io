@@ -136,7 +136,7 @@ describe("TreemapPlot", () => {
                 store.dispatch = jest.fn();
 
                 const { container } = await renderChart({
-                    children: <TreemapPlot categories={["region", "product"]} value="sales" />,
+                    children: <TreemapPlot categories={["region", "product"]} value="sales" zoomable={true} />,
                     data,
                     store,
                 });
@@ -162,7 +162,7 @@ describe("TreemapPlot", () => {
                 store.dispatch = jest.fn();
 
                 const { container } = await renderChart({
-                    children: <TreemapPlot categories={["region", "product"]} value="sales" />,
+                    children: <TreemapPlot categories={["region", "product"]} value="sales" zoomable={true} />,
                     data,
                     store,
                 });
@@ -187,7 +187,7 @@ describe("TreemapPlot", () => {
                 });
 
                 const { container } = await renderChart({
-                    children: <TreemapPlot categories={["region", "product"]} value="sales" />,
+                    children: <TreemapPlot categories={["region", "product"]} value="sales" zoomable={true} />,
                     data,
                     store,
                 });

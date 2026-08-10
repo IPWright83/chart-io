@@ -4,7 +4,6 @@ import { Chart, IChartProps, IChartRef } from "../../Chart";
 import { LegendOverlay } from "../../LegendOverlay";
 import { TooltipOverlay } from "../../TooltipOverlay";
 import { ZoomBreadcrumb } from "../../ZoomBreadcrumb";
-import { SetZoomable } from "../SetZoomable";
 
 import { ITreemapPlotProps, TreemapPlot } from "./TreemapPlot";
 
@@ -53,7 +52,6 @@ export const Treemap = forwardRef<IChartRef, ITreemapProps>(
     ) => {
         return (
             <Chart ref={ref} {...chartProps}>
-                <SetZoomable zoomable={zoomable} />
                 <TreemapPlot
                     categories={categories}
                     value={value}
@@ -64,6 +62,7 @@ export const Treemap = forwardRef<IChartRef, ITreemapProps>(
                     buildHierarchy={buildHierarchy}
                     showInLegend={showInLegend}
                     interactive={interactive}
+                    zoomable={zoomable}
                 />
                 <TooltipOverlay onlyNearest={true} />
                 <LegendOverlay />

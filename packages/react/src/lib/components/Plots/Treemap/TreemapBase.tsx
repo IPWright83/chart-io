@@ -86,6 +86,11 @@ export interface ITreemapBaseProps {
      * This is an internally used function to allow the plot to render to a virtual canvas
      */
     renderVirtualCanvas?: (update: d3.Transition<Element, unknown, any, unknown>) => void;
+    /**
+     * Should a click on a cell zoom in and refocus on its immediate parent group?
+     * @default false
+     */
+    zoomable?: boolean;
     onMouseOver?: IOnMouseOver;
     onMouseOut?: IOnMouseOut;
     onClick?: IOnClick;
@@ -110,6 +115,7 @@ export function TreemapBase({
     buildHierarchy = defaultBuildHierarchy,
     showInLegend = true,
     interactive = true,
+    zoomable = false,
     onMouseOver,
     onMouseOut,
     onClick,
@@ -123,7 +129,7 @@ export function TreemapBase({
     const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
-    const { zoomable, path: zoomPath, zoomTo } = useZoom();
+    const { path: zoomPath, zoomTo } = useZoom(zoomable);
 
     // Only the top-level category is shown in the Legend, deeper levels can contain many more
     // values than is practical to list
