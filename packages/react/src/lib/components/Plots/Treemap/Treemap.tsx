@@ -1,18 +1,33 @@
 import React, { forwardRef } from "react";
 
-import { IChartRef } from "../../Chart";
-import { IRectangularChartProps, RectangularChart } from "../../RectangularChart";
+import { Chart, IChartProps, IChartRef } from "../../Chart";
+import { LegendOverlay } from "../../LegendOverlay";
+import { TooltipOverlay } from "../../TooltipOverlay";
+import { ZoomBreadcrumb } from "../../ZoomBreadcrumb";
+import { SetZoomable } from "../SetZoomable";
 
 import { ITreemapPlotProps, TreemapPlot } from "./TreemapPlot";
 
 export interface ITreemapProps
-    extends Omit<IRectangularChartProps, "children">,
-        Omit<ITreemapPlotProps, "useCanvas" | "onMouseOver" | "onMouseOut" | "onClick"> {}
+    extends Omit<IChartProps, "children">,
+        Omit<ITreemapPlotProps, "useCanvas" | "onMouseOver" | "onMouseOut" | "onClick"> {
+    /**
+     * Should a click on a cell zoom in and refocus on its immediate parent group?
+     * @default false
+     */
+    zoomable?: boolean;
+    /**
+     * Shows the current zoom path as a clickable breadcrumb trail, letting the user jump back to any
+     * ancestor level. Only meaningful alongside `zoomable` - renders nothing while fully zoomed out
+     * @default false
+     */
+    breadcrumb?: boolean;
+}
 
 /**
  * Represents a Treemap chart, subdividing the plot area into nested rectangles built from the fields
  * listed in `categories` - one per leaf of the hierarchy - sized proportionally to `value`. A
- * self-contained chart: no need to wrap it in `<RectangularChart>` yourself. Set `zoomable` to let a
+ * self-contained chart: no need to wrap it in another chart component yourself. Set `zoomable` to let a
  * click on a cell zoom in and refocus on its immediate parent group, and `breadcrumb` to also show the
  * current zoom path as a clickable trail
  * @param  props       The set of React properties
@@ -30,12 +45,15 @@ export const Treemap = forwardRef<IChartRef, ITreemapProps>(
             buildHierarchy,
             showInLegend,
             interactive,
+            zoomable = false,
+            breadcrumb = false,
             ...chartProps
         },
         ref,
     ) => {
         return (
-            <RectangularChart ref={ref} {...chartProps}>
+            <Chart ref={ref} {...chartProps}>
+                <SetZoomable zoomable={zoomable} />
                 <TreemapPlot
                     categories={categories}
                     value={value}
@@ -47,7 +65,10 @@ export const Treemap = forwardRef<IChartRef, ITreemapProps>(
                     showInLegend={showInLegend}
                     interactive={interactive}
                 />
-            </RectangularChart>
+                <TooltipOverlay onlyNearest={true} />
+                <LegendOverlay />
+                {breadcrumb && <ZoomBreadcrumb />}
+            </Chart>
         );
     },
 );
