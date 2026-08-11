@@ -9,7 +9,8 @@ The `<Dendrogram>` component draws a tree of nodes from a flat dataset: `categor
 of fields, outermost group first. Every node at every level is drawn - unlike `<Treemap>`, which only
 draws leaves - connected by links, with every leaf aligned at the same depth. It's a self-contained
 chart - like `<Treemap>`, it accepts chart-level props like `data`/`width`/`height` directly, since it
-only ever has a single plot.
+only ever has a single plot. Set `radial` to lay the same tree out radiating outward from the center
+instead, with every leaf aligned at the same radius.
 
 <Canvas of={DendrogramStories.Basic} />
 
@@ -28,6 +29,7 @@ only ever has a single plot.
 | `interactive`   | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot             |
 | `showInLegend`  | `boolean`  | `true`                | Whether the plot should feature in the legend or not. Only the top-level categories appear in the legend.       |
 | `buildHierarchy`| `function` | `buildHierarchy` from `@chart-io/core` | Builds the hierarchy from the flat dataset. Override this if your data doesn't fit the flat, group-by-`categories` shape - see the `<Treemap>` docs for an example. |
+| `radial`        | `boolean`  | `false`               | Lays the tree out radiating outward from the center instead of growing left-to-right, with every leaf aligned at the same radius instead of the same depth. |
 
 > **Note**: Every combination of the fields listed in `categories` should be unique in the data. If your
 > data has multiple rows for the same combination, aggregate it first.
@@ -58,4 +60,35 @@ one level at a time:
 
 ```jsx
 <Dendrogram categories={["continent", "country", "sector"]} value="gdp" zoomable={true} breadcrumb={true} />
+```
+
+### Radial layout
+
+Set `radial` to lay the same tree out radiating outward from the center instead, with every leaf
+aligned at the same radius instead of the same depth. All the other props - `categories`, `value`,
+`nodeRadius`, `labels`, `sort`, `colors`, `interactive`, `showInLegend`, `buildHierarchy`, `zoomable`
+and `breadcrumb` - mean the same thing here, just laid out radially:
+
+<Canvas of={DendrogramStories.Radial} />
+
+```jsx
+<Dendrogram categories={["continent", "country"]} value="gdp" radial={true} />
+```
+
+Radial N-level hierarchies work the same way as the linear layout:
+
+<Canvas of={DendrogramStories.RadialThreeLevel} />
+
+Zooming and the breadcrumb trail work identically too:
+
+<Canvas of={DendrogramStories.RadialZoomable} />
+
+```jsx
+<Dendrogram
+    categories={["continent", "country", "sector"]}
+    value="gdp"
+    radial={true}
+    zoomable={true}
+    breadcrumb={true}
+/>
 ```

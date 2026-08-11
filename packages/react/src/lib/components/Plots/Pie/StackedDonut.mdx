@@ -30,6 +30,7 @@ used within a `<RadialChart>`, which is the polar equivalent of the `<XYChart>`.
 | `interactive`   | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot             |
 | `showInLegend`  | `boolean`  | `true`                | Whether the plot should feature in the legend or not. Only the innermost ring's categories appear in the legend.|
 | `buildHierarchy`| `function` | `buildHierarchy` from `@chart-io/core` | Builds the hierarchy from the flat dataset. Override this if your data doesn't fit the flat, group-by-`categories` shape - see below. |
+| `zoomable`      | `boolean`  | `false`               | Should a click on a non-leaf slice zoom in and refocus on its subtree? Add `breadcrumb` to the wrapping `<RadialChart>` to also show the current zoom path as a clickable trail. |
 
 > **Note**: Every combination of the fields listed in `categories` should be unique in the data. If your
 > data has multiple rows for the same combination, aggregate it first.
@@ -51,6 +52,23 @@ sunburst.
 There's no fixed limit on the number of rings - `categories` accepts any number of fields.
 
 <Canvas of={StackedDonutStories.DeepSunburst} />
+
+### Zooming
+
+Set `zoomable` to let a click on a non-leaf slice zoom in and refocus the chart on just its subtree -
+the layout re-runs framed to that slice, so its remaining rings expand to fill the available radius.
+Clicking the current innermost ring's slice zooms back out one level.
+
+Add `breadcrumb` to the wrapping `<RadialChart>` to also show the current zoom path as a clickable
+trail, letting you jump back to any ancestor level (or all the way out via "All") in one click:
+
+<Canvas of={StackedDonutStories.Zoomable} />
+
+```jsx
+<RadialChart breadcrumb={true}>
+    <StackedDonut categories={["continent", "country", "sector"]} value="gdp" zoomable={true} />
+</RadialChart>
+```
 
 ### Custom hierarchy building
 

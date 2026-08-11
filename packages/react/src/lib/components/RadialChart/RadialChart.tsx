@@ -27,7 +27,7 @@ export interface IRadialChartProps extends IChartProps {
 
 /**
  * Represents a radial chart. This is the polar equivalent of the `<XYChart>`, and is
- * intended to wrap `<Pie>`, `<Donut>`, `<StackedDonut>` or `<RadialDendrogram>` plots
+ * intended to wrap `<Pie>`, `<Donut>`, `<StackedDonut>` or `<RadialDendrogramPlot>` plots
  */
 export const RadialChart = forwardRef<IChartRef, IRadialChartProps>(
     ({ children, centerValue, breadcrumb = false, ...props }, ref) => {

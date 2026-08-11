@@ -18,8 +18,8 @@ import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
 import { useZoom } from "../useZoom";
 
-// The point layout `<RadialDendrogram>` applies on top of the shared, un-laid-out hierarchy. Unlike
-// the linear <Dendrogram>, x/y are used directly as angle/radius, not swapped into pixel coordinates
+// The point layout `<Dendrogram radial>` applies on top of the shared, un-laid-out hierarchy. Unlike
+// the linear layout, x/y are used directly as angle/radius, not swapped into pixel coordinates
 type IRadialDendrogramNode = d3.HierarchyPointNode<IHierarchyDatum>;
 type IRadialDendrogramLink = d3.HierarchyPointLink<IHierarchyDatum>;
 
@@ -114,7 +114,7 @@ export interface IRadialDendrogramBaseProps {
 /**
  * Represents a RadialDendrogram plot, the polar equivalent of `<Dendrogram>` - a tree of nodes built
  * from `categories`, radiating outward from the center with every leaf aligned at the same radius. Used
- * internally by `<RadialDendrogram>` - use that unless you need to compose the plot into a chart of
+ * internally by `<Dendrogram radial>` - use that unless you need to compose the plot into a chart of
  * your own
  * @param  props       The set of React properties
  * @return             The RadialDendrogramPlot component

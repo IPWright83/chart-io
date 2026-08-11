@@ -58,6 +58,7 @@ const DendrogramTemplate = (args) => (
         animationDuration={args.animationDuration}
         theme={args.theme}
         useCanvas={args.useCanvas}
+        radial={args.radial}
         zoomable={args.zoomable}
         breadcrumb={args.breadcrumb}
         onClick={args.onClick}
@@ -121,4 +122,51 @@ export const Zoomable = {
         breadcrumb: true,
     },
     play: createSVGTest("circle.dendrogram-node", { clientX: 100, clientY: 250 }),
+};
+
+export const Radial = {
+    name: "Radial",
+    render: DendrogramTemplate,
+    args: {
+        ...Basic.args,
+        radial: true,
+        width: 700,
+        height: 700,
+        leftMargin: 60,
+        rightMargin: 60,
+        topMargin: 60,
+        bottomMargin: 60,
+    },
+    play: createSVGTest("circle.radial-dendrogram-node", { clientX: 447, clientY: 285 }),
+};
+
+export const RadialCanvas = {
+    name: "Radial, Using Canvas",
+    render: DendrogramTemplate,
+    args: {
+        ...Radial.args,
+        useCanvas: true,
+    },
+};
+
+export const RadialThreeLevel = {
+    name: "Radial, 3-level",
+    render: DendrogramTemplate,
+    args: {
+        ...Radial.args,
+        categories: ["continent", "country", "sector"],
+    },
+    play: createSVGTest("circle.radial-dendrogram-node", { clientX: 447, clientY: 285 }),
+};
+
+export const RadialZoomable = {
+    name: "Radial, Zoomable with Breadcrumb",
+    render: DendrogramTemplate,
+    args: {
+        ...Radial.args,
+        categories: ["continent", "country", "sector"],
+        zoomable: true,
+        breadcrumb: true,
+    },
+    play: createSVGTest("circle.radial-dendrogram-node", { clientX: 447, clientY: 285 }),
 };
