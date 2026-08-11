@@ -99,7 +99,12 @@ export const Canvas = {
         ...Basic.args,
         useCanvas: true,
     },
-    play: createCanvasTest({ clientX: 100, clientY: 250 }),
+    // Unlike createSVGTest (which grabs a DOM node directly by selector), this fires a real
+    // mousemove/click at these page coordinates and relies on the virtual canvas's pixel-color hit
+    // testing - so it has to land exactly on a rendered node. With `categories={["continent",
+    // "country"]}` the first-level (continent) nodes sit at local SVG (330, 92.5); +16 accounts for
+    // the Storybook root's own padding
+    play: createCanvasTest({ clientX: 346, clientY: 108.5 }),
 };
 
 export const ThreeLevel = {
