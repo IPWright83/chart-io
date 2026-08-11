@@ -85,6 +85,8 @@ export const Basic = {
         categories: ["continent", "country"],
         value: "gdp",
         sort: true,
+        zoomable: false,
+        breadcrumb: false,
     },
     play: createSVGTest("circle.circle-packing-node", { clientX: 150, clientY: 300 }),
 };
