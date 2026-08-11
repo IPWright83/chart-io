@@ -94,6 +94,8 @@ export const Basic = {
         value: "gdp",
         sort: true,
         padding: 2,
+        zoomable: false,
+        breadcrumb: false,
     },
     play: createSVGTest("rect.treemap-cell", { clientX: 150, clientY: 150 }),
 };
