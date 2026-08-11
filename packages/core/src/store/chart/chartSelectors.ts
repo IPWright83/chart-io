@@ -9,6 +9,7 @@ import type {
     IChartStateBrush,
     IChartStateDimensions,
     IChartStateLegend,
+    IChartStateZoom,
     IState,
 } from "../types";
 
@@ -269,6 +270,30 @@ interface IChartSelectors {
      * @return The labeller function
      */
     labeller: (state: IState) => ILabeller;
+
+    /**
+     * Returns whether hierarchical plots in the chart should support clicking a node to zoom in and
+     * refocus on its subtree
+     * @param  state The application state
+     * @return True if zooming is enabled
+     */
+    zoomable: (state: IState) => boolean;
+
+    zoom: {
+        /**
+         * Represents the zoom portion of the store
+         * @param  state     The application state
+         */
+        store: (state: IState) => IChartStateZoom;
+
+        /**
+         * Returns the ancestry path (root excluded) of the node a zoomable hierarchical plot is
+         * currently focused on. An empty array means fully zoomed out
+         * @param  state     The application state
+         * @return           The current zoom path
+         */
+        path: (state: IState) => string[];
+    };
 }
 
 export const chartSelectors: IChartSelectors = {
@@ -470,4 +495,16 @@ export const chartSelectors: IChartSelectors = {
 
     // @inheritDoc
     labeller: (state) => chartSelectors.store(state).labeller,
+
+    // @inheritDoc
+    zoomable: (state) => chartSelectors.store(state).zoomable ?? false,
+
+    // @inheritDoc
+    zoom: {
+        // @inheritDoc
+        store: (state) => chartSelectors.store(state).zoom,
+
+        // @inheritDoc
+        path: (state) => chartSelectors.zoom.store(state)?.path ?? EMPTY_ARRAY,
+    },
 };

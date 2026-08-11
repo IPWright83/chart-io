@@ -221,4 +221,33 @@ describe("chartSlice.reducer", () => {
             labeller,
         });
     });
+
+    it("setZoomable()", () => {
+        const action = chartActions.setZoomable(true);
+
+        expect(chartSlice.reducer(previousState, action)).toEqual({
+            ...previousState,
+            zoomable: true,
+        });
+    });
+
+    it("setZoomable() resets the zoom path when disabled", () => {
+        const zoomedState = { ...previousState, zoomable: true, zoom: { path: ["North America"] } };
+        const action = chartActions.setZoomable(false);
+
+        expect(chartSlice.reducer(zoomedState, action)).toEqual({
+            ...previousState,
+            zoomable: false,
+            zoom: { path: [] },
+        });
+    });
+
+    it("setZoomPath()", () => {
+        const action = chartActions.setZoomPath(["North America", "United States"]);
+
+        expect(chartSlice.reducer(previousState, action)).toEqual({
+            ...previousState,
+            zoom: { path: ["North America", "United States"] },
+        });
+    });
 });

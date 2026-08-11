@@ -63,7 +63,7 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-pad-angle="0.01"
         data-path-type="arc"
         data-start-angle="1.5707963267948966"
-        style="fill: rgb(232, 241, 247); opacity: 0.7;"
+        style="fill: rgb(198, 220, 235); opacity: 0.7;"
         transform="translate(100, 100)"
       />
       <path
@@ -108,7 +108,7 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-pad-angle="0.01"
         data-path-type="arc"
         data-start-angle="1.5707963267948966"
-        style="fill: rgb(232, 241, 247); opacity: 0.7;"
+        style="fill: rgb(198, 220, 235); opacity: 0.7;"
         transform="translate(100, 100)"
       />
       <path
@@ -194,7 +194,7 @@ exports[`StackedDonut using SVG should render correctly 1`] = `
         data-pad-angle="0.01"
         data-path-type="arc"
         data-start-angle="1.5707963267948966"
-        style="fill: rgb(232, 241, 247); opacity: 0.7;"
+        style="fill: rgb(198, 220, 235); opacity: 0.7;"
         transform="translate(100, 100)"
       />
       <path
