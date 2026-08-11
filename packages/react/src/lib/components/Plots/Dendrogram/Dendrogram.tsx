@@ -12,13 +12,13 @@ export interface IDendrogramProps
         Omit<IDendrogramPlotProps, "useCanvas" | "onMouseOver" | "onMouseOut" | "onClick"> {
     /**
      * Should a click on a node zoom in and refocus on its subtree?
-     * @default false
+     * @default true
      */
     zoomable?: boolean;
     /**
      * Shows the current zoom path as a clickable breadcrumb trail, letting the user jump back to any
      * ancestor level. Only meaningful alongside `zoomable` - renders nothing while fully zoomed out
-     * @default false
+     * @default true
      */
     breadcrumb?: boolean;
 }
@@ -44,8 +44,8 @@ export const Dendrogram = forwardRef<IChartRef, IDendrogramProps>(
             labels,
             showInLegend,
             interactive,
-            zoomable = false,
-            breadcrumb = false,
+            zoomable = true,
+            breadcrumb = true,
             ...chartProps
         },
         ref,

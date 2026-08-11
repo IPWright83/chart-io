@@ -10,9 +10,15 @@ export interface IRadialDendrogramProps
         Omit<IRadialDendrogramPlotProps, "useCanvas" | "onMouseOver" | "onMouseOut" | "onClick"> {
     /**
      * Should a click on a node zoom in and refocus on its subtree?
-     * @default false
+     * @default true
      */
     zoomable?: boolean;
+    /**
+     * Shows the current zoom path as a clickable breadcrumb trail, letting the user jump back to any
+     * ancestor level. Only meaningful alongside `zoomable` - renders nothing while fully zoomed out
+     * @default true
+     */
+    breadcrumb?: boolean;
 }
 
 /**
@@ -36,13 +42,14 @@ export const RadialDendrogram = forwardRef<IChartRef, IRadialDendrogramProps>(
             labels,
             showInLegend,
             interactive,
-            zoomable = false,
+            zoomable = true,
+            breadcrumb = true,
             ...chartProps
         },
         ref,
     ) => {
         return (
-            <RadialChart ref={ref} {...chartProps}>
+            <RadialChart ref={ref} breadcrumb={breadcrumb} {...chartProps}>
                 <RadialDendrogramPlot
                     categories={categories}
                     value={value}

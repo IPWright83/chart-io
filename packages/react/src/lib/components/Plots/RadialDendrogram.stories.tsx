@@ -85,6 +85,8 @@ export const Basic = {
         categories: ["continent", "country"],
         value: "gdp",
         sort: true,
+        zoomable: false,
+        breadcrumb: false,
     },
     play: createSVGTest("circle.radial-dendrogram-node", { clientX: 447, clientY: 285 }),
 };
