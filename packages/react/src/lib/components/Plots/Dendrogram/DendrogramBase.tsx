@@ -22,8 +22,8 @@ import { useZoom } from "../useZoom";
 type IDendrogramNode = d3.HierarchyPointNode<IHierarchyDatum>;
 type IDendrogramLink = d3.HierarchyPointLink<IHierarchyDatum>;
 
-// Both the link and node-circle transitions below share this name so they can be re-selected as a
-// single combined transition for Canvas rendering - see the `renderCanvas` call
+// The link/node/label transitions below share this name so a re-render interrupts and replaces any
+// transition already in flight on the same elements, rather than letting them overlap
 const CANVAS_TRANSITION_NAME = "dendrogram";
 
 export interface IDendrogramBaseProps {
@@ -213,80 +213,66 @@ export function DendrogramBase({
             .x((node) => px(node))
             .y((node) => py(node));
 
-        // Links, node circles and labels are combined into a single heterogeneous join (rather than
-        // separate joins) so a Canvas render has one Transition covering all three, which it can
-        // paint in one pass without the element types clearing each other's drawing - this is also
-        // what lets labels show up on Canvas at all, since `renderElements` (the Canvas dispatcher)
-        // only draws elements it finds in this join
-        type IDendrogramElement =
-            | { type: "link"; elementKey: string; link: IDendrogramLink }
-            | { type: "node"; elementKey: string; node: IDendrogramNode }
-            | { type: "label"; elementKey: string; node: IDendrogramNode };
-
-        const elements: IDendrogramElement[] = [
-            ...allLinks.map((link) => ({
-                type: "link" as const,
-                elementKey: `link:${key(link.source)}>${key(link.target)}`,
-                link,
-            })),
-            ...allNodes.map((node) => ({ type: "node" as const, elementKey: `node:${key(node)}`, node })),
-            ...(labels
-                ? allNodes.map((node) => ({ type: "label" as const, elementKey: `label:${key(node)}`, node }))
-                : []),
-        ];
-
-        const join = d3
-            .select(layer.current)
-            .selectAll<Element, IDendrogramElement>(".dendrogram-element")
-            .data(elements, (d) => d.elementKey);
-
-        join.exit().remove();
-
         // The element is created in the parent's own namespace (rather than always assuming SVG),
         // since in Canvas mode the "layer" is a detached, non-namespaced HTML element instead
-        const enter = join
-            .enter()
-            .append(function (this: Element, d) {
-                const tagName = d.type === "link" ? "path" : d.type === "label" ? "text" : "circle";
+        const append = (tagName: string) =>
+            function (this: Element) {
                 return document.createElementNS(this.namespaceURI, tagName);
-            })
-            .attr("class", (d) => `dendrogram-element dendrogram-${d.type}`);
+            };
 
-        enter
-            .filter((d) => d.type === "link")
+        // Links, node circles and labels are three separate, independently-typed joins - all
+        // sharing the same layout computed above rather than repeating it - passed to `renderCanvas`
+        // together as an array so Canvas draws them in one pass without clearing each other out
+        const linkJoin = d3
+            .select(layer.current)
+            .selectAll<Element, IDendrogramLink>(".dendrogram-link")
+            .data(allLinks, (link) => `${key(link.source)}>${key(link.target)}`);
+
+        linkJoin.exit().remove();
+
+        const linkEnter = linkJoin
+            .enter()
+            .append(append("path"))
+            .attr("class", "dendrogram-link")
             .attr("data-path-type", "link")
-            .attr("d", (d: IDendrogramElement & { type: "link" }) => linkGenerator({ source: d.link.target, target: d.link.target }))
+            .attr("d", (link) => linkGenerator({ source: link.target, target: link.target }))
             .style("fill", "none")
             .style("stroke", theme.axis.stroke.toString())
             .style("stroke-opacity", 0.4);
 
-        enter
-            .filter((d) => d.type === "node")
-            .attr("cx", (d: IDendrogramElement & { type: "node" }) => px(d.node))
-            .attr("cy", (d: IDendrogramElement & { type: "node" }) => py(d.node))
+        const linkTransition = linkEnter
+            .merge(linkJoin as any)
+            .transition(CANVAS_TRANSITION_NAME)
+            .duration(animationDuration)
+            .attr("data-x0", (link) => px(link.source))
+            .attr("data-y0", (link) => py(link.source))
+            .attr("data-x1", (link) => px(link.target))
+            .attr("data-y1", (link) => py(link.target))
+            .attr("d", (link) => linkGenerator(link));
+
+        const nodeJoin = d3
+            .select(layer.current)
+            .selectAll<Element, IDendrogramNode>(".dendrogram-node")
+            .data(allNodes, (node) => key(node));
+
+        nodeJoin.exit().remove();
+
+        const nodeEnter = nodeJoin
+            .enter()
+            .append(append("circle"))
+            .attr("class", "dendrogram-node")
+            .attr("cx", (node) => px(node))
+            .attr("cy", (node) => py(node))
             .attr("r", 0);
 
-        enter
-            .filter((d) => d.type === "label")
-            .attr("x", (d: IDendrogramElement & { type: "label" }) => px(d.node) + radiusFor(d.node) + 4)
-            .attr("y", (d: IDendrogramElement & { type: "label" }) => py(d.node))
-            .attr("dy", 3)
-            .style("font-size", theme.label.fontSize)
-            .style("font-family", theme.label.fontFamily)
-            .style("fill", theme.label.color.toString())
-            .style("opacity", 0);
-
-        const update = enter
-            .merge(join as any)
-            .style("fill", (d) => (d.type === "node" ? colorFor(d.node) : d.type === "label" ? theme.label.color.toString() : "none"))
-            .style("cursor", (d) =>
-                d.type === "node" && interactive && (zoomable || d.node.children) ? "pointer" : "default",
-            )
-            .on("mouseover", function (event, d: IDendrogramElement) {
+        const nodeUpdate = nodeEnter
+            .merge(nodeJoin as any)
+            .style("fill", (node) => colorFor(node))
+            .style("cursor", (node) => (interactive && (zoomable || node.children) ? "pointer" : "default"))
+            .on("mouseover", function (event, node) {
                 // istanbul ignore next
-                if (!interactive || d.type !== "node") return;
+                if (!interactive) return;
 
-                const node = d.node;
                 const datum = node.data.datum;
                 const color = colorFor(node) as IColor;
                 const name = breadcrumb(node);
@@ -295,19 +281,18 @@ export function DendrogramBase({
                 onFocus && onFocus({ element: this, event, datum });
                 onTooltip && onTooltip({ datum, event, name, value: datum[value], color });
             })
-            .on("mouseout", function (event, d: IDendrogramElement) {
+            .on("mouseout", function (event, node) {
                 // istanbul ignore next
-                if (!interactive || d.type !== "node") return;
+                if (!interactive) return;
 
-                onMouseOut && onMouseOut(d.node.data.datum, this, event);
+                onMouseOut && onMouseOut(node.data.datum, this, event);
                 onFocus && onFocus(null);
                 onTooltip && onTooltip(null);
             })
-            .on("click", function (event, d: IDendrogramElement) {
+            .on("click", function (event, node) {
                 // istanbul ignore next
-                if (!interactive || d.type !== "node") return;
+                if (!interactive) return;
 
-                const node = d.node;
                 onClick && onClick(node.data.datum, this, event);
 
                 if (!zoomable) return;
@@ -319,33 +304,50 @@ export function DendrogramBase({
                 }
             });
 
+        const nodeTransition = nodeUpdate
+            .transition(CANVAS_TRANSITION_NAME)
+            .duration(animationDuration)
+            .attr("cx", (node) => px(node))
+            .attr("cy", (node) => py(node))
+            .attr("r", (node) => radiusFor(node));
+
+        const labelJoin = d3
+            .select(layer.current)
+            .selectAll<Element, IDendrogramNode>(".dendrogram-label")
+            .data(labels ? allNodes : [], (node) => key(node));
+
+        labelJoin.exit().remove();
+
+        const labelEnter = labelJoin
+            .enter()
+            .append(append("text"))
+            .attr("class", "dendrogram-label")
+            .attr("x", (node) => px(node) + radiusFor(node) + 4)
+            .attr("y", (node) => py(node))
+            .attr("dy", 3)
+            .style("font-size", theme.label.fontSize)
+            .style("font-family", theme.label.fontFamily)
+            .style("fill", theme.label.color.toString())
+            .style("opacity", 0);
+
+        const labelUpdate = labelEnter.merge(labelJoin as any);
+
         // .text() has to be applied outside the transition - it's not an interpolatable/animatable
         // attribute, and calling it on a transition throws
-        update.filter((d) => d.type === "label").text((d: IDendrogramElement & { type: "label" }) => d.node.data.key);
+        labelUpdate.text((node) => node.data.key);
 
-        const transition = update.transition(CANVAS_TRANSITION_NAME).duration(animationDuration);
-
-        transition
-            .filter((d) => d.type === "link")
-            .attr("data-x0", (d: IDendrogramElement & { type: "link" }) => px(d.link.source))
-            .attr("data-y0", (d: IDendrogramElement & { type: "link" }) => py(d.link.source))
-            .attr("data-x1", (d: IDendrogramElement & { type: "link" }) => px(d.link.target))
-            .attr("data-y1", (d: IDendrogramElement & { type: "link" }) => py(d.link.target))
-            .attr("d", (d: IDendrogramElement & { type: "link" }) => linkGenerator(d.link));
-
-        transition
-            .filter((d) => d.type === "node")
-            .attr("cx", (d: IDendrogramElement & { type: "node" }) => px(d.node))
-            .attr("cy", (d: IDendrogramElement & { type: "node" }) => py(d.node))
-            .attr("r", (d: IDendrogramElement & { type: "node" }) => radiusFor(d.node));
-
-        transition
-            .filter((d) => d.type === "label")
-            .attr("x", (d: IDendrogramElement & { type: "label" }) => px(d.node) + radiusFor(d.node) + 4)
-            .attr("y", (d: IDendrogramElement & { type: "label" }) => py(d.node))
+        const labelTransition = labelUpdate
+            .transition(CANVAS_TRANSITION_NAME)
+            .duration(animationDuration)
+            .attr("x", (node) => px(node) + radiusFor(node) + 4)
+            .attr("y", (node) => py(node))
             .style("opacity", 1);
 
-        renderCanvas(canvas, renderVirtualCanvas, width, height, transition as unknown as d3.Transition<Element, unknown, any, unknown>);
+        renderCanvas(canvas, renderVirtualCanvas, width, height, [
+            linkTransition,
+            nodeTransition,
+            labelTransition,
+        ] as unknown as d3.Transition<Element, unknown, any, unknown>[]);
     }, [
         categories,
         value,

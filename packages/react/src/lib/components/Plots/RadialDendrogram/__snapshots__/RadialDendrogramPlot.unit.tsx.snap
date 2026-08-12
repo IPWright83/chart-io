@@ -7,7 +7,7 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
       class="g-plot radial-dendrogram"
     >
       <path
-        class="radial-dendrogram-element radial-dendrogram-link"
+        class="radial-dendrogram-link"
         d="M0,0C-3.09,9.511,9.511,3.09,19.021,6.18"
         data-angle0="3.455751918948773"
         data-angle1="1.8849555921538759"
@@ -16,11 +16,11 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
         data-path-type="link-radial"
         data-radius0="0"
         data-radius1="20"
-        style="fill: none; stroke: #333333; stroke-opacity: 0.4; cursor: default;"
+        style="fill: none; stroke: #333333; stroke-opacity: 0.4;"
         transform="translate(100, 100)"
       />
       <path
-        class="radial-dendrogram-element radial-dendrogram-link"
+        class="radial-dendrogram-link"
         d="M0,0C-3.09,9.511,-9.511,-3.09,-19.021,-6.18"
         data-angle0="3.455751918948773"
         data-angle1="5.026548245743669"
@@ -29,11 +29,11 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
         data-path-type="link-radial"
         data-radius0="0"
         data-radius1="20"
-        style="fill: none; stroke: #333333; stroke-opacity: 0.4; cursor: default;"
+        style="fill: none; stroke: #333333; stroke-opacity: 0.4;"
         transform="translate(100, 100)"
       />
       <path
-        class="radial-dendrogram-element radial-dendrogram-link"
+        class="radial-dendrogram-link"
         d="M19.021,6.18C28.532,9.271,28.532,-9.271,38.042,-12.361"
         data-angle0="1.8849555921538759"
         data-angle1="1.2566370614359172"
@@ -42,11 +42,11 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
         data-path-type="link-radial"
         data-radius0="20"
         data-radius1="40"
-        style="fill: none; stroke: #333333; stroke-opacity: 0.4; cursor: default;"
+        style="fill: none; stroke: #333333; stroke-opacity: 0.4;"
         transform="translate(100, 100)"
       />
       <path
-        class="radial-dendrogram-element radial-dendrogram-link"
+        class="radial-dendrogram-link"
         d="M19.021,6.18C28.532,9.271,17.634,24.271,23.511,32.361"
         data-angle0="1.8849555921538759"
         data-angle1="2.5132741228718345"
@@ -55,11 +55,11 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
         data-path-type="link-radial"
         data-radius0="20"
         data-radius1="40"
-        style="fill: none; stroke: #333333; stroke-opacity: 0.4; cursor: default;"
+        style="fill: none; stroke: #333333; stroke-opacity: 0.4;"
         transform="translate(100, 100)"
       />
       <path
-        class="radial-dendrogram-element radial-dendrogram-link"
+        class="radial-dendrogram-link"
         d="M-19.021,-6.18C-28.532,-9.271,-28.532,-9.271,-38.042,-12.361"
         data-angle0="5.026548245743669"
         data-angle1="5.026548245743669"
@@ -68,48 +68,48 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
         data-path-type="link-radial"
         data-radius0="20"
         data-radius1="40"
-        style="fill: none; stroke: #333333; stroke-opacity: 0.4; cursor: default;"
+        style="fill: none; stroke: #333333; stroke-opacity: 0.4;"
         transform="translate(100, 100)"
       />
       <circle
-        class="radial-dendrogram-element radial-dendrogram-node"
+        class="radial-dendrogram-node"
         cx="119.02113032590307"
         cy="106.18033988749895"
         r="4"
         style="fill: #99c1dc; cursor: pointer;"
       />
       <circle
-        class="radial-dendrogram-element radial-dendrogram-node"
+        class="radial-dendrogram-node"
         cx="80.97886967409693"
         cy="93.81966011250105"
         r="4"
         style="fill: #fc998e; cursor: pointer;"
       />
       <circle
-        class="radial-dendrogram-element radial-dendrogram-node"
+        class="radial-dendrogram-node"
         cx="138.04226065180615"
         cy="87.63932022500211"
         r="4"
         style="fill: rgb(153, 193, 220); cursor: default;"
       />
       <circle
-        class="radial-dendrogram-element radial-dendrogram-node"
+        class="radial-dendrogram-node"
         cx="123.51141009169893"
         cy="132.3606797749979"
         r="4"
         style="fill: rgb(198, 220, 235); cursor: default;"
       />
       <circle
-        class="radial-dendrogram-element radial-dendrogram-node"
+        class="radial-dendrogram-node"
         cx="61.957739348193854"
         cy="87.63932022500211"
         r="4"
         style="fill: rgb(252, 153, 142); cursor: default;"
       />
       <text
-        class="radial-dendrogram-element radial-dendrogram-label"
+        class="radial-dendrogram-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1; cursor: default;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
         text-anchor="start"
         x="128.5316954888546"
         y="109.27050983124842"
@@ -117,9 +117,9 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
         North
       </text>
       <text
-        class="radial-dendrogram-element radial-dendrogram-label"
+        class="radial-dendrogram-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1; cursor: default;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
         text-anchor="end"
         x="71.46830451114539"
         y="90.72949016875158"
@@ -127,9 +127,9 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
         South
       </text>
       <text
-        class="radial-dendrogram-element radial-dendrogram-label"
+        class="radial-dendrogram-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1; cursor: default;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
         text-anchor="start"
         x="147.55282581475768"
         y="84.54915028125262"
@@ -137,9 +137,9 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
         Widgets
       </text>
       <text
-        class="radial-dendrogram-element radial-dendrogram-label"
+        class="radial-dendrogram-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1; cursor: default;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
         text-anchor="start"
         x="129.38926261462365"
         y="140.45084971874735"
@@ -147,9 +147,9 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
         Gadgets
       </text>
       <text
-        class="radial-dendrogram-element radial-dendrogram-label"
+        class="radial-dendrogram-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1; cursor: default;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
         text-anchor="end"
         x="52.44717418524232"
         y="84.54915028125264"
