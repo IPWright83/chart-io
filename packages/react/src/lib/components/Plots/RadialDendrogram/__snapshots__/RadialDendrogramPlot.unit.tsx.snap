@@ -107,9 +107,9 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
         style="fill: rgb(252, 153, 142); cursor: default;"
       />
       <text
-        class="radial-dendrogram-label"
+        class="radial-dendrogram-element radial-dendrogram-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1; cursor: default;"
         text-anchor="start"
         x="128.5316954888546"
         y="109.27050983124842"
@@ -117,9 +117,9 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
         North
       </text>
       <text
-        class="radial-dendrogram-label"
+        class="radial-dendrogram-element radial-dendrogram-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1; cursor: default;"
         text-anchor="end"
         x="71.46830451114539"
         y="90.72949016875158"
@@ -127,9 +127,9 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
         South
       </text>
       <text
-        class="radial-dendrogram-label"
+        class="radial-dendrogram-element radial-dendrogram-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1; cursor: default;"
         text-anchor="start"
         x="147.55282581475768"
         y="84.54915028125262"
@@ -137,9 +137,9 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
         Widgets
       </text>
       <text
-        class="radial-dendrogram-label"
+        class="radial-dendrogram-element radial-dendrogram-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1; cursor: default;"
         text-anchor="start"
         x="129.38926261462365"
         y="140.45084971874735"
@@ -147,9 +147,9 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
         Gadgets
       </text>
       <text
-        class="radial-dendrogram-label"
+        class="radial-dendrogram-element radial-dendrogram-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1; cursor: default;"
         text-anchor="end"
         x="52.44717418524232"
         y="84.54915028125264"

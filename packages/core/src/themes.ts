@@ -47,6 +47,12 @@ const light: ITheme = {
         padding: 6,
     },
 
+    label: {
+        color: "#333333" as IColor,
+        fontSize: 12,
+        fontFamily: "sans-serif",
+    },
+
     legend: {
         background: "#ffffff" as IColor,
         text: "#000000" as IColor,
@@ -122,6 +128,12 @@ const dark: ITheme = {
         text: "#ffffff" as IColor,
         opacity: 0.8,
         padding: 6,
+    },
+
+    label: {
+        color: "#cccccc" as IColor,
+        fontSize: 12,
+        fontFamily: "sans-serif",
     },
 
     legend: {

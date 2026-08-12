@@ -67,6 +67,7 @@ const DendrogramTemplate = (args) => (
         categories={args.categories}
         value={args.value}
         sort={args.sort}
+        nodeRadius={args.nodeRadius}
     />
 );
 
@@ -113,6 +114,17 @@ export const ThreeLevel = {
     args: {
         ...Basic.args,
         categories: ["continent", "country", "sector"],
+    },
+    play: createSVGTest("circle.dendrogram-node", { clientX: 100, clientY: 250 }),
+};
+
+export const SizedByValue = {
+    name: "Sized by Value",
+    render: DendrogramTemplate,
+    args: {
+        ...Basic.args,
+        categories: ["continent", "country"],
+        nodeRadius: [3, 24],
     },
     play: createSVGTest("circle.dendrogram-node", { clientX: 100, clientY: 250 }),
 };

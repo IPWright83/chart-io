@@ -157,6 +157,23 @@ export interface ITheme {
         padding: number;
     };
     /**
+     * Configures on-chart text labels, such as a `<Dendrogram>` or `<CirclePacking>` node's label
+     */
+    label: {
+        /**
+         * The text color of the label
+         */
+        color: IColor;
+        /**
+         * The font size of the label
+         */
+        fontSize: number;
+        /**
+         * The font family of the label
+         */
+        fontFamily: string;
+    };
+    /**
      * Configures the legend for a chart
      */
     legend: {

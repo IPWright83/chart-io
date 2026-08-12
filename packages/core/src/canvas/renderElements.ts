@@ -8,6 +8,7 @@ import { renderLink } from "./renderLink";
 import { renderLinkRadial } from "./renderLinkRadial";
 import { renderPolygon } from "./renderPolygon";
 import { renderRect } from "./renderRect";
+import { renderText } from "./renderText";
 
 /**
  * Renders the canvas elements based on the join
@@ -40,6 +41,10 @@ export function renderElements(
 
             case "RECT":
                 renderRect(context, node, overrideColor);
+                break;
+
+            case "TEXT":
+                renderText(context, node, overrideColor);
                 break;
 
             case "POLYGON":

@@ -26,7 +26,6 @@ export function ZoomBreadcrumb() {
         display: "inline-block",
         padding: theme.tooltip.padding,
         background: theme.tooltip.background.toString(),
-        border: "thin solid #ccc",
         pointerEvents: "auto" as const,
         fontSize: 12,
     };

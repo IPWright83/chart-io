@@ -40,10 +40,13 @@ export interface IDendrogramBaseProps {
      */
     value: string;
     /**
-     * The radius, in pixels, of each node's circle
+     * The radius, in pixels, of each node's circle. Pass a `[min, max]` tuple instead of a fixed
+     * number to scale each node's circle by its own value (summed from its descendants) - the
+     * smallest node in the hierarchy gets `min`, the largest gets `max`, and everything else is
+     * scaled proportionally by area (`d3.scaleSqrt`) in between
      * @default 4
      */
-    nodeRadius?: number;
+    nodeRadius?: number | [number, number];
     /**
      * Should the nodes be sorted by value (descending) rather than using the order of the data?
      * @default false
@@ -78,8 +81,9 @@ export interface IDendrogramBaseProps {
      */
     interactive?: boolean;
     /**
-     * Should this series feature in the Legend?
-     * @default true
+     * Should this series feature in the Legend? Off by default - with every node drawn (unlike
+     * `<Treemap>`), node labels already identify each value, so the legend is often redundant
+     * @default false
      */
     showInLegend?: boolean;
     /**
@@ -118,7 +122,7 @@ export function DendrogramBase({
     colors,
     buildHierarchy = defaultBuildHierarchy,
     labels = true,
-    showInLegend = true,
+    showInLegend = false,
     interactive = true,
     zoomable = false,
     onMouseOver,
@@ -179,9 +183,17 @@ export function DendrogramBase({
         const zoomTarget = zoomable && zoomPath.length > 0 ? zoomPath.join(":") : null;
         const focusedNode = zoomTarget ? (hierarchy.descendants().find((node) => key(node) === zoomTarget) ?? hierarchy) : hierarchy;
 
+        // A fixed nodeRadius applies to every node the same; a [min, max] tuple instead scales each
+        // node's circle by its own (descendant-summed) value, proportional by area
+        const maxNodeRadius = Array.isArray(nodeRadius) ? nodeRadius[1] : nodeRadius;
+        const radiusScale = Array.isArray(nodeRadius)
+            ? d3.scaleSqrt().domain([0, hierarchy.value ?? 0]).range(nodeRadius)
+            : null;
+        const radiusFor = (node: IDendrogramNode) => (radiusScale ? radiusScale(node.value ?? 0) : (nodeRadius as number));
+
         // Reserve some space on the right for leaf labels (and the circle itself when labels are
         // off), so the deepest level doesn't land exactly on the plot's right edge
-        const layoutWidth = Math.max(0, plotWidth - (labels ? 80 : nodeRadius + 4));
+        const layoutWidth = Math.max(0, plotWidth - (labels ? 80 : maxNodeRadius + 4));
         const layout = d3.cluster<IHierarchyDatum>().size([plotHeight, layoutWidth])(focusedNode) as IDendrogramNode;
         const allNodes = layout.descendants().filter((node) => node.depth > 0) as IDendrogramNode[];
         const allLinks = layout.links() as IDendrogramLink[];
@@ -201,12 +213,15 @@ export function DendrogramBase({
             .x((node) => px(node))
             .y((node) => py(node));
 
-        // Links and node circles are combined into a single heterogeneous join (rather than two
-        // separate joins) so a Canvas render has one Transition covering both, which it can paint
-        // in one pass without the two element types clearing each other's drawing
+        // Links, node circles and labels are combined into a single heterogeneous join (rather than
+        // separate joins) so a Canvas render has one Transition covering all three, which it can
+        // paint in one pass without the element types clearing each other's drawing - this is also
+        // what lets labels show up on Canvas at all, since `renderElements` (the Canvas dispatcher)
+        // only draws elements it finds in this join
         type IDendrogramElement =
             | { type: "link"; elementKey: string; link: IDendrogramLink }
-            | { type: "node"; elementKey: string; node: IDendrogramNode };
+            | { type: "node"; elementKey: string; node: IDendrogramNode }
+            | { type: "label"; elementKey: string; node: IDendrogramNode };
 
         const elements: IDendrogramElement[] = [
             ...allLinks.map((link) => ({
@@ -215,6 +230,9 @@ export function DendrogramBase({
                 link,
             })),
             ...allNodes.map((node) => ({ type: "node" as const, elementKey: `node:${key(node)}`, node })),
+            ...(labels
+                ? allNodes.map((node) => ({ type: "label" as const, elementKey: `label:${key(node)}`, node }))
+                : []),
         ];
 
         const join = d3
@@ -229,7 +247,8 @@ export function DendrogramBase({
         const enter = join
             .enter()
             .append(function (this: Element, d) {
-                return document.createElementNS(this.namespaceURI, d.type === "link" ? "path" : "circle");
+                const tagName = d.type === "link" ? "path" : d.type === "label" ? "text" : "circle";
+                return document.createElementNS(this.namespaceURI, tagName);
             })
             .attr("class", (d) => `dendrogram-element dendrogram-${d.type}`);
 
@@ -247,9 +266,19 @@ export function DendrogramBase({
             .attr("cy", (d: IDendrogramElement & { type: "node" }) => py(d.node))
             .attr("r", 0);
 
+        enter
+            .filter((d) => d.type === "label")
+            .attr("x", (d: IDendrogramElement & { type: "label" }) => px(d.node) + radiusFor(d.node) + 4)
+            .attr("y", (d: IDendrogramElement & { type: "label" }) => py(d.node))
+            .attr("dy", 3)
+            .style("font-size", theme.label.fontSize)
+            .style("font-family", theme.label.fontFamily)
+            .style("fill", theme.label.color.toString())
+            .style("opacity", 0);
+
         const update = enter
             .merge(join as any)
-            .style("fill", (d) => (d.type === "node" ? colorFor(d.node) : "none"))
+            .style("fill", (d) => (d.type === "node" ? colorFor(d.node) : d.type === "label" ? theme.label.color.toString() : "none"))
             .style("cursor", (d) =>
                 d.type === "node" && interactive && (zoomable || d.node.children) ? "pointer" : "default",
             )
@@ -290,6 +319,10 @@ export function DendrogramBase({
                 }
             });
 
+        // .text() has to be applied outside the transition - it's not an interpolatable/animatable
+        // attribute, and calling it on a transition throws
+        update.filter((d) => d.type === "label").text((d: IDendrogramElement & { type: "label" }) => d.node.data.key);
+
         const transition = update.transition(CANVAS_TRANSITION_NAME).duration(animationDuration);
 
         transition
@@ -304,41 +337,13 @@ export function DendrogramBase({
             .filter((d) => d.type === "node")
             .attr("cx", (d: IDendrogramElement & { type: "node" }) => px(d.node))
             .attr("cy", (d: IDendrogramElement & { type: "node" }) => py(d.node))
-            .attr("r", nodeRadius);
+            .attr("r", (d: IDendrogramElement & { type: "node" }) => radiusFor(d.node));
 
-        // Text labels - kept as a separate, canvas-excluded selection since text isn't a shape
-        // `renderElements` (the Canvas dispatcher) knows how to draw
-        if (labels) {
-            const labelJoin = d3
-                .select(layer.current)
-                .selectAll<SVGTextElement, IDendrogramNode>(".dendrogram-label")
-                .data(allNodes, key as (node: IDendrogramNode) => string);
-
-            labelJoin.exit().remove();
-
-            const labelEnter = labelJoin
-                .enter()
-                .append("text")
-                .attr("class", "dendrogram-label")
-                .attr("x", (node) => px(node) + nodeRadius + 4)
-                .attr("y", (node) => py(node))
-                .attr("dy", 3)
-                .style("font-size", theme.font.size)
-                .style("font-family", theme.font.family)
-                .style("fill", theme.axis.stroke.toString())
-                .style("opacity", 0);
-
-            labelEnter
-                .merge(labelJoin)
-                .text((node) => node.data.key)
-                .transition()
-                .duration(animationDuration)
-                .attr("x", (node) => px(node) + nodeRadius + 4)
-                .attr("y", (node) => py(node))
-                .style("opacity", 1);
-        } else {
-            d3.select(layer.current).selectAll(".dendrogram-label").remove();
-        }
+        transition
+            .filter((d) => d.type === "label")
+            .attr("x", (d: IDendrogramElement & { type: "label" }) => px(d.node) + radiusFor(d.node) + 4)
+            .attr("y", (d: IDendrogramElement & { type: "label" }) => py(d.node))
+            .style("opacity", 1);
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, transition as unknown as d3.Transition<Element, unknown, any, unknown>);
     }, [

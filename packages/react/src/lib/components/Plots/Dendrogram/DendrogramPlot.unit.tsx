@@ -52,12 +52,41 @@ describe("DendrogramPlot", () => {
             expect(container.querySelectorAll("text.dendrogram-label").length).toBe(0);
         });
 
+        it("should size each node's circle by its value when nodeRadius is a [min, max] tuple", async () => {
+            const skewedData = [
+                { region: "North", product: "Widgets", sales: 1 },
+                { region: "North", product: "Gadgets", sales: 1 },
+                { region: "South", product: "Widgets", sales: 100 },
+            ];
+
+            const { container } = await renderChart({
+                children: <DendrogramPlot categories={["region", "product"]} value="sales" nodeRadius={[2, 20]} />,
+                data: skewedData,
+            });
+
+            await wait();
+
+            const radii = Array.from(container.querySelectorAll("circle.dendrogram-node")).map((node) =>
+                Number(node.getAttribute("r")),
+            );
+
+            for (const r of radii) {
+                expect(r).toBeGreaterThanOrEqual(2);
+                expect(r).toBeLessThanOrEqual(20);
+            }
+
+            // South (value 100) should render a visibly larger circle than North (value 1 + 1 = 2)
+            expect(Math.max(...radii)).toBeGreaterThan(Math.min(...radii));
+        });
+
         describe("should handle event", () => {
             it("mouseover correctly on a node", async () => {
                 const onMouseOver = jest.fn();
 
                 const { container, store } = await renderChart({
-                    children: <DendrogramPlot categories={["region", "product"]} value="sales" onMouseOver={onMouseOver} />,
+                    children: (
+                        <DendrogramPlot categories={["region", "product"]} value="sales" onMouseOver={onMouseOver} showInLegend={true} />
+                    ),
                     data,
                 });
 

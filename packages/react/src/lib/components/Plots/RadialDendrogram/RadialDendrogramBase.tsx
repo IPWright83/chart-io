@@ -39,10 +39,13 @@ export interface IRadialDendrogramBaseProps {
      */
     value: string;
     /**
-     * The radius, in pixels, of each node's circle
+     * The radius, in pixels, of each node's circle. Pass a `[min, max]` tuple instead of a fixed
+     * number to scale each node's circle by its own value (summed from its descendants) - the
+     * smallest node in the hierarchy gets `min`, the largest gets `max`, and everything else is
+     * scaled proportionally by area (`d3.scaleSqrt`) in between
      * @default 4
      */
-    nodeRadius?: number;
+    nodeRadius?: number | [number, number];
     /**
      * Should the nodes be sorted by value (descending) rather than using the order of the data?
      * @default false
@@ -77,8 +80,9 @@ export interface IRadialDendrogramBaseProps {
      */
     interactive?: boolean;
     /**
-     * Should this series feature in the Legend?
-     * @default true
+     * Should this series feature in the Legend? Off by default - with every node drawn (unlike
+     * `<Treemap>`), node labels already identify each value, so the legend is often redundant
+     * @default false
      */
     showInLegend?: boolean;
     /**
@@ -133,7 +137,7 @@ export function RadialDendrogramBase({
     colors,
     buildHierarchy = defaultBuildHierarchy,
     labels = true,
-    showInLegend = true,
+    showInLegend = false,
     interactive = true,
     zoomable = false,
     onMouseOver,
@@ -190,9 +194,17 @@ export function RadialDendrogramBase({
         const zoomTarget = zoomable && zoomPath.length > 0 ? zoomPath.join(":") : null;
         const focusedNode = zoomTarget ? (hierarchy.descendants().find((node) => key(node) === zoomTarget) ?? hierarchy) : hierarchy;
 
+        // A fixed nodeRadius applies to every node the same; a [min, max] tuple instead scales each
+        // node's circle by its own (descendant-summed) value, proportional by area
+        const maxNodeRadius = Array.isArray(nodeRadius) ? nodeRadius[1] : nodeRadius;
+        const radiusScale = Array.isArray(nodeRadius)
+            ? d3.scaleSqrt().domain([0, hierarchy.value ?? 0]).range(nodeRadius)
+            : null;
+        const radiusFor = (node: IRadialDendrogramNode) => (radiusScale ? radiusScale(node.value ?? 0) : (nodeRadius as number));
+
         // Reserve some space at the outer edge for leaf labels (and the circle itself when labels
         // are off), so the deepest level doesn't land exactly on the plot's outer boundary
-        const layoutRadius = Math.max(0, maxRadius - (labels ? 60 : nodeRadius + 4));
+        const layoutRadius = Math.max(0, maxRadius - (labels ? 60 : maxNodeRadius + 4));
         const layout = d3.cluster<IHierarchyDatum>().size([2 * Math.PI, layoutRadius])(focusedNode) as IRadialDendrogramNode;
         const allNodes = layout.descendants().filter((node) => node.depth > 0) as IRadialDendrogramNode[];
         const allLinks = layout.links() as IRadialDendrogramLink[];
@@ -212,12 +224,22 @@ export function RadialDendrogramBase({
             .angle((node) => node.x)
             .radius((node) => node.y);
 
-        // Links and node circles are combined into a single heterogeneous join (rather than two
-        // separate joins) so a Canvas render has one Transition covering both, which it can paint
-        // in one pass without the two element types clearing each other's drawing
+        // Positioned further out along the same angle as their node, anchored away from the center
+        // on either half of the circle
+        const labelRadius = (node: IRadialDendrogramNode) => node.y + radiusFor(node) + 6;
+        const labelX = (node: IRadialDendrogramNode) => cx + labelRadius(node) * Math.sin(node.x);
+        const labelY = (node: IRadialDendrogramNode) => cy - labelRadius(node) * Math.cos(node.x);
+        const labelAnchor = (node: IRadialDendrogramNode) => (Math.sin(node.x) >= 0 ? "start" : "end");
+
+        // Links, node circles and labels are combined into a single heterogeneous join (rather than
+        // separate joins) so a Canvas render has one Transition covering all three, which it can
+        // paint in one pass without the element types clearing each other's drawing - this is also
+        // what lets labels show up on Canvas at all, since `renderElements` (the Canvas dispatcher)
+        // only draws elements it finds in this join
         type IRadialDendrogramElement =
             | { type: "link"; elementKey: string; link: IRadialDendrogramLink }
-            | { type: "node"; elementKey: string; node: IRadialDendrogramNode };
+            | { type: "node"; elementKey: string; node: IRadialDendrogramNode }
+            | { type: "label"; elementKey: string; node: IRadialDendrogramNode };
 
         const elements: IRadialDendrogramElement[] = [
             ...allLinks.map((link) => ({
@@ -226,6 +248,9 @@ export function RadialDendrogramBase({
                 link,
             })),
             ...allNodes.map((node) => ({ type: "node" as const, elementKey: `node:${key(node)}`, node })),
+            ...(labels
+                ? allNodes.map((node) => ({ type: "label" as const, elementKey: `label:${key(node)}`, node }))
+                : []),
         ];
 
         const join = d3
@@ -240,7 +265,8 @@ export function RadialDendrogramBase({
         const enter = join
             .enter()
             .append(function (this: Element, d) {
-                return document.createElementNS(this.namespaceURI, d.type === "link" ? "path" : "circle");
+                const tagName = d.type === "link" ? "path" : d.type === "label" ? "text" : "circle";
+                return document.createElementNS(this.namespaceURI, tagName);
             })
             .attr("class", (d) => `radial-dendrogram-element radial-dendrogram-${d.type}`);
 
@@ -262,9 +288,19 @@ export function RadialDendrogramBase({
             .attr("cy", (d: IRadialDendrogramElement & { type: "node" }) => py(d.node))
             .attr("r", 0);
 
+        enter
+            .filter((d) => d.type === "label")
+            .attr("x", (d: IRadialDendrogramElement & { type: "label" }) => labelX(d.node))
+            .attr("y", (d: IRadialDendrogramElement & { type: "label" }) => labelY(d.node))
+            .attr("dy", 3)
+            .style("font-size", theme.label.fontSize)
+            .style("font-family", theme.label.fontFamily)
+            .style("fill", theme.label.color.toString())
+            .style("opacity", 0);
+
         const update = enter
             .merge(join as any)
-            .style("fill", (d) => (d.type === "node" ? colorFor(d.node) : "none"))
+            .style("fill", (d) => (d.type === "node" ? colorFor(d.node) : d.type === "label" ? theme.label.color.toString() : "none"))
             .style("cursor", (d) =>
                 d.type === "node" && interactive && (zoomable || d.node.children) ? "pointer" : "default",
             )
@@ -313,6 +349,13 @@ export function RadialDendrogramBase({
             .attr("data-cx", cx)
             .attr("data-cy", cy);
 
+        // .text()/.attr("text-anchor") have to be applied outside the transition - they're not
+        // interpolatable/animatable, and calling them on a transition throws
+        update
+            .filter((d) => d.type === "label")
+            .text((d: IRadialDendrogramElement & { type: "label" }) => d.node.data.key)
+            .attr("text-anchor", (d: IRadialDendrogramElement & { type: "label" }) => labelAnchor(d.node));
+
         const transition = update.transition(CANVAS_TRANSITION_NAME).duration(animationDuration);
 
         transition
@@ -327,48 +370,13 @@ export function RadialDendrogramBase({
             .filter((d) => d.type === "node")
             .attr("cx", (d: IRadialDendrogramElement & { type: "node" }) => px(d.node))
             .attr("cy", (d: IRadialDendrogramElement & { type: "node" }) => py(d.node))
-            .attr("r", nodeRadius);
+            .attr("r", (d: IRadialDendrogramElement & { type: "node" }) => radiusFor(d.node));
 
-        // Text labels - kept as a separate, canvas-excluded selection since text isn't a shape
-        // `renderElements` (the Canvas dispatcher) knows how to draw. Positioned further out along
-        // the same angle as their node, anchored away from the center on either half of the circle
-        if (labels) {
-            const labelRadius = (node: IRadialDendrogramNode) => node.y + nodeRadius + 6;
-            const labelX = (node: IRadialDendrogramNode) => cx + labelRadius(node) * Math.sin(node.x);
-            const labelY = (node: IRadialDendrogramNode) => cy - labelRadius(node) * Math.cos(node.x);
-            const labelAnchor = (node: IRadialDendrogramNode) => (Math.sin(node.x) >= 0 ? "start" : "end");
-
-            const labelJoin = d3
-                .select(layer.current)
-                .selectAll<SVGTextElement, IRadialDendrogramNode>(".radial-dendrogram-label")
-                .data(allNodes, key as (node: IRadialDendrogramNode) => string);
-
-            labelJoin.exit().remove();
-
-            const labelEnter = labelJoin
-                .enter()
-                .append("text")
-                .attr("class", "radial-dendrogram-label")
-                .attr("x", labelX)
-                .attr("y", labelY)
-                .attr("dy", 3)
-                .style("font-size", theme.font.size)
-                .style("font-family", theme.font.family)
-                .style("fill", theme.axis.stroke.toString())
-                .style("opacity", 0);
-
-            labelEnter
-                .merge(labelJoin)
-                .text((node) => node.data.key)
-                .attr("text-anchor", labelAnchor)
-                .transition()
-                .duration(animationDuration)
-                .attr("x", labelX)
-                .attr("y", labelY)
-                .style("opacity", 1);
-        } else {
-            d3.select(layer.current).selectAll(".radial-dendrogram-label").remove();
-        }
+        transition
+            .filter((d) => d.type === "label")
+            .attr("x", (d: IRadialDendrogramElement & { type: "label" }) => labelX(d.node))
+            .attr("y", (d: IRadialDendrogramElement & { type: "label" }) => labelY(d.node))
+            .style("opacity", 1);
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, transition as unknown as d3.Transition<Element, unknown, any, unknown>);
     }, [

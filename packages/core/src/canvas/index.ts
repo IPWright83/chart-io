@@ -6,5 +6,6 @@ export * from "./renderLink";
 export * from "./renderLinkRadial";
 export * from "./renderPolygon";
 export * from "./renderRect";
+export * from "./renderText";
 export * from "./renderElements";
 export * from "./virtual";

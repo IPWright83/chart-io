@@ -92,45 +92,45 @@ exports[`DendrogramPlot using SVG should render correctly 1`] = `
         style="fill: rgb(252, 153, 142); cursor: default;"
       />
       <text
-        class="dendrogram-label"
+        class="dendrogram-element dendrogram-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1; cursor: default;"
         x="68"
         y="60"
       >
         North
       </text>
       <text
-        class="dendrogram-label"
+        class="dendrogram-element dendrogram-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1; cursor: default;"
         x="68"
         y="160"
       >
         South
       </text>
       <text
-        class="dendrogram-label"
+        class="dendrogram-element dendrogram-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1; cursor: default;"
         x="128"
         y="40"
       >
         Widgets
       </text>
       <text
-        class="dendrogram-label"
+        class="dendrogram-element dendrogram-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1; cursor: default;"
         x="128"
         y="80"
       >
         Gadgets
       </text>
       <text
-        class="dendrogram-label"
+        class="dendrogram-element dendrogram-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1; cursor: default;"
         x="128"
         y="160"
       >
