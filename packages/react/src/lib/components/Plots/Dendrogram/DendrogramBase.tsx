@@ -1,36 +1,28 @@
-import {
-    buildHierarchy as defaultBuildHierarchy,
-    chartSelectors,
-    colorHierarchyNode,
-    d3,
-    ensureCombinationsAreUnique,
-    IState,
-} from "@chart-io/core";
-import type { IColor, IData, IHierarchyDatum, IHierarchyNode, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
+import { d3 } from "@chart-io/core";
+import type { IColor, IData, IHierarchyNode, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
 
-import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 
-import { useLegendItems, useRender } from "../../../hooks";
+import { useLegendItems } from "../../../hooks";
+import { withCanvas, withSVG } from "../../../hoc";
 
-import { renderCanvas } from "../renderCanvas";
-import { useFocused } from "../useFocused";
-import { useTooltip } from "../useTooltip";
-import { useZoom } from "../useZoom";
+import { DendrogramLabelsBase } from "./DendrogramLabelsBase";
+import { DendrogramLinksBase } from "./DendrogramLinksBase";
+import { DendrogramNodesBase } from "./DendrogramNodesBase";
+import { useDendrogramLayout } from "./useDendrogramLayout";
 
-// The point layout `<Dendrogram>` applies on top of the shared, un-laid-out hierarchy
-type IDendrogramNode = d3.HierarchyPointNode<IHierarchyDatum>;
-type IDendrogramLink = d3.HierarchyPointLink<IHierarchyDatum>;
-
-// The link/node/label transitions below share this name so a re-render interrupts and replaces any
-// transition already in flight on the same elements, rather than letting them overlap
-const CANVAS_TRANSITION_NAME = "dendrogram";
+const CanvasDendrogramLinks = withCanvas(DendrogramLinksBase, "plot dendrogram-links");
+const SVGDendrogramLinks = withSVG(DendrogramLinksBase, "plot dendrogram-links");
+const CanvasDendrogramNodes = withCanvas(DendrogramNodesBase, "plot dendrogram-nodes");
+const SVGDendrogramNodes = withSVG(DendrogramNodesBase, "plot dendrogram-nodes");
+const CanvasDendrogramLabels = withCanvas(DendrogramLabelsBase, "plot dendrogram-labels");
+const SVGDendrogramLabels = withSVG(DendrogramLabelsBase, "plot dendrogram-labels");
 
 export interface IDendrogramBaseProps {
     /**
-     * The layer to be rendered upon. Typically this is an `<svg:g>` or a fake HTMLElement when using canvas.
+     * Should Canvas be used instead of SVG?
      */
-    layer?: React.MutableRefObject<Element>;
+    useCanvas?: boolean;
     /**
      * The ordered list of fields used to build each level of the hierarchy, outermost group first
      */
@@ -87,10 +79,6 @@ export interface IDendrogramBaseProps {
      */
     showInLegend?: boolean;
     /**
-     * An HTML Canvas if the plot should be rendering to canvas instead
-     */
-    canvas?: HTMLCanvasElement;
-    /**
      * This is an internally used function to allow the plot to render to a virtual canvas
      */
     renderVirtualCanvas?: (update: d3.Transition<Element, unknown, any, unknown>) => void;
@@ -108,19 +96,22 @@ export interface IDendrogramBaseProps {
  * Represents a Dendrogram plot, a tree of nodes (built from `categories`) connected by links, laid out
  * left-to-right with every leaf aligned at the same depth. Used internally by `<Dendrogram>` - use that
  * unless you need to compose the plot into a chart of your own
+ *
+ * Computes the tree layout once (see `useDendrogramLayout`) and renders the links, node circles and
+ * labels as three separate plots, each with its own Canvas/SVG layer - the same way a multi-series
+ * `<Scatter>` gets one layer per series - rather than combining them into a single layer/join
  * @param  props       The set of React properties
- * @return             The DendrogramPlot component
+ * @return             The DendrogramBase component
  */
 export function DendrogramBase({
+    useCanvas = false,
     categories,
     value,
-    canvas,
     renderVirtualCanvas,
-    layer,
     nodeRadius = 4,
     sort = false,
     colors,
-    buildHierarchy = defaultBuildHierarchy,
+    buildHierarchy,
     labels = true,
     showInLegend = false,
     interactive = true,
@@ -129,250 +120,39 @@ export function DendrogramBase({
     onMouseOut,
     onClick,
 }: IDendrogramBaseProps) {
-    const data = useSelector((s: IState) => chartSelectors.data(s));
-    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
-    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
-    const plotLeft = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
-    const plotTop = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
-    const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
-    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
-    const theme = useSelector((s: IState) => chartSelectors.theme(s));
-    const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
-    const { path: zoomPath, zoomTo } = useZoom(zoomable);
-
-    // Only the top-level category is shown in the Legend, deeper levels can contain many more
-    // values than is practical to list
-    const topCategory = categories[0];
-    const palette = colors ?? theme.series.colors;
-    const legendKeys = useMemo(() => Array.from(new Set(data.map((d) => `${d[topCategory]}`))), [data, topCategory]);
-    const legendColors = useMemo(
-        () => legendKeys.map((_, index) => palette[index % palette.length]),
-        [legendKeys, palette],
-    );
+    const { allNodes, allLinks, px, py, radiusFor, colorFor, keyFor, ancestry, breadcrumb, linkGenerator, focusedNode, zoomPath, zoomTo, legendKeys, legendColors } =
+        useDendrogramLayout({ categories, value, nodeRadius, sort, labels, colors, buildHierarchy, zoomable });
 
     useLegendItems(legendKeys, "square", showInLegend, legendColors);
-    const onTooltip = useTooltip();
-    const onFocus = useFocused(theme);
 
-    useRender(() => {
-        // Unable to render without the layer avaliable
-        if (!layer.current) return;
+    const DendrogramLinks = useCanvas ? CanvasDendrogramLinks : SVGDendrogramLinks;
+    const DendrogramNodes = useCanvas ? CanvasDendrogramNodes : SVGDendrogramNodes;
+    const DendrogramLabels = useCanvas ? CanvasDendrogramLabels : SVGDendrogramLabels;
 
-        ensureCombinationsAreUnique(data, categories, "Dendrogram");
-
-        const hierarchy = buildHierarchy(data, categories, value, sort, "Dendrogram");
-
-        // A node's ancestry (root excluded), e.g. ["North", "Widgets"]
-        const ancestry = (node: IHierarchyNode) =>
-            node
-                .ancestors()
-                .filter((n) => n.depth > 0)
-                .reverse()
-                .map((n) => n.data.key);
-
-        // A node's ancestry uniquely identifies it, e.g. "North:Widgets"
-        const key = (node: IHierarchyNode) => ancestry(node).join(":");
-
-        // The breadcrumb of category values leading to this node, e.g. "North / Widgets"
-        const breadcrumb = (node: IHierarchyNode) => ancestry(node).join(" / ");
-
-        // If zoomed in, lay out just the focused node's subtree - it stays a full member of the
-        // original hierarchy (its ancestors are still reachable via .parent), only the layout treats
-        // it as the root. Falls back to the full hierarchy if the path no longer matches (e.g. the
-        // underlying data changed)
-        const zoomTarget = zoomable && zoomPath.length > 0 ? zoomPath.join(":") : null;
-        const focusedNode = zoomTarget ? (hierarchy.descendants().find((node) => key(node) === zoomTarget) ?? hierarchy) : hierarchy;
-
-        // A fixed nodeRadius applies to every node the same; a [min, max] tuple instead scales each
-        // node's circle by its own (descendant-summed) value, proportional by area
-        const maxNodeRadius = Array.isArray(nodeRadius) ? nodeRadius[1] : nodeRadius;
-        const radiusScale = Array.isArray(nodeRadius)
-            ? d3.scaleSqrt().domain([0, hierarchy.value ?? 0]).range(nodeRadius)
-            : null;
-        const radiusFor = (node: IDendrogramNode) => (radiusScale ? radiusScale(node.value ?? 0) : (nodeRadius as number));
-
-        // Reserve some space on the right for leaf labels (and the circle itself when labels are
-        // off), so the deepest level doesn't land exactly on the plot's right edge
-        const layoutWidth = Math.max(0, plotWidth - (labels ? 80 : maxNodeRadius + 4));
-        const layout = d3.cluster<IHierarchyDatum>().size([plotHeight, layoutWidth])(focusedNode) as IDendrogramNode;
-        const allNodes = layout.descendants().filter((node) => node.depth > 0) as IDendrogramNode[];
-        const allLinks = layout.links() as IDendrogramLink[];
-
-        // d3.cluster lays out with x as the spread axis and y as the depth axis - swap them so the
-        // tree grows left-to-right rather than top-to-bottom
-        const px = (node: IDendrogramNode) => plotLeft + node.y;
-        const py = (node: IDendrogramNode) => plotTop + node.x;
-
-        // @ts-ignore: TODO: Not sure how to fix this
-        const colorScale = d3.scaleOrdinal<string>().domain(legendKeys).range(palette);
-        const colorFor = (node: IDendrogramNode) =>
-            colorHierarchyNode(node, (k) => colorScale(k), theme.background.toString());
-
-        const linkGenerator = d3
-            .linkHorizontal<unknown, IDendrogramNode>()
-            .x((node) => px(node))
-            .y((node) => py(node));
-
-        // The element is created in the parent's own namespace (rather than always assuming SVG),
-        // since in Canvas mode the "layer" is a detached, non-namespaced HTML element instead
-        const append = (tagName: string) =>
-            function (this: Element) {
-                return document.createElementNS(this.namespaceURI, tagName);
-            };
-
-        // Links, node circles and labels are three separate, independently-typed joins - all
-        // sharing the same layout computed above rather than repeating it - passed to `renderCanvas`
-        // together as an array so Canvas draws them in one pass without clearing each other out
-        const linkJoin = d3
-            .select(layer.current)
-            .selectAll<Element, IDendrogramLink>(".dendrogram-link")
-            .data(allLinks, (link) => `${key(link.source)}>${key(link.target)}`);
-
-        linkJoin.exit().remove();
-
-        const linkEnter = linkJoin
-            .enter()
-            .append(append("path"))
-            .attr("class", "dendrogram-link")
-            .attr("data-path-type", "link")
-            .attr("d", (link) => linkGenerator({ source: link.target, target: link.target }))
-            .style("fill", "none")
-            .style("stroke", theme.axis.stroke.toString())
-            .style("stroke-opacity", 0.4);
-
-        const linkTransition = linkEnter
-            .merge(linkJoin as any)
-            .transition(CANVAS_TRANSITION_NAME)
-            .duration(animationDuration)
-            .attr("data-x0", (link) => px(link.source))
-            .attr("data-y0", (link) => py(link.source))
-            .attr("data-x1", (link) => px(link.target))
-            .attr("data-y1", (link) => py(link.target))
-            .attr("d", (link) => linkGenerator(link));
-
-        const nodeJoin = d3
-            .select(layer.current)
-            .selectAll<Element, IDendrogramNode>(".dendrogram-node")
-            .data(allNodes, (node) => key(node));
-
-        nodeJoin.exit().remove();
-
-        const nodeEnter = nodeJoin
-            .enter()
-            .append(append("circle"))
-            .attr("class", "dendrogram-node")
-            .attr("cx", (node) => px(node))
-            .attr("cy", (node) => py(node))
-            .attr("r", 0);
-
-        const nodeUpdate = nodeEnter
-            .merge(nodeJoin as any)
-            .style("fill", (node) => colorFor(node))
-            .style("cursor", (node) => (interactive && (zoomable || node.children) ? "pointer" : "default"))
-            .on("mouseover", function (event, node) {
-                // istanbul ignore next
-                if (!interactive) return;
-
-                const datum = node.data.datum;
-                const color = colorFor(node) as IColor;
-                const name = breadcrumb(node);
-
-                onMouseOver && onMouseOver(datum, this, event);
-                onFocus && onFocus({ element: this, event, datum });
-                onTooltip && onTooltip({ datum, event, name, value: datum[value], color });
-            })
-            .on("mouseout", function (event, node) {
-                // istanbul ignore next
-                if (!interactive) return;
-
-                onMouseOut && onMouseOut(node.data.datum, this, event);
-                onFocus && onFocus(null);
-                onTooltip && onTooltip(null);
-            })
-            .on("click", function (event, node) {
-                // istanbul ignore next
-                if (!interactive) return;
-
-                onClick && onClick(node.data.datum, this, event);
-
-                if (!zoomable) return;
-
-                if (node === focusedNode) {
-                    zoomTo(zoomPath.slice(0, -1));
-                } else if (node.children) {
-                    zoomTo(ancestry(node));
-                }
-            });
-
-        const nodeTransition = nodeUpdate
-            .transition(CANVAS_TRANSITION_NAME)
-            .duration(animationDuration)
-            .attr("cx", (node) => px(node))
-            .attr("cy", (node) => py(node))
-            .attr("r", (node) => radiusFor(node));
-
-        const labelJoin = d3
-            .select(layer.current)
-            .selectAll<Element, IDendrogramNode>(".dendrogram-label")
-            .data(labels ? allNodes : [], (node) => key(node));
-
-        labelJoin.exit().remove();
-
-        const labelEnter = labelJoin
-            .enter()
-            .append(append("text"))
-            .attr("class", "dendrogram-label")
-            .attr("x", (node) => px(node) + radiusFor(node) + 4)
-            .attr("y", (node) => py(node))
-            .attr("dy", 3)
-            .style("font-size", theme.label.fontSize)
-            .style("font-family", theme.label.fontFamily)
-            .style("fill", theme.label.color.toString())
-            .style("opacity", 0);
-
-        const labelUpdate = labelEnter.merge(labelJoin as any);
-
-        // .text() has to be applied outside the transition - it's not an interpolatable/animatable
-        // attribute, and calling it on a transition throws
-        labelUpdate.text((node) => node.data.key);
-
-        const labelTransition = labelUpdate
-            .transition(CANVAS_TRANSITION_NAME)
-            .duration(animationDuration)
-            .attr("x", (node) => px(node) + radiusFor(node) + 4)
-            .attr("y", (node) => py(node))
-            .style("opacity", 1);
-
-        renderCanvas(canvas, renderVirtualCanvas, width, height, [
-            linkTransition,
-            nodeTransition,
-            labelTransition,
-        ] as unknown as d3.Transition<Element, unknown, any, unknown>[]);
-    }, [
-        categories,
-        value,
-        data,
-        canvas,
-        renderVirtualCanvas,
-        plotLeft,
-        plotTop,
-        plotWidth,
-        plotHeight,
-        nodeRadius,
-        sort,
-        buildHierarchy,
-        labels,
-        layer,
-        animationDuration,
-        onMouseOver,
-        onMouseOut,
-        onClick,
-        palette,
-        legendKeys,
-        zoomable,
-        zoomPath,
-        zoomTo,
-    ]);
-
-    return null;
+    return (
+        <React.Fragment>
+            <DendrogramLinks renderVirtualCanvas={renderVirtualCanvas} allLinks={allLinks} px={px} py={py} linkGenerator={linkGenerator} keyFor={keyFor} />
+            <DendrogramNodes
+                renderVirtualCanvas={renderVirtualCanvas}
+                value={value}
+                allNodes={allNodes}
+                px={px}
+                py={py}
+                radiusFor={radiusFor}
+                colorFor={colorFor}
+                keyFor={keyFor}
+                breadcrumb={breadcrumb}
+                ancestry={ancestry}
+                focusedNode={focusedNode}
+                zoomPath={zoomPath}
+                zoomTo={zoomTo}
+                zoomable={zoomable}
+                interactive={interactive}
+                onMouseOver={onMouseOver}
+                onMouseOut={onMouseOut}
+                onClick={onClick}
+            />
+            <DendrogramLabels renderVirtualCanvas={renderVirtualCanvas} labels={labels} allNodes={allNodes} px={px} py={py} radiusFor={radiusFor} keyFor={keyFor} />
+        </React.Fragment>
+    );
 }

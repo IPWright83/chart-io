@@ -4,7 +4,7 @@ exports[`DendrogramPlot using SVG should render correctly 1`] = `
 <DocumentFragment>
   <svg>
     <g
-      class="g-plot dendrogram"
+      class="g-plot dendrogram-links"
     >
       <path
         class="dendrogram-link"
@@ -56,6 +56,10 @@ exports[`DendrogramPlot using SVG should render correctly 1`] = `
         data-y1="160"
         style="fill: none; stroke: #333333; stroke-opacity: 0.4;"
       />
+    </g>
+    <g
+      class="g-plot dendrogram-nodes"
+    >
       <circle
         class="dendrogram-node"
         cx="60"
@@ -91,6 +95,10 @@ exports[`DendrogramPlot using SVG should render correctly 1`] = `
         r="4"
         style="fill: rgb(252, 153, 142); cursor: default;"
       />
+    </g>
+    <g
+      class="g-plot dendrogram-labels"
+    >
       <text
         class="dendrogram-label"
         dy="3"

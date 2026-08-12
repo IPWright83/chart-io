@@ -4,7 +4,7 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
 <DocumentFragment>
   <svg>
     <g
-      class="g-plot radial-dendrogram"
+      class="g-plot radial-dendrogram-links"
     >
       <path
         class="radial-dendrogram-link"
@@ -71,6 +71,10 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
         style="fill: none; stroke: #333333; stroke-opacity: 0.4;"
         transform="translate(100, 100)"
       />
+    </g>
+    <g
+      class="g-plot radial-dendrogram-nodes"
+    >
       <circle
         class="radial-dendrogram-node"
         cx="119.02113032590307"
@@ -106,6 +110,10 @@ exports[`RadialDendrogramPlot using SVG should render correctly 1`] = `
         r="4"
         style="fill: rgb(252, 153, 142); cursor: default;"
       />
+    </g>
+    <g
+      class="g-plot radial-dendrogram-labels"
+    >
       <text
         class="radial-dendrogram-label"
         dy="3"

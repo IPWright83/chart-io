@@ -187,8 +187,19 @@ describe("RadialDendrogramPlot", () => {
 
             await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
 
-            const canvasBuffer = getBuffer(container.querySelector(".canvas"));
-            expect(canvasBuffer).toMatchImageSnapshot();
+            // Links, nodes and labels each render to their own Canvas layer - one per plot, the
+            // same way a multi-series <Scatter> gets one Canvas per series
+            const canvases = container.querySelectorAll(".canvas");
+            expect(canvases.length).toBe(3);
+
+            const linksBuffer = getBuffer(canvases[0] as HTMLCanvasElement);
+            expect(linksBuffer).toMatchImageSnapshot();
+
+            const nodesBuffer = getBuffer(canvases[1] as HTMLCanvasElement);
+            expect(nodesBuffer).toMatchImageSnapshot();
+
+            const labelsBuffer = getBuffer(canvases[2] as HTMLCanvasElement);
+            expect(labelsBuffer).toMatchImageSnapshot();
 
             const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));
             expect(virtualCanvasBuffer).toMatchImageSnapshot();
