@@ -6,6 +6,7 @@ import React from "react";
 
 import { gdp_dataset } from "../../../data/gdp_dataset";
 import { argTypes } from "../../../storybook/argTypes";
+import { jitterFields, withDataControls } from "../../../storybook/dataControls";
 import { createCanvasTest, createSVGTest } from "../../testUtils";
 import { Treemap } from "./Treemap";
 
@@ -51,6 +52,18 @@ const fourLevelData = gdp_dataset.flatMap((d) => [
     { ...d, half: "H2", gdp: Math.round(d.gdp * 0.55) },
 ]);
 
+const treemapDataControls = {
+    initialData: data,
+    randomize: (row: (typeof data)[number]) => jitterFields(row, ["gdp"], 0.3),
+    // Clones a random existing row under a synthetic country name, since every continent/country
+    // pairing in the source dataset is already represented
+    createPoint: (current: typeof data) => {
+        const base = current[Math.floor(Math.random() * current.length)];
+        return jitterFields({ ...base, country: `${base.country} (New)` }, ["gdp"], 0.3);
+    },
+    minLength: 6,
+};
+
 const TreemapTemplate = (args) => (
     <Treemap
         data={args.data ?? data}
@@ -77,9 +90,11 @@ const TreemapTemplate = (args) => (
     />
 );
 
+const TreemapTemplateWithControls = withDataControls(TreemapTemplate, treemapDataControls);
+
 export const Basic = {
     name: "Basic Plot",
-    render: TreemapTemplate,
+    render: TreemapTemplateWithControls,
     args: {
         useCanvas: false,
         width: 800,
@@ -102,7 +117,7 @@ export const Basic = {
 
 export const Canvas = {
     name: "Using Canvas",
-    render: TreemapTemplate,
+    render: TreemapTemplateWithControls,
     args: {
         ...Basic.args,
         useCanvas: true,

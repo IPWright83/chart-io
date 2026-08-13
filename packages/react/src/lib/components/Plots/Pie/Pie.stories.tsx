@@ -6,6 +6,7 @@ import React from "react";
 
 import { gdp_dataset } from "../../../../data/gdp_dataset";
 import { argTypes } from "../../../../storybook/argTypes";
+import { jitterFields, withDataControls } from "../../../../storybook/dataControls";
 import { createCanvasTest, createSVGTest } from "../../../testUtils";
 import { RadialChart } from "../../RadialChart";
 import { Donut } from "./Donut";
@@ -51,9 +52,22 @@ const data = Array.from(
     ([continent, gdp]) => ({ continent, gdp }),
 );
 
+// Continent GDP is fully aggregated already, so there's nothing left to randomize but the value.
+const pieDataControls = {
+    initialData: data,
+    randomize: (row: (typeof data)[number]) => jitterFields(row, ["gdp"], 0.3),
+    // Every continent in the source dataset is already represented - clone a random slice under a
+    // synthetic label instead, so the chart still gains a visibly new slice
+    createPoint: (current: typeof data) => {
+        const base = current[Math.floor(Math.random() * current.length)];
+        return jitterFields({ ...base, continent: `${base.continent} (New)` }, ["gdp"], 0.3);
+    },
+    minLength: 2,
+};
+
 const PieTemplate = (args) => (
     <RadialChart
-        data={data}
+        data={args.data ?? data}
         plotMargin={{
             left: args.leftMargin,
             right: args.rightMargin,
@@ -72,6 +86,8 @@ const PieTemplate = (args) => (
         <Pie category={args.category} value={args.value} sort={args.sort} />
     </RadialChart>
 );
+
+const PieTemplateWithControls = withDataControls(PieTemplate, pieDataControls);
 
 const DonutTemplate = (args) => (
     <RadialChart
@@ -98,7 +114,7 @@ const DonutTemplate = (args) => (
 
 export const Basic = {
     name: "Basic Plot",
-    render: PieTemplate,
+    render: PieTemplateWithControls,
     args: {
         useCanvas: false,
         width: 800,
@@ -117,7 +133,7 @@ export const Basic = {
 
 export const Canvas = {
     name: "Using Canvas",
-    render: PieTemplate,
+    render: PieTemplateWithControls,
     args: {
         ...Basic.args,
         useCanvas: true,

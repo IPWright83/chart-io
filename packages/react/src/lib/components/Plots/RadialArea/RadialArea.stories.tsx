@@ -5,6 +5,7 @@ import { fn } from "@storybook/test";
 import React from "react";
 
 import { argTypes } from "../../../../storybook/argTypes";
+import { jitterFields, withDataControls } from "../../../../storybook/dataControls";
 import { createEventReceiverTest } from "../../../testUtils";
 import { AngleAxis, RadialAxis } from "../../Axis";
 import { RadialChart } from "../../RadialChart";
@@ -56,6 +57,26 @@ const twoCities = buildYearOfTemperatures(0, 12, 15).map((d, i) => ({
     // A milder, less seasonally-varied climate for comparison
     Miami: Math.max(0, Math.round((24 - 6 * Math.cos((2 * Math.PI * i) / 365) + Math.sin(i * 0.15) * 1.5) * 10) / 10),
 }));
+
+function nextDay(current: typeof singleCity) {
+    const last = current[current.length - 1] ?? singleCity[0];
+    const date = new Date(last.date);
+    date.setDate(date.getDate() + 1);
+    const temperature = Math.max(0, Math.round((last.temperature + (Math.random() * 4 - 2)) * 10) / 10);
+    return { date, temperature };
+}
+
+function jitterTemperature(row: (typeof singleCity)[number]) {
+    const jittered = jitterFields(row, ["temperature"], 0.15);
+    return { ...jittered, temperature: Math.max(0, jittered.temperature) };
+}
+
+const radialAreaDataControls = {
+    initialData: singleCity,
+    randomize: jitterTemperature,
+    createPoint: nextDay,
+    minLength: 30,
+};
 
 const RadialAreaTemplate = (args) => (
     <RadialChart
@@ -109,9 +130,11 @@ const MultiSeriesTemplate = (args) => (
     </RadialChart>
 );
 
+const RadialAreaTemplateWithControls = withDataControls(RadialAreaTemplate, radialAreaDataControls);
+
 export const Basic = {
     name: "Basic Plot",
-    render: RadialAreaTemplate,
+    render: RadialAreaTemplateWithControls,
     args: {
         useCanvas: false,
         width: 800,
@@ -129,7 +152,7 @@ export const Basic = {
 
 export const Canvas = {
     name: "Using Canvas",
-    render: RadialAreaTemplate,
+    render: RadialAreaTemplateWithControls,
     args: {
         ...Basic.args,
         useCanvas: true,

@@ -5,6 +5,7 @@ import { fn } from "@storybook/test";
 import React from "react";
 
 import { argTypes } from "../../../../storybook/argTypes";
+import { jitterFields, withDataControls } from "../../../../storybook/dataControls";
 import { createCanvasTest, createSVGTest } from "../../../testUtils";
 import { AngleAxis, RadialAxis } from "../../Axis";
 import { RadialChart } from "../../RadialChart";
@@ -54,6 +55,28 @@ const manyPlayers = [
     { player: "Player E", Speed: 90, Power: 45, Defense: 60, Stamina: 50, Agility: 85 },
 ];
 
+function nextPlayer(current: typeof twoPlayers) {
+    const letter = String.fromCharCode(65 + current.length);
+    const values = Object.fromEntries(skills.map((skill) => [skill, Math.round(40 + Math.random() * 55)]));
+    return { player: `Player ${letter}`, ...values } as (typeof twoPlayers)[number];
+}
+
+function jitterSkills(row: (typeof twoPlayers)[number]) {
+    const jittered = jitterFields(row, skills, 0.2);
+    // Keep every skill within the radar's 0-100 domain after jittering
+    for (const skill of skills) {
+        jittered[skill] = Math.min(100, Math.max(0, Math.round(jittered[skill])));
+    }
+    return jittered;
+}
+
+const radarDataControls = {
+    initialData: twoPlayers,
+    randomize: jitterSkills,
+    createPoint: nextPlayer,
+    minLength: 1,
+};
+
 const RadarTemplate = (args) => (
     <RadialChart
         data={args.data}
@@ -80,9 +103,11 @@ const RadarTemplate = (args) => (
     </RadialChart>
 );
 
+const RadarTemplateWithControls = withDataControls(RadarTemplate, radarDataControls);
+
 export const Basic = {
     name: "Basic Plot",
-    render: RadarTemplate,
+    render: RadarTemplateWithControls,
     args: {
         useCanvas: false,
         width: 800,
@@ -103,7 +128,7 @@ export const Basic = {
 
 export const Canvas = {
     name: "Using Canvas",
-    render: RadarTemplate,
+    render: RadarTemplateWithControls,
     args: {
         ...Basic.args,
         useCanvas: true,
