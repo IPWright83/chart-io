@@ -92,8 +92,6 @@ export const addEventHandlers = (
     let lastDatum = undefined;
     let lastNode = undefined;
 
-    // This is a fairly slow operation so let's do it just the once
-    const rect = canvas.getBoundingClientRect();
     const eventContext = canvas.getContext("2d", { willReadFrequently: true });
 
     /**
@@ -104,9 +102,15 @@ export const addEventHandlers = (
     const getDatum = (e: MouseEvent): IColorToData | undefined => {
         const colorToData: IColorToDataMap = getColorMap() ?? {};
 
+        // getBoundingClientRect() is recomputed on every event, rather than cached once, since
+        // the canvas's position can change after the event handlers are wired up (e.g. the page
+        // being scrolled, or the chart's container resizing/reflowing). It's viewport-relative,
+        // so it's offset by the current scroll position to line up with pageX/pageY, which are
+        // document-relative.
+        const rect = canvas.getBoundingClientRect();
         const coords = {
-            x: e.pageX - rect.left,
-            y: e.pageY - rect.top,
+            x: e.pageX - rect.left - window.scrollX,
+            y: e.pageY - rect.top - window.scrollY,
         };
 
         const colorData = eventContext.getImageData(coords.x, coords.y, 1, 1).data;
