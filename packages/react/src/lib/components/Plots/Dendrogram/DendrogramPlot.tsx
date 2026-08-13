@@ -215,7 +215,6 @@ export function DendrogramPlot({
                 onClick={handleClick}
             />
             <Labels
-                renderVirtualCanvas={renderVirtualCanvas}
                 className="dendrogram-label"
                 items={labels ? allNodes : []}
                 keyFor={keyFor}

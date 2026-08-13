@@ -226,7 +226,6 @@ export function RadialDendrogramPlot({
                 onClick={handleClick}
             />
             <Labels
-                renderVirtualCanvas={renderVirtualCanvas}
                 className="radial-dendrogram-label"
                 items={labels ? allNodes : []}
                 keyFor={keyFor}
