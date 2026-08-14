@@ -8,7 +8,7 @@ exports[`Axis component renders a bottom axis 1`] = `
     >
       <text
         class="chart-io axis-title axis-title-left"
-        style="text-anchor: middle; font-size: 14px; user-select: none;"
+        style="text-anchor: middle; font-size: 12px; font-family: sans-serif; fill: #333333; user-select: none;"
         transform="translate(-20, 230)rotate(270)"
       >
         x
@@ -208,7 +208,7 @@ exports[`Axis component renders a left axis 1`] = `
     >
       <text
         class="chart-io axis-title axis-title-left"
-        style="text-anchor: middle; font-size: 14px; user-select: none;"
+        style="text-anchor: middle; font-size: 12px; font-family: sans-serif; fill: #333333; user-select: none;"
         transform="translate(-20, 230)rotate(270)"
       >
         y
@@ -408,7 +408,7 @@ exports[`Axis component renders a right axis 1`] = `
     >
       <text
         class="chart-io axis-title axis-title-right"
-        style="text-anchor: middle; font-size: 14px; user-select: none;"
+        style="text-anchor: middle; font-size: 12px; font-family: sans-serif; fill: #333333; user-select: none;"
         transform="translate(1015, 230)rotate(270)"
       >
         y
@@ -608,7 +608,7 @@ exports[`Axis component renders a top axis 1`] = `
     >
       <text
         class="chart-io axis-title axis-title-top"
-        style="text-anchor: middle; font-size: 14px; user-select: none;"
+        style="text-anchor: middle; font-size: 12px; font-family: sans-serif; fill: #333333; user-select: none;"
         transform="translate(490, 5)"
       >
         x

@@ -10,6 +10,7 @@ export function Title({ position, title }: ITitleProps) {
     const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
     const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
     const plotMargin = useSelector((s: IState) => chartSelectors.dimensions.plot.margin(s));
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
 
     const transform = getTransform(position, plotWidth, plotHeight, plotMargin);
 
@@ -19,7 +20,9 @@ export function Title({ position, title }: ITitleProps) {
 
     const style = {
         textAnchor: "middle" as const,
-        fontSize: 14,
+        fontSize: theme.font.size,
+        fontFamily: theme.font.family,
+        fill: theme.axis.stroke.toString(),
         userSelect: "none" as const,
     };
 
