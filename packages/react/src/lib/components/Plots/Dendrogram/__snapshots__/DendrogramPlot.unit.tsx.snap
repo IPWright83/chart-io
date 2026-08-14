@@ -1,0 +1,150 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DendrogramPlot using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot dendrogram-links"
+    >
+      <path
+        class="dendrogram-link"
+        d="M0,110C30,110,30,60,60,60"
+        data-path-type="link"
+        data-x0="0"
+        data-x1="60"
+        data-y0="110.00000000000001"
+        data-y1="60"
+        style="fill: none; stroke: #333333; stroke-opacity: 0.4;"
+      />
+      <path
+        class="dendrogram-link"
+        d="M0,110C30,110,30,160,60,160"
+        data-path-type="link"
+        data-x0="0"
+        data-x1="60"
+        data-y0="110.00000000000001"
+        data-y1="160"
+        style="fill: none; stroke: #333333; stroke-opacity: 0.4;"
+      />
+      <path
+        class="dendrogram-link"
+        d="M60,60C90,60,90,40,120,40"
+        data-path-type="link"
+        data-x0="60"
+        data-x1="120"
+        data-y0="60"
+        data-y1="40"
+        style="fill: none; stroke: #333333; stroke-opacity: 0.4;"
+      />
+      <path
+        class="dendrogram-link"
+        d="M60,60C90,60,90,80,120,80"
+        data-path-type="link"
+        data-x0="60"
+        data-x1="120"
+        data-y0="60"
+        data-y1="80"
+        style="fill: none; stroke: #333333; stroke-opacity: 0.4;"
+      />
+      <path
+        class="dendrogram-link"
+        d="M60,160C90,160,90,160,120,160"
+        data-path-type="link"
+        data-x0="60"
+        data-x1="120"
+        data-y0="160"
+        data-y1="160"
+        style="fill: none; stroke: #333333; stroke-opacity: 0.4;"
+      />
+    </g>
+    <g
+      class="g-plot dendrogram-nodes"
+    >
+      <circle
+        class="dendrogram-node"
+        cx="60"
+        cy="60"
+        r="4"
+        style="fill: #99c1dc; cursor: pointer;"
+      />
+      <circle
+        class="dendrogram-node"
+        cx="60"
+        cy="160"
+        r="4"
+        style="fill: #fc998e; cursor: pointer;"
+      />
+      <circle
+        class="dendrogram-node"
+        cx="120"
+        cy="40"
+        r="4"
+        style="fill: rgb(153, 193, 220); cursor: default;"
+      />
+      <circle
+        class="dendrogram-node"
+        cx="120"
+        cy="80"
+        r="4"
+        style="fill: rgb(198, 220, 235); cursor: default;"
+      />
+      <circle
+        class="dendrogram-node"
+        cx="120"
+        cy="160"
+        r="4"
+        style="fill: rgb(252, 153, 142); cursor: default;"
+      />
+    </g>
+    <g
+      class="g-plot dendrogram-labels"
+    >
+      <text
+        class="dendrogram-label"
+        dy="3"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        x="68"
+        y="52"
+      >
+        North
+      </text>
+      <text
+        class="dendrogram-label"
+        dy="3"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        x="68"
+        y="152"
+      >
+        South
+      </text>
+      <text
+        class="dendrogram-label"
+        dy="3"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        x="128"
+        y="40"
+      >
+        Widgets
+      </text>
+      <text
+        class="dendrogram-label"
+        dy="3"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        x="128"
+        y="80"
+      >
+        Gadgets
+      </text>
+      <text
+        class="dendrogram-label"
+        dy="3"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        x="128"
+        y="160"
+      >
+        Widgets
+      </text>
+    </g>
+  </svg>
+</DocumentFragment>
+`;

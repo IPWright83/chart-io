@@ -8,7 +8,15 @@ import { StackedDonut } from "./StackedDonut";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { actionsIncludes, getBuffer, renderChart, testMouseClick, testMouseOver, wait } from "../../../../testUtils";
+import {
+    actionsIncludes,
+    createMockStore,
+    getBuffer,
+    renderChart,
+    testMouseClick,
+    testMouseOver,
+    wait,
+} from "../../../../testUtils";
 
 describe("StackedDonut", () => {
     const expectedDatum = {
@@ -110,6 +118,80 @@ describe("StackedDonut", () => {
                     product: "Widgets",
                     sales: 10,
                 });
+            });
+        });
+
+        describe("zooming", () => {
+            it("should zoom in when clicking a slice with children", async () => {
+                const store = createMockStore({
+                    chart: { zoomable: true, animationDuration: 0, dimensions: { width: 200, height: 200 }, data },
+                });
+                store.dispatch = jest.fn();
+
+                const { container } = await renderChart({
+                    children: <StackedDonut categories={["region", "product"]} value="sales" zoomable={true} />,
+                    data,
+                    store,
+                });
+
+                await wait();
+
+                // The first slice in DOM order is "North" (has children) - clicking it should zoom in
+                const firstSlice = container.querySelector("path.pie-slice");
+                firstSlice.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+
+                expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({ payload: ["North"] }));
+            });
+
+            it("should not zoom when clicking a leaf slice", async () => {
+                const store = createMockStore({
+                    chart: { zoomable: true, animationDuration: 0, dimensions: { width: 200, height: 200 }, data },
+                });
+                store.dispatch = jest.fn();
+
+                const { container } = await renderChart({
+                    children: <StackedDonut categories={["region", "product"]} value="sales" zoomable={true} />,
+                    data,
+                    store,
+                });
+
+                await wait();
+
+                // The last slice in DOM order is a leaf (South/Widgets) - clicking it shouldn't zoom
+                const leafSlice = container.querySelector("path.pie-slice:last-of-type");
+                leafSlice.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+
+                expect(store.dispatch).not.toHaveBeenCalledWith(expect.objectContaining({ type: "chart/setZoomPath" }));
+            });
+
+            it("should lay out real (non-NaN) slice geometry once zoomed in", async () => {
+                const store = createMockStore({
+                    chart: {
+                        zoomable: true,
+                        zoom: { path: ["North"] },
+                        animationDuration: 0,
+                        dimensions: { width: 200, height: 200 },
+                        data,
+                    },
+                });
+
+                const { container } = await renderChart({
+                    children: <StackedDonut categories={["region", "product"]} value="sales" zoomable={true} />,
+                    data,
+                    store,
+                });
+
+                await wait();
+
+                const slices = Array.from(container.querySelectorAll("path.pie-slice"));
+                expect(slices.length).toBeGreaterThan(0);
+
+                for (const slice of slices) {
+                    expect(Number(slice.getAttribute("data-start-angle"))).not.toBeNaN();
+                    expect(Number(slice.getAttribute("data-end-angle"))).not.toBeNaN();
+                    expect(Number(slice.getAttribute("data-inner-radius"))).not.toBeNaN();
+                    expect(Number(slice.getAttribute("data-outer-radius"))).not.toBeNaN();
+                }
             });
         });
     });

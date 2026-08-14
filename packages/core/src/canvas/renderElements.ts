@@ -4,8 +4,11 @@ import type { IColor } from "../types";
 
 import { renderArc } from "./renderArc";
 import { renderCircle } from "./renderCircle";
+import { renderLink } from "./renderLink";
+import { renderLinkRadial } from "./renderLinkRadial";
 import { renderPolygon } from "./renderPolygon";
 import { renderRect } from "./renderRect";
+import { renderText } from "./renderText";
 
 /**
  * Renders the canvas elements based on the join
@@ -40,6 +43,10 @@ export function renderElements(
                 renderRect(context, node, overrideColor);
                 break;
 
+            case "TEXT":
+                renderText(context, node, overrideColor);
+                break;
+
             case "POLYGON":
                 renderPolygon(context, node, overrideColor);
                 break;
@@ -51,6 +58,14 @@ export function renderElements(
                 switch (node.getAttribute("data-path-type")) {
                     case "arc":
                         renderArc(context, node, overrideColor);
+                        break;
+
+                    case "link":
+                        renderLink(context, node, overrideColor);
+                        break;
+
+                    case "link-radial":
+                        renderLinkRadial(context, node, overrideColor);
                         break;
 
                     default:

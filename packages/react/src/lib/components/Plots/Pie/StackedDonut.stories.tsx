@@ -67,11 +67,12 @@ const StackedDonutTemplate = (args) => (
         theme={args.theme}
         useCanvas={args.useCanvas}
         centerValue={args.centerValue}
+        breadcrumb={args.breadcrumb}
         onClick={args.onClick}
         onMouseOver={args.onMouseOver}
         onMouseOut={args.onMouseOut}
     >
-        <StackedDonut categories={args.categories} value={args.value} sort={args.sort} />
+        <StackedDonut categories={args.categories} value={args.value} sort={args.sort} zoomable={args.zoomable} />
     </RadialChart>
 );
 
@@ -132,6 +133,18 @@ export const TraditionalTooltip = {
         ...Basic.args,
         categories: ["continent", "country", "sector"],
         centerValue: false,
+    },
+    play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
+};
+
+export const Zoomable = {
+    name: "Zoomable with Breadcrumb",
+    render: StackedDonutTemplate,
+    args: {
+        ...Basic.args,
+        categories: ["continent", "country", "sector"],
+        zoomable: true,
+        breadcrumb: true,
     },
     play: createSVGTest("path.pie-slice", { clientX: 300, clientY: 250 }),
 };

@@ -18,6 +18,7 @@ import type { IArcAngles } from "../interpolateArc";
 import { interpolateArc } from "../interpolateArc";
 import { useFocused } from "../../useFocused";
 import { useTooltip } from "../../useTooltip";
+import { useZoom } from "../../useZoom";
 
 // The rectangular layout `<StackedDonut>` applies on top of the shared, un-laid-out hierarchy
 type IPieHierarchyNode = d3.HierarchyRectangularNode<IHierarchyDatum>;
@@ -115,6 +116,11 @@ export interface IStackedDonutBaseProps {
      * The maximum radius, in pixels, available to the StackedDonut. Provided by `withRadialPlot`
      */
     maxRadius?: number;
+    /**
+     * Should a click on a non-leaf slice zoom in and refocus on its subtree?
+     * @default false
+     */
+    zoomable?: boolean;
     onMouseOver?: IOnMouseOver;
     onMouseOut?: IOnMouseOut;
     onClick?: IOnClick;
@@ -145,6 +151,7 @@ export function StackedDonutBase({
     buildHierarchy = defaultBuildHierarchy,
     showInLegend = true,
     interactive = true,
+    zoomable = false,
     onMouseOver,
     onMouseOut,
     onClick,
@@ -154,6 +161,7 @@ export function StackedDonutBase({
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
+    const { path: zoomPath, zoomTo } = useZoom(zoomable);
 
     // Only the innermost ring's categories are shown in the Legend, the outer rings can
     // contain many more values than is practical to list
@@ -176,18 +184,48 @@ export function StackedDonutBase({
         ensureCombinationsAreUnique(data, categories, "StackedDonut");
 
         const hierarchy = buildHierarchy(data, categories, value, sort, "StackedDonut");
-        const root = d3.partition<IHierarchyDatum>().size([2 * Math.PI, 1])(hierarchy) as IPieHierarchyNode;
-        const allNodes = root.descendants().filter((node) => node.depth > 0) as IPieHierarchyNode[];
 
-        const levels = categories.length;
+        // A node's ancestry (root excluded), e.g. ["North", "Widgets"]
+        const ancestry = (node: IHierarchyNode) =>
+            node
+                .ancestors()
+                .filter((n) => n.depth > 0)
+                .reverse()
+                .map((n) => n.data.key);
+
+        // A node's ancestry uniquely identifies it, e.g. "North:Widgets"
+        const key = (node: IHierarchyNode) => ancestry(node).join(":");
+
+        // The breadcrumb of category values leading to this node, e.g. "North / Widgets"
+        const breadcrumb = (node: IHierarchyNode) => ancestry(node).join(" / ");
+
+        // If zoomed in, lay out just the focused node's subtree - it stays a full member of the
+        // original hierarchy (its ancestors are still reachable via .parent), only the layout treats
+        // it as the root. Falls back to the full hierarchy if the path no longer matches (e.g. the
+        // underlying data changed)
+        const zoomTarget = zoomable && zoomPath.length > 0 ? zoomPath.join(":") : null;
+        const focusedNode = zoomTarget ? (hierarchy.descendants().find((node) => key(node) === zoomTarget) ?? hierarchy) : hierarchy;
+
+        // d3.partition() computes each node's angular span (x0/x1) proportionally from `.value`
+        // among its siblings, walking down from whatever node it's invoked on - so it doesn't need
+        // any depth rebasing to lay out a zoomed-in subtree correctly. The radial span instead comes
+        // from `rings` below, keyed by each node's own (absolute, un-rebased) `.depth`
+        const root = d3.partition<IHierarchyDatum>().size([2 * Math.PI, 1])(focusedNode) as IPieHierarchyNode;
+        const allNodes = root.descendants().filter((node) => node.depth > focusedNode.depth) as IPieHierarchyNode[];
+
+        // The number of rings still below the focused node - shrinks as you zoom in, so the
+        // remaining rings expand to fill the available radius rather than staying sized for the
+        // full, un-zoomed hierarchy
+        const levels = focusedNode.height;
         const innerRadiusPx = innerRadius * maxRadius;
         const outerRadiusPx = outerRadius * maxRadius;
         const totalRingPadding = ringPadding * (levels - 1);
         const ringWidth = Math.max(0, (outerRadiusPx - innerRadiusPx - totalRingPadding) / levels);
 
         const rings: Record<number, { innerRadius: number; outerRadius: number }> = {};
-        for (let depth = 1; depth <= levels; depth++) {
-            const ringInner = innerRadiusPx + (depth - 1) * (ringWidth + ringPadding);
+        for (let i = 1; i <= levels; i++) {
+            const depth = focusedNode.depth + i;
+            const ringInner = innerRadiusPx + (i - 1) * (ringWidth + ringPadding);
             rings[depth] = { innerRadius: ringInner, outerRadius: ringInner + ringWidth };
         }
 
@@ -201,22 +239,11 @@ export function StackedDonutBase({
             .padAngle(padAngle)
             .cornerRadius(cornerRadius);
 
-        // A node's ancestry (root excluded), e.g. ["North", "Widgets"]
-        const ancestry = (node: IPieHierarchyNode) =>
-            node
-                .ancestors()
-                .filter((n) => n.depth > 0)
-                .reverse()
-                .map((n) => n.data.key);
-
-        // A node's ancestry uniquely identifies it, e.g. "North:Widgets"
-        const key = (node: IPieHierarchyNode) => ancestry(node).join(":");
-
-        // The breadcrumb of category values leading to this node, e.g. "North / Widgets"
-        const breadcrumb = (node: IPieHierarchyNode) => ancestry(node).join(" / ");
-
         // D3 data join
-        const join = d3.select(layer.current).selectAll<SVGPathElement, IPieHierarchyNode>(".pie-slice").data(allNodes, key);
+        const join = d3
+            .select(layer.current)
+            .selectAll<SVGPathElement, IPieHierarchyNode>(".pie-slice")
+            .data(allNodes, key as (node: IPieHierarchyNode) => string);
 
         // Exit slices
         join.exit().remove();
@@ -244,6 +271,7 @@ export function StackedDonutBase({
             .attr("data-corner-radius", cornerRadius)
             .style("opacity", theme.series.opacity)
             .style("fill", colorFor)
+            .style("cursor", (node) => (interactive && (zoomable || node.children) ? "pointer" : "default"))
             .on("mouseover", function (event, node) {
                 // istanbul ignore next
                 if (!interactive) return;
@@ -269,6 +297,14 @@ export function StackedDonutBase({
                 if (!interactive) return;
 
                 onClick && onClick(node.data.datum, this, event);
+
+                if (!zoomable) return;
+
+                if (node === focusedNode) {
+                    zoomTo(zoomPath.slice(0, -1));
+                } else if (node.children) {
+                    zoomTo(ancestry(node));
+                }
             })
             .transition("arc")
             .duration(animationDuration)
@@ -325,6 +361,9 @@ export function StackedDonutBase({
         onClick,
         palette,
         legendKeys,
+        zoomable,
+        zoomPath,
+        zoomTo,
     ]);
 
     return null;

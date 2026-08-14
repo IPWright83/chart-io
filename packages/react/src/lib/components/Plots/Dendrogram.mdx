@@ -1,0 +1,130 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as DendrogramStories from "./Dendrogram.stories"
+
+<Meta title="Plots/Dendrogram" />
+
+# Dendrogram Plots
+
+The `<Dendrogram>` component draws a tree of nodes from a flat dataset: `categories` is an ordered list
+of fields, outermost group first. Every node at every level is drawn - unlike `<Treemap>`, which only
+draws leaves - connected by links, with every leaf aligned at the same depth. It's a self-contained
+chart - like `<Treemap>`, it accepts chart-level props like `data`/`width`/`height` directly, since it
+only ever has a single plot. Set `radial` to lay the same tree out radiating outward from the center
+instead, with every leaf aligned at the same radius.
+
+<Canvas of={DendrogramStories.Basic} />
+
+## `<Dendrogram>` Component
+
+### Props
+
+| Prop            | Type       | Default             | Note                                                                                                          |
+| --------------- | ---------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **`categories`\*** | `string[]` | `null`             | The ordered list of fields to build each level from, outermost group first.                                    |
+| **`value`\***   | `string`   | `null`               | The key of the field that contains the size for each leaf, shown in its tooltip.                                |
+| `nodeRadius`    | `number \| [number, number]` | `4`     | The radius, in pixels, of each node's circle. Pass a `[min, max]` tuple instead to scale each node's circle by its own value.  |
+| `labels`        | `boolean`  | `true`                | Should node labels be shown?                                                                                    |
+| `sort`          | `boolean`  | `false`               | Should the nodes be sorted by value (descending), rather than using the order of the data?                      |
+| `colors`        | `string[]` | Derived from Theme   | Override the colours used for each top-level category. Deeper nodes inherit their parent's colour.             |
+| `interactive`   | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot             |
+| `showInLegend`  | `boolean`  | `false`               | Whether the plot should feature in the legend or not. Off by default since node labels already identify each value. Only the top-level categories appear in the legend when enabled. |
+| `buildHierarchy`| `function` | `buildHierarchy` from `@chart-io/core` | Builds the hierarchy from the flat dataset. Override this if your data doesn't fit the flat, group-by-`categories` shape - see the `<Treemap>` docs for an example. |
+| `radial`        | `boolean`  | `false`               | Lays the tree out radiating outward from the center instead of growing left-to-right, with every leaf aligned at the same radius instead of the same depth. |
+
+> **Note**: Every combination of the fields listed in `categories` should be unique in the data. If your
+> data has multiple rows for the same combination, aggregate it first.
+
+### Using Canvas
+
+Like other plots, a `<Dendrogram>` can be rendered using an HTML Canvas instead of SVG by setting
+`useCanvas`. Labels render identically in both modes.
+
+<Canvas of={DendrogramStories.Canvas} />
+
+### Labels
+
+Node labels are on by default, but with deep or wide hierarchies they can get crowded and start to
+overlap. Set `labels={false}` to turn them off entirely:
+
+```jsx
+<Dendrogram categories={["continent", "country", "sector"]} value="gdp" labels={false} />
+```
+
+Label color, font size and font family come from the theme's `label` section rather than the general
+`font`/`axis` settings, so they can be styled independently:
+
+```jsx
+<Dendrogram
+    categories={["continent", "country"]}
+    value="gdp"
+    theme={{
+        ...themes.light,
+        label: { color: "#555555", fontSize: 11, fontFamily: "monospace" },
+    }}
+/>
+```
+
+### N-level hierarchies
+
+`categories` isn't limited to two levels - pass as many fields as your data has levels of hierarchy.
+
+<Canvas of={DendrogramStories.ThreeLevel} />
+
+### Sizing nodes by value
+
+By default every node's circle is the same fixed `nodeRadius`. Pass a `[min, max]` tuple instead to
+size each node's circle by its own value (summed from its descendants) - the smallest node gets `min`,
+the largest gets `max`, and everything in between is scaled proportionally by area:
+
+<Canvas of={DendrogramStories.SizedByValue} />
+
+```jsx
+<Dendrogram categories={["continent", "country"]} value="gdp" nodeRadius={[3, 24]} />
+```
+
+### Zooming
+
+Set `zoomable` to let a click on a node zoom in and refocus the chart on just its subtree - the layout
+re-runs framed to that node, so its descendants expand to fill the available space. Clicking the
+current top-level node zooms back out one level.
+
+Add `breadcrumb` to also show the current zoom path as a clickable trail above the chart, letting you
+jump back to any ancestor level (or all the way out via "All") in one click, rather than stepping out
+one level at a time:
+
+<Canvas of={DendrogramStories.Zoomable} />
+
+```jsx
+<Dendrogram categories={["continent", "country", "sector"]} value="gdp" zoomable={true} breadcrumb={true} />
+```
+
+### Radial layout
+
+Set `radial` to lay the same tree out radiating outward from the center instead, with every leaf
+aligned at the same radius instead of the same depth. All the other props - `categories`, `value`,
+`nodeRadius`, `labels`, `sort`, `colors`, `interactive`, `showInLegend`, `buildHierarchy`, `zoomable`
+and `breadcrumb` - mean the same thing here, just laid out radially:
+
+<Canvas of={DendrogramStories.Radial} />
+
+```jsx
+<Dendrogram categories={["continent", "country"]} value="gdp" radial={true} />
+```
+
+Radial N-level hierarchies work the same way as the linear layout:
+
+<Canvas of={DendrogramStories.RadialThreeLevel} />
+
+Zooming and the breadcrumb trail work identically too:
+
+<Canvas of={DendrogramStories.RadialZoomable} />
+
+```jsx
+<Dendrogram
+    categories={["continent", "country", "sector"]}
+    value="gdp"
+    radial={true}
+    zoomable={true}
+    breadcrumb={true}
+/>
+```
