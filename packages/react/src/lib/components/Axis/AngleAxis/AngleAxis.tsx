@@ -113,8 +113,19 @@ function AxisSpoke({
         join.exit().remove();
 
         const enter = join.enter().append("g").attr("class", "angle-axis-tick");
-        enter.append("line").attr("class", "angle-axis-spoke");
-        enter.append("text").attr("class", "angle-axis-label");
+        // Entering spokes/labels start at their final position rather than the SVG attribute
+        // defaults (x2/y2/x/y all 0) - only pre-existing ticks that are moving to a new position
+        // should animate, not ones appearing for the first time
+        enter
+            .append("line")
+            .attr("class", "angle-axis-spoke")
+            .attr("x2", (d) => cx + maxRadius * Math.sin(angleOf(d)))
+            .attr("y2", (d) => cy - maxRadius * Math.cos(angleOf(d)));
+        enter
+            .append("text")
+            .attr("class", "angle-axis-label")
+            .attr("x", (d) => cx + (maxRadius + tickPadding) * Math.sin(angleOf(d)))
+            .attr("y", (d) => cy - (maxRadius + tickPadding) * Math.cos(angleOf(d)));
 
         const update = enter.merge(join as any);
 

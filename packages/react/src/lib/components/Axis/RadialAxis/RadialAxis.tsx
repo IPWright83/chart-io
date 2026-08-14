@@ -142,8 +142,20 @@ function RadialAxisRing({
         join.exit().remove();
 
         const enter = join.enter().append("g").attr("class", "radial-axis-tick");
-        enter.append("circle").attr("class", "radial-axis-ring");
-        enter.append("text").attr("class", "radial-axis-label");
+        // Entering rings/labels start at their final position rather than the SVG attribute
+        // defaults (r=0, x=0/y=0) - only pre-existing ticks that are moving to a new position
+        // should animate, not ones appearing for the first time
+        enter
+            .append("circle")
+            .attr("class", "radial-axis-ring")
+            .attr("cx", cx)
+            .attr("cy", cy)
+            .attr("r", (d) => Math.max(0, scaleOf(d)));
+        enter
+            .append("text")
+            .attr("class", "radial-axis-label")
+            .attr("x", cx)
+            .attr("y", (d) => cy - Math.max(0, scaleOf(d)));
 
         const update = enter.merge(join as any);
 
