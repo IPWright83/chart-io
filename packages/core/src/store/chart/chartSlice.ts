@@ -195,7 +195,11 @@ const chartSlice = createSlice({
          * @param action                     The payload containing the data for the chart
          */
         setChartData: (state: IChartState, action: PayloadAction<IData>) => {
-            state.data = action.payload;
+            // Copy rather than reference the caller's array directly - Immer deep-freezes everything
+            // reachable from the new state once this is assigned, and freezing the caller's own array
+            // (rather than just this copy of it) breaks anything else still holding that same
+            // reference and expecting to be able to write to it (e.g. Storybook's own args handling)
+            state.data = action.payload ? [...action.payload] : action.payload;
         },
 
         /**
