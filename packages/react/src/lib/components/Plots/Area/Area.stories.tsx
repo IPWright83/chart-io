@@ -4,6 +4,7 @@ import React, { useMemo } from "react";
 
 import { waves } from "../../../../data/waves";
 import { argTypes } from "../../../../storybook/argTypes";
+import { jitterFields, withDataControls } from "../../../../storybook/dataControls";
 import { createEventReceiverTest } from "../../../testUtils";
 import { XAxis, YAxis } from "../../Axis";
 import { XYChart } from "../../XYChart";
@@ -46,7 +47,7 @@ export default {
 
 const AreaTemplate = (args) => (
   <XYChart
-    data={waves}
+    data={args.data ?? waves}
     plotMargin={{
       left: args.leftMargin,
       right: args.rightMargin,
@@ -64,6 +65,32 @@ const AreaTemplate = (args) => (
     <XAxis fields={[args.x]} />
   </XYChart>
 );
+
+// Wave field names that carry values to animate; "x" stays untouched so points remain ordered.
+const waveFields = ["sin", "cos", "tan", "sinh", "cosh"];
+
+function nextWavePoint(current: typeof waves) {
+  const last = current[current.length - 1] ?? waves[0];
+  const x = last.x + 10;
+  const rad = x * (Math.PI / 180);
+  return {
+    x,
+    sin: Math.sin(rad),
+    cos: Math.cos(rad),
+    tan: Math.tan(rad),
+    sinh: Math.sinh(rad),
+    cosh: Math.cosh(rad),
+  };
+}
+
+const waveDataControls = {
+  initialData: waves,
+  randomize: (row: (typeof waves)[number]) => jitterFields(row, waveFields, 0.3),
+  createPoint: nextWavePoint,
+  minLength: 5,
+};
+
+const AreaTemplateWithControls = withDataControls(AreaTemplate, waveDataControls);
 
 const AreasTemplate = (args) => (
   <XYChart
@@ -120,7 +147,7 @@ const StackedAreasTemplate = (args) => {
 
 export const Basic = {
   name: "Basic Plot",
-  render: AreaTemplate,
+  render: AreaTemplateWithControls,
   args: {
     useCanvas: false,
     width: 800,
@@ -167,7 +194,7 @@ export const Stream = {
 
 export const Canvas = {
   name: "Using Canvas",
-  render: AreaTemplate,
+  render: AreaTemplateWithControls,
   args: {
     ...Basic.args,
     useCanvas: true,

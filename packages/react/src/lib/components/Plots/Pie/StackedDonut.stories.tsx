@@ -6,6 +6,7 @@ import React from "react";
 
 import { gdp_dataset } from "../../../../data/gdp_dataset";
 import { argTypes } from "../../../../storybook/argTypes";
+import { jitterFields, withDataControls } from "../../../../storybook/dataControls";
 import { createCanvasTest, createSVGTest } from "../../../testUtils";
 import { RadialChart } from "../../RadialChart";
 import { StackedDonut } from "./StackedDonut";
@@ -52,6 +53,18 @@ const fourLevelData = gdp_dataset.flatMap((d) => [
     { ...d, half: "H2", gdp: Math.round(d.gdp * 0.55) },
 ]);
 
+const stackedDonutDataControls = {
+    initialData: data,
+    randomize: (row: (typeof data)[number]) => jitterFields(row, ["gdp"], 0.3),
+    // Clones a random existing row under a synthetic country name, since every continent/country
+    // pairing in the source dataset is already represented
+    createPoint: (current: typeof data) => {
+        const base = current[Math.floor(Math.random() * current.length)];
+        return jitterFields({ ...base, country: `${base.country} (New)` }, ["gdp"], 0.3);
+    },
+    minLength: 6,
+};
+
 const StackedDonutTemplate = (args) => (
     <RadialChart
         data={args.data ?? data}
@@ -76,9 +89,11 @@ const StackedDonutTemplate = (args) => (
     </RadialChart>
 );
 
+const StackedDonutTemplateWithControls = withDataControls(StackedDonutTemplate, stackedDonutDataControls);
+
 export const Basic = {
     name: "Basic Plot",
-    render: StackedDonutTemplate,
+    render: StackedDonutTemplateWithControls,
     args: {
         useCanvas: false,
         width: 800,
@@ -97,7 +112,7 @@ export const Basic = {
 
 export const Canvas = {
     name: "Using Canvas",
-    render: StackedDonutTemplate,
+    render: StackedDonutTemplateWithControls,
     args: {
         ...Basic.args,
         useCanvas: true,

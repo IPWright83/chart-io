@@ -5,6 +5,7 @@ import React from "react";
 import { huge_data_set } from "../../../../data/huge_data_set";
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
 import { argTypes } from "../../../../storybook/argTypes";
+import { jitterFields, withDataControls } from "../../../../storybook/dataControls";
 import { createCanvasTest, createSVGTest } from "../../../testUtils";
 import { XAxis, YAxis } from "../../Axis";
 import { XYChart } from "../../XYChart";
@@ -80,6 +81,21 @@ const ScatterTemplate = (args) => (
   </XYChart>
 );
 
+// Numeric fields to animate; the rest (Country, Item Type, dates, ...) stay untouched.
+const salesFields = ["Units Sold", "Unit Price", "Unit Cost", "Total Revenue", "Total Cost", "Total Profit"];
+
+const scatterDataControls = {
+  initialData: sales_records_dataset,
+  randomize: (row: (typeof sales_records_dataset)[number]) => jitterFields(row, salesFields, 0.3),
+  // Clones a random existing row and jitters it, since the source dataset is small enough that
+  // Basic already includes every row
+  createPoint: (current: typeof sales_records_dataset) =>
+    jitterFields(current[Math.floor(Math.random() * current.length)], salesFields, 0.3),
+  minLength: 5,
+};
+
+const ScatterTemplateWithControls = withDataControls(ScatterTemplate, scatterDataControls);
+
 const ScattersTemplate = (args) => (
   <XYChart
     plotMargin={{
@@ -106,7 +122,7 @@ const ScattersTemplate = (args) => (
 
 export const Basic = {
   name: "Basic Plot",
-  render: ScatterTemplate,
+  render: ScatterTemplateWithControls,
   args: {
     useCanvas: false,
     width: 800,
@@ -146,7 +162,7 @@ export const Color = {
 
 export const Canvas = {
   name: "Using Canvas",
-  render: ScatterTemplate,
+  render: ScatterTemplateWithControls,
   args: {
     ...Basic.args,
     useCanvas: true,

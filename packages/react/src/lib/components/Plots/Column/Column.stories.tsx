@@ -6,6 +6,7 @@ import React from "react";
 
 import { sales_records_dataset } from "../../../../data/sales_records_dataset";
 import { argTypes } from "../../../../storybook/argTypes";
+import { jitterFields, withDataControls } from "../../../../storybook/dataControls";
 import { createCanvasTest, createSVGTest } from "../../../testUtils";
 import { XAxis, YAxis } from "../../Axis";
 import { XYChart } from "../../XYChart";
@@ -50,9 +51,31 @@ export default {
 
 const data = uniqBy(sales_records_dataset, (d) => d["Item Type"]);
 
+// Numeric fields to animate; "Item Type" and the other descriptive fields stay untouched.
+const salesFields = ["Units Sold", "Unit Price", "Unit Cost", "Total Revenue", "Total Cost", "Total Profit"];
+
+function nextSalesRow(current: typeof data) {
+  const usedTypes = new Set(current.map((d) => d["Item Type"]));
+  const candidate = sales_records_dataset.find((d) => !usedTypes.has(d["Item Type"]));
+  if (candidate) {
+    return candidate;
+  }
+  // Every Item Type from the source dataset is already represented - clone a random row under a
+  // synthetic label instead, so the chart still gains a visibly new category
+  const base = current[Math.floor(Math.random() * current.length)];
+  return jitterFields({ ...base, "Item Type": `${base["Item Type"]} (New)` }, salesFields, 0.3);
+}
+
+const salesDataControls = {
+  initialData: data,
+  randomize: (row: (typeof data)[number]) => jitterFields(row, salesFields, 0.3),
+  createPoint: nextSalesRow,
+  minLength: 2,
+};
+
 const ColumnTemplate = (args) => (
   <XYChart
-    data={data}
+    data={args.data ?? data}
     plotMargin={{
       left: args.leftMargin,
       right: args.rightMargin,
@@ -74,6 +97,8 @@ const ColumnTemplate = (args) => (
     {args.y2 && <Column x={args.x} y={args.y2} color={args.color2} />}
   </XYChart>
 );
+
+const ColumnTemplateWithControls = withDataControls(ColumnTemplate, salesDataControls);
 
 const ColumnsTemplate = (args) => (
   <XYChart
@@ -106,7 +131,7 @@ const ColumnsTemplate = (args) => (
 
 export const Basic = {
   name: "Basic Plot",
-  render: ColumnTemplate,
+  render: ColumnTemplateWithControls,
   args: {
     useCanvas: false,
     width: 800,
@@ -135,7 +160,7 @@ export const Color = {
 
 export const Canvas = {
   name: "Using Canvas",
-  render: ColumnTemplate,
+  render: ColumnTemplateWithControls,
   args: {
     ...Basic.args,
     useCanvas: true,
