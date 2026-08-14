@@ -4,6 +4,7 @@ import {
     clearVirtualCanvas,
     IColorToDataMap,
     IState,
+    IZoomCenter,
     removeEventHandlers,
     renderVirtualCanvas,
 } from "@chart-io/core";
@@ -35,6 +36,10 @@ export interface IVirtualCanvasProps {
 export function VirtualCanvas({ children }: IVirtualCanvasProps) {
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const cx = useSelector((s: IState) => chartSelectors.dimensions.plot.cx(s));
+    const cy = useSelector((s: IState) => chartSelectors.dimensions.plot.cy(s));
+    const zoomPath = useSelector((s: IState) => chartSelectors.zoom.path(s));
+    const zoomCenterRadius = useSelector((s: IState) => chartSelectors.zoom.centerRadius(s));
     const store = useStore();
 
     // This is going to be used for the main color -> datum lookup.
@@ -48,6 +53,14 @@ export function VirtualCanvas({ children }: IVirtualCanvasProps) {
     // addEventHandlers function
     const getColorMap = useCallback(() => colorToData.current, [colorToData.current]);
 
+    // A zoomed-in radial plot's (e.g. `<StackedDonut zoomable>`) center hole is never itself rendered
+    // as a slice, so a click there is otherwise invisible to this Canvas hit-testing - this lets
+    // addEventHandlers() recognize it and zoom back out one level
+    const getZoomCenter = useCallback<() => IZoomCenter>(
+        () => ({ cx, cy, centerRadius: zoomCenterRadius, path: zoomPath }),
+        [cx, cy, zoomCenterRadius, zoomPath],
+    );
+
     // Adds event handlers to the canvas for triggering events
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -55,11 +68,11 @@ export function VirtualCanvas({ children }: IVirtualCanvasProps) {
             return;
         }
 
-        const { clickHandler, moveHandler } = addEventHandlers(canvas, getColorMap, store.dispatch);
+        const { clickHandler, moveHandler } = addEventHandlers(canvas, getColorMap, store.dispatch, getZoomCenter);
         return () => {
             removeEventHandlers(canvas, clickHandler, moveHandler);
         };
-    }, [canvasRef.current, store, getColorMap]);
+    }, [canvasRef.current, store, getColorMap, getZoomCenter]);
 
     // This is a set of transient nodes, use as part of a debounced render function
     let nodes = [];

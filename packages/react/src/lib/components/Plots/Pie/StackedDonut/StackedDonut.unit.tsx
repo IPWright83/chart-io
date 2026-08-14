@@ -1,5 +1,7 @@
 import { buildHierarchy as defaultBuildHierarchy } from "@chart-io/core";
 
+// prettier-ignore
+import { fireEvent } from "@testing-library/react";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import React from "react";
 
@@ -11,6 +13,7 @@ expect.extend({ toMatchImageSnapshot });
 import {
     actionsIncludes,
     createMockStore,
+    FakeMouseEvent,
     getBuffer,
     renderChart,
     testMouseClick,
@@ -122,6 +125,27 @@ describe("StackedDonut", () => {
         });
 
         describe("zooming", () => {
+            it("should be zoomable by default, without passing the zoomable prop", async () => {
+                const store = createMockStore({
+                    chart: { animationDuration: 0, dimensions: { width: 200, height: 200 }, data },
+                });
+                store.dispatch = jest.fn();
+
+                const { container } = await renderChart({
+                    children: <StackedDonut categories={["region", "product"]} value="sales" />,
+                    data,
+                    store,
+                });
+
+                await wait();
+
+                // The first slice in DOM order is "North" (has children) - clicking it should zoom in
+                const firstSlice = container.querySelector("path.pie-slice");
+                firstSlice.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+
+                expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({ payload: ["North"] }));
+            });
+
             it("should zoom in when clicking a slice with children", async () => {
                 const store = createMockStore({
                     chart: { zoomable: true, animationDuration: 0, dimensions: { width: 200, height: 200 }, data },
@@ -238,6 +262,38 @@ describe("StackedDonut", () => {
                 pageX: 159,
                 pageY: 41,
             });
+        });
+
+        it("should zoom back out when clicking the center hole", async () => {
+            const store = createMockStore({
+                chart: {
+                    zoomable: true,
+                    zoom: { path: ["North"], centerRadius: 50 },
+                    animationDuration: 0,
+                    dimensions: { width: 200, height: 200 },
+                    data,
+                },
+            });
+            store.dispatch = jest.fn();
+
+            const { container } = await renderChart({
+                children: (
+                    <VirtualCanvas>
+                        <StackedDonut categories={["region", "product"]} value="sales" zoomable={true} useCanvas={true} />
+                    </VirtualCanvas>
+                ),
+                data,
+                store,
+            });
+
+            await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
+
+            // The plot's center (cx, cy) for a 200x200 chart with default margins - matches the point
+            // the mouseover test above derives its outer-ring coordinates from
+            const virtualCanvas = container.querySelector(".virtual-canvas");
+            fireEvent(virtualCanvas, new FakeMouseEvent("click", { bubbles: true, pageX: 100, pageY: 100 }));
+
+            expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "chart/setZoomPath", payload: [] }));
         });
     });
 });

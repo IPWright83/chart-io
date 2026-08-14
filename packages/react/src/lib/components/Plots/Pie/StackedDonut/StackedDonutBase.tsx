@@ -117,8 +117,9 @@ export interface IStackedDonutBaseProps {
      */
     maxRadius?: number;
     /**
-     * Should a click on a non-leaf slice zoom in and refocus on its subtree?
-     * @default false
+     * Should a click on a non-leaf slice zoom in and refocus on its subtree? Also enables clicking the
+     * donut's center hole to zoom back out one level
+     * @default true
      */
     zoomable?: boolean;
     onMouseOver?: IOnMouseOver;
@@ -151,7 +152,7 @@ export function StackedDonutBase({
     buildHierarchy = defaultBuildHierarchy,
     showInLegend = true,
     interactive = true,
-    zoomable = false,
+    zoomable = true,
     onMouseOver,
     onMouseOut,
     onClick,
@@ -161,7 +162,7 @@ export function StackedDonutBase({
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
-    const { path: zoomPath, zoomTo } = useZoom(zoomable);
+    const { path: zoomPath, zoomTo } = useZoom(zoomable, zoomable ? innerRadius * maxRadius : undefined);
 
     // Only the innermost ring's categories are shown in the Legend, the outer rings can
     // contain many more values than is practical to list
@@ -178,7 +179,7 @@ export function StackedDonutBase({
 
     useLegendItems(legendKeys, "square", showInLegend, legendColors);
     const onTooltip = useTooltip();
-    const onFocus = useFocused(theme);
+    const onFocus = useFocused(theme, { canvas, width, height, layer });
 
     useRender(() => {
         ensureCombinationsAreUnique(data, categories, "StackedDonut");
@@ -298,11 +299,9 @@ export function StackedDonutBase({
 
                 onClick && onClick(node.data.datum, this, event);
 
-                if (!zoomable) return;
-
-                if (node === focusedNode) {
-                    zoomTo(zoomPath.slice(0, -1));
-                } else if (node.children) {
+                // The focused node itself is never rendered as a slice (it's the empty center hole -
+                // see `<CenterValueOverlay>` for zooming back out), so a click can only zoom further in
+                if (zoomable && node.children) {
                     zoomTo(ancestry(node));
                 }
             })

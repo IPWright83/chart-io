@@ -293,6 +293,14 @@ interface IChartSelectors {
          * @return           The current zoom path
          */
         path: (state: IState) => string[];
+
+        /**
+         * Returns the radius, in pixels, of the focused node's clickable center hole (e.g. a
+         * `<StackedDonut zoomable>`'s hole), or undefined if the current plot doesn't have one
+         * @param  state     The application state
+         * @return           The center hole radius, in pixels
+         */
+        centerRadius: (state: IState) => number | undefined;
     };
 }
 
@@ -506,5 +514,8 @@ export const chartSelectors: IChartSelectors = {
 
         // @inheritDoc
         path: (state) => chartSelectors.zoom.store(state)?.path ?? EMPTY_ARRAY,
+
+        // @inheritDoc
+        centerRadius: (state) => chartSelectors.zoom.store(state)?.centerRadius,
     },
 };
