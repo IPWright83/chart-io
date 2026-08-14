@@ -127,7 +127,12 @@ export function useDendrogramLayout({
             .x((node) => px(node))
             .y((node) => py(node));
 
-        return { allNodes, allLinks, px, py, radiusFor, colorFor, keyFor, ancestry, breadcrumb, linkGenerator, focusedNode };
+        // A non-leaf node's label sits right where its own link to its children begins, so nudge it
+        // up slightly to keep the link from running straight through the text. Leaf labels don't need
+        // this - nothing continues on past them
+        const labelY = (node: IDendrogramNode) => py(node) - (node.children ? 8 : 0);
+
+        return { allNodes, allLinks, px, py, labelY, radiusFor, colorFor, keyFor, ancestry, breadcrumb, linkGenerator, focusedNode };
     }, [data, categories, value, sort, buildHierarchy, nodeRadius, labels, plotLeft, plotTop, plotWidth, plotHeight, theme, legendKeys, palette, zoomable, zoomPath]);
 
     return { ...layout, zoomPath, zoomTo, legendKeys, legendColors };

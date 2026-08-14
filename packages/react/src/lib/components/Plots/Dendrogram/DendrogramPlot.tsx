@@ -131,6 +131,7 @@ export function DendrogramPlot({
         allLinks,
         px,
         py,
+        labelY,
         radiusFor,
         colorFor,
         keyFor,
@@ -219,7 +220,7 @@ export function DendrogramPlot({
                 items={labels ? allNodes : []}
                 keyFor={keyFor}
                 x={(node) => px(node) + radiusFor(node) + 4}
-                y={py}
+                y={labelY}
                 text={(node) => node.data.key}
                 color={theme.label.color.toString()}
                 fontSize={theme.label.fontSize}
