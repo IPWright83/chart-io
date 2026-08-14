@@ -1,3 +1,4 @@
+import isChromatic from "chromatic";
 import React, { useState } from "react";
 
 // Storybook-only helpers for exercising a chart's enter/update/exit animations by hand. Not part
@@ -93,6 +94,11 @@ export function DataControls({
 // The controls sit *after* the chart in a flex row (not above it) so the chart's own bounding box
 // - and so the fixed clientX/clientY coordinates the play() interaction tests click at - never
 // moves, regardless of whether the controls are present.
+//
+// Chromatic captures whatever's on the page, and these buttons are a Storybook-only dev aid, not
+// part of what a visual regression snapshot should cover - so under Chromatic this renders nothing
+// but the chart itself (identical to the un-wrapped story), and the buttons only appear when
+// browsing Storybook normally.
 export function withDataControls<T, A extends { data?: T[] }>(
   Template: (args: A) => JSX.Element,
   config: DataControlsConfig<T>,
@@ -102,6 +108,11 @@ export function withDataControls<T, A extends { data?: T[] }>(
       ...config,
       initialData: args.data ?? config.initialData,
     });
+
+    if (isChromatic()) {
+      return <Template {...args} data={data} />;
+    }
+
     return (
       <div style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
         <Template {...args} data={data} />
