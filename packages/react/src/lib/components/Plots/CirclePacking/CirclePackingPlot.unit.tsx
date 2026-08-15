@@ -196,8 +196,16 @@ describe("CirclePackingPlot", () => {
 
             await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
 
-            const canvasBuffer = getBuffer(container.querySelector(".canvas"));
-            expect(canvasBuffer).toMatchImageSnapshot();
+            // Nodes and labels each render to their own Canvas layer - one per plot, the same way
+            // <DendrogramPlot> renders its links/nodes/labels
+            const canvases = container.querySelectorAll(".canvas");
+            expect(canvases.length).toBe(2);
+
+            const nodesBuffer = getBuffer(canvases[0] as HTMLCanvasElement);
+            expect(nodesBuffer).toMatchImageSnapshot();
+
+            const labelsBuffer = getBuffer(canvases[1] as HTMLCanvasElement);
+            expect(labelsBuffer).toMatchImageSnapshot();
 
             const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));
             expect(virtualCanvasBuffer).toMatchImageSnapshot();

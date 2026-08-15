@@ -4,47 +4,51 @@ exports[`CirclePackingPlot using SVG should render correctly 1`] = `
 <DocumentFragment>
   <svg>
     <g
-      class="g-plot circle-packing"
+      class="g-plot circle-packing-nodes"
     >
       <circle
         class="circle-packing-node"
         cx="58.99878907383079"
         cy="100"
         r="56.320217645259376"
-        style="fill: #99c1dc; opacity: 0.7; cursor: pointer;"
+        style="fill: #99c1dc; cursor: pointer;"
       />
       <circle
         class="circle-packing-node"
         cx="157.65950335954508"
         cy="100"
         r="39.66192521188349"
-        style="fill: #fc998e; opacity: 0.7; cursor: pointer;"
+        style="fill: #fc998e; cursor: pointer;"
       />
       <circle
         class="circle-packing-node"
         cx="31.508323108343962"
         cy="100"
         r="26.151180251201115"
-        style="fill: rgb(153, 193, 220); opacity: 0.7; cursor: default;"
+        style="fill: rgb(153, 193, 220); cursor: default;"
       />
       <circle
         class="circle-packing-node"
         cx="86.48925503931763"
         cy="100"
         r="26.151180251201115"
-        style="fill: rgb(198, 220, 235); opacity: 0.7; cursor: default;"
+        style="fill: rgb(198, 220, 235); cursor: default;"
       />
       <circle
         class="circle-packing-node"
         cx="157.65950335954508"
         cy="100"
         r="36.98335378331206"
-        style="fill: rgb(252, 153, 142); opacity: 0.7; cursor: default;"
+        style="fill: rgb(252, 153, 142); cursor: default;"
       />
+    </g>
+    <g
+      class="g-plot circle-packing-labels"
+    >
       <text
         class="circle-packing-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; pointer-events: none; opacity: 1;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
         text-anchor="middle"
         x="31.508323108343962"
         y="100"
@@ -54,7 +58,7 @@ exports[`CirclePackingPlot using SVG should render correctly 1`] = `
       <text
         class="circle-packing-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; pointer-events: none; opacity: 1;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
         text-anchor="middle"
         x="86.48925503931763"
         y="100"
@@ -64,7 +68,7 @@ exports[`CirclePackingPlot using SVG should render correctly 1`] = `
       <text
         class="circle-packing-label"
         dy="3"
-        style="font-family: sans-serif; fill: #333333; pointer-events: none; opacity: 1;"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
         text-anchor="middle"
         x="157.65950335954508"
         y="100"

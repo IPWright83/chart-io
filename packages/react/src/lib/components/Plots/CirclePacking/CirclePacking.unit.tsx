@@ -11,7 +11,7 @@ describe("CirclePacking", () => {
         { region: "South", product: "Widgets", sales: 10 },
     ];
 
-    it("should render without needing an external RectangularChart wrapper", async () => {
+    it("should render correctly", async () => {
         const { container } = render(
             <CirclePacking categories={["region", "product"]} value="sales" data={data} width={200} height={200} />,
         );
