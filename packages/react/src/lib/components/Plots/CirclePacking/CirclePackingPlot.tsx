@@ -170,6 +170,7 @@ export function CirclePackingPlot({
                 radius={(node) => node.r}
                 color={colorFor}
                 opacity={theme.series.opacity}
+                stroke={theme.background.toString()}
                 cursor={(node) => (interactive && (zoomable || node.children) ? "pointer" : "default")}
                 interactive={interactive}
                 onMouseOver={handleMouseOver}
