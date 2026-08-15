@@ -14,7 +14,7 @@ import { StackedDonut } from "./StackedDonut";
 const { width, height, margin, useCanvas, theme } = argTypes;
 
 export default {
-    title: "RadialCharts/StackedDonut",
+    title: "Charts/RadialCharts/StackedDonut",
     component: StackedDonut,
     parameters: {
         docs: {

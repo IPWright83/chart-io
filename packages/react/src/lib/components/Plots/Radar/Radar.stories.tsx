@@ -14,7 +14,7 @@ import { Radar } from "./Radar";
 const { width, height, margin, useCanvas, theme } = argTypes;
 
 export default {
-    title: "RadialCharts/Radar",
+    title: "Charts/RadialCharts/Radar",
     component: Radar,
     parameters: {
         chromatic: { delay: 300 },

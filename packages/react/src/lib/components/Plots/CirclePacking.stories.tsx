@@ -6,15 +6,14 @@ import React from "react";
 
 import { gdp_dataset } from "../../../data/gdp_dataset";
 import { argTypes } from "../../../storybook/argTypes";
-import { jitterFields, withDataControls } from "../../../storybook/dataControls";
-import { createCanvasTest, createSVGTest } from "../../testUtils";
-import { Treemap } from "./Treemap";
+import { createSVGTest } from "../../testUtils";
+import { CirclePacking } from "./CirclePacking";
 
 const { width, height, margin, useCanvas, theme } = argTypes;
 
 export default {
-    title: "Charts/Hierarchical/Treemap",
-    component: Treemap,
+    title: "Charts/Hierarchical/CirclePacking",
+    component: CirclePacking,
     parameters: {
         docs: {
             transformSource: (src) => {
@@ -41,31 +40,12 @@ export default {
         topMargin: margin,
         bottomMargin: margin,
     },
-} as Meta<typeof Treemap>;
+} as Meta<typeof CirclePacking>;
 
 const data = gdp_dataset;
 
-// Split each row's GDP across two halves of the year, purely to demonstrate that `categories`
-// supports more than the 2-3 levels shown above - any number of fields can be chained together
-const fourLevelData = gdp_dataset.flatMap((d) => [
-    { ...d, half: "H1", gdp: Math.round(d.gdp * 0.45) },
-    { ...d, half: "H2", gdp: Math.round(d.gdp * 0.55) },
-]);
-
-const treemapDataControls = {
-    initialData: data,
-    randomize: (row: (typeof data)[number]) => jitterFields(row, ["gdp"], 0.3),
-    // Clones a random existing row under a synthetic country name, since every continent/country
-    // pairing in the source dataset is already represented
-    createPoint: (current: typeof data) => {
-        const base = current[Math.floor(Math.random() * current.length)];
-        return jitterFields({ ...base, country: `${base.country} (New)` }, ["gdp"], 0.3);
-    },
-    minLength: 6,
-};
-
-const TreemapTemplate = (args) => (
-    <Treemap
+const CirclePackingTemplate = (args) => (
+    <CirclePacking
         data={args.data ?? data}
         plotMargin={{
             left: args.leftMargin,
@@ -86,19 +66,16 @@ const TreemapTemplate = (args) => (
         categories={args.categories}
         value={args.value}
         sort={args.sort}
-        padding={args.padding}
     />
 );
 
-const TreemapTemplateWithControls = withDataControls(TreemapTemplate, treemapDataControls);
-
 export const Basic = {
     name: "Basic Plot",
-    render: TreemapTemplateWithControls,
+    render: CirclePackingTemplate,
     args: {
         useCanvas: false,
-        width: 800,
-        height: 500,
+        width: 600,
+        height: 600,
         animationDuration: 250,
         theme: themes.light,
         leftMargin: 40,
@@ -108,52 +85,39 @@ export const Basic = {
         categories: ["continent", "country"],
         value: "gdp",
         sort: true,
-        padding: 2,
         zoomable: false,
         breadcrumb: false,
     },
-    play: createSVGTest("rect.treemap-cell", { clientX: 150, clientY: 150 }),
+    play: createSVGTest("circle.circle-packing-node", { clientX: 150, clientY: 300 }),
 };
 
 export const Canvas = {
     name: "Using Canvas",
-    render: TreemapTemplateWithControls,
+    render: CirclePackingTemplate,
     args: {
         ...Basic.args,
         useCanvas: true,
     },
-    play: createCanvasTest({ clientX: 150, clientY: 150 }),
 };
 
 export const ThreeLevel = {
-    name: "3-level Treemap",
-    render: TreemapTemplate,
+    name: "3-level Circle Packing",
+    render: CirclePackingTemplate,
     args: {
         ...Basic.args,
         categories: ["continent", "country", "sector"],
     },
-    play: createSVGTest("rect.treemap-cell", { clientX: 150, clientY: 150 }),
-};
-
-export const DeepTreemap = {
-    name: "4-level Treemap",
-    render: TreemapTemplate,
-    args: {
-        ...Basic.args,
-        categories: ["continent", "country", "sector", "half"],
-        data: fourLevelData,
-    },
-    play: createSVGTest("rect.treemap-cell", { clientX: 150, clientY: 150 }),
+    play: createSVGTest("circle.circle-packing-node", { clientX: 150, clientY: 300 }),
 };
 
 export const Zoomable = {
     name: "Zoomable with Breadcrumb",
-    render: TreemapTemplate,
+    render: CirclePackingTemplate,
     args: {
         ...Basic.args,
         categories: ["continent", "country", "sector"],
         zoomable: true,
         breadcrumb: true,
     },
-    play: createSVGTest("rect.treemap-cell", { clientX: 150, clientY: 150 }),
+    play: createSVGTest("circle.circle-packing-node", { clientX: 150, clientY: 300 }),
 };

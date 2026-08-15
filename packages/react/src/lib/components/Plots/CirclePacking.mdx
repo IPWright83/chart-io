@@ -1,0 +1,64 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as CirclePackingStories from "./CirclePacking.stories"
+
+<Meta title="Charts/Hierarchical/CirclePacking" />
+
+# CirclePacking Plots
+
+The `<CirclePacking>` component nests a circle per node of the hierarchy built from `categories` inside
+its parent's circle: `categories` is an ordered list of fields, outermost group first. Every node at
+every level is drawn (unlike `<Treemap>`, which only draws leaves), each sized proportionally to
+`value`. It's a self-contained chart - like `<Treemap>`, it accepts chart-level props like
+`data`/`width`/`height` directly, since it only ever has a single plot.
+
+<Canvas of={CirclePackingStories.Basic} />
+
+## `<CirclePacking>` Component
+
+### Props
+
+| Prop            | Type       | Default             | Note                                                                                                          |
+| --------------- | ---------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **`categories`\*** | `string[]` | `null`             | The ordered list of fields to build each level from, outermost group first.                                    |
+| **`value`\***   | `string`   | `null`               | The key of the field that contains the size for each leaf.                                                     |
+| `padding`       | `number`   | `3`                  | The gap, in pixels, to leave between sibling circles.                                                           |
+| `labels`        | `boolean`  | `true`                | Should labels be shown on circles large enough to fit them?                                                     |
+| `sort`          | `boolean`  | `false`               | Should the nodes be sorted by value (descending), rather than using the order of the data?                      |
+| `colors`        | `string[]` | Derived from Theme   | Override the colours used for each top-level category. Deeper circles inherit their parent's colour.           |
+| `interactive`   | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot             |
+| `showInLegend`  | `boolean`  | `true`                | Whether the plot should feature in the legend or not. Only the top-level categories appear in the legend.       |
+| `buildHierarchy`| `function` | `buildHierarchy` from `@chart-io/core` | Builds the hierarchy from the flat dataset. Override this if your data doesn't fit the flat, group-by-`categories` shape - see the `<Treemap>` docs for an example. |
+
+> **Note**: Every combination of the fields listed in `categories` should be unique in the data. If your
+> data has multiple rows for the same combination, aggregate it first.
+
+Only leaves are labelled, and only once their circle is at least 20px in radius - siblings never
+overlap in a packed layout, but a dominant child is packed concentrically with its parent, so
+labelling every level would stack group and leaf labels on the same point. Group names are still
+available via the tooltip, and via the breadcrumb trail when zoomed in.
+
+### Using Canvas
+
+Like other plots, a `<CirclePacking>` can be rendered using an HTML Canvas instead of SVG by setting `useCanvas`.
+
+<Canvas of={CirclePackingStories.Canvas} />
+
+### N-level hierarchies
+
+`categories` isn't limited to two levels - pass as many fields as your data has levels of hierarchy.
+
+<Canvas of={CirclePackingStories.ThreeLevel} />
+
+### Zooming
+
+Set `zoomable` to let a click on a node zoom in and refocus the chart on just its subtree - the layout
+re-runs framed to that node, so its descendants expand to fill the available space. Clicking the
+current top-level circle zooms back out one level.
+
+Add `breadcrumb` to also show the current zoom path as a clickable trail above the chart:
+
+<Canvas of={CirclePackingStories.Zoomable} />
+
+```jsx
+<CirclePacking categories={["continent", "country", "sector"]} value="gdp" zoomable={true} breadcrumb={true} />
+```

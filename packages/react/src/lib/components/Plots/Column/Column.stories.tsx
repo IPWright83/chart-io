@@ -18,7 +18,7 @@ import { uniqBy } from "lodash";
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
 export default {
-  title: "XYCharts/Column",
+  title: "Charts/XYCharts/Column",
   component: Column,
   parameters: {
     docs: {

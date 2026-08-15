@@ -15,7 +15,7 @@ import { RadialAreas } from "./RadialAreas";
 const { width, height, margin, useCanvas, theme } = argTypes;
 
 export default {
-    title: "RadialCharts/RadialArea",
+    title: "Charts/RadialCharts/RadialArea",
     component: RadialArea,
     parameters: {
         chromatic: { delay: 300 },

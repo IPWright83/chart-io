@@ -15,7 +15,7 @@ import { Pie } from "./Pie";
 const { width, height, margin, useCanvas, theme } = argTypes;
 
 export default {
-    title: "RadialCharts/Pie",
+    title: "Charts/RadialCharts/Pie",
     component: Pie,
     parameters: {
         docs: {

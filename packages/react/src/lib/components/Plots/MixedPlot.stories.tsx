@@ -13,7 +13,7 @@ import { Scatter } from "./Scatter";
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
 export default {
-  title: "XYCharts/MixedPlots",
+  title: "Charts/XYCharts/MixedPlots",
   component: Line,
   parameters: {
     docs: {
