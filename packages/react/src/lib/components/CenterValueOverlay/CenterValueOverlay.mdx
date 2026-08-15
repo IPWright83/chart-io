@@ -1,0 +1,43 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as CenterValueOverlayStories from "./CenterValueOverlay.stories";
+
+<Meta title="Components/CenterValueOverlay" />
+
+# CenterValueOverlay Component
+
+The `<CenterValueOverlay>` component displays the hovered slice's name/value in the center of a
+`<Donut>` or `<StackedDonut>`'s hole, as an alternative to a floating Tooltip - useful for deep
+hierarchies, where a floating tooltip can obscure the chart.
+
+<Canvas of={CenterValueOverlayStories.HoveredItem} />
+
+## Usage
+
+`<CenterValueOverlay>` isn't added directly - `<RadialChart>` renders it automatically whenever a
+`<Donut>` or `<StackedDonut>` child is present (or `centerValue` is explicitly set to `true`), reading
+the same hover state the plot itself writes to on mouseover/mouseout:
+
+```jsx
+<RadialChart>
+    <Donut category="continent" value="gdp" />
+</RadialChart>
+```
+
+Set `centerValue={false}` on `<RadialChart>` to opt back into a traditional floating Tooltip instead.
+
+## Zoomed In, Nothing Hovered
+
+For a zoomable `<StackedDonut>`, while zoomed in and nothing's hovered, the overlay shows the name of
+the currently focused node instead of nothing:
+
+<Canvas of={CenterValueOverlayStories.ZoomedNoHover} />
+
+Hovering a slice still takes priority over the zoomed name:
+
+<Canvas of={CenterValueOverlayStories.ZoomedAndHovered} />
+
+## Nothing Hovered, Not Zoomed
+
+With nothing hovered and no zoom in effect, the overlay renders nothing at all.
+
+<Canvas of={CenterValueOverlayStories.Empty} />

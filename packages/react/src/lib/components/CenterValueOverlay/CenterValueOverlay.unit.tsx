@@ -46,4 +46,47 @@ describe("CenterValueOverlay", () => {
 
         expect(asFragment()).toMatchSnapshot();
     });
+
+    it("should render the current zoom name when zoomed in and nothing is hovered", () => {
+        const store = createMockStore({
+            chart: { zoom: { path: ["Europe"] } },
+            event: {
+                tooltip: {
+                    items: [],
+                },
+            },
+        });
+
+        const { getByText } = render(
+            <Provider store={store}>
+                <svg>
+                    <CenterValueOverlay />
+                </svg>
+            </Provider>,
+        );
+
+        expect(getByText("Europe")).toBeInTheDocument();
+    });
+
+    it("should prefer the hovered item's name/value over the zoomed name", () => {
+        const store = createMockStore({
+            chart: { zoom: { path: ["Europe"] } },
+            event: {
+                tooltip: {
+                    items: [{ name: "Germany", value: 5, icon: "square", fill: "blue" }],
+                },
+            },
+        });
+
+        const { getByText, queryByText } = render(
+            <Provider store={store}>
+                <svg>
+                    <CenterValueOverlay />
+                </svg>
+            </Provider>,
+        );
+
+        expect(getByText("Germany")).toBeInTheDocument();
+        expect(queryByText("Europe")).not.toBeInTheDocument();
+    });
 });

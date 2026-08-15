@@ -17,10 +17,11 @@ export interface IZoom {
 }
 
 /**
- * Reads/writes the chart-level zoom state used by hierarchical plots (e.g. `<Treemap>`, `<Dendrogram>`)
- * to support clicking a node to zoom in and refocus on its subtree. Pass `zoomable` to also dispatch it
- * into the store as a side effect - the plot components do this themselves (rather than the chart
- * component wrapping them) since only descendants of `<Chart>` have access to the store it creates
+ * Reads/writes the chart-level zoom state used by hierarchical plots (e.g. `<Treemap>`, `<Dendrogram>`,
+ * `<StackedDonut>`) to support clicking a node to zoom in and refocus on its subtree. Pass `zoomable` to
+ * also dispatch it into the store as a side effect - the plot components do this themselves (rather than
+ * the chart component wrapping them) since only descendants of `<Chart>` have access to the store it
+ * creates
  * @param  zoomable      Whether zooming should be enabled. Omit to only read zoom state without
  *                       writing anything
  * @return The current zoom path, and a function to change it

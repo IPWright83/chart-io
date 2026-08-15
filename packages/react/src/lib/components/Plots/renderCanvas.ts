@@ -1,4 +1,6 @@
-import { canvasRenderLoop, d3, PROGRESSIVE_RENDER_THRESHOLD, progressiveCanvasRenderLoop } from "@chart-io/core";
+import { canvasRenderLoop, d3, PROGRESSIVE_RENDER_THRESHOLD, progressiveCanvasRenderLoop, renderElements } from "@chart-io/core";
+
+import type React from "react";
 
 /**
  * Renders to a canvas if one is provided
@@ -35,4 +37,36 @@ export async function renderCanvas(
     if (renderVirtualCanvas) {
         renderVirtualCanvas(update);
     }
+}
+
+/**
+ * Repaints a Canvas from the current state of its (detached) layer, e.g. after a hover/focus change has
+ * updated a node's style (such as opacity) directly via D3. Canvas is just a bitmap, so unlike SVG,
+ * mutating a node's style has no visual effect until something explicitly repaints it
+ * @param  canvas     The HTML canvas to redraw (a no-op if this plot isn't rendering to one)
+ * @param  width      The width of the chart
+ * @param  height     The height of the chart
+ * @param  layer      The (detached) layer holding the nodes to redraw
+ */
+export function redrawCanvas(
+    canvas: HTMLCanvasElement | null | undefined,
+    width: number,
+    height: number,
+    layer: React.MutableRefObject<Element>,
+) {
+    if (!canvas || !layer?.current) {
+        return;
+    }
+
+    const context = canvas.getContext("2d");
+    context.clearRect(0, 0, width, height);
+    // renderElements() only ever calls .each() on what it's given, so a plain selection works
+    // fine here too, despite the narrower `Transition` typing it shares with canvasRenderLoop()
+    const elements = d3.select(layer.current).selectAll<Element, unknown>("*") as unknown as d3.Transition<
+        Element,
+        unknown,
+        any,
+        unknown
+    >;
+    renderElements(context, elements);
 }

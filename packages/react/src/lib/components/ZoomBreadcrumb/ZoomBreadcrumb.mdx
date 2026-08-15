@@ -1,0 +1,34 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as ZoomBreadcrumbStories from "./ZoomBreadcrumb.stories";
+
+<Meta title="Components/ZoomBreadcrumb" />
+
+# ZoomBreadcrumb Component
+
+The `<ZoomBreadcrumb>` component displays the current zoom path of a zoomable hierarchical plot (e.g.
+`<StackedDonut zoomable>`, `<Treemap zoomable>`, `<Dendrogram zoomable>`) as a clickable trail, letting
+you jump back to any ancestor level - or all the way out via "All" - in one click. It renders nothing
+while fully zoomed out.
+
+<Canvas of={ZoomBreadcrumbStories.OneLevel} />
+
+## Usage
+
+`<ZoomBreadcrumb>` isn't added directly - pass `breadcrumb` to `<RadialChart>` (or `<XYChart>`, for
+`<Treemap>`/`<Dendrogram>`) and it's rendered for you, reading the same zoom state the plot itself
+writes to when a slice/cell/node is clicked:
+
+```jsx
+<RadialChart breadcrumb={true}>
+    <StackedDonut categories={["continent", "country", "sector"]} value="gdp" />
+</RadialChart>
+```
+
+<Canvas of={ZoomBreadcrumbStories.NestedLevels} />
+
+## Fully Zoomed Out
+
+With an empty zoom path there's nothing to navigate back to, so `<ZoomBreadcrumb>` renders nothing at
+all rather than an empty trail.
+
+<Canvas of={ZoomBreadcrumbStories.FullyZoomedOut} />

@@ -131,7 +131,7 @@ export function DonutBase({
 
     useLegendItems(categories, "square", showInLegend, legendColors);
     const onTooltip = useTooltip();
-    const onFocus = useFocused(theme);
+    const onFocus = useFocused(theme, { canvas, width, height, layer });
 
     useRender(() => {
         ensureValuesAreUnique(data, category, "Donut");

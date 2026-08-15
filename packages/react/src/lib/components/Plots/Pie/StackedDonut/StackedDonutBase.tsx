@@ -117,8 +117,9 @@ export interface IStackedDonutBaseProps {
      */
     maxRadius?: number;
     /**
-     * Should a click on a non-leaf slice zoom in and refocus on its subtree?
-     * @default false
+     * Should a click on a non-leaf slice zoom in and refocus on its subtree? Also enables clicking the
+     * donut's center hole to zoom back out one level
+     * @default true
      */
     zoomable?: boolean;
     onMouseOver?: IOnMouseOver;
@@ -151,7 +152,7 @@ export function StackedDonutBase({
     buildHierarchy = defaultBuildHierarchy,
     showInLegend = true,
     interactive = true,
-    zoomable = false,
+    zoomable = true,
     onMouseOver,
     onMouseOut,
     onClick,
@@ -178,7 +179,7 @@ export function StackedDonutBase({
 
     useLegendItems(legendKeys, "square", showInLegend, legendColors);
     const onTooltip = useTooltip();
-    const onFocus = useFocused(theme);
+    const onFocus = useFocused(theme, { canvas, width, height, layer });
 
     useRender(() => {
         ensureCombinationsAreUnique(data, categories, "StackedDonut");
@@ -262,7 +263,7 @@ export function StackedDonutBase({
             .style("fill", colorFor);
 
         // Update new and existing points
-        const update = enter
+        const slicesUpdate = enter
             .merge(join)
             .attr("transform", `translate(${cx}, ${cy})`)
             .attr("data-cx", cx)
@@ -298,28 +299,56 @@ export function StackedDonutBase({
 
                 onClick && onClick(node.data.datum, this, event);
 
-                if (!zoomable) return;
-
-                if (node === focusedNode) {
-                    zoomTo(zoomPath.slice(0, -1));
-                } else if (node.children) {
+                if (zoomable && node.children) {
                     zoomTo(ancestry(node));
                 }
-            })
+            });
+
+        // The focused node itself is never rendered as a slice - it's the empty center hole. While
+        // zoomed in, render an invisible circle there as a real, interactive shape (rather than
+        // special-cased hit-testing), so clicking it zooms back out one level in both SVG and Canvas
+        // mode, the same way any other element on the chart is clicked
+        const showCenterHole = zoomable && zoomPath.length > 0;
+        const centerUpdate = d3
+            .one<Element, Element, unknown>(d3.select(layer.current), "circle", "pie-center", showCenterHole)
+            .attr("cx", cx)
+            .attr("cy", cy)
+            .attr("r", innerRadiusPx)
+            .style("fill", "transparent")
+            .style("cursor", "pointer")
+            .on("click", function () {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                zoomTo(zoomPath.slice(0, -1));
+            });
+
+        // d3's selection.merge() only fills (null) gaps between an enter/update pair from the *same*
+        // join - it doesn't concatenate two unrelated selections/joins like these. Concatenating their
+        // nodes directly and re-wrapping them is what actually combines them into one selection, so a
+        // single Canvas render pass (and virtual-canvas registration) covers both - a second, separate
+        // Canvas render pass would otherwise clear the first's pixels
+        const combined = d3.selectAll<Element, unknown>([...slicesUpdate.nodes(), ...centerUpdate.nodes()]);
+
+        const update = combined
             .transition("arc")
             .duration(animationDuration)
             .attrTween("d", function (node) {
-                const { innerRadius: ringInner, outerRadius: ringOuter } = rings[node.depth];
+                // The center hole hit-target is a plain <circle>, not an arc - it has no "d" to tween
+                if ((this as Element).tagName.toLowerCase() !== "path") return undefined;
+
+                const pieNode = node as IPieHierarchyNode;
+                const { innerRadius: ringInner, outerRadius: ringOuter } = rings[pieNode.depth];
                 const element = this as unknown as { _current?: IArcAngles };
                 const previous = element._current || {
-                    startAngle: node.x0,
-                    endAngle: node.x0,
+                    startAngle: pieNode.x0,
+                    endAngle: pieNode.x0,
                     innerRadius: ringInner,
                     outerRadius: ringOuter,
                 };
                 const target = {
-                    startAngle: node.x0,
-                    endAngle: node.x1,
+                    startAngle: pieNode.x0,
+                    endAngle: pieNode.x1,
                     innerRadius: ringInner,
                     outerRadius: ringOuter,
                 };
