@@ -38,6 +38,42 @@ describe("StackedArea", () => {
             expect(asFragment()).toMatchSnapshot();
         });
 
+        it("should render correctly with a wiggle offset and insideOut order", async () => {
+            const { asFragment } = await renderChart({
+                children: <StackedArea x="x" ys={["y", "y2"]} offset="wiggle" order="insideOut" />,
+                data,
+                scales,
+            });
+
+            await wait(200);
+
+            expect(asFragment()).toMatchSnapshot();
+        });
+
+        it("should offset the stack's baseline differently to the default zero-baseline stack", async () => {
+            const defaultRender = await renderChart({
+                children: <StackedArea x="x" ys={["y", "y2"]} />,
+                data,
+                scales,
+            });
+            await wait(200);
+            const defaultPaths = Array.from(defaultRender.container.querySelectorAll("path")).map((path) =>
+                path.getAttribute("d"),
+            );
+
+            const wiggleRender = await renderChart({
+                children: <StackedArea x="x" ys={["y", "y2"]} offset="wiggle" />,
+                data,
+                scales,
+            });
+            await wait(200);
+            const wigglePaths = Array.from(wiggleRender.container.querySelectorAll("path")).map((path) =>
+                path.getAttribute("d"),
+            );
+
+            expect(wigglePaths).not.toEqual(defaultPaths);
+        });
+
         describe("should skip rendering if", () => {
             it("there is no x scale avaliable", async () => {
                 const { asFragment } = await renderChart({
