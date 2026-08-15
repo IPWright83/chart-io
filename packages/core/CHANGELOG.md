@@ -1,5 +1,16 @@
 # @chart-io/core
 
+## 0.11.0
+
+### Minor Changes
+
+- d3688e1c: Added a `d3.one()` utility to `@chart-io/core` for selecting/creating (or removing) at most a single child element under a selection, joined the same way as any other D3 data-bound selection - see https://github.com/d3/d3-selection/pull/300. Used it to simplify `<StackedDonut>`'s center-hole hit target (previously hand-rolled enter/exit/merge boilerplate) into a single call.
+- d3688e1c: `<StackedDonut>` is now zoomable by default (`zoomable` defaults to `true` instead of `false`). Clicking the donut's center hole now zooms back out one level - previously there was no way to zoom back out by clicking on the chart itself, in either SVG or Canvas mode. While zoomed in, the center hole also now displays the focused node's name whenever nothing's hovered, instead of showing nothing.
+
+### Patch Changes
+
+- d3688e1c: Fixed the hovered slice not being highlighted on Canvas-rendered `<Pie useCanvas>`, `<Donut useCanvas>` and `<StackedDonut useCanvas>` charts. Hovering updated the slice's opacity on its underlying (detached) DOM node as before, but nothing repainted the visible `<canvas>` bitmap to reflect it, so the highlight silently never appeared - unlike SVG, where the browser repaints the style change on its own.
+
 ## 0.10.1
 
 ### Patch Changes
