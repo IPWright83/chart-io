@@ -15,7 +15,7 @@ import { Lines } from "./Lines";
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
 export default {
-  title: "XYCharts/Line",
+  title: "Charts/XYCharts/Line",
   component: Line,
   parameters: {
     docs: {

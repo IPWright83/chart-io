@@ -35,7 +35,7 @@ export const defaultArgs = {
     x: "Units Sold",
 };
 
-<Meta title="XYCharts/Progressive Rendering" component={Scatter} argTypes={scatterArgTypes} />
+<Meta title="Charts/XYCharts/Progressive Rendering" component={Scatter} argTypes={scatterArgTypes} />
 
 # Progressive Rendering
 

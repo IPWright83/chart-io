@@ -12,7 +12,7 @@ import { CirclePacking } from "./CirclePacking";
 const { width, height, margin, useCanvas, theme } = argTypes;
 
 export default {
-    title: "Plots/CirclePacking",
+    title: "Charts/Hierarchical/CirclePacking",
     component: CirclePacking,
     parameters: {
         docs: {

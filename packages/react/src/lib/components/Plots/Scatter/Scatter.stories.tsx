@@ -15,7 +15,7 @@ import { Scatters } from "./Scatters";
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
 export default {
-  title: "XYCharts/Scatter",
+  title: "Charts/XYCharts/Scatter",
   component: Scatter,
   parameters: {
     docs: {

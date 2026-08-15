@@ -12,7 +12,7 @@ import { Dendrogram } from "./Dendrogram";
 const { width, height, margin, useCanvas, theme } = argTypes;
 
 export default {
-    title: "Plots/Dendrogram",
+    title: "Charts/Hierarchical/Dendrogram",
     component: Dendrogram,
     parameters: {
         docs: {

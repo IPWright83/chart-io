@@ -13,7 +13,7 @@ import { Treemap } from "./Treemap";
 const { width, height, margin, useCanvas, theme } = argTypes;
 
 export default {
-    title: "Plots/Treemap",
+    title: "Charts/Hierarchical/Treemap",
     component: Treemap,
     parameters: {
         docs: {

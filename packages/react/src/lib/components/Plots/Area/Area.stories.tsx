@@ -14,7 +14,7 @@ import { Areas } from "./Areas";
 const { width, height, margin, useCanvas, theme, color } = argTypes;
 
 export default {
-  title: "XYCharts/Area",
+  title: "Charts/XYCharts/Area",
   component: Area,
   parameters: {
     docs: {
