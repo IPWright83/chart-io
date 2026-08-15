@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WordCloudPlot using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot word-cloud"
+    >
+      <text
+        class="word-cloud-word"
+        data-rotate="0"
+        dy="21"
+        style="font-family: sans-serif; fill: #99c1dc; cursor: pointer; opacity: 0.7; font-size: 60px;"
+        text-anchor="middle"
+        x="100"
+        y="100"
+      >
+        chart
+      </text>
+      <text
+        class="word-cloud-word"
+        data-rotate="0"
+        dy="14.149657940361319"
+        style="font-family: sans-serif; fill: #fc998e; cursor: pointer; opacity: 0.7; font-size: 40.42759411531806px;"
+        text-anchor="middle"
+        x="111.52109763064638"
+        y="118.62456199176542"
+      >
+        data
+      </text>
+      <text
+        class="word-cloud-word"
+        data-rotate="0"
+        dy="4.199999999999999"
+        style="font-family: sans-serif; fill: #fdc381; cursor: pointer; opacity: 0.7; font-size: 12px;"
+        text-anchor="middle"
+        x="76.3487841408734"
+        y="81.06035933854618"
+      >
+        plot
+      </text>
+    </g>
+  </svg>
+</DocumentFragment>
+`;

@@ -1,0 +1,30 @@
+// Illustrative word frequencies, as if counted across a corpus of data-visualization articles
+const word_frequency_dataset = [
+    { word: "chart", count: 95 },
+    { word: "data", count: 90 },
+    { word: "visualization", count: 80 },
+    { word: "axis", count: 60 },
+    { word: "scale", count: 58 },
+    { word: "series", count: 55 },
+    { word: "legend", count: 50 },
+    { word: "tooltip", count: 48 },
+    { word: "canvas", count: 45 },
+    { word: "svg", count: 44 },
+    { word: "dashboard", count: 40 },
+    { word: "animation", count: 36 },
+    { word: "color", count: 34 },
+    { word: "theme", count: 30 },
+    { word: "hierarchy", count: 28 },
+    { word: "treemap", count: 24 },
+    { word: "donut", count: 22 },
+    { word: "scatter", count: 20 },
+    { word: "bar", count: 18 },
+    { word: "line", count: 17 },
+    { word: "area", count: 16 },
+    { word: "radar", count: 14 },
+    { word: "zoom", count: 12 },
+    { word: "gridlines", count: 10 },
+    { word: "crosshair", count: 8 },
+];
+
+export { word_frequency_dataset };

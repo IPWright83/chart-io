@@ -18,6 +18,10 @@ export function renderText(context: CanvasRenderingContext2D, node: Element, ove
     const x = Number(selection.attr("x"));
     const y = Number(selection.attr("y"));
     const dy = Number(selection.attr("dy")) || 0;
+    // The rotation (in degrees) a label is turned by around its own x/y anchor - e.g. a vertical
+    // word on a <WordCloud> - mirroring the `rotate(deg, x, y)` transform stamped onto the
+    // equivalent SVG <text>
+    const rotate = Number(selection.attr("data-rotate")) || 0;
     const text = selection.text();
     const opacity = Number(selection.style("opacity")) || 1;
     const fill = selection.style("fill");
@@ -33,8 +37,20 @@ export function renderText(context: CanvasRenderingContext2D, node: Element, ove
     context.textBaseline = "alphabetic";
     context.globalAlpha = opacity;
 
-    if (fill) {
-        context.fillStyle = fill;
-        context.fillText(text, x, y + dy);
+    if (!fill) {
+        return;
     }
+
+    context.fillStyle = fill;
+
+    if (rotate === 0) {
+        context.fillText(text, x, y + dy);
+        return;
+    }
+
+    context.save();
+    context.translate(x, y);
+    context.rotate((rotate * Math.PI) / 180);
+    context.fillText(text, 0, dy);
+    context.restore();
 }
