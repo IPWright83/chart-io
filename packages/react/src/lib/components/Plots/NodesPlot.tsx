@@ -33,6 +33,11 @@ export interface INodesPlotProps<T> {
     color: (item: T) => string;
     cursor?: (item: T) => string;
     /**
+     * The baseline opacity applied to every node - independent of `useFocused`'s per-node
+     * hover/selected opacity, which is applied (and reset back to this) on top
+     */
+    opacity?: number;
+    /**
      * Should the plot be interactive and dispatch mouseover/mouseout/click callbacks?
      * @default true
      */
@@ -62,6 +67,7 @@ export function NodesPlot<T>({
     radius,
     color,
     cursor,
+    opacity,
     interactive = true,
     onMouseOver,
     onMouseOut,
@@ -90,6 +96,7 @@ export function NodesPlot<T>({
         const update = enter
             .merge(join as any)
             .style("fill", (item) => color(item))
+            .style("opacity", opacity ?? null)
             .style("cursor", (item) => (cursor ? cursor(item) : "default"))
             .on("mouseover", function (event, item) {
                 // istanbul ignore next
@@ -126,6 +133,7 @@ export function NodesPlot<T>({
         radius,
         color,
         cursor,
+        opacity,
         className,
         interactive,
         onMouseOver,
