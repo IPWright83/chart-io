@@ -13,3 +13,5 @@ export * from "d3-time-format";
 export * from "d3-timer";
 export * from "d3-transition";
 
+export * from "./one";
+

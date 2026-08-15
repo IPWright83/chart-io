@@ -309,22 +309,8 @@ export function StackedDonutBase({
         // special-cased hit-testing), so clicking it zooms back out one level in both SVG and Canvas
         // mode, the same way any other element on the chart is clicked
         const showCenterHole = zoomable && zoomPath.length > 0;
-        const centerJoin = d3
-            .select(layer.current)
-            .selectAll<Element, boolean>(".pie-center")
-            .data(showCenterHole ? [true] : []);
-
-        centerJoin.exit().remove();
-
-        const centerEnter = centerJoin
-            .enter()
-            .append(function (this: Element) {
-                return document.createElementNS(this.namespaceURI, "circle");
-            })
-            .attr("class", "pie-center");
-
-        const centerUpdate = centerEnter
-            .merge(centerJoin)
+        const centerUpdate = d3
+            .one<Element, Element, unknown>(d3.select(layer.current), "circle", "pie-center", showCenterHole)
             .attr("cx", cx)
             .attr("cy", cy)
             .attr("r", innerRadiusPx)
