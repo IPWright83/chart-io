@@ -4,6 +4,9 @@ import type { IColor, IDispatch, IFocused, IScale, ITheme } from "@chart-io/core
 import { useEffect, useState } from "react";
 import { useStore } from "react-redux";
 
+import type { ICanvasRedraw } from "../useFocused";
+import { redrawCanvas } from "../renderCanvas";
+
 export interface IBarFocusProps {
     /**
      * The redux store dispatch function
@@ -25,14 +28,20 @@ export interface IBarFocusProps {
      * True if the columns are grouped
      */
     grouped?: boolean;
+    /**
+     * The details needed to redraw the Canvas, if this plot is using one
+     */
+    canvasRedraw?: ICanvasRedraw;
 }
 
 /**
  * Helper function to manage markers & droplines for a selected datum on the Bar plot
  * @return              A function to set the focused datum
  */
-function focus({ dispatch, focused, theme, yScale, grouped = false }: IBarFocusProps) {
+function focus({ dispatch, focused, theme, yScale, grouped = false, canvasRedraw }: IBarFocusProps) {
     if (!focused) return;
+
+    const { canvas, width: canvasWidth, height: canvasHeight, layer } = canvasRedraw ?? {};
 
     // Get the appropriate attributes
     const { element } = focused;
@@ -45,6 +54,7 @@ function focus({ dispatch, focused, theme, yScale, grouped = false }: IBarFocusP
         grouped === false ? 0 : getXYFromTransform(d3.select(selection.node().parentNode).attr("transform")).y;
 
     selection.style("opacity", theme.series.selectedOpacity);
+    redrawCanvas(canvas, canvasWidth, canvasHeight, layer);
 
     const verticalDropline = {
         isVertical: true,
@@ -59,25 +69,27 @@ function focus({ dispatch, focused, theme, yScale, grouped = false }: IBarFocusP
 
     return () => {
         selection.style("opacity", theme.series.opacity);
+        redrawCanvas(canvas, canvasWidth, canvasHeight, layer);
         dispatch(eventActions.removeDropline(verticalDropline));
     };
 }
 
 /**
  * Handles the user interacting with a DataPoint on the Bar chart and the need to display a tooltip
- * @param  dispatch     The redux store dispatch function
- * @param  yScale       The d3 scale for the x-axis
- * @param  theme        The theme for the chart
- * @param  grouped      Whether the data on the chart is grouped
- * @return              A function to set the focused datum
+ * @param  yScale         The d3 scale for the x-axis
+ * @param  theme          The theme for the chart
+ * @param  grouped        Whether the data on the chart is grouped
+ * @param  canvasRedraw   The details needed to redraw the Canvas, if this plot is using one
+ * @return                A function to set the focused datum
  */
-export const useFocused = ({ yScale, theme, grouped }: Omit<IBarFocusProps, "dispatch" | "focused">) => {
+export const useFocused = ({ yScale, theme, grouped, canvasRedraw }: Omit<IBarFocusProps, "dispatch" | "focused">) => {
     const { dispatch } = useStore();
     const [focused, setFocused] = useState(null);
+    const { canvas, width: canvasWidth, height: canvasHeight, layer } = canvasRedraw ?? {};
 
     useEffect(() => {
-        return focus({ dispatch, yScale, focused, theme, grouped });
-    }, [dispatch, focused, yScale, theme.series.selectedOpacity]);
+        return focus({ dispatch, yScale, focused, theme, grouped, canvasRedraw });
+    }, [dispatch, focused, yScale, theme.series.selectedOpacity, canvas, canvasWidth, canvasHeight, layer]);
 
     return setFocused;
 };

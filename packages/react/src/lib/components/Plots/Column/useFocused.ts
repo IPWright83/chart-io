@@ -4,6 +4,9 @@ import type { IColor, IDispatch, IFocused, IScale, ITheme } from "@chart-io/core
 import { useEffect, useState } from "react";
 import { useStore } from "react-redux";
 
+import type { ICanvasRedraw } from "../useFocused";
+import { redrawCanvas } from "../renderCanvas";
+
 export interface IColumnFocusProps {
     /**
      * The redux store dispatch function
@@ -25,14 +28,20 @@ export interface IColumnFocusProps {
      * True if the columns are grouped
      */
     grouped?: boolean;
+    /**
+     * The details needed to redraw the Canvas, if this plot is using one
+     */
+    canvasRedraw?: ICanvasRedraw;
 }
 
 /**
  * Helper function to manage markers & droplines for a selected datum on the Column plot
  * @return              A function to set the focused datum
  */
-function focus({ dispatch, focused, theme, xScale, grouped = false }: IColumnFocusProps) {
+function focus({ dispatch, focused, theme, xScale, grouped = false, canvasRedraw }: IColumnFocusProps) {
     if (!focused) return;
+
+    const { canvas, width, height, layer } = canvasRedraw ?? {};
 
     // Get the appropriate attributes
     const { element } = focused;
@@ -44,6 +53,7 @@ function focus({ dispatch, focused, theme, xScale, grouped = false }: IColumnFoc
         grouped === false ? 0 : getXYFromTransform(d3.select(selection.node().parentNode).attr("transform")).x;
 
     selection.style("opacity", theme.series.selectedOpacity);
+    redrawCanvas(canvas, width, height, layer);
 
     const horizontalDropline = {
         isHorizontal: true,
@@ -58,25 +68,32 @@ function focus({ dispatch, focused, theme, xScale, grouped = false }: IColumnFoc
 
     return () => {
         selection.style("opacity", theme.series.opacity);
+        redrawCanvas(canvas, width, height, layer);
         dispatch(eventActions.removeDropline(horizontalDropline));
     };
 }
 
 /**
  * Handles the user interacting with a DataPoint on the Column chart and the need to display a tooltip
- * @param  dispatch     The redux store dispatch function
- * @param  xScale       The d3 scale for the x-axis
- * @param  theme        The theme for the chart
- * @param  grouped      Whether the data on the chart is grouped
- * @return              A function to set the focused datum
+ * @param  xScale         The d3 scale for the x-axis
+ * @param  theme          The theme for the chart
+ * @param  grouped        Whether the data on the chart is grouped
+ * @param  canvasRedraw   The details needed to redraw the Canvas, if this plot is using one
+ * @return                A function to set the focused datum
  */
-export const useFocused = ({ xScale, theme, grouped }: Omit<IColumnFocusProps, "dispatch" | "focused">) => {
+export const useFocused = ({
+    xScale,
+    theme,
+    grouped,
+    canvasRedraw,
+}: Omit<IColumnFocusProps, "dispatch" | "focused">) => {
     const { dispatch } = useStore();
     const [focused, setFocused] = useState(null);
+    const { canvas, width, height, layer } = canvasRedraw ?? {};
 
     useEffect(() => {
-        return focus({ dispatch, xScale, focused, theme, grouped });
-    }, [dispatch, focused, xScale, theme.series.selectedOpacity]);
+        return focus({ dispatch, xScale, focused, theme, grouped, canvasRedraw });
+    }, [dispatch, focused, xScale, theme.series.selectedOpacity, canvas, width, height, layer]);
 
     return setFocused;
 };

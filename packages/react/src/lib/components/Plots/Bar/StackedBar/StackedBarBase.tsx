@@ -65,7 +65,7 @@ export function StackedBarBase({
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     const onTooltip = useTooltip({ y });
-    const onFocus = useFocused({ yScale, theme, grouped: false });
+    const onFocus = useFocused({ yScale, theme, grouped: false, canvasRedraw: { canvas, width, height, layer } });
 
     useLegendItems(xs, "square", showInLegend, colors);
 
