@@ -263,16 +263,6 @@ const chartSlice = createSlice({
         setZoomPath: (state: IChartState, action: PayloadAction<string[]>) => {
             state.zoom.path = action.payload;
         },
-
-        /**
-         * Sets the radius, in pixels, of the focused node's clickable center hole (e.g. a
-         * `<StackedDonut zoomable>`'s hole), used to zoom back out one level
-         * @param state                      The current Redux store state
-         * @param action                     The payload containing the new center hole radius
-         */
-        setZoomCenterRadius: (state: IChartState, action: PayloadAction<number | undefined>) => {
-            state.zoom.centerRadius = action.payload;
-        },
     },
 });
 

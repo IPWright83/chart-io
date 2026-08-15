@@ -188,6 +188,46 @@ describe("StackedDonut", () => {
                 expect(store.dispatch).not.toHaveBeenCalledWith(expect.objectContaining({ type: "chart/setZoomPath" }));
             });
 
+            it("should zoom back out when clicking the center hole", async () => {
+                const store = createMockStore({
+                    chart: {
+                        zoomable: true,
+                        zoom: { path: ["North"] },
+                        animationDuration: 0,
+                        dimensions: { width: 200, height: 200 },
+                        data,
+                    },
+                });
+                store.dispatch = jest.fn();
+
+                const { container } = await renderChart({
+                    children: <StackedDonut categories={["region", "product"]} value="sales" zoomable={true} />,
+                    data,
+                    store,
+                });
+
+                await wait();
+
+                // The focused node itself isn't rendered as a slice - it's the invisible circle over
+                // the center hole, rendered specifically so it can be clicked to zoom back out
+                const centerHole = container.querySelector(".pie-center");
+                expect(centerHole).not.toBeNull();
+                centerHole.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+
+                expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "chart/setZoomPath", payload: [] }));
+            });
+
+            it("should not render the center hole while fully zoomed out", async () => {
+                const { container } = await renderChart({
+                    children: <StackedDonut categories={["region", "product"]} value="sales" zoomable={true} />,
+                    data,
+                });
+
+                await wait();
+
+                expect(container.querySelector(".pie-center")).toBeNull();
+            });
+
             it("should lay out real (non-NaN) slice geometry once zoomed in", async () => {
                 const store = createMockStore({
                     chart: {
@@ -268,7 +308,7 @@ describe("StackedDonut", () => {
             const store = createMockStore({
                 chart: {
                     zoomable: true,
-                    zoom: { path: ["North"], centerRadius: 50 },
+                    zoom: { path: ["North"] },
                     animationDuration: 0,
                     dimensions: { width: 200, height: 200 },
                     data,

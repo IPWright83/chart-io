@@ -3,14 +3,12 @@ import { chartSelectors, eventSelectors, formatValue, IState } from "@chart-io/c
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { useZoom } from "../Plots/useZoom";
-
 /**
  * Represents a center value overlay, which displays the name/value of the currently hovered
  * datapoint in the center of a `<Donut>` or `<StackedDonut>`'s hole, as an alternative to the
  * traditional floating Tooltip. While zoomed in (e.g. a `<StackedDonut zoomable>`) and nothing's
- * hovered, it instead displays the name of the currently focused node, and doubles up as a click
- * target on its hole to zoom back out one level
+ * hovered, it instead displays the name of the currently focused node - the plot itself renders an
+ * invisible circle over its hole so clicking it zooms back out one level
  * @return  The center value overlay component
  */
 export function CenterValueOverlay() {
@@ -18,8 +16,7 @@ export function CenterValueOverlay() {
     const cy = useSelector((s: IState) => chartSelectors.dimensions.plot.cy(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const items = useSelector((s: IState) => eventSelectors.tooltip.items(s, false));
-    const centerRadius = useSelector((s: IState) => chartSelectors.zoom.centerRadius(s));
-    const { path: zoomPath, zoomTo } = useZoom();
+    const zoomPath = useSelector((s: IState) => chartSelectors.zoom.path(s));
 
     const item = items[0];
     const zoomedName = !item && zoomPath.length > 0 ? zoomPath[zoomPath.length - 1] : undefined;
@@ -37,16 +34,6 @@ export function CenterValueOverlay() {
 
     return (
         <g className="chart-io center-value">
-            {zoomPath.length > 0 && centerRadius !== undefined && (
-                <circle
-                    cx={cx}
-                    cy={cy}
-                    r={centerRadius}
-                    fill="transparent"
-                    style={{ cursor: "pointer", pointerEvents: "auto" }}
-                    onClick={() => zoomTo(zoomPath.slice(0, -1))}
-                />
-            )}
             {item ? (
                 <React.Fragment>
                     <text x={cx} y={cy - 6} textAnchor="middle" style={{ ...style, fontSize: theme.font.size }}>

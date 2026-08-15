@@ -34,10 +34,6 @@ export interface IChartStateZoom {
   // The ancestry path (root excluded) of the currently focused node, e.g. ["North America",
   // "United States"] - an empty array means fully zoomed out
   path: string[];
-  // The radius, in pixels, of the focused node's clickable center hole (e.g. a `<StackedDonut
-  // zoomable>`'s hole), used to zoom back out one level. Undefined for hierarchical plots without a
-  // clickable center, e.g. Treemap/Dendrogram
-  centerRadius?: number;
 }
 
 export interface IChartState {

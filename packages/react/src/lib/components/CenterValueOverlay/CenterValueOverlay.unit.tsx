@@ -1,6 +1,6 @@
 import { Provider } from "react-redux";
 import React from "react";
-import { fireEvent, render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
 import { createMockStore } from "../../testUtils";
 
@@ -49,7 +49,7 @@ describe("CenterValueOverlay", () => {
 
     it("should render the current zoom name when zoomed in and nothing is hovered", () => {
         const store = createMockStore({
-            chart: { zoom: { path: ["Europe"], centerRadius: 50 } },
+            chart: { zoom: { path: ["Europe"] } },
             event: {
                 tooltip: {
                     items: [],
@@ -68,33 +68,9 @@ describe("CenterValueOverlay", () => {
         expect(getByText("Europe")).toBeInTheDocument();
     });
 
-    it("should dispatch zooming out one level when the center hole is clicked", () => {
-        const store = createMockStore({
-            chart: { zoom: { path: ["Europe", "Germany"], centerRadius: 50 } },
-            event: {
-                tooltip: {
-                    items: [],
-                },
-            },
-        });
-        store.dispatch = jest.fn();
-
-        const { container } = render(
-            <Provider store={store}>
-                <svg>
-                    <CenterValueOverlay />
-                </svg>
-            </Provider>,
-        );
-
-        fireEvent.click(container.querySelector("circle"));
-
-        expect(store.dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "chart/setZoomPath", payload: ["Europe"] }));
-    });
-
     it("should prefer the hovered item's name/value over the zoomed name", () => {
         const store = createMockStore({
-            chart: { zoom: { path: ["Europe"], centerRadius: 50 } },
+            chart: { zoom: { path: ["Europe"] } },
             event: {
                 tooltip: {
                     items: [{ name: "Germany", value: 5, icon: "square", fill: "blue" }],

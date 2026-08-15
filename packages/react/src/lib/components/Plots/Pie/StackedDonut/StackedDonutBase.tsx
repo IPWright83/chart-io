@@ -162,7 +162,7 @@ export function StackedDonutBase({
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
-    const { path: zoomPath, zoomTo } = useZoom(zoomable, zoomable ? innerRadius * maxRadius : undefined);
+    const { path: zoomPath, zoomTo } = useZoom(zoomable);
 
     // Only the innermost ring's categories are shown in the Legend, the outer rings can
     // contain many more values than is practical to list
@@ -263,7 +263,7 @@ export function StackedDonutBase({
             .style("fill", colorFor);
 
         // Update new and existing points
-        const update = enter
+        const slicesUpdate = enter
             .merge(join)
             .attr("transform", `translate(${cx}, ${cy})`)
             .attr("data-cx", cx)
@@ -299,26 +299,70 @@ export function StackedDonutBase({
 
                 onClick && onClick(node.data.datum, this, event);
 
-                // The focused node itself is never rendered as a slice (it's the empty center hole -
-                // see `<CenterValueOverlay>` for zooming back out), so a click can only zoom further in
                 if (zoomable && node.children) {
                     zoomTo(ancestry(node));
                 }
+            });
+
+        // The focused node itself is never rendered as a slice - it's the empty center hole. While
+        // zoomed in, render an invisible circle there as a real, interactive shape (rather than
+        // special-cased hit-testing), so clicking it zooms back out one level in both SVG and Canvas
+        // mode, the same way any other element on the chart is clicked
+        const showCenterHole = zoomable && zoomPath.length > 0;
+        const centerJoin = d3
+            .select(layer.current)
+            .selectAll<Element, boolean>(".pie-center")
+            .data(showCenterHole ? [true] : []);
+
+        centerJoin.exit().remove();
+
+        const centerEnter = centerJoin
+            .enter()
+            .append(function (this: Element) {
+                return document.createElementNS(this.namespaceURI, "circle");
             })
+            .attr("class", "pie-center");
+
+        const centerUpdate = centerEnter
+            .merge(centerJoin)
+            .attr("cx", cx)
+            .attr("cy", cy)
+            .attr("r", innerRadiusPx)
+            .style("fill", "transparent")
+            .style("cursor", "pointer")
+            .on("click", function () {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                zoomTo(zoomPath.slice(0, -1));
+            });
+
+        // d3's selection.merge() only fills (null) gaps between an enter/update pair from the *same*
+        // join - it doesn't concatenate two unrelated selections/joins like these. Concatenating their
+        // nodes directly and re-wrapping them is what actually combines them into one selection, so a
+        // single Canvas render pass (and virtual-canvas registration) covers both - a second, separate
+        // Canvas render pass would otherwise clear the first's pixels
+        const combined = d3.selectAll<Element, unknown>([...slicesUpdate.nodes(), ...centerUpdate.nodes()]);
+
+        const update = combined
             .transition("arc")
             .duration(animationDuration)
             .attrTween("d", function (node) {
-                const { innerRadius: ringInner, outerRadius: ringOuter } = rings[node.depth];
+                // The center hole hit-target is a plain <circle>, not an arc - it has no "d" to tween
+                if ((this as Element).tagName.toLowerCase() !== "path") return undefined;
+
+                const pieNode = node as IPieHierarchyNode;
+                const { innerRadius: ringInner, outerRadius: ringOuter } = rings[pieNode.depth];
                 const element = this as unknown as { _current?: IArcAngles };
                 const previous = element._current || {
-                    startAngle: node.x0,
-                    endAngle: node.x0,
+                    startAngle: pieNode.x0,
+                    endAngle: pieNode.x0,
                     innerRadius: ringInner,
                     outerRadius: ringOuter,
                 };
                 const target = {
-                    startAngle: node.x0,
-                    endAngle: node.x1,
+                    startAngle: pieNode.x0,
+                    endAngle: pieNode.x1,
                     innerRadius: ringInner,
                     outerRadius: ringOuter,
                 };

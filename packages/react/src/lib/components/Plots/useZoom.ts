@@ -22,13 +22,11 @@ export interface IZoom {
  * also dispatch it into the store as a side effect - the plot components do this themselves (rather than
  * the chart component wrapping them) since only descendants of `<Chart>` have access to the store it
  * creates
- * @param  zoomable       Whether zooming should be enabled. Omit to only read zoom state without
- *                        writing anything
- * @param  centerRadius   The radius, in pixels, of the focused node's clickable center hole (e.g. a
- *                        `<StackedDonut>`'s hole). Only meaningful for radial plots - omit otherwise
+ * @param  zoomable      Whether zooming should be enabled. Omit to only read zoom state without
+ *                       writing anything
  * @return The current zoom path, and a function to change it
  */
-export function useZoom(zoomable?: boolean, centerRadius?: number): IZoom {
+export function useZoom(zoomable?: boolean): IZoom {
     const store = useStore();
     const path = useSelector((s: IState) => chartSelectors.zoom.path(s));
 
@@ -37,12 +35,6 @@ export function useZoom(zoomable?: boolean, centerRadius?: number): IZoom {
             store.dispatch(chartActions.setZoomable(zoomable));
         }
     }, [store, zoomable]);
-
-    useEffect(() => {
-        if (centerRadius !== undefined) {
-            store.dispatch(chartActions.setZoomCenterRadius(centerRadius));
-        }
-    }, [store, centerRadius]);
 
     // Kept referentially stable across renders - it's included in useRender's dependency array,
     // which schedules a new render (and a state update) whenever any of its dependencies change
