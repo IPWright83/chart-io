@@ -96,6 +96,9 @@ export function GroupedBarBase({
 
         const update = join
             .merge(enter)
+            .attr("tabindex", interactive ? 0 : null)
+            .attr("role", "img")
+            .attr("aria-label", (d) => `${d.key}: ${d.value}`)
             .on("mouseover", function (event, datum) {
                 // istanbul ignore next
                 if (!interactive) return;
@@ -112,10 +115,32 @@ export function GroupedBarBase({
                 onFocus && onFocus(null);
                 onTooltip && onTooltip(null);
             })
+            .on("focus", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOver && onMouseOver(datum, this as Element, event);
+                onFocus && onFocus({ element: this as Element, event, datum });
+            })
+            .on("blur", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOut && onMouseOut(datum, this as Element, event);
+                onFocus && onFocus(null);
+            })
             .on("click", function (event, datum) {
                 // istanbul ignore next
                 if (!interactive) return;
 
+                onClick && onClick(datum, this as Element, event);
+            })
+            .on("keydown", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+                if (event.key !== "Enter" && event.key !== " ") return;
+
+                event.preventDefault();
                 onClick && onClick(datum, this as Element, event);
             })
             .transition("position")

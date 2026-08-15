@@ -8,18 +8,24 @@ exports[`Scatter using SVG should render correctly 1`] = `
       clip-path="url(#clip-path-test)"
     >
       <circle
+        aria-label="x: 5, y: 5"
         class="scatter-point"
         cx="25"
         cy="25"
         r="5"
+        role="img"
         style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        tabindex="0"
       />
       <circle
+        aria-label="x: 10, y: 10"
         class="scatter-point"
         cx="50"
         cy="50"
         r="5"
+        role="img"
         style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        tabindex="0"
       />
     </g>
   </svg>

@@ -1,5 +1,6 @@
 import { d3 } from "@chart-io/core";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
+import { fireEvent } from "@testing-library/react";
 import React from "react";
 
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
@@ -11,6 +12,8 @@ import {
     actionsIncludes,
     getBuffer,
     renderChart,
+    testFocus,
+    testKeyboardActivate,
     testMouseClick,
     testMouseExit,
     testMouseOver,
@@ -110,6 +113,72 @@ describe("Bar", () => {
                 jest.spyOn(store, "dispatch");
                 testMouseClick(container, "rect", onClick, expectedDatum);
             });
+
+            it("keyboard focus correctly", async () => {
+                const onMouseOver = jest.fn();
+
+                const { container } = await renderChart({
+                    children: <Bar x="x" y="y" onMouseOver={onMouseOver} />,
+                    data,
+                    scales,
+                });
+
+                await testFocus(container, "rect", onMouseOver, expectedDatum);
+            });
+
+            it("Enter key correctly", async () => {
+                const onClick = jest.fn();
+
+                const { container } = await renderChart({
+                    children: <Bar x="x" y="y" onClick={onClick} />,
+                    data,
+                    scales,
+                });
+
+                await testKeyboardActivate(container, "rect", onClick, expectedDatum, "Enter");
+            });
+
+            it("Space key correctly", async () => {
+                const onClick = jest.fn();
+
+                const { container } = await renderChart({
+                    children: <Bar x="x" y="y" onClick={onClick} />,
+                    data,
+                    scales,
+                });
+
+                await testKeyboardActivate(container, "rect", onClick, expectedDatum, " ");
+            });
+
+            it("should not activate on an unrelated key", async () => {
+                const onClick = jest.fn();
+
+                const { container } = await renderChart({
+                    children: <Bar x="x" y="y" onClick={onClick} />,
+                    data,
+                    scales,
+                });
+
+                const element = container.querySelector("rect");
+                fireEvent.keyDown(element, { key: "a" });
+
+                expect(onClick).not.toHaveBeenCalled();
+            });
+        });
+
+        it("should expose an accessible role and label on each bar", async () => {
+            const { container } = await renderChart({
+                children: <Bar x="x" y="y" />,
+                data,
+                scales,
+            });
+
+            const bars = container.querySelectorAll("rect.bar");
+            expect(bars).toHaveLength(2);
+            expect(bars[0]).toHaveAttribute("role", "img");
+            expect(bars[0]).toHaveAttribute("tabindex", "0");
+            expect(bars[0]).toHaveAttribute("aria-label", "A: 5");
+            expect(bars[1]).toHaveAttribute("aria-label", "B: 10");
         });
 
         describe("should skip rendering if", () => {

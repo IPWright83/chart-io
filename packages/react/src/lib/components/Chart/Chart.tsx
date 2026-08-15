@@ -1,7 +1,7 @@
 import { chartActions, exportImage } from "@chart-io/core";
 import type { IData, ILabeller, IMargin, IOnClick, IOnMouseOut, IOnMouseOver, ITheme } from "@chart-io/core";
 
-import React, { forwardRef, useEffect, useImperativeHandle, useRef } from "react";
+import React, { forwardRef, useEffect, useId, useImperativeHandle, useRef } from "react";
 import { useStore } from "react-redux";
 
 import { VirtualCanvas } from "../VirtualCanvas";
@@ -78,6 +78,27 @@ export interface IChartBaseProps {
      * @default undefined
      */
     labeller?: ILabeller;
+    /**
+     * An accessible name for the chart, exposed to assistive technology (e.g. screen readers) as the
+     * chart's `<title>`. Strongly recommended - without it the chart has no accessible name and is
+     * announced as a generic, unlabelled graphic
+     * @default undefined
+     */
+    title?: string;
+    /**
+     * An accessible description for the chart, exposed to assistive technology as the chart's `<desc>`.
+     * Use this for context a sighted user gets for free from surrounding page content (e.g. what the
+     * data represents, or the key takeaway) but a screen reader user wouldn't otherwise have
+     * @default undefined
+     */
+    description?: string;
+    /**
+     * The ARIA role applied to the chart's root SVG element. The default, `"img"`, treats the whole
+     * chart as a single graphic described by `title`/`description` - appropriate since most of the
+     * individual marks inside it aren't yet independently labelled for assistive technology
+     * @default "img"
+     */
+    role?: string;
 }
 
 export interface IChartRef {
@@ -111,10 +132,15 @@ export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
         onClick,
         theme = "light" as const,
         labeller,
+        title,
+        description,
+        role = "img",
     } = props;
 
     const store = useStore();
     const svgNode = useRef();
+    const titleID = useId();
+    const descriptionID = useId();
 
     useImperativeHandle(ref, () => ({
         exportImage: exportAsImage(svgNode.current, theme, width, height),
@@ -175,7 +201,14 @@ export const Chart = forwardRef<IChartRef, IChartBaseProps>((props, ref) => {
                 height={height}
                 ref={svgNode}
                 style={{ backgroundColor: themeOrCustom.background?.toString() }}
+                role={role}
+                tabIndex={0}
+                aria-labelledby={title ? titleID : undefined}
+                aria-label={title ? undefined : "Chart"}
+                aria-describedby={description ? descriptionID : undefined}
             >
+                {title && <title id={titleID}>{title}</title>}
+                {description && <desc id={descriptionID}>{description}</desc>}
                 {useCanvas ? <VirtualCanvas>{childrenWithProps}</VirtualCanvas> : childrenWithProps}
             </svg>
         </div>

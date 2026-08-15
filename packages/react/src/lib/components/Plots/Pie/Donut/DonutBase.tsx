@@ -187,6 +187,9 @@ export function DonutBase({
             .attr("data-corner-radius", cornerRadius)
             .style("opacity", theme.series.opacity)
             .style("fill", (d) => colorScale(`${d.data[category]}`).toString())
+            .attr("tabindex", interactive ? 0 : null)
+            .attr("role", "img")
+            .attr("aria-label", (d) => `${d.data[category]}: ${d.data[value]}`)
             .on("mouseover", function (event, d) {
                 // istanbul ignore next
                 if (!interactive) return;
@@ -205,10 +208,32 @@ export function DonutBase({
                 onFocus && onFocus(null);
                 onTooltip && onTooltip(null);
             })
+            .on("focus", function (event, d) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOver && onMouseOver(d.data, this, event);
+                onFocus && onFocus({ element: this, event, datum: d.data });
+            })
+            .on("blur", function (event, d) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOut && onMouseOut(d.data, this, event);
+                onFocus && onFocus(null);
+            })
             .on("click", function (event, d) {
                 // istanbul ignore next
                 if (!interactive) return;
 
+                onClick && onClick(d.data, this, event);
+            })
+            .on("keydown", function (event, d) {
+                // istanbul ignore next
+                if (!interactive) return;
+                if (event.key !== "Enter" && event.key !== " ") return;
+
+                event.preventDefault();
                 onClick && onClick(d.data, this, event);
             })
             .transition("arc")

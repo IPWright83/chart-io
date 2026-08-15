@@ -110,6 +110,12 @@ export function StackedColumnBase({
         const update = join
             .merge(enter)
             .style("opacity", theme.series.opacity)
+            .attr("tabindex", interactive ? 0 : null)
+            .attr("role", "img")
+            .attr("aria-label", (d, i, elements) => {
+                const key = getParentKey(elements[i] as Element);
+                return `${key}: ${d.data[key]}`;
+            })
             .on("mouseover", function (event: MouseEvent, d) {
                 // istanbul ignore next
                 if (!interactive) return;
@@ -132,10 +138,32 @@ export function StackedColumnBase({
                 onFocus && onFocus(null);
                 onTooltip && onTooltip(null);
             })
+            .on("focus", function (event, d) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOver && onMouseOver(d.data, this as Element, event);
+                onFocus && onFocus({ element: this as Element, event, datum: d.data });
+            })
+            .on("blur", function (event, d) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOut && onMouseOut(d.data, this as Element, event);
+                onFocus && onFocus(null);
+            })
             .on("click", function (event: MouseEvent, d) {
                 // istanbul ignore next
                 if (!interactive) return;
 
+                onClick && onClick(d.data, this as Element, event);
+            })
+            .on("keydown", function (event, d) {
+                // istanbul ignore next
+                if (!interactive) return;
+                if (event.key !== "Enter" && event.key !== " ") return;
+
+                event.preventDefault();
                 onClick && onClick(d.data, this as Element, event);
             })
             .transition("position")

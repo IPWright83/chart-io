@@ -273,6 +273,9 @@ export function StackedDonutBase({
             .style("opacity", theme.series.opacity)
             .style("fill", colorFor)
             .style("cursor", (node) => (interactive && (zoomable || node.children) ? "pointer" : "default"))
+            .attr("tabindex", interactive ? 0 : null)
+            .attr("role", "img")
+            .attr("aria-label", (node) => `${breadcrumb(node)}: ${node.data.datum[value]}`)
             .on("mouseover", function (event, node) {
                 // istanbul ignore next
                 if (!interactive) return;
@@ -293,10 +296,37 @@ export function StackedDonutBase({
                 onFocus && onFocus(null);
                 onTooltip && onTooltip(null);
             })
+            .on("focus", function (event, node) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                const datum = node.data.datum;
+                onMouseOver && onMouseOver(datum, this, event);
+                onFocus && onFocus({ element: this, event, datum });
+            })
+            .on("blur", function (event, node) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOut && onMouseOut(node.data.datum, this, event);
+                onFocus && onFocus(null);
+            })
             .on("click", function (event, node) {
                 // istanbul ignore next
                 if (!interactive) return;
 
+                onClick && onClick(node.data.datum, this, event);
+
+                if (zoomable && node.children) {
+                    zoomTo(ancestry(node));
+                }
+            })
+            .on("keydown", function (event, node) {
+                // istanbul ignore next
+                if (!interactive) return;
+                if (event.key !== "Enter" && event.key !== " ") return;
+
+                event.preventDefault();
                 onClick && onClick(node.data.datum, this, event);
 
                 if (zoomable && node.children) {
@@ -316,10 +346,21 @@ export function StackedDonutBase({
             .attr("r", innerRadiusPx)
             .style("fill", "transparent")
             .style("cursor", "pointer")
+            .attr("tabindex", interactive ? 0 : null)
+            .attr("role", "button")
+            .attr("aria-label", "Zoom out")
             .on("click", function () {
                 // istanbul ignore next
                 if (!interactive) return;
 
+                zoomTo(zoomPath.slice(0, -1));
+            })
+            .on("keydown", function (event) {
+                // istanbul ignore next
+                if (!interactive) return;
+                if (event.key !== "Enter" && event.key !== " ") return;
+
+                event.preventDefault();
                 zoomTo(zoomPath.slice(0, -1));
             });
 

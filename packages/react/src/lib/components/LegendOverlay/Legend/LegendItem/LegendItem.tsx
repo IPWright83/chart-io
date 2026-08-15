@@ -51,8 +51,12 @@ export function LegendItem({ name, icon, color, format = (name) => name }: ILege
     };
 
     return (
-        <div className="chart-io legend-item" style={styles.legendItem}>
-            {Shape && <Shape fill={color} />}
+        <div className="chart-io legend-item" role="listitem" style={styles.legendItem}>
+            {Shape && (
+                <span aria-hidden="true">
+                    <Shape fill={color} />
+                </span>
+            )}
             <div className="chart-io legend-values" style={styles.legendValues}>
                 <span className="chart-io legend-series-name" style={styles.legendSeriesName}>
                     {format(name)}

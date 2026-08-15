@@ -81,6 +81,9 @@ export function BarBase({
         const update = enter
             .merge(join)
             .style("opacity", theme.series.opacity)
+            .attr("tabindex", interactive ? 0 : null)
+            .attr("role", "img")
+            .attr("aria-label", (d) => `${d[y]}: ${d[x]}`)
             .on("mouseover", function (event, datum) {
                 // istanbul ignore next
                 if (!interactive) return;
@@ -97,10 +100,32 @@ export function BarBase({
                 onFocus && onFocus(null);
                 onTooltip && onTooltip(null);
             })
+            .on("focus", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOver && onMouseOver(datum, this, event);
+                onFocus && onFocus({ element: this, event, datum });
+            })
+            .on("blur", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOut && onMouseOut(datum, this, event);
+                onFocus && onFocus(null);
+            })
             .on("click", function (event, datum) {
                 // istanbul ignore next
                 if (!interactive) return;
 
+                onClick(datum, this, event);
+            })
+            .on("keydown", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+                if (event.key !== "Enter" && event.key !== " ") return;
+
+                event.preventDefault();
                 onClick(datum, this, event);
             })
             .transition("position")

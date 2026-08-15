@@ -6,9 +6,12 @@ exports[`RadialChart should create empty template correctly 1`] = `
     style="display: inline-block;"
   >
     <svg
+      aria-label="Chart"
       class="chart-svg"
       height="500"
+      role="img"
       style="background-color: rgb(255, 255, 255);"
+      tabindex="0"
       width="500"
     >
       <g

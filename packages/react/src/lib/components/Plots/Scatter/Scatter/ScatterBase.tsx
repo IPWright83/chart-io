@@ -101,23 +101,45 @@ export function ScatterBase({
         // Update new and existing points
         const update = enter // @ts-ignore
             .merge(join)
+            .attr("tabindex", interactive ? 0 : null)
+            .attr("role", "img")
+            .attr("aria-label", (d) => `${x}: ${d[x]}, ${y}: ${d[y]}`)
             .on("mouseover", function (event, datum) {
                 if (!interactive) return;
 
                 onMouseOver && onMouseOver(datum, this, event);
-                onTooltip && onTooltip({ datum, event, fillColor });
                 onFocus && onFocus({ element: this, event, datum });
+                onTooltip && onTooltip({ datum, event, fillColor });
             })
             .on("mouseout", function (event, datum) {
                 if (!interactive) return;
 
                 onMouseOut && onMouseOut(datum, this, event);
+                onFocus && onFocus(null);
                 onTooltip && onTooltip(null);
+            })
+            .on("focus", function (event, datum) {
+                if (!interactive) return;
+
+                onMouseOver && onMouseOver(datum, this, event);
+                onFocus && onFocus({ element: this, event, datum });
+            })
+            .on("blur", function (event, datum) {
+                if (!interactive) return;
+
+                onMouseOut && onMouseOut(datum, this, event);
                 onFocus && onFocus(null);
             })
             .on("click", function (event, datum) {
                 if (!interactive) return;
 
+                onClick && onClick(datum, this, event);
+            })
+            .on("keydown", function (event, datum) {
+                if (!interactive) return;
+                if (event.key !== "Enter" && event.key !== " ") return;
+
+                event.preventDefault();
                 onClick && onClick(datum, this, event);
             })
             .transition("scatter")

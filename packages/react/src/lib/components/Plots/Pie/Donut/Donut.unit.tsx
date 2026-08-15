@@ -1,6 +1,7 @@
+import { fireEvent } from "@testing-library/react";
 import React from "react";
 
-import { renderChart, wait } from "../../../../testUtils";
+import { renderChart, testFocus, testKeyboardActivate, wait } from "../../../../testUtils";
 import { Donut } from "./Donut";
 
 describe("Donut", () => {
@@ -29,5 +30,61 @@ describe("Donut", () => {
 
         await wait();
         expect(asFragment()).toMatchSnapshot();
+    });
+
+    it("should expose an accessible role and label on each slice", async () => {
+        const { container } = await renderChart({
+            children: <Donut category="category" value="value" />,
+            data,
+        });
+
+        await wait();
+
+        const slices = container.querySelectorAll(".pie-slice");
+        expect(slices).toHaveLength(2);
+        expect(slices[0]).toHaveAttribute("role", "img");
+        expect(slices[0]).toHaveAttribute("tabindex", "0");
+        expect(slices[0]).toHaveAttribute("aria-label", "A: 5");
+        expect(slices[1]).toHaveAttribute("aria-label", "B: 10");
+    });
+
+    describe("should handle event", () => {
+        it("keyboard focus correctly", async () => {
+            const onMouseOver = jest.fn();
+
+            const { container } = await renderChart({
+                children: <Donut category="category" value="value" onMouseOver={onMouseOver} />,
+                data,
+            });
+
+            await wait();
+            await testFocus(container, ".pie-slice", onMouseOver, { category: "A", value: 5 });
+        });
+
+        it("Enter key correctly", async () => {
+            const onClick = jest.fn();
+
+            const { container } = await renderChart({
+                children: <Donut category="category" value="value" onClick={onClick} />,
+                data,
+            });
+
+            await wait();
+            await testKeyboardActivate(container, ".pie-slice", onClick, { category: "A", value: 5 }, "Enter");
+        });
+
+        it("should not activate on an unrelated key", async () => {
+            const onClick = jest.fn();
+
+            const { container } = await renderChart({
+                children: <Donut category="category" value="value" onClick={onClick} />,
+                data,
+            });
+
+            await wait();
+            fireEvent.keyDown(container.querySelector(".pie-slice"), { key: "a" });
+
+            expect(onClick).not.toHaveBeenCalled();
+        });
     });
 });
