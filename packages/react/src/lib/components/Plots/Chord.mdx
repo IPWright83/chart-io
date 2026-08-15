@@ -1,0 +1,60 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as ChordStories from "./Chord.stories"
+
+<Meta title="Charts/Relational/Chord" />
+
+# Chord Plots
+
+The `<Chord>` component shows the flow between nodes built from `source`/`target` as ribbons connecting
+arcs arranged around a circle: each row of `data` is one flow, from the node named in `source` to the
+node named in `target`, sized by `value`. Each node's arc is sized proportionally to its total flow
+(incoming and outgoing combined), and each ribbon takes the color of its source node. It's a
+self-contained chart - like `<CirclePacking>`, it accepts chart-level props like `data`/`width`/`height`
+directly, since it only ever has a single plot.
+
+<Canvas of={ChordStories.Basic} />
+
+## `<Chord>` Component
+
+### Props
+
+| Prop            | Type       | Default             | Note                                                                                                          |
+| --------------- | ---------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **`source`\***  | `string`   | `null`               | The key of the field used for the "from" node of each flow.                                                     |
+| **`target`\***  | `string`   | `null`               | The key of the field used for the "to" node of each flow.                                                       |
+| **`value`\***   | `string`   | `null`               | The key of the field that contains the size of each flow between `source` and `target`.                        |
+| `innerRadius`   | `number`   | `0.8`                 | The inner radius of the group arcs, as a fraction (0-1) of the maximum available radius - also where the ribbons attach. |
+| `outerRadius`   | `number`   | `0.85`                | The outer radius of the group arcs, as a fraction (0-1) of the maximum available radius. Smaller than `<Donut>`'s default to leave room for the node labels. |
+| `padAngle`      | `number`   | `0.03`                | The angular gap, in radians, to leave between each group.                                                       |
+| `cornerRadius`  | `number`   | `0`                   | The corner radius, in pixels, to apply to each group arc.                                                       |
+| `labels`        | `boolean`  | `true`                | Should node labels be shown around the outside of the diagram?                                                  |
+| `sort`          | `boolean`  | `false`               | Should the groups be sorted by their total flow (descending), rather than using the order nodes first appear in the data? |
+| `colors`        | `string[]` | Derived from Theme   | Override the colours used for each node. Each ribbon takes the color of its source node.                       |
+| `interactive`   | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot             |
+| `showInLegend`  | `boolean`  | `true`                | Whether the plot should feature in the legend or not.                                                           |
+
+> **Note**: Every combination of the fields listed in `source`/`target` should be unique in the data. If
+> your data has multiple rows for the same combination, aggregate it first. A row whose `source` equals
+> its `target` has nowhere meaningful to be drawn, and is left out.
+
+Hovering a group shows the node's combined in/out flow in the tooltip; hovering a ribbon shows the flow
+for that direction - the underlying row when one exists, from `source` to `target`. Since a single ribbon
+visually represents the combined flow both ways between two nodes, only the `source → target` direction
+is shown even when both directions have data.
+
+### Using Canvas
+
+Like other plots, a `<Chord>` can be rendered using an HTML Canvas instead of SVG by setting `useCanvas`.
+
+<Canvas of={ChordStories.Canvas} />
+
+### Sorting
+
+Set `sort` to order the groups by their total flow (descending) instead of the order nodes first appear
+in the data:
+
+<Canvas of={ChordStories.Sorted} />
+
+```jsx
+<Chord source="from" target="to" value="trade" sort={true} />
+```
