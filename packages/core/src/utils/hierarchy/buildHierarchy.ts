@@ -1,6 +1,6 @@
 import { d3 } from "../../d3";
 import type { IData, IDatum } from "../../types";
-import { logWarning } from "../logger";
+import { ensureNoNegativeValues } from "../checks/ensureNoNegativeValues";
 
 export interface IHierarchyDatum {
     key: string;
@@ -70,10 +70,7 @@ export function buildHierarchy(
     sort: boolean,
     componentName: string,
 ): IHierarchyNode {
-    if (data.some((row) => Number(row[value]) < 0)) {
-        // prettier-ignore
-        logWarning("W009", `Negative values in the ${value} field aren't supported by <${componentName}> and have been treated as 0.`);
-    }
+    ensureNoNegativeValues(data, value, componentName);
 
     const children = buildLevels(data, categories, value);
     const root = d3.hierarchy<IHierarchyDatum>({ key: "root", children }).sum((d) => d.value ?? 0);

@@ -10,10 +10,6 @@ There are two closely related components for stacked, tapering plots, these incl
 -   `<Funnel>` - one trapezoid segment per row of data, narrowing from the widest at the top down to the narrowest at the bottom
 -   `<Pyramid>` - a `<Funnel>` turned upside down, so the widest segment forms the flat base at the bottom and the narrowest sits at the top
 
-Both are self-contained charts - unlike `<Bar>`/`<Line>` (which need an `<XYChart>` wrapper) or
-`<Pie>`/`<Radar>` (which need a `<RadialChart>` wrapper), `<Funnel>`/`<Pyramid>` accept chart-level
-props like `data`/`width`/`height` directly, since each only ever has a single plot.
-
 <Canvas of={FunnelStories.Basic} />
 
 ## `<Funnel>` Component
@@ -37,8 +33,7 @@ its bottom edge to taper towards.
 | `showInLegend`  | `boolean`  | `true`                | Whether the plot should feature in the legend or not.                                                         |
 
 `<Funnel>` also accepts the usual chart-level props - `data`, `width`, `height`, `plotMargin`,
-`theme`, `animationDuration`, `onClick`/`onMouseOver`/`onMouseOut` and so on - directly, since it's a
-self-contained chart.
+`theme`, `animationDuration`, `onClick`/`onMouseOver`/`onMouseOut` and so on - directly.
 
 ### Using Canvas
 
@@ -57,7 +52,9 @@ instead.
 ### Negative values
 
 A segment's width can't represent a negative value. If the dataset contains negative values in the
-`value` field, they're treated as `0`.
+`value` field, they're treated as `0` and a `W009` warning is logged - see [the `<StackedDonut>`
+docs](/docs/radialcharts-stackeddonut--docs) for the same behaviour on the polar equivalent of this
+chart.
 
 ## `<Pyramid>` Component
 

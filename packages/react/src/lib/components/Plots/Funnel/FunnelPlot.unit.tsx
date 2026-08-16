@@ -6,7 +6,15 @@ import { FunnelPlot } from "./FunnelPlot";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { getBuffer, renderChart, testMouseClick, testMouseOver, wait } from "../../../testUtils";
+import {
+    actionsIncludes,
+    getBuffer,
+    renderChart,
+    testMouseClick,
+    testMouseExit,
+    testMouseOver,
+    wait,
+} from "../../../testUtils";
 
 describe("FunnelPlot", () => {
     const expectedDatum = {
@@ -181,6 +189,84 @@ describe("FunnelPlot", () => {
 
             const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));
             expect(virtualCanvasBuffer).toMatchImageSnapshot();
+        });
+
+        describe("should handle event", () => {
+            // (100, 30) sits inside the Visitors segment's top-left-widest trapezoid (see the "using
+            // SVG should render correctly" snapshot for its exact points); (195, 195) sits outside
+            // every segment, in the empty space beside the narrow Customers segment at the bottom
+            const overSegment = { pageX: 100, pageY: 30, bubbles: true };
+            const outsideSegment = { pageX: 195, pageY: 195, bubbles: true };
+
+            it("mouseover correctly", async () => {
+                const onMouseOver = jest.fn();
+
+                const { container, store } = await renderChart({
+                    children: (
+                        <VirtualCanvas>
+                            <FunnelPlot category="stage" value="count" onMouseOver={onMouseOver} useCanvas={true} />
+                        </VirtualCanvas>
+                    ),
+                    data,
+                });
+
+                jest.spyOn(store, "dispatch");
+                await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
+
+                await testMouseOver(container, ".virtual-canvas", onMouseOver, expectedDatum, overSegment);
+
+                const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
+
+                actionsIncludes(dispatchCalls, [
+                    "event/setTooltipBorderColor",
+                    "event/addTooltipItem",
+                    "event/setPositionEvent",
+                ]);
+            });
+
+            it("mouseexit correctly", async () => {
+                const onMouseOut = jest.fn();
+
+                const { container, store } = await renderChart({
+                    children: (
+                        <VirtualCanvas>
+                            <FunnelPlot category="stage" value="count" onMouseOut={onMouseOut} useCanvas={true} />
+                        </VirtualCanvas>
+                    ),
+                    data,
+                });
+
+                jest.spyOn(store, "dispatch");
+                await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
+
+                await testMouseExit(container, ".virtual-canvas", onMouseOut, expectedDatum, overSegment, outsideSegment);
+
+                const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
+
+                actionsIncludes(dispatchCalls, [
+                    "event/setTooltipBorderColor",
+                    "event/addTooltipItem",
+                    "event/setPositionEvent",
+                    "event/removeTooltipItem",
+                ]);
+            });
+
+            it("click correctly", async () => {
+                const onClick = jest.fn();
+
+                const { container } = await renderChart({
+                    children: (
+                        <VirtualCanvas>
+                            <FunnelPlot category="stage" value="count" onClick={onClick} useCanvas={true} />
+                        </VirtualCanvas>
+                    ),
+                    data,
+                });
+
+                await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
+
+                await testMouseClick(container, ".virtual-canvas", onClick, expectedDatum, overSegment);
+            });
         });
     });
 });

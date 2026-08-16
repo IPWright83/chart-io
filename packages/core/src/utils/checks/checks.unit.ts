@@ -1,5 +1,6 @@
 import { d3 } from "../../d3";
 import { ensureBandwidth } from "./ensureBandwidth";
+import { ensureNoNegativeValues } from "./ensureNoNegativeValues";
 import { ensureNoScaleOverflow } from "./ensureNoScaleOverflow";
 import { ensureValuesAreUnique } from "./ensureValuesAreUnique";
 
@@ -65,6 +66,24 @@ describe("/utils/checks", () => {
             const field = "x";
 
             expect(ensureValuesAreUnique(data, field, "unit_test")).toBe(false);
+
+            expect(spy.mock.calls[0][0]).toMatchSnapshot();
+        });
+    });
+
+    describe("ensureNoNegativeValues", () => {
+        it("should return true if there are no negative values", () => {
+            const data = [{ x: 1 }, { x: 0 }, { x: 5 }];
+
+            expect(ensureNoNegativeValues(data, "x", "unit_test")).toBe(true);
+        });
+
+        it("should return false and warn if any values are negative", () => {
+            const spy = jest.spyOn(console, "warn").mockImplementation(jest.fn());
+
+            const data = [{ x: 1 }, { x: -5 }, { x: 5 }];
+
+            expect(ensureNoNegativeValues(data, "x", "unit_test")).toBe(false);
 
             expect(spy.mock.calls[0][0]).toMatchSnapshot();
         });

@@ -1,4 +1,4 @@
-import { chartSelectors, d3, ensureValuesAreUnique, IState } from "@chart-io/core";
+import { chartSelectors, d3, ensureNoNegativeValues, ensureValuesAreUnique, IState } from "@chart-io/core";
 import type { IColor, IDatum, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
 
 import React, { useMemo } from "react";
@@ -113,6 +113,7 @@ export function FunnelBase({
 
     useRender(() => {
         ensureValuesAreUnique(data, category, "Funnel");
+        ensureNoNegativeValues(data, value, "Funnel");
 
         // @ts-ignore: TODO: Not sure how to fix this
         const colorScale = d3.scaleOrdinal<string>().domain(categories).range(palette);
