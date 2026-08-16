@@ -25,7 +25,7 @@ exports[`Scatter using SVG should render correctly 1`] = `
         r="5"
         role="img"
         style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
-        tabindex="0"
+        tabindex="-1"
       />
     </g>
   </svg>

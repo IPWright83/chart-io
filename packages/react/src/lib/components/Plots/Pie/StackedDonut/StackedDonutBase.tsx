@@ -8,11 +8,12 @@ import {
 } from "@chart-io/core";
 import type { IColor, IData, IHierarchyDatum, IHierarchyNode, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { useLegendItems, useRender } from "../../../../hooks";
 
+import { applyRovingTabIndex } from "../../applyRovingTabIndex";
 import { renderCanvas } from "../../renderCanvas";
 import type { IArcAngles } from "../interpolateArc";
 import { interpolateArc } from "../interpolateArc";
@@ -180,6 +181,7 @@ export function StackedDonutBase({
     useLegendItems(legendKeys, "square", showInLegend, legendColors);
     const onTooltip = useTooltip();
     const onFocus = useFocused(theme, { canvas, width, height, layer });
+    const rovingIndexRef = useRef(0);
 
     useRender(() => {
         ensureCombinationsAreUnique(data, categories, "StackedDonut");
@@ -273,7 +275,6 @@ export function StackedDonutBase({
             .style("opacity", theme.series.opacity)
             .style("fill", colorFor)
             .style("cursor", (node) => (interactive && (zoomable || node.children) ? "pointer" : "default"))
-            .attr("tabindex", interactive ? 0 : null)
             .attr("role", "img")
             .attr("aria-label", (node) => `${breadcrumb(node)}: ${node.data.datum[value]}`)
             .on("mouseover", function (event, node) {
@@ -333,6 +334,8 @@ export function StackedDonutBase({
                     zoomTo(ancestry(node));
                 }
             });
+
+        applyRovingTabIndex(slicesUpdate, rovingIndexRef, interactive);
 
         // The focused node itself is never rendered as a slice - it's the empty center hole. While
         // zoomed in, render an invisible circle there as a real, interactive shape (rather than

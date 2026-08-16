@@ -9,10 +9,12 @@ import {
 } from "@chart-io/core";
 import type { IColor, IDatum, IEventPlotProps } from "@chart-io/core";
 
+import { useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { useLegendItems, useRender } from "../../../../hooks";
 
+import { applyRovingTabIndex } from "../../applyRovingTabIndex";
 import { renderCanvas } from "../../renderCanvas";
 import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
@@ -63,6 +65,7 @@ export function StackedColumnBase({
 
     const onTooltip = useTooltip({ x });
     const onFocus = useFocused({ xScale, theme, grouped: false });
+    const rovingIndexRef = useRef(0);
 
     useLegendItems(ys, "square", showInLegend, colors);
 
@@ -110,12 +113,15 @@ export function StackedColumnBase({
         const update = join
             .merge(enter)
             .style("opacity", theme.series.opacity)
-            .attr("tabindex", interactive ? 0 : null)
             .attr("role", "img")
             .attr("aria-label", (d, i, elements) => {
                 const key = getParentKey(elements[i] as Element);
                 return `${key}: ${d.data[key]}`;
-            })
+            });
+
+        applyRovingTabIndex(update, rovingIndexRef, interactive);
+
+        const transitioned = update
             .on("mouseover", function (event: MouseEvent, d) {
                 // istanbul ignore next
                 if (!interactive) return;
@@ -182,7 +188,7 @@ export function StackedColumnBase({
             .attr("y", (d) => yScale(d[1]));
 
         // @ts-ignore: TODO: Work out how to fix this
-        renderCanvas(canvas, renderVirtualCanvas, width, height, update);
+        renderCanvas(canvas, renderVirtualCanvas, width, height, transitioned);
     }, [x, ys, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);
 
     return null;

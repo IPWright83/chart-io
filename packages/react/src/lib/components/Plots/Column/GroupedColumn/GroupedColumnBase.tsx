@@ -1,10 +1,12 @@
 import { chartSelectors, d3, ensureBandwidth, getBandwidthAndOffset, IState } from "@chart-io/core";
 import type { IColor, IDatum, IEventPlotProps, INumericValue } from "@chart-io/core";
 
+import { useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { useLegendItems, useRender } from "../../../../hooks";
 
+import { applyRovingTabIndex } from "../../applyRovingTabIndex";
 import { renderCanvas } from "../../renderCanvas";
 import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
@@ -54,6 +56,7 @@ export function GroupedColumnBase({
 
     const onTooltip = useTooltip({ x });
     const onFocus = useFocused({ xScale, theme, grouped: true });
+    const rovingIndexRef = useRef(0);
 
     useLegendItems(ys, "square", showInLegend, colors);
 
@@ -93,9 +96,12 @@ export function GroupedColumnBase({
         const update = join
             .merge(enter)
             .style("opacity", theme.series.opacity)
-            .attr("tabindex", interactive ? 0 : null)
             .attr("role", "img")
-            .attr("aria-label", (d) => `${d.key}: ${d.value}`)
+            .attr("aria-label", (d) => `${d.key}: ${d.value}`);
+
+        applyRovingTabIndex(update, rovingIndexRef, interactive);
+
+        const transitioned = update
             .on("mouseover", function (event, datum) {
                 // istanbul ignore next
                 if (!interactive) return;
@@ -153,7 +159,7 @@ export function GroupedColumnBase({
             .attr("y", (d) => yScale(d.value as INumericValue));
 
         // @ts-ignore: TODO: Work out how to fix this
-        renderCanvas(canvas, renderVirtualCanvas, width, height, update);
+        renderCanvas(canvas, renderVirtualCanvas, width, height, transitioned);
     }, [x, ys, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);
 
     return null;

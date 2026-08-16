@@ -48,6 +48,25 @@ describe("Donut", () => {
         expect(slices[1]).toHaveAttribute("aria-label", "B: 10");
     });
 
+    it("should only put the first slice in the Tab order (roving tabindex)", async () => {
+        const { container } = await renderChart({
+            children: <Donut category="category" value="value" />,
+            data,
+        });
+
+        await wait();
+
+        const slices = container.querySelectorAll(".pie-slice");
+        expect(slices[0]).toHaveAttribute("tabindex", "0");
+        expect(slices[1]).toHaveAttribute("tabindex", "-1");
+
+        fireEvent.keyDown(slices[0], { key: "ArrowRight" });
+
+        expect(slices[0]).toHaveAttribute("tabindex", "-1");
+        expect(slices[1]).toHaveAttribute("tabindex", "0");
+        expect(document.activeElement).toBe(slices[1]);
+    });
+
     describe("should handle event", () => {
         it("keyboard focus correctly", async () => {
             const onMouseOver = jest.fn();

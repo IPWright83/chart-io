@@ -39,7 +39,7 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-start-angle="3.141592653589793"
         role="img"
         style="fill: #fc998e; opacity: 0.7; cursor: pointer;"
-        tabindex="0"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
@@ -57,7 +57,7 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-start-angle="0"
         role="img"
         style="fill: rgb(153, 193, 220); opacity: 0.7; cursor: pointer;"
-        tabindex="0"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
@@ -75,7 +75,7 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-start-angle="1.5707963267948966"
         role="img"
         style="fill: rgb(198, 220, 235); opacity: 0.7; cursor: pointer;"
-        tabindex="0"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
@@ -93,7 +93,7 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-start-angle="3.141592653589793"
         role="img"
         style="fill: rgb(252, 153, 142); opacity: 0.7; cursor: pointer;"
-        tabindex="0"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
@@ -111,7 +111,7 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-start-angle="0"
         role="img"
         style="fill: rgb(153, 193, 220); opacity: 0.7; cursor: pointer;"
-        tabindex="0"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
@@ -129,7 +129,7 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-start-angle="1.5707963267948966"
         role="img"
         style="fill: rgb(198, 220, 235); opacity: 0.7; cursor: pointer;"
-        tabindex="0"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
@@ -147,7 +147,7 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-start-angle="3.141592653589793"
         role="img"
         style="fill: rgb(252, 153, 142); opacity: 0.7; cursor: pointer;"
-        tabindex="0"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
     </g>
@@ -194,7 +194,7 @@ exports[`StackedDonut using SVG should render correctly 1`] = `
         data-start-angle="3.141592653589793"
         role="img"
         style="fill: #fc998e; opacity: 0.7; cursor: pointer;"
-        tabindex="0"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
@@ -212,7 +212,7 @@ exports[`StackedDonut using SVG should render correctly 1`] = `
         data-start-angle="0"
         role="img"
         style="fill: rgb(153, 193, 220); opacity: 0.7; cursor: pointer;"
-        tabindex="0"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
@@ -230,7 +230,7 @@ exports[`StackedDonut using SVG should render correctly 1`] = `
         data-start-angle="1.5707963267948966"
         role="img"
         style="fill: rgb(198, 220, 235); opacity: 0.7; cursor: pointer;"
-        tabindex="0"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
@@ -248,7 +248,7 @@ exports[`StackedDonut using SVG should render correctly 1`] = `
         data-start-angle="3.141592653589793"
         role="img"
         style="fill: rgb(252, 153, 142); opacity: 0.7; cursor: pointer;"
-        tabindex="0"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
     </g>

@@ -1,10 +1,12 @@
 import { chartSelectors, d3, ensureBandwidth, getBandwidthAndOffset, IState } from "@chart-io/core";
 import type { IColor, IDatum, IEventPlotProps, INumericValue, IValue } from "@chart-io/core";
 
+import { useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { useLegendItems, useRender } from "../../../../hooks";
 
+import { applyRovingTabIndex } from "../../applyRovingTabIndex";
 import { renderCanvas } from "../../renderCanvas";
 import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
@@ -57,6 +59,7 @@ export function GroupedBarBase({
 
     const onTooltip = useTooltip({ y });
     const onFocus = useFocused({ yScale, theme, grouped: true });
+    const rovingIndexRef = useRef(0);
 
     useLegendItems(xs, "square", showInLegend, colors);
 
@@ -96,9 +99,12 @@ export function GroupedBarBase({
 
         const update = join
             .merge(enter)
-            .attr("tabindex", interactive ? 0 : null)
             .attr("role", "img")
-            .attr("aria-label", (d) => `${d.key}: ${d.value}`)
+            .attr("aria-label", (d) => `${d.key}: ${d.value}`);
+
+        applyRovingTabIndex(update, rovingIndexRef, interactive);
+
+        const transitioned = update
             .on("mouseover", function (event, datum) {
                 // istanbul ignore next
                 if (!interactive) return;
@@ -155,7 +161,7 @@ export function GroupedBarBase({
             .attr("width", (d) => xScale(d.value as INumericValue) - (xScale.range()[0] as number))
             .attr("x", () => xScale.range()[0] as number) as d3.Transition<SVGRectElement, { key: string; value: IValue; }, SVGGElement, IDatum>;
 
-        renderCanvas(canvas, renderVirtualCanvas, width, height, update);
+        renderCanvas(canvas, renderVirtualCanvas, width, height, transitioned);
     }, [y, xs, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);
 
     return null;

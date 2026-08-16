@@ -39,7 +39,7 @@ exports[`Donut should allow the innerRadius to be overridden 1`] = `
         data-start-angle="2.0943951023931953"
         role="img"
         style="fill: #fc998e; opacity: 0.7;"
-        tabindex="0"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
     </g>
@@ -86,7 +86,7 @@ exports[`Donut should default to a non-zero innerRadius 1`] = `
         data-start-angle="2.0943951023931953"
         role="img"
         style="fill: #fc998e; opacity: 0.7;"
-        tabindex="0"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
     </g>

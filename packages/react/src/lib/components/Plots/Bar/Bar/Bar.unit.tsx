@@ -176,9 +176,65 @@ describe("Bar", () => {
             const bars = container.querySelectorAll("rect.bar");
             expect(bars).toHaveLength(2);
             expect(bars[0]).toHaveAttribute("role", "img");
-            expect(bars[0]).toHaveAttribute("tabindex", "0");
             expect(bars[0]).toHaveAttribute("aria-label", "A: 5");
             expect(bars[1]).toHaveAttribute("aria-label", "B: 10");
+        });
+
+        it("should only put the first bar in the Tab order (roving tabindex)", async () => {
+            const { container } = await renderChart({
+                children: <Bar x="x" y="y" />,
+                data,
+                scales,
+            });
+
+            const bars = container.querySelectorAll("rect.bar");
+            expect(bars[0]).toHaveAttribute("tabindex", "0");
+            expect(bars[1]).toHaveAttribute("tabindex", "-1");
+        });
+
+        it("should move the roving tabindex to the next bar on ArrowRight", async () => {
+            const { container } = await renderChart({
+                children: <Bar x="x" y="y" />,
+                data,
+                scales,
+            });
+
+            const bars = container.querySelectorAll("rect.bar");
+            fireEvent.keyDown(bars[0], { key: "ArrowRight" });
+
+            expect(bars[0]).toHaveAttribute("tabindex", "-1");
+            expect(bars[1]).toHaveAttribute("tabindex", "0");
+            expect(document.activeElement).toBe(bars[1]);
+        });
+
+        it("should not move the roving tabindex past the last bar", async () => {
+            const { container } = await renderChart({
+                children: <Bar x="x" y="y" />,
+                data,
+                scales,
+            });
+
+            const bars = container.querySelectorAll("rect.bar");
+            fireEvent.keyDown(bars[0], { key: "End" });
+            fireEvent.keyDown(bars[1], { key: "ArrowRight" });
+
+            expect(bars[1]).toHaveAttribute("tabindex", "0");
+        });
+
+        it("should move the roving tabindex to the previous bar on ArrowLeft", async () => {
+            const { container } = await renderChart({
+                children: <Bar x="x" y="y" />,
+                data,
+                scales,
+            });
+
+            const bars = container.querySelectorAll("rect.bar");
+            fireEvent.keyDown(bars[0], { key: "End" });
+            fireEvent.keyDown(bars[1], { key: "ArrowLeft" });
+
+            expect(bars[0]).toHaveAttribute("tabindex", "0");
+            expect(bars[1]).toHaveAttribute("tabindex", "-1");
+            expect(document.activeElement).toBe(bars[0]);
         });
 
         describe("should skip rendering if", () => {

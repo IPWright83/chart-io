@@ -25,7 +25,7 @@ exports[`Scatters using SVG should render correctly 1`] = `
         r="5"
         role="img"
         style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
-        tabindex="0"
+        tabindex="-1"
       />
     </g>
     <g
@@ -50,7 +50,7 @@ exports[`Scatters using SVG should render correctly 1`] = `
         r="5"
         role="img"
         style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
-        tabindex="0"
+        tabindex="-1"
       />
     </g>
   </svg>

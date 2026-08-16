@@ -1,12 +1,14 @@
 import { chartSelectors, d3, IState } from "@chart-io/core";
 import type { IDatum, IEventPlotProps, INumericValue } from "@chart-io/core";
 
+import { useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { useFocused } from "./useFocused";
 import { useTooltip } from "./useTooltip";
 
 import { useLegendItem, useRender } from "../../../../hooks";
+import { applyRovingTabIndex } from "../../applyRovingTabIndex";
 import { IBandwidthScale } from "../../IBandwidthScale";
 import { renderCanvas } from "../../renderCanvas";
 
@@ -64,6 +66,7 @@ export function ScatterBase({
 
     const onFocus = useFocused({ xScale, yScale });
     const onTooltip = useTooltip({ x, y });
+    const rovingIndexRef = useRef(0);
 
     // This is the main render function
     useRender(() => {
@@ -101,9 +104,12 @@ export function ScatterBase({
         // Update new and existing points
         const update = enter // @ts-ignore
             .merge(join)
-            .attr("tabindex", interactive ? 0 : null)
             .attr("role", "img")
-            .attr("aria-label", (d) => `${x}: ${d[x]}, ${y}: ${d[y]}`)
+            .attr("aria-label", (d) => `${x}: ${d[x]}, ${y}: ${d[y]}`);
+
+        applyRovingTabIndex(update, rovingIndexRef, interactive);
+
+        const transitioned = update
             .on("mouseover", function (event, datum) {
                 if (!interactive) return;
 
@@ -149,7 +155,7 @@ export function ScatterBase({
             .attr("r", (d) => (z ? zScale(d[z] as INumericValue) : radius))
             .style("fill", () => fillColor.toString());
 
-        renderCanvas(canvas, renderVirtualCanvas, width, height, update, exit);
+        renderCanvas(canvas, renderVirtualCanvas, width, height, transitioned, exit);
     }, [
         x,
         y,
