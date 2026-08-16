@@ -85,7 +85,9 @@ describe("/utils/checks", () => {
 
             expect(ensureNoNegativeValues(data, "x", "unit_test")).toBe(false);
 
-            expect(spy.mock.calls[0][0]).toMatchSnapshot();
+            expect(spy.mock.calls[0][0]).toBe(
+                "@chart-io encountered an warning. W009: Negative values in the x field aren't supported by <unit_test> and have been treated as 0.. You can read more about this https://ipwright83.github.io/chart-io/?path=/docs/errors-warnings-warnings-W009.",
+            );
         });
     });
 });
