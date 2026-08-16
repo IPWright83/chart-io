@@ -12,9 +12,12 @@ exports[`renders learn react link 1`] = `
         style="display: inline-block;"
       >
         <svg
+          aria-label="Chart"
           class="chart-svg"
           height="500"
+          role="img"
           style="background-color: rgb(255, 255, 255);"
+          tabindex="0"
           width="500"
         >
           <g
@@ -811,18 +814,24 @@ exports[`renders learn react link 1`] = `
             clip-path="url(#clip-path-test-chart)"
           >
             <circle
+              aria-label="x: 5, y: 5"
               class="scatter-point"
               cx="250"
               cy="250"
               r="5"
+              role="img"
               style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+              tabindex="0"
             />
             <circle
+              aria-label="x: 10, y: 10"
               class="scatter-point"
               cx="470"
               cy="30"
               r="5"
+              role="img"
               style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+              tabindex="0"
             />
           </g>
           <g
