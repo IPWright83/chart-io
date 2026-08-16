@@ -8,17 +8,23 @@ exports[`Column using SVG should render correctly 1`] = `
       clip-path="url(#clip-path-test)"
     >
       <rect
+        aria-label="A: 5"
         class="column"
         height="0"
+        role="img"
         style="fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        tabindex="0"
         width="50"
         x="0"
         y="100"
       />
       <rect
+        aria-label="B: 10"
         class="column"
         height="0"
+        role="img"
         style="fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+        tabindex="-1"
         width="50"
         x="50"
         y="100"

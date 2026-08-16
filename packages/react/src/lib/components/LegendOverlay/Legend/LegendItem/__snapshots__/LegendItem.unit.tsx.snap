@@ -4,12 +4,17 @@ exports[`LegendItem should render correctly 1`] = `
 <DocumentFragment>
   <div
     class="chart-io legend-item"
+    role="listitem"
     style="display: flex; flex-direction: row; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
   >
-    <div
-      class="chart-io indicator-circle"
-      style="background: red; width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%; flex-shrink: 0;"
-    />
+    <span
+      aria-hidden="true"
+    >
+      <div
+        class="chart-io indicator-circle"
+        style="background: red; width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%; flex-shrink: 0;"
+      />
+    </span>
     <div
       class="chart-io legend-values"
       style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"

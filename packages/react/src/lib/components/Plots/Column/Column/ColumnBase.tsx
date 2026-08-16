@@ -1,10 +1,12 @@
 import { chartSelectors, d3, ensureBandwidth, ensureValuesAreUnique, getBandwidthAndOffset, IState } from "@chart-io/core";
 import type { IEventPlotProps, INumericValue } from "@chart-io/core";
 
+import { useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { useLegendItem, useRender } from "../../../../hooks";
 
+import { applyRovingTabIndex } from "../../applyRovingTabIndex";
 import { renderCanvas } from "../../renderCanvas";
 import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
@@ -49,6 +51,7 @@ export function ColumnBase({
     useLegendItem(y, "square", showInLegend, fillColor);
     const onTooltip = useTooltip({ x });
     const onFocus = useFocused({ xScale, theme, grouped: false });
+    const rovingIndexRef = useRef(0);
 
     useRender(() => {
         const { bandwidth, offset } = getBandwidthAndOffset(xScale, x, data);
@@ -81,6 +84,12 @@ export function ColumnBase({
         const update = enter
             .merge(join)
             .style("opacity", theme.series.opacity)
+            .attr("role", "img")
+            .attr("aria-label", (d) => `${d[x]}: ${d[y]}`);
+
+        applyRovingTabIndex(update, rovingIndexRef, interactive);
+
+        const transitioned = update
             .on("mouseover", function (event, datum) {
                 // istanbul ignore next
                 if (!interactive) return;
@@ -97,10 +106,32 @@ export function ColumnBase({
                 onFocus && onFocus(null);
                 onTooltip && onTooltip(null);
             })
+            .on("focus", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOver && onMouseOver(datum, this, event);
+                onFocus && onFocus({ element: this, event, datum });
+            })
+            .on("blur", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOut && onMouseOut(datum, this, event);
+                onFocus && onFocus(null);
+            })
             .on("click", function (event, datum) {
                 // istanbul ignore next
                 if (!interactive) return;
 
+                onClick && onClick(datum, this, event);
+            })
+            .on("keydown", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+                if (event.key !== "Enter" && event.key !== " ") return;
+
+                event.preventDefault();
                 onClick && onClick(datum, this, event);
             })
             .transition("position")
@@ -116,7 +147,7 @@ export function ColumnBase({
             .attr("y", (d) => yScale(d[y] as INumericValue))
             .attr("height", (d) => (yScale.range()[0] as number) - yScale(d[y] as INumericValue));
 
-        renderCanvas(canvas, renderVirtualCanvas, width, height, update);
+        renderCanvas(canvas, renderVirtualCanvas, width, height, transitioned);
     }, [
         x,
         y,

@@ -98,3 +98,40 @@ export async function testMouseExit(
 
     expect(callback).toHaveBeenCalledWith(expected, expect.anything(), expect.anything());
 }
+
+/**
+ * Simulates focusing an element via the keyboard (e.g. Tab)
+ * @param  container             The container to apply a css selector to
+ * @param  selector              The css selector to apply to find the element
+ * @param  callback              The callback that we expect to have been called
+ * @param  expected              The arguments that we expect the callback to have been called with
+ */
+export async function testFocus(container: HTMLElement, selector: string, callback: () => void, expected: unknown) {
+    const element = container.querySelector(selector);
+
+    fireEvent.focus(element);
+
+    expect(callback).toHaveBeenCalledWith(expected, expect.anything(), expect.anything());
+}
+
+/**
+ * Simulates activating a focused element via the keyboard (Enter or Space)
+ * @param  container             The container to apply a css selector to
+ * @param  selector              The css selector to apply to find the element
+ * @param  callback              The callback that we expect to have been called
+ * @param  expected              The arguments that we expect the callback to have been called with
+ * @param  key                   The key used to activate the element
+ */
+export async function testKeyboardActivate(
+    container: HTMLElement,
+    selector: string,
+    callback: () => void,
+    expected: unknown,
+    key: "Enter" | " " = "Enter",
+) {
+    const element = container.querySelector(selector);
+
+    fireEvent.keyDown(element, { key });
+
+    expect(callback).toHaveBeenCalledWith(expected, expect.anything(), expect.anything());
+}

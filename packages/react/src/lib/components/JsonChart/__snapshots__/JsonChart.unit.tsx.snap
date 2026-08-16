@@ -6,9 +6,12 @@ exports[`JsonChart should create empty template correctly 1`] = `
     style="display: inline-block;"
   >
     <svg
+      aria-label="Chart"
       class="chart-svg"
       height="500"
+      role="img"
       style="background-color: rgb(255, 255, 255);"
+      tabindex="0"
       width="800"
     >
       <g
@@ -805,25 +808,34 @@ exports[`JsonChart should create empty template correctly 1`] = `
         clip-path="url(#clip-path-0000)"
       >
         <circle
+          aria-label="x: 0, y: 10"
           class="scatter-point"
           cx="30"
           cy="30"
           r="0"
+          role="img"
           style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+          tabindex="0"
         />
         <circle
+          aria-label="x: 5, y: 5"
           class="scatter-point"
           cx="400"
           cy="250"
           r="0"
+          role="img"
           style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+          tabindex="-1"
         />
         <circle
+          aria-label="x: 10, y: 0"
           class="scatter-point"
           cx="770"
           cy="470"
           r="0"
+          role="img"
           style="stroke: rgb(107, 135, 154); fill: rgba(153, 193, 220, 0.7); opacity: 0.7;"
+          tabindex="-1"
         />
       </g>
       <g
@@ -831,25 +843,34 @@ exports[`JsonChart should create empty template correctly 1`] = `
         clip-path="url(#clip-path-0000)"
       >
         <circle
+          aria-label="x: 0, y2: 0"
           class="scatter-point"
           cx="30"
           cy="470"
           r="0"
+          role="img"
           style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+          tabindex="0"
         />
         <circle
+          aria-label="x: 5, y2: 5"
           class="scatter-point"
           cx="400"
           cy="250"
           r="0"
+          role="img"
           style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+          tabindex="-1"
         />
         <circle
+          aria-label="x: 10, y2: 10"
           class="scatter-point"
           cx="770"
           cy="30"
           r="0"
+          role="img"
           style="stroke: rgb(176, 107, 99); fill: rgba(252, 153, 142, 0.7); opacity: 0.7;"
+          tabindex="-1"
         />
       </g>
       <g
@@ -870,17 +891,24 @@ exports[`JsonChart should create empty template correctly 1`] = `
           width="800"
         >
           <div
+            aria-label="Legend"
             class="chart-io legend"
+            role="list"
             style="border: thin solid #ccc; display: flex; flex-direction: column; flex-wrap: wrap; position: absolute; right: 10px; transform: translateY(-50%); top: 50%; max-width: 200px; max-height: 460px; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden;"
           >
             <div
               class="chart-io legend-item"
+              role="listitem"
               style="display: flex; flex-direction: row; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
             >
-              <div
-                class="chart-io indicator-circle"
-                style="background: rgba(153, 193, 220, 0.7); width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%; flex-shrink: 0;"
-              />
+              <span
+                aria-hidden="true"
+              >
+                <div
+                  class="chart-io indicator-circle"
+                  style="background: rgba(153, 193, 220, 0.7); width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%; flex-shrink: 0;"
+                />
+              </span>
               <div
                 class="chart-io legend-values"
                 style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"
@@ -895,12 +923,17 @@ exports[`JsonChart should create empty template correctly 1`] = `
             </div>
             <div
               class="chart-io legend-item"
+              role="listitem"
               style="display: flex; flex-direction: row; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
             >
-              <div
-                class="chart-io indicator-circle"
-                style="background: rgba(252, 153, 142, 0.7); width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%; flex-shrink: 0;"
-              />
+              <span
+                aria-hidden="true"
+              >
+                <div
+                  class="chart-io indicator-circle"
+                  style="background: rgba(252, 153, 142, 0.7); width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%; flex-shrink: 0;"
+                />
+              </span>
               <div
                 class="chart-io legend-values"
                 style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"

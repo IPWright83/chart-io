@@ -1,12 +1,14 @@
 import { chartSelectors, d3, IState } from "@chart-io/core";
 import type { IDatum, IEventPlotProps, INumericValue } from "@chart-io/core";
 
+import { useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { useFocused } from "./useFocused";
 import { useTooltip } from "./useTooltip";
 
 import { useLegendItem, useRender } from "../../../../hooks";
+import { applyRovingTabIndex } from "../../applyRovingTabIndex";
 import { IBandwidthScale } from "../../IBandwidthScale";
 import { renderCanvas } from "../../renderCanvas";
 
@@ -64,6 +66,7 @@ export function ScatterBase({
 
     const onFocus = useFocused({ xScale, yScale });
     const onTooltip = useTooltip({ x, y });
+    const rovingIndexRef = useRef(0);
 
     // This is the main render function
     useRender(() => {
@@ -101,23 +104,48 @@ export function ScatterBase({
         // Update new and existing points
         const update = enter // @ts-ignore
             .merge(join)
+            .attr("role", "img")
+            .attr("aria-label", (d) => `${x}: ${d[x]}, ${y}: ${d[y]}`);
+
+        applyRovingTabIndex(update, rovingIndexRef, interactive);
+
+        const transitioned = update
             .on("mouseover", function (event, datum) {
                 if (!interactive) return;
 
                 onMouseOver && onMouseOver(datum, this, event);
-                onTooltip && onTooltip({ datum, event, fillColor });
                 onFocus && onFocus({ element: this, event, datum });
+                onTooltip && onTooltip({ datum, event, fillColor });
             })
             .on("mouseout", function (event, datum) {
                 if (!interactive) return;
 
                 onMouseOut && onMouseOut(datum, this, event);
+                onFocus && onFocus(null);
                 onTooltip && onTooltip(null);
+            })
+            .on("focus", function (event, datum) {
+                if (!interactive) return;
+
+                onMouseOver && onMouseOver(datum, this, event);
+                onFocus && onFocus({ element: this, event, datum });
+            })
+            .on("blur", function (event, datum) {
+                if (!interactive) return;
+
+                onMouseOut && onMouseOut(datum, this, event);
                 onFocus && onFocus(null);
             })
             .on("click", function (event, datum) {
                 if (!interactive) return;
 
+                onClick && onClick(datum, this, event);
+            })
+            .on("keydown", function (event, datum) {
+                if (!interactive) return;
+                if (event.key !== "Enter" && event.key !== " ") return;
+
+                event.preventDefault();
                 onClick && onClick(datum, this, event);
             })
             .transition("scatter")
@@ -127,7 +155,7 @@ export function ScatterBase({
             .attr("r", (d) => (z ? zScale(d[z] as INumericValue) : radius))
             .style("fill", () => fillColor.toString());
 
-        renderCanvas(canvas, renderVirtualCanvas, width, height, update, exit);
+        renderCanvas(canvas, renderVirtualCanvas, width, height, transitioned, exit);
     }, [
         x,
         y,

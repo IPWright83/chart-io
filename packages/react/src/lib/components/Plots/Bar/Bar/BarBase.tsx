@@ -1,10 +1,12 @@
 import { chartSelectors, d3, ensureBandwidth, ensureValuesAreUnique, getBandwidthAndOffset, IState } from "@chart-io/core";
 import type { IDatum, IEventPlotProps, INumericValue } from "@chart-io/core";
 
+import { useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { useLegendItem, useRender } from "../../../../hooks";
 
+import { applyRovingTabIndex } from "../../applyRovingTabIndex";
 import { renderCanvas } from "../../renderCanvas";
 import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
@@ -49,6 +51,7 @@ export function BarBase({
     useLegendItem(x, "square", showInLegend, fillColor);
     const onTooltip = useTooltip({ y });
     const onFocus = useFocused({ yScale, theme, grouped: false });
+    const rovingIndexRef = useRef(0);
 
     useRender(() => {
         const { bandwidth, offset } = getBandwidthAndOffset(yScale, y, data);
@@ -81,6 +84,12 @@ export function BarBase({
         const update = enter
             .merge(join)
             .style("opacity", theme.series.opacity)
+            .attr("role", "img")
+            .attr("aria-label", (d) => `${d[y]}: ${d[x]}`);
+
+        applyRovingTabIndex(update, rovingIndexRef, interactive);
+
+        const transitioned = update
             .on("mouseover", function (event, datum) {
                 // istanbul ignore next
                 if (!interactive) return;
@@ -97,10 +106,32 @@ export function BarBase({
                 onFocus && onFocus(null);
                 onTooltip && onTooltip(null);
             })
+            .on("focus", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOver && onMouseOver(datum, this, event);
+                onFocus && onFocus({ element: this, event, datum });
+            })
+            .on("blur", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOut && onMouseOut(datum, this, event);
+                onFocus && onFocus(null);
+            })
             .on("click", function (event, datum) {
                 // istanbul ignore next
                 if (!interactive) return;
 
+                onClick(datum, this, event);
+            })
+            .on("keydown", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+                if (event.key !== "Enter" && event.key !== " ") return;
+
+                event.preventDefault();
                 onClick(datum, this, event);
             })
             .transition("position")
@@ -116,7 +147,7 @@ export function BarBase({
             .attr("x", () => xScale.range()[0] as number)
             .attr("width", (d) => xScale(d[x] as INumericValue) - (xScale.range()[0] as number));
 
-        renderCanvas(canvas, renderVirtualCanvas, width, height, update);
+        renderCanvas(canvas, renderVirtualCanvas, width, height, transitioned);
     }, [
         x,
         y,

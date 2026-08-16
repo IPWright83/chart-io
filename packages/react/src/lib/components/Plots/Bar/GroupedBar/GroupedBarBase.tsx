@@ -1,10 +1,12 @@
 import { chartSelectors, d3, ensureBandwidth, getBandwidthAndOffset, IState } from "@chart-io/core";
 import type { IColor, IDatum, IEventPlotProps, INumericValue, IValue } from "@chart-io/core";
 
+import { useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { useLegendItems, useRender } from "../../../../hooks";
 
+import { applyRovingTabIndex } from "../../applyRovingTabIndex";
 import { renderCanvas } from "../../renderCanvas";
 import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
@@ -57,6 +59,7 @@ export function GroupedBarBase({
 
     const onTooltip = useTooltip({ y });
     const onFocus = useFocused({ yScale, theme, grouped: true });
+    const rovingIndexRef = useRef(0);
 
     useLegendItems(xs, "square", showInLegend, colors);
 
@@ -96,6 +99,12 @@ export function GroupedBarBase({
 
         const update = join
             .merge(enter)
+            .attr("role", "img")
+            .attr("aria-label", (d) => `${d.key}: ${d.value}`);
+
+        applyRovingTabIndex(update, rovingIndexRef, interactive);
+
+        const transitioned = update
             .on("mouseover", function (event, datum) {
                 // istanbul ignore next
                 if (!interactive) return;
@@ -112,10 +121,32 @@ export function GroupedBarBase({
                 onFocus && onFocus(null);
                 onTooltip && onTooltip(null);
             })
+            .on("focus", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOver && onMouseOver(datum, this as Element, event);
+                onFocus && onFocus({ element: this as Element, event, datum });
+            })
+            .on("blur", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOut && onMouseOut(datum, this as Element, event);
+                onFocus && onFocus(null);
+            })
             .on("click", function (event, datum) {
                 // istanbul ignore next
                 if (!interactive) return;
 
+                onClick && onClick(datum, this as Element, event);
+            })
+            .on("keydown", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+                if (event.key !== "Enter" && event.key !== " ") return;
+
+                event.preventDefault();
                 onClick && onClick(datum, this as Element, event);
             })
             .transition("position")
@@ -130,7 +161,7 @@ export function GroupedBarBase({
             .attr("width", (d) => xScale(d.value as INumericValue) - (xScale.range()[0] as number))
             .attr("x", () => xScale.range()[0] as number) as d3.Transition<SVGRectElement, { key: string; value: IValue; }, SVGGElement, IDatum>;
 
-        renderCanvas(canvas, renderVirtualCanvas, width, height, update);
+        renderCanvas(canvas, renderVirtualCanvas, width, height, transitioned);
     }, [y, xs, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);
 
     return null;

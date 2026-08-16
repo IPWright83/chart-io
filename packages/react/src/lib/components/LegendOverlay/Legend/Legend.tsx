@@ -50,7 +50,7 @@ export function Legend({ items, positionStyle, horizontal = false, formatters = 
     }
 
     return (
-        <div className="chart-io legend" style={style}>
+        <div className="chart-io legend" role="list" aria-label="Legend" style={style}>
             {items.map((item, index) => {
                 /**
                  * A format is of the shape:

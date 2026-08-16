@@ -7,6 +7,7 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
       class="g-plot stacked-donut"
     >
       <path
+        aria-label="North: 10"
         class="pie-slice"
         d="M0.327,-55.332A55.333,55.333,0,0,1,0.327,55.332L0.327,34.998A35,35,0,0,0,0.327,-34.998Z"
         data-corner-radius="0"
@@ -18,10 +19,13 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-pad-angle="0.01"
         data-path-type="arc"
         data-start-angle="0"
+        role="img"
         style="fill: #99c1dc; opacity: 0.7; cursor: pointer;"
+        tabindex="0"
         transform="translate(100, 100)"
       />
       <path
+        aria-label="South: 10"
         class="pie-slice"
         d="M-0.327,55.332A55.333,55.333,0,0,1,-0.327,-55.332L-0.327,-34.998A35,35,0,0,0,-0.327,34.998Z"
         data-corner-radius="0"
@@ -33,10 +37,13 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-pad-angle="0.01"
         data-path-type="arc"
         data-start-angle="3.141592653589793"
+        role="img"
         style="fill: #fc998e; opacity: 0.7; cursor: pointer;"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
+        aria-label="North / Widgets: 5"
         class="pie-slice"
         d="M0.483,-77.665A77.667,77.667,0,0,1,77.665,-0.483L57.331,-0.483A57.333,57.333,0,0,0,0.483,-57.331Z"
         data-corner-radius="0"
@@ -48,10 +55,13 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-pad-angle="0.01"
         data-path-type="arc"
         data-start-angle="0"
+        role="img"
         style="fill: rgb(153, 193, 220); opacity: 0.7; cursor: pointer;"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
+        aria-label="North / Gadgets: 5"
         class="pie-slice"
         d="M77.665,0.483A77.667,77.667,0,0,1,0.483,77.665L0.483,57.331A57.333,57.333,0,0,0,57.331,0.483Z"
         data-corner-radius="0"
@@ -63,10 +73,13 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-pad-angle="0.01"
         data-path-type="arc"
         data-start-angle="1.5707963267948966"
+        role="img"
         style="fill: rgb(198, 220, 235); opacity: 0.7; cursor: pointer;"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
+        aria-label="South / Widgets: 10"
         class="pie-slice"
         d="M-0.483,77.665A77.667,77.667,0,0,1,-0.483,-77.665L-0.483,-57.331A57.333,57.333,0,0,0,-0.483,57.331Z"
         data-corner-radius="0"
@@ -78,10 +91,13 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-pad-angle="0.01"
         data-path-type="arc"
         data-start-angle="3.141592653589793"
+        role="img"
         style="fill: rgb(252, 153, 142); opacity: 0.7; cursor: pointer;"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
+        aria-label="North / Widgets / W1: 5"
         class="pie-slice"
         d="M0.639,-99.998A100,100,0,0,1,99.998,-0.639L79.664,-0.639A79.667,79.667,0,0,0,0.639,-79.664Z"
         data-corner-radius="0"
@@ -93,10 +109,13 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-pad-angle="0.01"
         data-path-type="arc"
         data-start-angle="0"
+        role="img"
         style="fill: rgb(153, 193, 220); opacity: 0.7; cursor: pointer;"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
+        aria-label="North / Gadgets / G1: 5"
         class="pie-slice"
         d="M99.998,0.639A100,100,0,0,1,0.639,99.998L0.639,79.664A79.667,79.667,0,0,0,79.664,0.639Z"
         data-corner-radius="0"
@@ -108,10 +127,13 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-pad-angle="0.01"
         data-path-type="arc"
         data-start-angle="1.5707963267948966"
+        role="img"
         style="fill: rgb(198, 220, 235); opacity: 0.7; cursor: pointer;"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
+        aria-label="South / Widgets / W2: 10"
         class="pie-slice"
         d="M-0.639,99.998A100,100,0,0,1,-0.639,-99.998L-0.639,-79.664A79.667,79.667,0,0,0,-0.639,79.664Z"
         data-corner-radius="0"
@@ -123,7 +145,9 @@ exports[`StackedDonut using SVG should render an N-level hierarchy correctly 1`]
         data-pad-angle="0.01"
         data-path-type="arc"
         data-start-angle="3.141592653589793"
+        role="img"
         style="fill: rgb(252, 153, 142); opacity: 0.7; cursor: pointer;"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
     </g>
@@ -138,6 +162,7 @@ exports[`StackedDonut using SVG should render correctly 1`] = `
       class="g-plot stacked-donut"
     >
       <path
+        aria-label="North: 10"
         class="pie-slice"
         d="M0.376,-66.499A66.5,66.5,0,0,1,0.376,66.499L0.376,34.998A35,35,0,0,0,0.376,-34.998Z"
         data-corner-radius="0"
@@ -149,10 +174,13 @@ exports[`StackedDonut using SVG should render correctly 1`] = `
         data-pad-angle="0.01"
         data-path-type="arc"
         data-start-angle="0"
+        role="img"
         style="fill: #99c1dc; opacity: 0.7; cursor: pointer;"
+        tabindex="0"
         transform="translate(100, 100)"
       />
       <path
+        aria-label="South: 10"
         class="pie-slice"
         d="M-0.376,66.499A66.5,66.5,0,0,1,-0.376,-66.499L-0.376,-34.998A35,35,0,0,0,-0.376,34.998Z"
         data-corner-radius="0"
@@ -164,10 +192,13 @@ exports[`StackedDonut using SVG should render correctly 1`] = `
         data-pad-angle="0.01"
         data-path-type="arc"
         data-start-angle="3.141592653589793"
+        role="img"
         style="fill: #fc998e; opacity: 0.7; cursor: pointer;"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
+        aria-label="North / Widgets: 5"
         class="pie-slice"
         d="M0.606,-99.998A100,100,0,0,1,99.998,-0.606L68.497,-0.606A68.5,68.5,0,0,0,0.606,-68.497Z"
         data-corner-radius="0"
@@ -179,10 +210,13 @@ exports[`StackedDonut using SVG should render correctly 1`] = `
         data-pad-angle="0.01"
         data-path-type="arc"
         data-start-angle="0"
+        role="img"
         style="fill: rgb(153, 193, 220); opacity: 0.7; cursor: pointer;"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
+        aria-label="North / Gadgets: 5"
         class="pie-slice"
         d="M99.998,0.606A100,100,0,0,1,0.606,99.998L0.606,68.497A68.5,68.5,0,0,0,68.497,0.606Z"
         data-corner-radius="0"
@@ -194,10 +228,13 @@ exports[`StackedDonut using SVG should render correctly 1`] = `
         data-pad-angle="0.01"
         data-path-type="arc"
         data-start-angle="1.5707963267948966"
+        role="img"
         style="fill: rgb(198, 220, 235); opacity: 0.7; cursor: pointer;"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
       <path
+        aria-label="South / Widgets: 10"
         class="pie-slice"
         d="M-0.606,99.998A100,100,0,0,1,-0.606,-99.998L-0.606,-68.497A68.5,68.5,0,0,0,-0.606,68.497Z"
         data-corner-radius="0"
@@ -209,7 +246,9 @@ exports[`StackedDonut using SVG should render correctly 1`] = `
         data-pad-angle="0.01"
         data-path-type="arc"
         data-start-angle="3.141592653589793"
+        role="img"
         style="fill: rgb(252, 153, 142); opacity: 0.7; cursor: pointer;"
+        tabindex="-1"
         transform="translate(100, 100)"
       />
     </g>

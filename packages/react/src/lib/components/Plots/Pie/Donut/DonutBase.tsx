@@ -1,11 +1,12 @@
 import { chartSelectors, d3, ensureValuesAreUnique, IState } from "@chart-io/core";
 import type { IColor, IDatum, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { useLegendItems, useRender } from "../../../../hooks";
 
+import { applyRovingTabIndex } from "../../applyRovingTabIndex";
 import { renderCanvas } from "../../renderCanvas";
 import type { IArcAngles } from "../interpolateArc";
 import { interpolateArc } from "../interpolateArc";
@@ -132,6 +133,7 @@ export function DonutBase({
     useLegendItems(categories, "square", showInLegend, legendColors);
     const onTooltip = useTooltip();
     const onFocus = useFocused(theme, { canvas, width, height, layer });
+    const rovingIndexRef = useRef(0);
 
     useRender(() => {
         ensureValuesAreUnique(data, category, "Donut");
@@ -187,6 +189,12 @@ export function DonutBase({
             .attr("data-corner-radius", cornerRadius)
             .style("opacity", theme.series.opacity)
             .style("fill", (d) => colorScale(`${d.data[category]}`).toString())
+            .attr("role", "img")
+            .attr("aria-label", (d) => `${d.data[category]}: ${d.data[value]}`);
+
+        applyRovingTabIndex(update, rovingIndexRef, interactive);
+
+        const transitioned = update
             .on("mouseover", function (event, d) {
                 // istanbul ignore next
                 if (!interactive) return;
@@ -205,10 +213,32 @@ export function DonutBase({
                 onFocus && onFocus(null);
                 onTooltip && onTooltip(null);
             })
+            .on("focus", function (event, d) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOver && onMouseOver(d.data, this, event);
+                onFocus && onFocus({ element: this, event, datum: d.data });
+            })
+            .on("blur", function (event, d) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOut && onMouseOut(d.data, this, event);
+                onFocus && onFocus(null);
+            })
             .on("click", function (event, d) {
                 // istanbul ignore next
                 if (!interactive) return;
 
+                onClick && onClick(d.data, this, event);
+            })
+            .on("keydown", function (event, d) {
+                // istanbul ignore next
+                if (!interactive) return;
+                if (event.key !== "Enter" && event.key !== " ") return;
+
+                event.preventDefault();
                 onClick && onClick(d.data, this, event);
             })
             .transition("arc")
@@ -241,7 +271,7 @@ export function DonutBase({
                 };
             });
 
-        renderCanvas(canvas, renderVirtualCanvas, width, height, update);
+        renderCanvas(canvas, renderVirtualCanvas, width, height, transitioned);
     }, [
         category,
         value,
