@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FunnelPlot using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot funnel"
+    >
+      <polygon
+        class="funnel-segment"
+        points="0,0 200,0 150,65.33333333333333 50,65.33333333333333"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+      <polygon
+        class="funnel-segment"
+        points="50,67.33333333333333 150,67.33333333333333 110,132.66666666666666 90,132.66666666666666"
+        style="fill: #fc998e; opacity: 0.7;"
+      />
+      <polygon
+        class="funnel-segment"
+        points="90,134.66666666666666 110,134.66666666666666 110,200 90,200"
+        style="fill: #fdc381; opacity: 0.7;"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;
+
+exports[`FunnelPlot using SVG should render inverted (Pyramid) correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot funnel"
+    >
+      <polygon
+        class="funnel-segment"
+        points="90,0 110,0 150,65.33333333333333 50,65.33333333333333"
+        style="fill: #fdc381; opacity: 0.7;"
+      />
+      <polygon
+        class="funnel-segment"
+        points="50,67.33333333333333 150,67.33333333333333 200,132.66666666666666 0,132.66666666666666"
+        style="fill: #fc998e; opacity: 0.7;"
+      />
+      <polygon
+        class="funnel-segment"
+        points="0,134.66666666666666 200,134.66666666666666 200,200 0,200"
+        style="fill: #99c1dc; opacity: 0.7;"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;

@@ -6,6 +6,7 @@ export * from "./Area";
 export * from "./Pie";
 export * from "./Radar";
 export * from "./Treemap";
+export * from "./Funnel";
 export * from "./RadialArea";
 export * from "./Dendrogram";
 export * from "./RadialDendrogram";
