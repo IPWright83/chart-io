@@ -7,7 +7,7 @@ import { sales_records_dataset } from "../../../../data/sales_records_dataset";
 import { argTypes } from "../../../../storybook/argTypes";
 import { jitterFields, withDataControls } from "../../../../storybook/dataControls";
 import { createCanvasTest, createSVGTest } from "../../../testUtils";
-import { XAxis, YAxis } from "../../Axis";
+import { XAxis, YAxis, ZAxis } from "../../Axis";
 import { XYChart } from "../../XYChart";
 import { Scatter } from "./Scatter";
 import { Scatters } from "./Scatters";
@@ -188,6 +188,38 @@ export const MultipleScatterCanvas = {
     y2: "Total Revenue",
     y3: "Total Cost",
     useCanvas: true,
+  },
+};
+
+const BubbleSizeTemplate = (args) => (
+  <XYChart
+    data={args.data}
+    plotMargin={{
+      left: args.leftMargin,
+      right: args.rightMargin,
+      top: args.topMargin,
+      bottom: args.bottomMargin,
+    }}
+    width={args.width}
+    height={args.height}
+    animationDuration={args.animationDuration}
+    theme={args.theme}
+    useCanvas={args.useCanvas}
+  >
+    <YAxis fields={[args.y]} />
+    <XAxis fields={[args.x]} />
+    <ZAxis fields={[args.z]} tickFormat={(value) => `$${value}`} />
+    <Scatter x={args.x} y={args.y} z={args.z} color={args.color} noClip />
+  </XYChart>
+);
+
+export const BubbleSize = {
+  name: "Sizing bubbles with ZAxis",
+  render: BubbleSizeTemplate,
+  args: {
+    ...Basic.args,
+    z: "Unit Price",
+    rightMargin: 110,
   },
 };
 
