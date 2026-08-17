@@ -23,8 +23,7 @@ export const Chord = forwardRef<IChartRef, IChordProps>(
             source,
             target,
             value,
-            innerRadius,
-            outerRadius,
+            thickness,
             padAngle,
             cornerRadius,
             sort,
@@ -42,8 +41,7 @@ export const Chord = forwardRef<IChartRef, IChordProps>(
                     source={source}
                     target={target}
                     value={value}
-                    innerRadius={innerRadius}
-                    outerRadius={outerRadius}
+                    thickness={thickness}
                     padAngle={padAngle}
                     cornerRadius={cornerRadius}
                     sort={sort}

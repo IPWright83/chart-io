@@ -4,12 +4,16 @@ import type { IColor, IDatum } from "@chart-io/core";
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
 
+// The margin, in pixels, reserved outside the group arcs for node labels, so label text doesn't get
+// clipped at the plot's outer boundary - the same purpose as `<Dendrogram radial>`'s `layoutRadius` reserve
+const LABEL_MARGIN = 40;
+
 export interface IUseChordLayoutProps {
     source: string;
     target: string;
     value: string;
-    innerRadius: number;
-    outerRadius: number;
+    thickness: number;
+    labels: boolean;
     padAngle: number;
     cornerRadius: number;
     sort: boolean;
@@ -30,8 +34,8 @@ export function useChordLayout({
     source,
     target,
     value,
-    innerRadius,
-    outerRadius,
+    thickness,
+    labels,
     padAngle,
     cornerRadius,
     sort,
@@ -69,8 +73,10 @@ export function useChordLayout({
             rowFor.set(`${sourceName}|${targetName}`, row);
         });
 
-        const outerRadiusPx = outerRadius * maxRadius;
-        const innerRadiusPx = innerRadius * maxRadius;
+        // The outer radius shrinks to leave room for labels, so callers don't need to reason about
+        // two radii themselves - just how thick the ring should be
+        const outerRadiusPx = Math.max(0, maxRadius - (labels ? LABEL_MARGIN : 0));
+        const innerRadiusPx = Math.max(0, outerRadiusPx - thickness);
 
         const chordLayout = d3
             .chord()
@@ -133,7 +139,7 @@ export function useChordLayout({
             labelY,
             labelAnchor,
         };
-    }, [data, source, target, value, innerRadius, outerRadius, padAngle, cornerRadius, sort, cx, cy, maxRadius, names, palette]);
+    }, [data, source, target, value, thickness, labels, padAngle, cornerRadius, sort, cx, cy, maxRadius, names, palette]);
 
     return { ...layout, cx, cy, legendKeys: names, legendColors };
 }

@@ -23,15 +23,14 @@ directly, since it only ever has a single plot.
 | **`source`\***  | `string`   | `null`               | The key of the field used for the "from" node of each flow.                                                     |
 | **`target`\***  | `string`   | `null`               | The key of the field used for the "to" node of each flow.                                                       |
 | **`value`\***   | `string`   | `null`               | The key of the field that contains the size of each flow between `source` and `target`.                        |
-| `innerRadius`   | `number`   | `0.8`                 | The inner radius of the group arcs, as a fraction (0-1) of the maximum available radius - also where the ribbons attach. |
-| `outerRadius`   | `number`   | `0.85`                | The outer radius of the group arcs, as a fraction (0-1) of the maximum available radius. Smaller than `<Donut>`'s default to leave room for the node labels. |
+| `thickness`     | `number`   | `20`                  | The thickness, in pixels, of the group arc ring. The outer radius is derived automatically from the available plot radius (shrunk to leave room for labels when `labels` is set) - there's no need to specify an inner/outer radius yourself. |
 | `padAngle`      | `number`   | `0.03`                | The angular gap, in radians, to leave between each group.                                                       |
 | `cornerRadius`  | `number`   | `0`                   | The corner radius, in pixels, to apply to each group arc.                                                       |
 | `labels`        | `boolean`  | `true`                | Should node labels be shown around the outside of the diagram?                                                  |
 | `sort`          | `boolean`  | `false`               | Should the groups be sorted by their total flow (descending), rather than using the order nodes first appear in the data? |
 | `colors`        | `string[]` | Derived from Theme   | Override the colours used for each node. Each ribbon takes the color of its source node.                       |
 | `interactive`   | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot             |
-| `showInLegend`  | `boolean`  | `true`                | Whether the plot should feature in the legend or not.                                                           |
+| `showInLegend`  | `boolean`  | `false`               | Whether the plot should feature in the legend or not. Off by default - every node's arc is already labelled directly on the diagram. |
 
 > **Note**: Every combination of the fields listed in `source`/`target` should be unique in the data. If
 > your data has multiple rows for the same combination, aggregate it first. A row whose `source` equals

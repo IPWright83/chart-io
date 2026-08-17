@@ -85,12 +85,7 @@ describe("ChordPlot", () => {
 
                 const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
                 expect(dispatchCalls).toEqual(
-                    expect.arrayContaining([
-                        "chart/addLegendItem",
-                        "event/setTooltipBorderColor",
-                        "event/addTooltipItem",
-                        "event/setPositionEvent",
-                    ]),
+                    expect.arrayContaining(["event/setTooltipBorderColor", "event/addTooltipItem", "event/setPositionEvent"]),
                 );
             });
 
@@ -173,6 +168,86 @@ describe("ChordPlot", () => {
 
             const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));
             expect(virtualCanvasBuffer).toMatchImageSnapshot();
+        });
+
+        // A group/ribbon's exact pixel position depends on the layout (angles, radii) computed by
+        // useChordLayout - rather than hand-deriving that geometry, an identical SVG render is used to
+        // read the real `data-*` attributes stamped onto the corresponding shape, then a point within
+        // it is computed the same way the shape itself is drawn
+        async function firstShapePoint(selector: string) {
+            const { container } = await renderChart({
+                children: <ChordPlot source="from" target="to" value="flow" />,
+                data,
+            });
+            await wait();
+
+            const shape = container.querySelector(selector);
+            const cx = Number(shape.getAttribute("data-cx"));
+            const cy = Number(shape.getAttribute("data-cy"));
+
+            if (selector === "path.chord-group") {
+                const innerRadius = Number(shape.getAttribute("data-inner-radius"));
+                const outerRadius = Number(shape.getAttribute("data-outer-radius"));
+                const startAngle = Number(shape.getAttribute("data-start-angle"));
+                const endAngle = Number(shape.getAttribute("data-end-angle"));
+                const angle = (startAngle + endAngle) / 2;
+                const radius = (innerRadius + outerRadius) / 2;
+
+                return { x: cx + radius * Math.sin(angle), y: cy - radius * Math.cos(angle) };
+            }
+
+            // Just inside the ring at the ribbon's source edge, where its shape matches the source
+            // group's angular span
+            const radius = Number(shape.getAttribute("data-radius"));
+            const startAngle = Number(shape.getAttribute("data-source-start-angle"));
+            const endAngle = Number(shape.getAttribute("data-source-end-angle"));
+            const angle = (startAngle + endAngle) / 2;
+
+            return { x: cx + (radius - 3) * Math.sin(angle), y: cy - (radius - 3) * Math.cos(angle) };
+        }
+
+        it("should handle a mouseover on a group", async () => {
+            const { x, y } = await firstShapePoint("path.chord-group");
+
+            const onMouseOver = jest.fn();
+            const { container } = await renderChart({
+                children: (
+                    <VirtualCanvas>
+                        <ChordPlot source="from" target="to" value="flow" onMouseOver={onMouseOver} useCanvas={true} />
+                    </VirtualCanvas>
+                ),
+                data,
+            });
+
+            await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
+
+            await testMouseOver(container, ".virtual-canvas", onMouseOver, { from: "A", flow: expect.any(Number) }, {
+                bubbles: true,
+                pageX: x,
+                pageY: y,
+            });
+        });
+
+        it("should handle a mouseover on a ribbon", async () => {
+            const { x, y } = await firstShapePoint("path.chord-ribbon");
+
+            const onMouseOver = jest.fn();
+            const { container } = await renderChart({
+                children: (
+                    <VirtualCanvas>
+                        <ChordPlot source="from" target="to" value="flow" onMouseOver={onMouseOver} useCanvas={true} />
+                    </VirtualCanvas>
+                ),
+                data,
+            });
+
+            await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
+
+            await testMouseOver(container, ".virtual-canvas", onMouseOver, { from: "A", to: "B", flow: 10 }, {
+                bubbles: true,
+                pageX: x,
+                pageY: y,
+            });
         });
     });
 });

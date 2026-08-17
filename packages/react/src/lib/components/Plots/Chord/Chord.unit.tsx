@@ -23,23 +23,23 @@ describe("Chord", () => {
         expect(container.querySelectorAll("path.chord-ribbon").length).toBe(3);
     });
 
-    it("should feature every node in the legend by default", async () => {
+    it("should not feature in the legend by default", async () => {
         const { container } = render(
             <Chord source="from" target="to" value="flow" data={data} width={400} height={400} />,
         );
 
         await wait();
 
-        expect(container.querySelectorAll(".legend-item").length).toBe(3);
+        expect(container.querySelectorAll(".legend-item").length).toBe(0);
     });
 
-    it("should not feature in the legend when showInLegend is false", async () => {
+    it("should feature every node in the legend when showInLegend is true", async () => {
         const { container } = render(
-            <Chord source="from" target="to" value="flow" data={data} width={400} height={400} showInLegend={false} />,
+            <Chord source="from" target="to" value="flow" data={data} width={400} height={400} showInLegend={true} />,
         );
 
         await wait();
 
-        expect(container.querySelectorAll(".legend-item").length).toBe(0);
+        expect(container.querySelectorAll(".legend-item").length).toBe(3);
     });
 });

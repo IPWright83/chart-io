@@ -37,17 +37,13 @@ export interface IChordPlotProps {
      */
     value: string;
     /**
-     * The inner radius of the group arcs, as a fraction (0-1) of the maximum available radius - also
-     * where the ribbons attach
-     * @default 0.8
+     * The thickness, in pixels, of the group arc ring. The outer radius is derived from the available
+     * plot radius (shrunk to leave room for labels when `labels` is set), and the inner radius - where
+     * the ribbons attach - is `thickness` inside that, so there's no need to reason about two separate
+     * radii yourself
+     * @default 20
      */
-    innerRadius?: number;
-    /**
-     * The outer radius of the group arcs, as a fraction (0-1) of the maximum available radius. Defaults
-     * to less than `1` (unlike `<Donut>`) to leave room for the node labels drawn just outside it
-     * @default 0.85
-     */
-    outerRadius?: number;
+    thickness?: number;
     /**
      * The angular gap, in radians, to leave between each group
      * @default 0.03
@@ -80,8 +76,10 @@ export interface IChordPlotProps {
      */
     interactive?: boolean;
     /**
-     * Should this series feature in the Legend?
-     * @default true
+     * Should this series feature in the Legend? Off by default - with every node's arc drawn and
+     * labelled (unlike `<CirclePacking>`, where only qualifying leaves are labelled), the legend is
+     * often redundant
+     * @default false
      */
     showInLegend?: boolean;
     /**
@@ -110,14 +108,13 @@ export function ChordPlot({
     target,
     value,
     renderVirtualCanvas,
-    innerRadius = 0.8,
-    outerRadius = 0.85,
+    thickness = 20,
     padAngle = 0.03,
     cornerRadius = 0,
     sort = false,
     colors,
     labels = true,
-    showInLegend = true,
+    showInLegend = false,
     interactive = true,
     onMouseOver,
     onMouseOut,
@@ -145,7 +142,7 @@ export function ChordPlot({
         labelAnchor,
         legendKeys,
         legendColors,
-    } = useChordLayout({ source, target, value, innerRadius, outerRadius, padAngle, cornerRadius, sort, colors });
+    } = useChordLayout({ source, target, value, thickness, labels, padAngle, cornerRadius, sort, colors });
 
     useLegendItems(legendKeys, "square", showInLegend, legendColors);
 

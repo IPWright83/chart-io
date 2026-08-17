@@ -8,13 +8,13 @@ exports[`ChordPlot using SVG should render correctly 1`] = `
     >
       <path
         class="chord-group"
-        d="M0,-85A85,85,0,1,1,-46.177,71.363L-43.461,67.165A80,80,0,1,0,0,-80Z"
+        d="M0,-60A60,60,0,1,1,-32.596,50.374L-21.731,33.583A40,40,0,1,0,0,-40Z"
         data-corner-radius="0"
         data-cx="100"
         data-cy="100"
         data-end-angle="3.7159111843077515"
-        data-inner-radius="80"
-        data-outer-radius="85"
+        data-inner-radius="40"
+        data-outer-radius="60"
         data-path-type="arc"
         data-start-angle="0"
         style="fill: #99c1dc; opacity: 0.7; cursor: pointer;"
@@ -22,13 +22,13 @@ exports[`ChordPlot using SVG should render correctly 1`] = `
       />
       <path
         class="chord-group"
-        d="M-48.297,69.946A85,85,0,0,1,-44.823,-72.221L-42.186,-67.973A80,80,0,0,0,-45.456,65.831Z"
+        d="M-34.092,49.373A60,60,0,0,1,-31.64,-50.98L-21.093,-33.986A40,40,0,0,0,-22.728,32.916Z"
         data-corner-radius="0"
         data-cx="100"
         data-cy="100"
         data-end-angle="5.727730482605219"
-        data-inner-radius="80"
-        data-outer-radius="85"
+        data-inner-radius="40"
+        data-outer-radius="60"
         data-path-type="arc"
         data-start-angle="3.7459111843077513"
         style="fill: #fc998e; opacity: 0.7; cursor: pointer;"
@@ -36,13 +36,13 @@ exports[`ChordPlot using SVG should render correctly 1`] = `
       />
       <path
         class="chord-group"
-        d="M-42.637,-73.533A85,85,0,0,1,-2.55,-84.962L-2.4,-79.964A80,80,0,0,0,-40.129,-69.208Z"
+        d="M-30.096,-51.906A60,60,0,0,1,-1.8,-59.973L-1.2,-39.982A40,40,0,0,0,-20.064,-34.604Z"
         data-corner-radius="0"
         data-cx="100"
         data-cy="100"
         data-end-angle="6.253185307179586"
-        data-inner-radius="80"
-        data-outer-radius="85"
+        data-inner-radius="40"
+        data-outer-radius="60"
         data-path-type="arc"
         data-start-angle="5.757730482605219"
         style="fill: #fdc381; opacity: 0.7; cursor: pointer;"
@@ -50,11 +50,11 @@ exports[`ChordPlot using SVG should render correctly 1`] = `
       />
       <path
         class="chord-ribbon"
-        d="M4.898587196589413e-15,-80A80,80,0,0,1,49.32181838974099,62.98696873742542Q0,0,-45.45611474573395,65.83116004008032Q0,0,4.898587196589413e-15,-80Z"
+        d="M2.4492935982947065e-15,-40A40,40,0,0,1,24.660909194870495,31.49348436871271Q0,0,-22.728057372866974,32.91558002004016Q0,0,2.4492935982947065e-15,-40Z"
         data-cx="100"
         data-cy="100"
         data-path-type="ribbon"
-        data-radius="80"
+        data-radius="40"
         data-source-end-angle="2.4772741228718345"
         data-source-start-angle="0"
         data-target-end-angle="3.7459111843077513"
@@ -64,11 +64,11 @@ exports[`ChordPlot using SVG should render correctly 1`] = `
       />
       <path
         class="chord-ribbon"
-        d="M49.32181838974099,62.98696873742542A80,80,0,0,1,-43.46102245388347,67.1650171388576Q0,0,-40.1285218729484,-69.20767105091966A80,80,0,0,1,-2.3996400161996876,-79.964002699919Q0,0,49.32181838974099,62.98696873742542Z"
+        d="M24.660909194870495,31.49348436871271A40,40,0,0,1,-21.730511226941736,33.5825085694288Q0,0,-20.0642609364742,-34.60383552545983A40,40,0,0,1,-1.1998200080998438,-39.9820013499595Q0,0,24.660909194870495,31.49348436871271Z"
         data-cx="100"
         data-cy="100"
         data-path-type="ribbon"
-        data-radius="80"
+        data-radius="40"
         data-source-end-angle="3.7159111843077515"
         data-source-start-angle="2.4772741228718345"
         data-target-end-angle="6.253185307179586"
@@ -78,11 +78,11 @@ exports[`ChordPlot using SVG should render correctly 1`] = `
       />
       <path
         class="chord-ribbon"
-        d="M-45.45611474573395,65.83116004008032A80,80,0,0,1,-42.186384103424686,-67.97285484866967Q0,0,-2.3996400161996876,-79.964002699919Q0,0,-45.45611474573395,65.83116004008032Z"
+        d="M-22.728057372866974,32.91558002004016A40,40,0,0,1,-21.093192051712343,-33.986427424334835Q0,0,-1.1998200080998438,-39.9820013499595Q0,0,-22.728057372866974,32.91558002004016Z"
         data-cx="100"
         data-cy="100"
         data-path-type="ribbon"
-        data-radius="80"
+        data-radius="40"
         data-source-end-angle="5.727730482605219"
         data-source-start-angle="3.7459111843077513"
         data-target-end-angle="6.253185307179586"
@@ -99,8 +99,8 @@ exports[`ChordPlot using SVG should render correctly 1`] = `
         dy="3"
         style="font-family: sans-serif; fill: #333333; opacity: 1;"
         text-anchor="start"
-        x="187.2737613392078"
-        y="125.77383521533031"
+        x="163.29745327898587"
+        y="118.69311125507473"
       >
         A
       </text>
@@ -109,8 +109,8 @@ exports[`ChordPlot using SVG should render correctly 1`] = `
         dy="3"
         style="font-family: sans-serif; fill: #333333; opacity: 1;"
         text-anchor="end"
-        x="9.027158301751271"
-        y="97.77692255074687"
+        x="34.01969722984158"
+        y="98.3876581137285"
       >
         B
       </text>
@@ -119,8 +119,8 @@ exports[`ChordPlot using SVG should render correctly 1`] = `
         dy="3"
         style="font-family: sans-serif; fill: #333333; opacity: 1;"
         text-anchor="end"
-        x="75.05045228388818"
-        y="12.487029139895725"
+        x="81.90472363446835"
+        y="36.52905410146284"
       >
         C
       </text>
