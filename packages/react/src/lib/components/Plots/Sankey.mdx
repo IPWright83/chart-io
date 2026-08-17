@@ -1,0 +1,91 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as SankeyStories from "./Sankey.stories"
+
+<Meta title="Charts/Flow/Sankey" />
+
+# Sankey Plots
+
+The `<Sankey>` component lays out a flow diagram from a flat dataset: `categories` is an ordered list of
+fields, first column first. Each row flows left-to-right through its fields, contributing `value` to the
+link between every consecutive pair of columns - flows between the same pair of node values are summed
+together into a single, wider band rather than drawn as separate parallel flows. It's a self-contained
+chart - unlike `<Bar>`/`<Line>` (which need an `<XYChart>` wrapper) or `<Pie>`/`<Radar>` (which need a
+`<RadialChart>` wrapper), `<Sankey>` accepts chart-level props like `data`/`width`/`height` directly,
+since it only ever has a single plot.
+
+<Canvas of={SankeyStories.Basic} />
+
+## `<Sankey>` Component
+
+### Props
+
+| Prop               | Type       | Default             | Note                                                                                                          |
+| ------------------ | ---------- | -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| **`categories`\*** | `string[]` | `null`               | The ordered list of fields to build each column of nodes from, first column first.                              |
+| **`value`\***      | `string`   | `null`               | The key of the field that contains the size of each flow.                                                      |
+| `nodeWidth`        | `number`   | `16`                 | The width, in pixels, of each node's rectangle.                                                                 |
+| `nodePadding`      | `number`   | `12`                 | The minimum vertical gap, in pixels, between nodes in the same column.                                          |
+| `cornerRadius`     | `number`   | `0`                  | The corner radius, in pixels, to apply to each node's rectangle.                                                |
+| `colors`           | `string[]` | Derived from Theme   | Override the colours used for each first-column node. Every other node takes the colour of whichever incoming flow contributes the most value to it. |
+| `labels`           | `boolean`  | `true`                | Should node labels be shown?                                                                                    |
+| `interactive`      | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot.             |
+| `showInLegend`     | `boolean`  | `false`               | Whether the plot should feature in the legend or not. Only the first-column categories appear in the legend.    |
+| `buildSankeyGraph` | `function` | `buildSankeyGraph` from `@chart-io/core` | Builds the node/link graph from the flat dataset. Override this if your data doesn't fit that flat, group-by-`categories` shape - see below. |
+
+`<Sankey>` also accepts the usual chart-level props - `data`, `width`, `height`, `plotMargin`, `theme`,
+`animationDuration`, `onClick`/`onMouseOver`/`onMouseOut` and so on - directly, since it's a
+self-contained chart. `onClick`/`onMouseOver`/`onMouseOut` fire for both nodes and flows - a node's
+datum is `{ [category]: key }`, and a flow's is `{ [sourceCategory]: sourceKey, [targetCategory]: targetKey, [value]: amount }`.
+
+### Using Canvas
+
+Like other plots, a `<Sankey>` can be rendered using an HTML Canvas instead of SVG by setting `useCanvas`.
+
+<Canvas of={SankeyStories.Canvas} />
+
+### More than two columns
+
+`categories` isn't limited to two columns - pass as many fields as your data has stages to build further
+columns of nodes. Every row still only contributes to the link between *consecutive* columns, so a
+3-column Sankey like this one draws two "hops" per row: continent -> country, and country -> sector.
+
+<Canvas of={SankeyStories.ThreeColumn} />
+
+There's no fixed limit on the number of columns - `categories` accepts any number of fields.
+
+### Coloring
+
+A first-column node takes its color from the palette (`colors`, or the theme's series colors by
+default). Every other node has no single parent to inherit a color from - unlike `<Treemap>` or
+`<Dendrogram>`, a Sankey node can be fed by several incoming flows - so instead it takes the color of
+whichever incoming flow contributes the most value to it, tracing back to a first-column node. Each
+flow itself is drawn in its source node's color, semi-transparent so overlapping bands stay
+distinguishable from one another.
+
+### Negative values
+
+`value` can't be negatively sized - a flow's width can't represent a negative value. If the dataset
+contains negative values in the `value` field, they're treated as `0` and a `W009` warning is logged -
+see [the `<Treemap>` docs](/docs/hierarchical-treemap--docs) for the same behaviour on the hierarchical
+equivalent of this chart.
+
+### Custom graph building
+
+By default `<Sankey>` builds its node/link graph by walking the flat dataset through each field in
+`categories` in turn, summing `value` into the link between every consecutive pair of columns - the
+shared `buildSankeyGraph` from `@chart-io/core`. If your data doesn't fit that shape - it's already a
+graph of nodes/links - pass your own `buildSankeyGraph` function instead, matching the signature of the
+one exported from `@chart-io/core`:
+
+```jsx
+import { buildSankeyGraph } from "@chart-io/core";
+
+<Sankey
+    categories={["source", "destination"]}
+    value="amount"
+    buildSankeyGraph={(data, categories, value, componentName) => {
+        // Delegate to the default implementation, or build the { nodes, links } graph some other way entirely
+        return buildSankeyGraph(data, categories, value, componentName);
+    }}
+/>
+```

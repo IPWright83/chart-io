@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SankeyPlot using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot sankey-links"
+    >
+      <path
+        class="sankey-link"
+        d="M16,58.75C100,58.75,100,63.219679112075276,184,63.219679112075276"
+        data-path-type="link"
+        data-x0="16"
+        data-x1="184"
+        data-y0="58.75"
+        data-y1="63.219679112075276"
+        style="fill: none; stroke: #99c1dc; stroke-width: 117.5; stroke-opacity: 0.4; cursor: pointer;"
+      />
+      <path
+        class="sankey-link"
+        d="M16,164.75C100,164.75,100,157.21967911207528,184,157.21967911207528"
+        data-path-type="link"
+        data-x0="16"
+        data-x1="184"
+        data-y0="164.75"
+        data-y1="157.21967911207528"
+        style="fill: none; stroke: #fc998e; stroke-width: 70.5; stroke-opacity: 0.4; cursor: pointer;"
+      />
+    </g>
+    <g
+      class="g-plot sankey-nodes"
+    >
+      <rect
+        class="sankey-node"
+        height="117.49999999999999"
+        rx="0"
+        ry="0"
+        style="fill: #99c1dc; opacity: 0.7; cursor: pointer;"
+        width="16"
+        x="0"
+        y="0"
+      />
+      <rect
+        class="sankey-node"
+        height="187.99999999999997"
+        rx="0"
+        ry="0"
+        style="fill: #99c1dc; opacity: 0.7; cursor: pointer;"
+        width="16"
+        x="184"
+        y="4.469679112075278"
+      />
+      <rect
+        class="sankey-node"
+        height="70.49999999999997"
+        rx="0"
+        ry="0"
+        style="fill: #fc998e; opacity: 0.7; cursor: pointer;"
+        width="16"
+        x="0"
+        y="129.5"
+      />
+    </g>
+    <g
+      class="g-plot sankey-labels"
+    >
+      <text
+        class="sankey-label"
+        dy="3"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        text-anchor="start"
+        x="22"
+        y="58.74999999999999"
+      >
+        Coal
+      </text>
+      <text
+        class="sankey-label"
+        dy="3"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        text-anchor="end"
+        x="178"
+        y="98.46967911207527"
+      >
+        Electricity
+      </text>
+      <text
+        class="sankey-label"
+        dy="3"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        text-anchor="start"
+        x="22"
+        y="164.75"
+      >
+        Gas
+      </text>
+    </g>
+  </svg>
+</DocumentFragment>
+`;

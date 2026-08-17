@@ -20,7 +20,10 @@ export function renderLink(context: CanvasRenderingContext2D, node: Element, ove
     const y1 = Number(selection.attr("data-y1"));
     const stroke = selection.style("stroke");
     const strokeWidth = Number(selection.style("stroke-width")) || 1;
-    const opacity = Number(selection.style("opacity")) || 1;
+    // A link's transparency is set via `stroke-opacity` (LinksPlot never sets the element's own
+    // `opacity`), so that's what has to be read back here too, or Canvas renders fully opaque
+    // regardless of what SVG shows
+    const opacity = Number(selection.style("stroke-opacity")) || 1;
 
     const midX = (x0 + x1) / 2;
 
