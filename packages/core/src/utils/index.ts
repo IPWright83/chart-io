@@ -10,5 +10,6 @@ export * from "./linkStores";
 export * from "./formatters";
 export * from "./logger";
 export * from "./getBandwidthAndOffset";
+export * from "./wordCloud";
 export { exportImage } from "./exportImage";
 export * from "./downloadFile";

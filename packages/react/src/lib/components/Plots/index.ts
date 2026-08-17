@@ -11,3 +11,4 @@ export * from "./RadialArea";
 export * from "./Dendrogram";
 export * from "./RadialDendrogram";
 export * from "./CirclePacking";
+export * from "./WordCloud";
