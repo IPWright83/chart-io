@@ -8,6 +8,13 @@ import type { IColor } from "../types";
  * the two hit regions simply overlap, both resolving to the same datum. For a `<WordCloud>` the text
  * itself is the only shape - there's no backing circle/rect - so it has to paint a hit-testable region
  * of its own for Canvas mode to be interactive at all
+ *
+ * That hit-testable region is a solid rectangle, not the glyph outlines themselves: a real
+ * `fillText()` silhouette has gaps wherever a letter does (the hole in an "o", the space between
+ * "l" and "i", ...), so hovering there would drop out of the word's hit color and flicker the
+ * tooltip on/off. `data-width`/`data-height` (stamped by `<WordCloud>` from its own layout box, in
+ * unrotated text-local units) opt a label into this rectangle; without them, this falls back to
+ * painting the glyphs themselves, as before
  * @param  context             The Canvas context object to render to
  * @param  node                The virtual DOM node that represents this element
  * @param  overrideColor       A custom color to override the node color which is used for the virtual canvas
@@ -46,6 +53,20 @@ export function renderText(context: CanvasRenderingContext2D, node: Element, ove
 
         context.globalAlpha = opacity;
         context.fillStyle = fill;
+    }
+
+    const hitWidth = Number(selection.attr("data-width"));
+    const hitHeight = Number(selection.attr("data-height"));
+
+    if (overrideColor && hitWidth && hitHeight) {
+        context.save();
+        context.translate(x, y);
+        if (rotate !== 0) {
+            context.rotate((rotate * Math.PI) / 180);
+        }
+        context.fillRect(-hitWidth / 2, -hitHeight / 2, hitWidth, hitHeight);
+        context.restore();
+        return;
     }
 
     if (rotate === 0) {

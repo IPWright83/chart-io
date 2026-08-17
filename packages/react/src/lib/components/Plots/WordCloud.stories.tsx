@@ -127,3 +127,41 @@ export const Rotated = {
     },
     play: createSVGTest("text.word-cloud-word", { clientX: 400, clientY: 250 }),
 };
+
+// A handful of words, to check the layout still looks deliberate (not sparse/awkward) well below
+// the ~25-word dataset it's more typically shown with
+const fewWordsData = data.slice(0, 5);
+
+export const FewWords = {
+    name: "Few Words",
+    render: WordCloudTemplate,
+    args: {
+        ...Basic.args,
+        data: fewWordsData,
+    },
+    play: createSVGTest("text.word-cloud-word", { clientX: 400, clientY: 250 }),
+};
+
+// Stress-tests the spiral placement with far more words than the default font-size range
+// comfortably fits - some are expected to be dropped (and a W010 warning logged), which is the
+// documented, graceful behaviour for an over-full cloud rather than a bug
+const manyWordsData = Array.from({ length: 60 }, (_, i) => {
+    const base = data[i % data.length];
+    const pass = Math.floor(i / data.length);
+    return {
+        word: pass === 0 ? base.word : `${base.word}-${pass + 1}`,
+        count: Math.max(4, base.count - i),
+    };
+});
+
+export const ManyWords = {
+    name: "Many Words",
+    render: WordCloudTemplate,
+    args: {
+        ...Basic.args,
+        data: manyWordsData,
+        minFontSize: 8,
+        maxFontSize: 56,
+    },
+    play: createSVGTest("text.word-cloud-word", { clientX: 400, clientY: 250 }),
+};

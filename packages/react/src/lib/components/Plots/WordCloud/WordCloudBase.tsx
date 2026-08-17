@@ -180,6 +180,11 @@ export function WordCloudBase({
         update.text((word) => word.key);
         update
             .attr("data-rotate", (word) => word.rotate)
+            // The word's own (unrotated) measured size, in text-local units - lets the Canvas
+            // hit-testing pass paint a full rectangle instead of the glyph outlines themselves, so
+            // hovering a gap between/inside letters doesn't drop out of the word's hit region
+            .attr("data-width", (word) => word.width)
+            .attr("data-height", (word) => word.height)
             .attr("transform", (word) => (word.rotate ? `rotate(${word.rotate}, ${plotLeft + word.x}, ${plotTop + word.y})` : null));
 
         update

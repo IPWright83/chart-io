@@ -8,7 +8,9 @@ exports[`WordCloudPlot using SVG should render correctly 1`] = `
     >
       <text
         class="word-cloud-word"
+        data-height="66"
         data-rotate="0"
+        data-width="120"
         dy="21"
         style="font-family: sans-serif; fill: #99c1dc; cursor: pointer; opacity: 0.7; font-size: 60px;"
         text-anchor="middle"
@@ -19,7 +21,9 @@ exports[`WordCloudPlot using SVG should render correctly 1`] = `
       </text>
       <text
         class="word-cloud-word"
+        data-height="44.47035352684987"
         data-rotate="0"
+        data-width="64.6841505845089"
         dy="14.149657940361319"
         style="font-family: sans-serif; fill: #fc998e; cursor: pointer; opacity: 0.7; font-size: 40.42759411531806px;"
         text-anchor="middle"
@@ -30,7 +34,9 @@ exports[`WordCloudPlot using SVG should render correctly 1`] = `
       </text>
       <text
         class="word-cloud-word"
+        data-height="13.200000000000001"
         data-rotate="0"
+        data-width="19.200000000000003"
         dy="4.199999999999999"
         style="font-family: sans-serif; fill: #fdc381; cursor: pointer; opacity: 0.7; font-size: 12px;"
         text-anchor="middle"
