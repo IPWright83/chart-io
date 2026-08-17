@@ -219,7 +219,6 @@ export const BubbleSize = {
   args: {
     ...Basic.args,
     z: "Unit Price",
-    rightMargin: 110,
   },
 };
 

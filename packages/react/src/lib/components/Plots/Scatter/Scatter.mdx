@@ -38,9 +38,11 @@ Most of the configuration for a `<Scatter>` is similar to other plots. The main 
 ## Sizing bubbles with `<ZAxis>`
 
 Passing `z` turns `<Scatter>` into a bubble chart, sizing each point by that field's value rather
-than a fixed `radius`. Pair it with a `<ZAxis fields={[z]}>` to draw a legend explaining the size
-encoding - a set of circles nested inside one another, sharing a baseline and each labelled with
-the value it represents, in the style of a New York Times bubble-size legend.
+than a fixed `radius`. Pair it with a `<ZAxis fields={[z]}>` to register a size legend explaining
+the encoding - it's drawn at the bottom of the chart's [Legend](?path=/docs/components-legendoverlay--docs):
+a set of circles nested inside one another, sharing a baseline and each labelled with the value it
+represents, in the style of a New York Times bubble-size legend. Like the rest of the Legend, it can
+be dragged to dock at any of the 8 positions around the chart.
 
 `<ZAxis>` sets up the same underlying scale `<Scatter z>` reads its radius from (like `<XAxis>`/
 `<YAxis>` do for `x`/`y`), so the legend's circles are always drawn at the same size as the series'
@@ -50,18 +52,15 @@ points they describe.
 
 ### Props
 
-| Prop                 | Type                            | Default    | Note                                                                                          |
-| -------------------- | -------------------------------- | ---------- | ---------------------------------------------------------------------------------------------- |
-| **`fields`\***       | `string \| string[]`              | `null`     | The key of the field used to build the size scale. Only the first field is used.               |
-| `domain`             | `IValue[]`                       | Computed   | Override the domain used by the underlying d3 scale.                                          |
-| `scaleType`          | `IScaleType`                     | Auto       | Override the type of d3 scale to use.                                                         |
-| `range`              | `number[]`                       | `[5, 25]`  | The pixel radius range values are mapped onto. Keep in sync across a shared field.            |
-| `ticks`              | `number`                         | `3`        | The number of representative circles to draw. Ignored when `tickValues` is provided.          |
-| `tickValues`         | `IValue[]`                       | `null`     | Explicit values to draw a circle for, instead of `ticks` picking them automatically.           |
-| `tickFormat`         | `(value) => string`              | `${value}` | Formats each circle's value label.                                                            |
-| `horizontalPosition` | `"LEFT" \| "RIGHT" \| "CENTER"`   | `"RIGHT"`  | Which side of the plot to anchor the legend to.                                                |
-| `verticalPosition`   | `"TOP" \| "BOTTOM"`               | `"BOTTOM"` | Which edge of the plot the circles share a baseline with.                                     |
-| `padding`            | `number`                         | `20`       | The gap, in pixels, between the legend and the edges of the plot area it's anchored to.        |
+| Prop            | Type                  | Default    | Note                                                                                |
+| ---------------- | --------------------- | ---------- | ------------------------------------------------------------------------------------ |
+| **`fields`\***  | `string \| string[]`  | `null`     | The key of the field used to build the size scale. Only the first field is used.    |
+| `domain`        | `IValue[]`            | Computed   | Override the domain used by the underlying d3 scale.                                |
+| `scaleType`     | `IScaleType`          | Auto       | Override the type of d3 scale to use.                                               |
+| `range`         | `number[]`            | `[5, 25]`  | The pixel radius range values are mapped onto. Keep in sync across a shared field.  |
+| `ticks`         | `number`              | `3`        | The number of representative circles to draw in the legend. Ignored when `tickValues` is provided. |
+| `tickValues`    | `IValue[]`            | `null`     | Explicit values to draw a circle for, instead of `ticks` picking them automatically. |
+| `tickFormat`    | `(value) => string`   | `${value}` | Formats each circle's value label.                                                  |
 
 ## `<Scatters> Component`
 

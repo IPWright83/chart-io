@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LegendOverlay should render a horizontal alignment correctly 1`] = `
+exports[`LegendOverlay should render docked at E (the default) correctly 1`] = `
 <DocumentFragment>
   <svg>
     <g
@@ -13,7 +13,7 @@ exports[`LegendOverlay should render a horizontal alignment correctly 1`] = `
       >
         <div
           class="chart-io legend"
-          style="border: thin solid #ccc; display: flex; flex-direction: row; flex-wrap: wrap; position: absolute; right: 10px; top: 10px; max-width: -40px; max-height: -40px; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden;"
+          style="border: thin solid #ccc; display: flex; flex-direction: column; flex-wrap: wrap; position: absolute; right: 10px; transform: translateY(-50%); top: 50%; max-width: 200px; max-height: -40px; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden; pointer-events: auto; cursor: grab;"
         >
           <div
             class="chart-io legend-item"
@@ -62,7 +62,7 @@ exports[`LegendOverlay should render a horizontal alignment correctly 1`] = `
 </DocumentFragment>
 `;
 
-exports[`LegendOverlay should render a vertical alignment correctly 1`] = `
+exports[`LegendOverlay should render docked at N correctly 1`] = `
 <DocumentFragment>
   <svg>
     <g
@@ -75,7 +75,7 @@ exports[`LegendOverlay should render a vertical alignment correctly 1`] = `
       >
         <div
           class="chart-io legend"
-          style="border: thin solid #ccc; display: flex; flex-direction: column; flex-wrap: wrap; position: absolute; left: 10px; transform: translateY(-50%); top: 50%; max-width: 200px; max-height: -40px; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden;"
+          style="border: thin solid #ccc; display: flex; flex-direction: column; flex-wrap: wrap; position: absolute; right: 10px; transform: translateY(-50%); top: 50%; max-width: 200px; max-height: -40px; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden; pointer-events: auto; cursor: grab;"
         >
           <div
             class="chart-io legend-item"

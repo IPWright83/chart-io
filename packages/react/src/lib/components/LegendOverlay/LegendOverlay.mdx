@@ -9,17 +9,24 @@ The `<LegendOverlay>` component allows us to overlay a [Legend](?path=/docs/comp
 
 The `<LegendOverlay>` extracts out legend item information from the Redux store to determine when the legend should be shown, and the content that should be presented.
 
-<Canvas of={LegendOverlayStories.Left} />
+<Canvas of={LegendOverlayStories.East} />
 
 ### `<LegendOverlay>` Props
 
-| Prop                 | Type     | Default  | Note                                                                                                                                                                                           |
-| -------------------- | -------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `horizontalPosition` | `string` | `RIGHT`  | The horizontal position of the legend. One of "LEFT", "RIGHT" or "CENTER"                                                                                                                      |
-| `verticalPosition`   | `string` | `CENTER` | The vertical position of the legend. One of "TOP", "BOTTOM" or "CENTER"                                                                                                                        |
-| `formatters`         | `object` | `{}`     | A keyed collection of formatter functions. Key should align with `x` or `y` fields provided to axis/scales or plots. The format function should be of the signature `(name: string) => string` |
+| Prop           | Type     | Default | Note                                                                                                                                                                                           |
+| -------------- | -------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `position`     | `string` | `"E"`   | The compass position to dock the legend at initially: one of `"N"`, `"NE"`, `"E"`, `"SE"`, `"S"`, `"SW"`, `"W"`, `"NW"`. See "Moving the Legend" below.                                        |
+| `formatters`   | `object` | `{}`    | A keyed collection of formatter functions. Key should align with `x` or `y` fields provided to axis/scales or plots. The format function should be of the signature `(name: string) => string` |
 
 <br />
+
+## Moving the Legend
+
+The Legend can be dragged to reposition it. Rather than staying wherever it's dropped, it docks to
+whichever of the 8 compass positions around the edge of the chart it's released nearest to - so it
+always ends up flush against an edge or corner, never floating in the middle of the plot.
+
+<Canvas of={LegendOverlayStories.SouthEast} />
 
 ## Adding Legend items Programatically
 
@@ -42,9 +49,19 @@ useEffect(() => {
 > **Note**: This is referring to the shape of the data in the Redux store. Not the `<LegendItem>` component.
 
 | Prop        | Type     | Note                                                                                    |
-| ----------- | -------- | --------------------------------------------------------------------------------------- |
+| ----------- | -------- | ---------------------------------------------------------------------------------------- |
 | **`name*`** | `string` | The name of the series being shown in the legend                                        |
 | `icon`      | `string` | The shape that should be used for the icon. One of ["circle", "square", "line", "none"] |
 | `color`     | `string` | The colour of the series                                                                |
+
+<br />
+
+## Size Legend
+
+`<ZAxis>` registers a size legend, which the Legend renders as a nested-circle diagram at its
+bottom - see the [Scatter docs](?path=/docs/charts-xycharts-scatter--docs) for sizing bubbles with
+`<ZAxis>`.
+
+<Canvas of={LegendOverlayStories.WithSizeLegend} />
 
 <br />

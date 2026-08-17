@@ -871,7 +871,7 @@ exports[`JsonChart should create empty template correctly 1`] = `
         >
           <div
             class="chart-io legend"
-            style="border: thin solid #ccc; display: flex; flex-direction: column; flex-wrap: wrap; position: absolute; right: 10px; transform: translateY(-50%); top: 50%; max-width: 200px; max-height: 460px; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden;"
+            style="border: thin solid #ccc; display: flex; flex-direction: column; flex-wrap: wrap; position: absolute; right: 10px; transform: translateY(-50%); top: 50%; max-width: 200px; max-height: 460px; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden; pointer-events: auto; cursor: grab;"
           >
             <div
               class="chart-io legend-item"

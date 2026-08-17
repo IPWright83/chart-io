@@ -4,7 +4,7 @@ exports[`Legend should render correctly 1`] = `
 <DocumentFragment>
   <div
     class="chart-io legend"
-    style="border: thin solid #ccc; display: flex; flex-direction: column; flex-wrap: wrap; position: absolute; left: 10px; right: 20px; top: 30px; bottom: 40px; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden;"
+    style="border: thin solid #ccc; display: flex; flex-direction: column; flex-wrap: wrap; position: absolute; left: 10px; right: 20px; top: 30px; bottom: 40px; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden; pointer-events: auto;"
   >
     <div
       class="chart-io legend-item"
@@ -71,3 +71,132 @@ exports[`Legend should render correctly 1`] = `
 `;
 
 exports[`Legend should render nothing if there are no items 1`] = `<DocumentFragment />`;
+
+exports[`Legend should render the size legend at the bottom, even with no color items 1`] = `
+<DocumentFragment>
+  <div
+    class="chart-io legend"
+    style="border: thin solid #ccc; display: flex; flex-direction: column; flex-wrap: wrap; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden; pointer-events: auto;"
+  >
+    <div
+      class="chart-io size-legend"
+      style="margin-top: 8px; padding-top: 8px; border-top: thin solid #ccc;"
+    >
+      <div
+        class="chart-io size-legend-title"
+        style="color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif; margin-bottom: 4px;"
+      >
+        population
+      </div>
+      <svg
+        height="58"
+        style="overflow: visible;"
+        width="68"
+      >
+        <g
+          class="size-legend-tick"
+        >
+          <circle
+            class="size-legend-ring"
+            cx="29"
+            cy="29"
+            fill="none"
+            r="25"
+            stroke="#333333"
+            stroke-opacity="0.8"
+            stroke-width="1"
+          />
+          <line
+            class="size-legend-leader"
+            stroke="#333333"
+            stroke-dasharray="2,2"
+            stroke-opacity="0.8"
+            stroke-width="1"
+            x1="29"
+            x2="68"
+            y1="4"
+            y2="4"
+          />
+          <text
+            class="size-legend-label"
+            dominant-baseline="middle"
+            style="fill: #333333; font-size: 12px; font-family: sans-serif;"
+            x="72"
+            y="4"
+          >
+            100
+          </text>
+        </g>
+        <g
+          class="size-legend-tick"
+        >
+          <circle
+            class="size-legend-ring"
+            cx="29"
+            cy="39"
+            fill="none"
+            r="15"
+            stroke="#333333"
+            stroke-opacity="0.8"
+            stroke-width="1"
+          />
+          <line
+            class="size-legend-leader"
+            stroke="#333333"
+            stroke-dasharray="2,2"
+            stroke-opacity="0.8"
+            stroke-width="1"
+            x1="29"
+            x2="68"
+            y1="24"
+            y2="24"
+          />
+          <text
+            class="size-legend-label"
+            dominant-baseline="middle"
+            style="fill: #333333; font-size: 12px; font-family: sans-serif;"
+            x="72"
+            y="24"
+          >
+            50
+          </text>
+        </g>
+        <g
+          class="size-legend-tick"
+        >
+          <circle
+            class="size-legend-ring"
+            cx="29"
+            cy="49"
+            fill="none"
+            r="5"
+            stroke="#333333"
+            stroke-opacity="0.8"
+            stroke-width="1"
+          />
+          <line
+            class="size-legend-leader"
+            stroke="#333333"
+            stroke-dasharray="2,2"
+            stroke-opacity="0.8"
+            stroke-width="1"
+            x1="29"
+            x2="68"
+            y1="44"
+            y2="44"
+          />
+          <text
+            class="size-legend-label"
+            dominant-baseline="middle"
+            style="fill: #333333; font-size: 12px; font-family: sans-serif;"
+            x="72"
+            y="44"
+          >
+            0
+          </text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</DocumentFragment>
+`;

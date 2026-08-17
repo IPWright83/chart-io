@@ -1,4 +1,5 @@
 import type { IColor } from "@chart-io/core";
+import { d3 } from "@chart-io/core";
 import { Provider } from "react-redux";
 import React from "react";
 import { render } from "@testing-library/react";
@@ -42,5 +43,39 @@ describe("Legend", () => {
         );
 
         expect(asFragment()).toMatchSnapshot();
+    });
+
+    it("should render the size legend at the bottom, even with no color items", async () => {
+        const storeWithScale = createMockStore({
+            chart: {
+                scales: {
+                    population: {
+                        scale: d3.scaleLinear().domain([0, 100]).range([5, 25]),
+                        domain: [0, 100],
+                        range: [5, 25],
+                    },
+                },
+            },
+        });
+
+        const { asFragment } = render(
+            <Provider store={storeWithScale}>
+                <Legend items={[]} sizeLegend={{ field: "population", ticks: 3 }} />
+            </Provider>
+        );
+
+        expect(asFragment()).toMatchSnapshot();
+    });
+
+    it("should show a grabbing cursor while being dragged", async () => {
+        const items = [{ name: "a", icon: "circle" as const, color: "blue" as IColor }];
+
+        const { container } = render(
+            <Provider store={store}>
+                <Legend items={items} onPointerDown={jest.fn()} dragging />
+            </Provider>
+        );
+
+        expect(container.querySelector(".legend")).toHaveStyle({ cursor: "grabbing" });
     });
 });
