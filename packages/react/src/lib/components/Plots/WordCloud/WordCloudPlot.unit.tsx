@@ -6,7 +6,7 @@ import { WordCloudPlot } from "./WordCloudPlot";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { getBuffer, renderChart, testMouseClick, testMouseOver, wait } from "../../../testUtils";
+import { actionsIncludes, getBuffer, renderChart, testMouseClick, testMouseOver, wait } from "../../../testUtils";
 
 describe("WordCloudPlot", () => {
     const expectedDatum = { word: "chart", count: 50 };
@@ -18,8 +18,10 @@ describe("WordCloudPlot", () => {
     ];
 
     // A fixed-size measurer keeps rendering (and its snapshots) independent of font metrics, which
-    // vary by environment (canvas polyfill, installed fonts, ...)
-    const measureText = (text: string) => ({ width: text.length * 8, height: 14 });
+    // vary by environment (canvas polyfill, installed fonts, ...) - scaled by fontSize like a real
+    // measurer would, so the largest ("chart") word's painted glyphs stay comfortably inside its own
+    // non-overlapping layout box instead of spilling into its neighbours
+    const measureText = (text: string, fontSize: number) => ({ width: text.length * fontSize * 0.4, height: fontSize * 1.1 });
 
     describe("using SVG", () => {
         it("should render correctly", async () => {
@@ -69,7 +71,18 @@ describe("WordCloudPlot", () => {
 
         it("should rotate alternating words when rotate is true", async () => {
             const { container } = await renderChart({
-                children: <WordCloudPlot category="word" value="count" measureText={measureText} rotate={true} />,
+                // Kept small so a rotated word's (width/height swapped) box can still find room
+                // alongside the others in the 200x200 test canvas
+                children: (
+                    <WordCloudPlot
+                        category="word"
+                        value="count"
+                        measureText={measureText}
+                        minFontSize={8}
+                        maxFontSize={24}
+                        rotate={true}
+                    />
+                ),
                 data,
             });
 
@@ -175,6 +188,75 @@ describe("WordCloudPlot", () => {
 
             const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));
             expect(virtualCanvasBuffer).toMatchImageSnapshot();
+        });
+
+        describe("should handle event", () => {
+            it("mouseover correctly on a word", async () => {
+                const onMouseOver = jest.fn();
+
+                const { container, store } = await renderChart({
+                    children: (
+                        <VirtualCanvas>
+                            <WordCloudPlot
+                                category="word"
+                                value="count"
+                                measureText={measureText}
+                                onMouseOver={onMouseOver}
+                                useCanvas={true}
+                            />
+                        </VirtualCanvas>
+                    ),
+                    data,
+                });
+
+                jest.spyOn(store, "dispatch");
+                await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
+
+                // "chart" is the largest ("count": 50) word, so it's placed dead center of the 200x200
+                // plot - a couple of pixels below its anchor point lands inside its painted glyphs
+                await testMouseOver(container, ".virtual-canvas", onMouseOver, expectedDatum, {
+                    bubbles: true,
+                    pageX: 100,
+                    pageY: 105,
+                });
+
+                const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
+
+                actionsIncludes(dispatchCalls, [
+                    "event/mouseMove",
+                    "event/setTooltipBorderColor",
+                    "event/addTooltipItem",
+                    "event/setPositionEvent",
+                ]);
+            });
+
+            it("click correctly on a word", async () => {
+                const onClick = jest.fn();
+
+                const { container, store } = await renderChart({
+                    children: (
+                        <VirtualCanvas>
+                            <WordCloudPlot
+                                category="word"
+                                value="count"
+                                measureText={measureText}
+                                onClick={onClick}
+                                useCanvas={true}
+                            />
+                        </VirtualCanvas>
+                    ),
+                    data,
+                });
+
+                jest.spyOn(store, "dispatch");
+                await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
+
+                await testMouseClick(container, ".virtual-canvas", onClick, expectedDatum, {
+                    bubbles: true,
+                    pageX: 100,
+                    pageY: 105,
+                });
+            });
         });
     });
 });

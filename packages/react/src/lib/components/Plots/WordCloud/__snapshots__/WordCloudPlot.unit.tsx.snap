@@ -23,8 +23,8 @@ exports[`WordCloudPlot using SVG should render correctly 1`] = `
         dy="14.149657940361319"
         style="font-family: sans-serif; fill: #fc998e; cursor: pointer; opacity: 0.7; font-size: 40.42759411531806px;"
         text-anchor="middle"
-        x="111.52109763064638"
-        y="118.62456199176542"
+        x="107.31177062608272"
+        y="160.45947411540692"
       >
         data
       </text>
@@ -34,8 +34,8 @@ exports[`WordCloudPlot using SVG should render correctly 1`] = `
         dy="4.199999999999999"
         style="font-family: sans-serif; fill: #fdc381; cursor: pointer; opacity: 0.7; font-size: 12px;"
         text-anchor="middle"
-        x="76.3487841408734"
-        y="81.06035933854618"
+        x="76.78179919446595"
+        y="55.266621507493"
       >
         plot
       </text>
