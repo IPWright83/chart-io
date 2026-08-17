@@ -1,0 +1,96 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as HeatmapStories from "./Heatmap.stories"
+
+<Meta title="Charts/Miscellaneous/Heatmap" />
+
+# Heatmap Plots
+
+The `<Heatmap>` component renders a grid of cells - one per `rows`/`columns` combination in the data -
+colored by `value` along a sequential scale. It's a self-contained chart - unlike `<Bar>`/`<Line>`
+(which need an `<XYChart>` wrapper) or `<Pie>`/`<Radar>` (which need a `<RadialChart>` wrapper),
+`<Heatmap>` accepts chart-level props like `data`/`width`/`height` directly, since it only ever has a
+single plot.
+
+<Canvas of={HeatmapStories.Basic} />
+
+## `<Heatmap>` Component
+
+### Props
+
+| Prop              | Type       | Default             | Note                                                                                                     |
+| ------------------ | ---------- | -------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **`rows`\***       | `string`   | `null`               | The field used for each cell's row.                                                                       |
+| **`columns`\***    | `string`   | `null`               | The field used for each cell's column.                                                                    |
+| **`value`\***      | `string`   | `null`               | The key of the field containing each cell's value, mapped to a color via `colors`.                        |
+| `colors`           | `string[]` | Derived from Theme   | The sequential color range a cell's `value` is mapped along - 2 or more colors, interpolated between as equally spaced stops from the lowest to the highest value in the data. |
+| `padding`          | `number`   | `2`                  | The gap, in pixels, to leave between adjacent cells.                                                       |
+| `cornerRadius`     | `number`   | `0`                  | The corner radius, in pixels, to apply to each cell.                                                       |
+| `rowGroupBy`       | `string`   | `undefined`          | A field giving each row's group. Enables `rowsGrouped`.                                                    |
+| `columnGroupBy`    | `string`   | `undefined`          | A field giving each column's group. Enables `columnsGrouped`.                                              |
+| `groupGap`         | `number`   | `padding * 6`        | The extra gap, in pixels, left between two adjacent groups when grouped - on top of `padding`.             |
+| `rowsGrouped`      | `boolean`  | `false`               | Reorders rows so rows sharing a `rowGroupBy` group become adjacent. See [Animated grouping](#animated-grouping) below. |
+| `columnsGrouped`   | `boolean`  | `false`               | The column equivalent of `rowsGrouped`, using `columnGroupBy`.                                             |
+| `labels`           | `boolean`  | `true`                | Should row and column labels be shown?                                                                    |
+| `interactive`      | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot.       |
+
+`<Heatmap>` also accepts the usual chart-level props - `data`, `width`, `height`, `plotMargin`,
+`theme`, `animationDuration`, `onClick`/`onMouseOver`/`onMouseOut` and so on - directly, since it's a
+self-contained chart. Row and column labels are drawn outside the plot area itself, so widen
+`plotMargin.left`/`plotMargin.top` to give them room - particularly `left`, for long row labels.
+
+> **Note**: Every combination of the fields listed in `rows`/`columns` should be unique in the data. If
+> your data has multiple rows for the same combination, aggregate it first. A `rows`/`columns` pair
+> missing from the data simply renders no cell for that pair - the grid doesn't need to be a complete
+> matrix.
+
+### Using Canvas
+
+Like other plots, a `<Heatmap>` can be rendered using an HTML Canvas instead of SVG by setting `useCanvas`.
+
+<Canvas of={HeatmapStories.Canvas} />
+
+### Grouping rows or columns
+
+Pass `rowGroupBy` (and/or `columnGroupBy`) - a field giving each row (or column) its group - then set
+`rowsGrouped`/`columnsGrouped` to reorder that axis so rows/columns sharing a group become adjacent,
+separated from other groups by an extra `groupGap`. Rows/columns within a group keep their original
+relative order:
+
+<Canvas of={HeatmapStories.GroupedByContinent} />
+
+```jsx
+<Heatmap rows="country" columns="sector" value="gdp" rowGroupBy="continent" rowsGrouped={true} />
+```
+
+### Animated grouping
+
+Every cell is keyed by its `rows`/`columns` pair, so toggling `rowsGrouped`/`columnsGrouped` at
+runtime doesn't recreate any of them - each cell (and its row/column label) just transitions smoothly
+to its new position, animating the grid clustering into its groups and back apart again:
+
+<Canvas of={HeatmapStories.AnimatedGrouping} />
+
+`rowsGrouped`/`columnsGrouped` are plain props, so any state change re-renders with a new value - a
+checkbox, a click handler, whatever fits the app driving the chart:
+
+```jsx
+function GroupableHeatmap() {
+    const [grouped, setGrouped] = useState(false);
+
+    return (
+        <React.Fragment>
+            <Heatmap
+                rows="country"
+                columns="sector"
+                value="gdp"
+                rowGroupBy="continent"
+                rowsGrouped={grouped}
+            />
+            <button onClick={() => setGrouped((g) => !g)}>Toggle grouping</button>
+        </React.Fragment>
+    );
+}
+```
+
+Both axes can be grouped independently at once, each by its own field, by setting `columnGroupBy`/
+`columnsGrouped` alongside `rowGroupBy`/`rowsGrouped`.
