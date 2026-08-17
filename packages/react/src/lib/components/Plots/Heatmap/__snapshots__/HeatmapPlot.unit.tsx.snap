@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeatmapPlot using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot heatmap-cells"
+    >
+      <rect
+        class="heatmap-cell"
+        height="99"
+        rx="0"
+        ry="0"
+        style="fill: rgb(226, 237, 245); cursor: pointer;"
+        width="99"
+        x="0"
+        y="0"
+      />
+      <rect
+        class="heatmap-cell"
+        height="99"
+        rx="0"
+        ry="0"
+        style="fill: rgb(182, 211, 230); cursor: pointer;"
+        width="99"
+        x="101"
+        y="0"
+      />
+      <rect
+        class="heatmap-cell"
+        height="99"
+        rx="0"
+        ry="0"
+        style="fill: rgb(153, 193, 220); cursor: pointer;"
+        width="99"
+        x="0"
+        y="101"
+      />
+      <rect
+        class="heatmap-cell"
+        height="99"
+        rx="0"
+        ry="0"
+        style="fill: rgb(255, 255, 255); cursor: pointer;"
+        width="99"
+        x="101"
+        y="101"
+      />
+    </g>
+    <g
+      class="g-plot heatmap-labels"
+    >
+      <text
+        class="heatmap-row-label"
+        dy="3"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        text-anchor="end"
+        x="-8"
+        y="49.5"
+      >
+        North
+      </text>
+      <text
+        class="heatmap-row-label"
+        dy="3"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        text-anchor="end"
+        x="-8"
+        y="150.5"
+      >
+        South
+      </text>
+    </g>
+    <g
+      class="g-plot heatmap-labels"
+    >
+      <text
+        class="heatmap-column-label"
+        dy="3"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        text-anchor="middle"
+        x="49.5"
+        y="-8"
+      >
+        Widgets
+      </text>
+      <text
+        class="heatmap-column-label"
+        dy="3"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        text-anchor="middle"
+        x="150.5"
+        y="-8"
+      >
+        Gadgets
+      </text>
+    </g>
+  </svg>
+</DocumentFragment>
+`;

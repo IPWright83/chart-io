@@ -12,3 +12,4 @@ export * from "./Dendrogram";
 export * from "./RadialDendrogram";
 export * from "./CirclePacking";
 export * from "./WordCloud";
+export * from "./Heatmap";
