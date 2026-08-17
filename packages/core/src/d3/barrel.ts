@@ -1,6 +1,7 @@
 export * from "d3-array";
 export * from "d3-axis";
 export * from "d3-brush";
+export * from "d3-chord";
 export * from "d3-color";
 export * from "d3-ease";
 export * from "d3-format";

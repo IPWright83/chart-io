@@ -81,6 +81,9 @@ importers:
       d3-brush:
         specifier: ^3.0.0
         version: 3.0.0
+      d3-chord:
+        specifier: ^3.0.1
+        version: 3.0.1
       d3-color:
         specifier: ^3.1.0
         version: 3.1.0
@@ -147,6 +150,9 @@ importers:
         version: 3.0.6
       '@types/d3-brush':
         specifier: ^3.0.2
+        version: 3.0.6
+      '@types/d3-chord':
+        specifier: ^3.0.6
         version: 3.0.6
       '@types/d3-color':
         specifier: ^3.1.0
@@ -6061,6 +6067,10 @@ packages:
       '@types/d3-selection': 3.0.11
     dev: true
 
+  /@types/d3-chord@3.0.6:
+    resolution: {integrity: sha512-LFYWWd8nwfwEmTZG9PfQxd17HbNPksHBiJHaKuY1XeqscXacsS2tyoo6OdRsjf+NQYeB6XrNL3a25E3gH69lcg==}
+    dev: true
+
   /@types/d3-color@3.1.3:
     resolution: {integrity: sha512-iO90scth9WAbmgv7ogoq57O9YpKmFBbmoEoCHDB2xMBY0+/KVrqAaCDyCE16dUspeOvIxFFRI+0sEtqDqy2b4A==}
     dev: true
@@ -9164,6 +9174,13 @@ packages:
       d3-interpolate: 3.0.1
       d3-selection: 3.0.0
       d3-transition: 3.0.1(d3-selection@3.0.0)
+    dev: false
+
+  /d3-chord@3.0.1:
+    resolution: {integrity: sha512-VE5S6TNa+j8msksl7HwjxMHDM2yNK3XCkusIlpX5kwauBfXuyLAtNg9jCp/iHH61tgI4sb6R/EIMWCqEIdjT/g==}
+    engines: {node: '>=12'}
+    dependencies:
+      d3-path: 3.1.0
     dev: false
 
   /d3-color@3.1.0:

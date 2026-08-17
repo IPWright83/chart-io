@@ -18,7 +18,7 @@ const preview: Preview = {
           "Extensibility",
           "Theming",
           "Charts",
-          ["XYCharts", "RadialCharts", "Hierarchical"],
+          ["XYCharts", "RadialCharts", "Hierarchical", "Relational"],
           "Components",
           "Errors & Warnings",
           ["Introduction", "**"],
