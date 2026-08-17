@@ -183,11 +183,16 @@ describe("WordCloudPlot", () => {
 
             await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
 
+            // Unlike a rect/circle's small edge-to-area ratio, text glyphs are mostly edge - so
+            // font hinting/anti-aliasing differences between environments (this sandbox vs. CI)
+            // shift enough boundary pixels to need a tolerance plain shape snapshots don't
+            const textSnapshotOptions = { failureThreshold: 0.08, failureThresholdType: "percent" as const };
+
             const canvasBuffer = getBuffer(container.querySelector(".canvas"));
-            expect(canvasBuffer).toMatchImageSnapshot();
+            expect(canvasBuffer).toMatchImageSnapshot(textSnapshotOptions);
 
             const virtualCanvasBuffer = getBuffer(container.querySelector(".virtual-canvas"));
-            expect(virtualCanvasBuffer).toMatchImageSnapshot();
+            expect(virtualCanvasBuffer).toMatchImageSnapshot(textSnapshotOptions);
         });
 
         describe("should handle event", () => {
