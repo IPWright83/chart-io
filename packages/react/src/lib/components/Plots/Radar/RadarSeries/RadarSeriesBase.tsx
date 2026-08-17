@@ -6,10 +6,10 @@ import { shallowEqual, useSelector } from "react-redux";
 
 import { useLegendItem, useRender } from "../../../../hooks";
 
+import { interpolatePoints } from "../../interpolatePoints";
 import { renderCanvas } from "../../renderCanvas";
 import { useFocused } from "../../useFocused";
 import { useTooltip } from "../../useTooltip";
-import { interpolatePoints } from "../interpolatePoints";
 
 export interface IRadarSeriesBaseProps {
     /**

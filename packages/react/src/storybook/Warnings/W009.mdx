@@ -7,13 +7,14 @@ import { Meta } from "@storybook/blocks";
 > `Negative values in the ${value} field aren't supported by <${componentName}> and have been treated as 0.`
 
 This warning indicates that the dataset contains one or more negative values in the field used for a
-hierarchical chart's `value`.
+chart's `value`.
 
 ## Cause
 
-Hierarchical charts (e.g. `<StackedDonut>`, and others built on the same shared hierarchy) size each
-node using an angular span, a rectangle's area, or similar - none of which can represent a negative
-size. Negative values are treated as `0` so the chart still renders, rather than producing a broken or
+Some charts size each element using an angular span, a rectangle's area, a font-size, or similar - none
+of which can represent a negative size. This includes hierarchical charts (e.g. `<StackedDonut>`,
+`<Treemap>`, `<CirclePacking>`, and others built on the same shared hierarchy) as well as `<WordCloud>`.
+Negative values are treated as `0` so the chart still renders, rather than producing a broken or
 degenerate layout.
 
 ## Fix

@@ -1,0 +1,23 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Errors & Warnings/Warnings/W010" />
+
+# W010 Words Didn't Fit
+
+> `${omitted} word(s) didn't fit within the available space and were omitted from the <${componentName}>.`
+
+This warning indicates that a `<WordCloud>` couldn't find room for one or more words without overlapping
+another word already placed.
+
+## Cause
+
+`<WordCloud>` places words - largest first - along a spiral search outward from the center, stopping
+once it finds a non-overlapping spot. Once the spiral has searched the whole chart without success, the
+word is dropped rather than forced to overlap another word or spill outside the plot area. This usually
+happens when there are too many words for the available space, or `minFontSize`/`maxFontSize` are set
+too large for the chart's `width`/`height`.
+
+## Fix
+
+Widen or heighten the chart, lower `minFontSize`/`maxFontSize`, reduce `padding`, or trim the dataset
+down to fewer words.
