@@ -53,7 +53,7 @@ export function GroupedColumnBase({
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     const onTooltip = useTooltip({ x });
-    const onFocus = useFocused({ xScale, theme, grouped: true, canvasRedraw: { canvas, layer } });
+    const onFocus = useFocused({ xScale, theme, grouped: true, canvas, layer });
 
     useLegendItems(ys, "square", showInLegend, colors);
 
