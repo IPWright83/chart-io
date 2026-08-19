@@ -20,8 +20,6 @@ export const Sankey = forwardRef<IChartRef, ISankeyProps>(
         {
             categories,
             value,
-            nodeWidth,
-            nodePadding,
             cornerRadius,
             colors,
             buildSankeyGraph,
@@ -35,8 +33,6 @@ export const Sankey = forwardRef<IChartRef, ISankeyProps>(
         const plotProps = {
             categories,
             value,
-            nodeWidth,
-            nodePadding,
             cornerRadius,
             colors,
             buildSankeyGraph,

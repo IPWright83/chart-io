@@ -10,7 +10,7 @@ describe("Sankey", () => {
         { source: "Gas", stage: "Electricity", destination: "Industry", amount: 3 },
     ];
 
-    it("should render without needing an external Chart wrapper", async () => {
+    it("should render a node for every distinct value in categories", async () => {
         const { container } = render(
             <Sankey categories={["source", "stage", "destination"]} value="amount" data={data} width={200} height={200} />,
         );

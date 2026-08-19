@@ -14,7 +14,7 @@ exports[`SankeyPlot using SVG should render correctly 1`] = `
         data-x1="184"
         data-y0="58.75"
         data-y1="63.219679112075276"
-        style="fill: none; stroke: #99c1dc; stroke-width: 117.5; stroke-opacity: 0.4; cursor: pointer;"
+        style="fill: none; stroke: #99c1dc; stroke-width: 117.5; stroke-opacity: 0.4;"
       />
       <path
         class="sankey-link"
@@ -24,7 +24,7 @@ exports[`SankeyPlot using SVG should render correctly 1`] = `
         data-x1="184"
         data-y0="164.75"
         data-y1="157.21967911207528"
-        style="fill: none; stroke: #fc998e; stroke-width: 70.5; stroke-opacity: 0.4; cursor: pointer;"
+        style="fill: none; stroke: #fc998e; stroke-width: 70.5; stroke-opacity: 0.4;"
       />
     </g>
     <g

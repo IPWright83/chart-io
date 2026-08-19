@@ -17,8 +17,8 @@ import { ISankeyLink, ISankeyNode, useSankeyLayout } from "./useSankeyLayout";
 
 const CanvasLinksPlot = withCanvas<ILinksPlotProps<ISankeyLink>>(LinksPlot, "plot sankey-links");
 const SVGLinksPlot = withSVG<ILinksPlotProps<ISankeyLink>>(LinksPlot, "plot sankey-links");
-const CanvasNodesPlot = withCanvas<IRectsPlotProps<ISankeyNode>>(RectsPlot, "plot sankey-nodes");
-const SVGNodesPlot = withSVG<IRectsPlotProps<ISankeyNode>>(RectsPlot, "plot sankey-nodes");
+const CanvasNodeRectsPlot = withCanvas<IRectsPlotProps<ISankeyNode>>(RectsPlot, "plot sankey-nodes");
+const SVGNodeRectsPlot = withSVG<IRectsPlotProps<ISankeyNode>>(RectsPlot, "plot sankey-nodes");
 const CanvasLabelsPlot = withCanvas<ILabelsPlotProps<ISankeyNode>>(LabelsPlot, "plot sankey-labels");
 const SVGLabelsPlot = withSVG<ILabelsPlotProps<ISankeyNode>>(LabelsPlot, "plot sankey-labels");
 
@@ -41,16 +41,6 @@ export interface ISankeyPlotProps {
      * The key of the field used for the size of each flow, shown in its tooltip
      */
     value: string;
-    /**
-     * The width, in pixels, of each node's rectangle
-     * @default 16
-     */
-    nodeWidth?: number;
-    /**
-     * The minimum vertical gap, in pixels, between nodes in the same column
-     * @default 12
-     */
-    nodePadding?: number;
     /**
      * The corner radius, in pixels, to apply to each node's rectangle
      * @default 0
@@ -114,8 +104,6 @@ export function SankeyPlot({
     categories,
     value,
     renderVirtualCanvas,
-    nodeWidth = 16,
-    nodePadding = 12,
     cornerRadius = 0,
     colors,
     buildSankeyGraph,
@@ -129,7 +117,7 @@ export function SankeyPlot({
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
 
     const { allNodes, allLinks, keyFor, linkKeyFor, colorFor, linkGenerator, labelX, labelY, labelAnchor, legendKeys, legendColors } =
-        useSankeyLayout({ categories, value, nodeWidth, nodePadding, colors, buildSankeyGraph });
+        useSankeyLayout({ categories, value, colors, buildSankeyGraph });
 
     useLegendItems(legendKeys, "square", showInLegend, legendColors);
 
@@ -178,7 +166,7 @@ export function SankeyPlot({
     };
 
     const Links = useCanvas ? CanvasLinksPlot : SVGLinksPlot;
-    const Nodes = useCanvas ? CanvasNodesPlot : SVGNodesPlot;
+    const NodeRects = useCanvas ? CanvasNodeRectsPlot : SVGNodeRectsPlot;
     const Labels = useCanvas ? CanvasLabelsPlot : SVGLabelsPlot;
 
     return (
@@ -199,13 +187,12 @@ export function SankeyPlot({
                 stroke={(link) => colorFor(link.source as ISankeyNode)}
                 strokeWidth={(link) => Math.max(1, link.width ?? 0)}
                 strokeOpacity={LINK_OPACITY}
-                cursor={() => (interactive ? "pointer" : "default")}
                 interactive={interactive}
                 onMouseOver={handleLinkMouseOver}
                 onMouseOut={handleLinkMouseOut}
                 onClick={(link, element, event) => onClick && onClick(linkDatum(link), element, event)}
             />
-            <Nodes
+            <NodeRects
                 renderVirtualCanvas={renderVirtualCanvas}
                 className="sankey-node"
                 items={allNodes}
@@ -217,7 +204,7 @@ export function SankeyPlot({
                 color={colorFor}
                 cornerRadius={cornerRadius}
                 opacity={theme.series.opacity}
-                cursor={() => (interactive ? "pointer" : "default")}
+                cursor={() => "pointer"}
                 interactive={interactive}
                 onMouseOver={handleNodeMouseOver}
                 onMouseOut={handleNodeMouseOut}

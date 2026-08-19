@@ -13,20 +13,20 @@ import { useSelector } from "react-redux";
 export type ISankeyNode = d3.SankeyNode<ISankeyNodeDatum, ISankeyLinkDatum>;
 export type ISankeyLink = d3.SankeyLink<ISankeyNodeDatum, ISankeyLinkDatum>;
 
+// Not yet exposed as props - see if the plain defaults are enough before adding that surface area
+const NODE_WIDTH = 16;
+const NODE_PADDING = 12;
+
 /**
  * Runs the Sankey layout, positioning every node/link within `extent`. d3.sankey() throws (rather
  * than laying out an empty diagram) when there are no nodes - e.g. on the first render, before
  * `<Chart>`'s data effect has populated the store - so that case is short-circuited here instead
  * @param  graph          The un-laid-out node/link graph
- * @param  nodeWidth      The width, in pixels, of each node's rectangle
- * @param  nodePadding    The minimum vertical gap, in pixels, between nodes in the same column
  * @param  extent         The `[[x0, y0], [x1, y1]]` pixel bounds to lay the diagram out within
  * @return                The laid-out nodes and links
  */
 function layoutSankeyGraph(
     graph: ISankeyGraphData,
-    nodeWidth: number,
-    nodePadding: number,
     extent: [[number, number], [number, number]],
 ): { allNodes: ISankeyNode[]; allLinks: ISankeyLink[] } {
     if (graph.nodes.length === 0) {
@@ -36,8 +36,8 @@ function layoutSankeyGraph(
     const sankeyGenerator = d3
         .sankey<ISankeyNodeDatum, ISankeyLinkDatum>()
         .nodeId((node) => node.id)
-        .nodeWidth(nodeWidth)
-        .nodePadding(nodePadding)
+        .nodeWidth(NODE_WIDTH)
+        .nodePadding(NODE_PADDING)
         .extent(extent);
 
     const { nodes, links } = sankeyGenerator({
@@ -51,8 +51,6 @@ function layoutSankeyGraph(
 export interface IUseSankeyLayoutProps {
     categories: string[];
     value: string;
-    nodeWidth: number;
-    nodePadding: number;
     colors?: IColor[];
     buildSankeyGraph?: (data: IData, categories: string[], value: string, componentName: string) => ISankeyGraphData;
 }
@@ -67,8 +65,6 @@ export interface IUseSankeyLayoutProps {
 export function useSankeyLayout({
     categories,
     value,
-    nodeWidth,
-    nodePadding,
     colors,
     buildSankeyGraph = defaultBuildSankeyGraph,
 }: IUseSankeyLayoutProps) {
@@ -91,7 +87,7 @@ export function useSankeyLayout({
 
     const layout = useMemo(() => {
         const graph = buildSankeyGraph(data, categories, value, "Sankey");
-        const { allNodes, allLinks } = layoutSankeyGraph(graph, nodeWidth, nodePadding, [
+        const { allNodes, allLinks } = layoutSankeyGraph(graph, [
             [plotLeft, plotTop],
             [plotLeft + plotWidth, plotTop + plotHeight],
         ]);
@@ -148,8 +144,6 @@ export function useSankeyLayout({
         categories,
         value,
         buildSankeyGraph,
-        nodeWidth,
-        nodePadding,
         plotLeft,
         plotTop,
         plotWidth,

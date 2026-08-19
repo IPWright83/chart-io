@@ -57,7 +57,6 @@ export interface ILinksPlotProps<L extends { source: unknown; target: unknown }>
      * @default 1
      */
     strokeWidth?: number | ((link: L) => number);
-    cursor?: (link: L) => string;
     /**
      * Should the plot be interactive and dispatch mouseover/mouseout/click callbacks?
      * @default true
@@ -88,7 +87,6 @@ export function LinksPlot<L extends { source: unknown; target: unknown }>({
     stroke,
     strokeOpacity = 1,
     strokeWidth,
-    cursor,
     interactive = true,
     onMouseOver,
     onMouseOut,
@@ -119,7 +117,6 @@ export function LinksPlot<L extends { source: unknown; target: unknown }>({
             .style("stroke", strokeFor)
             .style("stroke-width", strokeWidth === undefined ? null : strokeWidthFor)
             .style("stroke-opacity", strokeOpacity)
-            .style("cursor", cursor ? (link) => cursor(link) : null)
             .on("mouseover", function (event, link) {
                 // istanbul ignore next
                 if (!interactive) return;
@@ -143,9 +140,6 @@ export function LinksPlot<L extends { source: unknown; target: unknown }>({
 
         (staticAttrs ?? []).forEach(({ name, value }) => update.attr(name, value));
         update.style("stroke", strokeFor);
-        if (cursor) {
-            update.style("cursor", (link) => cursor(link));
-        }
 
         let transition = update.transition(className).duration(animationDuration);
         (dataAttrs ?? []).forEach(({ name, value }) => {
@@ -166,7 +160,6 @@ export function LinksPlot<L extends { source: unknown; target: unknown }>({
         stroke,
         strokeOpacity,
         strokeWidth,
-        cursor,
         interactive,
         onMouseOver,
         onMouseOut,

@@ -76,8 +76,6 @@ const SankeyTemplate = (args) => (
         onMouseOut={args.onMouseOut}
         categories={args.categories}
         value={args.value}
-        nodeWidth={args.nodeWidth}
-        nodePadding={args.nodePadding}
     />
 );
 
@@ -98,8 +96,6 @@ export const Basic = {
         bottomMargin: 40,
         categories: ["continent", "sector"],
         value: "gdp",
-        nodeWidth: 16,
-        nodePadding: 12,
     },
     play: createSVGTest("rect.sankey-node", { clientX: 150, clientY: 150 }),
 };
