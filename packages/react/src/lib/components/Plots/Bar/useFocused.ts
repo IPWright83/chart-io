@@ -1,8 +1,10 @@
-import { d3, eventActions, getXYFromTransform } from "@chart-io/core";
+import { chartSelectors, d3, eventActions, getXYFromTransform, IState } from "@chart-io/core";
 import type { IColor, IDispatch, IFocused, IScale, ITheme } from "@chart-io/core";
 
-import { useEffect, useState } from "react";
-import { useStore } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector, useStore } from "react-redux";
+
+import { redrawCanvas } from "../renderCanvas";
 
 export interface IBarFocusProps {
     /**
@@ -25,13 +27,30 @@ export interface IBarFocusProps {
      * True if the columns are grouped
      */
     grouped?: boolean;
+    /**
+     * An HTML Canvas if the plot is rendering to canvas instead of SVG. Omit (or leave undefined) for SVG,
+     * where the browser already repaints the highlighted node's style change on its own
+     */
+    canvas?: HTMLCanvasElement;
+    /**
+     * The width of the chart
+     */
+    width?: number;
+    /**
+     * The height of the chart
+     */
+    height?: number;
+    /**
+     * The (detached) layer holding the nodes to redraw, if this plot is using Canvas
+     */
+    layer?: React.MutableRefObject<Element>;
 }
 
 /**
  * Helper function to manage markers & droplines for a selected datum on the Bar plot
  * @return              A function to set the focused datum
  */
-function focus({ dispatch, focused, theme, yScale, grouped = false }: IBarFocusProps) {
+function focus({ dispatch, focused, theme, yScale, grouped = false, canvas, width, height, layer }: IBarFocusProps) {
     if (!focused) return;
 
     // Get the appropriate attributes
@@ -40,17 +59,18 @@ function focus({ dispatch, focused, theme, yScale, grouped = false }: IBarFocusP
     const fill = selection.style("fill");
     const y = +selection.attr("y");
     const x = +selection.attr("x");
-    const width = +selection.attr("width");
+    const barWidth = +selection.attr("width");
     const tranformY =
         grouped === false ? 0 : getXYFromTransform(d3.select(selection.node().parentNode).attr("transform")).y;
 
     selection.style("opacity", theme.series.selectedOpacity);
+    redrawCanvas(canvas, width, height, layer);
 
     const verticalDropline = {
         isVertical: true,
         color: fill as IColor,
-        x1: x + width,
-        x2: x + width,
+        x1: x + barWidth,
+        x2: x + barWidth,
         y1: y + tranformY,
         y2: yScale.range()[0] as number,
     };
@@ -59,25 +79,35 @@ function focus({ dispatch, focused, theme, yScale, grouped = false }: IBarFocusP
 
     return () => {
         selection.style("opacity", theme.series.opacity);
+        redrawCanvas(canvas, width, height, layer);
         dispatch(eventActions.removeDropline(verticalDropline));
     };
 }
 
 /**
  * Handles the user interacting with a DataPoint on the Bar chart and the need to display a tooltip
- * @param  dispatch     The redux store dispatch function
- * @param  yScale       The d3 scale for the x-axis
- * @param  theme        The theme for the chart
- * @param  grouped      Whether the data on the chart is grouped
- * @return              A function to set the focused datum
+ * @param  yScale     The d3 scale for the x-axis
+ * @param  theme      The theme for the chart
+ * @param  grouped    Whether the data on the chart is grouped
+ * @param  canvas     An HTML Canvas if the plot is rendering to canvas instead of SVG
+ * @param  layer      The (detached) layer holding the nodes to redraw, if this plot is using Canvas
+ * @return            A function to set the focused datum
  */
-export const useFocused = ({ yScale, theme, grouped }: Omit<IBarFocusProps, "dispatch" | "focused">) => {
+export const useFocused = ({
+    yScale,
+    theme,
+    grouped,
+    canvas,
+    layer,
+}: Omit<IBarFocusProps, "dispatch" | "focused" | "width" | "height">) => {
     const { dispatch } = useStore();
     const [focused, setFocused] = useState(null);
+    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
 
     useEffect(() => {
-        return focus({ dispatch, yScale, focused, theme, grouped });
-    }, [dispatch, focused, yScale, theme.series.selectedOpacity]);
+        return focus({ dispatch, yScale, focused, theme, grouped, canvas, width, height, layer });
+    }, [dispatch, focused, yScale, theme.series.selectedOpacity, canvas, width, height, layer]);
 
     return setFocused;
 };
