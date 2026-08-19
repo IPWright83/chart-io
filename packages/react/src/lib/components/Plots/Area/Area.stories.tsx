@@ -2,6 +2,7 @@ import type { Meta } from "@storybook/react";
 import { expect, fn, within } from "@storybook/test";
 import React, { useMemo } from "react";
 
+import { streamData } from "../../../../data/stream_data";
 import { waves } from "../../../../data/waves";
 import { argTypes } from "../../../../storybook/argTypes";
 import { jitterFields, withDataControls } from "../../../../storybook/dataControls";
@@ -145,6 +146,34 @@ const StackedAreasTemplate = (args) => {
   );
 };
 
+// A streamgraph is a stacked area with a `wiggle` offset - it floats the baseline (rather than
+// stacking from zero) so the bands read as flowing ribbons instead of a bar-chart-shaped block
+const streamFields = ["Amanda", "Ashley", "Betty", "Deborah", "Dorothy", "Helen", "Linda", "Patricia"];
+
+// The wiggle offset can push layers above and below zero, so the y-scale's usual `aggregate`
+// (zero-to-sum) domain doesn't fit - it needs an explicit domain sized to the largest yearly total
+const maxStreamTotal = Math.max(...streamData.map((d) => streamFields.reduce((sum, key) => sum + d[key], 0)));
+
+const StreamGraphTemplate = (args) => (
+  <XYChart
+    data={streamData}
+    plotMargin={{
+      left: args.leftMargin,
+      right: args.rightMargin,
+      top: args.topMargin,
+      bottom: args.bottomMargin,
+    }}
+    height={args.height}
+    width={args.width}
+    animationDuration={args.animationDuration}
+    useCanvas={args.useCanvas}
+  >
+    <YAxis fields={streamFields} domain={[-maxStreamTotal, maxStreamTotal]} showGridlines={false} />
+    <XAxis fields={["year"]} />
+    <Areas x="year" ys={streamFields} stacked={true} offset="wiggle" order="insideOut" />
+  </XYChart>
+);
+
 export const Basic = {
   name: "Basic Plot",
   render: AreaTemplateWithControls,
@@ -183,8 +212,10 @@ export const Color = {
   },
 };
 
-export const Stream = {
-  name: "Stream Graph",
+// Not a Stream Graph - this fills the band between two y-series with a single Area plot. It used
+// to be mislabelled "Stream Graph"; the real thing is below, under `StackedAreas`
+export const RangeArea = {
+  name: "Range Area",
   render: AreaTemplate,
   args: {
     ...Basic.args,
@@ -276,6 +307,21 @@ export const StackedAreas = {
       expect(tooltip).toBeDefined();
     },
   ),
+};
+
+export const StreamGraph = {
+  name: "Stream Graph",
+  render: StreamGraphTemplate,
+  args: {
+    useCanvas: false,
+    width: 800,
+    height: 500,
+    animationDuration: 250,
+    leftMargin: 60,
+    rightMargin: 40,
+    topMargin: 20,
+    bottomMargin: 40,
+  },
 };
 
 export const StackedAreasWithBrush = {

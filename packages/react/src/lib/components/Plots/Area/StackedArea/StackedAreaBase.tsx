@@ -11,6 +11,21 @@ import { useDatumFocus } from "./useDatumFocus";
 import { useMultiPathCreator } from "./useMultiPathCreator";
 import { useTooltip } from "./useTooltip";
 
+/**
+ * How the layers are positioned relative to one another. `none` stacks from a zero baseline
+ * (the default). `wiggle` and `silhouette` both float the baseline to minimize wiggle - `wiggle`
+ * is the standard choice for a streamgraph. `expand` normalizes every layer to a 0-1 range so the
+ * stack always fills the full height, useful for showing relative proportions over time
+ */
+export type IStackOffset = "none" | "wiggle" | "silhouette" | "expand";
+
+/**
+ * The order in which layers are stacked. `insideOut` (largest layers innermost, by inside-out
+ * appearance) is the standard pairing with a `wiggle` offset for a streamgraph, since it further
+ * reduces wiggle. `none` keeps the order `ys` was provided in
+ */
+export type IStackOrder = "none" | "ascending" | "descending" | "insideOut" | "reverse";
+
 export interface IStackedAreaBaseProps extends Omit<IEventPlotProps, "y"> {
     /**
      * The set of y fields to use to access the data for each plot
@@ -21,7 +36,34 @@ export interface IStackedAreaBaseProps extends Omit<IEventPlotProps, "y"> {
      * The set of colors to use for the different plot
      */
     colors?: Array<IColor>;
+
+    /**
+     * How the stack's layers should be offset from the baseline
+     * @default "none"
+     */
+    offset?: IStackOffset;
+
+    /**
+     * The order in which the stack's layers should be arranged
+     * @default "none"
+     */
+    order?: IStackOrder;
 }
+
+const STACK_OFFSETS: Record<IStackOffset, (typeof d3)["stackOffsetNone"]> = {
+    none: d3.stackOffsetNone,
+    wiggle: d3.stackOffsetWiggle,
+    silhouette: d3.stackOffsetSilhouette,
+    expand: d3.stackOffsetExpand,
+};
+
+const STACK_ORDERS: Record<IStackOrder, (typeof d3)["stackOrderNone"]> = {
+    none: d3.stackOrderNone,
+    ascending: d3.stackOrderAscending,
+    descending: d3.stackOrderDescending,
+    insideOut: d3.stackOrderInsideOut,
+    reverse: d3.stackOrderReverse,
+};
 
 /**
  * Represents a stacked Area Plot on an SVG Element
@@ -32,6 +74,8 @@ export function StackedAreaBase({
     x,
     ys,
     colors,
+    offset = "none",
+    order = "none",
     scaleMode = "plot",
     showInLegend = true,
     interactive = true,
@@ -67,7 +111,11 @@ export function StackedAreaBase({
         ensureNoScaleOverflow(yScale, sortedData, ys, "StackedSVGArea");
 
         // @ts-ignore: TODO: Not sure how to fix this
-        const stackedData = d3.stack().keys(ys)(sortedData);
+        const stackedData = d3
+            .stack()
+            .keys(ys)
+            .offset(STACK_OFFSETS[offset])
+            .order(STACK_ORDERS[order])(sortedData);
         const colorScale = d3.scaleOrdinal().domain(ys).range(colors);
 
         // Handle Canvas rendering
@@ -119,7 +167,7 @@ export function StackedAreaBase({
                 const current = areaShape(d);
                 return interpolateMultiPath(previous, current);
             });
-    }, [x, ys, sortedData, xScale, yScale, layer, animationDuration, theme.series.opacity]);
+    }, [x, ys, offset, order, sortedData, xScale, yScale, layer, animationDuration, theme.series.opacity]);
 
     // If possible respond to global mouse events for tooltips etc
     useDatumFocus({ interactive, x, ys, xScale, yScale, data: sortedData, colors });
