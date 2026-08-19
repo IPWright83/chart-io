@@ -48,7 +48,7 @@ export function BarBase({
 
     useLegendItem(x, "square", showInLegend, fillColor);
     const onTooltip = useTooltip({ y });
-    const onFocus = useFocused({ yScale, theme, grouped: false, canvasRedraw: { canvas, width, height, layer } });
+    const onFocus = useFocused({ yScale, theme, grouped: false, canvasRedraw: { canvas, layer } });
 
     useRender(() => {
         const { bandwidth, offset } = getBandwidthAndOffset(yScale, y, data);

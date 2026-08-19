@@ -1,8 +1,8 @@
-import { d3, eventActions, getXYFromTransform } from "@chart-io/core";
+import { chartSelectors, d3, eventActions, getXYFromTransform, IState } from "@chart-io/core";
 import type { IColor, IDispatch, IFocused, IScale, ITheme } from "@chart-io/core";
 
 import { useEffect, useState } from "react";
-import { useStore } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 
 import type { ICanvasRedraw } from "../useFocused";
 import { redrawCanvas } from "../renderCanvas";
@@ -78,7 +78,8 @@ function focus({ dispatch, focused, theme, xScale, grouped = false, canvasRedraw
  * @param  xScale         The d3 scale for the x-axis
  * @param  theme          The theme for the chart
  * @param  grouped        Whether the data on the chart is grouped
- * @param  canvasRedraw   The details needed to redraw the Canvas, if this plot is using one
+ * @param  canvasRedraw   The Canvas/layer to redraw, if this plot is using one. The chart's width/height
+ *                        are looked up from the store, so only `canvas`/`layer` need to be provided
  * @return                A function to set the focused datum
  */
 export const useFocused = ({
@@ -86,13 +87,24 @@ export const useFocused = ({
     theme,
     grouped,
     canvasRedraw,
-}: Omit<IColumnFocusProps, "dispatch" | "focused">) => {
+}: Omit<IColumnFocusProps, "dispatch" | "focused" | "canvasRedraw"> & {
+    canvasRedraw?: Omit<ICanvasRedraw, "width" | "height">;
+}) => {
     const { dispatch } = useStore();
     const [focused, setFocused] = useState(null);
-    const { canvas, width, height, layer } = canvasRedraw ?? {};
+    const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
+    const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
+    const { canvas, layer } = canvasRedraw ?? {};
 
     useEffect(() => {
-        return focus({ dispatch, xScale, focused, theme, grouped, canvasRedraw });
+        return focus({
+            dispatch,
+            xScale,
+            focused,
+            theme,
+            grouped,
+            canvasRedraw: canvasRedraw && { canvas, width, height, layer },
+        });
     }, [dispatch, focused, xScale, theme.series.selectedOpacity, canvas, width, height, layer]);
 
     return setFocused;

@@ -62,7 +62,7 @@ export function StackedColumnBase({
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     const onTooltip = useTooltip({ x });
-    const onFocus = useFocused({ xScale, theme, grouped: false, canvasRedraw: { canvas, width, height, layer } });
+    const onFocus = useFocused({ xScale, theme, grouped: false, canvasRedraw: { canvas, layer } });
 
     useLegendItems(ys, "square", showInLegend, colors);
 
