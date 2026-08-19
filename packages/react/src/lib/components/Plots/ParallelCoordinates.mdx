@@ -1,0 +1,73 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as ParallelCoordinatesStories from "./ParallelCoordinates.stories"
+
+<Meta title="Charts/Multivariate/ParallelCoordinates" />
+
+# ParallelCoordinates Plots
+
+The `<ParallelCoordinates>` component shows one line per row of `data`, connecting a point for each
+field in `dimensions` across a set of vertical axes - one per dimension, evenly spaced across the
+plot. It supports any number of dimensions, unlike an XY chart which is fixed at two. Each axis is
+independently scaled, the same way each spoke of a `<Radar>` is scaled to its own field's domain, so a
+"1-5 rating" axis can sit right next to a "percentage" axis. It's a self-contained chart - like
+`<Chord>`, it accepts chart-level props like `data`/`width`/`height` directly, since it only ever has a
+single plot.
+
+<Canvas of={ParallelCoordinatesStories.Basic} />
+
+## `<ParallelCoordinates>` Component
+
+### Props
+
+| Prop               | Type                                    | Default             | Note                                                                                                                     |
+| ------------------ | ---------------------------------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| **`dimensions`\*** | `string[]`                               | `null`                | The ordered list of fields to plot, one vertical axis per field. Supports any number of dimensions.                       |
+| `name`              | `string`                                 | Row index             | The key of the field used to label each row/line, shown in the tooltip.                                                    |
+| `color`             | `string`                                 | -                     | The key of the field used to color each row/line categorically. Every row shares a single color when omitted.             |
+| `colors`            | `string[]`                               | Derived from Theme    | Override the colors used for each row/category.                                                                            |
+| `ticks`             | `number`                                 | `5`                   | The number of ticks to aim for on each axis.                                                                                |
+| `tickFormat`        | `(value, dimension) => string`           | `(value) => \`${value}\`` | Formats a tick's/tooltip's value for a given dimension.                                                                     |
+| `lineWidth`         | `number`                                 | `1.5`                 | The width, in pixels, of each row's line.                                                                                   |
+| `brushable`         | `boolean`                                | `true`                | Should each axis support brush filtering - dragging a range on an axis to fade out every row that doesn't pass through it? |
+| `onBrush`           | `(rows) => void`                         | -                     | Called whenever the set of rows passing every brushed axis changes, including when nothing is brushed.                     |
+| `interactive`       | `boolean`                                | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot.                        |
+| `showInLegend`      | `boolean`                                | `false`               | Whether the plot should feature in the legend. Only meaningful when `color` is set.                                        |
+
+> **Note**: A row with a missing value on any of `dimensions` is left out entirely, since a line can't
+> meaningfully pass through a gap. Aggregate or clean the data first if that's not the desired behaviour.
+
+### Using Canvas
+
+Like other plots, a `<ParallelCoordinates>` can be rendered using an HTML Canvas instead of SVG by
+setting `useCanvas`. Every row's line is drawn on a single shared Canvas layer, and rendering is
+automatically batched into progressive passes for large datasets (see `renderCanvas`) so the browser
+stays responsive. The axes themselves (ticks, labels and brushes) are always rendered as SVG regardless
+of `useCanvas`, since brushing needs real, draggable DOM elements.
+
+<Canvas of={ParallelCoordinatesStories.Canvas} />
+
+### Brush Filtering
+
+Drag vertically on any axis to select a range - every row that doesn't pass through that range on that
+axis fades out. Selections on multiple axes combine (a row must satisfy every brushed axis to stay
+highlighted), and dragging a selection back to nothing clears that axis' filter. Use `onBrush` to react
+to the current selection, e.g. to drive a data table alongside the chart:
+
+```jsx
+<ParallelCoordinates dimensions={dimensions} onBrush={(rows) => console.log(rows)} />
+```
+
+Set `brushable={false}` to disable brushing entirely:
+
+<Canvas of={ParallelCoordinatesStories.WithoutBrushing} />
+
+### Coloring by Category
+
+Set `color` to a field to color each row categorically instead of every row sharing one color, and
+`showInLegend` to list the categories in the legend:
+
+<Canvas of={ParallelCoordinatesStories.ColoredByCategory} />
+
+```jsx
+<ParallelCoordinates dimensions={dimensions} color="group" showInLegend={true} />
+```
