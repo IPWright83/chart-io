@@ -36,6 +36,11 @@ export interface IChartStateZoom {
   path: string[];
 }
 
+// A generic per-field filter, e.g. a <ParallelCoordinates> axis' brushed pixel extent. Deliberately
+// untyped beyond the field key - the value's shape is up to whichever plot sets it, since different
+// filterable plots need different value shapes (a range, a set of allowed values, ...)
+export type IChartStateFilters = Record<string, unknown>;
+
 export interface IChartState {
   id: string;
   data: IData;
@@ -45,6 +50,7 @@ export interface IChartState {
   dimensions: IChartStateDimensions;
   legend: IChartStateLegend;
   brush: IChartStateBrush;
+  filters: IChartStateFilters;
   theme: ITheme;
   labeller: ILabeller;
   zoomable: boolean;

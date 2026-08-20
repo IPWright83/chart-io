@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 
 import { wait } from "../../../testUtils";
 import { ParallelCoordinates } from "./ParallelCoordinates";
@@ -51,5 +51,65 @@ describe("ParallelCoordinates", () => {
         await wait();
 
         expect(container.querySelectorAll(".legend-item").length).toBe(2);
+    });
+
+    it("should render a brush overlay for every axis by default", async () => {
+        const { container } = render(
+            <ParallelCoordinates dimensions={dimensions} name="food" data={data} width={400} height={400} />,
+        );
+
+        await wait();
+
+        expect(container.querySelectorAll("g.parallel-coordinates-axis-brush").length).toBe(dimensions.length);
+    });
+
+    it("should not render a brush overlay when brushable is false", async () => {
+        const { container } = render(
+            <ParallelCoordinates
+                dimensions={dimensions}
+                name="food"
+                data={data}
+                width={400}
+                height={400}
+                brushable={false}
+            />,
+        );
+
+        await wait();
+
+        expect(container.querySelectorAll("g.parallel-coordinates-axis-brush").length).toBe(0);
+    });
+
+    it("should not show a tooltip on hover by default", async () => {
+        const { container } = render(
+            <ParallelCoordinates dimensions={dimensions} name="food" data={data} width={400} height={400} />,
+        );
+
+        await wait();
+
+        fireEvent.mouseOver(container.querySelector("polyline.parallel-coordinates-line"));
+        await wait();
+
+        expect(container.querySelector(".chart-io.tooltip")).toBeNull();
+    });
+
+    it("should show a tooltip on hover when tooltip is true", async () => {
+        const { container } = render(
+            <ParallelCoordinates
+                dimensions={dimensions}
+                name="food"
+                data={data}
+                width={400}
+                height={400}
+                tooltip={true}
+            />,
+        );
+
+        await wait();
+
+        fireEvent.mouseOver(container.querySelector("polyline.parallel-coordinates-line"));
+        await wait();
+
+        expect(container.querySelector(".chart-io.tooltip")).not.toBeNull();
     });
 });

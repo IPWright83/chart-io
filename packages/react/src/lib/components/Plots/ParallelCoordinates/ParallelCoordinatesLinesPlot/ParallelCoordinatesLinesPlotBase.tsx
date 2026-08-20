@@ -4,18 +4,18 @@ import type { IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { useRender } from "../../../hooks";
+import { useRender } from "../../../../hooks";
 
-import { interpolatePoints } from "../interpolatePoints";
-import { renderCanvas } from "../renderCanvas";
+import { interpolatePoints } from "../../interpolatePoints";
+import { renderCanvas } from "../../renderCanvas";
 
-import type { IParallelCoordinatesRow } from "./useParallelCoordinatesLayout";
+import type { IParallelCoordinatesRow } from "../useParallelCoordinatesLayout";
 
 // How much a row's line is faded when at least one axis is brushed and this row falls outside it -
 // low enough that unselected rows read as background context rather than competing with the selection
 const BRUSHED_OUT_OPACITY = 0.05;
 
-export interface IParallelCoordinatesLinesPlotProps {
+export interface IParallelCoordinatesLinesPlotBaseProps {
     /**
      * The layer to be rendered upon. Typically this is an `<svg:g>` or a fake HTMLElement when using canvas.
      */
@@ -53,9 +53,9 @@ export interface IParallelCoordinatesLinesPlotProps {
  * through a handful of known points, keeping the Canvas side a simple point list to walk (see
  * `renderPolyline`) rather than needing to parse/replay path commands
  * @param  props       The set of React properties
- * @return             The ParallelCoordinatesLinesPlot component
+ * @return             The ParallelCoordinatesLinesPlotBase component
  */
-export function ParallelCoordinatesLinesPlot({
+export function ParallelCoordinatesLinesPlotBase({
     layer,
     canvas,
     renderVirtualCanvas,
@@ -66,7 +66,7 @@ export function ParallelCoordinatesLinesPlot({
     onMouseOver,
     onMouseOut,
     onClick,
-}: IParallelCoordinatesLinesPlotProps) {
+}: IParallelCoordinatesLinesPlotBaseProps) {
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));

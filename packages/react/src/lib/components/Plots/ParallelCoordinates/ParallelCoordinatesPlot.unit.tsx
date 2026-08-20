@@ -27,7 +27,7 @@ describe("ParallelCoordinatesPlot", () => {
             expect(asFragment()).toMatchSnapshot();
         });
 
-        it("should render one line per row and one axis per dimension", async () => {
+        it("should render one line per row", async () => {
             const { container } = await renderChart({
                 children: <ParallelCoordinatesPlot dimensions={dimensions} name="food" />,
                 data,
@@ -36,13 +36,13 @@ describe("ParallelCoordinatesPlot", () => {
             await wait();
 
             expect(container.querySelectorAll("polyline.parallel-coordinates-line").length).toBe(data.length);
-            expect(container.querySelectorAll("g.parallel-coordinates-axis").length).toBe(dimensions.length);
         });
 
-        it("should leave out rows with a missing value on any dimension", async () => {
+        it("should leave out rows with a missing value on any dimension, warning once", async () => {
             const incompleteData = [...data, { food: "Unknown", protein: null, fat: 1, carbs: 1 }];
+            const warnSpy = jest.spyOn(console, "warn");
 
-            const { container } = await renderChart({
+            const { container, rerender } = await renderChart({
                 children: <ParallelCoordinatesPlot dimensions={dimensions} name="food" />,
                 data: incompleteData,
             });
@@ -50,28 +50,17 @@ describe("ParallelCoordinatesPlot", () => {
             await wait();
 
             expect(container.querySelectorAll("polyline.parallel-coordinates-line").length).toBe(data.length);
-        });
 
-        it("should render a brush overlay for every axis by default", async () => {
-            const { container } = await renderChart({
-                children: <ParallelCoordinatesPlot dimensions={dimensions} name="food" />,
-                data,
-            });
+            const warningCalls = warnSpy.mock.calls.filter((call) => `${call[0]}`.includes("W011"));
+            expect(warningCalls.length).toBe(1);
 
+            // Re-rendering with the same incomplete data shouldn't warn again
+            rerender(<ParallelCoordinatesPlot dimensions={dimensions} name="food" />);
             await wait();
 
-            expect(container.querySelectorAll("g.parallel-coordinates-axis-brush").length).toBe(dimensions.length);
-        });
+            expect(warnSpy.mock.calls.filter((call) => `${call[0]}`.includes("W011")).length).toBe(1);
 
-        it("should not render a brush overlay when brushable is false", async () => {
-            const { container } = await renderChart({
-                children: <ParallelCoordinatesPlot dimensions={dimensions} name="food" brushable={false} />,
-                data,
-            });
-
-            await wait();
-
-            expect(container.querySelectorAll("g.parallel-coordinates-axis-brush").length).toBe(0);
+            warnSpy.mockRestore();
         });
 
         it("should call onBrush with every row when nothing is brushed", async () => {
@@ -159,22 +148,6 @@ describe("ParallelCoordinatesPlot", () => {
 
             const buffer = getBuffer(canvases[0] as HTMLCanvasElement);
             expect(buffer).toMatchImageSnapshot();
-        });
-
-        it("should still render axes/brushes as SVG when useCanvas is true", async () => {
-            const { container } = await renderChart({
-                children: (
-                    <VirtualCanvas>
-                        <ParallelCoordinatesPlot dimensions={dimensions} name="food" useCanvas={true} />
-                    </VirtualCanvas>
-                ),
-                data,
-            });
-
-            await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
-
-            expect(container.querySelectorAll("g.parallel-coordinates-axis").length).toBe(dimensions.length);
-            expect(container.querySelectorAll("g.parallel-coordinates-axis-brush").length).toBe(dimensions.length);
         });
     });
 });

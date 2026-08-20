@@ -42,10 +42,15 @@ export function renderPolyline(context: CanvasRenderingContext2D, node: Element,
     points.slice(1).forEach(([x, y]) => context.lineTo(x, y));
 
     if (overrideColor) {
-        // A thicker, solid stroke so the virtual canvas has a wide enough hit target for a thin line
+        // A slightly thicker, solid stroke so the virtual canvas has a wide enough hit target for a
+        // thin line. Unlike a single `renderLink`/`renderRibbon` shape, a polyline is typically one of
+        // many densely packed, criss-crossing rows (e.g. a `<ParallelCoordinates>` with hundreds of
+        // lines) - blowing the hit target out to a fixed minimum width (as those renderers do) would
+        // make neighbouring rows' hit targets overlap and resolve hover to the wrong row, so this only
+        // pads a little over the row's own width rather than flooring it at a fixed size
         context.globalAlpha = 1;
         context.strokeStyle = `${overrideColor}`;
-        context.lineWidth = Math.max(strokeWidth, 6);
+        context.lineWidth = strokeWidth + 2;
         context.stroke();
         return;
     }

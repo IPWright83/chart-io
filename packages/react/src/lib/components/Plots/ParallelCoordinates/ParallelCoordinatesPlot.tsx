@@ -1,27 +1,16 @@
 import { chartSelectors, d3, IState } from "@chart-io/core";
 import type { IColor, IDatum, IOnClick, IOnMouseOut, IOnMouseOver, IValue } from "@chart-io/core";
 
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import { useLegendItems } from "../../../hooks";
-import { withCanvas, withSVG } from "../../../hoc";
 
 import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
 
-import { ParallelCoordinatesAxis } from "./ParallelCoordinatesAxis";
-import { IParallelCoordinatesLinesPlotProps, ParallelCoordinatesLinesPlot } from "./ParallelCoordinatesLinesPlot";
+import { ParallelCoordinatesLinesPlot } from "./ParallelCoordinatesLinesPlot";
 import { IParallelCoordinatesRow, useParallelCoordinatesLayout } from "./useParallelCoordinatesLayout";
-
-const CanvasLinesPlot = withCanvas<IParallelCoordinatesLinesPlotProps>(
-    ParallelCoordinatesLinesPlot,
-    "plot parallel-coordinates-lines",
-);
-const SVGLinesPlot = withSVG<IParallelCoordinatesLinesPlotProps>(
-    ParallelCoordinatesLinesPlot,
-    "plot parallel-coordinates-lines",
-);
 
 export interface IParallelCoordinatesPlotProps {
     /**
@@ -48,12 +37,8 @@ export interface IParallelCoordinatesPlotProps {
      */
     colors?: Array<IColor>;
     /**
-     * The number of ticks to aim for on each axis
-     * @default 5
-     */
-    ticks?: number;
-    /**
-     * Formats a tick's/tooltip's value for a given dimension
+     * Formats a tooltip value for a given dimension. Also passed to each `<ParallelAxis>` to format
+     * its ticks, so both stay consistent
      * @default (value) => `${value}`
      */
     tickFormat?: (value: IValue, dimension: string) => string;
@@ -63,14 +48,8 @@ export interface IParallelCoordinatesPlotProps {
      */
     lineWidth?: number;
     /**
-     * Should each axis support brush filtering - dragging a range on an axis to fade out every row
-     * that doesn't pass through it?
-     * @default true
-     */
-    brushable?: boolean;
-    /**
-     * Called whenever the set of rows passing every brushed axis changes, including when nothing is
-     * brushed (called with every row)
+     * Called whenever the set of rows passing every brushed `<ParallelAxis>` changes, including when
+     * nothing is brushed (called with every row)
      */
     onBrush?: (rows: IDatum[]) => void;
     /**
@@ -99,11 +78,13 @@ export interface IParallelCoordinatesPlotProps {
  * plot. Used internally by `<ParallelCoordinates>` - use that unless you need to compose the plot into
  * a chart of your own.
  *
- * Computes the shared layout once (see `useParallelCoordinatesLayout`) and renders the lines and axes
- * separately, each with their own Canvas/SVG-or-always-SVG layer - the same way `<ChordPlot>` renders
- * its shapes/labels via `<ChordShapesPlot>`/`<LabelsPlot>`. Brush state (which axes are currently
- * filtering, and by how much) lives here rather than in the layout hook, since it's interaction state
- * rather than derived layout
+ * Only draws the lines - the axes (ticks, labels and brushes) are separate `<ParallelAxis>` components
+ * rendered directly on the chart alongside this plot, the same way `<XYChart>` composes `<Line>`
+ * with its own `<XAxis>`/`<YAxis>`, rather than a plot owning its own axes. Brush filtering is wired
+ * up the same way: each `<ParallelAxis>` writes its brushed extent straight to the store via
+ * `chartActions.setFilter`, and this plot reads every dimension's filter back via
+ * `chartSelectors.filters` to work out which rows are currently selected - see `useParallelCoordinatesLayout`
+ * for the row/line geometry itself
  * @param  props       The set of React properties
  * @return             The ParallelCoordinatesPlot component
  */
@@ -113,10 +94,8 @@ export function ParallelCoordinatesPlot({
     name,
     color,
     colors,
-    ticks = 5,
     tickFormat,
     lineWidth = 1.5,
-    brushable = true,
     onBrush,
     interactive = true,
     showInLegend = false,
@@ -128,41 +107,27 @@ export function ParallelCoordinatesPlot({
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const chartLabeller = useSelector((s: IState) => chartSelectors.labeller(s));
 
-    const { rows, xScale, scaleFor, axisTop, axisBottom, legendKeys, legendColors } = useParallelCoordinatesLayout({
-        dimensions,
-        name,
-        color,
-        colors,
-    });
+    const { rows, legendKeys, legendColors } = useParallelCoordinatesLayout({ dimensions, name, color, colors });
 
     useLegendItems(legendKeys, "line", showInLegend, legendColors);
 
-    // Every currently brushed axis' pixel extent, keyed by dimension. A row is "selected" when its
-    // pixel y-coordinate on every brushed axis falls within that axis' extent - comparing directly in
-    // pixel space (rather than inverting each scale back to a data value) sidesteps the fact that band/
-    // point scales have no well-defined invert()
-    const [extents, setExtents] = useState<Record<string, [number, number]>>({});
-
-    const handleBrushChange = useCallback((dimension: string, extent: [number, number] | null) => {
-        setExtents((previous) => {
-            if (!extent) {
-                if (!(dimension in previous)) return previous;
-                const next = { ...previous };
-                delete next[dimension];
-                return next;
-            }
-            return { ...previous, [dimension]: extent };
-        });
-    }, []);
+    // Every currently brushed axis' pixel extent, keyed by dimension - written directly to the store by
+    // each <ParallelAxis>. A row is "selected" when its pixel y-coordinate on every brushed axis falls
+    // within that axis' extent - comparing directly in pixel space (rather than inverting each scale
+    // back to a data value) sidesteps the fact that band/point scales have no well-defined invert()
+    const filters = useSelector((s: IState) => chartSelectors.filters.all(s)) as Record<string, [number, number]>;
 
     const isSelected = useCallback(
         (row: IParallelCoordinatesRow) =>
-            Object.keys(extents).every((dimension) => {
-                const [y0, y1] = extents[dimension];
+            Object.keys(filters).every((dimension) => {
+                const extent = filters[dimension];
+                if (!extent) return true;
+
+                const [y0, y1] = extent;
                 const y = row.valueAt[dimension];
                 return y === undefined || (y >= y0 && y <= y1);
             }),
-        [extents],
+        [filters],
     );
 
     useEffect(() => {
@@ -203,36 +168,18 @@ export function ParallelCoordinatesPlot({
         onClick && onClick(datum, element, event);
     };
 
-    const Lines = useCanvas ? CanvasLinesPlot : SVGLinesPlot;
-
     return (
-        <React.Fragment>
-            <Lines
-                renderVirtualCanvas={renderVirtualCanvas}
-                rows={rows}
-                lineWidth={lineWidth}
-                isSelected={isSelected}
-                interactive={interactive}
-                onMouseOver={handleMouseOver}
-                onMouseOut={handleMouseOut}
-                onClick={handleClick}
-            />
-            {dimensions.map((dimension) => (
-                <ParallelCoordinatesAxis
-                    key={dimension}
-                    dimension={dimension}
-                    x={xScale(dimension)}
-                    scale={scaleFor.get(dimension)}
-                    axisTop={axisTop}
-                    axisBottom={axisBottom}
-                    ticks={ticks}
-                    tickFormat={(value) => formatValue(value, dimension)}
-                    label={chartLabeller(dimension)}
-                    brushable={brushable}
-                    onBrushChange={handleBrushChange}
-                />
-            ))}
-        </React.Fragment>
+        <ParallelCoordinatesLinesPlot
+            useCanvas={useCanvas}
+            renderVirtualCanvas={renderVirtualCanvas}
+            rows={rows}
+            lineWidth={lineWidth}
+            isSelected={isSelected}
+            interactive={interactive}
+            onMouseOver={handleMouseOver}
+            onMouseOut={handleMouseOut}
+            onClick={handleClick}
+        />
     );
 }
 

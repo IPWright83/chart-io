@@ -3,12 +3,32 @@ import React, { forwardRef } from "react";
 import { Chart, IChartProps, IChartRef } from "../../Chart";
 import { LegendOverlay } from "../../LegendOverlay";
 import { TooltipOverlay } from "../../TooltipOverlay";
+import { ParallelAxis } from "../../Axis/ParallelAxis";
 
 import { IParallelCoordinatesPlotProps, ParallelCoordinatesPlot } from "./ParallelCoordinatesPlot";
 
 export interface IParallelCoordinatesProps
     extends Omit<IChartProps, "children">,
-        Omit<IParallelCoordinatesPlotProps, "useCanvas" | "onMouseOver" | "onMouseOut" | "onClick"> {}
+        Omit<IParallelCoordinatesPlotProps, "useCanvas" | "onMouseOver" | "onMouseOut" | "onClick"> {
+    /**
+     * The number of ticks to aim for on each axis
+     * @default 5
+     */
+    ticks?: number;
+    /**
+     * Should each axis support brush filtering - dragging a range on an axis to fade out every row
+     * that doesn't pass through it?
+     * @default true
+     */
+    brushable?: boolean;
+    /**
+     * Should hovering a row show a tooltip? Off by default - with potentially hundreds of densely
+     * packed, crossing lines, a tooltip that follows every hover can be more noise than signal; turn
+     * it on for smaller datasets where it's useful
+     * @default false
+     */
+    tooltip?: boolean;
+}
 
 /**
  * Represents a ParallelCoordinates chart: one line per row of `data`, connecting a point for each
@@ -26,13 +46,14 @@ export const ParallelCoordinates = forwardRef<IChartRef, IParallelCoordinatesPro
             name,
             color,
             colors,
-            ticks,
+            ticks = 5,
             tickFormat,
             lineWidth,
-            brushable,
+            brushable = true,
             onBrush,
             interactive,
             showInLegend,
+            tooltip = false,
             ...chartProps
         },
         ref,
@@ -44,15 +65,23 @@ export const ParallelCoordinates = forwardRef<IChartRef, IParallelCoordinatesPro
                     name={name}
                     color={color}
                     colors={colors}
-                    ticks={ticks}
                     tickFormat={tickFormat}
                     lineWidth={lineWidth}
-                    brushable={brushable}
                     onBrush={onBrush}
                     interactive={interactive}
                     showInLegend={showInLegend}
                 />
-                <TooltipOverlay onlyNearest={true} />
+                {dimensions.map((dimension) => (
+                    <ParallelAxis
+                        key={dimension}
+                        dimension={dimension}
+                        dimensions={dimensions}
+                        ticks={ticks}
+                        tickFormat={tickFormat}
+                        brushable={brushable}
+                    />
+                ))}
+                {tooltip ? <TooltipOverlay onlyNearest={true} /> : null}
                 <LegendOverlay />
             </Chart>
         );

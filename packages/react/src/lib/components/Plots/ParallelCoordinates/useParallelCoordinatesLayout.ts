@@ -1,7 +1,7 @@
-import { chartSelectors, d3, IState } from "@chart-io/core";
+import { chartSelectors, d3, IState, logWarning } from "@chart-io/core";
 import type { IColor, IDatum, IScale, IValue } from "@chart-io/core";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { calculateScale } from "../../Scale/calculateScale";
@@ -134,13 +134,19 @@ export function useParallelCoordinatesLayout({ dimensions, name, color, colors }
             .filter((row): row is IParallelCoordinatesRow => row !== null);
     }, [data, dimensions, xScale, scaleFor, name, color, colorScale, palette]);
 
+    // Warn (once) if any rows were left out for missing a value on at least one dimension, so it's
+    // discoverable rather than silently changing the count of lines drawn
+    const warned = useRef(false);
+    useEffect(() => {
+        if (warned.current || data.length === 0 || rows.length === data.length) return;
+
+        // prettier-ignore
+        logWarning("W011", `${data.length - rows.length} row(s) were left out of the <ParallelCoordinates> because they're missing a value on at least one dimension.`);
+        warned.current = true;
+    }, [data.length, rows.length]);
+
     return {
         rows,
-        dimensions,
-        xScale,
-        scaleFor,
-        axisTop,
-        axisBottom,
         legendKeys: categories,
         legendColors: categories.map((_, i) => palette[i % palette.length]),
     };

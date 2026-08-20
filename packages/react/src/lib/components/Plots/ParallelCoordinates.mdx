@@ -13,6 +13,11 @@ independently scaled, the same way each spoke of a `<Radar>` is scaled to its ow
 `<Chord>`, it accepts chart-level props like `data`/`width`/`height` directly, since it only ever has a
 single plot.
 
+Internally, `<ParallelCoordinates>` composes a `<ParallelCoordinatesPlot>` (the lines) with one
+`<ParallelAxis>` per dimension (the ticks, labels and brushes) as separate chart-level children - the
+same way an `<XYChart>` composes a plot with its own `<XAxis>`/`<YAxis>`, rather than the plot owning
+its axes.
+
 <Canvas of={ParallelCoordinatesStories.Basic} />
 
 ## `<ParallelCoordinates>` Component
@@ -30,7 +35,8 @@ single plot.
 | `lineWidth`         | `number`                                 | `1.5`                 | The width, in pixels, of each row's line.                                                                                   |
 | `brushable`         | `boolean`                                | `true`                | Should each axis support brush filtering - dragging a range on an axis to fade out every row that doesn't pass through it? |
 | `onBrush`           | `(rows) => void`                         | -                     | Called whenever the set of rows passing every brushed axis changes, including when nothing is brushed.                     |
-| `interactive`       | `boolean`                                | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot.                        |
+| `interactive`       | `boolean`                                | `true`                | Whether hovering/clicking a row should highlight it and trigger `onMouseOver`/`onMouseOut`/`onClick`.                      |
+| `tooltip`           | `boolean`                                | `false`               | Should hovering a row show a tooltip? Off by default, since a tooltip following every hover across potentially hundreds of crossing lines can be more noise than signal.                        |
 | `showInLegend`      | `boolean`                                | `false`               | Whether the plot should feature in the legend. Only meaningful when `color` is set.                                        |
 
 > **Note**: A row with a missing value on any of `dimensions` is left out entirely, since a line can't
@@ -41,8 +47,8 @@ single plot.
 Like other plots, a `<ParallelCoordinates>` can be rendered using an HTML Canvas instead of SVG by
 setting `useCanvas`. Every row's line is drawn on a single shared Canvas layer, and rendering is
 automatically batched into progressive passes for large datasets (see `renderCanvas`) so the browser
-stays responsive. The axes themselves (ticks, labels and brushes) are always rendered as SVG regardless
-of `useCanvas`, since brushing needs real, draggable DOM elements.
+stays responsive. The `<ParallelAxis>` components (ticks, labels and brushes) are always rendered as
+SVG regardless of `useCanvas`, since brushing needs real, draggable DOM elements.
 
 <Canvas of={ParallelCoordinatesStories.Canvas} />
 
@@ -50,8 +56,11 @@ of `useCanvas`, since brushing needs real, draggable DOM elements.
 
 Drag vertically on any axis to select a range - every row that doesn't pass through that range on that
 axis fades out. Selections on multiple axes combine (a row must satisfy every brushed axis to stay
-highlighted), and dragging a selection back to nothing clears that axis' filter. Use `onBrush` to react
-to the current selection, e.g. to drive a data table alongside the chart:
+highlighted), and dragging a selection back to nothing clears that axis' filter. Each `<ParallelAxis>`
+writes its brushed extent straight to the chart's Redux store via a generic `chartActions.setFilter({
+field, value })`, rather than a prop passed down from the plot - keeping filtering reusable by any
+future filterable plot, not just this one. Use `onBrush` to react to the current selection, e.g. to
+drive a data table alongside the chart:
 
 ```jsx
 <ParallelCoordinates dimensions={dimensions} onBrush={(rows) => console.log(rows)} />
