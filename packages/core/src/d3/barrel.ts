@@ -6,6 +6,7 @@ export * from "d3-color";
 export * from "d3-ease";
 export * from "d3-format";
 export * from "d3-hierarchy";
+export * from "d3-sankey";
 export * from "d3-scale";
 export * from "d3-selection";
 export * from "d3-shape";

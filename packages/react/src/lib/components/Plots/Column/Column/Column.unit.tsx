@@ -266,6 +266,48 @@ describe("Column", () => {
                     pageY: 90,
                 });
             });
+
+            it("highlights the hovered column on the canvas bitmap, and un-highlights it on exit", async () => {
+                const onMouseOver = jest.fn();
+                const onMouseOut = jest.fn();
+
+                const { container } = await renderChart({
+                    children: (
+                        <VirtualCanvas>
+                            <Column x="x" y="y" onMouseOver={onMouseOver} onMouseOut={onMouseOut} useCanvas={true} />
+                        </VirtualCanvas>
+                    ),
+                    data,
+                    scales,
+                });
+
+                await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
+
+                const canvas = container.querySelector(".canvas") as HTMLCanvasElement;
+                const context = canvas.getContext("2d");
+                const getAlpha = () => context.getImageData(25, 90, 1, 1).data[3];
+
+                const initialAlpha = getAlpha();
+
+                await testMouseOver(container, ".virtual-canvas", onMouseOver, expectedDatum, {
+                    bubbles: true,
+                    pageX: 25,
+                    pageY: 90,
+                });
+
+                expect(getAlpha()).not.toBe(initialAlpha);
+
+                await testMouseExit(
+                    container,
+                    ".virtual-canvas",
+                    onMouseOut,
+                    expectedDatum,
+                    { pageX: 25, pageY: 90 },
+                    { pageX: 195, pageY: 95 },
+                );
+
+                expect(getAlpha()).toBe(initialAlpha);
+            });
         });
     });
 });

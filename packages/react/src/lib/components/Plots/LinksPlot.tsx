@@ -45,8 +45,26 @@ export interface ILinksPlotProps<L extends { source: unknown; target: unknown }>
      * layout's `transform`, which can change across renders (the chart resizing) but isn't animated
      */
     staticAttrs?: Array<{ name: string; value: string | number }>;
-    stroke: string;
+    /**
+     * The stroke color, either fixed for every link or derived per-link - e.g. a Sankey's flows, each
+     * colored like their source node
+     */
+    stroke: string | ((link: L) => string);
     strokeOpacity?: number;
+    /**
+     * The stroke width, either fixed for every link or derived per-link - e.g. a Sankey's flows, each
+     * as wide as the value they carry
+     * @default 1
+     */
+    strokeWidth?: number | ((link: L) => number);
+    /**
+     * Should the plot be interactive and dispatch mouseover/mouseout/click callbacks?
+     * @default true
+     */
+    interactive?: boolean;
+    onMouseOver?: (link: L, element: Element, event: MouseEvent) => void;
+    onMouseOut?: (link: L, element: Element, event: MouseEvent) => void;
+    onClick?: (link: L, element: Element, event: MouseEvent) => void;
 }
 
 /**
@@ -68,6 +86,11 @@ export function LinksPlot<L extends { source: unknown; target: unknown }>({
     staticAttrs,
     stroke,
     strokeOpacity = 1,
+    strokeWidth,
+    interactive = true,
+    onMouseOver,
+    onMouseOut,
+    onClick,
 }: ILinksPlotProps<L>) {
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
@@ -76,6 +99,9 @@ export function LinksPlot<L extends { source: unknown; target: unknown }>({
     useRender(() => {
         // Unable to render without the layer avaliable
         if (!layer.current) return;
+
+        const strokeFor = typeof stroke === "function" ? stroke : () => stroke;
+        const strokeWidthFor = typeof strokeWidth === "function" ? strokeWidth : () => strokeWidth ?? 1;
 
         const join = d3.select(layer.current).selectAll<Element, L>(`.${className}`).data(items, (link) => keyFor(link));
 
@@ -88,18 +114,41 @@ export function LinksPlot<L extends { source: unknown; target: unknown }>({
             .attr("data-path-type", pathType)
             .attr("d", (link) => path({ ...link, source: link.target } as L))
             .style("fill", "none")
-            .style("stroke", stroke)
-            .style("stroke-opacity", strokeOpacity);
+            .style("stroke", strokeFor)
+            .style("stroke-width", strokeWidth === undefined ? null : strokeWidthFor)
+            .style("stroke-opacity", strokeOpacity)
+            .on("mouseover", function (event, link) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOver && onMouseOver(link, this, event);
+            })
+            .on("mouseout", function (event, link) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onMouseOut && onMouseOut(link, this, event);
+            })
+            .on("click", function (event, link) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onClick && onClick(link, this, event);
+            });
 
         const update = enter.merge(join as any);
 
         (staticAttrs ?? []).forEach(({ name, value }) => update.attr(name, value));
+        update.style("stroke", strokeFor);
 
         let transition = update.transition(className).duration(animationDuration);
         (dataAttrs ?? []).forEach(({ name, value }) => {
             transition = transition.attr(name, value);
         });
         transition = transition.attr("d", (link) => path(link));
+        if (strokeWidth !== undefined) {
+            transition = transition.style("stroke-width", strokeWidthFor);
+        }
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, transition);
     }, [
@@ -110,6 +159,11 @@ export function LinksPlot<L extends { source: unknown; target: unknown }>({
         staticAttrs,
         stroke,
         strokeOpacity,
+        strokeWidth,
+        interactive,
+        onMouseOver,
+        onMouseOut,
+        onClick,
         className,
         pathType,
         canvas,
