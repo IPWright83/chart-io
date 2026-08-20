@@ -1,11 +1,12 @@
 import { themes } from "@chart-io/core";
 
 import type { Meta } from "@storybook/react";
-import { fn } from "@storybook/test";
+import { fireEvent, fn } from "@storybook/test";
 import React from "react";
 
 import { nutrients_dataset } from "../../../data/nutrients_dataset";
 import { argTypes } from "../../../storybook/argTypes";
+import { wait } from "../../testUtils";
 import { ParallelCoordinates } from "./ParallelCoordinates";
 
 const { width, height, margin, useCanvas, theme } = argTypes;
@@ -112,5 +113,32 @@ export const WithoutBrushing = {
     args: {
         ...Basic.args,
         brushable: false,
+    },
+};
+
+export const BrushFiltering = {
+    name: "With a Brush Filter Applied",
+    render: ParallelCoordinatesTemplate,
+    args: {
+        ...Basic.args,
+    },
+    play: async ({ canvasElement }) => {
+        // Wait for the chart (and its d3.brushY overlays) to finish rendering
+        await wait(800);
+
+        // Drag a selection on the first axis' brush - reading its real on-screen position rather than
+        // assuming fixed coordinates, so this doesn't depend on exactly how/where Storybook lays out
+        // the canvas
+        const overlay = canvasElement.querySelector(".parallel-coordinates-axis-brush .overlay");
+        const rect = overlay.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y0 = rect.top + rect.height * 0.25;
+        const y1 = rect.top + rect.height * 0.6;
+
+        fireEvent.mouseDown(overlay, { clientX: x, clientY: y0, bubbles: true });
+        fireEvent.mouseMove(document, { clientX: x, clientY: y1, bubbles: true });
+        fireEvent.mouseUp(document, { clientX: x, clientY: y1, bubbles: true });
+
+        await wait(300);
     },
 };

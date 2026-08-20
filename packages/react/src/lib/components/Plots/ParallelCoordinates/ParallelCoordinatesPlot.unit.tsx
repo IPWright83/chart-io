@@ -1,12 +1,15 @@
+import { themes } from "@chart-io/core";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
+import { Provider } from "react-redux";
 import React from "react";
+import { render } from "@testing-library/react";
 
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../VirtualCanvas";
 import { ParallelCoordinatesPlot } from "./ParallelCoordinatesPlot";
 
 expect.extend({ toMatchImageSnapshot });
 
-import { getBuffer, renderChart, testMouseClick, testMouseOver, wait } from "../../../testUtils";
+import { createMockStore, getBuffer, renderChart, testMouseClick, testMouseOver, wait } from "../../../testUtils";
 
 describe("ParallelCoordinatesPlot", () => {
     const data = [
@@ -42,10 +45,20 @@ describe("ParallelCoordinatesPlot", () => {
             const incompleteData = [...data, { food: "Unknown", protein: null, fat: 1, carbs: 1 }];
             const warnSpy = jest.spyOn(console, "warn");
 
-            const { container, rerender } = await renderChart({
-                children: <ParallelCoordinatesPlot dimensions={dimensions} name="food" />,
-                data: incompleteData,
+            // Rendered directly (rather than via renderChart) so this test can rerender with the same
+            // store/data to check the warning doesn't fire again, without needing that ability added to
+            // the shared test helper for this one case
+            const store = createMockStore({
+                chart: { animationDuration: 0, dimensions: { width: 200, height: 200 }, data: incompleteData, theme: themes.light },
             });
+
+            const { container, rerender } = render(
+                <Provider store={store}>
+                    <svg>
+                        <ParallelCoordinatesPlot dimensions={dimensions} name="food" />
+                    </svg>
+                </Provider>,
+            );
 
             await wait();
 
@@ -55,7 +68,13 @@ describe("ParallelCoordinatesPlot", () => {
             expect(warningCalls.length).toBe(1);
 
             // Re-rendering with the same incomplete data shouldn't warn again
-            rerender(<ParallelCoordinatesPlot dimensions={dimensions} name="food" />);
+            rerender(
+                <Provider store={store}>
+                    <svg>
+                        <ParallelCoordinatesPlot dimensions={dimensions} name="food" />
+                    </svg>
+                </Provider>,
+            );
             await wait();
 
             expect(warnSpy.mock.calls.filter((call) => `${call[0]}`.includes("W011")).length).toBe(1);

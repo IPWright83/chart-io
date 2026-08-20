@@ -40,7 +40,7 @@ export async function renderChart({
         },
     });
 
-    const { asFragment, container, rerender } = render(
+    const { asFragment, container } = render(
         <Provider store={store ?? mockStore}>
             <svg>{children}</svg>
         </Provider>,
@@ -48,14 +48,5 @@ export async function renderChart({
 
     await wait(10);
 
-    // Re-wraps replacement children in the same Provider/svg scaffolding, so a caller can rerender
-    // with new props/children without having to reconstruct that boilerplate itself
-    const rerenderChart = (newChildren: JSX.Element) =>
-        rerender(
-            <Provider store={store ?? mockStore}>
-                <svg>{newChildren}</svg>
-            </Provider>,
-        );
-
-    return { asFragment, container, store: store ?? mockStore, rerender: rerenderChart };
+    return { asFragment, container, store: store ?? mockStore };
 }
