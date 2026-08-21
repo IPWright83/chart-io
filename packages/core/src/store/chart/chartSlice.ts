@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { isEqual } from "lodash";
 
 import { themes } from "../../themes";
-import type { ICompassPosition, IData, IDatum, ILegendItem, IMargin, IScale, ISizeLegend, ITheme } from "../../types";
+import type { ICompassPosition, IData, IDatum, ILegendItem, IMargin, IPivot, IScale, ISizeLegend, ITheme } from "../../types";
 import type { ILabeller } from "../../utils";
 import { createLabeller } from "../../utils";
 import type { IChartState } from "../types";
@@ -53,6 +53,8 @@ export const defaultChartState = {
     zoom: {
         path: [],
     },
+    pivotable: false,
+    pivot: "grid" as IPivot,
 };
 
 const chartSlice = createSlice({
@@ -373,6 +375,28 @@ const chartSlice = createSlice({
             for (const field of Object.keys(state.scales)) {
                 state.scales[field].zoomedDomain = undefined;
             }
+        },
+
+        /**
+         * Sets whether a `<Heatmap>` should offer switching between its grid/rows/columns layouts
+         * @param state                      The current Redux store state
+         * @param action                     The payload containing whether pivoting is enabled
+         */
+        setPivotable: (state: IChartState, action: PayloadAction<boolean>) => {
+            state.pivotable = action.payload;
+
+            if (!action.payload) {
+                state.pivot = "grid";
+            }
+        },
+
+        /**
+         * Sets the layout a `<Heatmap>` is currently rendered in
+         * @param state                      The current Redux store state
+         * @param action                     The payload containing the new pivot
+         */
+        setPivot: (state: IChartState, action: PayloadAction<IPivot>) => {
+            state.pivot = action.payload;
         },
     },
 });
