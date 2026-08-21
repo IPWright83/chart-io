@@ -427,4 +427,76 @@ describe("chartSelectors", () => {
             expect(chartSelectors.pivot(state)).toBe("rows");
         });
     });
+
+    describe("legend", () => {
+        describe("isVisible", () => {
+            it("is false with zero or one items and no size legend", () => {
+                const state = { event: defaultEventState, chart: { ...defaultChartState } };
+                expect(chartSelectors.legend.isVisible(state)).toBe(false);
+
+                const withOneItem = {
+                    event: defaultEventState,
+                    chart: { ...defaultChartState, legend: { ...defaultChartState.legend, items: [{ name: "a" }] } },
+                };
+                expect(chartSelectors.legend.isVisible(withOneItem)).toBe(false);
+            });
+
+            it("is true with more than one item", () => {
+                const state = {
+                    event: defaultEventState,
+                    chart: {
+                        ...defaultChartState,
+                        legend: { ...defaultChartState.legend, items: [{ name: "a" }, { name: "b" }] },
+                    },
+                };
+
+                expect(chartSelectors.legend.isVisible(state)).toBe(true);
+            });
+
+            it("is true with a size legend, even with no color items", () => {
+                const state = {
+                    event: defaultEventState,
+                    chart: {
+                        ...defaultChartState,
+                        legend: { ...defaultChartState.legend, sizeLegend: { field: "population" } },
+                    },
+                };
+
+                expect(chartSelectors.legend.isVisible(state)).toBe(true);
+            });
+        });
+
+        describe("position", () => {
+            it("defaults to 'E'", () => {
+                const state = { event: defaultEventState, chart: { ...defaultChartState } };
+                expect(chartSelectors.legend.position(state)).toBe("E");
+            });
+
+            it("returns the docked position", () => {
+                const state = {
+                    event: defaultEventState,
+                    chart: { ...defaultChartState, legend: { ...defaultChartState.legend, position: "SW" as const } },
+                };
+
+                expect(chartSelectors.legend.position(state)).toBe("SW");
+            });
+        });
+
+        describe("sizeLegend", () => {
+            it("defaults to null", () => {
+                const state = { event: defaultEventState, chart: { ...defaultChartState } };
+                expect(chartSelectors.legend.sizeLegend(state)).toBeNull();
+            });
+
+            it("returns the registered size legend", () => {
+                const sizeLegend = { field: "population", ticks: 3 };
+                const state = {
+                    event: defaultEventState,
+                    chart: { ...defaultChartState, legend: { ...defaultChartState.legend, sizeLegend } },
+                };
+
+                expect(chartSelectors.legend.sizeLegend(state)).toEqual(sizeLegend);
+            });
+        });
+    });
 });

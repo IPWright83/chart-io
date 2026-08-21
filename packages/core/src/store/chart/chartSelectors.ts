@@ -1,7 +1,7 @@
 import { memoizeWithArgs } from "proxy-memoize";
 
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
-import type { IData, ILegendItem, IMargin, IPivot, IScale, IScaleMode, ITheme } from "../../types";
+import type { ICompassPosition, IData, ILegendItem, IMargin, IPivot, IScale, IScaleMode, ISizeLegend, ITheme } from "../../types";
 import type { ILabeller } from "../../utils";
 import type {
     IChartScaleInfo,
@@ -219,6 +219,20 @@ interface IChartSelectors {
          * @return           The items for the legend to render
          */
         items: (state: IState) => ILegendItem[];
+
+        /**
+         * Returns the compass position the legend is currently docked at
+         * @param  state     The application state
+         * @return           The compass position
+         */
+        position: (state: IState) => ICompassPosition;
+
+        /**
+         * Returns the size legend registered by a `<ZAxis>`, if any
+         * @param  state     The application state
+         * @return           The size legend, or null if none is registered
+         */
+        sizeLegend: (state: IState) => ISizeLegend | null;
     };
     /**
      * Brush information for the chart
@@ -498,10 +512,17 @@ export const chartSelectors: IChartSelectors = {
         store: (state) => chartSelectors.store(state).legend,
 
         // @inheritDoc
-        isVisible: (state) => chartSelectors.legend.items(state).length > 1,
+        isVisible: (state) =>
+            chartSelectors.legend.items(state).length > 1 || !!chartSelectors.legend.sizeLegend(state),
 
         // @inheritDoc
         items: (state) => chartSelectors.legend.store(state).items || EMPTY_ARRAY,
+
+        // @inheritDoc
+        position: (state) => chartSelectors.legend.store(state).position ?? "E",
+
+        // @inheritDoc
+        sizeLegend: (state) => chartSelectors.legend.store(state).sizeLegend ?? null,
     },
 
     // @inheritDoc

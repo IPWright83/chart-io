@@ -1,5 +1,5 @@
 import type { ILabeller } from "../../utils";
-import type { IData, ILegendItem, IMargin, IPivot, IScale, ITheme } from "../../types";
+import type { ICompassPosition, IData, ILegendItem, IMargin, IPivot, IScale, ISizeLegend, ITheme } from "../../types";
 
 export interface IChartScaleInfo {
   scale?: IScale;
@@ -21,6 +21,11 @@ export interface IChartStateDimensions {
 
 export interface IChartStateLegend {
   items: ILegendItem[];
+  // The compass position the legend is currently docked at - either its default, or wherever it
+  // was last dragged to
+  position?: ICompassPosition;
+  // The size legend a <ZAxis> has registered, if any, explaining a Scatter/Scatters z encoding
+  sizeLegend?: ISizeLegend | null;
 }
 
 export interface IChartStateBrush {

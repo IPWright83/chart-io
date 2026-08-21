@@ -10,8 +10,11 @@ import { useEffect } from "react";
  * @param {IShape}  shape            The shape to use for any icon in the legend
  * @param {boolean} showInLegend     True if this hook should use the legend. Setting to false bypasses the hook
  * @param {IColor}  shapeColor       The color to use for the shape
+ * @param {string}  zField           The key of the field this series sizes its points from (e.g.
+ *                                   `<Scatter z>`), if any - lets a `<ZAxis>` size legend borrow
+ *                                   this series' color
  */
-export function useLegendItem(name: string, shape: IShape, showInLegend: boolean, shapeColor?: IColor) {
+export function useLegendItem(name: string, shape: IShape, showInLegend: boolean, shapeColor?: IColor, zField?: string) {
     const dispatch = useDispatch();
     const color = shapeColor?.toString();
 
@@ -20,6 +23,7 @@ export function useLegendItem(name: string, shape: IShape, showInLegend: boolean
             name,
             color: color as IColor,
             icon: shape,
+            zField,
         };
 
         if (showInLegend) {
@@ -31,5 +35,5 @@ export function useLegendItem(name: string, shape: IShape, showInLegend: boolean
                 dispatch(chartActions.removeLegendItem(legendItem));
             }
         };
-    }, [name, shape, color, showInLegend]);
+    }, [name, shape, color, showInLegend, zField]);
 }

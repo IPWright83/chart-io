@@ -1,6 +1,7 @@
 export * from "./IBandwidthScale";
 export * from "./IColor";
 export * from "./IColorLegendItem";
+export * from "./ICompassPosition";
 export * from "./ICoordinate";
 export * from "./IData";
 export * from "./IDropline";
@@ -23,6 +24,7 @@ export * from "./IScale";
 export * from "./IScaleMode";
 export * from "./IScaleType";
 export * from "./IShape";
+export * from "./ISizeLegend";
 export * from "./ITheme";
 export * from "./ITitleProps";
 export * from "./ITooltipFormatter";

@@ -17,4 +17,9 @@ export interface IColorLegendItem {
      * The colour of the icon
      */
     color?: IColor;
+    /**
+     * The key of the field this series sizes its points from (e.g. `<Scatter z>`), if any - lets a
+     * size legend (see `<ZAxis>`) find the color of the first series plotted against its scale
+     */
+    zField?: string;
 }

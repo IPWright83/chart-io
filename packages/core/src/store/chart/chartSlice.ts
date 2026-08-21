@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { isEqual } from "lodash";
 
 import { themes } from "../../themes";
-import type { IData, ILegendItem, IMargin, IPivot, IScale, ITheme } from "../../types";
+import type { ICompassPosition, IData, ILegendItem, IMargin, IPivot, IScale, ISizeLegend, ITheme } from "../../types";
 import type { ILabeller } from "../../utils";
 import { createLabeller } from "../../utils";
 import type { IChartState } from "../types";
@@ -39,6 +39,8 @@ export const defaultChartState = {
     scales: {},
     legend: {
         items: [],
+        position: "E" as ICompassPosition,
+        sizeLegend: null,
     },
     brush: {
         height: 0,
@@ -220,6 +222,34 @@ const chartSlice = createSlice({
          */
         removeLegendItem: (state: IChartState, action: PayloadAction<ILegendItem>) => {
             state.legend.items = state.legend.items.filter((t) => !isEqual(t, action.payload));
+        },
+
+        /**
+         * Sets the compass position the Legend is docked at in the Redux store, either its initial
+         * default or wherever the user last dragged it to
+         * @param state                      The current Redux store state
+         * @param action                     The payload containing the new compass position
+         */
+        setLegendPosition: (state: IChartState, action: PayloadAction<ICompassPosition>) => {
+            state.legend.position = action.payload;
+        },
+
+        /**
+         * Sets the size legend (registered by a `<ZAxis>`) to show at the bottom of the Legend in
+         * the Redux store
+         * @param state                      The current Redux store state
+         * @param action                     The payload containing the size legend
+         */
+        setSizeLegend: (state: IChartState, action: PayloadAction<ISizeLegend>) => {
+            state.legend.sizeLegend = action.payload;
+        },
+
+        /**
+         * Clears the size legend from the Redux store
+         * @param state                      The current Redux store state
+         */
+        clearSizeLegend: (state: IChartState) => {
+            state.legend.sizeLegend = null;
         },
 
         /**

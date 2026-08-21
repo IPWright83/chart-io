@@ -1,10 +1,19 @@
+import { chartActions } from "@chart-io/core";
 import { Provider } from "react-redux";
 import React from "react";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 
 import { createMockStore } from "../../testUtils";
 
 import { LegendOverlay } from ".";
+
+// jsdom doesn't implement PointerEvent, so `fireEvent.pointerDown` etc. dispatch an event with
+// clientX/clientY/button all undefined - build the event by hand instead so the position/button
+// checks in the drag handlers under test see real values
+function pointerEvent(type: string, init: Partial<PointerEvent>) {
+    const event = new Event(type, { bubbles: true, cancelable: true });
+    return Object.assign(event, { button: 0, pointerId: 1, ...init });
+}
 
 describe("LegendOverlay", () => {
     const store = createMockStore({
@@ -18,11 +27,15 @@ describe("LegendOverlay", () => {
         },
     });
 
-    it("should render a vertical alignment correctly", async () => {
+    beforeEach(() => {
+        (store.dispatch as jest.Mock).mockClear();
+    });
+
+    it("should render docked at N correctly", async () => {
         const { asFragment } = render(
             <Provider store={store}>
                 <svg>
-                    <LegendOverlay horizontalPosition="LEFT" />
+                    <LegendOverlay position="N" />
                 </svg>
             </Provider>
         );
@@ -30,11 +43,11 @@ describe("LegendOverlay", () => {
         expect(asFragment()).toMatchSnapshot();
     });
 
-    it("should render a horizontal alignment correctly", async () => {
+    it("should render docked at E (the default) correctly", async () => {
         const { asFragment } = render(
             <Provider store={store}>
                 <svg>
-                    <LegendOverlay verticalPosition="TOP" />
+                    <LegendOverlay />
                 </svg>
             </Provider>
         );
@@ -54,11 +67,96 @@ describe("LegendOverlay", () => {
         const { asFragment } = render(
             <Provider store={store}>
                 <svg>
-                    <LegendOverlay offset={0} />
+                    <LegendOverlay />
                 </svg>
             </Provider>
         );
 
         expect(asFragment()).toMatchSnapshot();
+    });
+
+    it("uses the position prop as the default docked position", () => {
+        const { container } = render(
+            <Provider store={store}>
+                <svg>
+                    <LegendOverlay position="SW" />
+                </svg>
+            </Provider>
+        );
+
+        // Docked SW: flush against the left and bottom edges
+        expect(container.querySelector(".legend")).toHaveStyle({ left: "10px", bottom: "10px" });
+    });
+
+    it("prefers a position the user has already dragged the Legend to over the position prop", () => {
+        // Reproduces a real bug: seeding a default docked position into the store on mount meant
+        // any store that doesn't actually apply dispatched actions (e.g. a Storybook mock store, or
+        // simply before the seeding effect has run) rendered stuck at the store's own initial "E"
+        // regardless of what `position` was passed - the prop must apply directly, with the store
+        // only overriding it once a real drag has recorded a position there
+        const draggedStore = createMockStore({
+            chart: {
+                legend: {
+                    items: [
+                        { name: "a", icon: "circle", color: "blue" },
+                        { name: "b", icon: "square", color: "orange" },
+                    ],
+                    position: "SW",
+                },
+            },
+        });
+
+        const { container } = render(
+            <Provider store={draggedStore}>
+                <svg>
+                    <LegendOverlay position="E" />
+                </svg>
+            </Provider>
+        );
+
+        expect(container.querySelector(".legend")).toHaveStyle({ left: "10px", bottom: "10px" });
+    });
+
+    describe("dragging", () => {
+        // jsdom doesn't implement the Pointer Capture APIs used to keep receiving move/up events
+        // for the pointer that started the drag, even once it leaves the Legend's bounds
+        beforeAll(() => {
+            // @ts-ignore - jsdom doesn't implement this
+            Element.prototype.setPointerCapture = jest.fn();
+            // @ts-ignore - jsdom doesn't implement this
+            Element.prototype.releasePointerCapture = jest.fn();
+        });
+
+        it("docks to the nearest compass position on drop, based on where it was released", () => {
+            const { container } = render(
+                <Provider store={store}>
+                    <svg>
+                        <LegendOverlay position="E" />
+                    </svg>
+                </Provider>
+            );
+
+            const foreignObject = container.querySelector("foreignObject");
+            const legend = container.querySelector(".legend");
+
+            jest.spyOn(foreignObject as Element, "getBoundingClientRect").mockReturnValue({
+                left: 0,
+                top: 0,
+                width: 200,
+                height: 200,
+            } as DOMRect);
+            jest.spyOn(legend as Element, "getBoundingClientRect").mockReturnValue({
+                left: 150,
+                top: 90,
+                width: 40,
+                height: 20,
+            } as DOMRect);
+
+            fireEvent(legend as Element, pointerEvent("pointerdown", { clientX: 160, clientY: 100 }));
+            fireEvent(legend as Element, pointerEvent("pointermove", { clientX: 20, clientY: 20 }));
+            fireEvent(legend as Element, pointerEvent("pointerup", { clientX: 20, clientY: 20 }));
+
+            expect(store.dispatch).toHaveBeenCalledWith(chartActions.setLegendPosition("NW"));
+        });
     });
 });
