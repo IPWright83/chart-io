@@ -1,5 +1,5 @@
 import type { ILabeller } from "../../utils";
-import type { ICompassPosition, IData, ILegendItem, IMargin, IScale, ISizeLegend, ITheme } from "../../types";
+import type { ICompassPosition, IData, ILegendItem, IMargin, IPivot, IScale, ISizeLegend, ITheme } from "../../types";
 
 export interface IChartScaleInfo {
   scale?: IScale;
@@ -54,4 +54,8 @@ export interface IChartState {
   labeller: ILabeller;
   zoomable: boolean;
   zoom: IChartStateZoom;
+  // Whether a <Heatmap> should offer switching between its grid/rows/columns layouts
+  pivotable: boolean;
+  // The layout a <Heatmap> is currently rendered in - see IPivot
+  pivot: IPivot;
 }

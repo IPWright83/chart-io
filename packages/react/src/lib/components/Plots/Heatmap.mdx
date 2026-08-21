@@ -1,0 +1,93 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as HeatmapStories from "./Heatmap.stories"
+
+<Meta title="Charts/Miscellaneous/Heatmap" />
+
+# Heatmap Plots
+
+The `<Heatmap>` component renders a grid of cells - one per `rows`/`columns` combination in the data -
+colored by `value` along a sequential (or diverging) scale. It's a self-contained chart - unlike
+`<Bar>`/`<Column>` (which need an `<XYChart>` wrapper plus `<XAxis>`/`<YAxis>` added explicitly),
+`<Heatmap>` sets all of that up internally, since it always needs both.
+
+<Canvas of={HeatmapStories.Basic} />
+
+## `<Heatmap>` Component
+
+### Props
+
+| Prop              | Type       | Default             | Note                                                                                                     |
+| ------------------ | ---------- | -------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **`rows`\***       | `string`   | `null`               | The field used for each cell's row.                                                                       |
+| **`columns`\***    | `string`   | `null`               | The field used for each cell's column.                                                                    |
+| **`value`\***      | `string`   | `null`               | The key of the field containing each cell's value, mapped to a color via `colors`.                        |
+| `colors`           | `string[]` | Derived from Theme   | The color range a cell's `value` is mapped along - 2 or more colors, interpolated between as equally spaced stops. An odd-length palette (3, 5, ...) is treated as diverging - see below. |
+| `cornerRadius`     | `number`   | `0`                  | The corner radius, in pixels, to apply to each cell.                                                       |
+| `pivotable`        | `boolean`  | `false`               | Lets the user switch between the full grid, a row-stacked-bar-chart and a column-stacked-bar-chart via a `<PivotControl>`. See [Pivoting](#pivoting-grid-rows-columns) below. |
+| `interactive`      | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot.       |
+
+`<Heatmap>` also accepts the usual chart-level props - `data`, `width`, `height`, `plotMargin`,
+`theme`, `animationDuration`, `onClick`/`onMouseOver`/`onMouseOut` and so on - directly, since it's a
+self-contained chart, as well as `<XYChart>`-level props like `zoomBrush`. Widen `plotMargin.left`/
+`plotMargin.bottom` to give the row/column axis ticks (and, in the grid layout, the color legend) room.
+
+> **Note**: Every combination of the fields listed in `rows`/`columns` should be unique in the data. If
+> your data has multiple rows for the same combination, aggregate it first. A `rows`/`columns` pair
+> missing from the data is treated as a value of `0`, rather than leaving a gap - every row/column
+> combination is always rendered, which is what lets a row/column collapse cleanly into a stacked bar
+> when pivoted (see below).
+
+### Using Canvas
+
+Like other plots, a `<Heatmap>` can be rendered using an HTML Canvas instead of SVG by setting `useCanvas`.
+
+<Canvas of={HeatmapStories.Canvas} />
+
+### Pivoting (Grid / Rows / Columns)
+
+This is the feature this component is built around, based on the "Desk Occupancy Heatmap" Observable
+notebook (a `View` radio switching between "Week"/"Day"/"Hour"). Set `pivotable` to render a
+`<PivotControl>` letting the user switch between three layouts, all sharing the same cells - keyed by
+their row/column pair, so switching layouts doesn't recreate anything, it just transitions each cell to
+its new position and size:
+
+- **Grid** - the full 2D grid, exactly like the basic example above.
+- **Rows** - the column axis collapses into a linear scale: each row's cells stack edge-to-edge in
+  value order, becoming one horizontal bar per row, sized by that row's total.
+- **Columns** - the row axis collapses instead: each column's cells stack into one vertical bar,
+  sized by that column's total.
+
+<Canvas of={HeatmapStories.Pivotable} />
+
+```jsx
+<Heatmap rows="country" columns="sector" value="gdp" pivotable={true} />
+```
+
+`<Heatmap>` reads and writes this pivot as chart-level state (alongside `<PivotControl>`), the same way
+`<Treemap zoomable>` and `<ZoomBreadcrumb>` share zoom state - so it isn't a plain controlled prop.
+
+Here's the same mechanic on the notebook's own dataset - a week of hourly desk occupancy - for a direct
+comparison:
+
+<Canvas of={HeatmapStories.DeskOccupancy} />
+
+### Diverging colors
+
+Pass an odd number of `colors` (3, 5, ...) - a palette with a natural middle stop - and `<Heatmap>`
+centers the color scale on `0` instead of the data's own midpoint, so two cells with an equal and
+opposite value get equally saturated (but opposite) colors, and a cell of exactly `0` always gets the
+middle color. This is the standard treatment for a correlation matrix:
+
+<Canvas of={HeatmapStories.CorrelationMatrix} />
+
+```jsx
+<Heatmap
+    rows="rowVariable"
+    columns="columnVariable"
+    value="correlation"
+    colors={["#b2182b", "#f7f7f7", "#2166ac"]}
+/>
+```
+
+An even-length palette (the default 2-stop ramp included) is always treated as sequential - the scale
+simply spans the data's own lowest to highest value.
