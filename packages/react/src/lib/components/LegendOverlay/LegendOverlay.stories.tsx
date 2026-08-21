@@ -1,4 +1,4 @@
-import { themes } from "@chart-io/core";
+import { d3, themes } from "@chart-io/core";
 
 import React from "react";
 import { Provider } from "react-redux";
@@ -55,55 +55,87 @@ const LegendOverlayTemplate = (args) => {
   return (
     <Provider store={store}>
       <svg width="1600px" height="400px" style={{ background: "#CCC" }}>
-        <LegendOverlay
-          verticalPosition={args.verticalPosition}
-          horizontalPosition={args.horizontalPosition}
-          formatters={args.formatters}
-        />
+        <LegendOverlay position={args.position} formatters={args.formatters} />
       </svg>
     </Provider>
   );
 };
 
-export const Left = {
-  name: "Left Aligned",
+export const West = {
+  name: "Docked West",
   render: LegendOverlayTemplate,
   args: {
-    horizontalPosition: "LEFT",
+    position: "W",
   },
 };
 
-export const Right = {
-  name: "Right Aligned",
+export const East = {
+  name: "Docked East (the default)",
   render: LegendOverlayTemplate,
   args: {
-    horizontalPosition: "RIGHT",
+    position: "E",
   },
 };
 
-export const Top = {
-  name: "Top Aligned",
+export const North = {
+  name: "Docked North",
   render: LegendOverlayTemplate,
   args: {
-    verticalPosition: "TOP",
-    horizontalPosition: "CENTER",
+    position: "N",
   },
 };
 
-export const Bottom = {
-  name: "Bottom Aligned",
+export const South = {
+  name: "Docked South",
   render: LegendOverlayTemplate,
   args: {
-    verticalPosition: "BOTTOM",
-    horizontalPosition: "CENTER",
+    position: "S",
   },
 };
 
-export const BottomRight = {
-  name: "BottomRight Aligned",
+export const SouthEast = {
+  name: "Docked SouthEast",
   render: LegendOverlayTemplate,
   args: {
-    verticalPosition: "BOTTOM",
-    horizontalPosition: "RIGHT",
+    position: "SE",
+  },
+};
+
+const SizeLegendTemplate = (args) => {
+  const store = createMockStorybookStore({
+    chart: {
+      theme: themes.light,
+      dimensions: {
+        width: 800,
+        height: 400,
+      },
+      scales: {
+        population: {
+          scale: d3.scaleLinear().domain([0, 500]).range([5, 25]),
+          domain: [0, 500],
+          range: [5, 25],
+        },
+      },
+      legend: {
+        items: [{ name: "Series 1", icon: "circle", color: "steelblue" }],
+        sizeLegend: { field: "population", ticks: 3 },
+      },
+    },
+  });
+
+  return (
+    <Provider store={store}>
+      <svg width="1600px" height="400px" style={{ background: "#CCC" }}>
+        <LegendOverlay position={args.position} />
+      </svg>
+    </Provider>
+  );
+};
+
+export const WithSizeLegend = {
+  name: "With a Size Legend (from ZAxis)",
+  render: SizeLegendTemplate,
+  args: {
+    position: "E",
   },
 };
