@@ -1,7 +1,7 @@
 import { memoizeWithArgs } from "proxy-memoize";
 
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
-import type { IData, ILegendItem, IMargin, IScale, IScaleMode, ITheme } from "../../types";
+import type { IData, ILegendItem, IMargin, IPivot, IScale, IScaleMode, ITheme } from "../../types";
 import type { ILabeller } from "../../utils";
 import type {
     IChartScaleInfo,
@@ -294,6 +294,20 @@ interface IChartSelectors {
          */
         path: (state: IState) => string[];
     };
+
+    /**
+     * Returns whether a `<Heatmap>` should offer switching between its grid/rows/columns layouts
+     * @param  state The application state
+     * @return True if pivoting is enabled
+     */
+    pivotable: (state: IState) => boolean;
+
+    /**
+     * Returns the layout a `<Heatmap>` is currently rendered in
+     * @param  state The application state
+     * @return       The current pivot
+     */
+    pivot: (state: IState) => IPivot;
 }
 
 export const chartSelectors: IChartSelectors = {
@@ -507,4 +521,10 @@ export const chartSelectors: IChartSelectors = {
         // @inheritDoc
         path: (state) => chartSelectors.zoom.store(state)?.path ?? EMPTY_ARRAY,
     },
+
+    // @inheritDoc
+    pivotable: (state) => chartSelectors.store(state).pivotable ?? false,
+
+    // @inheritDoc
+    pivot: (state) => chartSelectors.store(state).pivot ?? "grid",
 };

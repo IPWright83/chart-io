@@ -8,91 +8,110 @@ exports[`HeatmapPlot using SVG should render correctly 1`] = `
     >
       <rect
         class="heatmap-cell"
-        height="99"
+        height="100"
         rx="0"
         ry="0"
         style="fill: rgb(226, 237, 245); cursor: pointer;"
-        width="99"
+        width="100"
         x="0"
         y="0"
       />
       <rect
         class="heatmap-cell"
-        height="99"
+        height="100"
         rx="0"
         ry="0"
         style="fill: rgb(182, 211, 230); cursor: pointer;"
-        width="99"
-        x="101"
+        width="100"
+        x="100"
         y="0"
       />
       <rect
         class="heatmap-cell"
-        height="99"
+        height="100"
         rx="0"
         ry="0"
         style="fill: rgb(153, 193, 220); cursor: pointer;"
-        width="99"
+        width="100"
         x="0"
-        y="101"
+        y="100"
       />
       <rect
         class="heatmap-cell"
-        height="99"
+        height="100"
         rx="0"
         ry="0"
         style="fill: rgb(255, 255, 255); cursor: pointer;"
-        width="99"
-        x="101"
-        y="101"
+        width="100"
+        x="100"
+        y="100"
       />
     </g>
     <g
-      class="g-plot heatmap-labels"
+      class="heatmap-legend"
     >
+      <defs>
+        <lineargradient
+          id="heatmap-legend-gradient-«r0»"
+          x1="0%"
+          x2="100%"
+          y1="0%"
+          y2="0%"
+        >
+          <stop
+            offset="0%"
+            stop-color="rgb(255, 255, 255)"
+          />
+          <stop
+            offset="20%"
+            stop-color="rgb(235, 243, 248)"
+          />
+          <stop
+            offset="40%"
+            stop-color="rgb(214, 230, 241)"
+          />
+          <stop
+            offset="60%"
+            stop-color="rgb(194, 218, 234)"
+          />
+          <stop
+            offset="80%"
+            stop-color="rgb(173, 205, 227)"
+          />
+          <stop
+            offset="100%"
+            stop-color="rgb(153, 193, 220)"
+          />
+        </lineargradient>
+      </defs>
+      <rect
+        fill="url(#heatmap-legend-gradient-«r0»)"
+        height="10"
+        stroke="#333333"
+        stroke-opacity="0.8"
+        width="100"
+        x="50"
+        y="230"
+      />
       <text
-        class="heatmap-row-label"
-        dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        fill="#333333"
+        font-family="sans-serif"
+        font-size="12"
+        text-anchor="start"
+        x="50"
+        y="252"
+      >
+        3
+      </text>
+      <text
+        fill="#333333"
+        font-family="sans-serif"
+        font-size="12"
         text-anchor="end"
-        x="-8"
-        y="49.5"
+        x="150"
+        y="252"
       >
-        North
-      </text>
-      <text
-        class="heatmap-row-label"
-        dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1;"
-        text-anchor="end"
-        x="-8"
-        y="150.5"
-      >
-        South
-      </text>
-    </g>
-    <g
-      class="g-plot heatmap-labels"
-    >
-      <text
-        class="heatmap-column-label"
-        dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1;"
-        text-anchor="middle"
-        x="49.5"
-        y="-8"
-      >
-        Widgets
-      </text>
-      <text
-        class="heatmap-column-label"
-        dy="3"
-        style="font-family: sans-serif; fill: #333333; opacity: 1;"
-        text-anchor="middle"
-        x="150.5"
-        y="-8"
-      >
-        Gadgets
+        10
       </text>
     </g>
   </svg>

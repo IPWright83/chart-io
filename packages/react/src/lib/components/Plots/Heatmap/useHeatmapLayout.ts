@@ -1,69 +1,31 @@
-import { chartSelectors, d3, ensureCombinationsAreUnique, IState } from "@chart-io/core";
-import type { IColor, IData } from "@chart-io/core";
+import { chartSelectors, d3, ensureCombinationsAreUnique, IScaleType, IState } from "@chart-io/core";
+import type { IBandwidthScale, IColor, IData, IDatum, IScale } from "@chart-io/core";
 
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
+
+import { usePivot } from "../usePivot";
 
 export interface IHeatmapCell {
     row: string;
     column: string;
     value: number;
-    datum: IData[number];
+    datum: IDatum;
 }
 
-export interface IHeatmapAxisLabel {
-    /**
-     * The row/column category value this label represents
-     */
-    value: string;
-    /**
-     * The label's center position along the axis, in plot-relative pixels
-     */
-    center: number;
-    /**
-     * The group this row/column belongs to (from `rowGroupBy`/`columnGroupBy`), if any
-     */
-    group?: string;
+interface ICumulative {
+    previous: number;
+    current: number;
 }
 
-interface IBand {
-    start: number;
-    bandwidth: number;
-}
-
-export interface IUseHeatmapLayoutProps {
+export interface IUseHeatmapDomainsProps {
     rows: string;
     columns: string;
     value: string;
-    colors?: IColor[];
-    padding: number;
-    rowGroupBy?: string;
-    columnGroupBy?: string;
-    groupGap: number;
-    rowsGrouped: boolean;
-    columnsGrouped: boolean;
 }
 
-/**
- * Returns, for each value of `field`, the first value of `groupByField` seen alongside it - i.e. the
- * group that row/column belongs to. Undefined if no `groupByField` is given
- * @param  data             The full dataset
- * @param  field            The row/column field to group
- * @param  groupByField     The field giving each row/column's group
- * @return                  A map of row/column value to its group, or undefined if ungrouped
- */
-function buildGroupMap(data: IData, field: string, groupByField: string | undefined): Map<string, string> | undefined {
-    if (!groupByField) return undefined;
-
-    const groupOf = new Map<string, string>();
-    for (const datum of data) {
-        const key = `${datum[field]}`;
-        if (!groupOf.has(key)) {
-            groupOf.set(key, `${datum[groupByField]}`);
-        }
-    }
-
-    return groupOf;
+export interface IUseHeatmapLayoutProps extends IUseHeatmapDomainsProps {
+    colors?: IColor[];
 }
 
 /**
@@ -85,66 +47,6 @@ function uniqueValuesInOrder(data: IData, field: string): string[] {
     }
 
     return order;
-}
-
-/**
- * Reorders `values` so that values sharing a group (per `groupOf`) become adjacent, groups ordered by
- * where they first appear in `values`. Values within a group keep their original relative order -
- * `Array.prototype.sort` is stable (guaranteed since ES2019), so a plain sort by group index is enough
- * @param  values       The row/column values to reorder, in their natural order
- * @param  groupOf      A map of row/column value to its group
- * @return              `values`, reordered so values sharing a group are adjacent
- */
-function groupedOrder(values: string[], groupOf: Map<string, string>): string[] {
-    const groupOrder: string[] = [];
-    const seenGroups = new Set<string>();
-
-    for (const value of values) {
-        const group = groupOf.get(value);
-        if (!seenGroups.has(group)) {
-            seenGroups.add(group);
-            groupOrder.push(group);
-        }
-    }
-
-    const groupIndex = new Map(groupOrder.map((group, index) => [group, index]));
-
-    return [...values].sort((a, b) => groupIndex.get(groupOf.get(a)) - groupIndex.get(groupOf.get(b)));
-}
-
-/**
- * Lays `values` out end-to-end within `size`, every band the same width, separated by `padding` -
- * except at a boundary between two different groups (per `groupOf`), which gets `groupGap` instead, so
- * grouped clusters read as visually distinct
- * @param  values       The row/column values to lay out, in the order they should appear
- * @param  size         The pixel size (plot width/height) available to lay the bands out within
- * @param  padding      The gap, in pixels, between two adjacent bands in the same group
- * @param  groupGap     The gap, in pixels, between two adjacent bands in different groups
- * @param  groupOf      A map of row/column value to its group, or undefined to ignore grouping
- * @return              A map of row/column value to its band's start position and width
- */
-function computeBands(
-    values: string[],
-    size: number,
-    padding: number,
-    groupGap: number,
-    groupOf: Map<string, string> | undefined,
-): Map<string, IBand> {
-    const bands = new Map<string, IBand>();
-    if (values.length === 0) return bands;
-
-    const gaps = values.slice(1).map((value, index) => (groupOf && groupOf.get(value) !== groupOf.get(values[index]) ? groupGap : padding));
-    const totalGap = gaps.reduce((sum, gap) => sum + gap, 0);
-    const bandwidth = Math.max(0, (size - totalGap) / values.length);
-
-    let cursor = 0;
-    values.forEach((value, index) => {
-        if (index > 0) cursor += gaps[index - 1];
-        bands.set(value, { start: cursor, bandwidth });
-        cursor += bandwidth;
-    });
-
-    return bands;
 }
 
 /**
@@ -175,85 +77,229 @@ function interpolateColors(colors: IColor[], t: number): string {
 }
 
 /**
- * Computes the layout shared by a Heatmap's cells, row labels and column labels - the row/column
- * ordering (optionally grouped), band positions and value/color scale - so it only runs once per
- * render rather than being repeated by each of the three, which instead just render from the values
- * this returns. Grouping a row or column reorders its band (and, in turn, transitions every cell that
- * shares it to its new position) without changing the underlying data
- * @param  props       The set of properties needed to build the layout
- * @return             The computed layout
+ * For every row/column combination (a dense cross-product of `rowValues` x `columnValues`, missing
+ * combinations defaulting to 0), builds a running cumulative sum along `groupBy` - "rows" sums each
+ * row's values across its columns, "columns" sums each column's values down its rows. This is what
+ * lets a row/column collapse into a single stacked bar: a cell's `previous`/`current` become its
+ * segment's start/end position along the collapsed axis
+ * @param  rowValues       Every row value, in band order
+ * @param  columnValues    Every column value, in band order
+ * @param  valueAt         A row/column pair (joined by "::") to its value
+ * @param  groupBy         Which axis to stack along - "rows" stacks each row's columns, "columns"
+ *                         stacks each column's rows
+ * @return                 A row/column pair (joined by "::") to its cumulative previous/current, plus
+ *                         the max total reached by any single row/column
  */
-export function useHeatmapLayout({
-    rows,
-    columns,
-    value,
-    colors,
-    padding,
-    rowGroupBy,
-    columnGroupBy,
-    groupGap,
-    rowsGrouped,
-    columnsGrouped,
-}: IUseHeatmapLayoutProps) {
+function cumulativeBy(
+    rowValues: string[],
+    columnValues: string[],
+    valueAt: Map<string, number>,
+    groupBy: "rows" | "columns",
+): { cumulative: Map<string, ICumulative>; maxTotal: number } {
+    const cumulative = new Map<string, ICumulative>();
+    let maxTotal = 0;
+
+    const outer = groupBy === "rows" ? rowValues : columnValues;
+    const inner = groupBy === "rows" ? columnValues : rowValues;
+
+    for (const outerValue of outer) {
+        let running = 0;
+
+        for (const innerValue of inner) {
+            const row = groupBy === "rows" ? outerValue : innerValue;
+            const column = groupBy === "rows" ? innerValue : outerValue;
+            const v = valueAt.get(`${row}::${column}`) ?? 0;
+
+            const previous = running;
+            running += v;
+            cumulative.set(`${row}::${column}`, { previous, current: running });
+        }
+
+        maxTotal = Math.max(maxTotal, running);
+    }
+
+    return { cumulative, maxTotal };
+}
+
+/**
+ * Computes the row/column domains shared by a Heatmap's axes and its cells - every row/column value
+ * (in band order), each cell's value, and the running cumulative sums (and their maxima) used to lay a
+ * pivoted axis's cells out as a stacked bar. Deliberately reads only `data`/`rows`/`columns`/`value` -
+ * not the scales those domains end up feeding - so components composing this (`<HeatmapAxes>`,
+ * `useHeatmapLayout`) don't re-render each other into a loop over a scale they themselves produce
+ * @param  props       The row/column/value fields to compute domains for
+ * @return             The computed row/column domains
+ */
+export function useHeatmapDomains({ rows, columns, value }: IUseHeatmapDomainsProps) {
     const data = useSelector((s: IState) => chartSelectors.data(s));
-    const plotLeft = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
-    const plotTop = useSelector((s: IState) => chartSelectors.dimensions.plot.top(s));
-    const plotWidth = useSelector((s: IState) => chartSelectors.dimensions.plot.width(s));
-    const plotHeight = useSelector((s: IState) => chartSelectors.dimensions.plot.height(s));
-    const theme = useSelector((s: IState) => chartSelectors.theme(s));
 
     return useMemo(() => {
         ensureCombinationsAreUnique(data, [rows, columns], "Heatmap");
 
-        const rowGroupOf = buildGroupMap(data, rows, rowGroupBy);
-        const columnGroupOf = buildGroupMap(data, columns, columnGroupBy);
+        const rowValues = uniqueValuesInOrder(data, rows);
+        const columnValues = uniqueValuesInOrder(data, columns);
 
-        const naturalRowOrder = uniqueValuesInOrder(data, rows);
-        const naturalColumnOrder = uniqueValuesInOrder(data, columns);
+        const valueAt = new Map<string, number>();
+        const datumAt = new Map<string, IDatum>();
+        for (const datum of data) {
+            const key = `${datum[rows]}::${datum[columns]}`;
+            valueAt.set(key, +datum[value]);
+            datumAt.set(key, datum);
+        }
 
-        const rowOrder = rowsGrouped && rowGroupOf ? groupedOrder(naturalRowOrder, rowGroupOf) : naturalRowOrder;
-        const columnOrder = columnsGrouped && columnGroupOf ? groupedOrder(naturalColumnOrder, columnGroupOf) : naturalColumnOrder;
-
-        const rowBands = computeBands(rowOrder, plotHeight, padding, groupGap, rowsGrouped ? rowGroupOf : undefined);
-        const columnBands = computeBands(columnOrder, plotWidth, padding, groupGap, columnsGrouped ? columnGroupOf : undefined);
-
-        const values = data.map((datum) => +datum[value]).filter((v) => !Number.isNaN(v));
+        const values = Array.from(valueAt.values()).filter((v) => !Number.isNaN(v));
         const [minValue, maxValue] = d3.extent(values);
+
+        const { cumulative: rowCumulative, maxTotal: maxRowTotal } = cumulativeBy(rowValues, columnValues, valueAt, "rows");
+        const { cumulative: columnCumulative, maxTotal: maxColumnTotal } = cumulativeBy(rowValues, columnValues, valueAt, "columns");
+
+        return { rowValues, columnValues, valueAt, datumAt, minValue, maxValue, rowCumulative, columnCumulative, maxRowTotal, maxColumnTotal };
+    }, [data, rows, columns, value]);
+}
+
+/**
+ * Computes the field/scale-type/domain the x/y axis should use for the current pivot - a pivoted axis
+ * collapses onto a linear scale over `value` (bounded by the largest row/column total), the other
+ * stays a band scale over its own row/column values, in a fixed order regardless of pivot. Shared by
+ * `<HeatmapAxes>` (which renders the actual `<XAxis>`/`<YAxis>`) and `useHeatmapLayout` (which needs
+ * the same field names to read the resulting scales back out of the store)
+ * @param  pivot            The current pivot
+ * @param  rows             The field used for each cell's row
+ * @param  columns          The field used for each cell's column
+ * @param  value            The field used for each cell's value
+ * @param  maxRowTotal      The largest total reached by any single row
+ * @param  maxColumnTotal   The largest total reached by any single column
+ * @param  rowValues        Every row value, in band order
+ * @param  columnValues     Every column value, in band order
+ * @return                  The x/y axis field/scale-type/domain for the current pivot
+ */
+export function heatmapAxisFor(
+    pivot: string,
+    rows: string,
+    columns: string,
+    value: string,
+    maxRowTotal: number,
+    maxColumnTotal: number,
+    rowValues: string[],
+    columnValues: string[],
+) {
+    const xField = pivot === "rows" ? value : columns;
+    const yField = pivot === "columns" ? value : rows;
+    const xScaleType: IScaleType = pivot === "rows" ? "linear" : "band";
+    const yScaleType: IScaleType = pivot === "columns" ? "linear" : "band";
+    const xDomain = pivot === "rows" ? [0, maxRowTotal] : columnValues;
+    const yDomain = pivot === "columns" ? [0, maxColumnTotal] : rowValues;
+
+    return { xField, yField, xScaleType, yScaleType, xDomain, yDomain };
+}
+
+/**
+ * Computes the layout for a Heatmap's cells and legend - per-cell position/color accessors (reading
+ * the x/y scales `<HeatmapAxes>` registers) and the color legend's stops - so `<HeatmapPlot>` only
+ * needs to render from the values this returns. Switching `pivot` doesn't change the set of cells -
+ * every row/column combination is always rendered, missing ones defaulting to 0 - it only changes how
+ * each cell's position is computed, so existing cells transition to their new position/size rather
+ * than being re-created
+ * @param  props       The set of properties needed to build the layout
+ * @return             The computed layout, plus the current pivot
+ */
+export function useHeatmapLayout({ rows, columns, value, colors }: IUseHeatmapLayoutProps) {
+    const theme = useSelector((s: IState) => chartSelectors.theme(s));
+    const { pivot } = usePivot();
+
+    const { rowValues, columnValues, valueAt, datumAt, minValue, maxValue, rowCumulative, columnCumulative, maxRowTotal, maxColumnTotal } =
+        useHeatmapDomains({ rows, columns, value });
+
+    const { xField, yField } = heatmapAxisFor(pivot, rows, columns, value, maxRowTotal, maxColumnTotal, rowValues, columnValues);
+
+    const xScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, xField, "plot"));
+    const yScale = useSelector((s: IState) => chartSelectors.scales.getScale(s, yField, "plot"));
+
+    return useMemo(() => {
         const palette = colors ?? [theme.background, theme.series.colors[0]];
 
+        // An odd-length palette (3, 5, ...) has a designated middle stop - the diverging convention
+        // for e.g. a correlation matrix, where that stop should land on 0 rather than the data's
+        // midpoint. Centering the domain on 0 (using the larger of |min|/|max| as its extent) only
+        // when the data actually straddles 0 keeps a plain sequential (2-color) heatmap unaffected
+        const isDiverging = palette.length % 2 === 1 && palette.length > 1 && minValue !== undefined && minValue < 0 && maxValue > 0;
+        const maxAbs = isDiverging ? Math.max(Math.abs(minValue), Math.abs(maxValue)) : undefined;
+        const colorMin = isDiverging ? -maxAbs : minValue;
+        const colorMax = isDiverging ? maxAbs : maxValue;
+
         const colorFor = (cellValue: number) => {
-            if (minValue === undefined) return `${palette[0]}`;
-            const t = maxValue === minValue ? 1 : (cellValue - minValue) / (maxValue - minValue);
+            if (colorMin === undefined) return `${palette[0]}`;
+            const t = colorMax === colorMin ? 1 : (cellValue - colorMin) / (colorMax - colorMin);
             return interpolateColors(palette, t);
         };
 
-        const cells: IHeatmapCell[] = data
-            .filter((datum) => datum[rows] !== null && datum[rows] !== undefined && datum[columns] !== null && datum[columns] !== undefined)
-            .map((datum) => ({
-                row: `${datum[rows]}`,
-                column: `${datum[columns]}`,
-                value: +datum[value],
-                datum,
-            }));
+        // Every row/column combination is always rendered - missing ones default to a 0 value, dense
+        // enough for the stacked previous/current positions below to always be well-defined
+        const cells: IHeatmapCell[] = rowValues.flatMap((row) =>
+            columnValues.map((column) => {
+                const key = `${row}::${column}`;
+                return {
+                    row,
+                    column,
+                    value: valueAt.get(key) ?? 0,
+                    datum: datumAt.get(key) ?? ({ [rows]: row, [columns]: column, [value]: 0 } as IDatum),
+                };
+            }),
+        );
 
         const keyFor = (cell: IHeatmapCell) => `${cell.row}::${cell.column}`;
-        const xFor = (cell: IHeatmapCell) => plotLeft + (columnBands.get(cell.column)?.start ?? 0);
-        const yFor = (cell: IHeatmapCell) => plotTop + (rowBands.get(cell.row)?.start ?? 0);
-        const widthFor = (cell: IHeatmapCell) => columnBands.get(cell.column)?.bandwidth ?? 0;
-        const heightFor = (cell: IHeatmapCell) => rowBands.get(cell.row)?.bandwidth ?? 0;
+
+        const xFor = (cell: IHeatmapCell) => {
+            if (!xScale) return 0;
+            if (pivot === "rows") {
+                const { previous } = rowCumulative.get(keyFor(cell));
+                return (xScale as IScale)(previous) as number;
+            }
+            // @ts-ignore: TODO: Need to work out casting
+            return (xScale as IScale)(cell.column) as number;
+        };
+
+        const widthFor = (cell: IHeatmapCell) => {
+            if (!xScale) return 0;
+            if (pivot === "rows") {
+                const { previous, current } = rowCumulative.get(keyFor(cell));
+                return ((xScale as IScale)(current) as number) - ((xScale as IScale)(previous) as number);
+            }
+            return (xScale as IBandwidthScale).bandwidth();
+        };
+
+        const yFor = (cell: IHeatmapCell) => {
+            if (!yScale) return 0;
+            if (pivot === "columns") {
+                const { current } = columnCumulative.get(keyFor(cell));
+                return (yScale as IScale)(current) as number;
+            }
+            // @ts-ignore: TODO: Need to work out casting
+            return (yScale as IScale)(cell.row) as number;
+        };
+
+        const heightFor = (cell: IHeatmapCell) => {
+            if (!yScale) return 0;
+            if (pivot === "columns") {
+                const { previous, current } = columnCumulative.get(keyFor(cell));
+                return ((yScale as IScale)(previous) as number) - ((yScale as IScale)(current) as number);
+            }
+            return (yScale as IBandwidthScale).bandwidth();
+        };
+
         const cellColorFor = (cell: IHeatmapCell) => colorFor(cell.value);
 
-        const rowLabels: IHeatmapAxisLabel[] = rowOrder.map((rowValue) => {
-            const band = rowBands.get(rowValue);
-            return { value: rowValue, center: plotTop + band.start + band.bandwidth / 2, group: rowGroupOf?.get(rowValue) };
-        });
-
-        const columnLabels: IHeatmapAxisLabel[] = columnOrder.map((columnValue) => {
-            const band = columnBands.get(columnValue);
-            return { value: columnValue, center: plotLeft + band.start + band.bandwidth / 2, group: columnGroupOf?.get(columnValue) };
-        });
+        // 6 evenly spaced stops across the color domain, for the color legend
+        const legendStops =
+            colorMin === undefined
+                ? []
+                : d3.range(6).map((i) => {
+                      const stopValue = colorMin + (i / 5) * (colorMax - colorMin);
+                      return { value: stopValue, color: colorFor(stopValue) };
+                  });
 
         return {
+            pivot,
             cells,
             keyFor,
             xFor,
@@ -261,29 +307,26 @@ export function useHeatmapLayout({
             widthFor,
             heightFor,
             colorFor: cellColorFor,
-            rowLabels,
-            columnLabels,
+            legendStops,
             minValue,
             maxValue,
-            plotLeft,
-            plotTop,
         };
     }, [
-        data,
+        pivot,
+        xScale,
+        yScale,
+        rowValues,
+        columnValues,
+        valueAt,
+        datumAt,
+        rowCumulative,
+        columnCumulative,
         rows,
         columns,
         value,
         colors,
-        padding,
-        rowGroupBy,
-        columnGroupBy,
-        groupGap,
-        rowsGrouped,
-        columnsGrouped,
-        plotLeft,
-        plotTop,
-        plotWidth,
-        plotHeight,
         theme,
+        minValue,
+        maxValue,
     ]);
 }

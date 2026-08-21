@@ -1,64 +1,43 @@
 import React, { forwardRef } from "react";
 
-import { Chart, IChartProps, IChartRef } from "../../Chart";
-import { TooltipOverlay } from "../../TooltipOverlay";
+import { IChartRef } from "../../Chart";
+import { PivotControl } from "../../PivotControl";
+import { IXYChartProps, XYChart } from "../../XYChart";
 
+import { HeatmapAxes } from "./HeatmapAxes";
 import { HeatmapPlot, IHeatmapPlotProps } from "./HeatmapPlot";
 
 export interface IHeatmapProps
-    extends Omit<IChartProps, "children">,
-        Omit<IHeatmapPlotProps, "useCanvas" | "onMouseOver" | "onMouseOut" | "onClick"> {}
+    extends Omit<IXYChartProps, "children">,
+        Omit<IHeatmapPlotProps, "useCanvas" | "onMouseOver" | "onMouseOut" | "onClick"> {
+    /**
+     * Lets the user switch between the full grid, a row-stacked-bar-chart and a
+     * column-stacked-bar-chart via the `<PivotControl>` this renders when set
+     * @default false
+     */
+    pivotable?: boolean;
+}
 
 /**
  * Represents a Heatmap chart, a grid of cells - one per `rows`/`columns` combination in the data -
- * colored by `value`. A self-contained chart: no need to wrap it in another chart component yourself.
+ * colored by `value`. A self-contained chart: no need to wrap it in `<XYChart>` (or add `<XAxis>`/
+ * `<YAxis>`) yourself - `<Heatmap>` sets those up internally.
  *
- * Set `rowGroupBy`/`columnGroupBy` to a field giving each row/column's group, then toggle
- * `rowsGrouped`/`columnsGrouped` to reorder that axis so rows/columns sharing a group become adjacent -
- * existing cells animate smoothly to their new position rather than the grid simply redrawing. Reserve
- * room for the row/column labels via `plotMargin` (e.g. a wider `left` for long row labels)
+ * Set `pivotable` to let the user switch between the full grid, a row-stacked-bar-chart (each row's
+ * values summed into a single bar along a linear x-axis) and a column-stacked-bar-chart (the same,
+ * summed down each column along a linear y-axis) via the `<PivotControl>` this renders - see its docs,
+ * and the Heatmap docs, for more
  * @param  props       The set of React properties
  * @return             The Heatmap component
  */
 export const Heatmap = forwardRef<IChartRef, IHeatmapProps>(
-    (
-        {
-            rows,
-            columns,
-            value,
-            colors,
-            padding,
-            cornerRadius,
-            rowGroupBy,
-            columnGroupBy,
-            groupGap,
-            rowsGrouped,
-            columnsGrouped,
-            labels,
-            interactive,
-            ...chartProps
-        },
-        ref,
-    ) => {
+    ({ rows, columns, value, colors, cornerRadius, pivotable, interactive, ...chartProps }, ref) => {
         return (
-            <Chart ref={ref} {...chartProps}>
-                <HeatmapPlot
-                    rows={rows}
-                    columns={columns}
-                    value={value}
-                    colors={colors}
-                    padding={padding}
-                    cornerRadius={cornerRadius}
-                    rowGroupBy={rowGroupBy}
-                    columnGroupBy={columnGroupBy}
-                    groupGap={groupGap}
-                    rowsGrouped={rowsGrouped}
-                    columnsGrouped={columnsGrouped}
-                    labels={labels}
-                    interactive={interactive}
-                />
-                <TooltipOverlay onlyNearest={true} />
-            </Chart>
+            <XYChart ref={ref} {...chartProps}>
+                <HeatmapAxes rows={rows} columns={columns} value={value} pivotable={pivotable} />
+                <HeatmapPlot rows={rows} columns={columns} value={value} colors={colors} cornerRadius={cornerRadius} interactive={interactive} />
+                {pivotable && <PivotControl />}
+            </XYChart>
         );
     },
 );

@@ -250,4 +250,33 @@ describe("chartSlice.reducer", () => {
             zoom: { path: ["North America", "United States"] },
         });
     });
+
+    it("setPivotable()", () => {
+        const action = chartActions.setPivotable(true);
+
+        expect(chartSlice.reducer(previousState, action)).toEqual({
+            ...previousState,
+            pivotable: true,
+        });
+    });
+
+    it("setPivotable() resets the pivot to grid when disabled", () => {
+        const pivotedState = { ...previousState, pivotable: true, pivot: "rows" as const };
+        const action = chartActions.setPivotable(false);
+
+        expect(chartSlice.reducer(pivotedState, action)).toEqual({
+            ...previousState,
+            pivotable: false,
+            pivot: "grid",
+        });
+    });
+
+    it("setPivot()", () => {
+        const action = chartActions.setPivot("columns");
+
+        expect(chartSlice.reducer(previousState, action)).toEqual({
+            ...previousState,
+            pivot: "columns",
+        });
+    });
 });

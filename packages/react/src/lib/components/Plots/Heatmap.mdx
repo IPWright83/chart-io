@@ -6,10 +6,9 @@ import * as HeatmapStories from "./Heatmap.stories"
 # Heatmap Plots
 
 The `<Heatmap>` component renders a grid of cells - one per `rows`/`columns` combination in the data -
-colored by `value` along a sequential scale. It's a self-contained chart - unlike `<Bar>`/`<Line>`
-(which need an `<XYChart>` wrapper) or `<Pie>`/`<Radar>` (which need a `<RadialChart>` wrapper),
-`<Heatmap>` accepts chart-level props like `data`/`width`/`height` directly, since it only ever has a
-single plot.
+colored by `value` along a sequential (or diverging) scale. It's a self-contained chart - unlike
+`<Bar>`/`<Column>` (which need an `<XYChart>` wrapper plus `<XAxis>`/`<YAxis>` added explicitly),
+`<Heatmap>` sets all of that up internally, since it always needs both.
 
 <Canvas of={HeatmapStories.Basic} />
 
@@ -22,26 +21,21 @@ single plot.
 | **`rows`\***       | `string`   | `null`               | The field used for each cell's row.                                                                       |
 | **`columns`\***    | `string`   | `null`               | The field used for each cell's column.                                                                    |
 | **`value`\***      | `string`   | `null`               | The key of the field containing each cell's value, mapped to a color via `colors`.                        |
-| `colors`           | `string[]` | Derived from Theme   | The sequential color range a cell's `value` is mapped along - 2 or more colors, interpolated between as equally spaced stops from the lowest to the highest value in the data. |
-| `padding`          | `number`   | `2`                  | The gap, in pixels, to leave between adjacent cells.                                                       |
+| `colors`           | `string[]` | Derived from Theme   | The color range a cell's `value` is mapped along - 2 or more colors, interpolated between as equally spaced stops. An odd-length palette (3, 5, ...) is treated as diverging - see below. |
 | `cornerRadius`     | `number`   | `0`                  | The corner radius, in pixels, to apply to each cell.                                                       |
-| `rowGroupBy`       | `string`   | `undefined`          | A field giving each row's group. Enables `rowsGrouped`.                                                    |
-| `columnGroupBy`    | `string`   | `undefined`          | A field giving each column's group. Enables `columnsGrouped`.                                              |
-| `groupGap`         | `number`   | `padding * 6`        | The extra gap, in pixels, left between two adjacent groups when grouped - on top of `padding`.             |
-| `rowsGrouped`      | `boolean`  | `false`               | Reorders rows so rows sharing a `rowGroupBy` group become adjacent. See [Animated grouping](#animated-grouping) below. |
-| `columnsGrouped`   | `boolean`  | `false`               | The column equivalent of `rowsGrouped`, using `columnGroupBy`.                                             |
-| `labels`           | `boolean`  | `true`                | Should row and column labels be shown?                                                                    |
+| `pivotable`        | `boolean`  | `false`               | Lets the user switch between the full grid, a row-stacked-bar-chart and a column-stacked-bar-chart via a `<PivotControl>`. See [Pivoting](#pivoting-grid-rows-columns) below. |
 | `interactive`      | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot.       |
 
 `<Heatmap>` also accepts the usual chart-level props - `data`, `width`, `height`, `plotMargin`,
 `theme`, `animationDuration`, `onClick`/`onMouseOver`/`onMouseOut` and so on - directly, since it's a
-self-contained chart. Row and column labels are drawn outside the plot area itself, so widen
-`plotMargin.left`/`plotMargin.top` to give them room - particularly `left`, for long row labels.
+self-contained chart, as well as `<XYChart>`-level props like `zoomBrush`. Widen `plotMargin.left`/
+`plotMargin.bottom` to give the row/column axis ticks (and, in the grid layout, the color legend) room.
 
 > **Note**: Every combination of the fields listed in `rows`/`columns` should be unique in the data. If
 > your data has multiple rows for the same combination, aggregate it first. A `rows`/`columns` pair
-> missing from the data simply renders no cell for that pair - the grid doesn't need to be a complete
-> matrix.
+> missing from the data is treated as a value of `0`, rather than leaving a gap - every row/column
+> combination is always rendered, which is what lets a row/column collapse cleanly into a stacked bar
+> when pivoted (see below).
 
 ### Using Canvas
 
@@ -49,48 +43,51 @@ Like other plots, a `<Heatmap>` can be rendered using an HTML Canvas instead of 
 
 <Canvas of={HeatmapStories.Canvas} />
 
-### Grouping rows or columns
+### Pivoting (Grid / Rows / Columns)
 
-Pass `rowGroupBy` (and/or `columnGroupBy`) - a field giving each row (or column) its group - then set
-`rowsGrouped`/`columnsGrouped` to reorder that axis so rows/columns sharing a group become adjacent,
-separated from other groups by an extra `groupGap`. Rows/columns within a group keep their original
-relative order:
+This is the feature this component is built around, based on the "Desk Occupancy Heatmap" Observable
+notebook (a `View` radio switching between "Week"/"Day"/"Hour"). Set `pivotable` to render a
+`<PivotControl>` letting the user switch between three layouts, all sharing the same cells - keyed by
+their row/column pair, so switching layouts doesn't recreate anything, it just transitions each cell to
+its new position and size:
 
-<Canvas of={HeatmapStories.GroupedByContinent} />
+- **Grid** - the full 2D grid, exactly like the basic example above.
+- **Rows** - the column axis collapses into a linear scale: each row's cells stack edge-to-edge in
+  value order, becoming one horizontal bar per row, sized by that row's total.
+- **Columns** - the row axis collapses instead: each column's cells stack into one vertical bar,
+  sized by that column's total.
 
-```jsx
-<Heatmap rows="country" columns="sector" value="gdp" rowGroupBy="continent" rowsGrouped={true} />
-```
-
-### Animated grouping
-
-Every cell is keyed by its `rows`/`columns` pair, so toggling `rowsGrouped`/`columnsGrouped` at
-runtime doesn't recreate any of them - each cell (and its row/column label) just transitions smoothly
-to its new position, animating the grid clustering into its groups and back apart again:
-
-<Canvas of={HeatmapStories.AnimatedGrouping} />
-
-`rowsGrouped`/`columnsGrouped` are plain props, so any state change re-renders with a new value - a
-checkbox, a click handler, whatever fits the app driving the chart:
+<Canvas of={HeatmapStories.Pivotable} />
 
 ```jsx
-function GroupableHeatmap() {
-    const [grouped, setGrouped] = useState(false);
-
-    return (
-        <React.Fragment>
-            <Heatmap
-                rows="country"
-                columns="sector"
-                value="gdp"
-                rowGroupBy="continent"
-                rowsGrouped={grouped}
-            />
-            <button onClick={() => setGrouped((g) => !g)}>Toggle grouping</button>
-        </React.Fragment>
-    );
-}
+<Heatmap rows="country" columns="sector" value="gdp" pivotable={true} />
 ```
 
-Both axes can be grouped independently at once, each by its own field, by setting `columnGroupBy`/
-`columnsGrouped` alongside `rowGroupBy`/`rowsGrouped`.
+`<Heatmap>` reads and writes this pivot as chart-level state (alongside `<PivotControl>`), the same way
+`<Treemap zoomable>` and `<ZoomBreadcrumb>` share zoom state - so it isn't a plain controlled prop.
+
+Here's the same mechanic on the notebook's own dataset - a week of hourly desk occupancy - for a direct
+comparison:
+
+<Canvas of={HeatmapStories.DeskOccupancy} />
+
+### Diverging colors
+
+Pass an odd number of `colors` (3, 5, ...) - a palette with a natural middle stop - and `<Heatmap>`
+centers the color scale on `0` instead of the data's own midpoint, so two cells with an equal and
+opposite value get equally saturated (but opposite) colors, and a cell of exactly `0` always gets the
+middle color. This is the standard treatment for a correlation matrix:
+
+<Canvas of={HeatmapStories.CorrelationMatrix} />
+
+```jsx
+<Heatmap
+    rows="rowVariable"
+    columns="columnVariable"
+    value="correlation"
+    colors={["#b2182b", "#f7f7f7", "#2166ac"]}
+/>
+```
+
+An even-length palette (the default 2-stop ramp included) is always treated as sequential - the scale
+simply spans the data's own lowest to highest value.

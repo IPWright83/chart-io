@@ -6,16 +6,16 @@ import { useSelector } from "react-redux";
 
 import { withCanvas, withSVG } from "../../../hoc";
 import { ICellsPlotProps, CellsPlot } from "../CellsPlot";
-import { ILabelsPlotProps, LabelsPlot } from "../LabelsPlot";
 import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
 
-import { IHeatmapAxisLabel, IHeatmapCell, useHeatmapLayout } from "./useHeatmapLayout";
+import { HeatmapLegend } from "./HeatmapLegend";
+import { IHeatmapCell, useHeatmapLayout } from "./useHeatmapLayout";
 
 const CanvasCellsPlot = withCanvas<ICellsPlotProps<IHeatmapCell>>(CellsPlot, "plot heatmap-cells");
 const SVGCellsPlot = withSVG<ICellsPlotProps<IHeatmapCell>>(CellsPlot, "plot heatmap-cells");
-const CanvasLabelsPlot = withCanvas<ILabelsPlotProps<IHeatmapAxisLabel>>(LabelsPlot, "plot heatmap-labels");
-const SVGLabelsPlot = withSVG<ILabelsPlotProps<IHeatmapAxisLabel>>(LabelsPlot, "plot heatmap-labels");
+
+const formatLegendValue = d3.format(",.2~f");
 
 export interface IHeatmapPlotProps {
     /**
@@ -41,50 +41,10 @@ export interface IHeatmapPlotProps {
      */
     colors?: IColor[];
     /**
-     * The gap, in pixels, to leave between adjacent cells
-     * @default 2
-     */
-    padding?: number;
-    /**
      * The corner radius, in pixels, to apply to each cell
      * @default 0
      */
     cornerRadius?: number;
-    /**
-     * A field giving each row's group. When set, `rowsGrouped` can reorder rows so rows sharing a
-     * group become adjacent
-     */
-    rowGroupBy?: string;
-    /**
-     * A field giving each column's group. When set, `columnsGrouped` can reorder columns so columns
-     * sharing a group become adjacent
-     */
-    columnGroupBy?: string;
-    /**
-     * The gap, in pixels, left between two adjacent groups when `rowsGrouped`/`columnsGrouped` is set -
-     * on top of (not instead of) `padding`, so groups read as visually distinct clusters
-     * @default padding * 6
-     */
-    groupGap?: number;
-    /**
-     * Reorders rows so that rows sharing a `rowGroupBy` group become adjacent, groups ordered by where
-     * they first appear in the data - rows within a group keep their original relative order. Existing
-     * cells transition smoothly to their new row position when this changes. No effect without
-     * `rowGroupBy`
-     * @default false
-     */
-    rowsGrouped?: boolean;
-    /**
-     * The column equivalent of `rowsGrouped` - reorders columns so columns sharing a `columnGroupBy`
-     * group become adjacent. No effect without `columnGroupBy`
-     * @default false
-     */
-    columnsGrouped?: boolean;
-    /**
-     * Should row and column labels be shown?
-     * @default true
-     */
-    labels?: boolean;
     /**
      * Should the plot be interactive and be able to trigger tooltips?
      * @default true
@@ -102,13 +62,13 @@ export interface IHeatmapPlotProps {
 /**
  * Represents a Heatmap plot, a grid of cells - one per `rows`/`columns` combination in the data - colored
  * by `value`. Used internally by `<Heatmap>` - use that unless you need to compose the plot into a chart
- * of your own
+ * of your own. `<Heatmap>` also renders a `<HeatmapAxes>` alongside this, which supplies the `<XAxis>`/
+ * `<YAxis>` this plot's cells are positioned against
  *
- * Computes the row/column layout once (see `useHeatmapLayout`) and renders the cells and row/column
- * labels via the generic `<CellsPlot>`/`<LabelsPlot>` components, each with its own Canvas/SVG layer -
- * the same way a `<Dendrogram>` composes `<LinksPlot>`/`<NodesPlot>`/`<LabelsPlot>`. Cells are keyed by
- * their row/column pair, so toggling `rowsGrouped`/`columnsGrouped` doesn't re-create them - it just
- * transitions each one to its new position, animating the regrouping
+ * Computes the row/column layout once (see `useHeatmapLayout`) and renders the cells (via the generic
+ * `<CellsPlot>`) and, in the full grid layout, a color legend. Every cell is keyed by its row/column
+ * pair, so toggling `pivot` (see `<PivotControl>`) doesn't recreate anything - each cell transitions to
+ * its new position, animating the grid collapsing into a bar chart along either axis and back again
  * @param  props       The set of React properties
  * @return             The HeatmapPlot component
  */
@@ -118,14 +78,7 @@ export function HeatmapPlot({
     columns,
     value,
     colors,
-    padding = 2,
     cornerRadius = 0,
-    rowGroupBy,
-    columnGroupBy,
-    groupGap,
-    rowsGrouped = false,
-    columnsGrouped = false,
-    labels = true,
     interactive = true,
     renderVirtualCanvas,
     onMouseOver,
@@ -134,18 +87,7 @@ export function HeatmapPlot({
 }: IHeatmapPlotProps) {
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
 
-    const { cells, keyFor, xFor, yFor, widthFor, heightFor, colorFor, rowLabels, columnLabels, plotLeft, plotTop } = useHeatmapLayout({
-        rows,
-        columns,
-        value,
-        colors,
-        padding,
-        rowGroupBy,
-        columnGroupBy,
-        groupGap: groupGap ?? padding * 6,
-        rowsGrouped,
-        columnsGrouped,
-    });
+    const { pivot, cells, keyFor, xFor, yFor, widthFor, heightFor, colorFor, legendStops } = useHeatmapLayout({ rows, columns, value, colors });
 
     const onTooltip = useTooltip();
     const onFocus = useFocused(theme);
@@ -170,7 +112,6 @@ export function HeatmapPlot({
     };
 
     const Cells = useCanvas ? CanvasCellsPlot : SVGCellsPlot;
-    const Labels = useCanvas ? CanvasLabelsPlot : SVGLabelsPlot;
 
     return (
         <React.Fragment>
@@ -191,30 +132,7 @@ export function HeatmapPlot({
                 onMouseOut={handleMouseOut}
                 onClick={handleClick}
             />
-            <Labels
-                className="heatmap-row-label"
-                items={labels ? rowLabels : []}
-                keyFor={(label) => label.value}
-                x={() => plotLeft - 8}
-                y={(label) => label.center}
-                text={(label) => label.value}
-                textAnchor={() => "end"}
-                color={theme.label.color.toString()}
-                fontSize={theme.label.fontSize}
-                fontFamily={theme.label.fontFamily}
-            />
-            <Labels
-                className="heatmap-column-label"
-                items={labels ? columnLabels : []}
-                keyFor={(label) => label.value}
-                x={(label) => label.center}
-                y={() => plotTop - 8}
-                text={(label) => label.value}
-                textAnchor={() => "middle"}
-                color={theme.label.color.toString()}
-                fontSize={theme.label.fontSize}
-                fontFamily={theme.label.fontFamily}
-            />
+            {pivot === "grid" && <HeatmapLegend legendStops={legendStops} format={formatLegendValue} />}
         </React.Fragment>
     );
 }

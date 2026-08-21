@@ -399,4 +399,32 @@ describe("chartSelectors", () => {
             expect(chartSelectors.zoom.path(state)).toEqual(["North America", "United States"]);
         });
     });
+
+    describe("pivotable", () => {
+        it("defaults to false", () => {
+            const state = { event: defaultEventState, chart: { ...defaultChartState } };
+
+            expect(chartSelectors.pivotable(state)).toBe(false);
+        });
+
+        it("returns the configured value", () => {
+            const state = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true } };
+
+            expect(chartSelectors.pivotable(state)).toBe(true);
+        });
+    });
+
+    describe("pivot", () => {
+        it("defaults to grid", () => {
+            const state = { event: defaultEventState, chart: { ...defaultChartState } };
+
+            expect(chartSelectors.pivot(state)).toBe("grid");
+        });
+
+        it("returns the configured pivot", () => {
+            const state = { event: defaultEventState, chart: { ...defaultChartState, pivot: "rows" as const } };
+
+            expect(chartSelectors.pivot(state)).toBe("rows");
+        });
+    });
 });
