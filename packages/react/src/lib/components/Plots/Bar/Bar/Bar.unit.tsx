@@ -266,6 +266,48 @@ describe("Bar", () => {
                     pageY: 10,
                 });
             });
+
+            it("highlights the hovered bar on the canvas bitmap, and un-highlights it on exit", async () => {
+                const onMouseOver = jest.fn();
+                const onMouseOut = jest.fn();
+
+                const { container } = await renderChart({
+                    children: (
+                        <VirtualCanvas>
+                            <Bar x="x" y="y" onMouseOver={onMouseOver} onMouseOut={onMouseOut} useCanvas={true} />
+                        </VirtualCanvas>
+                    ),
+                    data,
+                    scales,
+                });
+
+                await wait(VIRTUAL_CANVAS_DEBOUNCE * 2);
+
+                const canvas = container.querySelector(".canvas") as HTMLCanvasElement;
+                const context = canvas.getContext("2d");
+                const getAlpha = () => context.getImageData(10, 10, 1, 1).data[3];
+
+                const initialAlpha = getAlpha();
+
+                await testMouseOver(container, ".virtual-canvas", onMouseOver, expectedDatum, {
+                    bubbles: true,
+                    pageX: 10,
+                    pageY: 10,
+                });
+
+                expect(getAlpha()).not.toBe(initialAlpha);
+
+                await testMouseExit(
+                    container,
+                    ".virtual-canvas",
+                    onMouseOut,
+                    expectedDatum,
+                    { pageX: 10, pageY: 10 },
+                    { pageX: 95, pageY: 95 },
+                );
+
+                expect(getAlpha()).toBe(initialAlpha);
+            });
         });
     });
 });

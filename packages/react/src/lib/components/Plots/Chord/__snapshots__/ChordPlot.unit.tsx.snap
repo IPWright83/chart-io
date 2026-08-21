@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChordPlot using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot chord-shapes"
+    >
+      <path
+        class="chord-group"
+        d="M0,-60A60,60,0,1,1,-32.596,50.374L-21.731,33.583A40,40,0,1,0,0,-40Z"
+        data-corner-radius="0"
+        data-cx="100"
+        data-cy="100"
+        data-end-angle="3.7159111843077515"
+        data-inner-radius="40"
+        data-outer-radius="60"
+        data-path-type="arc"
+        data-start-angle="0"
+        style="fill: #99c1dc; opacity: 0.7; cursor: pointer;"
+        transform="translate(100, 100)"
+      />
+      <path
+        class="chord-group"
+        d="M-34.092,49.373A60,60,0,0,1,-31.64,-50.98L-21.093,-33.986A40,40,0,0,0,-22.728,32.916Z"
+        data-corner-radius="0"
+        data-cx="100"
+        data-cy="100"
+        data-end-angle="5.727730482605219"
+        data-inner-radius="40"
+        data-outer-radius="60"
+        data-path-type="arc"
+        data-start-angle="3.7459111843077513"
+        style="fill: #fc998e; opacity: 0.7; cursor: pointer;"
+        transform="translate(100, 100)"
+      />
+      <path
+        class="chord-group"
+        d="M-30.096,-51.906A60,60,0,0,1,-1.8,-59.973L-1.2,-39.982A40,40,0,0,0,-20.064,-34.604Z"
+        data-corner-radius="0"
+        data-cx="100"
+        data-cy="100"
+        data-end-angle="6.253185307179586"
+        data-inner-radius="40"
+        data-outer-radius="60"
+        data-path-type="arc"
+        data-start-angle="5.757730482605219"
+        style="fill: #fdc381; opacity: 0.7; cursor: pointer;"
+        transform="translate(100, 100)"
+      />
+      <path
+        class="chord-ribbon"
+        d="M2.4492935982947065e-15,-40A40,40,0,0,1,24.660909194870495,31.49348436871271Q0,0,-22.728057372866974,32.91558002004016Q0,0,2.4492935982947065e-15,-40Z"
+        data-cx="100"
+        data-cy="100"
+        data-path-type="ribbon"
+        data-radius="40"
+        data-source-end-angle="2.4772741228718345"
+        data-source-start-angle="0"
+        data-target-end-angle="3.7459111843077513"
+        data-target-start-angle="3.7459111843077513"
+        style="fill: #99c1dc; opacity: 0.7; cursor: pointer;"
+        transform="translate(100, 100)"
+      />
+      <path
+        class="chord-ribbon"
+        d="M24.660909194870495,31.49348436871271A40,40,0,0,1,-21.730511226941736,33.5825085694288Q0,0,-20.0642609364742,-34.60383552545983A40,40,0,0,1,-1.1998200080998438,-39.9820013499595Q0,0,24.660909194870495,31.49348436871271Z"
+        data-cx="100"
+        data-cy="100"
+        data-path-type="ribbon"
+        data-radius="40"
+        data-source-end-angle="3.7159111843077515"
+        data-source-start-angle="2.4772741228718345"
+        data-target-end-angle="6.253185307179586"
+        data-target-start-angle="5.757730482605219"
+        style="fill: #99c1dc; opacity: 0.7; cursor: pointer;"
+        transform="translate(100, 100)"
+      />
+      <path
+        class="chord-ribbon"
+        d="M-22.728057372866974,32.91558002004016A40,40,0,0,1,-21.093192051712343,-33.986427424334835Q0,0,-1.1998200080998438,-39.9820013499595Q0,0,-22.728057372866974,32.91558002004016Z"
+        data-cx="100"
+        data-cy="100"
+        data-path-type="ribbon"
+        data-radius="40"
+        data-source-end-angle="5.727730482605219"
+        data-source-start-angle="3.7459111843077513"
+        data-target-end-angle="6.253185307179586"
+        data-target-start-angle="6.253185307179586"
+        style="fill: #fc998e; opacity: 0.7; cursor: pointer;"
+        transform="translate(100, 100)"
+      />
+    </g>
+    <g
+      class="g-plot chord-labels"
+    >
+      <text
+        class="chord-label"
+        dy="3"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        text-anchor="start"
+        x="163.29745327898587"
+        y="118.69311125507473"
+      >
+        A
+      </text>
+      <text
+        class="chord-label"
+        dy="3"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        text-anchor="end"
+        x="34.01969722984158"
+        y="98.3876581137285"
+      >
+        B
+      </text>
+      <text
+        class="chord-label"
+        dy="3"
+        style="font-family: sans-serif; fill: #333333; opacity: 1;"
+        text-anchor="end"
+        x="81.90472363446835"
+        y="36.52905410146284"
+      >
+        C
+      </text>
+    </g>
+  </svg>
+</DocumentFragment>
+`;
