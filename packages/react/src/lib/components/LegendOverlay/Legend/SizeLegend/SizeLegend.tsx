@@ -14,6 +14,12 @@ export interface ISizeLegendProps {
 const PADDING = 4;
 const LEADER_LENGTH = 14;
 const LABEL_GAP = 4;
+// Scales up the diagram's own circles, independent of the scale's real radius range, so the
+// legend reads clearly without changing the size of any actual data point
+const SIZE_SCALE = 1.3;
+// The leader lines are dashed guides rather than data ink, so they're drawn lighter than the
+// circles they connect to their labels
+const LEADER_OPACITY = 0.35;
 const defaultTickFormat = (value: IValue) => `${value}`;
 
 /**
@@ -26,6 +32,7 @@ export function SizeLegend({ sizeLegend: { field, ticks = 3, tickValues, tickFor
     const scale = useSelector((s: IState) => chartSelectors.scales.getScale(s, field, "plot"));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const labeller = useSelector((s: IState) => chartSelectors.labeller(s));
+    const items = useSelector((s: IState) => chartSelectors.legend.items(s));
 
     if (!scale) {
         return null;
@@ -49,12 +56,16 @@ export function SizeLegend({ sizeLegend: { field, ticks = 3, tickValues, tickFor
         return null;
     }
 
-    const maxRadius = values.reduce<number>((max, d) => Math.max(max, Math.max(0, scaleOf(d))), 0);
+    // Borrow the color of the first series actually plotted against this scale (e.g. a
+    // `<Scatter z>`) instead of a fixed axis color, so the legend visually ties back to its series.
+    // Falls back to the axis color if nothing has registered against this field yet
+    const stroke = (items.find((item) => item.zField === field)?.color ?? theme.axis.stroke)?.toString();
+
+    const maxRadius = values.reduce<number>((max, d) => Math.max(max, Math.max(0, scaleOf(d))), 0) * SIZE_SCALE;
     const cx = PADDING + maxRadius;
     const baselineY = PADDING + maxRadius * 2;
     const leaderEndX = cx + maxRadius + LEADER_LENGTH;
     const height = baselineY + PADDING;
-    const stroke = theme.axis.stroke?.toString();
 
     const styles = {
         container: {
@@ -85,7 +96,7 @@ export function SizeLegend({ sizeLegend: { field, ticks = 3, tickValues, tickFor
             </div>
             <svg width={leaderEndX} height={height} style={styles.svg}>
                 {values.map((value) => {
-                    const r = Math.max(0, scaleOf(value));
+                    const r = Math.max(0, scaleOf(value)) * SIZE_SCALE;
                     const cy = baselineY - r;
                     const edgeY = cy - r;
 
@@ -108,7 +119,7 @@ export function SizeLegend({ sizeLegend: { field, ticks = 3, tickValues, tickFor
                                 x2={leaderEndX}
                                 y2={edgeY}
                                 stroke={stroke}
-                                strokeOpacity={theme.axis.strokeOpacity}
+                                strokeOpacity={LEADER_OPACITY}
                                 strokeWidth={theme.axis.strokeWidth}
                                 strokeDasharray="2,2"
                             />

@@ -67,6 +67,36 @@ describe("Legend", () => {
         expect(asFragment()).toMatchSnapshot();
     });
 
+    it("should color its circles using the first color item plotted against the same field", async () => {
+        const storeWithScale = createMockStore({
+            chart: {
+                scales: {
+                    population: {
+                        scale: d3.scaleLinear().domain([0, 100]).range([5, 25]),
+                        domain: [0, 100],
+                        range: [5, 25],
+                    },
+                },
+                legend: {
+                    items: [
+                        { name: "Other Series", icon: "square" as const, color: "orange" as IColor },
+                        { name: "Cities", icon: "circle" as const, color: "steelblue" as IColor, zField: "population" },
+                    ],
+                },
+            },
+        });
+
+        const { container } = render(
+            <Provider store={storeWithScale}>
+                <Legend items={[]} sizeLegend={{ field: "population", ticks: 3 }} />
+            </Provider>
+        );
+
+        const rings = container.querySelectorAll(".size-legend-ring");
+        expect(rings.length).toBeGreaterThan(0);
+        rings.forEach((ring) => expect(ring).toHaveAttribute("stroke", "steelblue"));
+    });
+
     it("should show a grabbing cursor while being dragged", async () => {
         const items = [{ name: "a", icon: "circle" as const, color: "blue" as IColor }];
 
