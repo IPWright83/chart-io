@@ -48,7 +48,7 @@ export function ColumnBase({
 
     useLegendItem(y, "square", showInLegend, fillColor);
     const onTooltip = useTooltip({ x });
-    const onFocus = useFocused({ xScale, theme, grouped: false });
+    const onFocus = useFocused({ xScale, theme, grouped: false, canvas, layer });
 
     useRender(() => {
         const { bandwidth, offset } = getBandwidthAndOffset(xScale, x, data);

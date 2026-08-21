@@ -8,6 +8,7 @@ import { renderLink } from "./renderLink";
 import { renderLinkRadial } from "./renderLinkRadial";
 import { renderPolygon } from "./renderPolygon";
 import { renderRect } from "./renderRect";
+import { renderRibbon } from "./renderRibbon";
 import { renderText } from "./renderText";
 
 /**
@@ -66,6 +67,10 @@ export function renderElements(
 
                     case "link-radial":
                         renderLinkRadial(context, node, overrideColor);
+                        break;
+
+                    case "ribbon":
+                        renderRibbon(context, node, overrideColor);
                         break;
 
                     default:

@@ -1,5 +1,56 @@
 # @chart-io/react-d3
 
+## 0.69.0
+
+### Minor Changes
+
+- 4fdbc7ca: Added `<Sankey>`, laying out a flow diagram from a flat dataset: `categories` is an ordered list of fields, first column first, and each row flows left-to-right through them, contributing `value` to the link between every consecutive pair of columns. Flows between the same pair of node values are summed together into a single, wider band rather than drawn as separate parallel flows.
+
+  `<Sankey>` is a self-contained chart - like `<Treemap>`, `<CirclePacking>`, `<Dendrogram>` and `<WordCloud>`, it accepts chart-level props like `data`/`width`/`height` directly, since it only ever has a single plot. The underlying graph builder is exported from `@chart-io/core` as `buildSankeyGraph` - override it (as `<Sankey buildSankeyGraph={...}>`) if your data doesn't already fit that flat, group-by-`categories` shape.
+
+  A first-column node takes its color from the palette; every other node - which, unlike a hierarchy, can be fed by several incoming flows - takes the color of whichever incoming flow contributes the most value to it, tracing back to a first-column node. Each flow is drawn in its source node's color.
+
+  Also fixed a Canvas rendering bug affecting `<Dendrogram>` and now `<Sankey>`, the two plots with semi-transparent links: the Canvas primitive read a link's opacity from the wrong CSS property, so a link's `strokeOpacity` was respected in SVG but rendered fully opaque on Canvas.
+
+### Patch Changes
+
+- Updated dependencies [4fdbc7ca]
+  - @chart-io/core@0.16.0
+
+## 0.68.1
+
+### Patch Changes
+
+- a651a9ca: Fixed the hovered item not being highlighted on Canvas-rendered `<Column useCanvas>`, `<GroupedColumn useCanvas>`, `<StackedColumn useCanvas>`, `<Bar useCanvas>`, `<GroupedBar useCanvas>` and `<StackedBar useCanvas>` charts. Hovering updated the item's opacity on its underlying (detached) DOM node as before, but nothing repainted the visible `<canvas>` bitmap to reflect it, so the highlight silently never appeared - unlike SVG, where the browser repaints the style change on its own. This is the same fix already applied to `<Donut>`/`<Pie>`/`<StackedDonut>` in #245.
+
+## 0.68.0
+
+### Minor Changes
+
+- 9d5d76af: Added `<Chord>`, showing the flow between nodes built from `source`/`target` as ribbons connecting arcs arranged around a circle. Each row of `data` is one flow, from the node named in `source` to the node named in `target`, sized by `value`; each node's arc is sized proportionally to its total flow (incoming and outgoing combined), and each ribbon takes the color of its source node.
+
+  `<Chord>` is a self-contained chart - like `<CirclePacking>`, `<Treemap>` and `<Dendrogram>`, it accepts chart-level props like `data`/`width`/`height` directly, since it only ever has a single plot. Like other plots, it supports rendering to Canvas via `useCanvas`. The group ring's outer radius is derived automatically from the available plot radius (shrinking to leave room for labels), so only a `thickness` prop is needed rather than a separate inner/outer radius. `showInLegend` defaults to `false`, since every node's arc is already labelled directly on the diagram.
+
+### Patch Changes
+
+- Updated dependencies [9d5d76af]
+  - @chart-io/core@0.15.0
+
+## 0.67.0
+
+### Minor Changes
+
+- f2ac3a31: Added `<WordCloud>`, sizing each word in a flat dataset's `category` field proportionally to `value` and packing the words - largest first, working outward from the center along an Archimedean spiral - into the available space without overlapping. Set `rotate` to alternate every other placed word between horizontal and vertical, for the more traditional word cloud look.
+
+  `<WordCloud>` is a self-contained chart - like `<Treemap>`, `<CirclePacking>`, `<Dendrogram>` and `<RadialDendrogram>`, it accepts chart-level props like `data`/`width`/`height` directly, since it only ever has a single plot. The underlying layout is exported from `@chart-io/core` as `computeWordCloudLayout`, which measures words via a `<canvas>`-based `measureText` by default - override it (as `<WordCloud measureText={...}>`) if `<canvas>` isn't available in your environment.
+
+  Words whose bounding box can't be placed anywhere without overlapping another word are dropped from the layout and a new `W010` warning is logged.
+
+### Patch Changes
+
+- Updated dependencies [f2ac3a31]
+  - @chart-io/core@0.14.0
+
 ## 0.66.0
 
 ### Minor Changes

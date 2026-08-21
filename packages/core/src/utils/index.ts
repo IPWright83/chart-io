@@ -3,6 +3,7 @@ export * from "./getXYFromTransform";
 export * from "./checks";
 export * from "./getDistance";
 export * from "./hierarchy";
+export * from "./sankey";
 export * from "./findNearest";
 export * from "./isNullOrUndefined";
 export * from "./interpolateMultiPath";

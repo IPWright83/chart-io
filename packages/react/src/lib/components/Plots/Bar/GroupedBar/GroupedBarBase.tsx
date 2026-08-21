@@ -56,7 +56,7 @@ export function GroupedBarBase({
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
     const onTooltip = useTooltip({ y });
-    const onFocus = useFocused({ yScale, theme, grouped: true });
+    const onFocus = useFocused({ yScale, theme, grouped: true, canvas, layer });
 
     useLegendItems(xs, "square", showInLegend, colors);
 
