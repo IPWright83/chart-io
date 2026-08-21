@@ -98,7 +98,15 @@ export function LegendOverlay({ position = "E", formatters = {} }: ILegendOverla
     const defaultMaxHeight = sizeLegend ? height - 4 * LEGEND_MARGIN : theme.legend.defaultMaxHeight;
 
     const positionStyle = dragPosition
-        ? { position: "absolute" as const, left: dragPosition.left, top: dragPosition.top }
+        ? {
+              position: "absolute" as const,
+              left: dragPosition.left,
+              top: dragPosition.top,
+              // Dock position (and so orientation) isn't known mid-drag - just keep it from growing
+              // past the chart's own bounds while it's following the pointer
+              maxWidth: width - 4 * LEGEND_MARGIN,
+              maxHeight: defaultMaxHeight,
+          }
         : {
               ...getLegendPosition(dockedPosition),
               ...getLegendMaxDimensions(dockedPosition, width, height, theme.legend.defaultMaxWidth, defaultMaxHeight),

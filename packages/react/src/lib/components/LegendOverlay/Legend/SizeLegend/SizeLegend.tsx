@@ -20,6 +20,10 @@ const SIZE_SCALE = 1.3;
 // The leader lines are dashed guides rather than data ink, so they're drawn lighter than the
 // circles they connect to their labels
 const LEADER_OPACITY = 0.35;
+// A rough average glyph width, as a fraction of font size, used to reserve enough room for the
+// labels without measuring the actual rendered text (which needs the element mounted in the DOM
+// first). Deliberately generous - a slightly wider box reads better than clipped/escaping text
+const AVERAGE_CHAR_WIDTH_RATIO = 0.68;
 const defaultTickFormat = (value: IValue) => `${value}`;
 
 /**
@@ -67,6 +71,12 @@ export function SizeLegend({ sizeLegend: { field, ticks = 3, tickValues, tickFor
     const leaderEndX = cx + maxRadius + LEADER_LENGTH;
     const height = baselineY + PADDING;
 
+    // Reserve enough width for the longest label so it's never clipped or left overflowing outside
+    // the Legend's own box
+    const longestLabelLength = values.reduce<number>((max, value) => Math.max(max, tickFormat(value).length), 0);
+    const labelWidth = longestLabelLength * theme.label.fontSize * AVERAGE_CHAR_WIDTH_RATIO;
+    const width = leaderEndX + LABEL_GAP + labelWidth;
+
     const styles = {
         container: {
             marginTop: theme.legend.padding,
@@ -78,9 +88,6 @@ export function SizeLegend({ sizeLegend: { field, ticks = 3, tickValues, tickFor
             fontSize: theme.font.size,
             fontFamily: theme.font.family,
             marginBottom: 4,
-        },
-        svg: {
-            overflow: "visible" as const,
         },
         label: {
             fill: theme.label.color?.toString(),
@@ -94,7 +101,7 @@ export function SizeLegend({ sizeLegend: { field, ticks = 3, tickValues, tickFor
             <div className="chart-io size-legend-title" style={styles.title}>
                 {labeller(field)}
             </div>
-            <svg width={leaderEndX} height={height} style={styles.svg}>
+            <svg width={width} height={height}>
                 {values.map((value) => {
                     const r = Math.max(0, scaleOf(value)) * SIZE_SCALE;
                     const cy = baselineY - r;

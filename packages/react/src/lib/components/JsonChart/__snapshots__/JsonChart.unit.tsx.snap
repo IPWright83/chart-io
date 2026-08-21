@@ -871,46 +871,51 @@ exports[`JsonChart should create empty template correctly 1`] = `
         >
           <div
             class="chart-io legend"
-            style="border: thin solid #ccc; display: flex; flex-direction: column; flex-wrap: wrap; position: absolute; right: 10px; transform: translateY(-50%); top: 50%; max-width: 200px; max-height: 460px; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden; pointer-events: auto; cursor: grab;"
+            style="border: thin solid #ccc; display: flex; flex-direction: column; position: absolute; right: 10px; transform: translateY(-50%); top: 50%; max-width: 200px; max-height: 460px; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden; pointer-events: auto; cursor: grab;"
           >
             <div
-              class="chart-io legend-item"
-              style="display: flex; flex-direction: row; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
+              class="chart-io legend-items"
+              style="display: flex; flex-direction: column; flex-wrap: wrap;"
             >
               <div
-                class="chart-io indicator-circle"
-                style="background: rgba(153, 193, 220, 0.7); width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%; flex-shrink: 0;"
-              />
-              <div
-                class="chart-io legend-values"
-                style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"
+                class="chart-io legend-item"
+                style="display: flex; flex-direction: row; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
               >
-                <span
-                  class="chart-io legend-series-name"
-                  style="margin-right: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
+                <div
+                  class="chart-io indicator-circle"
+                  style="background: rgba(153, 193, 220, 0.7); width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%; flex-shrink: 0;"
+                />
+                <div
+                  class="chart-io legend-values"
+                  style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"
                 >
-                  y
-                </span>
+                  <span
+                    class="chart-io legend-series-name"
+                    style="margin-right: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
+                  >
+                    y
+                  </span>
+                </div>
               </div>
-            </div>
-            <div
-              class="chart-io legend-item"
-              style="display: flex; flex-direction: row; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
-            >
               <div
-                class="chart-io indicator-circle"
-                style="background: rgba(252, 153, 142, 0.7); width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%; flex-shrink: 0;"
-              />
-              <div
-                class="chart-io legend-values"
-                style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"
+                class="chart-io legend-item"
+                style="display: flex; flex-direction: row; user-select: none; pointer-events: none; color: rgb(0, 0, 0); font-size: 12px; font-family: sans-serif;"
               >
-                <span
-                  class="chart-io legend-series-name"
-                  style="margin-right: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
+                <div
+                  class="chart-io indicator-circle"
+                  style="background: rgba(252, 153, 142, 0.7); width: 10px; height: 10px; margin-top: 4px; margin-left: 5px; margin-right: 5px; border-radius: 50%; flex-shrink: 0;"
+                />
+                <div
+                  class="chart-io legend-values"
+                  style="display: flex; flex-direction: row; justify-content: space-between; width: 100%; flex-grow: 1; flex-shrink: 1;"
                 >
-                  y2
-                </span>
+                  <span
+                    class="chart-io legend-series-name"
+                    style="margin-right: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; flex-shrink: 1;"
+                  >
+                    y2
+                  </span>
+                </div>
               </div>
             </div>
           </div>

@@ -71,11 +71,13 @@ export function Legend({
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
     const isDraggable = !!onPointerDown;
 
+    // The outer box always stacks its content top-to-bottom, so a size legend sits on its own row
+    // below the items rather than being wrapped in amongst them - `horizontal` only controls how
+    // the items themselves are laid out relative to each other
     const style = {
         border: `thin solid ${theme.legend.border}`,
         display: "flex" as const,
-        flexDirection: horizontal ? ("row" as const) : ("column" as const),
-        flexWrap: "wrap" as const,
+        flexDirection: "column" as const,
         ...positionStyle,
         padding: theme.legend.padding,
         background: theme.legend.background.toString(),
@@ -86,6 +88,12 @@ export function Legend({
         pointerEvents: "auto" as const,
         touchAction: isDraggable ? ("none" as const) : undefined,
         cursor: isDraggable ? (dragging ? "grabbing" : "grab") : undefined,
+    };
+
+    const itemsStyle = {
+        display: "flex" as const,
+        flexDirection: horizontal ? ("row" as const) : ("column" as const),
+        flexWrap: "wrap" as const,
     };
 
     if ((!items || items.length === 0) && !sizeLegend) {
@@ -101,17 +109,21 @@ export function Legend({
             onPointerUp={onPointerUp}
             onPointerCancel={onPointerCancel}
         >
-            {items.map((item, index) => {
-                /**
-                 * A format is of the shape:
-                 * {
-                 *     formatFunc: (name: string) => string;
-                 * }
-                 */
-                const formatter = formatters[item.name] || undefined;
+            {items.length > 0 && (
+                <div className="chart-io legend-items" style={itemsStyle}>
+                    {items.map((item, index) => {
+                        /**
+                         * A format is of the shape:
+                         * {
+                         *     formatFunc: (name: string) => string;
+                         * }
+                         */
+                        const formatter = formatters[item.name] || undefined;
 
-                return <LegendItem key={index} format={formatter} {...item} />;
-            })}
+                        return <LegendItem key={index} format={formatter} {...item} />;
+                    })}
+                </div>
+            )}
             {sizeLegend && <SizeLegend sizeLegend={sizeLegend} />}
         </div>
     );
