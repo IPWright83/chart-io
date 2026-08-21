@@ -75,8 +75,8 @@ describe("LegendOverlay", () => {
         expect(asFragment()).toMatchSnapshot();
     });
 
-    it("should seed the docked position into the store from the position prop", () => {
-        render(
+    it("uses the position prop as the default docked position", () => {
+        const { container } = render(
             <Provider store={store}>
                 <svg>
                     <LegendOverlay position="SW" />
@@ -84,7 +84,37 @@ describe("LegendOverlay", () => {
             </Provider>
         );
 
-        expect(store.dispatch).toHaveBeenCalledWith(chartActions.setLegendPosition("SW"));
+        // Docked SW: flush against the left and bottom edges
+        expect(container.querySelector(".legend")).toHaveStyle({ left: "10px", bottom: "10px" });
+    });
+
+    it("prefers a position the user has already dragged the Legend to over the position prop", () => {
+        // Reproduces a real bug: seeding a default docked position into the store on mount meant
+        // any store that doesn't actually apply dispatched actions (e.g. a Storybook mock store, or
+        // simply before the seeding effect has run) rendered stuck at the store's own initial "E"
+        // regardless of what `position` was passed - the prop must apply directly, with the store
+        // only overriding it once a real drag has recorded a position there
+        const draggedStore = createMockStore({
+            chart: {
+                legend: {
+                    items: [
+                        { name: "a", icon: "circle", color: "blue" },
+                        { name: "b", icon: "square", color: "orange" },
+                    ],
+                    position: "SW",
+                },
+            },
+        });
+
+        const { container } = render(
+            <Provider store={draggedStore}>
+                <svg>
+                    <LegendOverlay position="E" />
+                </svg>
+            </Provider>
+        );
+
+        expect(container.querySelector(".legend")).toHaveStyle({ left: "10px", bottom: "10px" });
     });
 
     describe("dragging", () => {

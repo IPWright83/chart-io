@@ -65,11 +65,16 @@ export function SizeLegend({ sizeLegend: { field, ticks = 3, tickValues, tickFor
     // Falls back to the axis color if nothing has registered against this field yet
     const stroke = (items.find((item) => item.zField === field)?.color ?? theme.axis.stroke)?.toString();
 
+    // The top and bottom labels are vertically centered (`dominant-baseline: middle`) on the
+    // topmost/bottommost circle's edge, so without extra clearance their glyphs get clipped by the
+    // svg's own top/bottom edge - pad by at least half a line of text to keep them clear
+    const verticalPadding = Math.max(PADDING, theme.label.fontSize * 0.6);
+
     const maxRadius = values.reduce<number>((max, d) => Math.max(max, Math.max(0, scaleOf(d))), 0) * SIZE_SCALE;
     const cx = PADDING + maxRadius;
-    const baselineY = PADDING + maxRadius * 2;
+    const baselineY = verticalPadding + maxRadius * 2;
     const leaderEndX = cx + maxRadius + LEADER_LENGTH;
-    const height = baselineY + PADDING;
+    const height = baselineY + verticalPadding;
 
     // Reserve enough width for the longest label so it's never clipped or left overflowing outside
     // the Legend's own box

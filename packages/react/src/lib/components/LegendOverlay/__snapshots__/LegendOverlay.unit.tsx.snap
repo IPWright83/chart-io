@@ -80,11 +80,11 @@ exports[`LegendOverlay should render docked at N correctly 1`] = `
       >
         <div
           class="chart-io legend"
-          style="border: thin solid #ccc; display: flex; flex-direction: column; position: absolute; right: 10px; transform: translateY(-50%); top: 50%; max-width: 200px; max-height: -40px; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden; pointer-events: auto; cursor: grab;"
+          style="border: thin solid #ccc; display: flex; flex-direction: column; position: absolute; left: 50%; transform: translateX(-50%); top: 10px; max-width: -40px; max-height: 50px; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden; pointer-events: auto; cursor: grab;"
         >
           <div
             class="chart-io legend-items"
-            style="display: flex; flex-direction: column; flex-wrap: wrap;"
+            style="display: flex; flex-direction: row; flex-wrap: wrap;"
           >
             <div
               class="chart-io legend-item"

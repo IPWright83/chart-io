@@ -1,7 +1,7 @@
 import { chartActions, chartSelectors, IState } from "@chart-io/core";
 import type { ICompassPosition, ILegendFormatter } from "@chart-io/core";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getDockPosition } from "./getDockPosition";
@@ -28,15 +28,16 @@ export function LegendOverlay({ position = "E", formatters = {} }: ILegendOverla
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
     const items = useSelector((s: IState) => chartSelectors.legend.items(s));
     const showLegend = useSelector((s: IState) => chartSelectors.legend.isVisible(s));
-    const dockedPosition = useSelector((s: IState) => chartSelectors.legend.position(s));
+    // Raw store value, deliberately not the `chartSelectors.legend.position` selector - that one
+    // falls back to "E" itself, which would hide whether the user has actually dragged the legend
+    // to an explicit position or not
+    const draggedPosition = useSelector((s: IState) => chartSelectors.legend.store(s).position);
     const sizeLegend = useSelector((s: IState) => chartSelectors.legend.sizeLegend(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
 
-    // Seeds the initial docked position into the store - a plain prop can't drive positioning
-    // itself once the user starts dragging, since from that point the store is the source of truth
-    useEffect(() => {
-        dispatch(chartActions.setLegendPosition(position));
-    }, [dispatch, position]);
+    // The prop is the default position; once the user drags the legend, the store tracks where
+    // they left it and takes over from the prop
+    const dockedPosition = draggedPosition ?? position;
 
     const containerRef = useRef<SVGForeignObjectElement>(null);
     const grabOffset = useRef({ x: 0, y: 0 });
