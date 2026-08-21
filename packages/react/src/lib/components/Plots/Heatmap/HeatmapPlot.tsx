@@ -5,15 +5,15 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { withCanvas, withSVG } from "../../../hoc";
-import { ICellsPlotProps, CellsPlot } from "../CellsPlot";
+import { IRectsPlotProps, RectsPlot } from "../RectsPlot";
 import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
 
 import { HeatmapLegend } from "./HeatmapLegend";
 import { IHeatmapCell, useHeatmapLayout } from "./useHeatmapLayout";
 
-const CanvasCellsPlot = withCanvas<ICellsPlotProps<IHeatmapCell>>(CellsPlot, "plot heatmap-cells");
-const SVGCellsPlot = withSVG<ICellsPlotProps<IHeatmapCell>>(CellsPlot, "plot heatmap-cells");
+const CanvasCellsPlot = withCanvas<IRectsPlotProps<IHeatmapCell>>(RectsPlot, "plot heatmap-cells");
+const SVGCellsPlot = withSVG<IRectsPlotProps<IHeatmapCell>>(RectsPlot, "plot heatmap-cells");
 
 const formatLegendValue = d3.format(",.2~f");
 
@@ -66,7 +66,7 @@ export interface IHeatmapPlotProps {
  * `<YAxis>` this plot's cells are positioned against
  *
  * Computes the row/column layout once (see `useHeatmapLayout`) and renders the cells (via the generic
- * `<CellsPlot>`) and, in the full grid layout, a color legend. Every cell is keyed by its row/column
+ * `<RectsPlot>`) and, in the full grid layout, a color legend. Every cell is keyed by its row/column
  * pair, so toggling `pivot` (see `<PivotControl>`) doesn't recreate anything - each cell transitions to
  * its new position, animating the grid collapsing into a bar chart along either axis and back again
  * @param  props       The set of React properties
