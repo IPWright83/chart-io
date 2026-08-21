@@ -1,0 +1,2 @@
+const t={parameters:{backgrounds:{default:"light"},controls:{matchers:{color:/(background|color)$/i,date:/Date$/}},options:{storySort:{order:["Introduction","Getting Started","Extensibility","Theming","Charts",["XYCharts","RadialCharts","Hierarchical","Relational"],"Components","Errors & Warnings",["Introduction","**"],"**",["Introduction","**"]]}}}};export{t as default};
+//# sourceMappingURL=preview-DEhsDuL4.js.map
