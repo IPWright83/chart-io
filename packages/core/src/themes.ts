@@ -81,6 +81,14 @@ const light: ITheme = {
             "#e1e1e1",
         ] as IColor[],
     },
+
+    menu: {
+        background: "#4679bd" as IColor,
+        backgroundHover: "#6b95cf" as IColor,
+        backgroundDisabled: "#a0aec0" as IColor,
+        text: "#ffffff" as IColor,
+        border: "#ffffff" as IColor,
+    },
 };
 
 const dark: ITheme = {
@@ -161,6 +169,14 @@ const dark: ITheme = {
             "#bdbf2f",
             "#00becf",
         ] as IColor[],
+    },
+
+    menu: {
+        background: "#51cbdf" as IColor,
+        backgroundHover: "#78d7e6" as IColor,
+        backgroundDisabled: "#5a6472" as IColor,
+        text: "#1a1a1a" as IColor,
+        border: "#333333" as IColor,
     },
 };
 

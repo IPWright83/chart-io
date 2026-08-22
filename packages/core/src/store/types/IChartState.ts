@@ -26,6 +26,8 @@ export interface IChartStateLegend {
   position?: ICompassPosition;
   // The size legend a <ZAxis> has registered, if any, explaining a Scatter/Scatters z encoding
   sizeLegend?: ISizeLegend | null;
+  // Whether the user has explicitly hidden the legend, e.g. via a <ContextMenu> action
+  hidden?: boolean;
 }
 
 export interface IChartStateBrush {

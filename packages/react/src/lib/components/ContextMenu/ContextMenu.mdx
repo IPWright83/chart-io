@@ -1,0 +1,172 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as ContextMenuStories from "./ContextMenu.stories";
+import * as ContextMenuOverlayStories from "./ContextMenuOverlay.stories";
+
+<Meta title="Components/ContextMenu" />
+
+# ContextMenu Component
+
+The `<ContextMenu>` component is a radial (pie-style) context menu - a ring of segments arranged
+around a center point, each showing an icon and dispatching an action when clicked. It's pluggable:
+every icon, label and click handler is provided by the caller, so the same component can show a
+completely different set of actions depending on what it was opened on.
+
+<Canvas of={ContextMenuStories.Background} />
+
+## Usage
+
+`<ContextMenu>` itself is a small, controlled, presentational component - it doesn't know how it
+was triggered, or what it's connected to:
+
+```jsx
+<ContextMenu
+    x={120}
+    y={80}
+    open={isOpen}
+    items={items}
+    onSelect={(item) => {
+        item.onSelect(dispatch, context);
+        close();
+    }}
+    onClose={close}
+/>
+```
+
+Pair it with `useContextMenu`, a small hook that tracks the open/closed state, position and context
+(e.g. which datum it was opened on) - independent of how the menu ends up being triggered:
+
+```jsx
+const { isOpen, x, y, context, open, close } = useContextMenu();
+
+// Somewhere a right-click, long-press, or toolbar button calls open(x, y, context)
+```
+
+### `<ContextMenu>` Props
+
+| Prop                | Type                                | Default            | Note                                                                                     |
+| ------------------- | ------------------------------------ | ------------------- | ----------------------------------------------------------------------------------------- |
+| **`x`\***           | `number`                            |                     | The x-coordinate to anchor the menu at                                                    |
+| **`y`\***           | `number`                            |                     | The y-coordinate to anchor the menu at                                                    |
+| **`open`\***        | `boolean`                           |                     | Whether the menu should be shown. Segments animate in/out as this changes                 |
+| **`items`\***       | `IContextMenuItem[]`                |                     | The pluggable set of actions to show as segments, clockwise from 12 o'clock               |
+| `radius`            | `number`                            | 28                  | The inner radius of the ring, in pixels                                                   |
+| `thickness`         | `number`                            | 46                  | The depth of each segment, in pixels                                                      |
+| `padAngle`          | `number`                            | 0.025               | The angular gap, in radians, between segments                                             |
+| `iconSize`          | `number`                            | 18                  | The size, in pixels, each item's icon is scaled to                                        |
+| `animationDuration` | `number`                            | 220                 | How long, in milliseconds, the show/hide animation takes                                  |
+| `colors`            | `ITheme["menu"]`                    | `themes.light.menu` | The color palette to render the menu with                                                 |
+| **`onSelect`\***    | `(item: IContextMenuItem) => void`  |                     | Called when an enabled item is clicked                                                    |
+| `onClose`           | `() => void`                        |                     | Called when the menu should close without a selection - Escape, or clicking outside it    |
+
+### `IContextMenuItem` Schema
+
+| Prop         | Type                                                              | Note                                                                                    |
+| ------------ | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| **`id`\***   | `string`                                                          | A unique identifier, used as the React key                                               |
+| **`label`\***| `string`                                                          | Shown in a tooltip on hover, and used for accessibility                                  |
+| **`icon`\*** | `ReactNode`                                                       | The icon rendered in the segment - any React node, sized automatically to fit            |
+| `disabled`   | `boolean`                                                         | Renders the segment disabled rather than removing it, so the ring doesn't reflow         |
+| **`onSelect`\*** | `(dispatch: IDispatch, context?: IContextMenuContext) => void`| Called when this item is selected                                                        |
+
+<br />
+
+## Disabled Items
+
+Rather than removing an item that isn't currently applicable (which would reflow the rest of the
+ring), mark it `disabled` - it's still shown, greyed out, and can't be clicked.
+
+<Canvas of={ContextMenuStories.DisabledItem} />
+
+## Theming
+
+Pass `colors` to use a different palette to the default. Charts connected via `<ContextMenuOverlay>`
+automatically use the chart's own theme (`theme.menu`) instead.
+
+<Canvas of={ContextMenuStories.CustomTheme} />
+
+<br />
+
+# ContextMenuOverlay Component
+
+`<ContextMenuOverlay>` wires a `<ContextMenu>` up to a chart: right-clicking anywhere inside it -
+background or on top of a plot - opens the menu, themed to match the chart, and dispatches whichever
+action is selected into the Redux store. Add it as a child of `<Chart>`/`<XYChart>`/`<RadialChart>`
+alongside your plots:
+
+```jsx
+<XYChart data={data}>
+    <YAxis fields={["category"]} scaleType="band" />
+    <XAxis fields={["value"]} />
+    <Bar x="value" y="category" />
+    <ContextMenuOverlay />
+</XYChart>
+```
+
+<Canvas of={ContextMenuOverlayStories.OnChartBackground} />
+
+By default it shows four stubbed-out background actions - override `getItems` to add, remove or
+replace any of them:
+
+| Action                | Behaviour                                                                                   |
+| ---------------------- | --------------------------------------------------------------------------------------------- |
+| **Reset zoom**          | Fully wired up - clears a zoomable plot's zoom path and any `<ZoomBrush>` domain. Disabled while nothing is zoomed in |
+| **Hide legend**/**Show legend** | Fully wired up via `chartActions.setLegendVisible`                                    |
+| **Pivot**              | A stub - there's no store concept of a heatmap pivot yet                                      |
+| **Draw polygon**       | A stub - there's no interactive drawing mode yet                                              |
+
+```jsx
+import { createResetZoomAction, createToggleLegendAction } from "@chart-io/react";
+
+<ContextMenuOverlay getItems={(state) => [createResetZoomAction(state), createToggleLegendAction(state)]} />
+```
+
+### `<ContextMenuOverlay>` Props
+
+| Prop                | Type                                     | Default                     | Note                                                              |
+| -------------------- | ----------------------------------------- | ---------------------------- | -------------------------------------------------------------------- |
+| `getItems`           | `(state: IState) => IContextMenuItem[]`  | `getDefaultBackgroundItems`  | Builds the items to show, given the current Redux state              |
+| `radius`             | `number`                                 |                              | See `<ContextMenu>`                                                  |
+| `thickness`          | `number`                                 |                              | See `<ContextMenu>`                                                  |
+| `padAngle`           | `number`                                 |                              | See `<ContextMenu>`                                                  |
+| `iconSize`           | `number`                                 |                              | See `<ContextMenu>`                                                  |
+| `animationDuration`  | `number`                                 |                              | See `<ContextMenu>`                                                  |
+
+<br />
+
+## Menus on a Data Point
+
+`<ContextMenuOverlay>` only covers the chart background. For a menu on a specific datum - "Hide data
+point", "Focus data point", "Add annotation" - use `useContextMenu` and `<ContextMenu>` directly,
+triggered from a plot's existing `onClick` prop, the same extension point already used for tooltips:
+
+```jsx
+const { isOpen, x, y, context, open, close } = useContextMenu();
+
+const onBarClick = (datum, element, event) => {
+    const svg = element.closest("svg");
+    const point = getSvgPoint(svg, event.clientX, event.clientY);
+    open(point.x, point.y, { type: "datum", datum });
+};
+
+<XYChart data={data} onClick={onBarClick}>
+    <Bar x="value" y="category" />
+    <ContextMenu
+        x={x}
+        y={y}
+        open={isOpen}
+        items={getDefaultDatumItems()}
+        onSelect={(item) => {
+            item.onSelect(dispatch, context);
+            close();
+        }}
+        onClose={close}
+    />
+</XYChart>
+```
+
+<Canvas of={ContextMenuOverlayStories.OnADataPoint} />
+
+None of "Hide data point", "Focus data point" or "Add annotation" are wired up to real behaviour yet
+- there's no store concept of a hidden/excluded/focused/annotated datum. Each stub logs to the
+console describing what it would do - replace `onSelect` with a real dispatch once that store state
+exists.
