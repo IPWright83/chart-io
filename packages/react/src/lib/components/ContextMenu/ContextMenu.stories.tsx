@@ -1,17 +1,17 @@
-import { themes } from "@chart-io/core";
-
-import type { Meta } from "@storybook/react";
-import { fn } from "@storybook/test";
-import React from "react";
-
-import { ContextMenu } from "./ContextMenu";
 import {
     createDrawPolygonAction,
     createPivotAction,
     createResetZoomAction,
     createToggleLegendAction,
     getDefaultDatumItems,
-} from "./actions";
+    themes,
+} from "@chart-io/core";
+
+import type { Meta } from "@storybook/react";
+import { fn } from "@storybook/test";
+import React from "react";
+
+import { ContextMenu } from "./ContextMenu";
 
 export default {
     title: "Components/ContextMenu",

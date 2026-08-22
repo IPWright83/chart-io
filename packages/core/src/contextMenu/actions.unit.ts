@@ -1,4 +1,5 @@
-import { defaultChartState, defaultEventState } from "@chart-io/core";
+import { defaultChartState } from "../store/chart";
+import { defaultEventState } from "../store/event";
 
 import {
     createAddAnnotationAction,

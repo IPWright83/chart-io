@@ -1,18 +1,8 @@
-import { chartActions, chartSelectors } from "@chart-io/core";
-import type { IDispatch, IState } from "@chart-io/core";
+import { chartActions, chartSelectors } from "../store/chart";
+import type { IDispatch, IState } from "../store/types";
+import type { IContextMenuContext, IContextMenuItem } from "../types";
 
-import React from "react";
-
-import {
-    AnnotationIcon,
-    DrawPolygonIcon,
-    EyeIcon,
-    EyeOffIcon,
-    FocusIcon,
-    PivotIcon,
-    ResetZoomIcon,
-} from "./icons";
-import type { IContextMenuContext, IContextMenuItem } from "./types";
+import { contextMenuIcons } from "./icons";
 
 /**
  * Resets any zoom applied to the chart - both a zoomable hierarchical plot's zoom path (see
@@ -25,7 +15,7 @@ export function createResetZoomAction(state: IState): IContextMenuItem {
     return {
         id: "reset-zoom",
         label: "Reset zoom",
-        icon: <ResetZoomIcon />,
+        icon: contextMenuIcons.resetZoom,
         disabled: !chartSelectors.isZoomed(state),
         onSelect: (dispatch: IDispatch) => dispatch(chartActions.resetZoom()),
     };
@@ -43,7 +33,7 @@ export function createToggleLegendAction(state: IState): IContextMenuItem {
     return {
         id: "toggle-legend",
         label: hidden ? "Show legend" : "Hide legend",
-        icon: hidden ? <EyeIcon /> : <EyeOffIcon />,
+        icon: hidden ? contextMenuIcons.eye : contextMenuIcons.eyeOff,
         onSelect: (dispatch: IDispatch) => dispatch(chartActions.setLegendVisible(hidden)),
     };
 }
@@ -58,7 +48,7 @@ export function createPivotAction(): IContextMenuItem {
     return {
         id: "pivot",
         label: "Pivot",
-        icon: <PivotIcon />,
+        icon: contextMenuIcons.pivot,
         onSelect: () => console.debug("[ContextMenu] 'Pivot' isn't wired up to anything yet"),
     };
 }
@@ -73,14 +63,14 @@ export function createDrawPolygonAction(): IContextMenuItem {
     return {
         id: "draw-polygon",
         label: "Draw polygon",
-        icon: <DrawPolygonIcon />,
+        icon: contextMenuIcons.drawPolygon,
         onSelect: () => console.debug("[ContextMenu] 'Draw polygon' isn't wired up to anything yet"),
     };
 }
 
 /**
  * Placeholder for hiding the datum the menu was opened on. Intended for a menu opened with a
- * `"datum"` context (e.g. wired up to a plot's own `onClick`, see `<ContextMenuOverlay>`'s docs).
+ * `"datum"` context (e.g. wired up to a plot's own `onClick` via `eventActions.openContextMenu`).
  * There's no store concept of a hidden/excluded datum yet, so this just logs
  * @return           The "Hide data point" `<ContextMenu>` item
  */
@@ -88,7 +78,7 @@ export function createHideDataPointAction(): IContextMenuItem {
     return {
         id: "hide-data-point",
         label: "Hide data point",
-        icon: <EyeOffIcon />,
+        icon: contextMenuIcons.eyeOff,
         onSelect: (dispatch: IDispatch, context?: IContextMenuContext) =>
             console.debug("[ContextMenu] 'Hide data point' isn't wired up to anything yet", context?.datum),
     };
@@ -103,7 +93,7 @@ export function createFocusDataPointAction(): IContextMenuItem {
     return {
         id: "focus-data-point",
         label: "Focus data point",
-        icon: <FocusIcon />,
+        icon: contextMenuIcons.focus,
         onSelect: (dispatch: IDispatch, context?: IContextMenuContext) =>
             console.debug("[ContextMenu] 'Focus data point' isn't wired up to anything yet", context?.datum),
     };
@@ -118,14 +108,14 @@ export function createAddAnnotationAction(): IContextMenuItem {
     return {
         id: "add-annotation",
         label: "Add annotation",
-        icon: <AnnotationIcon />,
+        icon: contextMenuIcons.annotation,
         onSelect: (dispatch: IDispatch, context?: IContextMenuContext) =>
             console.debug("[ContextMenu] 'Add annotation' isn't wired up to anything yet", context?.datum),
     };
 }
 
 /**
- * The default set of items shown by `<ContextMenuOverlay>` when right-clicking the chart background
+ * The default set of items shown when right-clicking the chart background - see `<ContextMenuOverlay>`
  * @param  state     The current Redux state
  * @return           The default background `<ContextMenu>` items
  */

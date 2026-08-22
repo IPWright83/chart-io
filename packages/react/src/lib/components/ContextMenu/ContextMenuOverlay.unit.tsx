@@ -21,7 +21,7 @@ describe("ContextMenuOverlay", () => {
         const store = createStore();
         const { container } = renderOverlay(store);
 
-        expect(container.querySelector(".context-menu")).toBeNull();
+        expect(container.querySelectorAll(".context-menu-item")).toHaveLength(0);
     });
 
     it("opens the default background menu on right-click, and prevents the native menu", () => {
@@ -30,7 +30,7 @@ describe("ContextMenuOverlay", () => {
 
         const event = fireEvent.contextMenu(container.querySelector("svg"), { clientX: 50, clientY: 60 });
 
-        expect(container.querySelector(".context-menu")).not.toBeNull();
+        expect(container.querySelectorAll(".context-menu-item")).toHaveLength(4);
         expect(container.textContent).toContain("Reset zoom");
         expect(container.textContent).toContain("Pivot");
         expect(container.textContent).toContain("Draw polygon");
@@ -64,7 +64,7 @@ describe("ContextMenuOverlay", () => {
         fireEvent.contextMenu(container.querySelector("svg"), { clientX: 0, clientY: 0 });
 
         const items = container.querySelectorAll(".context-menu-item");
-        const resetZoomItem = Array.from(items).find((item) => item.textContent === "Reset zoom");
+        const resetZoomItem = Array.from(items).find((item) => item.textContent.trim() === "Reset zoom");
 
         fireEvent.click(resetZoomItem.querySelector("path"));
 
@@ -80,7 +80,7 @@ describe("ContextMenuOverlay", () => {
         dispatch.mockClear();
 
         const items = container.querySelectorAll(".context-menu-item");
-        const resetZoomItem = Array.from(items).find((item) => item.textContent === "Reset zoom");
+        const resetZoomItem = Array.from(items).find((item) => item.textContent.trim() === "Reset zoom");
 
         fireEvent.click(resetZoomItem.querySelector("path"));
 
@@ -94,7 +94,7 @@ describe("ContextMenuOverlay", () => {
         fireEvent.contextMenu(container.querySelector("svg"), { clientX: 0, clientY: 0 });
 
         const items = container.querySelectorAll(".context-menu-item");
-        const legendItem = Array.from(items).find((item) => item.textContent === "Hide legend");
+        const legendItem = Array.from(items).find((item) => item.textContent.trim() === "Hide legend");
         fireEvent.click(legendItem.querySelector("path"));
 
         expect(store.getState().chart.legend.hidden).toBe(true);
@@ -115,7 +115,7 @@ describe("ContextMenuOverlay", () => {
         const dispatch = jest.spyOn(store, "dispatch");
         const onSelect = jest.fn();
         const getItems = jest.fn().mockReturnValue([
-            { id: "custom", label: "Custom Action", icon: <svg />, onSelect },
+            { id: "custom", label: "Custom Action", icon: "<svg></svg>", onSelect },
         ]);
 
         const { container } = renderOverlay(store, { getItems });

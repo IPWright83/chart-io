@@ -1,13 +1,11 @@
-import { chartSelectors, eventActions, eventSelectors } from "@chart-io/core";
-import type { IState } from "@chart-io/core";
+import { chartSelectors, eventActions, eventSelectors, getDefaultBackgroundItems } from "@chart-io/core";
+import type { IContextMenuContext, IContextMenuItem, IState } from "@chart-io/core";
 
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
 
 import { ContextMenu } from "./ContextMenu";
-import { getDefaultBackgroundItems } from "./actions";
 import { getSvgPoint } from "./getSvgPoint";
-import type { IContextMenuContext, IContextMenuItem } from "./types";
 
 export interface IContextMenuOverlayProps {
     /**

@@ -1,13 +1,14 @@
+import type { IContextMenuItem } from "@chart-io/core";
+
 import React from "react";
 import { fireEvent, render } from "@testing-library/react";
 
 import { ContextMenu } from "./ContextMenu";
-import type { IContextMenuItem } from "./types";
 
 const items: IContextMenuItem[] = [
-    { id: "a", label: "Action A", icon: <svg data-testid="icon-a" />, onSelect: jest.fn() },
-    { id: "b", label: "Action B", icon: <svg data-testid="icon-b" />, onSelect: jest.fn() },
-    { id: "c", label: "Action C (disabled)", icon: <svg data-testid="icon-c" />, disabled: true, onSelect: jest.fn() },
+    { id: "a", label: "Action A", icon: "<svg><circle /></svg>", onSelect: jest.fn() },
+    { id: "b", label: "Action B", icon: "<svg><rect /></svg>", onSelect: jest.fn() },
+    { id: "c", label: "Action C (disabled)", icon: "<svg><path /></svg>", disabled: true, onSelect: jest.fn() },
 ];
 
 describe("ContextMenu", () => {
@@ -18,25 +19,26 @@ describe("ContextMenu", () => {
             </svg>,
         );
 
-        expect(container.querySelector(".context-menu")).toBeNull();
+        expect(container.querySelectorAll(".context-menu-item")).toHaveLength(0);
     });
 
     it("renders a segment with a title and a sized icon for every item", () => {
-        const { container, getByTestId } = render(
+        const { container, getByText } = render(
             <svg>
                 <ContextMenu x={10} y={20} open items={items} iconSize={24} onSelect={jest.fn()} />
             </svg>,
         );
 
         expect(container.querySelectorAll(".context-menu-item")).toHaveLength(3);
-        expect(container.querySelectorAll("path")).toHaveLength(3);
+        expect(container.querySelectorAll(".context-menu-item > path")).toHaveLength(3);
         expect(container.textContent).toContain("Action A");
         expect(container.textContent).toContain("Action B");
         expect(container.textContent).toContain("Action C (disabled)");
+        expect(getByText("Action A").tagName).toBe("title");
 
-        const icon = getByTestId("icon-a");
-        expect(icon).toHaveAttribute("width", "24");
-        expect(icon).toHaveAttribute("height", "24");
+        const icon = container.querySelector(".context-menu-icon svg");
+        expect(icon.getAttribute("width")).toBe("24");
+        expect(icon.getAttribute("height")).toBe("24");
     });
 
     it("positions the menu at the given coordinates", () => {
@@ -46,7 +48,7 @@ describe("ContextMenu", () => {
             </svg>,
         );
 
-        expect(container.querySelector(".context-menu")).toHaveAttribute("transform", "translate(42, 99)");
+        expect(container.querySelector(".context-menu").getAttribute("transform")).toBe("translate(42, 99)");
     });
 
     it("calls onSelect with the item when an enabled segment is clicked", () => {
@@ -57,7 +59,7 @@ describe("ContextMenu", () => {
             </svg>,
         );
 
-        const paths = container.querySelectorAll("path");
+        const paths = container.querySelectorAll(".context-menu-item > path");
         fireEvent.click(paths[0]);
 
         expect(onSelect).toHaveBeenCalledTimes(1);
@@ -72,7 +74,7 @@ describe("ContextMenu", () => {
             </svg>,
         );
 
-        const paths = container.querySelectorAll("path");
+        const paths = container.querySelectorAll(".context-menu-item > path");
         fireEvent.click(paths[2]);
 
         expect(onSelect).not.toHaveBeenCalled();
@@ -115,8 +117,22 @@ describe("ContextMenu", () => {
             </svg>,
         );
 
-        fireEvent.pointerDown(container.querySelector("path"));
+        fireEvent.pointerDown(container.querySelector(".context-menu-item > path"));
 
         expect(onClose).not.toHaveBeenCalled();
+    });
+
+    it("tears down its rendered content on unmount", () => {
+        const { container, unmount } = render(
+            <svg>
+                <ContextMenu x={0} y={0} open items={items} onSelect={jest.fn()} />
+            </svg>,
+        );
+
+        expect(container.querySelectorAll(".context-menu-item")).toHaveLength(3);
+
+        unmount();
+
+        expect(container.querySelectorAll(".context-menu-item")).toHaveLength(0);
     });
 });

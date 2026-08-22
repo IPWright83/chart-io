@@ -1,5 +1,5 @@
-import { eventActions, eventSelectors, themes } from "@chart-io/core";
-import type { IState, IStore } from "@chart-io/core";
+import { eventActions, eventSelectors, getDefaultDatumItems, themes } from "@chart-io/core";
+import type { IContextMenuContext, IState, IStore } from "@chart-io/core";
 
 import type { Meta } from "@storybook/react";
 import { fireEvent } from "@storybook/test";
@@ -13,9 +13,7 @@ import { XYChart } from "../XYChart";
 
 import { ContextMenu } from "./ContextMenu";
 import { ContextMenuOverlay } from "./ContextMenuOverlay";
-import { getDefaultDatumItems } from "./actions";
 import { getSvgPoint } from "./getSvgPoint";
-import type { IContextMenuContext } from "./types";
 
 export default {
     title: "Components/ContextMenuOverlay",

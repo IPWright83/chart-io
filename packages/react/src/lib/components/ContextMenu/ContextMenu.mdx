@@ -15,8 +15,11 @@ completely different set of actions depending on what it was opened on.
 
 ## Usage
 
-`<ContextMenu>` itself is a small, controlled, presentational component - it doesn't know how it
-was triggered, or what it's connected to:
+`<ContextMenu>` itself is a small, controlled component - it doesn't know how it was triggered, or
+what it's connected to. It's a thin React wrapper around `renderContextMenu`, a framework-agnostic
+D3 module exported from `@chart-io/core` that owns the actual rendering/animation/interaction, so
+the same implementation can back a rendering layer for any framework (e.g. `@chart-io/svelte` could
+call `renderContextMenu` directly) rather than being reimplemented per-framework:
 
 ```jsx
 <ContextMenu
@@ -32,21 +35,11 @@ was triggered, or what it's connected to:
 />
 ```
 
-Inside a chart, pair it with the Redux store: its open/closed state, position and context (e.g.
-which datum it was opened on) live under `eventSelectors.contextMenu` - the same convention the
-mouse position/tooltip/droplines/markers already use - opened and closed via
-`eventActions.openContextMenu`/`closeContextMenu`. `<ContextMenuOverlay>` does exactly this, and is
-the version to reach for first; see below for wiring up a menu on a specific datum the same way.
-
-Outside a chart (no store to hand), `useContextMenu` is a small hook with the same shape that tracks
-open/closed state, position and context in local component state instead - independent of how the
-menu ends up being triggered:
-
-```jsx
-const { isOpen, x, y, context, open, close } = useContextMenu();
-
-// Somewhere a right-click, long-press, or toolbar button calls open(x, y, context)
-```
+Its open/closed state, position and context (e.g. which datum it was opened on) live under
+`eventSelectors.contextMenu` in the Redux store - the same convention the mouse position/tooltip/
+droplines/markers already use - opened and closed via `eventActions.openContextMenu`/
+`closeContextMenu`. `<ContextMenuOverlay>` does exactly this, and is the version to reach for first;
+see below for wiring up a menu on a specific datum the same way.
 
 ### `<ContextMenu>` Props
 
@@ -67,11 +60,15 @@ const { isOpen, x, y, context, open, close } = useContextMenu();
 
 ### `IContextMenuItem` Schema
 
+`IContextMenuItem` (along with the action factories and icon set below) is exported from
+`@chart-io/core`, not `@chart-io/react` - it's framework-agnostic, used by `renderContextMenu`
+directly.
+
 | Prop         | Type                                                              | Note                                                                                    |
 | ------------ | ------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
-| **`id`\***   | `string`                                                          | A unique identifier, used as the React key                                               |
+| **`id`\***   | `string`                                                          | A unique identifier                                                                       |
 | **`label`\***| `string`                                                          | Shown in a tooltip on hover, and used for accessibility                                  |
-| **`icon`\*** | `ReactNode`                                                       | The icon rendered in the segment - any React node, sized automatically to fit            |
+| **`icon`\*** | `string`                                                          | Raw SVG markup (e.g. `<path d="..."/>`), sized automatically to fit. See `contextMenuIcons` for a ready-made set |
 | `disabled`   | `boolean`                                                         | Renders the segment disabled rather than removing it, so the ring doesn't reflow         |
 | **`onSelect`\*** | `(dispatch: IDispatch, context?: IContextMenuContext) => void`| Called when this item is selected                                                        |
 
@@ -122,7 +119,7 @@ replace any of them:
 | **Draw polygon**       | A stub - there's no interactive drawing mode yet                                              |
 
 ```jsx
-import { createResetZoomAction, createToggleLegendAction } from "@chart-io/react";
+import { createResetZoomAction, createToggleLegendAction } from "@chart-io/core";
 
 <ContextMenuOverlay getItems={(state) => [createResetZoomAction(state), createToggleLegendAction(state)]} />
 ```
