@@ -5,6 +5,7 @@ export * from "./renderCircle";
 export * from "./renderLink";
 export * from "./renderLinkRadial";
 export * from "./renderPolygon";
+export * from "./renderPolyline";
 export * from "./renderRect";
 export * from "./renderRibbon";
 export * from "./renderText";

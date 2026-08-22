@@ -8,6 +8,7 @@ import type {
     IChartState,
     IChartStateBrush,
     IChartStateDimensions,
+    IChartStateFilters,
     IChartStateLegend,
     IChartStateZoom,
     IState,
@@ -15,6 +16,7 @@ import type {
 
 const EMPTY_ARRAY = [];
 const EMPTY_MARGIN = { left: 0, right: 0, top: 0, bottom: 0 };
+const EMPTY_OBJECT = {};
 
 interface IChartSelectors {
     /**
@@ -271,6 +273,30 @@ interface IChartSelectors {
     };
 
     /**
+     * Generic per-field filter information for the chart - see `chartActions.setFilter`
+     */
+    filters: {
+        /**
+         * Represents the filters portion of the store
+         * @param  state     The application state
+         */
+        store: (state: IState) => IChartStateFilters;
+
+        /**
+         * Returns the current filter value for a field, or `undefined` if it isn't filtered
+         * @param  state     The application state
+         * @param  field     The field to look up
+         */
+        get: (state: IState, field: string) => unknown;
+
+        /**
+         * Returns every currently set filter, keyed by field
+         * @param  state     The application state
+         */
+        all: (state: IState) => IChartStateFilters;
+    };
+
+    /**
      * Returns the theme for the chart
      * @param  state The application state
      * @return The theme object
@@ -490,6 +516,18 @@ export const chartSelectors: IChartSelectors = {
 
         // @inheritDoc
         isVisible: (state) => chartSelectors.brush.width(state) > 0 || chartSelectors.brush.height(state) > 0,
+    },
+
+    // @inheritDoc
+    filters: {
+        // @inheritDoc
+        store: (state) => chartSelectors.store(state).filters ?? EMPTY_OBJECT,
+
+        // @inheritDoc
+        get: (state, field) => chartSelectors.filters.store(state)[field],
+
+        // @inheritDoc
+        all: (state) => chartSelectors.filters.store(state),
     },
 
     // @inheritDoc

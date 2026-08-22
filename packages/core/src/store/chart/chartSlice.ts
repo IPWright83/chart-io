@@ -46,6 +46,7 @@ export const defaultChartState = {
         height: 0,
         width: 0,
     },
+    filters: {},
     zoomable: false,
     zoom: {
         path: [],
@@ -220,6 +221,31 @@ const chartSlice = createSlice({
          */
         removeLegendItem: (state: IChartState, action: PayloadAction<ILegendItem>) => {
             state.legend.items = state.legend.items.filter((t) => !isEqual(t, action.payload));
+        },
+
+        /**
+         * Sets (or clears, when `value` is `null`/`undefined`) a generic named filter in the Redux
+         * store - e.g. a `<ParallelCoordinates>` axis' brushed pixel extent. Kept generic (a field key
+         * plus an arbitrary value) so any plot can filter its own rows by whatever criteria makes
+         * sense for it, rather than each plot needing its own bespoke slice of state
+         * @param state                      The current Redux store state
+         * @param action                     The payload containing the field and its new filter value
+         */
+        setFilter: (state: IChartState, action: PayloadAction<{ field: string, value: unknown }>) => {
+            if (action.payload.value === null || action.payload.value === undefined) {
+                delete state.filters[action.payload.field];
+                return;
+            }
+
+            state.filters[action.payload.field] = action.payload.value;
+        },
+
+        /**
+         * Clears every filter set via `setFilter` in the Redux store
+         * @param state                      The current Redux store state
+         */
+        clearFilters: (state: IChartState) => {
+            state.filters = {};
         },
 
         /**
