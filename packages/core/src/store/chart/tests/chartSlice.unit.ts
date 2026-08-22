@@ -176,6 +176,7 @@ describe("chartSlice.reducer", () => {
         expect(chartSlice.reducer(previousState, action)).toEqual({
             ...previousState,
             legend: {
+                ...previousState.legend,
                 items: [item],
             },
         });
@@ -191,6 +192,7 @@ describe("chartSlice.reducer", () => {
         const previousLocalState = {
             ...previousState,
             legend: {
+                ...previousState.legend,
                 items: [item],
             },
         };
@@ -199,7 +201,40 @@ describe("chartSlice.reducer", () => {
 
         expect(chartSlice.reducer(previousLocalState, action)).toEqual({
             ...previousState,
-            legend: { items: [] },
+            legend: { ...previousState.legend, items: [] },
+        });
+    });
+
+    it("setLegendPosition()", () => {
+        const action = chartActions.setLegendPosition("SW");
+
+        expect(chartSlice.reducer(previousState, action)).toEqual({
+            ...previousState,
+            legend: { ...previousState.legend, position: "SW" },
+        });
+    });
+
+    it("setSizeLegend()", () => {
+        const sizeLegend = { field: "population", ticks: 3 };
+        const action = chartActions.setSizeLegend(sizeLegend);
+
+        expect(chartSlice.reducer(previousState, action)).toEqual({
+            ...previousState,
+            legend: { ...previousState.legend, sizeLegend },
+        });
+    });
+
+    it("clearSizeLegend()", () => {
+        const previousLocalState = {
+            ...previousState,
+            legend: { ...previousState.legend, sizeLegend: { field: "population", ticks: 3 } },
+        };
+
+        const action = chartActions.clearSizeLegend();
+
+        expect(chartSlice.reducer(previousLocalState, action)).toEqual({
+            ...previousState,
+            legend: { ...previousState.legend, sizeLegend: null },
         });
     });
 

@@ -4,3 +4,4 @@ export * from "./YAxis";
 export * from "./AngleAxis";
 export * from "./RadialAxis";
 export * from "./ParallelAxis";
+export * from "./ZAxis";

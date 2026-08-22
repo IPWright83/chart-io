@@ -60,7 +60,7 @@ export function ScatterBase({
     const strokeColor = fillColor.darker();
     fillColor.opacity = theme.series.opacity;
 
-    useLegendItem(y, "circle", showInLegend, fillColor);
+    useLegendItem(y, "circle", showInLegend, fillColor, z);
 
     const onFocus = useFocused({ xScale, yScale });
     const onTooltip = useTooltip({ x, y });
