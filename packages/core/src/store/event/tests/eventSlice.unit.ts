@@ -208,5 +208,33 @@ describe("eventSlice.reducer", () => {
                 },
             });
         });
+
+        it("openContextMenu()", () => {
+            const action = eventActions.openContextMenu({ x: 12, y: 34, context: { type: "background" } });
+
+            expect(eventSlice.reducer(defaultEventState, action)).toEqual({
+                ...defaultEventState,
+                contextMenu: { x: 12, y: 34, context: { type: "background" } },
+            });
+        });
+
+        it("openContextMenu() without context", () => {
+            const action = eventActions.openContextMenu({ x: 12, y: 34 });
+
+            expect(eventSlice.reducer(defaultEventState, action)).toEqual({
+                ...defaultEventState,
+                contextMenu: { x: 12, y: 34 },
+            });
+        });
+
+        it("closeContextMenu()", () => {
+            const previousState = {
+                ...defaultEventState,
+                contextMenu: { x: 12, y: 34 },
+            };
+            const action = eventActions.closeContextMenu();
+
+            expect(eventSlice.reducer(previousState, action)).toEqual(defaultEventState);
+        });
     });
 });

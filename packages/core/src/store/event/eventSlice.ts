@@ -152,7 +152,25 @@ const eventSlice = createSlice({
         setPositionEvent: (state: IEventState, action: PayloadAction<{ x: number, y: number }>) => {
             state.tooltip = state.tooltip ?? { items: [] };
             state.tooltip.position = action.payload;
-        }
+        },
+
+        /**
+         * Opens a `<ContextMenu>` at the given position in the Redux store, with optional caller-supplied
+         * context (e.g. the datum it was opened on)
+         * @param state The current Redux store state
+         * @param action Payload containing the { x, y } position and optional context to open the menu with
+         */
+        openContextMenu: (state: IEventState, action: PayloadAction<{ x: number, y: number, context?: unknown }>) => {
+            state.contextMenu = action.payload;
+        },
+
+        /**
+         * Closes the `<ContextMenu>` in the Redux store
+         * @param state The current Redux store state
+         */
+        closeContextMenu: (state: IEventState) => {
+            delete state.contextMenu;
+        },
     },
 },
 );

@@ -41,6 +41,7 @@ export const defaultChartState = {
         items: [],
         position: "E" as ICompassPosition,
         sizeLegend: null,
+        hidden: false,
     },
     brush: {
         height: 0,
@@ -251,6 +252,17 @@ const chartSlice = createSlice({
         },
 
         /**
+         * Sets whether the Legend should be visible in the Redux store, e.g. in response to a
+         * "Hide legend"/"Show legend" `<ContextMenu>` action. Doesn't affect whether the chart has
+         * enough legend items to be worth showing in the first place - see `chartSelectors.legend.isVisible`
+         * @param state                      The current Redux store state
+         * @param action                     The payload containing whether the legend should be visible
+         */
+        setLegendVisible: (state: IChartState, action: PayloadAction<boolean>) => {
+            state.legend.hidden = !action.payload;
+        },
+
+        /**
          * Sets the theme for the chart in the Redux store
          * @param state                      The current Redux store state
          * @param action                     The payload containing the theme
@@ -296,6 +308,20 @@ const chartSlice = createSlice({
          */
         setZoomPath: (state: IChartState, action: PayloadAction<string[]>) => {
             state.zoom.path = action.payload;
+        },
+
+        /**
+         * Resets all zoom state in the Redux store, both the ancestry path of a zoomable hierarchical
+         * plot and any Brush zoom applied to a scale - e.g. in response to a "Reset zoom" `<ContextMenu>`
+         * action
+         * @param state                      The current Redux store state
+         */
+        resetZoom: (state: IChartState) => {
+            state.zoom.path = [];
+
+            for (const field of Object.keys(state.scales)) {
+                state.scales[field].zoomedDomain = undefined;
+            }
         },
     },
 });
