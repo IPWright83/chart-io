@@ -1,4 +1,4 @@
-import { chartSelectors } from "@chart-io/core";
+import { chartSelectors, eventActions, eventSelectors } from "@chart-io/core";
 import type { IState } from "@chart-io/core";
 
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
@@ -8,7 +8,6 @@ import { ContextMenu } from "./ContextMenu";
 import { getDefaultBackgroundItems } from "./actions";
 import { getSvgPoint } from "./getSvgPoint";
 import type { IContextMenuContext, IContextMenuItem } from "./types";
-import { useContextMenu } from "./useContextMenu";
 
 export interface IContextMenuOverlayProps {
     /**
@@ -46,8 +45,13 @@ export interface IContextMenuOverlayProps {
  * the chart, and dispatching whichever action is selected into the store. Add it as a child of
  * `<Chart>` alongside your plots
  *
- * For datum-specific actions (e.g. "Hide data point"), use `useContextMenu` and `<ContextMenu>`
- * directly instead, wired up to a plot's own `onClick` - see the Storybook docs for an example
+ * Its open/closed state, position and context live in the Redux store (`eventSelectors.contextMenu`)
+ * rather than local component state - the same convention as the mouse position/tooltip/droplines/
+ * markers it sits alongside, and it means opening a `<ContextMenu>` isn't something only this
+ * component's own right-click handler can do
+ *
+ * For datum-specific actions (e.g. "Hide data point"), dispatch `eventActions.openContextMenu`
+ * yourself instead, wired up to a plot's own `onClick` - see the Storybook docs for an example
  * @return             The ContextMenuOverlay component
  */
 export function ContextMenuOverlay({
@@ -61,8 +65,14 @@ export function ContextMenuOverlay({
     const dispatch = useDispatch();
     const store = useStore<IState>();
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
+    const isOpen = useSelector((s: IState) => eventSelectors.contextMenu.isOpen(s));
+    const position = useSelector((s: IState) => eventSelectors.contextMenu.position(s));
+    const context = useSelector((s: IState) => eventSelectors.contextMenu.context(s)) as
+        | IContextMenuContext
+        | undefined;
     const containerRef = useRef<SVGGElement>(null);
-    const { isOpen, x, y, context, open, close } = useContextMenu<IContextMenuContext>();
+
+    const close = useCallback(() => dispatch(eventActions.closeContextMenu()), [dispatch]);
 
     useEffect(() => {
         const svg = containerRef.current?.closest("svg");
@@ -74,12 +84,12 @@ export function ContextMenuOverlay({
         const onContextMenu = (event: MouseEvent) => {
             event.preventDefault();
             const point = getSvgPoint(svg, event.clientX, event.clientY);
-            open(point.x, point.y, { type: "background" });
+            dispatch(eventActions.openContextMenu({ ...point, context: { type: "background" } }));
         };
 
         svg.addEventListener("contextmenu", onContextMenu);
         return () => svg.removeEventListener("contextmenu", onContextMenu);
-    }, [open]);
+    }, [dispatch]);
 
     // Snapshot the items when the menu opens, rather than continuously recomputing them on every
     // store update - a right-click captures "what's true right now", same as a native context menu
@@ -96,8 +106,8 @@ export function ContextMenuOverlay({
     return (
         <g ref={containerRef} className="chart-io context-menu-overlay">
             <ContextMenu
-                x={x}
-                y={y}
+                x={position?.x ?? 0}
+                y={position?.y ?? 0}
                 open={isOpen}
                 items={items}
                 colors={theme.menu}

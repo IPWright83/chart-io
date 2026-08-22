@@ -1,8 +1,8 @@
+import { chartActions, createStore, eventSelectors } from "@chart-io/core";
+
 import { Provider } from "react-redux";
 import React from "react";
 import { fireEvent, render } from "@testing-library/react";
-
-import { createMockStore } from "../../testUtils";
 
 import { ContextMenuOverlay } from "./ContextMenuOverlay";
 
@@ -18,14 +18,14 @@ function renderOverlay(store, props = {}) {
 
 describe("ContextMenuOverlay", () => {
     it("renders nothing until the chart is right-clicked", () => {
-        const store = createMockStore({});
+        const store = createStore();
         const { container } = renderOverlay(store);
 
         expect(container.querySelector(".context-menu")).toBeNull();
     });
 
     it("opens the default background menu on right-click, and prevents the native menu", () => {
-        const store = createMockStore({});
+        const store = createStore();
         const { container } = renderOverlay(store);
 
         const event = fireEvent.contextMenu(container.querySelector("svg"), { clientX: 50, clientY: 60 });
@@ -39,8 +39,26 @@ describe("ContextMenuOverlay", () => {
         expect(event).toBe(false);
     });
 
+    it("stores the open menu's position/context in Redux rather than local state", () => {
+        const store = createStore();
+        const { container } = renderOverlay(store);
+
+        fireEvent.contextMenu(container.querySelector("svg"), { clientX: 50, clientY: 60 });
+
+        expect(eventSelectors.contextMenu.store(store.getState())).toEqual({
+            x: 50,
+            y: 60,
+            context: { type: "background" },
+        });
+
+        fireEvent.keyDown(window, { key: "Escape" });
+
+        expect(eventSelectors.contextMenu.store(store.getState())).toBeUndefined();
+    });
+
     it("disables 'Reset zoom' while nothing is zoomed in, and dispatches resetZoom when it is", () => {
-        const zoomedStore = createMockStore({ chart: { zoom: { path: ["North America"] } } });
+        const zoomedStore = createStore();
+        zoomedStore.dispatch(chartActions.setZoomPath(["North America"]));
         const { container } = renderOverlay(zoomedStore);
 
         fireEvent.contextMenu(container.querySelector("svg"), { clientX: 0, clientY: 0 });
@@ -50,25 +68,27 @@ describe("ContextMenuOverlay", () => {
 
         fireEvent.click(resetZoomItem.querySelector("path"));
 
-        expect(zoomedStore.dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "chart/resetZoom" }));
+        expect(zoomedStore.getState().chart.zoom.path).toEqual([]);
     });
 
     it("does not dispatch resetZoom when nothing is zoomed in", () => {
-        const store = createMockStore({});
+        const store = createStore();
+        const dispatch = jest.spyOn(store, "dispatch");
         const { container } = renderOverlay(store);
 
         fireEvent.contextMenu(container.querySelector("svg"), { clientX: 0, clientY: 0 });
+        dispatch.mockClear();
 
         const items = container.querySelectorAll(".context-menu-item");
         const resetZoomItem = Array.from(items).find((item) => item.textContent === "Reset zoom");
 
         fireEvent.click(resetZoomItem.querySelector("path"));
 
-        expect(store.dispatch).not.toHaveBeenCalledWith(expect.objectContaining({ type: "chart/resetZoom" }));
+        expect(dispatch).not.toHaveBeenCalledWith(expect.objectContaining({ type: "chart/resetZoom" }));
     });
 
     it("dispatches setLegendVisible(false) when 'Hide legend' is selected", () => {
-        const store = createMockStore({});
+        const store = createStore();
         const { container } = renderOverlay(store);
 
         fireEvent.contextMenu(container.querySelector("svg"), { clientX: 0, clientY: 0 });
@@ -77,13 +97,12 @@ describe("ContextMenuOverlay", () => {
         const legendItem = Array.from(items).find((item) => item.textContent === "Hide legend");
         fireEvent.click(legendItem.querySelector("path"));
 
-        expect(store.dispatch).toHaveBeenCalledWith(
-            expect.objectContaining({ type: "chart/setLegendVisible", payload: false }),
-        );
+        expect(store.getState().chart.legend.hidden).toBe(true);
     });
 
     it("shows 'Show legend' once the legend has been hidden", () => {
-        const store = createMockStore({ chart: { legend: { items: [], position: "E", hidden: true } } });
+        const store = createStore();
+        store.dispatch(chartActions.setLegendVisible(false));
         const { container } = renderOverlay(store);
 
         fireEvent.contextMenu(container.querySelector("svg"), { clientX: 0, clientY: 0 });
@@ -92,7 +111,8 @@ describe("ContextMenuOverlay", () => {
     });
 
     it("supports overriding the set of items via getItems", () => {
-        const store = createMockStore({});
+        const store = createStore();
+        const dispatch = jest.spyOn(store, "dispatch");
         const onSelect = jest.fn();
         const getItems = jest.fn().mockReturnValue([
             { id: "custom", label: "Custom Action", icon: <svg />, onSelect },
@@ -106,6 +126,6 @@ describe("ContextMenuOverlay", () => {
         expect(container.textContent).not.toContain("Reset zoom");
 
         fireEvent.click(container.querySelector("path"));
-        expect(onSelect).toHaveBeenCalledWith(store.dispatch, { type: "background" });
+        expect(onSelect).toHaveBeenCalledWith(dispatch, { type: "background" });
     });
 });

@@ -32,8 +32,15 @@ was triggered, or what it's connected to:
 />
 ```
 
-Pair it with `useContextMenu`, a small hook that tracks the open/closed state, position and context
-(e.g. which datum it was opened on) - independent of how the menu ends up being triggered:
+Inside a chart, pair it with the Redux store: its open/closed state, position and context (e.g.
+which datum it was opened on) live under `eventSelectors.contextMenu` - the same convention the
+mouse position/tooltip/droplines/markers already use - opened and closed via
+`eventActions.openContextMenu`/`closeContextMenu`. `<ContextMenuOverlay>` does exactly this, and is
+the version to reach for first; see below for wiring up a menu on a specific datum the same way.
+
+Outside a chart (no store to hand), `useContextMenu` is a small hook with the same shape that tracks
+open/closed state, position and context in local component state instead - independent of how the
+menu ends up being triggered:
 
 ```jsx
 const { isOpen, x, y, context, open, close } = useContextMenu();
@@ -136,31 +143,45 @@ import { createResetZoomAction, createToggleLegendAction } from "@chart-io/react
 ## Menus on a Data Point
 
 `<ContextMenuOverlay>` only covers the chart background. For a menu on a specific datum - "Hide data
-point", "Focus data point", "Add annotation" - use `useContextMenu` and `<ContextMenu>` directly,
-triggered from a plot's existing `onClick` prop, the same extension point already used for tooltips:
+point", "Focus data point", "Add annotation" - dispatch `eventActions.openContextMenu` yourself from
+a plot's existing `onClick` prop (the same extension point already used for tooltips), and read it
+back with a small connected component the same way `<ContextMenuOverlay>` does:
 
 ```jsx
-const { isOpen, x, y, context, open, close } = useContextMenu();
+function DatumMenu() {
+    const dispatch = useDispatch();
+    const isOpen = useSelector((s) => eventSelectors.contextMenu.isOpen(s));
+    const position = useSelector((s) => eventSelectors.contextMenu.position(s));
+    const context = useSelector((s) => eventSelectors.contextMenu.context(s));
+    const close = () => dispatch(eventActions.closeContextMenu());
 
+    return (
+        <ContextMenu
+            x={position?.x ?? 0}
+            y={position?.y ?? 0}
+            open={isOpen}
+            items={getDefaultDatumItems()}
+            onSelect={(item) => {
+                item.onSelect(dispatch, context);
+                close();
+            }}
+            onClose={close}
+        />
+    );
+}
+
+// The click handler that opens it needs the store before <XYChart> has rendered it into context -
+// grab it via onStoreCreated (a plot's own click handler inside the chart would normally just have
+// dispatch already in scope some other way)
 const onBarClick = (datum, element, event) => {
     const svg = element.closest("svg");
     const point = getSvgPoint(svg, event.clientX, event.clientY);
-    open(point.x, point.y, { type: "datum", datum });
+    store.dispatch(eventActions.openContextMenu({ ...point, context: { type: "datum", datum } }));
 };
 
-<XYChart data={data} onClick={onBarClick}>
+<XYChart data={data} onClick={onBarClick} onStoreCreated={(createdStore) => { store = createdStore; }}>
     <Bar x="value" y="category" />
-    <ContextMenu
-        x={x}
-        y={y}
-        open={isOpen}
-        items={getDefaultDatumItems()}
-        onSelect={(item) => {
-            item.onSelect(dispatch, context);
-            close();
-        }}
-        onClose={close}
-    />
+    <DatumMenu />
 </XYChart>
 ```
 
