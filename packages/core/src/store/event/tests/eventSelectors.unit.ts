@@ -220,4 +220,45 @@ describe("eventSelectors", () => {
             expect(eventSelectors.tooltip.position(state)).toEqual({ x: 5, y: 10 });
         });
     });
+
+    describe("contextMenu", () => {
+        it("isOpen is false while closed", () => {
+            const state = { chart: defaultChartState, event: defaultEventState };
+            expect(eventSelectors.contextMenu.isOpen(state)).toBe(false);
+        });
+
+        it("isOpen is true once opened", () => {
+            const state = {
+                chart: defaultChartState,
+                event: { ...defaultEventState, contextMenu: { x: 12, y: 34 } },
+            };
+            expect(eventSelectors.contextMenu.isOpen(state)).toBe(true);
+        });
+
+        it("position is undefined while closed", () => {
+            const state = { chart: defaultChartState, event: defaultEventState };
+            expect(eventSelectors.contextMenu.position(state)).toBeUndefined();
+        });
+
+        it("position returns where it was opened", () => {
+            const state = {
+                chart: defaultChartState,
+                event: { ...defaultEventState, contextMenu: { x: 12, y: 34 } },
+            };
+            expect(eventSelectors.contextMenu.position(state)).toEqual({ x: 12, y: 34 });
+        });
+
+        it("context returns what it was opened with", () => {
+            const state = {
+                chart: defaultChartState,
+                event: { ...defaultEventState, contextMenu: { x: 12, y: 34, context: { type: "datum" } } },
+            };
+            expect(eventSelectors.contextMenu.context(state)).toEqual({ type: "datum" });
+        });
+
+        it("context is undefined while closed", () => {
+            const state = { chart: defaultChartState, event: defaultEventState };
+            expect(eventSelectors.contextMenu.context(state)).toBeUndefined();
+        });
+    });
 });

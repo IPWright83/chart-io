@@ -44,6 +44,7 @@ export default {
 
 const MixedLineAreaScatterTemplate = (args) => (
   <XYChart
+    contextMenu={false}
     data={waves}
     plotMargin={{
       left: args.leftMargin,
@@ -71,6 +72,7 @@ const MixedLineAreaScatterTemplate = (args) => (
 
 const MixedScaleBandTemplate = (args) => (
   <XYChart
+    contextMenu={false}
     data={waves}
     plotMargin={{
       left: args.leftMargin,
@@ -99,6 +101,7 @@ const MixedScaleBandTemplate = (args) => (
 
 const MixedColumnPlotNonBandTemplate = (args) => (
   <XYChart
+    contextMenu={false}
     data={waves}
     plotMargin={{
       left: args.leftMargin,
@@ -127,6 +130,7 @@ const MixedColumnPlotNonBandTemplate = (args) => (
 
 const MixedColumnPlotTemplate = (args) => (
   <XYChart
+    contextMenu={false}
     data={waves}
     plotMargin={{
       left: args.leftMargin,
@@ -159,6 +163,7 @@ const MixedColumnPlotTemplate = (args) => (
 
 const MixedGroupledColumnPlotTemplate = (args) => (
   <XYChart
+    contextMenu={false}
     data={waves}
     plotMargin={{
       left: args.leftMargin,

@@ -20,6 +20,12 @@ interface IEventSelectors {
     };
     mode: (state: IState) => IMouseEventType;
     position: (state: IState) => ICoordinate | undefined;
+    contextMenu: {
+        store: (state: IState) => IEventState["contextMenu"];
+        isOpen: (state: IState) => boolean;
+        position: (state: IState) => ICoordinate | undefined;
+        context: (state: IState) => unknown;
+    };
 }
 
 export const eventSelectors: IEventSelectors = {
@@ -146,5 +152,35 @@ export const eventSelectors: IEventSelectors = {
         }
 
         return mouse;
+    },
+
+    contextMenu: {
+        /**
+         * Returns the contextMenu part of the sub-state tree
+         * @param  state   The application state
+         * @return         The sub-state for the context menu, or undefined while closed
+         */
+        store: (state: IState) => eventSelectors.store(state).contextMenu,
+
+        /**
+         * Is a `<ContextMenu>` currently open?
+         * @param  state   The application state
+         * @return         True if a context menu is open
+         */
+        isOpen: (state: IState): boolean => !!eventSelectors.contextMenu.store(state),
+
+        /**
+         * The position the open `<ContextMenu>` is anchored at
+         * @param  state   The application state
+         * @return         The { x, y } position, or undefined while closed
+         */
+        position: (state: IState): ICoordinate | undefined => eventSelectors.contextMenu.store(state),
+
+        /**
+         * The caller-supplied context the open `<ContextMenu>` was opened with (e.g. a datum)
+         * @param  state   The application state
+         * @return         The context, or undefined while closed/if none was given
+         */
+        context: (state: IState): unknown => eventSelectors.contextMenu.store(state)?.context,
     },
 };

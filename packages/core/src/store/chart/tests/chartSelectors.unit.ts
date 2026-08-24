@@ -400,6 +400,46 @@ describe("chartSelectors", () => {
         });
     });
 
+    describe("isZoomed", () => {
+        it("is false with no zoom path and no zoomed scales", () => {
+            const state = { event: defaultEventState, chart: { ...defaultChartState } };
+            expect(chartSelectors.isZoomed(state)).toBe(false);
+        });
+
+        it("is true when a zoom path is set", () => {
+            const state = {
+                event: defaultEventState,
+                chart: { ...defaultChartState, zoom: { path: ["North America"] } },
+            };
+
+            expect(chartSelectors.isZoomed(state)).toBe(true);
+        });
+
+        it("is true when a scale has a zoomed domain", () => {
+            const state = {
+                event: defaultEventState,
+                chart: {
+                    ...defaultChartState,
+                    scales: { x: { scale: d3.scaleLinear(), domain: [0, 100], zoomedDomain: [10, 20], range: [0, 500] } },
+                },
+            };
+
+            expect(chartSelectors.isZoomed(state)).toBe(true);
+        });
+
+        it("is false when a scale has no zoomed domain", () => {
+            const state = {
+                event: defaultEventState,
+                chart: {
+                    ...defaultChartState,
+                    scales: { x: { scale: d3.scaleLinear(), domain: [0, 100], range: [0, 500] } },
+                },
+            };
+
+            expect(chartSelectors.isZoomed(state)).toBe(false);
+        });
+    });
+
     describe("legend", () => {
         describe("isVisible", () => {
             it("is false with zero or one items and no size legend", () => {
@@ -435,6 +475,34 @@ describe("chartSelectors", () => {
                 };
 
                 expect(chartSelectors.legend.isVisible(state)).toBe(true);
+            });
+
+            it("is false when explicitly hidden, even with multiple items", () => {
+                const state = {
+                    event: defaultEventState,
+                    chart: {
+                        ...defaultChartState,
+                        legend: { ...defaultChartState.legend, items: [{ name: "a" }, { name: "b" }], hidden: true },
+                    },
+                };
+
+                expect(chartSelectors.legend.isVisible(state)).toBe(false);
+            });
+        });
+
+        describe("isHidden", () => {
+            it("defaults to false", () => {
+                const state = { event: defaultEventState, chart: { ...defaultChartState } };
+                expect(chartSelectors.legend.isHidden(state)).toBe(false);
+            });
+
+            it("returns the configured value", () => {
+                const state = {
+                    event: defaultEventState,
+                    chart: { ...defaultChartState, legend: { ...defaultChartState.legend, hidden: true } },
+                };
+
+                expect(chartSelectors.legend.isHidden(state)).toBe(true);
             });
         });
 

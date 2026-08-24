@@ -119,6 +119,7 @@ const DashboardTemplate = (args) => {
   return (
     <div>
       <XYChart
+        contextMenu={false}
         data={data}
         useCanvas={args.useCanvas}
         plotMargin={args.margin}
@@ -131,6 +132,7 @@ const DashboardTemplate = (args) => {
         <XAxis fields={["Month"]} />
       </XYChart>
       <XYChart
+        contextMenu={false}
         data={data}
         useCanvas={args.useCanvas}
         plotMargin={args.margin}
@@ -143,6 +145,7 @@ const DashboardTemplate = (args) => {
         <XAxis fields={["Month"]} />
       </XYChart>
       <XYChart
+        contextMenu={false}
         data={data}
         useCanvas={args.useCanvas}
         plotMargin={args.margin}
@@ -155,6 +158,7 @@ const DashboardTemplate = (args) => {
         <XAxis fields={["Month"]} />
       </XYChart>
       <XYChart
+        contextMenu={false}
         data={data}
         useCanvas={args.useCanvas}
         plotMargin={args.margin}
@@ -167,6 +171,7 @@ const DashboardTemplate = (args) => {
         <XAxis fields={["Month"]} />
       </XYChart>
       <XYChart
+        contextMenu={false}
         data={data}
         useCanvas={args.useCanvas}
         plotMargin={args.margin}
@@ -179,6 +184,7 @@ const DashboardTemplate = (args) => {
         <XAxis fields={["Month"]} />
       </XYChart>
       <XYChart
+        contextMenu={false}
         data={data}
         useCanvas={args.useCanvas}
         plotMargin={args.margin}
@@ -191,6 +197,7 @@ const DashboardTemplate = (args) => {
         <XAxis fields={["Month"]} />
       </XYChart>
       <XYChart
+        contextMenu={false}
         data={data}
         useCanvas={args.useCanvas}
         plotMargin={args.margin}
@@ -203,6 +210,7 @@ const DashboardTemplate = (args) => {
         <XAxis fields={["Month"]} />
       </XYChart>
       <XYChart
+        contextMenu={false}
         data={data}
         useCanvas={args.useCanvas}
         plotMargin={args.margin}
@@ -215,6 +223,7 @@ const DashboardTemplate = (args) => {
         <XAxis fields={["Month"]} />
       </XYChart>
       <XYChart
+        contextMenu={false}
         data={data}
         useCanvas={args.useCanvas}
         plotMargin={args.margin}
@@ -227,6 +236,7 @@ const DashboardTemplate = (args) => {
         <XAxis fields={["Month"]} />
       </XYChart>
       <XYChart
+        contextMenu={false}
         data={data}
         useCanvas={args.useCanvas}
         plotMargin={args.margin}
@@ -239,6 +249,7 @@ const DashboardTemplate = (args) => {
         <XAxis fields={["Month"]} />
       </XYChart>
       <XYChart
+        contextMenu={false}
         data={data}
         useCanvas={args.useCanvas}
         plotMargin={args.margin}
@@ -251,6 +262,7 @@ const DashboardTemplate = (args) => {
         <XAxis fields={["Month"]} />
       </XYChart>
       <XYChart
+        contextMenu={false}
         data={data}
         useCanvas={args.useCanvas}
         plotMargin={args.margin}

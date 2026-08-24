@@ -208,4 +208,29 @@ export interface ITheme {
          */
         defaultMaxHeight: number;
     };
+    /**
+     * Configures the radial `<ContextMenu>`
+     */
+    menu: {
+        /**
+         * The fill color of a segment
+         */
+        background: IColor;
+        /**
+         * The fill color of a segment when hovered, or its containing item is disabled
+         */
+        backgroundHover: IColor;
+        /**
+         * The fill color of a segment when its item is disabled
+         */
+        backgroundDisabled: IColor;
+        /**
+         * The color of the icon/text drawn on top of a segment
+         */
+        text: IColor;
+        /**
+         * The stroke color drawn between segments
+         */
+        border: IColor;
+    };
 }

@@ -285,4 +285,44 @@ describe("chartSlice.reducer", () => {
             zoom: { path: ["North America", "United States"] },
         });
     });
+
+    it("resetZoom() clears the zoom path and any zoomed scale domains", () => {
+        const zoomedState = {
+            ...previousState,
+            zoom: { path: ["North America", "United States"] },
+            scales: {
+                a: { ...previousState.scales.a, zoomedDomain: [10, 20] },
+                b: { ...previousState.scales.b, zoomedDomain: ["x", "y"] },
+            },
+        };
+        const action = chartActions.resetZoom();
+
+        expect(chartSlice.reducer(zoomedState, action)).toEqual({
+            ...previousState,
+            zoom: { path: [] },
+            scales: {
+                a: { ...previousState.scales.a, zoomedDomain: undefined },
+                b: { ...previousState.scales.b, zoomedDomain: undefined },
+            },
+        });
+    });
+
+    it("setLegendVisible() hides the legend when passed false", () => {
+        const action = chartActions.setLegendVisible(false);
+
+        expect(chartSlice.reducer(previousState, action)).toEqual({
+            ...previousState,
+            legend: { ...previousState.legend, hidden: true },
+        });
+    });
+
+    it("setLegendVisible() shows the legend when passed true", () => {
+        const hiddenState = { ...previousState, legend: { ...previousState.legend, hidden: true } };
+        const action = chartActions.setLegendVisible(true);
+
+        expect(chartSlice.reducer(hiddenState, action)).toEqual({
+            ...previousState,
+            legend: { ...previousState.legend, hidden: false },
+        });
+    });
 });

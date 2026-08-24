@@ -79,6 +79,7 @@ const radarDataControls = {
 
 const RadarTemplate = (args) => (
     <RadialChart
+        contextMenu={false}
         data={args.data}
         plotMargin={{
             left: args.leftMargin,
@@ -192,6 +193,7 @@ const gpuLabeller = createLabeller({
 
 const DifferentDomainsTemplate = (args) => (
     <RadialChart
+        contextMenu={false}
         data={gpuData}
         plotMargin={{
             left: args.leftMargin,

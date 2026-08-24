@@ -67,6 +67,7 @@ const pieDataControls = {
 
 const PieTemplate = (args) => (
     <RadialChart
+        contextMenu={false}
         data={args.data ?? data}
         plotMargin={{
             left: args.leftMargin,
@@ -91,6 +92,7 @@ const PieTemplateWithControls = withDataControls(PieTemplate, pieDataControls);
 
 const DonutTemplate = (args) => (
     <RadialChart
+        contextMenu={false}
         data={data}
         plotMargin={{
             left: args.leftMargin,

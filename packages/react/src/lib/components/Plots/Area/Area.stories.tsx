@@ -47,6 +47,7 @@ export default {
 
 const AreaTemplate = (args) => (
   <XYChart
+    contextMenu={false}
     data={args.data ?? waves}
     plotMargin={{
       left: args.leftMargin,
@@ -94,6 +95,7 @@ const AreaTemplateWithControls = withDataControls(AreaTemplate, waveDataControls
 
 const AreasTemplate = (args) => (
   <XYChart
+    contextMenu={false}
     plotMargin={{
       left: args.leftMargin,
       right: args.rightMargin,
@@ -121,6 +123,7 @@ const AreasTemplate = (args) => (
 const StackedAreasTemplate = (args) => {
   return (
     <XYChart
+      contextMenu={false}
       plotMargin={{
         left: args.leftMargin,
         right: args.rightMargin,

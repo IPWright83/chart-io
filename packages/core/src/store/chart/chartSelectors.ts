@@ -233,6 +233,13 @@ interface IChartSelectors {
          * @return           The size legend, or null if none is registered
          */
         sizeLegend: (state: IState) => ISizeLegend | null;
+
+        /**
+         * Has the user explicitly hidden the legend, e.g. via a `<ContextMenu>` action?
+         * @param  state     The application state
+         * @return           True if the legend has been explicitly hidden
+         */
+        isHidden: (state: IState) => boolean;
     };
     /**
      * Brush information for the chart
@@ -308,6 +315,14 @@ interface IChartSelectors {
          */
         path: (state: IState) => string[];
     };
+
+    /**
+     * Is any part of the chart currently zoomed in, either a zoomable hierarchical plot's zoom
+     * path, or a scale zoomed in via a Brush?
+     * @param  state The application state
+     * @return True if any zoom is currently applied
+     */
+    isZoomed: (state: IState) => boolean;
 }
 
 export const chartSelectors: IChartSelectors = {
@@ -499,7 +514,8 @@ export const chartSelectors: IChartSelectors = {
 
         // @inheritDoc
         isVisible: (state) =>
-            chartSelectors.legend.items(state).length > 1 || !!chartSelectors.legend.sizeLegend(state),
+            !chartSelectors.legend.isHidden(state) &&
+            (chartSelectors.legend.items(state).length > 1 || !!chartSelectors.legend.sizeLegend(state)),
 
         // @inheritDoc
         items: (state) => chartSelectors.legend.store(state).items || EMPTY_ARRAY,
@@ -509,6 +525,9 @@ export const chartSelectors: IChartSelectors = {
 
         // @inheritDoc
         sizeLegend: (state) => chartSelectors.legend.store(state).sizeLegend ?? null,
+
+        // @inheritDoc
+        isHidden: (state) => chartSelectors.legend.store(state).hidden ?? false,
     },
 
     // @inheritDoc
@@ -527,5 +546,14 @@ export const chartSelectors: IChartSelectors = {
 
         // @inheritDoc
         path: (state) => chartSelectors.zoom.store(state)?.path ?? EMPTY_ARRAY,
+    },
+
+    // @inheritDoc
+    isZoomed: (state) => {
+        if (chartSelectors.zoom.path(state).length > 0) {
+            return true;
+        }
+
+        return Object.values(chartSelectors.store(state).scales).some((scale) => scale.zoomedDomain != null);
     },
 };
