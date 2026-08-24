@@ -11,55 +11,46 @@ const items: IContextMenuItem[] = [
     { id: "c", label: "Action C (disabled)", icon: "<svg><path /></svg>", disabled: true, onSelect: jest.fn() },
 ];
 
+// <ContextMenu> is portaled straight into document.body (so it isn't clipped by a chart's own
+// bounds), so its rendered content lives outside RTL's own `container` - query document.body instead
+
 describe("ContextMenu", () => {
     it("renders nothing while closed", () => {
-        const { container } = render(
-            <svg>
-                <ContextMenu x={0} y={0} open={false} items={items} onSelect={jest.fn()} />
-            </svg>,
-        );
+        render(<ContextMenu x={0} y={0} open={false} items={items} onSelect={jest.fn()} />);
 
-        expect(container.querySelectorAll(".context-menu-item")).toHaveLength(0);
+        expect(document.body.querySelectorAll(".context-menu-item")).toHaveLength(0);
     });
 
     it("renders a segment with a title and a sized icon for every item", () => {
-        const { container, getByText } = render(
-            <svg>
-                <ContextMenu x={10} y={20} open items={items} iconSize={24} onSelect={jest.fn()} />
-            </svg>,
-        );
+        const { getByText } = render(<ContextMenu x={10} y={20} open items={items} iconSize={24} onSelect={jest.fn()} />);
 
-        expect(container.querySelectorAll(".context-menu-item")).toHaveLength(3);
-        expect(container.querySelectorAll(".context-menu-item > path")).toHaveLength(3);
-        expect(container.textContent).toContain("Action A");
-        expect(container.textContent).toContain("Action B");
-        expect(container.textContent).toContain("Action C (disabled)");
+        expect(document.body.querySelectorAll(".context-menu-item")).toHaveLength(3);
+        expect(document.body.querySelectorAll(".context-menu-item > path")).toHaveLength(3);
+        expect(document.body.textContent).toContain("Action A");
+        expect(document.body.textContent).toContain("Action B");
+        expect(document.body.textContent).toContain("Action C (disabled)");
         expect(getByText("Action A").tagName).toBe("title");
 
-        const icon = container.querySelector(".context-menu-icon svg");
+        const icon = document.body.querySelector(".context-menu-icon svg");
         expect(icon.getAttribute("width")).toBe("24");
         expect(icon.getAttribute("height")).toBe("24");
     });
 
-    it("positions the menu at the given coordinates", () => {
-        const { container } = render(
-            <svg>
-                <ContextMenu x={42} y={99} open items={items} onSelect={jest.fn()} />
-            </svg>,
-        );
+    it("positions the menu (centered) at the given coordinates via a fixed-position portal", () => {
+        render(<ContextMenu x={42} y={99} open items={items} onSelect={jest.fn()} />);
 
-        expect(container.querySelector(".context-menu").getAttribute("transform")).toBe("translate(42, 99)");
+        const portal = document.body.querySelector(".context-menu-portal") as HTMLElement;
+        expect(portal.style.position).toBe("fixed");
+        expect(portal.style.left).toBe("42px");
+        expect(portal.style.top).toBe("99px");
+        expect(portal.style.transform).toBe("translate(-50%, -50%)");
     });
 
     it("calls onSelect with the item when an enabled segment is clicked", () => {
         const onSelect = jest.fn();
-        const { container } = render(
-            <svg>
-                <ContextMenu x={0} y={0} open items={items} onSelect={onSelect} />
-            </svg>,
-        );
+        render(<ContextMenu x={0} y={0} open items={items} onSelect={onSelect} />);
 
-        const paths = container.querySelectorAll(".context-menu-item > path");
+        const paths = document.body.querySelectorAll(".context-menu-item > path");
         fireEvent.click(paths[0]);
 
         expect(onSelect).toHaveBeenCalledTimes(1);
@@ -68,13 +59,9 @@ describe("ContextMenu", () => {
 
     it("does not call onSelect when a disabled segment is clicked", () => {
         const onSelect = jest.fn();
-        const { container } = render(
-            <svg>
-                <ContextMenu x={0} y={0} open items={items} onSelect={onSelect} />
-            </svg>,
-        );
+        render(<ContextMenu x={0} y={0} open items={items} onSelect={onSelect} />);
 
-        const paths = container.querySelectorAll(".context-menu-item > path");
+        const paths = document.body.querySelectorAll(".context-menu-item > path");
         fireEvent.click(paths[2]);
 
         expect(onSelect).not.toHaveBeenCalled();
@@ -82,11 +69,7 @@ describe("ContextMenu", () => {
 
     it("calls onClose when Escape is pressed", () => {
         const onClose = jest.fn();
-        render(
-            <svg>
-                <ContextMenu x={0} y={0} open items={items} onSelect={jest.fn()} onClose={onClose} />
-            </svg>,
-        );
+        render(<ContextMenu x={0} y={0} open items={items} onSelect={jest.fn()} onClose={onClose} />);
 
         fireEvent.keyDown(window, { key: "Escape" });
 
@@ -98,41 +81,31 @@ describe("ContextMenu", () => {
         render(
             <div>
                 <button type="button">outside</button>
-                <svg>
-                    <ContextMenu x={0} y={0} open items={items} onSelect={jest.fn()} onClose={onClose} />
-                </svg>
+                <ContextMenu x={0} y={0} open items={items} onSelect={jest.fn()} onClose={onClose} />
             </div>,
         );
 
-        fireEvent.pointerDown(document.querySelector("button"));
+        fireEvent.pointerDown(document.body.querySelector("button"));
 
         expect(onClose).toHaveBeenCalledTimes(1);
     });
 
     it("does not call onClose when clicking inside the menu", () => {
         const onClose = jest.fn();
-        const { container } = render(
-            <svg>
-                <ContextMenu x={0} y={0} open items={items} onSelect={jest.fn()} onClose={onClose} />
-            </svg>,
-        );
+        render(<ContextMenu x={0} y={0} open items={items} onSelect={jest.fn()} onClose={onClose} />);
 
-        fireEvent.pointerDown(container.querySelector(".context-menu-item > path"));
+        fireEvent.pointerDown(document.body.querySelector(".context-menu-item > path"));
 
         expect(onClose).not.toHaveBeenCalled();
     });
 
     it("tears down its rendered content on unmount", () => {
-        const { container, unmount } = render(
-            <svg>
-                <ContextMenu x={0} y={0} open items={items} onSelect={jest.fn()} />
-            </svg>,
-        );
+        const { unmount } = render(<ContextMenu x={0} y={0} open items={items} onSelect={jest.fn()} />);
 
-        expect(container.querySelectorAll(".context-menu-item")).toHaveLength(3);
+        expect(document.body.querySelectorAll(".context-menu-item")).toHaveLength(3);
 
         unmount();
 
-        expect(container.querySelectorAll(".context-menu-item")).toHaveLength(0);
+        expect(document.body.querySelectorAll(".context-menu-item")).toHaveLength(0);
     });
 });

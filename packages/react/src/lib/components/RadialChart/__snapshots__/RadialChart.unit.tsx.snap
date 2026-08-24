@@ -31,6 +31,9 @@ exports[`RadialChart should create empty template correctly 1`] = `
       <g
         class="g-legend-overlay"
       />
+      <g
+        class="chart-io context-menu-overlay"
+      />
     </svg>
   </div>
 </DocumentFragment>

@@ -2,14 +2,15 @@ import { destroyContextMenu, renderContextMenu } from "@chart-io/core";
 import type { IContextMenuItem, ITheme } from "@chart-io/core";
 
 import React, { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 
 export interface IContextMenuProps {
     /**
-     * The x-coordinate to anchor the menu at
+     * The x-coordinate (viewport/client space, e.g. `MouseEvent.clientX`) to center the menu at
      */
     x: number;
     /**
-     * The y-coordinate to anchor the menu at
+     * The y-coordinate (viewport/client space, e.g. `MouseEvent.clientY`) to center the menu at
      */
     y: number;
     /**
@@ -24,12 +25,12 @@ export interface IContextMenuProps {
     items: IContextMenuItem[];
     /**
      * The inner radius of the ring, in pixels
-     * @default 28
+     * @default 21
      */
     radius?: number;
     /**
      * The depth of each segment, in pixels
-     * @default 46
+     * @default 34.5
      */
     thickness?: number;
     /**
@@ -69,6 +70,10 @@ export interface IContextMenuProps {
  * show a different set of actions depending on what it was opened on (chart background, a specific
  * datum, ...).
  *
+ * Rendered via a portal into `document.body`, positioned with `position: fixed` at `(x, y)` - so it
+ * isn't clipped by a chart's own bounds/`overflow`, and so `x`/`y` can be a plain `MouseEvent`'s
+ * `clientX`/`clientY` with no coordinate-space conversion needed.
+ *
  * This is a thin React wrapper around `renderContextMenu`, a framework-agnostic D3 module in
  * `@chart-io/core` that owns the actual rendering/animation/interaction - shared with any other
  * rendering layer built on `@chart-io/core` (e.g. `@chart-io/svelte`). See `<ContextMenuOverlay>`
@@ -77,7 +82,7 @@ export interface IContextMenuProps {
  * @return          The ContextMenu component
  */
 export function ContextMenu(props: IContextMenuProps) {
-    const ref = useRef<SVGGElement>(null);
+    const ref = useRef<HTMLDivElement>(null);
 
     // Re-render on every commit rather than tracking every individual prop as a dependency -
     // renderContextMenu is cheap and idempotent (it diffs against the container's previous state
@@ -98,5 +103,5 @@ export function ContextMenu(props: IContextMenuProps) {
         };
     }, []);
 
-    return <g ref={ref} />;
+    return createPortal(<div ref={ref} className="chart-io context-menu-portal" />, document.body);
 }

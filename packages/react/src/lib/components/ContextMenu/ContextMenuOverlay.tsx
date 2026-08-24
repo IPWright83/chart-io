@@ -5,7 +5,6 @@ import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
 
 import { ContextMenu } from "./ContextMenu";
-import { getSvgPoint } from "./getSvgPoint";
 
 export interface IContextMenuOverlayProps {
     /**
@@ -38,15 +37,16 @@ export interface IContextMenuOverlayProps {
 }
 
 /**
- * Wires a `<ContextMenu>` up to a chart: right-clicking anywhere within the chart (background or
- * on top of a plot) opens it, populated with `getItems`' pluggable set of actions, themed to match
- * the chart, and dispatching whichever action is selected into the store. Add it as a child of
- * `<Chart>` alongside your plots
+ * Wires a `<ContextMenu>` up to a chart: clicking anywhere within the chart (background or on top
+ * of a plot) opens it, populated with `getItems`' pluggable set of actions, themed to match the
+ * chart, and dispatching whichever action is selected into the store. Enabled by default on
+ * `<XYChart>`/`<RadialChart>` - see their `contextMenu` prop - so you typically don't add this
+ * directly; do so only if you want to place/configure it yourself
  *
  * Its open/closed state, position and context live in the Redux store (`eventSelectors.contextMenu`)
  * rather than local component state - the same convention as the mouse position/tooltip/droplines/
  * markers it sits alongside, and it means opening a `<ContextMenu>` isn't something only this
- * component's own right-click handler can do
+ * component's own click handler can do
  *
  * For datum-specific actions (e.g. "Hide data point"), dispatch `eventActions.openContextMenu`
  * yourself instead, wired up to a plot's own `onClick` - see the Storybook docs for an example
@@ -79,14 +79,14 @@ export function ContextMenuOverlay({
             return;
         }
 
-        const onContextMenu = (event: MouseEvent) => {
-            event.preventDefault();
-            const point = getSvgPoint(svg, event.clientX, event.clientY);
-            dispatch(eventActions.openContextMenu({ ...point, context: { type: "background" } }));
+        // clientX/clientY (viewport space) is all `<ContextMenu>` needs now that it's portaled to
+        // document.body and positioned with `position: fixed` - no SVG coordinate-space conversion
+        const onClick = (event: MouseEvent) => {
+            dispatch(eventActions.openContextMenu({ x: event.clientX, y: event.clientY, context: { type: "background" } }));
         };
 
-        svg.addEventListener("contextmenu", onContextMenu);
-        return () => svg.removeEventListener("contextmenu", onContextMenu);
+        svg.addEventListener("click", onClick);
+        return () => svg.removeEventListener("click", onClick);
     }, [dispatch]);
 
     // Snapshot the items when the menu opens, rather than continuously recomputing them on every

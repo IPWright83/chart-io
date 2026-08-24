@@ -2,6 +2,7 @@ import React, { forwardRef } from "react";
 
 import { CenterValueOverlay } from "../CenterValueOverlay";
 import { Chart, IChartProps, IChartRef } from "../Chart";
+import { ContextMenuOverlay } from "../ContextMenu";
 import { EventReceiver } from "../EventReceiver";
 import { LegendOverlay } from "../LegendOverlay";
 import { Markers } from "../Markers";
@@ -23,6 +24,13 @@ export interface IRadialChartProps extends IChartProps {
      * @default false
      */
     breadcrumb?: boolean;
+    /**
+     * Shows a pluggable radial `<ContextMenu>` (see `<ContextMenuOverlay>`) with "Reset zoom",
+     * "Pivot", "Draw polygon" and "Hide/Show legend" actions when clicking the chart. Set to `false`
+     * to turn it off, e.g. if you're wiring up your own via `<ContextMenuOverlay getItems={...}>`
+     * @default true
+     */
+    contextMenu?: boolean;
 }
 
 /**
@@ -30,7 +38,7 @@ export interface IRadialChartProps extends IChartProps {
  * intended to wrap `<Pie>`, `<Donut>`, `<StackedDonut>` or `<RadialDendrogramPlot>` plots
  */
 export const RadialChart = forwardRef<IChartRef, IRadialChartProps>(
-    ({ children, centerValue, breadcrumb = false, ...props }, ref) => {
+    ({ children, centerValue, breadcrumb = false, contextMenu = true, ...props }, ref) => {
         const showCenterValue = centerValue ?? hasCenterHolePlot(children);
 
         return (
@@ -41,6 +49,7 @@ export const RadialChart = forwardRef<IChartRef, IRadialChartProps>(
                 <Markers onlyNearest={true} />
                 <LegendOverlay />
                 {breadcrumb && <ZoomBreadcrumb />}
+                {contextMenu && <ContextMenuOverlay />}
             </Chart>
         );
     },

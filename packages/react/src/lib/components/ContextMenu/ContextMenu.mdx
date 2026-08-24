@@ -19,7 +19,11 @@ completely different set of actions depending on what it was opened on.
 what it's connected to. It's a thin React wrapper around `renderContextMenu`, a framework-agnostic
 D3 module exported from `@chart-io/core` that owns the actual rendering/animation/interaction, so
 the same implementation can back a rendering layer for any framework (e.g. `@chart-io/svelte` could
-call `renderContextMenu` directly) rather than being reimplemented per-framework:
+call `renderContextMenu` directly) rather than being reimplemented per-framework.
+
+It's rendered via a portal straight into `document.body`, positioned with `position: fixed` at
+`(x, y)` - so it isn't clipped by a chart's own bounds/`overflow`, and `x`/`y` can be a plain
+`MouseEvent`'s `clientX`/`clientY` directly, with no coordinate-space conversion needed:
 
 ```jsx
 <ContextMenu
@@ -45,12 +49,12 @@ see below for wiring up a menu on a specific datum the same way.
 
 | Prop                | Type                                | Default            | Note                                                                                     |
 | ------------------- | ------------------------------------ | ------------------- | ----------------------------------------------------------------------------------------- |
-| **`x`\***           | `number`                            |                     | The x-coordinate to anchor the menu at                                                    |
-| **`y`\***           | `number`                            |                     | The y-coordinate to anchor the menu at                                                    |
+| **`x`\***           | `number`                            |                     | The x-coordinate (viewport/client space) to center the menu at                            |
+| **`y`\***           | `number`                            |                     | The y-coordinate (viewport/client space) to center the menu at                            |
 | **`open`\***        | `boolean`                           |                     | Whether the menu should be shown. Segments animate in/out as this changes                 |
 | **`items`\***       | `IContextMenuItem[]`                |                     | The pluggable set of actions to show as segments, clockwise from 12 o'clock               |
-| `radius`            | `number`                            | 28                  | The inner radius of the ring, in pixels                                                   |
-| `thickness`         | `number`                            | 46                  | The depth of each segment, in pixels                                                      |
+| `radius`            | `number`                            | 21                  | The inner radius of the ring, in pixels                                                   |
+| `thickness`         | `number`                            | 34.5                | The depth of each segment, in pixels                                                      |
 | `padAngle`          | `number`                            | 0.025               | The angular gap, in radians, between segments                                             |
 | `iconSize`          | `number`                            | 18                  | The size, in pixels, each item's icon is scaled to                                        |
 | `animationDuration` | `number`                            | 220                 | How long, in milliseconds, the show/hide animation takes                                  |
@@ -92,21 +96,30 @@ automatically use the chart's own theme (`theme.menu`) instead.
 
 # ContextMenuOverlay Component
 
-`<ContextMenuOverlay>` wires a `<ContextMenu>` up to a chart: right-clicking anywhere inside it -
+`<ContextMenuOverlay>` wires a `<ContextMenu>` up to a chart: clicking anywhere inside it -
 background or on top of a plot - opens the menu, themed to match the chart, and dispatches whichever
-action is selected into the Redux store. Add it as a child of `<Chart>`/`<XYChart>`/`<RadialChart>`
-alongside your plots:
+action is selected into the Redux store. `<XYChart>`/`<RadialChart>` already enable it by default
+(see their `contextMenu` prop) - you don't normally need to add it yourself:
 
 ```jsx
 <XYChart data={data}>
     <YAxis fields={["category"]} scaleType="band" />
     <XAxis fields={["value"]} />
     <Bar x="value" y="category" />
-    <ContextMenuOverlay />
 </XYChart>
 ```
 
 <Canvas of={ContextMenuOverlayStories.OnChartBackground} />
+
+Pass `contextMenu={false}` to turn it off - e.g. if you want to configure it yourself with a custom
+`getItems`, by adding your own `<ContextMenuOverlay>` as a child instead:
+
+```jsx
+<XYChart data={data} contextMenu={false}>
+    <Bar x="value" y="category" />
+    <ContextMenuOverlay getItems={(state) => [createResetZoomAction(state)]} />
+</XYChart>
+```
 
 By default it shows four stubbed-out background actions - override `getItems` to add, remove or
 replace any of them:
@@ -169,14 +182,15 @@ function DatumMenu() {
 
 // The click handler that opens it needs the store before <XYChart> has rendered it into context -
 // grab it via onStoreCreated (a plot's own click handler inside the chart would normally just have
-// dispatch already in scope some other way)
+// dispatch already in scope some other way). contextMenu={false} turns off the chart's own default
+// background menu here, since both would otherwise race to open on the same click
 const onBarClick = (datum, element, event) => {
-    const svg = element.closest("svg");
-    const point = getSvgPoint(svg, event.clientX, event.clientY);
-    store.dispatch(eventActions.openContextMenu({ ...point, context: { type: "datum", datum } }));
+    store.dispatch(
+        eventActions.openContextMenu({ x: event.clientX, y: event.clientY, context: { type: "datum", datum } }),
+    );
 };
 
-<XYChart data={data} onClick={onBarClick} onStoreCreated={(createdStore) => { store = createdStore; }}>
+<XYChart data={data} contextMenu={false} onClick={onBarClick} onStoreCreated={(createdStore) => { store = createdStore; }}>
     <Bar x="value" y="category" />
     <DatumMenu />
 </XYChart>

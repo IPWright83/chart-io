@@ -2,14 +2,10 @@ import type { IContextMenuItem } from "../types";
 
 import { destroyContextMenu, renderContextMenu } from "./renderContextMenu";
 
-const SVG_NS = "http://www.w3.org/2000/svg";
-
-function createContainer(): SVGGElement {
-    const svg = document.createElementNS(SVG_NS, "svg");
-    const g = document.createElementNS(SVG_NS, "g") as SVGGElement;
-    svg.appendChild(g);
-    document.body.appendChild(svg);
-    return g;
+function createContainer(): HTMLElement {
+    const div = document.createElement("div");
+    document.body.appendChild(div);
+    return div;
 }
 
 const items: IContextMenuItem[] = [
@@ -30,11 +26,23 @@ describe("renderContextMenu", () => {
         expect(container.querySelectorAll(".context-menu-item")).toHaveLength(0);
     });
 
-    it("renders one segment per item, positioned at (x, y)", () => {
+    it("doesn't intercept clicks while closed, since it's portaled outside any clipping container", () => {
+        const container = createContainer();
+        renderContextMenu(container, { x: 0, y: 0, open: false, items, onSelect: jest.fn() });
+        expect(container.style.pointerEvents).toBe("none");
+
+        renderContextMenu(container, { x: 0, y: 0, open: true, items, onSelect: jest.fn() });
+        expect(container.style.pointerEvents).toBe("auto");
+    });
+
+    it("renders one segment per item, positioning the container (centered) at (x, y)", () => {
         const container = createContainer();
         renderContextMenu(container, { x: 42, y: 99, open: true, items, onSelect: jest.fn() });
 
-        expect(container.getAttribute("transform")).toBe("translate(42, 99)");
+        expect(container.style.position).toBe("fixed");
+        expect(container.style.left).toBe("42px");
+        expect(container.style.top).toBe("99px");
+        expect(container.style.transform).toBe("translate(-50%, -50%)");
         expect(container.querySelectorAll(".context-menu-item")).toHaveLength(3);
         expect(container.querySelectorAll(".context-menu-item > path")).toHaveLength(3);
         expect(container.textContent).toContain("Action A");

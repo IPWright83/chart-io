@@ -13,7 +13,6 @@ import { XYChart } from "../XYChart";
 
 import { ContextMenu } from "./ContextMenu";
 import { ContextMenuOverlay } from "./ContextMenuOverlay";
-import { getSvgPoint } from "./getSvgPoint";
 
 export default {
     title: "Components/ContextMenuOverlay",
@@ -30,20 +29,23 @@ const data = [
     { category: "Dairy", value: 51 },
 ];
 
+/**
+ * `<XYChart>`/`<RadialChart>` enable `<ContextMenuOverlay>` by default (see their `contextMenu`
+ * prop) - no need to add it explicitly
+ */
 export const OnChartBackground = {
-    name: "Right-click the Background",
+    name: "Click the Background",
     render: () => (
         <XYChart data={data} width={500} height={350} theme={themes.light}>
             <YAxis fields={["category"]} scaleType="band" showGridlines={false} />
             <XAxis fields={["value"]} />
             <Bar x="value" y="category" color="#99C1DC" />
-            <ContextMenuOverlay />
         </XYChart>
     ),
     play: async ({ canvasElement }) => {
         await wait(300);
         const svg = canvasElement.querySelector("svg");
-        fireEvent(svg, new MouseEvent("contextmenu", { bubbles: true, clientX: 300, clientY: 150 }));
+        fireEvent.click(svg, { bubbles: true, clientX: 300, clientY: 150 });
     },
 };
 
@@ -81,8 +83,10 @@ function DatumMenu() {
 /**
  * Demonstrates opening a per-datum menu ("Hide data point"/"Focus data point"/"Add annotation") by
  * dispatching `eventActions.openContextMenu` from a plot's existing `onClick` prop - the same
- * extension point already used for tooltips. `<ContextMenuOverlay>` only covers the chart background;
- * a datum-level menu like this is a few lines to add to any plot.
+ * extension point already used for tooltips. `x`/`y` are just the click event's own `clientX`/
+ * `clientY` - `<ContextMenu>` is portaled to `document.body` and positioned in viewport space, so
+ * no coordinate-space conversion is needed. `contextMenu={false}` turns off the chart's own default
+ * background menu here, since both would otherwise race to open on the same click
  *
  * The click handler needs the store before `<XYChart>` has rendered it into context, so it grabs it
  * via `onStoreCreated` rather than `useDispatch` - inside a chart, a plot's own click handler would
@@ -91,12 +95,11 @@ function DatumMenu() {
 function DatumMenuDemo() {
     const store = useRef<IStore>();
 
-    const onBarClick: React.ComponentProps<typeof Bar>["onClick"] = (datum, element, event) => {
-        const svg = (element as Element).closest("svg");
-        if (!svg || !store.current) return;
-
-        const point = getSvgPoint(svg as SVGSVGElement, event.clientX, event.clientY);
-        store.current.dispatch(eventActions.openContextMenu({ ...point, context: { type: "datum", datum } }));
+    const onBarClick: React.ComponentProps<typeof Bar>["onClick"] = (datum, _element, event) => {
+        if (!store.current) return;
+        store.current.dispatch(
+            eventActions.openContextMenu({ x: event.clientX, y: event.clientY, context: { type: "datum", datum } }),
+        );
     };
 
     return (
@@ -105,6 +108,7 @@ function DatumMenuDemo() {
             width={500}
             height={350}
             theme={themes.light}
+            contextMenu={false}
             onClick={onBarClick}
             onStoreCreated={(createdStore) => {
                 store.current = createdStore;
