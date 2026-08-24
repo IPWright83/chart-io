@@ -153,3 +153,19 @@ export const BrushFiltering = {
         await wait(300);
     },
 };
+
+export const ContextMenu = {
+    name: "With a Context Menu",
+    render: ParallelCoordinatesTemplate,
+    args: {
+        ...Basic.args,
+    },
+    play: async ({ canvasElement }) => {
+        // Right-clicking the chart's background - not a line or an axis - opens a radial context
+        // menu with a "Reset filters" action (disabled here, since nothing is brushed)
+        const svg = canvasElement.querySelector("svg");
+        fireEvent.contextMenu(svg, { clientX: 350, clientY: 250, bubbles: true });
+
+        await wait(300);
+    },
+};

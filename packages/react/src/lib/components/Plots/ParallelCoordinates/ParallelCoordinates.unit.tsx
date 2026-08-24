@@ -112,4 +112,39 @@ describe("ParallelCoordinates", () => {
 
         expect(container.querySelector(".chart-io.tooltip")).not.toBeNull();
     });
+
+    it("shows a 'Reset filters' context menu item, disabled, on right-clicking the background", async () => {
+        const { container } = render(
+            <ParallelCoordinates dimensions={dimensions} name="food" data={data} width={400} height={400} />,
+        );
+
+        await wait();
+
+        fireEvent.contextMenu(container.querySelector("svg"), { clientX: 10, clientY: 10 });
+
+        expect(document.body.textContent).toContain("Reset filters");
+        const resetFiltersItem = Array.from(document.body.querySelectorAll(".context-menu-item")).find(
+            (item) => item.textContent.trim() === "Reset filters",
+        );
+        expect(resetFiltersItem.getAttribute("data-disabled")).toBe("true");
+    });
+
+    it("does not show a context menu when contextMenu is false", async () => {
+        const { container } = render(
+            <ParallelCoordinates
+                dimensions={dimensions}
+                name="food"
+                data={data}
+                width={400}
+                height={400}
+                contextMenu={false}
+            />,
+        );
+
+        await wait();
+
+        fireEvent.contextMenu(container.querySelector("svg"), { clientX: 10, clientY: 10 });
+
+        expect(document.body.querySelectorAll(".context-menu-item").length).toBe(0);
+    });
 });

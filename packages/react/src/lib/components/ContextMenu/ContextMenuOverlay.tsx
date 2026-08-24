@@ -41,11 +41,12 @@ export interface IContextMenuOverlayProps {
 }
 
 /**
- * Wires a `<ContextMenu>` up to a chart: clicking anywhere within the chart (background or on top
- * of a plot) opens it, populated with `getItems`' pluggable set of actions, themed to match the
- * chart, and dispatching whichever action is selected into the store. Enabled by default on
- * `<XYChart>`/`<RadialChart>` - see their `contextMenu` prop - so you typically don't add this
- * directly; do so only if you want to place/configure it yourself
+ * Wires a `<ContextMenu>` up to a chart: right-clicking the chart's background (not a plot mark, an
+ * axis brush, or any other interactive element sitting on top of it) opens it - suppressing the
+ * native browser context menu for just that click - populated with `getItems`' pluggable set of
+ * actions, themed to match the chart, and dispatching whichever action is selected into the store.
+ * Enabled by default on `<XYChart>`/`<RadialChart>` - see their `contextMenu` prop - so you typically
+ * don't add this directly; do so only if you want to place/configure it yourself
  *
  * Its open/closed state, position and context live in the Redux store (`eventSelectors.contextMenu`)
  * rather than local component state - the same convention as the mouse position/tooltip/droplines/
@@ -84,14 +85,26 @@ export function ContextMenuOverlay({
             return;
         }
 
+        // "Background" means the click landed on the bare <svg> itself or the invisible hit-target
+        // rect XYChart/RadialChart render behind everything else (see <EventReceiver>) - anything
+        // else means it hit a real mark, axis, brush or other interactive element sitting on top,
+        // which should keep its own right-click behaviour (or the browser's native menu) instead
+        const isBackground = (target: EventTarget | null) =>
+            target === svg || (target instanceof Element && target.classList.contains("event-receiver"));
+
         // clientX/clientY (viewport space) is all `<ContextMenu>` needs now that it's portaled to
         // document.body and positioned with `position: fixed` - no SVG coordinate-space conversion
-        const onClick = (event: MouseEvent) => {
+        const onContextMenu = (event: MouseEvent) => {
+            if (!isBackground(event.target)) {
+                return;
+            }
+
+            event.preventDefault();
             dispatch(eventActions.openContextMenu({ x: event.clientX, y: event.clientY, context: { type: "background" } }));
         };
 
-        svg.addEventListener("click", onClick);
-        return () => svg.removeEventListener("click", onClick);
+        svg.addEventListener("contextmenu", onContextMenu);
+        return () => svg.removeEventListener("contextmenu", onContextMenu);
     }, [dispatch]);
 
     // Snapshot the items when the menu opens, rather than continuously recomputing them on every

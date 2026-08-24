@@ -18,21 +18,66 @@ function renderOverlay(store, props = {}) {
 
 // <ContextMenu> (rendered by <ContextMenuOverlay>) is portaled straight into document.body, so its
 // content lives outside RTL's own `container` - query document.body instead. `container` itself
-// still only holds the chart's own <svg>, which is what the click listener attaches to
+// still only holds the chart's own <svg>, which is what the contextmenu listener attaches to
 
 describe("ContextMenuOverlay", () => {
-    it("renders nothing until the chart is clicked", () => {
+    it("renders nothing until the chart's background is right-clicked", () => {
         const store = createStore();
         renderOverlay(store);
 
         expect(document.body.querySelectorAll(".context-menu-item")).toHaveLength(0);
     });
 
-    it("opens the default background menu on click", () => {
+    it("ignores a left-click on the background", () => {
         const store = createStore();
         const { container } = renderOverlay(store);
 
         fireEvent.click(container.querySelector("svg"), { clientX: 50, clientY: 60 });
+
+        expect(document.body.querySelectorAll(".context-menu-item")).toHaveLength(0);
+    });
+
+    it("ignores a right-click that lands on a mark rather than the background", () => {
+        const store = createStore();
+        const { container } = render(
+            <Provider store={store}>
+                <svg>
+                    <rect className="bar" width={10} height={10} />
+                    <ContextMenuOverlay />
+                </svg>
+            </Provider>,
+        );
+
+        fireEvent.contextMenu(container.querySelector("rect.bar"), { clientX: 50, clientY: 60, bubbles: true });
+
+        expect(document.body.querySelectorAll(".context-menu-item")).toHaveLength(0);
+    });
+
+    it("treats a right-click on the invisible event-receiver hit-target as background too", () => {
+        const store = createStore();
+        const { container } = render(
+            <Provider store={store}>
+                <svg>
+                    <rect className="chart-io event-receiver" width={10} height={10} />
+                    <ContextMenuOverlay />
+                </svg>
+            </Provider>,
+        );
+
+        fireEvent.contextMenu(container.querySelector("rect.event-receiver"), {
+            clientX: 50,
+            clientY: 60,
+            bubbles: true,
+        });
+
+        expect(document.body.querySelectorAll(".context-menu-item").length).toBeGreaterThan(0);
+    });
+
+    it("opens the default background menu on right-click", () => {
+        const store = createStore();
+        const { container } = renderOverlay(store);
+
+        fireEvent.contextMenu(container.querySelector("svg"), { clientX: 50, clientY: 60 });
 
         expect(document.body.querySelectorAll(".context-menu-item")).toHaveLength(4);
         expect(document.body.textContent).toContain("Reset zoom");
@@ -45,7 +90,7 @@ describe("ContextMenuOverlay", () => {
         const store = createStore();
         const { container } = renderOverlay(store);
 
-        fireEvent.click(container.querySelector("svg"), { clientX: 50, clientY: 60 });
+        fireEvent.contextMenu(container.querySelector("svg"), { clientX: 50, clientY: 60 });
 
         expect(eventSelectors.contextMenu.store(store.getState())).toEqual({
             x: 50,
@@ -63,7 +108,7 @@ describe("ContextMenuOverlay", () => {
         zoomedStore.dispatch(chartActions.setZoomPath(["North America"]));
         const { container } = renderOverlay(zoomedStore);
 
-        fireEvent.click(container.querySelector("svg"), { clientX: 0, clientY: 0 });
+        fireEvent.contextMenu(container.querySelector("svg"), { clientX: 0, clientY: 0 });
 
         const items = document.body.querySelectorAll(".context-menu-item");
         const resetZoomItem = Array.from(items).find((item) => item.textContent.trim() === "Reset zoom");
@@ -78,7 +123,7 @@ describe("ContextMenuOverlay", () => {
         const dispatch = jest.spyOn(store, "dispatch");
         const { container } = renderOverlay(store);
 
-        fireEvent.click(container.querySelector("svg"), { clientX: 0, clientY: 0 });
+        fireEvent.contextMenu(container.querySelector("svg"), { clientX: 0, clientY: 0 });
         dispatch.mockClear();
 
         const items = document.body.querySelectorAll(".context-menu-item");
@@ -93,7 +138,7 @@ describe("ContextMenuOverlay", () => {
         const store = createStore();
         const { container } = renderOverlay(store);
 
-        fireEvent.click(container.querySelector("svg"), { clientX: 0, clientY: 0 });
+        fireEvent.contextMenu(container.querySelector("svg"), { clientX: 0, clientY: 0 });
 
         const items = document.body.querySelectorAll(".context-menu-item");
         const legendItem = Array.from(items).find((item) => item.textContent.trim() === "Hide legend");
@@ -107,7 +152,7 @@ describe("ContextMenuOverlay", () => {
         store.dispatch(chartActions.setLegendVisible(false));
         const { container } = renderOverlay(store);
 
-        fireEvent.click(container.querySelector("svg"), { clientX: 0, clientY: 0 });
+        fireEvent.contextMenu(container.querySelector("svg"), { clientX: 0, clientY: 0 });
 
         expect(document.body.textContent).toContain("Show legend");
     });
@@ -122,7 +167,7 @@ describe("ContextMenuOverlay", () => {
 
         const { container } = renderOverlay(store, { getItems });
 
-        fireEvent.click(container.querySelector("svg"), { clientX: 0, clientY: 0 });
+        fireEvent.contextMenu(container.querySelector("svg"), { clientX: 0, clientY: 0 });
 
         expect(document.body.textContent).toContain("Custom Action");
         expect(document.body.textContent).not.toContain("Reset zoom");

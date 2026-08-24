@@ -1,6 +1,10 @@
+import { createResetFiltersAction, createToggleLegendAction } from "@chart-io/core";
+import type { IContextMenuItem, IState } from "@chart-io/core";
+
 import React, { forwardRef } from "react";
 
 import { Chart, IChartProps, IChartRef } from "../../Chart";
+import { ContextMenuOverlay } from "../../ContextMenu";
 import { LegendOverlay } from "../../LegendOverlay";
 import { TooltipOverlay } from "../../TooltipOverlay";
 import { ParallelAxis } from "../../Axis/ParallelAxis";
@@ -28,6 +32,25 @@ export interface IParallelCoordinatesProps
      * @default false
      */
     tooltip?: boolean;
+    /**
+     * Shows a pluggable radial `<ContextMenu>` (see `<ContextMenuOverlay>`) with "Reset filters" and
+     * "Hide/Show legend" actions when right-clicking the chart's background. Set to `false` to turn
+     * it off, e.g. if you're wiring up your own via `<ContextMenuOverlay getItems={...}>`
+     * @default true
+     */
+    contextMenu?: boolean;
+}
+
+/**
+ * The set of actions shown when right-clicking a `<ParallelCoordinates>`'s background - "Reset
+ * filters" (clearing every axis' brush selection) and "Hide"/"Show legend". Unlike
+ * `getDefaultBackgroundItems`, this omits "Reset zoom"/"Pivot"/"Draw polygon", none of which apply to
+ * this chart
+ * @param  state       The current Redux state
+ * @return             The `<ParallelCoordinates>` background `<ContextMenu>` items
+ */
+function getContextMenuItems(state: IState): IContextMenuItem[] {
+    return [createResetFiltersAction(state), createToggleLegendAction(state)];
 }
 
 /**
@@ -52,6 +75,7 @@ export const ParallelCoordinates = forwardRef<IChartRef, IParallelCoordinatesPro
             interactive,
             showInLegend,
             tooltip = false,
+            contextMenu = true,
             ...chartProps
         },
         ref,
@@ -79,6 +103,7 @@ export const ParallelCoordinates = forwardRef<IChartRef, IParallelCoordinatesPro
                 ))}
                 {tooltip ? <TooltipOverlay onlyNearest={true} /> : null}
                 <LegendOverlay />
+                {contextMenu && <ContextMenuOverlay getItems={getContextMenuItems} />}
             </Chart>
         );
     },

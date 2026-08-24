@@ -7,6 +7,7 @@ import {
     createFocusDataPointAction,
     createHideDataPointAction,
     createPivotAction,
+    createResetFiltersAction,
     createResetZoomAction,
     createToggleLegendAction,
     getDefaultBackgroundItems,
@@ -18,6 +19,11 @@ const zoomedState = { event: defaultEventState, chart: { ...defaultChartState, z
 const hiddenLegendState = {
     event: defaultEventState,
     chart: { ...defaultChartState, legend: { ...defaultChartState.legend, hidden: true } },
+};
+const noFiltersState = { event: defaultEventState, chart: defaultChartState };
+const filteredState = {
+    event: defaultEventState,
+    chart: { ...defaultChartState, filters: { calories: [10, 20] } },
 };
 
 describe("createResetZoomAction", () => {
@@ -34,6 +40,23 @@ describe("createResetZoomAction", () => {
         createResetZoomAction(zoomedState).onSelect(dispatch);
 
         expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "chart/resetZoom" }));
+    });
+});
+
+describe("createResetFiltersAction", () => {
+    it("is disabled while nothing is filtered", () => {
+        expect(createResetFiltersAction(noFiltersState).disabled).toBe(true);
+    });
+
+    it("is enabled once a filter is set", () => {
+        expect(createResetFiltersAction(filteredState).disabled).toBe(false);
+    });
+
+    it("dispatches chartActions.clearFilters when selected", () => {
+        const dispatch = jest.fn();
+        createResetFiltersAction(filteredState).onSelect(dispatch);
+
+        expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "chart/clearFilters" }));
     });
 });
 

@@ -36,6 +36,7 @@ its axes.
 | `interactive`       | `boolean`                                | `true`                | Whether hovering/clicking a row should highlight it and trigger `onMouseOver`/`onMouseOut`/`onClick`.                      |
 | `tooltip`           | `boolean`                                | `false`               | Should hovering a row show a tooltip? Off by default, since a tooltip following every hover across potentially hundreds of crossing lines can be more noise than signal.                        |
 | `showInLegend`      | `boolean`                                | `false`               | Whether the plot should feature in the legend. Only meaningful when `color` is set.                                        |
+| `contextMenu`       | `boolean`                                | `true`                | Shows a radial context menu, with a "Reset filters" action, when right-clicking the chart's background. |
 
 > **Note**: A row with a missing value on any of `dimensions` is left out entirely, since a line can't
 > meaningfully pass through a gap. Aggregate or clean the data first if that's not the desired behaviour.
@@ -63,6 +64,17 @@ selection from outside the chart, e.g. to drive a data table alongside it.
 Set `brushable={false}` to disable brushing entirely:
 
 <Canvas of={ParallelCoordinatesStories.WithoutBrushing} />
+
+### Context Menu
+
+Right-clicking the chart's background (not a line or an axis) opens a radial context menu with a
+"Reset filters" action - clearing every axis' brush selection in one go - alongside the usual
+"Hide"/"Show legend" toggle. It's shown disabled while nothing is currently filtered:
+
+<Canvas of={ParallelCoordinatesStories.ContextMenu} />
+
+Set `contextMenu={false}` to turn it off, or pass your own `getItems` via `<ContextMenuOverlay>`
+directly if you want a different set of actions - see the `<ContextMenuOverlay>` docs.
 
 ### Coloring by Category
 

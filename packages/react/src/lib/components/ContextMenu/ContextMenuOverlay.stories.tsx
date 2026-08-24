@@ -34,7 +34,7 @@ const data = [
  * prop) - no need to add it explicitly
  */
 export const OnChartBackground = {
-    name: "Click the Background",
+    name: "Right-Click the Background",
     render: () => (
         <XYChart data={data} width={500} height={350} theme={themes.light}>
             <YAxis fields={["category"]} scaleType="band" showGridlines={false} />
@@ -45,7 +45,7 @@ export const OnChartBackground = {
     play: async ({ canvasElement }) => {
         await wait(300);
         const svg = canvasElement.querySelector("svg");
-        fireEvent.click(svg, { bubbles: true, clientX: 300, clientY: 150 });
+        fireEvent.contextMenu(svg, { bubbles: true, clientX: 300, clientY: 150 });
     },
 };
 

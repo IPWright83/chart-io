@@ -51,4 +51,10 @@ export const contextMenuIcons = {
         <path d="M4 5h16v10H11l-4 4v-4H4Z" />
         <path d="M9 10h6M12 7v6" />
     </svg>`,
+
+    /** A funnel with a diagonal slash through it - used for the "Reset filters" action */
+    resetFilters: `<svg ${DEFAULTS}>
+        <path d="M3 4h18l-7 8v6l-4 2v-8Z" />
+        <line x1="3" y1="21" x2="21" y2="3" />
+    </svg>`,
 };
