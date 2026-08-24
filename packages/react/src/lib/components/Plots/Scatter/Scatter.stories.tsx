@@ -53,6 +53,7 @@ export default {
 
 const ScatterTemplate = (args) => (
   <XYChart
+    contextMenu={false}
     data={args.data}
     plotMargin={{
       left: args.leftMargin,
@@ -98,6 +99,7 @@ const ScatterTemplateWithControls = withDataControls(ScatterTemplate, scatterDat
 
 const ScattersTemplate = (args) => (
   <XYChart
+    contextMenu={false}
     plotMargin={{
       left: args.leftMargin,
       right: args.rightMargin,
@@ -193,6 +195,7 @@ export const MultipleScatterCanvas = {
 
 const BubbleSizeTemplate = (args) => (
   <XYChart
+    contextMenu={false}
     data={args.data}
     plotMargin={{
       left: args.leftMargin,

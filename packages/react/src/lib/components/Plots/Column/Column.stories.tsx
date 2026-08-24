@@ -75,6 +75,7 @@ const salesDataControls = {
 
 const ColumnTemplate = (args) => (
   <XYChart
+    contextMenu={false}
     data={args.data ?? data}
     plotMargin={{
       left: args.leftMargin,
@@ -102,6 +103,7 @@ const ColumnTemplateWithControls = withDataControls(ColumnTemplate, salesDataCon
 
 const ColumnsTemplate = (args) => (
   <XYChart
+    contextMenu={false}
     data={data}
     plotMargin={{
       left: args.leftMargin,

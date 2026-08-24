@@ -67,6 +67,7 @@ const stackedDonutDataControls = {
 
 const StackedDonutTemplate = (args) => (
     <RadialChart
+        contextMenu={false}
         data={args.data ?? data}
         plotMargin={{
             left: args.leftMargin,

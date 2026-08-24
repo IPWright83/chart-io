@@ -54,6 +54,7 @@ const ScatterWithRectsTemplate = () => {
 
   return (
     <XYChart
+      contextMenu={false}
       data={sales_records_dataset}
       plotMargin={{ left: 70, top: 20, bottom: 20, right: 20 }}
       width={800}

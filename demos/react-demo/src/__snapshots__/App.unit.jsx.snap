@@ -837,6 +837,9 @@ exports[`renders learn react link 1`] = `
           <g
             class="g-legend-overlay"
           />
+          <g
+            class="chart-io context-menu-overlay"
+          />
         </svg>
       </div>
     </header>

@@ -80,6 +80,7 @@ const radialAreaDataControls = {
 
 const RadialAreaTemplate = (args) => (
     <RadialChart
+        contextMenu={false}
         data={args.data}
         plotMargin={{
             left: args.leftMargin,
@@ -108,6 +109,7 @@ const RadialAreaTemplate = (args) => (
 // completely hide a filled New York underneath it. See the docs for other ways to handle this.
 const MultiSeriesTemplate = (args) => (
     <RadialChart
+        contextMenu={false}
         data={twoCities}
         plotMargin={{
             left: args.leftMargin,

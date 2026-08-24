@@ -2,6 +2,7 @@ export * from "./IBandwidthScale";
 export * from "./IColor";
 export * from "./IColorLegendItem";
 export * from "./ICompassPosition";
+export * from "./IContextMenuItem";
 export * from "./ICoordinate";
 export * from "./IData";
 export * from "./IDropline";

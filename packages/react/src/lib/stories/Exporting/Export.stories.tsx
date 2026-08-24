@@ -15,6 +15,7 @@ const ExportTemplate = (args) => {
   return (
     <div>
       <XYChart
+        contextMenu={false}
         ref={chartRef}
         plotMargin={{
           left: args.leftMargin,

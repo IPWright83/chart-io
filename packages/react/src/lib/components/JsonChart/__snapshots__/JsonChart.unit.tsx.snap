@@ -921,6 +921,9 @@ exports[`JsonChart should create empty template correctly 1`] = `
           </div>
         </foreignobject>
       </g>
+      <g
+        class="chart-io context-menu-overlay"
+      />
     </svg>
   </div>
 </DocumentFragment>

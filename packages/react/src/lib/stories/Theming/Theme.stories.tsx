@@ -31,6 +31,7 @@ const ThemeTemplate = (args) => {
 
   return (
     <XYChart
+      contextMenu={false}
       data={data}
       plotMargin={{ left: 30, right: 10, top: 10, bottom: 30 }}
       width={800}
