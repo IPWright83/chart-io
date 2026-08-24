@@ -1,7 +1,7 @@
 import { chartSelectors, d3, IState } from "@chart-io/core";
 import type { IColor, IDatum, IOnClick, IOnMouseOut, IOnMouseOver, IValue } from "@chart-io/core";
 
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 
 import { useLegendItems, useRender } from "../../../hooks";
@@ -42,10 +42,6 @@ export interface IParallelCoordinatesPlotBaseProps {
      */
     color?: string;
     /**
-     * The set of colors to use. Defaults to the theme's series colors
-     */
-    colors?: Array<IColor>;
-    /**
      * Formats a tooltip value for a given dimension. Also passed to each `<ParallelAxis>` to format
      * its ticks, so both stay consistent
      * @default (value) => `${value}`
@@ -56,11 +52,6 @@ export interface IParallelCoordinatesPlotBaseProps {
      * @default 1.5
      */
     lineWidth?: number;
-    /**
-     * Called whenever the set of rows passing every brushed `<ParallelAxis>` changes, including when
-     * nothing is brushed (called with every row)
-     */
-    onBrush?: (rows: IDatum[]) => void;
     /**
      * Should the plot be interactive and be able to trigger tooltips?
      * @default true
@@ -103,10 +94,8 @@ export function ParallelCoordinatesPlotBase({
     dimensions,
     name,
     color,
-    colors,
     tickFormat,
     lineWidth = 1.5,
-    onBrush,
     interactive = true,
     showInLegend = false,
     renderVirtualCanvas,
@@ -120,7 +109,7 @@ export function ParallelCoordinatesPlotBase({
     const chartLabeller = useSelector((s: IState) => chartSelectors.labeller(s));
     const animationDuration = useSelector((s: IState) => chartSelectors.animationDuration(s));
 
-    const layout = useParallelCoordinatesLayout({ dimensions, name, color, colors });
+    const layout = useParallelCoordinatesLayout({ dimensions, name, color });
     const rows: IParallelCoordinatesRow[] = layout.rows;
     const { legendKeys, legendColors } = layout;
 
@@ -144,10 +133,6 @@ export function ParallelCoordinatesPlotBase({
             }),
         [filters],
     );
-
-    useEffect(() => {
-        onBrush && onBrush(rows.filter(isSelected).map((row) => row.datum));
-    }, [rows, isSelected, onBrush]);
 
     const formatValue = useCallback(
         (value: IValue, dimension: string) => (tickFormat ? tickFormat(value, dimension) : `${value}`),

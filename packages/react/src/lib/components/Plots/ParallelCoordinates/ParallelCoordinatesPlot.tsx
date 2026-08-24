@@ -11,11 +11,11 @@ export interface IParallelCoordinatesPlotProps extends Omit<IParallelCoordinates
     useCanvas?: boolean;
 }
 
-const WrappedCanvasParallelCoordinatesPlot = withCanvas<IParallelCoordinatesPlotBaseProps>(
+const CanvasParallelCoordinatesPlot = withCanvas<IParallelCoordinatesPlotBaseProps>(
     ParallelCoordinatesPlotBase,
     "plot parallel-coordinates-lines",
 );
-const WrappedSVGParallelCoordinatesPlot = withSVG<IParallelCoordinatesPlotBaseProps>(
+const SVGParallelCoordinatesPlot = withSVG<IParallelCoordinatesPlotBaseProps>(
     ParallelCoordinatesPlotBase,
     "plot parallel-coordinates-lines",
 );
@@ -31,10 +31,10 @@ const WrappedSVGParallelCoordinatesPlot = withSVG<IParallelCoordinatesPlotBasePr
  */
 export function ParallelCoordinatesPlot({ useCanvas = false, ...props }: IParallelCoordinatesPlotProps) {
     if (useCanvas) {
-        return <WrappedCanvasParallelCoordinatesPlot {...props} />;
+        return <CanvasParallelCoordinatesPlot {...props} />;
     }
 
-    return <WrappedSVGParallelCoordinatesPlot {...props} />;
+    return <SVGParallelCoordinatesPlot {...props} />;
 }
 
 ParallelCoordinatesPlot.requiresVirtualCanvas = true;

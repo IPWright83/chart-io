@@ -45,12 +45,10 @@ export const ParallelCoordinates = forwardRef<IChartRef, IParallelCoordinatesPro
             dimensions,
             name,
             color,
-            colors,
             ticks = 5,
             tickFormat,
             lineWidth,
             brushable = true,
-            onBrush,
             interactive,
             showInLegend,
             tooltip = false,
@@ -64,10 +62,8 @@ export const ParallelCoordinates = forwardRef<IChartRef, IParallelCoordinatesPro
                     dimensions={dimensions}
                     name={name}
                     color={color}
-                    colors={colors}
                     tickFormat={tickFormat}
                     lineWidth={lineWidth}
-                    onBrush={onBrush}
                     interactive={interactive}
                     showInLegend={showInLegend}
                 />

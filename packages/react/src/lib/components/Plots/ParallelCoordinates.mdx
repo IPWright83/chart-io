@@ -29,12 +29,10 @@ its axes.
 | **`dimensions`\*** | `string[]`                               | `null`                | The ordered list of fields to plot, one vertical axis per field. Supports any number of dimensions.                       |
 | `name`              | `string`                                 | Row index             | The key of the field used to label each row/line, shown in the tooltip.                                                    |
 | `color`             | `string`                                 | -                     | The key of the field used to color each row/line categorically. Every row shares a single color when omitted.             |
-| `colors`            | `string[]`                               | Derived from Theme    | Override the colors used for each row/category.                                                                            |
 | `ticks`             | `number`                                 | `5`                   | The number of ticks to aim for on each axis.                                                                                |
 | `tickFormat`        | `(value, dimension) => string`           | `(value) => \`${value}\`` | Formats a tick's/tooltip's value for a given dimension.                                                                     |
 | `lineWidth`         | `number`                                 | `1.5`                 | The width, in pixels, of each row's line.                                                                                   |
 | `brushable`         | `boolean`                                | `true`                | Should each axis support brush filtering - dragging a range on an axis to fade out every row that doesn't pass through it? |
-| `onBrush`           | `(rows) => void`                         | -                     | Called whenever the set of rows passing every brushed axis changes, including when nothing is brushed.                     |
 | `interactive`       | `boolean`                                | `true`                | Whether hovering/clicking a row should highlight it and trigger `onMouseOver`/`onMouseOut`/`onClick`.                      |
 | `tooltip`           | `boolean`                                | `false`               | Should hovering a row show a tooltip? Off by default, since a tooltip following every hover across potentially hundreds of crossing lines can be more noise than signal.                        |
 | `showInLegend`      | `boolean`                                | `false`               | Whether the plot should feature in the legend. Only meaningful when `color` is set.                                        |
@@ -59,12 +57,8 @@ axis fades out. Selections on multiple axes combine (a row must satisfy every br
 highlighted), and dragging a selection back to nothing clears that axis' filter. Each `<ParallelAxis>`
 writes its brushed extent straight to the chart's Redux store via a generic `chartActions.setFilter({
 field, value })`, rather than a prop passed down from the plot - keeping filtering reusable by any
-future filterable plot, not just this one. Use `onBrush` to react to the current selection, e.g. to
-drive a data table alongside the chart:
-
-```jsx
-<ParallelCoordinates dimensions={dimensions} onBrush={(rows) => console.log(rows)} />
-```
+future filterable plot, not just this one. Read `chartSelectors.filters` to react to the current
+selection from outside the chart, e.g. to drive a data table alongside it.
 
 Set `brushable={false}` to disable brushing entirely:
 

@@ -1,5 +1,5 @@
 import { chartSelectors, d3, IState, logWarning } from "@chart-io/core";
-import type { IColor, IDatum, IScale, IValue } from "@chart-io/core";
+import type { IDatum, IScale, IValue } from "@chart-io/core";
 
 import { useEffect, useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
@@ -25,10 +25,6 @@ export interface IUseParallelCoordinatesLayoutProps {
      * when omitted
      */
     color?: string;
-    /**
-     * The set of colors to use. Defaults to the theme's series colors
-     */
-    colors?: IColor[];
 }
 
 export interface IParallelCoordinatesRow {
@@ -65,7 +61,7 @@ export interface IParallelCoordinatesRow {
  * @param  props       The set of properties needed to build the layout
  * @return             The computed layout, plus legend data
  */
-export function useParallelCoordinatesLayout({ dimensions, name, color, colors }: IUseParallelCoordinatesLayoutProps) {
+export function useParallelCoordinatesLayout({ dimensions, name, color }: IUseParallelCoordinatesLayoutProps) {
     const data = useSelector((s: IState) => chartSelectors.data(s));
     const left = useSelector((s: IState) => chartSelectors.dimensions.plot.left(s));
     const right = useSelector((s: IState) => chartSelectors.dimensions.plot.right(s));
@@ -73,7 +69,7 @@ export function useParallelCoordinatesLayout({ dimensions, name, color, colors }
     const bottom = useSelector((s: IState) => chartSelectors.dimensions.plot.bottom(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
 
-    const palette = colors ?? theme.series.colors;
+    const palette = theme.series.colors;
     const axisTop = top + AXIS_LABEL_MARGIN;
     const axisBottom = bottom;
 

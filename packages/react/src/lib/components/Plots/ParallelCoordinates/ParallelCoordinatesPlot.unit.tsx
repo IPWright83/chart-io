@@ -82,19 +82,6 @@ describe("ParallelCoordinatesPlot", () => {
             warnSpy.mockRestore();
         });
 
-        it("should call onBrush with every row when nothing is brushed", async () => {
-            const onBrush = jest.fn();
-
-            await renderChart({
-                children: <ParallelCoordinatesPlot dimensions={dimensions} name="food" onBrush={onBrush} />,
-                data,
-            });
-
-            await wait();
-
-            expect(onBrush).toHaveBeenCalledWith(data);
-        });
-
         it("should dispatch a legend item for every category when color and showInLegend are set", async () => {
             const categorisedData = data.map((row, i) => ({ ...row, category: i % 2 === 0 ? "Fruit" : "Meat" }));
 
