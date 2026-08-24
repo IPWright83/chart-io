@@ -21,6 +21,7 @@ export const Line = {
   args: {
     config: {
       chart: {
+        contextMenu: false,
         width: 800,
       },
       axis: {
@@ -43,6 +44,7 @@ export const Area = {
   args: {
     config: {
       chart: {
+        contextMenu: false,
         width: 800,
         zoomBrush: "inline",
       },
@@ -67,6 +69,7 @@ export const Scatter = {
   args: {
     config: {
       chart: {
+        contextMenu: false,
         width: 800,
       },
       axis: {
@@ -90,6 +93,7 @@ export const Columns = {
   args: {
     config: {
       chart: {
+        contextMenu: false,
         width: 800,
         plotMargin: { left: 60, right: 40, top: 40, bottom: 40 },
       },
@@ -114,6 +118,7 @@ export const Bars = {
   args: {
     config: {
       chart: {
+        contextMenu: false,
         width: 800,
         plotMargin: { left: 100, right: 40, top: 40, bottom: 40 },
       },

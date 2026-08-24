@@ -48,6 +48,7 @@ export default {
 
 const LineTemplate = (args) => (
   <XYChart
+    contextMenu={false}
     data={args.data ?? waves}
     plotMargin={{
       left: args.leftMargin,
@@ -105,6 +106,7 @@ const LineTemplateWithControls = withDataControls(LineTemplate, waveDataControls
 
 const LinesTemplate = (args) => (
   <XYChart
+    contextMenu={false}
     data={waves}
     plotMargin={{
       left: args.leftMargin,
