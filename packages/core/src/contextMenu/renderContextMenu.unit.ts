@@ -1,6 +1,6 @@
 import type { IContextMenuItem } from "../types";
 
-import { destroyContextMenu, renderContextMenu } from "./renderContextMenu";
+import { createPieLayout, destroyContextMenu, renderContextMenu } from "./renderContextMenu";
 
 function createContainer(): HTMLElement {
     const div = document.createElement("div");
@@ -203,5 +203,62 @@ describe("destroyContextMenu", () => {
         window.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape" }));
 
         expect(onClose).not.toHaveBeenCalled();
+    });
+});
+
+describe("renderContextMenu closing", () => {
+    afterEach(() => {
+        document.body.innerHTML = "";
+    });
+
+    // Regression test: a caller often clears its own idea of the menu's position at the same time
+    // it flips `open` to false (e.g. <ContextMenuOverlay> reads x/y from Redux state that's deleted
+    // as part of closing) - the menu previously jumped to that stale (0, 0) before shrinking away
+    it("shrinks away from its last open position, ignoring a stale/reset x and y", () => {
+        const container = createContainer();
+
+        renderContextMenu(container, { x: 120, y: 340, open: true, items, onSelect: jest.fn() });
+        expect(container.style.left).toBe("120px");
+        expect(container.style.top).toBe("340px");
+
+        renderContextMenu(container, { x: 0, y: 0, open: false, items, onSelect: jest.fn() });
+
+        expect(container.style.left).toBe("120px");
+        expect(container.style.top).toBe("340px");
+    });
+
+    it("doesn't reposition a menu that was never open", () => {
+        const container = createContainer();
+
+        renderContextMenu(container, { x: 0, y: 0, open: false, items, onSelect: jest.fn() });
+
+        expect(container.style.left).toBe("");
+        expect(container.style.top).toBe("");
+    });
+});
+
+describe("createPieLayout", () => {
+    it("sweeps the full circle when gapAngle is 0", () => {
+        const pie = createPieLayout(0, 0);
+        const arcs = pie(items);
+
+        const totalSweep = arcs[arcs.length - 1].endAngle - arcs[0].startAngle;
+        expect(totalSweep).toBeCloseTo(2 * Math.PI);
+    });
+
+    it("leaves a gap centered at the bottom (6 o'clock / angle PI)", () => {
+        const gapAngle = Math.PI / 4;
+        const pie = createPieLayout(0, gapAngle);
+        const arcs = pie(items);
+
+        const expectedStart = Math.PI + gapAngle / 2;
+        const expectedEnd = expectedStart + (2 * Math.PI - gapAngle);
+
+        expect(arcs[0].startAngle).toBeCloseTo(expectedStart);
+        expect(arcs[arcs.length - 1].endAngle).toBeCloseTo(expectedEnd);
+
+        // The gap itself - nothing covers the angular range either side of the bottom (PI)
+        expect(expectedStart).toBeGreaterThan(Math.PI);
+        expect(expectedEnd - 2 * Math.PI).toBeLessThan(Math.PI);
     });
 });

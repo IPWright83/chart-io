@@ -28,16 +28,16 @@ export interface IContextMenuOptions {
      * and shrink back in when it becomes `false`
      */
     open: boolean;
-    /** The pluggable set of actions to show as segments, clockwise from 12 o'clock */
+    /** The pluggable set of actions to show as segments, clockwise starting just past the bottom gap */
     items: IContextMenuItem[];
     /**
      * The inner radius of the ring, in pixels
-     * @default 21
+     * @default 18.9
      */
     radius?: number;
     /**
      * The depth of each segment, in pixels
-     * @default 34.5
+     * @default 31.05
      */
     thickness?: number;
     /**
@@ -45,6 +45,13 @@ export interface IContextMenuOptions {
      * @default 0.025
      */
     padAngle?: number;
+    /**
+     * The angular gap, in radians, to leave at the bottom of the ring, centered on 6 o'clock - a
+     * small notch/cutout so there's somewhere to rest a thumb without covering a segment, rather
+     * than items filling the full circle
+     * @default Math.PI / 4 (45deg)
+     */
+    gapAngle?: number;
     /**
      * The size, in pixels, that each item's icon is scaled to
      * @default 18
@@ -88,6 +95,26 @@ const DEFAULT_COLORS: ITheme["menu"] = {
 
 type IArc = d3.PieArcDatum<IContextMenuItem>;
 type ID3RootSelection = d3.Selection<SVGSVGElement, unknown, null, undefined>;
+
+/**
+ * Builds the pie layout used to lay out segments - `d3.pie`'s defaults sweep the full circle
+ * starting at 12 o'clock; this leaves `gapAngle` radians open at the bottom (centered on 6 o'clock)
+ * instead, so the ring reads as a "C" with a thumb-sized notch rather than a full ring
+ * @param  padAngle    The angular gap, in radians, to leave between each segment
+ * @param  gapAngle    The angular gap, in radians, to leave at the bottom of the ring
+ * @return             A configured `d3.pie` layout
+ */
+export function createPieLayout(padAngle: number, gapAngle: number) {
+    const startAngle = Math.PI + gapAngle / 2;
+
+    return d3
+        .pie<IContextMenuItem>()
+        .value(() => 1)
+        .padAngle(padAngle)
+        .sort(null)
+        .startAngle(startAngle)
+        .endAngle(startAngle + (2 * Math.PI - gapAngle));
+}
 
 /**
  * Gets (or lazily creates) the `<svg>` this menu draws into, sized to fit the ring and centered on
@@ -152,9 +179,9 @@ function attachCloseListeners(container: HTMLElement, instance: IContextMenuInst
  * @param  options      The menu's fully-resolved configuration
  */
 function buildAndGrow(root: ID3RootSelection, options: Required<IContextMenuOptions>) {
-    const { items, radius, thickness, padAngle, iconSize, animationDuration, colors, onSelect } = options;
+    const { items, radius, thickness, padAngle, gapAngle, iconSize, animationDuration, colors, onSelect } = options;
 
-    const pie = d3.pie<IContextMenuItem>().value(() => 1).padAngle(padAngle).sort(null);
+    const pie = createPieLayout(padAngle, gapAngle);
     const arcs = pie(items);
     const arcGenerator = d3.arc<IArc>().innerRadius(radius).cornerRadius(3);
 
@@ -235,9 +262,9 @@ function buildAndGrow(root: ID3RootSelection, options: Required<IContextMenuOpti
  * @param  options      The menu's fully-resolved configuration
  */
 function updateInPlace(root: ID3RootSelection, options: Required<IContextMenuOptions>) {
-    const { items, radius, thickness, padAngle, iconSize, colors, onSelect } = options;
+    const { items, radius, thickness, padAngle, gapAngle, iconSize, colors, onSelect } = options;
 
-    const pie = d3.pie<IContextMenuItem>().value(() => 1).padAngle(padAngle).sort(null);
+    const pie = createPieLayout(padAngle, gapAngle);
     const arcs = pie(items);
     const arcGenerator = d3.arc<IArc>().innerRadius(radius).outerRadius(radius + thickness).cornerRadius(3);
 
@@ -327,9 +354,10 @@ export function renderContextMenu(container: HTMLElement, options: IContextMenuO
         y: options.y,
         open: options.open,
         items: options.items,
-        radius: options.radius ?? 21,
-        thickness: options.thickness ?? 34.5,
+        radius: options.radius ?? 18.9,
+        thickness: options.thickness ?? 31.05,
         padAngle: options.padAngle ?? 0.025,
+        gapAngle: options.gapAngle ?? Math.PI / 4,
         iconSize: options.iconSize ?? 18,
         animationDuration: options.animationDuration ?? 220,
         colors: options.colors ?? DEFAULT_COLORS,
@@ -340,27 +368,38 @@ export function renderContextMenu(container: HTMLElement, options: IContextMenuO
     const instance = instances.get(container) ?? { mounted: false, radius: resolved.radius, thickness: resolved.thickness };
     instances.set(container, instance);
 
+    if (!resolved.open) {
+        // Otherwise this (portaled to document.body, so not naturally clipped) blocks clicks to
+        // whatever's underneath it even while empty/closed
+        container.style.pointerEvents = "none";
+
+        // Deliberately leave position/size untouched here rather than re-reading resolved.x/y - by
+        // the time a caller flips `open` to false, x/y have often already reset to a default/stale
+        // value (e.g. Redux state cleared on close), and the menu should shrink away from wherever
+        // it's actually showing, not jump to that stale position first
+        if (instance.mounted) {
+            const svg = container.querySelector<SVGSVGElement>(":scope > svg");
+
+            if (svg) {
+                shrinkAndRemove(d3.select(svg), instance, resolved.animationDuration);
+            }
+        }
+
+        return;
+    }
+
     container.style.position = "fixed";
     container.style.left = `${resolved.x}px`;
     container.style.top = `${resolved.y}px`;
     // Center (x, y) on the container rather than its top-left corner
     container.style.transform = "translate(-50%, -50%)";
-    // Otherwise this (portaled to document.body, so not naturally clipped) blocks clicks to
-    // whatever's underneath it even while empty/closed
-    container.style.pointerEvents = resolved.open ? "auto" : "none";
+    container.style.pointerEvents = "auto";
     container.style.zIndex = "9999";
 
     const size = (resolved.radius + resolved.thickness) * 2;
     const root = ensureSvg(container, size)
         .attr("class", "chart-io context-menu")
         .on("contextmenu", (event: MouseEvent) => event.preventDefault());
-
-    if (!resolved.open) {
-        if (instance.mounted) {
-            shrinkAndRemove(root, instance, resolved.animationDuration);
-        }
-        return;
-    }
 
     const wasMounted = instance.mounted;
     instance.mounted = true;

@@ -20,17 +20,17 @@ export interface IContextMenuProps {
     open: boolean;
     /**
      * The pluggable set of actions to show as segments around the ring, in clockwise order starting
-     * from 12 o'clock
+     * just past the bottom gap
      */
     items: IContextMenuItem[];
     /**
      * The inner radius of the ring, in pixels
-     * @default 21
+     * @default 18.9
      */
     radius?: number;
     /**
      * The depth of each segment, in pixels
-     * @default 34.5
+     * @default 31.05
      */
     thickness?: number;
     /**
@@ -38,6 +38,12 @@ export interface IContextMenuProps {
      * @default 0.025
      */
     padAngle?: number;
+    /**
+     * The angular gap, in radians, to leave at the bottom of the ring, centered on 6 o'clock - a
+     * small notch/cutout so there's somewhere to rest a thumb without covering a segment
+     * @default Math.PI / 4 (45deg)
+     */
+    gapAngle?: number;
     /**
      * The size, in pixels, that each item's icon is scaled to
      * @default 18

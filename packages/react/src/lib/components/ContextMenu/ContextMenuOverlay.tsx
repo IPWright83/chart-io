@@ -27,6 +27,10 @@ export interface IContextMenuOverlayProps {
      */
     padAngle?: number;
     /**
+     * The angular gap, in radians, to leave at the bottom of the ring. See `<ContextMenu>`
+     */
+    gapAngle?: number;
+    /**
      * The size, in pixels, that each item's icon is scaled to. See `<ContextMenu>`
      */
     iconSize?: number;
@@ -57,6 +61,7 @@ export function ContextMenuOverlay({
     radius,
     thickness,
     padAngle,
+    gapAngle,
     iconSize,
     animationDuration,
 }: IContextMenuOverlayProps) {
@@ -112,6 +117,7 @@ export function ContextMenuOverlay({
                 radius={radius}
                 thickness={thickness}
                 padAngle={padAngle}
+                gapAngle={gapAngle}
                 iconSize={iconSize}
                 animationDuration={animationDuration}
                 onSelect={onSelect}
