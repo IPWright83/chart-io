@@ -1,6 +1,15 @@
 import type { IColor } from "./IColor";
+import type { IDatum } from "./IData";
 
 export interface IMarker {
+    /**
+     * The datum this marker represents, if any - lets it be left-clicked to open a "datum"
+     * `<ContextMenu>` (e.g. "Hide data point"), the only way to reach one on a Line/Area/RadialArea,
+     * which have no discrete per-point mark of their own to click. Omitted (and left non-interactive)
+     * for markers that are purely a visual highlight, e.g. a Scatter point's halo
+     */
+    datum?: IDatum;
+
     /** The stroke colour of the marker */
     stroke?: IColor;
 

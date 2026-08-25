@@ -45,6 +45,49 @@ export default {
 const data = nutrients_dataset;
 const dimensions = ["calories", "protein", "fat", "carbs", "fiber"];
 
+const LARGE_DATASET_GROUPS = ["Fruit", "Vegetable", "Meat", "Fish", "Dairy", "Grain"];
+
+/**
+ * A large, deterministically-generated dataset (rather than `Math.random()`) so the story - and any
+ * Chromatic snapshot of it - renders identically on every run. Shares nutrients_dataset's fields, so
+ * it can drive the same `dimensions`/`color`
+ * @param  count       The number of rows to generate
+ * @return             The generated rows
+ */
+function generateLargeDataset(count: number) {
+    return Array.from({ length: count }, (_, i) => {
+        // A handful of overlapping sine waves per field, rather than pure noise, so brushing a range
+        // on one axis visibly correlates with clusters on the others - closer to how a real, batch-
+        // rendered dataset tends to look than uniform random noise would
+        const group = LARGE_DATASET_GROUPS[i % LARGE_DATASET_GROUPS.length];
+        const t = i / count;
+
+        return {
+            food: `Item ${i}`,
+            group,
+            calories: Math.round(150 + 120 * Math.sin(t * 12.1) + 40 * Math.sin(t * 47.3 + i)),
+            protein: Math.max(0, Math.round((10 + 9 * Math.sin(t * 8.7 + 1)) * 10) / 10),
+            fat: Math.max(0, Math.round((8 + 7 * Math.sin(t * 15.3 + 2)) * 10) / 10),
+            carbs: Math.max(0, Math.round((20 + 18 * Math.sin(t * 6.2 + 3)) * 10) / 10),
+            fiber: Math.max(0, Math.round((3 + 2.5 * Math.sin(t * 21.4 + 4)) * 10) / 10),
+        };
+    });
+}
+
+const largeDataset = generateLargeDataset(10000);
+
+// A single shared colour with each line mostly transparent, rather than colouring/opacity from the
+// default theme - with 10,000 overlapping rows, low per-line opacity is what actually lets areas of
+// higher density read as visibly darker, rather than every row (and every dense cluster) looking the
+// same solid colour
+const largeDatasetTheme = {
+    ...themes.light,
+    series: {
+        ...themes.light.series,
+        opacity: 0.05,
+    },
+};
+
 const ParallelCoordinatesTemplate = (args) => (
     <ParallelCoordinates
         data={args.data ?? data}
@@ -151,6 +194,81 @@ export const BrushFiltering = {
         fireEvent.mouseUp(document, { clientX: x, clientY: y1, bubbles: true, view: window });
 
         await wait(300);
+    },
+};
+
+export const CanvasBrushFiltering = {
+    name: "Brush Filtering on Canvas",
+    render: ParallelCoordinatesTemplate,
+    args: {
+        ...Basic.args,
+        useCanvas: true,
+    },
+    play: async ({ canvasElement }) => {
+        // Brushing is identical on Canvas - the <ParallelAxis> ticks/labels/brush are always SVG
+        // regardless of `useCanvas` (only the lines themselves move to a <canvas>), so this is the
+        // same drag as the `BrushFiltering` story above, just with `useCanvas` set
+        const overlay = await waitFor(
+            () => {
+                const element = canvasElement.querySelector(".parallel-coordinates-axis-brush .overlay") as SVGRectElement | null;
+                if (!element) throw new Error("Brush overlay did not render in time");
+                return element;
+            },
+            { timeout: 2000 },
+        );
+
+        const rect = overlay.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y0 = rect.top + rect.height * 0.25;
+        const y1 = rect.top + rect.height * 0.6;
+
+        fireEvent.mouseDown(overlay, { clientX: x, clientY: y0, bubbles: true, view: window });
+        fireEvent.mouseMove(document, { clientX: x, clientY: y1, bubbles: true, view: window });
+        fireEvent.mouseUp(document, { clientX: x, clientY: y1, bubbles: true, view: window });
+
+        await wait(300);
+    },
+};
+
+export const LargeDataset = {
+    name: "10,000 Rows on Canvas",
+    render: ParallelCoordinatesTemplate,
+    parameters: {
+        // Excluded rather than snapshotted - 10,000 rows makes for a slow, progressively-rendered
+        // Canvas capture (see PROGRESSIVE_RENDER_THRESHOLD) that adds little as a pixel-diff baseline,
+        // the same call already made for Scatter's own large-dataset story
+        chromatic: { disableSnapshot: true },
+    },
+    args: {
+        ...Basic.args,
+        useCanvas: true,
+        data: largeDataset,
+        theme: largeDatasetTheme,
+    },
+    play: async ({ canvasElement }) => {
+        // Demonstrates that brushing keeps working once the dataset is big enough to fall into
+        // progressive/batched Canvas rendering (PROGRESSIVE_RENDER_THRESHOLD, 5,000 rows) - the
+        // 10,000 rows here render in batches to keep the browser responsive (see `renderCanvas`),
+        // while the brush itself is unaffected since it's still plain SVG
+        const overlay = await waitFor(
+            () => {
+                const element = canvasElement.querySelector(".parallel-coordinates-axis-brush .overlay") as SVGRectElement | null;
+                if (!element) throw new Error("Brush overlay did not render in time");
+                return element;
+            },
+            { timeout: 5000 },
+        );
+
+        const rect = overlay.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y0 = rect.top + rect.height * 0.35;
+        const y1 = rect.top + rect.height * 0.65;
+
+        fireEvent.mouseDown(overlay, { clientX: x, clientY: y0, bubbles: true, view: window });
+        fireEvent.mouseMove(document, { clientX: x, clientY: y1, bubbles: true, view: window });
+        fireEvent.mouseUp(document, { clientX: x, clientY: y1, bubbles: true, view: window });
+
+        await wait(1000);
     },
 };
 

@@ -2,7 +2,7 @@ import { themes } from "@chart-io/core";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import { Provider } from "react-redux";
 import React from "react";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../VirtualCanvas";
 import { ParallelCoordinatesPlot } from "./ParallelCoordinatesPlot";
@@ -132,6 +132,43 @@ describe("ParallelCoordinatesPlot", () => {
                 });
 
                 await testMouseClick(container, "polyline.parallel-coordinates-line", onClick, data[0]);
+            });
+
+            it("does not fire mouseover/click for a row a brush has filtered out", async () => {
+                const onMouseOver = jest.fn();
+                const onClick = jest.fn();
+
+                // An extent no row's pixel position could ever fall inside filters every row out,
+                // without needing to reverse-engineer any particular row's real on-screen position
+                const store = createMockStore({
+                    chart: {
+                        animationDuration: 0,
+                        dimensions: { width: 200, height: 200 },
+                        data,
+                        theme: themes.light,
+                        filters: { protein: [-1000, -999] },
+                    },
+                });
+
+                const { container } = await renderChart({
+                    children: (
+                        <ParallelCoordinatesPlot
+                            dimensions={dimensions}
+                            name="food"
+                            onMouseOver={onMouseOver}
+                            onClick={onClick}
+                        />
+                    ),
+                    data,
+                    store,
+                });
+
+                const line = container.querySelector("polyline.parallel-coordinates-line");
+                fireEvent.mouseOver(line);
+                fireEvent.click(line);
+
+                expect(onMouseOver).not.toHaveBeenCalled();
+                expect(onClick).not.toHaveBeenCalled();
             });
         });
     });

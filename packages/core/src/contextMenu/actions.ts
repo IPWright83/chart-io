@@ -23,18 +23,25 @@ export function createResetZoomAction(state: IState): IContextMenuItem {
 
 /**
  * Clears every filter set via `chartActions.setFilter` (e.g. a `<ParallelCoordinates>` axis' brush
- * selection). Shown disabled while no filter is currently set, fully wired up to the store via
- * `chartActions.clearFilters`
+ * selection) and every datum hidden via `chartActions.hideDataPoint` (e.g. the "Hide data point"
+ * action below). Shown disabled while neither is currently set, fully wired up to the store via
+ * `chartActions.clearFilters`/`chartActions.clearHiddenData`
  * @param  state     The current Redux state, used to disable the action while nothing is filtered
  * @return           The "Reset filters" `<ContextMenu>` item
  */
 export function createResetFiltersAction(state: IState): IContextMenuItem {
+    const hasFilters = Object.keys(chartSelectors.filters.all(state)).length > 0;
+    const hasHiddenData = chartSelectors.hiddenData.any(state);
+
     return {
         id: "reset-filters",
         label: "Reset filters",
         icon: contextMenuIcons.resetFilters,
-        disabled: Object.keys(chartSelectors.filters.all(state)).length === 0,
-        onSelect: (dispatch: IDispatch) => dispatch(chartActions.clearFilters()),
+        disabled: !hasFilters && !hasHiddenData,
+        onSelect: (dispatch: IDispatch) => {
+            dispatch(chartActions.clearFilters());
+            dispatch(chartActions.clearHiddenData());
+        },
     };
 }
 
@@ -86,9 +93,11 @@ export function createDrawPolygonAction(): IContextMenuItem {
 }
 
 /**
- * Placeholder for hiding the datum the menu was opened on. Intended for a menu opened with a
- * `"datum"` context (e.g. wired up to a plot's own `onClick` via `eventActions.openContextMenu`).
- * There's no store concept of a hidden/excluded datum yet, so this just logs
+ * Removes the datum the menu was opened on from the chart entirely, via `chartActions.hideDataPoint`
+ * - see `chartSelectors.data`, which every plot reads its rows through. Intended for a menu opened
+ * with a `"datum"` context (e.g. wired up to a plot's own left-click handler via
+ * `eventActions.openContextMenu`); a no-op if opened without one. Undone via the background's
+ * "Reset filters" action (`createResetFiltersAction`)
  * @return           The "Hide data point" `<ContextMenu>` item
  */
 export function createHideDataPointAction(): IContextMenuItem {
@@ -96,8 +105,11 @@ export function createHideDataPointAction(): IContextMenuItem {
         id: "hide-data-point",
         label: "Hide data point",
         icon: contextMenuIcons.eyeOff,
-        onSelect: (dispatch: IDispatch, context?: IContextMenuContext) =>
-            console.debug("[ContextMenu] 'Hide data point' isn't wired up to anything yet", context?.datum),
+        onSelect: (dispatch: IDispatch, context?: IContextMenuContext) => {
+            if (context?.datum) {
+                dispatch(chartActions.hideDataPoint(context.datum));
+            }
+        },
     };
 }
 
@@ -139,6 +151,7 @@ export function createAddAnnotationAction(): IContextMenuItem {
 export function getDefaultBackgroundItems(state: IState): IContextMenuItem[] {
     return [
         createResetZoomAction(state),
+        createResetFiltersAction(state),
         createPivotAction(),
         createDrawPolygonAction(),
         createToggleLegendAction(state),
@@ -147,9 +160,21 @@ export function getDefaultBackgroundItems(state: IState): IContextMenuItem[] {
 
 /**
  * A default set of items suited to a menu opened on a specific datum, e.g. wired up to a plot's
- * `onClick`. None of these have real behaviour yet - see each action's own docs
+ * left-click handler - "Hide data point" is fully wired up (see `createHideDataPointAction`);
+ * "Focus data point"/"Add annotation" are placeholders - see each action's own docs
  * @return           A default set of per-datum `<ContextMenu>` items
  */
 export function getDefaultDatumItems(): IContextMenuItem[] {
     return [createHideDataPointAction(), createFocusDataPointAction(), createAddAnnotationAction()];
+}
+
+/**
+ * The default `getItems` used by `<ContextMenuOverlay>` - dispatches between `getDefaultBackgroundItems`
+ * and `getDefaultDatumItems` based on what the menu was opened on
+ * @param  state     The current Redux state
+ * @param  context   The context the menu was opened with
+ * @return           The default `<ContextMenu>` items for that context
+ */
+export function getDefaultItems(state: IState, context?: IContextMenuContext): IContextMenuItem[] {
+    return context?.type === "datum" ? getDefaultDatumItems() : getDefaultBackgroundItems(state);
 }

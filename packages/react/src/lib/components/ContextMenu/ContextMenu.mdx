@@ -123,12 +123,13 @@ Pass `contextMenu={false}` to turn it off - e.g. if you want to configure it you
 </XYChart>
 ```
 
-By default it shows four stubbed-out background actions - override `getItems` to add, remove or
+By default it shows five stubbed-out background actions - override `getItems` to add, remove or
 replace any of them:
 
 | Action                | Behaviour                                                                                   |
 | ---------------------- | --------------------------------------------------------------------------------------------- |
 | **Reset zoom**          | Fully wired up - clears a zoomable plot's zoom path and any `<ZoomBrush>` domain. Disabled while nothing is zoomed in |
+| **Reset filters**      | Fully wired up - clears any `<ParallelCoordinates>` axis brush and any datum hidden via "Hide data point" below. Disabled while neither is set |
 | **Hide legend**/**Show legend** | Fully wired up via `chartActions.setLegendVisible`                                    |
 | **Pivot**              | A stub - there's no store concept of a heatmap pivot yet                                      |
 | **Draw polygon**       | A stub - there's no interactive drawing mode yet                                              |
@@ -141,23 +142,51 @@ import { createResetZoomAction, createToggleLegendAction } from "@chart-io/core"
 
 ### `<ContextMenuOverlay>` Props
 
-| Prop                | Type                                     | Default                     | Note                                                              |
-| -------------------- | ----------------------------------------- | ---------------------------- | -------------------------------------------------------------------- |
-| `getItems`           | `(state: IState) => IContextMenuItem[]`  | `getDefaultBackgroundItems`  | Builds the items to show, given the current Redux state              |
-| `radius`             | `number`                                 |                              | See `<ContextMenu>`                                                  |
-| `thickness`          | `number`                                 |                              | See `<ContextMenu>`                                                  |
-| `padAngle`           | `number`                                 |                              | See `<ContextMenu>`                                                  |
-| `iconSize`           | `number`                                 |                              | See `<ContextMenu>`                                                  |
-| `animationDuration`  | `number`                                 |                              | See `<ContextMenu>`                                                  |
+| Prop                | Type                                                          | Default            | Note                                                              |
+| -------------------- | ---------------------------------------------------------------- | -------------------- | -------------------------------------------------------------------- |
+| `getItems`           | `(state: IState, context?: IContextMenuContext) => IContextMenuItem[]` | `getDefaultItems`  | Builds the items to show, given the current Redux state and the context (background or datum) the menu was opened with |
+| `radius`             | `number`                                                          |                      | See `<ContextMenu>`                                                  |
+| `thickness`          | `number`                                                          |                      | See `<ContextMenu>`                                                  |
+| `padAngle`           | `number`                                                          |                      | See `<ContextMenu>`                                                  |
+| `iconSize`           | `number`                                                          |                      | See `<ContextMenu>`                                                  |
+| `animationDuration`  | `number`                                                          |                      | See `<ContextMenu>`                                                  |
 
 <br />
 
 ## Menus on a Data Point
 
-`<ContextMenuOverlay>` only covers the chart background. For a menu on a specific datum - "Hide data
-point", "Focus data point", "Add annotation" - dispatch `eventActions.openContextMenu` yourself from
-a plot's existing `onClick` prop (the same extension point already used for tooltips), and read it
-back with a small connected component the same way `<ContextMenuOverlay>` does:
+Left-clicking a mark on `<Scatter>`, `<Bar>`/`<GroupedBar>`/`<StackedBar>`, `<Column>`/
+`<GroupedColumn>`/`<StackedColumn>`, `<Pie>`/`<Donut>`, `<Line>`/`<Area>`/`<StackedArea>`, `<Radar>`,
+`<RadialArea>`, `<Treemap>`, `<CirclePacking>`, `<WordCloud>` and `<Funnel>` already opens the same
+`<ContextMenuOverlay>` with `getDefaultDatumItems` - "Hide data point" (fully wired up, via
+`chartActions.hideDataPoint`), and stubbed "Focus data point"/"Add annotation" - alongside whatever
+that plot's own `onClick` prop already does, nothing to set up. `<ParallelCoordinates>` is the one
+built-in exception, since its own brush-based filtering already covers this. `<XYChart>`/
+`<RadialChart>` still need `contextMenu` left at its default (`true`) for this to show, the same as
+the background menu. Right-clicking a mark is deliberately left alone (falling through to the
+browser's native menu) - only the background gets a right-click menu.
+
+For a custom plot without this built in, wire it up the same way those do: call `useDatumContextMenu`
+and call the handler it returns from your mark's own `click` handler:
+
+```jsx
+import { useDatumContextMenu } from "@chart-io/react";
+
+function MyPlot({ data }) {
+    const onDatumContextMenu = useDatumContextMenu();
+
+    // Inside your D3 join:
+    // .on("click", (event, datum) => {
+    //     onClick && onClick(datum, event.currentTarget, event);
+    //     onDatumContextMenu(datum, event);
+    // })
+}
+```
+
+That dispatches `eventActions.openContextMenu` with a `"datum"` context for you. To build the menu by
+hand instead - e.g. to show it somewhere other than `<ContextMenuOverlay>` - read
+`eventSelectors.contextMenu` back with a small connected component the same way
+`<ContextMenuOverlay>` does:
 
 ```jsx
 function DatumMenu() {
@@ -182,25 +211,19 @@ function DatumMenu() {
     );
 }
 
-// The click handler that opens it needs the store before <XYChart> has rendered it into context -
-// grab it via onStoreCreated (a plot's own click handler inside the chart would normally just have
-// dispatch already in scope some other way). contextMenu={false} turns off the chart's own default
-// background menu here, since both would otherwise race to open on the same click
-const onBarClick = (datum, element, event) => {
-    store.dispatch(
-        eventActions.openContextMenu({ x: event.clientX, y: event.clientY, context: { type: "datum", datum } }),
-    );
-};
-
-<XYChart data={data} contextMenu={false} onClick={onBarClick} onStoreCreated={(createdStore) => { store = createdStore; }}>
-    <Bar x="value" y="category" />
+// contextMenu={false} turns off the chart's own default <ContextMenuOverlay>, since <DatumMenu>
+// above is standing in for it here
+<XYChart data={data} contextMenu={false}>
+    <MyPlot />
     <DatumMenu />
 </XYChart>
 ```
 
 <Canvas of={ContextMenuOverlayStories.OnADataPoint} />
 
-None of "Hide data point", "Focus data point" or "Add annotation" are wired up to real behaviour yet
-- there's no store concept of a hidden/excluded/focused/annotated datum. Each stub logs to the
+"Hide data point" is fully wired up, via `chartActions.hideDataPoint` - see `chartSelectors.data`,
+which every plot reads its rows through, so a hidden datum disappears from the chart entirely rather
+than just fading like a `<ParallelCoordinates>` brush selection does. "Focus data point" and "Add
+annotation" remain stubs - there's no store concept of a focused/annotated datum yet. Each logs to the
 console describing what it would do - replace `onSelect` with a real dispatch once that store state
 exists.

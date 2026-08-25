@@ -49,6 +49,66 @@ describe("chartSelectors", () => {
 
             expect(chartSelectors.data(state)).toEqual([]);
         });
+
+        it("excludes any datum hidden via chartActions.hideDataPoint", () => {
+            const data = [{ a: "foo" }, { a: "bar" }, { a: "baz" }];
+            const state = {
+                event: defaultEventState,
+                chart: { ...defaultChartState, data, hiddenData: [{ a: "bar" }] },
+            };
+
+            expect(chartSelectors.data(state)).toEqual([{ a: "foo" }, { a: "baz" }]);
+        });
+
+        it("matches hidden data by value, not by reference", () => {
+            const data = [{ a: "foo" }, { a: "bar" }];
+            const state = {
+                event: defaultEventState,
+                // A fresh object with the same shape, not the same reference as data[1]
+                chart: { ...defaultChartState, data, hiddenData: [{ a: "bar" }] },
+            };
+
+            expect(chartSelectors.data(state)).toEqual([{ a: "foo" }]);
+        });
+    });
+
+    describe("hiddenData", () => {
+        it("all returns every hidden datum", () => {
+            const hiddenData = [{ a: "foo" }];
+            const state = {
+                event: defaultEventState,
+                chart: { ...defaultChartState, hiddenData },
+            };
+
+            expect(chartSelectors.hiddenData.all(state)).toEqual(hiddenData);
+        });
+
+        it("all returns an empty array when nothing is hidden", () => {
+            const state = {
+                event: defaultEventState,
+                chart: defaultChartState,
+            };
+
+            expect(chartSelectors.hiddenData.all(state)).toEqual([]);
+        });
+
+        it("any is false when nothing is hidden", () => {
+            const state = {
+                event: defaultEventState,
+                chart: defaultChartState,
+            };
+
+            expect(chartSelectors.hiddenData.any(state)).toBe(false);
+        });
+
+        it("any is true once a datum is hidden", () => {
+            const state = {
+                event: defaultEventState,
+                chart: { ...defaultChartState, hiddenData: [{ a: "foo" }] },
+            };
+
+            expect(chartSelectors.hiddenData.any(state)).toBe(true);
+        });
     });
 
     describe("scales", () => {

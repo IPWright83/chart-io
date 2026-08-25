@@ -3,7 +3,7 @@ import type { IEventPlotProps, INumericValue } from "@chart-io/core";
 
 import { useSelector } from "react-redux";
 
-import { useLegendItem, useRender } from "../../../../hooks";
+import { useDatumContextMenu, useLegendItem, useRender } from "../../../../hooks";
 
 import { renderCanvas } from "../../renderCanvas";
 import { useFocused } from "../useFocused";
@@ -49,6 +49,7 @@ export function ColumnBase({
     useLegendItem(y, "square", showInLegend, fillColor);
     const onTooltip = useTooltip({ x });
     const onFocus = useFocused({ xScale, theme, grouped: false, canvas, layer });
+    const onDatumContextMenu = useDatumContextMenu();
 
     useRender(() => {
         const { bandwidth, offset } = getBandwidthAndOffset(xScale, x, data);
@@ -102,6 +103,7 @@ export function ColumnBase({
                 if (!interactive) return;
 
                 onClick && onClick(datum, this, event);
+                onDatumContextMenu(datum, event);
             })
             .transition("position")
             .duration(animationDuration / 2)
@@ -130,6 +132,7 @@ export function ColumnBase({
         onMouseOver,
         onMouseOut,
         onClick,
+        onDatumContextMenu,
         color,
         height,
         width,

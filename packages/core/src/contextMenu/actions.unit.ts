@@ -12,6 +12,7 @@ import {
     createToggleLegendAction,
     getDefaultBackgroundItems,
     getDefaultDatumItems,
+    getDefaultItems,
 } from "./actions";
 
 const notZoomedState = { event: defaultEventState, chart: defaultChartState };
@@ -24,6 +25,10 @@ const noFiltersState = { event: defaultEventState, chart: defaultChartState };
 const filteredState = {
     event: defaultEventState,
     chart: { ...defaultChartState, filters: { calories: [10, 20] } },
+};
+const hiddenDataState = {
+    event: defaultEventState,
+    chart: { ...defaultChartState, hiddenData: [{ a: 1 }] },
 };
 
 describe("createResetZoomAction", () => {
@@ -44,7 +49,7 @@ describe("createResetZoomAction", () => {
 });
 
 describe("createResetFiltersAction", () => {
-    it("is disabled while nothing is filtered", () => {
+    it("is disabled while nothing is filtered or hidden", () => {
         expect(createResetFiltersAction(noFiltersState).disabled).toBe(true);
     });
 
@@ -52,11 +57,32 @@ describe("createResetFiltersAction", () => {
         expect(createResetFiltersAction(filteredState).disabled).toBe(false);
     });
 
-    it("dispatches chartActions.clearFilters when selected", () => {
+    it("is enabled once a datum is hidden", () => {
+        expect(createResetFiltersAction(hiddenDataState).disabled).toBe(false);
+    });
+
+    it("dispatches chartActions.clearFilters and chartActions.clearHiddenData when selected", () => {
         const dispatch = jest.fn();
         createResetFiltersAction(filteredState).onSelect(dispatch);
 
         expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "chart/clearFilters" }));
+        expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "chart/clearHiddenData" }));
+    });
+});
+
+describe("createHideDataPointAction", () => {
+    it("dispatches chartActions.hideDataPoint with the context's datum when selected", () => {
+        const dispatch = jest.fn();
+        const datum = { a: 1 };
+        createHideDataPointAction().onSelect(dispatch, { type: "datum", datum });
+
+        expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "chart/hideDataPoint", payload: datum }));
+    });
+
+    it("is safely callable without a datum context", () => {
+        const dispatch = jest.fn();
+        expect(() => createHideDataPointAction().onSelect(dispatch)).not.toThrow();
+        expect(dispatch).not.toHaveBeenCalled();
     });
 });
 
@@ -94,7 +120,6 @@ describe("stubbed actions", () => {
     it.each([
         ["pivot", createPivotAction()],
         ["draw-polygon", createDrawPolygonAction()],
-        ["hide-data-point", createHideDataPointAction()],
         ["focus-data-point", createFocusDataPointAction()],
         ["add-annotation", createAddAnnotationAction()],
     ])("%s is safely callable", (_, action) => {
@@ -104,9 +129,9 @@ describe("stubbed actions", () => {
 });
 
 describe("getDefaultBackgroundItems", () => {
-    it("includes reset zoom, pivot, draw polygon and toggle legend", () => {
+    it("includes reset zoom, reset filters, pivot, draw polygon and toggle legend", () => {
         const ids = getDefaultBackgroundItems(notZoomedState).map((item) => item.id);
-        expect(ids).toEqual(["reset-zoom", "pivot", "draw-polygon", "toggle-legend"]);
+        expect(ids).toEqual(["reset-zoom", "reset-filters", "pivot", "draw-polygon", "toggle-legend"]);
     });
 });
 
@@ -114,5 +139,21 @@ describe("getDefaultDatumItems", () => {
     it("includes hide, focus and annotate", () => {
         const ids = getDefaultDatumItems().map((item) => item.id);
         expect(ids).toEqual(["hide-data-point", "focus-data-point", "add-annotation"]);
+    });
+});
+
+describe("getDefaultItems", () => {
+    it("returns the background items when opened without a context, or with a background context", () => {
+        expect(getDefaultItems(notZoomedState).map((item) => item.id)).toEqual(
+            getDefaultBackgroundItems(notZoomedState).map((item) => item.id),
+        );
+        expect(getDefaultItems(notZoomedState, { type: "background" }).map((item) => item.id)).toEqual(
+            getDefaultBackgroundItems(notZoomedState).map((item) => item.id),
+        );
+    });
+
+    it("returns the datum items when opened with a datum context", () => {
+        const ids = getDefaultItems(notZoomedState, { type: "datum", datum: { a: 1 } }).map((item) => item.id);
+        expect(ids).toEqual(getDefaultDatumItems().map((item) => item.id));
     });
 });

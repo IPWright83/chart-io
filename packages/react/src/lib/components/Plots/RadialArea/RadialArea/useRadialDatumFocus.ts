@@ -93,7 +93,7 @@ export function useRadialDatumFocus({ interactive, x, y, xScale, yScale, data, c
         const markerY = cy - radius * Math.cos(angleOf(datum[x]));
         const distance = getDistance(position.x, position.y, markerX, markerY);
 
-        const marker = { fill: color, cx: markerX, cy: markerY, distance };
+        const marker = { fill: color, cx: markerX, cy: markerY, distance, datum };
         dispatch(eventActions.addMarker(marker));
 
         const tooltipItem = { datum, name: y, value: datum[y], icon: "square" as const, fill: color, distance };

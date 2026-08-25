@@ -41,6 +41,12 @@ export function LegendOverlay({ position = "E", formatters = {} }: ILegendOverla
 
     const containerRef = useRef<SVGForeignObjectElement>(null);
     const grabOffset = useRef({ x: 0, y: 0 });
+    // The Legend's own on-screen size at the moment it's grabbed - pinned for the duration of the
+    // drag so picking it up (and moving it) doesn't itself resize it. Without this, the drag-mode
+    // maxWidth/maxHeight below (direction-agnostic, since the dock orientation isn't known mid-drag)
+    // would immediately override whatever direction-specific clamp `getLegendMaxDimensions` had it
+    // rendered with while docked, reflowing/clipping the box right as it's picked up
+    const dragSize = useRef({ width: 0, height: 0 });
     const [dragPosition, setDragPosition] = useState<{ left: number; top: number } | null>(null);
 
     if (!showLegend) {
@@ -58,6 +64,10 @@ export function LegendOverlay({ position = "E", formatters = {} }: ILegendOverla
         grabOffset.current = {
             x: event.clientX - legendRect.left,
             y: event.clientY - legendRect.top,
+        };
+        dragSize.current = {
+            width: legendRect.width,
+            height: legendRect.height,
         };
 
         event.currentTarget.setPointerCapture(event.pointerId);
@@ -103,10 +113,11 @@ export function LegendOverlay({ position = "E", formatters = {} }: ILegendOverla
               position: "absolute" as const,
               left: dragPosition.left,
               top: dragPosition.top,
-              // Dock position (and so orientation) isn't known mid-drag - just keep it from growing
-              // past the chart's own bounds while it's following the pointer
-              maxWidth: width - 4 * LEGEND_MARGIN,
-              maxHeight: defaultMaxHeight,
+              // Pinned to the size it was grabbed at, so following the pointer doesn't itself
+              // resize it - the dock orientation (and so which axis `getLegendMaxDimensions` would
+              // let grow) isn't known again until it's dropped
+              width: dragSize.current.width,
+              height: dragSize.current.height,
           }
         : {
               ...getLegendPosition(dockedPosition),

@@ -1,3 +1,4 @@
+import { isEqual } from "lodash";
 import { memoizeWithArgs } from "proxy-memoize";
 
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
@@ -41,11 +42,32 @@ interface IChartSelectors {
     plotClipPath: (state: IState) => string;
 
     /**
-     * Returns the data for the chart
+     * Returns the data for the chart, with any datum hidden via `chartActions.hideDataPoint` (e.g.
+     * the "Hide data point" `<ContextMenu>` action) already excluded - so every plot/axis/scale
+     * reading this rather than `chartSelectors.store(state).data` directly treats a hidden datum as
+     * if it were never there, not just visually suppressed
      * @param  state The application state
      * @return       The chart data
      */
     data: (state: IState) => IData;
+
+    /**
+     * Data explicitly hidden via `chartActions.hideDataPoint` - see `chartActions.data`, which
+     * excludes these
+     */
+    hiddenData: {
+        /**
+         * Every datum currently hidden
+         * @param  state     The application state
+         */
+        all: (state: IState) => IData;
+
+        /**
+         * Is any datum currently hidden?
+         * @param  state     The application state
+         */
+        any: (state: IState) => boolean;
+    };
     /**
      * Returns the duration to run animations for
      * @param  state The application state
@@ -359,7 +381,25 @@ export const chartSelectors: IChartSelectors = {
     id: (state: IState): string => chartSelectors.store(state).id,
 
     // @inheritDoc
-    data: (state: IState): IData => chartSelectors.store(state).data || EMPTY_ARRAY,
+    data: (state: IState): IData => {
+        const data = chartSelectors.store(state).data || EMPTY_ARRAY;
+        const hidden = chartSelectors.hiddenData.all(state);
+
+        if (hidden.length === 0) {
+            return data;
+        }
+
+        return data.filter((datum) => !hidden.some((hiddenDatum) => isEqual(hiddenDatum, datum)));
+    },
+
+    // @inheritDoc
+    hiddenData: {
+        // @inheritDoc
+        all: (state: IState): IData => chartSelectors.store(state).hiddenData || EMPTY_ARRAY,
+
+        // @inheritDoc
+        any: (state: IState): boolean => chartSelectors.hiddenData.all(state).length > 0,
+    },
 
     // @inheritDoc
     plotClipPath: (state: IState): string => `clip-path-${chartSelectors.id(state)}`,

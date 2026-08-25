@@ -3,7 +3,7 @@ import type { IColor, IDatum, IEventPlotProps, INumericValue } from "@chart-io/c
 
 import { useSelector } from "react-redux";
 
-import { useLegendItems, useRender } from "../../../../hooks";
+import { useDatumContextMenu, useLegendItems, useRender } from "../../../../hooks";
 
 import { renderCanvas } from "../../renderCanvas";
 import { useFocused } from "../useFocused";
@@ -54,6 +54,7 @@ export function GroupedColumnBase({
 
     const onTooltip = useTooltip({ x });
     const onFocus = useFocused({ xScale, theme, grouped: true, canvas, layer });
+    const onDatumContextMenu = useDatumContextMenu();
 
     useLegendItems(ys, "square", showInLegend, colors);
 
@@ -114,6 +115,12 @@ export function GroupedColumnBase({
                 if (!interactive) return;
 
                 onClick && onClick(datum, this as Element, event);
+
+                // Hides the whole row, not just this one series' column - the parent <g> (one per
+                // row, see groupJoin above) still carries the original, unspread row as its own
+                // bound datum, unlike this rect's own (flattened `key`/`value`) composite
+                const row = d3.select((this as Element).parentNode as Element).datum() as IDatum;
+                onDatumContextMenu(row, event);
             })
             .transition("position")
             .duration(animationDuration / 2)
@@ -129,7 +136,7 @@ export function GroupedColumnBase({
 
         // @ts-ignore: TODO: Work out how to fix this
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
-    }, [x, ys, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);
+    }, [x, ys, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick, onDatumContextMenu]);
 
     return null;
 }

@@ -3,7 +3,7 @@ import type { IColor, IDatum, IEventPlotProps, INumericValue, IValue } from "@ch
 
 import { useSelector } from "react-redux";
 
-import { useLegendItems, useRender } from "../../../../hooks";
+import { useDatumContextMenu, useLegendItems, useRender } from "../../../../hooks";
 
 import { renderCanvas } from "../../renderCanvas";
 import { useFocused } from "../useFocused";
@@ -57,6 +57,7 @@ export function GroupedBarBase({
 
     const onTooltip = useTooltip({ y });
     const onFocus = useFocused({ yScale, theme, grouped: true, canvas, layer });
+    const onDatumContextMenu = useDatumContextMenu();
 
     useLegendItems(xs, "square", showInLegend, colors);
 
@@ -117,6 +118,12 @@ export function GroupedBarBase({
                 if (!interactive) return;
 
                 onClick && onClick(datum, this as Element, event);
+
+                // Hides the whole row, not just this one series' bar - the parent <g> (one per row,
+                // see groupJoin above) still carries the original, unspread row as its own bound
+                // datum, unlike this rect's own (flattened `key`/`value`) composite
+                const row = d3.select((this as Element).parentNode as Element).datum() as IDatum;
+                onDatumContextMenu(row, event);
             })
             .transition("position")
             .duration(animationDuration / 2)
@@ -131,7 +138,7 @@ export function GroupedBarBase({
             .attr("x", () => xScale.range()[0] as number) as d3.Transition<SVGRectElement, { key: string; value: IValue; }, SVGGElement, IDatum>;
 
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
-    }, [y, xs, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);
+    }, [y, xs, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick, onDatumContextMenu]);
 
     return null;
 }

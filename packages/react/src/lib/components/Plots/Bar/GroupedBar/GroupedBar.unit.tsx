@@ -1,6 +1,7 @@
 import { d3 } from "@chart-io/core";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import React from "react";
+import { fireEvent } from "@testing-library/react";
 
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
 import { GroupedBar } from "./GroupedBar";
@@ -115,6 +116,31 @@ describe("GroupedColumn", () => {
 
                 jest.spyOn(store, "dispatch");
                 testMouseClick(container, "rect", onClick, expectedDatum);
+            });
+
+            it("left-click opens a datum context menu for the whole row, not just this bar's composite", async () => {
+                const { container, store } = await renderChart({
+                    children: <GroupedBar y="y" xs={["x", "x2"]} />,
+                    data,
+                    scales,
+                });
+
+                jest.spyOn(store, "dispatch");
+                fireEvent.click(container.querySelector("rect"), { clientX: 42, clientY: 24 });
+
+                // The whole (unspread) row - data[0] - not `expectedDatum` (this bar's own composite
+                // with `key`/`value` flattened in), since hiding it should remove the row's other
+                // bar(s) too, not just this one series' bar
+                expect(store.dispatch).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        type: "event/openContextMenu",
+                        payload: expect.objectContaining({
+                            x: 42,
+                            y: 24,
+                            context: { type: "datum", datum: data[0] },
+                        }),
+                    }),
+                );
             });
         });
 

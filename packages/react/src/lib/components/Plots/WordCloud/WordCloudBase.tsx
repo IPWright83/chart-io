@@ -4,7 +4,7 @@ import type { IColor, IMeasureText, IOnClick, IOnMouseOut, IOnMouseOver, IPositi
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 
-import { useLegendItems, useRender } from "../../../hooks";
+import { useDatumContextMenu, useLegendItems, useRender } from "../../../hooks";
 
 import { renderCanvas } from "../renderCanvas";
 import { useFocused } from "../useFocused";
@@ -128,6 +128,7 @@ export function WordCloudBase({
     useLegendItems(categories, "square", showInLegend, legendColors);
     const onTooltip = useTooltip();
     const onFocus = useFocused(theme);
+    const onDatumContextMenu = useDatumContextMenu();
 
     useRender(() => {
         // Unable to render without the layer avaliable
@@ -212,6 +213,7 @@ export function WordCloudBase({
                 if (!interactive) return;
 
                 onClick && onClick(word.datum, this, event);
+                onDatumContextMenu(word.datum, event);
             });
 
         const transition = update
@@ -246,6 +248,7 @@ export function WordCloudBase({
         onMouseOver,
         onMouseOut,
         onClick,
+        onDatumContextMenu,
         palette,
         categories,
         interactive,

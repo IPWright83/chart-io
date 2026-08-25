@@ -192,6 +192,12 @@ export function ParallelCoordinatesPlotBase({
             .on("mouseover", function (event, row) {
                 // istanbul ignore next
                 if (!interactive) return;
+                // A brushed-out row is still drawn (faded, for context - see BRUSHED_OUT_OPACITY),
+                // but shouldn't itself be hoverable/clickable - otherwise a tooltip/highlight can
+                // pop up for a row the brush has excluded, since the fade is opacity-only and
+                // doesn't affect hit-testing on its own (nor the Canvas virtual hit-test layer,
+                // which always hit-tests at full strength - see renderPolyline's overrideColor path)
+                if (!isSelected(row)) return;
                 handleMouseOver(row.datum, this, event);
             })
             .on("mouseout", function (event, row) {
@@ -202,6 +208,7 @@ export function ParallelCoordinatesPlotBase({
             .on("click", function (event, row) {
                 // istanbul ignore next
                 if (!interactive) return;
+                if (!isSelected(row)) return;
                 handleClick(row.datum, this, event);
             });
 

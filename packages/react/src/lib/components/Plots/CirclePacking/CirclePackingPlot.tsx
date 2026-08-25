@@ -4,7 +4,7 @@ import type { IColor, IData, IHierarchyNode, IOnClick, IOnMouseOut, IOnMouseOver
 import React from "react";
 import { useSelector } from "react-redux";
 
-import { useLegendItems } from "../../../hooks";
+import { useDatumContextMenu, useLegendItems } from "../../../hooks";
 import { withCanvas, withSVG } from "../../../hoc";
 
 import { ILabelsPlotProps, LabelsPlot } from "../LabelsPlot";
@@ -126,6 +126,7 @@ export function CirclePackingPlot({
 
     const onTooltip = useTooltip();
     const onFocus = useFocused(theme);
+    const onDatumContextMenu = useDatumContextMenu();
 
     const handleMouseOver = (node: ICirclePackingNode, element: Element, event: MouseEvent) => {
         const datum = node.data.datum;
@@ -145,6 +146,12 @@ export function CirclePackingPlot({
 
     const handleClick = (node: ICirclePackingNode, element: Element, event: MouseEvent) => {
         onClick && onClick(node.data.datum, element, event);
+
+        // Only a leaf node's `datum` is a real row - a group/branch node's is a synthetic aggregate
+        // (see buildHierarchy), which "hide data point" can't meaningfully apply to
+        if (!node.children) {
+            onDatumContextMenu(node.data.datum, event);
+        }
 
         if (!zoomable) return;
 

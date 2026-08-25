@@ -11,7 +11,7 @@ import type { IColor, IDatum, IEventPlotProps } from "@chart-io/core";
 
 import { useSelector } from "react-redux";
 
-import { useLegendItems, useRender } from "../../../../hooks";
+import { useDatumContextMenu, useLegendItems, useRender } from "../../../../hooks";
 
 import { renderCanvas } from "../../renderCanvas";
 import { useFocused } from "../useFocused";
@@ -66,6 +66,7 @@ export function StackedBarBase({
 
     const onTooltip = useTooltip({ y });
     const onFocus = useFocused({ yScale, theme, grouped: false, canvas, layer });
+    const onDatumContextMenu = useDatumContextMenu();
 
     useLegendItems(xs, "square", showInLegend, colors);
 
@@ -135,6 +136,7 @@ export function StackedBarBase({
                 if (!interactive) return;
 
                 onClick && onClick(d.data, this as Element, event);
+                onDatumContextMenu(d.data, event);
             })
             .transition("position")
             .duration(animationDuration / 2)
@@ -153,7 +155,7 @@ export function StackedBarBase({
 
         // @ts-ignore: TODO: Fix this TS
         renderCanvas(canvas, renderVirtualCanvas, width, height, update);
-    }, [y, xs, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick]);
+    }, [y, xs, data, xScale, yScale, layer, animationDuration, onMouseOver, onMouseOut, onClick, onDatumContextMenu]);
 
     return null;
 }

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { isEqual } from "lodash";
 
 import { themes } from "../../themes";
-import type { ICompassPosition, IData, ILegendItem, IMargin, IScale, ISizeLegend, ITheme } from "../../types";
+import type { ICompassPosition, IData, IDatum, ILegendItem, IMargin, IScale, ISizeLegend, ITheme } from "../../types";
 import type { ILabeller } from "../../utils";
 import { createLabeller } from "../../utils";
 import type { IChartState } from "../types";
@@ -14,6 +14,7 @@ export const defaultChartState = {
     theme: themes.light,
     labeller: createLabeller(),
     data: [],
+    hiddenData: [],
     dimensions: {
         plotMargin: {
             left: 30,
@@ -247,6 +248,30 @@ const chartSlice = createSlice({
          */
         clearFilters: (state: IChartState) => {
             state.filters = {};
+        },
+
+        /**
+         * Excludes a single datum from the chart entirely - e.g. via the "Hide data point"
+         * `<ContextMenu>` action. Unlike `setFilter` (which fades rows out for a specific plot like
+         * `<ParallelCoordinates>`), this is read by `chartSelectors.data` itself, so the datum is
+         * removed for every plot/axis/scale reading the chart's data, not just one. A no-op if the
+         * datum is already hidden
+         * @param state                      The current Redux store state
+         * @param action                     The payload containing the datum to hide
+         */
+        hideDataPoint: (state: IChartState, action: PayloadAction<IDatum>) => {
+            const alreadyHidden = state.hiddenData.some((datum) => isEqual(datum, action.payload));
+            if (!alreadyHidden) {
+                state.hiddenData.push(action.payload);
+            }
+        },
+
+        /**
+         * Clears every datum hidden via `hideDataPoint`, making them visible again
+         * @param state                      The current Redux store state
+         */
+        clearHiddenData: (state: IChartState) => {
+            state.hiddenData = [];
         },
 
         /**

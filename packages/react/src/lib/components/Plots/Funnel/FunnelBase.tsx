@@ -4,7 +4,7 @@ import type { IColor, IDatum, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 
-import { useLegendItems, useRender } from "../../../hooks";
+import { useDatumContextMenu, useLegendItems, useRender } from "../../../hooks";
 
 import { interpolatePoints } from "../interpolatePoints";
 import { renderCanvas } from "../renderCanvas";
@@ -110,6 +110,7 @@ export function FunnelBase({
     useLegendItems(categories, "square", showInLegend, legendColors);
     const onTooltip = useTooltip();
     const onFocus = useFocused(theme);
+    const onDatumContextMenu = useDatumContextMenu();
 
     useRender(() => {
         ensureValuesAreUnique(data, category, "Funnel");
@@ -206,6 +207,7 @@ export function FunnelBase({
                 if (!interactive) return;
 
                 onClick && onClick(d, this, event);
+                onDatumContextMenu(d, event);
             })
             .transition("funnel-segment")
             .duration(animationDuration)
@@ -235,6 +237,7 @@ export function FunnelBase({
         onMouseOver,
         onMouseOut,
         onClick,
+        onDatumContextMenu,
         palette,
         categories,
     ]);
