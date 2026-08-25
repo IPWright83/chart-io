@@ -22,6 +22,23 @@ export function createResetZoomAction(state: IState): IContextMenuItem {
 }
 
 /**
+ * Clears every filter set via `chartActions.setFilter` (e.g. a `<ParallelCoordinates>` axis' brush
+ * selection). Shown disabled while no filter is currently set, fully wired up to the store via
+ * `chartActions.clearFilters`
+ * @param  state     The current Redux state, used to disable the action while nothing is filtered
+ * @return           The "Reset filters" `<ContextMenu>` item
+ */
+export function createResetFiltersAction(state: IState): IContextMenuItem {
+    return {
+        id: "reset-filters",
+        label: "Reset filters",
+        icon: contextMenuIcons.resetFilters,
+        disabled: Object.keys(chartSelectors.filters.all(state)).length === 0,
+        onSelect: (dispatch: IDispatch) => dispatch(chartActions.clearFilters()),
+    };
+}
+
+/**
  * Toggles whether the Legend is shown, fully wired up to the store via `chartActions.setLegendVisible`.
  * Labelled/iconed according to the legend's current visibility
  * @param  state     The current Redux state, used to read the legend's current visibility

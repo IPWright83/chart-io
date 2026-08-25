@@ -13,4 +13,5 @@ export * from "./RadialDendrogram";
 export * from "./CirclePacking";
 export * from "./Chord";
 export * from "./WordCloud";
+export * from "./ParallelCoordinates";
 export * from "./Sankey";

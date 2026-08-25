@@ -7,6 +7,7 @@ import { renderCircle } from "./renderCircle";
 import { renderLink } from "./renderLink";
 import { renderLinkRadial } from "./renderLinkRadial";
 import { renderPolygon } from "./renderPolygon";
+import { renderPolyline } from "./renderPolyline";
 import { renderRect } from "./renderRect";
 import { renderRibbon } from "./renderRibbon";
 import { renderText } from "./renderText";
@@ -50,6 +51,10 @@ export function renderElements(
 
             case "POLYGON":
                 renderPolygon(context, node, overrideColor);
+                break;
+
+            case "POLYLINE":
+                renderPolyline(context, node, overrideColor);
                 break;
 
             case "PATH":

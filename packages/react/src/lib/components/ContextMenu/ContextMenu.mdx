@@ -97,10 +97,11 @@ automatically use the chart's own theme (`theme.menu`) instead.
 
 # ContextMenuOverlay Component
 
-`<ContextMenuOverlay>` wires a `<ContextMenu>` up to a chart: clicking anywhere inside it -
-background or on top of a plot - opens the menu, themed to match the chart, and dispatches whichever
-action is selected into the Redux store. `<XYChart>`/`<RadialChart>` already enable it by default
-(see their `contextMenu` prop) - you don't normally need to add it yourself:
+`<ContextMenuOverlay>` wires a `<ContextMenu>` up to a chart: right-clicking its background - not a
+plot mark, an axis brush, or any other interactive element sitting on top of it - opens the menu
+(suppressing the browser's native context menu for just that click), themed to match the chart, and
+dispatches whichever action is selected into the Redux store. `<XYChart>`/`<RadialChart>` already
+enable it by default (see their `contextMenu` prop) - you don't normally need to add it yourself:
 
 ```jsx
 <XYChart data={data}>
