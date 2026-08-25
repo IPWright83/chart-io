@@ -23,14 +23,25 @@ describe("Heatmap", () => {
         expect(container.querySelectorAll("rect.heatmap-cell").length).toBe(4);
     });
 
-    // The "Pivot" action lives on the chart's right-click <ContextMenu> (portaled to document.body)
-    // rather than an on-chart control - open it and click the "Pivot" segment to cycle to the next
-    // layout (grid -> rows -> columns -> grid)
-    function cyclePivot(container: HTMLElement) {
+    // The "Pivot" action lives on the chart's right-click <ContextMenu> (portaled to document.body,
+    // via a useEffect that renders it imperatively with D3) rather than an on-chart control - opening
+    // it can take an extra tick to settle under a busier CI runner, so this polls briefly rather than
+    // assuming the item is present the instant the opening click returns
+    async function findPivotItem(): Promise<Element> {
+        for (let attempt = 0; attempt < 10; attempt++) {
+            const items = Array.from(document.body.querySelectorAll(".context-menu-item"));
+            const pivotItem = items.find((item) => item.textContent.trim().startsWith("Pivot"));
+            if (pivotItem) return pivotItem;
+            await wait(50);
+        }
+
+        throw new Error("The 'Pivot' context-menu item never appeared");
+    }
+
+    async function cyclePivot(container: HTMLElement) {
         fireEvent.click(container.querySelector("svg"), { clientX: 10, clientY: 10 });
 
-        const items = Array.from(document.body.querySelectorAll(".context-menu-item"));
-        const pivotItem = items.find((item) => item.textContent.trim().startsWith("Pivot"));
+        const pivotItem = await findPivotItem();
         fireEvent.click(pivotItem.querySelector("path"));
     }
 
@@ -43,8 +54,7 @@ describe("Heatmap", () => {
 
         fireEvent.click(container.querySelector("svg"), { clientX: 10, clientY: 10 });
 
-        const items = Array.from(document.body.querySelectorAll(".context-menu-item"));
-        const pivotItem = items.find((item) => item.textContent.trim().startsWith("Pivot"));
+        const pivotItem = await findPivotItem();
         expect(pivotItem.getAttribute("data-disabled")).toBe("true");
     });
 
@@ -76,7 +86,7 @@ describe("Heatmap", () => {
         const gridWidths = new Set(cellsInGrid.map((cell) => cell.getAttribute("width")));
         expect(gridWidths.size).toBe(1);
 
-        cyclePivot(container);
+        await cyclePivot(container);
         await wait();
 
         // Pivoted to rows, the same 4 cells are still there (keyed by row/column, not re-created) -
