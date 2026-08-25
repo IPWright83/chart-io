@@ -615,16 +615,16 @@ describe("chartSelectors", () => {
     });
 
     describe("pivot", () => {
-        it("defaults to grid", () => {
+        it("defaults to undefined (the full grid)", () => {
             const state = { event: defaultEventState, chart: { ...defaultChartState } };
 
-            expect(chartSelectors.pivot(state)).toBe("grid");
+            expect(chartSelectors.pivot(state)).toBeUndefined();
         });
 
         it("returns the configured pivot", () => {
-            const state = { event: defaultEventState, chart: { ...defaultChartState, pivot: "rows" as const } };
+            const state = { event: defaultEventState, chart: { ...defaultChartState, pivot: "x" as const } };
 
-            expect(chartSelectors.pivot(state)).toBe("rows");
+            expect(chartSelectors.pivot(state)).toBe("x");
         });
     });
 });

@@ -380,11 +380,12 @@ interface IChartSelectors {
     pivotable: (state: IState) => boolean;
 
     /**
-     * Returns the layout a `<Heatmap>` is currently rendered in
+     * Returns which axis (if any) is currently collapsed into a single cumulative linear scale -
+     * `undefined` means neither (the full grid)
      * @param  state The application state
-     * @return       The current pivot
+     * @return       The current pivot, or `undefined` for the full grid
      */
-    pivot: (state: IState) => IPivot;
+    pivot: (state: IState) => IPivot | undefined;
 }
 
 export const chartSelectors: IChartSelectors = {
@@ -653,5 +654,5 @@ export const chartSelectors: IChartSelectors = {
     pivotable: (state) => chartSelectors.store(state).pivotable ?? false,
 
     // @inheritDoc
-    pivot: (state) => chartSelectors.store(state).pivot ?? "grid",
+    pivot: (state) => chartSelectors.store(state).pivot,
 };

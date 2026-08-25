@@ -1,5 +1,5 @@
 import { chartSelectors, d3, ensureCombinationsAreUnique, IScaleType, IState } from "@chart-io/core";
-import type { IBandwidthScale, IColor, IData, IDatum, IScale } from "@chart-io/core";
+import type { IBandwidthScale, IColor, IData, IDatum, IPivot, IScale } from "@chart-io/core";
 
 import { useMemo } from "react";
 import { useSelector } from "react-redux";
@@ -163,7 +163,9 @@ export function useHeatmapDomains({ rows, columns, value }: IUseHeatmapDomainsPr
  * stays a band scale over its own row/column values, in a fixed order regardless of pivot. Shared by
  * `<HeatmapAxes>` (which renders the actual `<XAxis>`/`<YAxis>`) and `useHeatmapLayout` (which needs
  * the same field names to read the resulting scales back out of the store)
- * @param  pivot            The current pivot
+ * @param  pivot            The current pivot - `"x"` collapses the x-axis (each row becomes a
+ *                          horizontal bar), `"y"` collapses the y-axis (each column becomes a
+ *                          vertical bar), `undefined` is the full grid
  * @param  rows             The field used for each cell's row
  * @param  columns          The field used for each cell's column
  * @param  value            The field used for each cell's value
@@ -174,7 +176,7 @@ export function useHeatmapDomains({ rows, columns, value }: IUseHeatmapDomainsPr
  * @return                  The x/y axis field/scale-type/domain for the current pivot
  */
 export function heatmapAxisFor(
-    pivot: string,
+    pivot: IPivot | undefined,
     rows: string,
     columns: string,
     value: string,
@@ -183,12 +185,12 @@ export function heatmapAxisFor(
     rowValues: string[],
     columnValues: string[],
 ) {
-    const xField = pivot === "rows" ? value : columns;
-    const yField = pivot === "columns" ? value : rows;
-    const xScaleType: IScaleType = pivot === "rows" ? "linear" : "band";
-    const yScaleType: IScaleType = pivot === "columns" ? "linear" : "band";
-    const xDomain = pivot === "rows" ? [0, maxRowTotal] : columnValues;
-    const yDomain = pivot === "columns" ? [0, maxColumnTotal] : rowValues;
+    const xField = pivot === "x" ? value : columns;
+    const yField = pivot === "y" ? value : rows;
+    const xScaleType: IScaleType = pivot === "x" ? "linear" : "band";
+    const yScaleType: IScaleType = pivot === "y" ? "linear" : "band";
+    const xDomain = pivot === "x" ? [0, maxRowTotal] : columnValues;
+    const yDomain = pivot === "y" ? [0, maxColumnTotal] : rowValues;
 
     return { xField, yField, xScaleType, yScaleType, xDomain, yDomain };
 }
@@ -251,7 +253,7 @@ export function useHeatmapLayout({ rows, columns, value, colors }: IUseHeatmapLa
 
         const xFor = (cell: IHeatmapCell) => {
             if (!xScale) return 0;
-            if (pivot === "rows") {
+            if (pivot === "x") {
                 const { previous } = rowCumulative.get(keyFor(cell));
                 return (xScale as IScale)(previous) as number;
             }
@@ -261,7 +263,7 @@ export function useHeatmapLayout({ rows, columns, value, colors }: IUseHeatmapLa
 
         const widthFor = (cell: IHeatmapCell) => {
             if (!xScale) return 0;
-            if (pivot === "rows") {
+            if (pivot === "x") {
                 const { previous, current } = rowCumulative.get(keyFor(cell));
                 return ((xScale as IScale)(current) as number) - ((xScale as IScale)(previous) as number);
             }
@@ -270,7 +272,7 @@ export function useHeatmapLayout({ rows, columns, value, colors }: IUseHeatmapLa
 
         const yFor = (cell: IHeatmapCell) => {
             if (!yScale) return 0;
-            if (pivot === "columns") {
+            if (pivot === "y") {
                 const { current } = columnCumulative.get(keyFor(cell));
                 return (yScale as IScale)(current) as number;
             }
@@ -280,7 +282,7 @@ export function useHeatmapLayout({ rows, columns, value, colors }: IUseHeatmapLa
 
         const heightFor = (cell: IHeatmapCell) => {
             if (!yScale) return 0;
-            if (pivot === "columns") {
+            if (pivot === "y") {
                 const { previous, current } = columnCumulative.get(keyFor(cell));
                 return ((yScale as IScale)(previous) as number) - ((yScale as IScale)(current) as number);
             }

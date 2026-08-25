@@ -5,14 +5,15 @@ import { useSelector, useStore } from "react-redux";
 
 export interface IPivotState {
     /**
-     * The layout a `<Heatmap>` is currently rendered in
+     * Which axis (if any) is currently collapsed into a single cumulative linear scale, `undefined`
+     * meaning the full grid
      */
-    pivot: IPivot;
+    pivot: IPivot | undefined;
     /**
-     * Switches to the given layout
-     * @param  pivot     The layout to switch to
+     * Switches to the given pivot
+     * @param  pivot     The pivot to switch to, or `undefined` for the full grid
      */
-    pivotTo: (pivot: IPivot) => void;
+    pivotTo: (pivot: IPivot | undefined) => void;
 }
 
 /**
@@ -37,7 +38,7 @@ export function usePivot(pivotable?: boolean): IPivotState {
     // Kept referentially stable across renders - it's included in useRender's dependency array,
     // which schedules a new render (and a state update) whenever any of its dependencies change
     const pivotTo = useCallback(
-        (newPivot: IPivot) => {
+        (newPivot: IPivot | undefined) => {
             store.dispatch(chartActions.setPivot(newPivot));
         },
         [store],

@@ -54,7 +54,7 @@ export const defaultChartState = {
         path: [],
     },
     pivotable: false,
-    pivot: "grid" as IPivot,
+    pivot: undefined as IPivot | undefined,
 };
 
 const chartSlice = createSlice({
@@ -386,16 +386,17 @@ const chartSlice = createSlice({
             state.pivotable = action.payload;
 
             if (!action.payload) {
-                state.pivot = "grid";
+                state.pivot = undefined;
             }
         },
 
         /**
-         * Sets the layout a `<Heatmap>` is currently rendered in
+         * Sets which axis (if any) is currently collapsed into a single cumulative linear scale
          * @param state                      The current Redux store state
-         * @param action                     The payload containing the new pivot
+         * @param action                     The payload containing the new pivot, or `undefined` for
+         *                                   the full grid (neither axis collapsed)
          */
-        setPivot: (state: IChartState, action: PayloadAction<IPivot>) => {
+        setPivot: (state: IChartState, action: PayloadAction<IPivot | undefined>) => {
             state.pivot = action.payload;
         },
     },

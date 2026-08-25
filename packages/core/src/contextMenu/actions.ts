@@ -63,14 +63,16 @@ export function createToggleLegendAction(state: IState): IContextMenuItem {
 }
 
 /**
- * The order a `<Heatmap>`'s pivot cycles through each time the "Pivot" action is selected
+ * The order the pivot cycles through each time the "Pivot" action is selected - `undefined` (the
+ * full grid, neither axis collapsed) first, then each axis in turn
  */
-const PIVOT_CYCLE: IPivot[] = ["grid", "rows", "columns"];
+const PIVOT_CYCLE: Array<IPivot | undefined> = [undefined, "x", "y"];
 
 /**
- * Cycles a pivotable `<Heatmap>` between its grid/rows/columns layouts, fully wired up to the store
- * via `chartActions.setPivot`. Disabled unless a `<Heatmap>` has opted in via `pivotable`, since
- * there's nothing to pivot otherwise. Labelled with the layout selecting it will switch to
+ * Cycles a pivotable chart (currently `<Heatmap>`) between the full grid and each axis collapsed
+ * into a single cumulative linear scale, fully wired up to the store via `chartActions.setPivot`.
+ * Disabled unless a chart has opted in via `pivotable`, since there's nothing to pivot otherwise.
+ * Labelled with the pivot selecting it will switch to
  * @param  state     The current Redux state, used to read whether pivoting is enabled and the
  *                    current pivot
  * @return           The "Pivot" `<ContextMenu>` item
@@ -82,7 +84,7 @@ export function createPivotAction(state: IState): IContextMenuItem {
 
     return {
         id: "pivot",
-        label: `Pivot: ${next}`,
+        label: `Pivot: ${next ?? "grid"}`,
         icon: contextMenuIcons.pivot,
         disabled: !pivotable,
         onSelect: (dispatch: IDispatch) => dispatch(chartActions.setPivot(next)),

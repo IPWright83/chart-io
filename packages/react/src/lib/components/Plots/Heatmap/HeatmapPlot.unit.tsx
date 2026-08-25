@@ -29,7 +29,7 @@ describe("HeatmapPlot", () => {
                 animationDuration: 0,
                 dimensions: { width: 200, height: 200 },
                 data,
-                pivot: "grid",
+                pivot: undefined,
                 scales: {
                     region: { domain: regionScale().domain(), range: regionScale().range(), scale: regionScale() },
                     product: { domain: productScale().domain(), range: productScale().range(), scale: productScale() },
@@ -152,7 +152,7 @@ describe("HeatmapPlot", () => {
         it("should not render a color legend once pivoted to rows", async () => {
             const valueScale = () => d3.scaleLinear().domain([0, 13]).range([0, 200]);
             const store = gridStore({
-                pivot: "rows",
+                pivot: "x",
                 scales: {
                     region: { domain: regionScale().domain(), range: regionScale().range(), scale: regionScale() },
                     sales: { domain: valueScale().domain(), range: valueScale().range(), scale: valueScale() },
@@ -173,7 +173,7 @@ describe("HeatmapPlot", () => {
         it("should stack each row's cells edge-to-edge along a linear x-axis once pivoted to rows", async () => {
             const valueScale = () => d3.scaleLinear().domain([0, 13]).range([0, 200]);
             const store = gridStore({
-                pivot: "rows",
+                pivot: "x",
                 scales: {
                     region: { domain: regionScale().domain(), range: regionScale().range(), scale: regionScale() },
                     sales: { domain: valueScale().domain(), range: valueScale().range(), scale: valueScale() },
@@ -209,7 +209,7 @@ describe("HeatmapPlot", () => {
         it("should stack each column's cells edge-to-edge along a linear y-axis once pivoted to columns", async () => {
             const valueScale = () => d3.scaleLinear().domain([0, 15]).range([200, 0]);
             const store = gridStore({
-                pivot: "columns",
+                pivot: "y",
                 scales: {
                     product: { domain: productScale().domain(), range: productScale().range(), scale: productScale() },
                     sales: { domain: valueScale().domain(), range: valueScale().range(), scale: valueScale() },

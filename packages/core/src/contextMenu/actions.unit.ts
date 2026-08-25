@@ -124,22 +124,22 @@ describe("createPivotAction", () => {
         expect(createPivotAction(pivotableState).disabled).toBe(false);
     });
 
-    it("labels itself with the layout it will switch to, cycling grid -> rows -> columns -> grid", () => {
-        const gridState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "grid" as const } };
-        const rowsState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "rows" as const } };
-        const columnsState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "columns" as const } };
+    it("labels itself with the pivot it will switch to, cycling grid -> x -> y -> grid", () => {
+        const gridState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: undefined } };
+        const xState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "x" as const } };
+        const yState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "y" as const } };
 
-        expect(createPivotAction(gridState).label).toBe("Pivot: rows");
-        expect(createPivotAction(rowsState).label).toBe("Pivot: columns");
-        expect(createPivotAction(columnsState).label).toBe("Pivot: grid");
+        expect(createPivotAction(gridState).label).toBe("Pivot: x");
+        expect(createPivotAction(xState).label).toBe("Pivot: y");
+        expect(createPivotAction(yState).label).toBe("Pivot: grid");
     });
 
-    it("dispatches chartActions.setPivot with the next layout when selected", () => {
-        const rowsState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "rows" as const } };
+    it("dispatches chartActions.setPivot with the next pivot when selected", () => {
+        const xState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "x" as const } };
         const dispatch = jest.fn();
-        createPivotAction(rowsState).onSelect(dispatch);
+        createPivotAction(xState).onSelect(dispatch);
 
-        expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "chart/setPivot", payload: "columns" }));
+        expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "chart/setPivot", payload: "y" }));
     });
 });
 

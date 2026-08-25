@@ -361,23 +361,23 @@ describe("chartSlice.reducer", () => {
         });
     });
 
-    it("setPivotable() resets the pivot to grid when disabled", () => {
-        const pivotedState = { ...previousState, pivotable: true, pivot: "rows" as const };
+    it("setPivotable() resets the pivot to the grid (undefined) when disabled", () => {
+        const pivotedState = { ...previousState, pivotable: true, pivot: "x" as const };
         const action = chartActions.setPivotable(false);
 
         expect(chartSlice.reducer(pivotedState, action)).toEqual({
             ...previousState,
             pivotable: false,
-            pivot: "grid",
+            pivot: undefined,
         });
     });
 
     it("setPivot()", () => {
-        const action = chartActions.setPivot("columns");
+        const action = chartActions.setPivot("y");
 
         expect(chartSlice.reducer(previousState, action)).toEqual({
             ...previousState,
-            pivot: "columns",
+            pivot: "y",
         });
     });
 });

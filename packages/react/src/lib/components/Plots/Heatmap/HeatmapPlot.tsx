@@ -132,7 +132,7 @@ export function HeatmapPlot({
                 onMouseOut={handleMouseOut}
                 onClick={handleClick}
             />
-            {pivot === "grid" && <HeatmapLegend legendStops={legendStops} format={formatLegendValue} />}
+            {pivot === undefined && <HeatmapLegend legendStops={legendStops} format={formatLegendValue} />}
         </React.Fragment>
     );
 }

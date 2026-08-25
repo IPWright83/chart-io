@@ -33,7 +33,7 @@ const backgroundState = {
         scales: {},
         legend: { items: [], hidden: false },
         pivotable: false,
-        pivot: "grid",
+        pivot: undefined,
     },
 } as any;
 
@@ -43,7 +43,7 @@ const zoomedState = {
         scales: {},
         legend: { items: [], hidden: false },
         pivotable: true,
-        pivot: "grid",
+        pivot: undefined,
     },
 } as any;
 

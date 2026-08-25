@@ -68,6 +68,7 @@ export interface IChartState {
   zoom: IChartStateZoom;
   // Whether a <Heatmap> should offer switching between its grid/rows/columns layouts
   pivotable: boolean;
-  // The layout a <Heatmap> is currently rendered in - see IPivot
-  pivot: IPivot;
+  // Which axis (if any) is currently collapsed into a single cumulative linear scale, undefined
+  // meaning the full grid - see IPivot
+  pivot: IPivot | undefined;
 }
