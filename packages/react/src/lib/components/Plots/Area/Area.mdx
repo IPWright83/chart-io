@@ -24,16 +24,16 @@ The `<Area>` component should be used when you want to plot a single area plot o
 | -------------- | --------- | ------------------ | ------------------------------------------------------------------------------------------------------------ |
 | **`x`\***      | `string`  | `null`             | The key of the field that contains the value along the x-axis.                                               |
 | **`y`\***      | `string`  | `null`             | The key of the field that contains the value along the y-axis.                                               |
-| `y2`           | `string`  | `null`             | The key of the field that contains the y2 value for a stream graph style.                                    |
+| `y2`           | `string`  | `null`             | The key of the field that contains a second y-value, filling the band between `y` and `y2` (a range area).   |
 | `color`        | `string`  | Derived from Theme | Override the colour of the series                                                                            |
 | `interactive`  | `boolean` | `true`             | Whether the plot should be interactive. Setting this to false will disable tooltips & markers from this plot |
 | `showInLegend` | `boolean` | `true`             | Whether the plot should feature in the legend or not.                                                        |
 | `noClip`       | `boolean` | `false`            | Supress clipping of the plot.                                                                                |
 
-### Stream Graph
+### Range Area
 
 ```javascript
-export const StreamAreaTemplate = (args) => (
+export const RangeAreaTemplate = (args) => (
     <Chart {...args} data={sales_records_dataset}>
         <YAxis fields={[args.y, args.y2]} />
         <XAxis fields={[args.x]} showGridlines={false} />
@@ -49,9 +49,11 @@ export const StreamAreaTemplate = (args) => (
 );
 ```
 
-The `<Area>` component also allows us to represent a Stream plot.
+Providing `y2` on a single `<Area>` fills the band between `y` and `y2`, rather than filling down to the axis - useful for showing a range, such as a min/max band around a line.
 
-<Canvas of={AreaStories.Stream} />
+<Canvas of={AreaStories.RangeArea} />
+
+> **Note**: This is not a Stream Graph, despite the visual similarity of a single wavy band. For an actual Stream Graph - multiple stacked series with a floating baseline - see [Stream Graph](#stream-graph) under `<Areas>` below.
 
 ### Visual Styling
 
@@ -74,6 +76,8 @@ The `<Areas>` component allows us to define multiple area series. There are two 
 | **`ys`\*** | `string[]` | `null`             | The keys of the fields that contains values along the y-axis.        |
 | `colors`   | `string[]` | Derived from Theme | Override the colours for the series                                  |
 | `stacked`  | `boolean`  | `false`            | Whether the plots should be stacked. If false they will be overlayed |
+| `offset`   | `"none" \| "wiggle" \| "silhouette" \| "expand"` | `"none"` | Only applies when `stacked` is true. How the stack's layers are offset from the baseline - `"wiggle"` produces a Stream Graph. |
+| `order`    | `"none" \| "ascending" \| "descending" \| "insideOut" \| "reverse"` | `"none"` | Only applies when `stacked` is true. The order the stack's layers are arranged in - `"insideOut"` is the usual pairing with `offset="wiggle"`. |
 
 ### Overlapping Areas
 
@@ -91,6 +95,23 @@ Another way to to combine area plots is to stack them on top of each other. To s
 The chart will attempt to warn you, but you should also set the `aggregate` field on your X Axis/Scale as otherwise the data will overflow of the top of the scale `<XAxis ... aggregate={true} />`.
 
 <Canvas of={AreaStories.StackedAreas} />
+
+### Stream Graph
+
+A Stream Graph is a stacked area chart with a `"wiggle"` offset - instead of stacking from a zero
+baseline, the baseline floats to minimize how much each layer wiggles, so the bands read as
+flowing ribbons rather than a bar-shaped block. Pair it with `order="insideOut"` to reduce the
+wiggle further.
+
+```javascript
+<Areas x="year" ys={nameFields} stacked={true} offset="wiggle" order="insideOut" />
+```
+
+Because a `"wiggle"` offset can push layers above and below zero, the y-scale's usual `aggregate`
+(zero-to-sum) domain doesn't fit it - provide an explicit `domain` on the `<YAxis>` sized to the
+largest total across your data instead.
+
+<Canvas of={AreaStories.StreamGraph} />
 
 ### Zooming
 
