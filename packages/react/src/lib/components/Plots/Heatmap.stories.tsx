@@ -120,11 +120,11 @@ export const Pivotable = {
         expect(new Set(widthsFor()).size).toBe(1);
 
         // The "Pivot" action lives on the chart's right-click <ContextMenu> (portaled to
-        // document.body) rather than an on-chart control - open it and select "Pivot" to cycle to
-        // the next layout
+        // document.body) rather than an on-chart control - right-click to open it, then select
+        // "Pivot" to cycle to the next layout
         const svg = canvasElement.querySelector("svg");
         const cyclePivot = () => {
-            fireEvent.click(svg, { bubbles: true, clientX: 400, clientY: 300 });
+            fireEvent.contextMenu(svg, { bubbles: true, clientX: 400, clientY: 300 });
             const items = document.body.querySelectorAll(".context-menu-item");
             const pivotItem = Array.from(items).find((item) => item.textContent.trim().startsWith("Pivot"));
             fireEvent.click(pivotItem.querySelector("path"));

@@ -26,7 +26,8 @@ describe("Heatmap", () => {
     // The "Pivot" action lives on the chart's right-click <ContextMenu> (portaled to document.body,
     // via a useEffect that renders it imperatively with D3) rather than an on-chart control - opening
     // it can take an extra tick to settle under a busier CI runner, so this polls briefly rather than
-    // assuming the item is present the instant the opening click returns
+    // assuming the item is present the instant the opening event returns. Opening is a right-click
+    // (a native "contextmenu" event) on the chart's own <svg> - see <ContextMenuOverlay>
     async function findPivotItem(): Promise<Element> {
         for (let attempt = 0; attempt < 10; attempt++) {
             const items = Array.from(document.body.querySelectorAll(".context-menu-item"));
@@ -38,8 +39,12 @@ describe("Heatmap", () => {
         throw new Error("The 'Pivot' context-menu item never appeared");
     }
 
+    function openContextMenu(container: HTMLElement) {
+        fireEvent.contextMenu(container.querySelector("svg"), { clientX: 10, clientY: 10 });
+    }
+
     async function cyclePivot(container: HTMLElement) {
-        fireEvent.click(container.querySelector("svg"), { clientX: 10, clientY: 10 });
+        openContextMenu(container);
 
         const pivotItem = await findPivotItem();
         fireEvent.click(pivotItem.querySelector("path"));
@@ -52,7 +57,7 @@ describe("Heatmap", () => {
 
         await wait();
 
-        fireEvent.click(container.querySelector("svg"), { clientX: 10, clientY: 10 });
+        openContextMenu(container);
 
         const pivotItem = await findPivotItem();
         expect(pivotItem.getAttribute("data-disabled")).toBe("true");
