@@ -1,5 +1,25 @@
 # @chart-io/react-d3
 
+## 0.72.0
+
+### Minor Changes
+
+- 956ea3e5: Added `<ParallelCoordinates>`, showing one line per row of `data`, connecting a point for each field in `dimensions` across a set of independently-scaled vertical axes, one per dimension. Unlike an XY chart (fixed at two axes), it supports any number of dimensions, the same way each spoke of a `<Radar>` is scaled to its own field's domain.
+
+  `<ParallelCoordinates>` is a self-contained chart - it accepts chart-level props like `data`/`width`/`height` directly, since it only ever has a single plot. It composes a `<ParallelCoordinatesPlot>` (the lines) with a new `<ParallelAxis>` per dimension (ticks, labels and brushes) as separate chart-level children, the same way `<XYChart>` composes a plot with its own `<XAxis>`/`<YAxis>`. Like other plots, it supports rendering to Canvas via `useCanvas`, with rendering automatically batched into progressive passes for large datasets; `<ParallelAxis>` is always rendered as SVG regardless, since brushing needs real, draggable DOM elements.
+
+  Each axis can be dragged (`d3.brushY`) to filter rows by their value on that dimension. Brushing is backed by a new generic, reusable Redux mechanism - `chartActions.setFilter({ field, value })`/`chartSelectors.filters` - rather than being wired up bespoke to this one chart; selections on multiple axes combine, and read `chartSelectors.filters` to react to the current selection from outside the chart. Right-clicking the chart's background opens a radial context menu (see `<ContextMenuOverlay>`) with a "Reset filters" action that clears every axis' selection in one go, alongside "Hide"/"Show legend" - set `contextMenu={false}` to turn it off. Set `color` to color rows categorically instead of every row sharing one color, `brushable={false}` to disable brushing entirely, and `tooltip={true}` to opt into a hover tooltip (off by default, since a tooltip following every hover across potentially hundreds of crossing lines can be more noise than signal).
+
+### Patch Changes
+
+- 956ea3e5: Fixed `<ContextMenuOverlay>` opening on every click anywhere in the chart, including on top of plot marks and other interactive elements - it now only opens on a right-click of the chart's actual background (the bare `<svg>`, or the invisible hit-target rect `<XYChart>`/`<RadialChart>` render behind everything else), suppressing the browser's native context menu for just that click. A right-click elsewhere (a bar, a line, an axis brush, ...) is left alone.
+
+  Added a "Reset filters" action (`createResetFiltersAction`, with a new `contextMenuIcons.resetFilters` icon) that clears every filter set via `chartActions.setFilter` - shown disabled while nothing is filtered.
+
+- Updated dependencies [956ea3e5]
+- Updated dependencies [956ea3e5]
+  - @chart-io/core@0.19.0
+
 ## 0.71.0
 
 ### Minor Changes
