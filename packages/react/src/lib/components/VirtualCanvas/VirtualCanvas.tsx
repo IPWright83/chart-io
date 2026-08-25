@@ -55,9 +55,9 @@ export function VirtualCanvas({ children }: IVirtualCanvasProps) {
             return;
         }
 
-        const { clickHandler, moveHandler } = addEventHandlers(canvas, getColorMap, store.dispatch);
+        const { clickHandler, moveHandler, contextMenuHandler } = addEventHandlers(canvas, getColorMap, store.dispatch);
         return () => {
-            removeEventHandlers(canvas, clickHandler, moveHandler);
+            removeEventHandlers(canvas, clickHandler, moveHandler, contextMenuHandler);
         };
     }, [canvasRef.current, store, getColorMap]);
 

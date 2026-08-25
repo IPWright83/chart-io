@@ -84,7 +84,7 @@ function focus({ dispatch, x, y, xScale, yScale, position, data, color, eventMod
     const fill = color;
     const distance = getDistance(position.x, position.y, cx, cy);
 
-    const marker = { fill, cx, cy, distance };
+    const marker = { fill, cx, cy, distance, datum };
     const horizontalDropline = {
         isHorizontal: true,
         color: fill,

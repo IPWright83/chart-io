@@ -1,4 +1,4 @@
-import { chartSelectors, eventActions, eventSelectors, getDefaultBackgroundItems } from "@chart-io/core";
+import { chartSelectors, eventActions, eventSelectors, getDefaultItems } from "@chart-io/core";
 import type { IContextMenuContext, IContextMenuItem, IState } from "@chart-io/core";
 
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
@@ -8,12 +8,15 @@ import { ContextMenu } from "./ContextMenu";
 
 export interface IContextMenuOverlayProps {
     /**
-     * Builds the set of items to show when right-clicking the chart background, given the current
-     * Redux state - override this to add/replace actions. Defaults to `getDefaultBackgroundItems`,
-     * which includes stubbed out "Reset zoom", "Pivot", "Draw polygon" and "Hide/Show legend" actions
-     * @default getDefaultBackgroundItems
+     * Builds the set of items to show, given the current Redux state and the context the menu was
+     * opened with - override this to add/replace actions. Defaults to `getDefaultItems`, which shows
+     * `getDefaultBackgroundItems` ("Reset zoom", "Reset filters", "Pivot", "Draw polygon" and
+     * "Hide/Show legend") when opened on the chart background, or `getDefaultDatumItems` ("Hide data
+     * point" and stubbed out "Focus data point"/"Add annotation" actions) when opened on a specific
+     * datum (see `eventActions.openContextMenu`)
+     * @default getDefaultItems
      */
-    getItems?: (state: IState) => IContextMenuItem[];
+    getItems?: (state: IState, context?: IContextMenuContext) => IContextMenuItem[];
     /**
      * The inner radius of the ring, in pixels. See `<ContextMenu>`
      */
@@ -53,12 +56,14 @@ export interface IContextMenuOverlayProps {
  * markers it sits alongside, and it means opening a `<ContextMenu>` isn't something only this
  * component's own click handler can do
  *
- * For datum-specific actions (e.g. "Hide data point"), dispatch `eventActions.openContextMenu`
- * yourself instead, wired up to a plot's own `onClick` - see the Storybook docs for an example
+ * Plots that support it (e.g. `<Scatter>`, `<Bar>`, `<Donut>`) dispatch `eventActions.openContextMenu`
+ * with a `"datum"` context from their own right-click handler on each mark, which this menu also picks
+ * up and shows `getDefaultDatumItems` for by default - see the Storybook docs for an example of wiring
+ * this up on a custom plot
  * @return             The ContextMenuOverlay component
  */
 export function ContextMenuOverlay({
-    getItems = getDefaultBackgroundItems,
+    getItems = getDefaultItems,
     radius,
     thickness,
     padAngle,
@@ -88,7 +93,8 @@ export function ContextMenuOverlay({
         // "Background" means the click landed on the bare <svg> itself or the invisible hit-target
         // rect XYChart/RadialChart render behind everything else (see <EventReceiver>) - anything
         // else means it hit a real mark, axis, brush or other interactive element sitting on top,
-        // which should keep its own right-click behaviour (or the browser's native menu) instead
+        // which either opens its own "datum" context menu (see the plot's own right-click handler)
+        // or keeps the browser's native menu if it doesn't support one
         const isBackground = (target: EventTarget | null) =>
             target === svg || (target instanceof Element && target.classList.contains("event-receiver"));
 
@@ -109,7 +115,7 @@ export function ContextMenuOverlay({
 
     // Snapshot the items when the menu opens, rather than continuously recomputing them on every
     // store update - a right-click captures "what's true right now", same as a native context menu
-    const items = useMemo(() => (isOpen ? getItems(store.getState()) : []), [isOpen, getItems, store]);
+    const items = useMemo(() => (isOpen ? getItems(store.getState(), context) : []), [isOpen, getItems, store, context]);
 
     const onSelect = useCallback(
         (item: IContextMenuItem) => {

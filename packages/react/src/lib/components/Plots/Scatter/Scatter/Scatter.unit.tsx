@@ -1,6 +1,7 @@
 import { d3 } from "@chart-io/core";
 import { toMatchImageSnapshot } from "jest-image-snapshot";
 import React from "react";
+import { fireEvent } from "@testing-library/react";
 
 import { VIRTUAL_CANVAS_DEBOUNCE, VirtualCanvas } from "../../../VirtualCanvas";
 import { Scatter } from "./Scatter";
@@ -115,6 +116,28 @@ describe("Scatter", () => {
                 jest.spyOn(store, "dispatch");
 
                 await testMouseClick(container, "circle", onClick, expectedDatum);
+            });
+
+            it("right-click opens a datum context menu for the point, via useDatumContextMenu", async () => {
+                const { container, store } = await renderChart({
+                    children: <Scatter x="x" y="y" />,
+                    data,
+                    scales,
+                });
+
+                jest.spyOn(store, "dispatch");
+                fireEvent.contextMenu(container.querySelector("circle"), { clientX: 42, clientY: 24 });
+
+                expect(store.dispatch).toHaveBeenCalledWith(
+                    expect.objectContaining({
+                        type: "event/openContextMenu",
+                        payload: expect.objectContaining({
+                            x: 42,
+                            y: 24,
+                            context: { type: "datum", datum: expectedDatum },
+                        }),
+                    }),
+                );
             });
         });
 

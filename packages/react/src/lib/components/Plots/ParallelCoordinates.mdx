@@ -51,10 +51,22 @@ SVG regardless of `useCanvas`, since brushing needs real, draggable DOM elements
 
 <Canvas of={ParallelCoordinatesStories.Canvas} />
 
+Brushing works exactly the same way on Canvas - only the lines themselves move to a `<canvas>`, the
+axes/brushes underneath are unaffected:
+
+<Canvas of={ParallelCoordinatesStories.CanvasBrushFiltering} />
+
+With 5,000+ rows (`PROGRESSIVE_RENDER_THRESHOLD`), Canvas rendering automatically switches to
+progressively batched passes so the browser stays responsive - brushing keeps working exactly the
+same at that scale too:
+
+<Canvas of={ParallelCoordinatesStories.LargeDataset} />
+
 ### Brush Filtering
 
 Drag vertically on any axis to select a range - every row that doesn't pass through that range on that
-axis fades out. Selections on multiple axes combine (a row must satisfy every brushed axis to stay
+axis fades out (and stops responding to hover/click, so a faded-out row can no longer pop up its own
+tooltip). Selections on multiple axes combine (a row must satisfy every brushed axis to stay
 highlighted), and dragging a selection back to nothing clears that axis' filter. Each `<ParallelAxis>`
 writes its brushed extent straight to the chart's Redux store via a generic `chartActions.setFilter({
 field, value })`, rather than a prop passed down from the plot - keeping filtering reusable by any

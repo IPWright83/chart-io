@@ -1,8 +1,8 @@
-import { chartActions, createStore, eventSelectors } from "@chart-io/core";
+import { chartActions, createStore, eventActions, eventSelectors } from "@chart-io/core";
 
 import { Provider } from "react-redux";
 import React from "react";
-import { fireEvent, render } from "@testing-library/react";
+import { act, fireEvent, render } from "@testing-library/react";
 
 import { ContextMenuOverlay } from "./ContextMenuOverlay";
 
@@ -79,8 +79,9 @@ describe("ContextMenuOverlay", () => {
 
         fireEvent.contextMenu(container.querySelector("svg"), { clientX: 50, clientY: 60 });
 
-        expect(document.body.querySelectorAll(".context-menu-item")).toHaveLength(4);
+        expect(document.body.querySelectorAll(".context-menu-item")).toHaveLength(5);
         expect(document.body.textContent).toContain("Reset zoom");
+        expect(document.body.textContent).toContain("Reset filters");
         expect(document.body.textContent).toContain("Pivot");
         expect(document.body.textContent).toContain("Draw polygon");
         expect(document.body.textContent).toContain("Hide legend");
@@ -155,6 +156,27 @@ describe("ContextMenuOverlay", () => {
         fireEvent.contextMenu(container.querySelector("svg"), { clientX: 0, clientY: 0 });
 
         expect(document.body.textContent).toContain("Show legend");
+    });
+
+    it("shows the default datum items (e.g. 'Hide data point') when opened with a datum context", () => {
+        const store = createStore();
+        renderOverlay(store);
+
+        act(() => {
+            store.dispatch(eventActions.openContextMenu({ x: 10, y: 20, context: { type: "datum", datum: { a: 1 } } }));
+        });
+
+        expect(document.body.textContent).toContain("Hide data point");
+        expect(document.body.textContent).toContain("Focus data point");
+        expect(document.body.textContent).toContain("Add annotation");
+        expect(document.body.textContent).not.toContain("Reset zoom");
+
+        const hideItem = Array.from(document.body.querySelectorAll(".context-menu-item")).find(
+            (item) => item.textContent.trim() === "Hide data point",
+        );
+        fireEvent.click(hideItem.querySelector("path"));
+
+        expect(store.getState().chart.hiddenData).toEqual([{ a: 1 }]);
     });
 
     it("supports overriding the set of items via getItems", () => {

@@ -3,7 +3,7 @@ import type { IDatum, IEventPlotProps, INumericValue } from "@chart-io/core";
 
 import { useSelector } from "react-redux";
 
-import { useLegendItem, useRender } from "../../../../hooks";
+import { useDatumContextMenu, useLegendItem, useRender } from "../../../../hooks";
 
 import { renderCanvas } from "../../renderCanvas";
 import { useFocused } from "../useFocused";
@@ -49,6 +49,7 @@ export function BarBase({
     useLegendItem(x, "square", showInLegend, fillColor);
     const onTooltip = useTooltip({ y });
     const onFocus = useFocused({ yScale, theme, grouped: false, canvas, layer });
+    const onDatumContextMenu = useDatumContextMenu();
 
     useRender(() => {
         const { bandwidth, offset } = getBandwidthAndOffset(yScale, y, data);
@@ -103,6 +104,12 @@ export function BarBase({
 
                 onClick(datum, this, event);
             })
+            .on("contextmenu", function (event, datum) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onDatumContextMenu(datum, event);
+            })
             .transition("position")
             .duration(animationDuration / 2)
             // @ts-ignore: How do we deal with the scale here? y is likely a string
@@ -130,6 +137,7 @@ export function BarBase({
         onMouseOver,
         onMouseOut,
         onClick,
+        onDatumContextMenu,
     ]);
 
     return null;

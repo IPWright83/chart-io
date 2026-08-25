@@ -11,7 +11,7 @@ import type { IColor, IData, IHierarchyDatum, IHierarchyNode, IOnClick, IOnMouse
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 
-import { useLegendItems, useRender } from "../../../hooks";
+import { useDatumContextMenu, useLegendItems, useRender } from "../../../hooks";
 
 import { renderCanvas } from "../renderCanvas";
 import { useFocused } from "../useFocused";
@@ -144,6 +144,7 @@ export function TreemapBase({
     useLegendItems(legendKeys, "square", showInLegend, legendColors);
     const onTooltip = useTooltip();
     const onFocus = useFocused(theme);
+    const onDatumContextMenu = useDatumContextMenu();
 
     useRender(() => {
         // Unable to render without the layer avaliable
@@ -266,6 +267,12 @@ export function TreemapBase({
                     zoomTo(ancestry(parent));
                 }
             })
+            .on("contextmenu", function (event, node) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onDatumContextMenu(node.data.datum, event);
+            })
             .transition("treemap-cell")
             .duration(animationDuration)
             .attr("x", (node) => plotLeft + node.x0)
@@ -293,6 +300,7 @@ export function TreemapBase({
         onMouseOver,
         onMouseOut,
         onClick,
+        onDatumContextMenu,
         palette,
         legendKeys,
         zoomable,

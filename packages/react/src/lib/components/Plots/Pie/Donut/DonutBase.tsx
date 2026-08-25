@@ -4,7 +4,7 @@ import type { IColor, IDatum, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 
-import { useLegendItems, useRender } from "../../../../hooks";
+import { useDatumContextMenu, useLegendItems, useRender } from "../../../../hooks";
 
 import { renderCanvas } from "../../renderCanvas";
 import type { IArcAngles } from "../../interpolateArc";
@@ -132,6 +132,7 @@ export function DonutBase({
     useLegendItems(categories, "square", showInLegend, legendColors);
     const onTooltip = useTooltip();
     const onFocus = useFocused(theme, { canvas, width, height, layer });
+    const onDatumContextMenu = useDatumContextMenu();
 
     useRender(() => {
         ensureValuesAreUnique(data, category, "Donut");
@@ -211,6 +212,12 @@ export function DonutBase({
 
                 onClick && onClick(d.data, this, event);
             })
+            .on("contextmenu", function (event, d) {
+                // istanbul ignore next
+                if (!interactive) return;
+
+                onDatumContextMenu(d.data, event);
+            })
             .transition("arc")
             .duration(animationDuration)
             .attrTween("d", function (d) {
@@ -261,6 +268,7 @@ export function DonutBase({
         onMouseOver,
         onMouseOut,
         onClick,
+        onDatumContextMenu,
         palette,
         categories,
     ]);

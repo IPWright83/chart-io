@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { useFocused } from "./useFocused";
 import { useTooltip } from "./useTooltip";
 
-import { useLegendItem, useRender } from "../../../../hooks";
+import { useDatumContextMenu, useLegendItem, useRender } from "../../../../hooks";
 import { IBandwidthScale } from "../../IBandwidthScale";
 import { renderCanvas } from "../../renderCanvas";
 
@@ -64,6 +64,7 @@ export function ScatterBase({
 
     const onFocus = useFocused({ xScale, yScale });
     const onTooltip = useTooltip({ x, y });
+    const onDatumContextMenu = useDatumContextMenu();
 
     // This is the main render function
     useRender(() => {
@@ -120,6 +121,11 @@ export function ScatterBase({
 
                 onClick && onClick(datum, this, event);
             })
+            .on("contextmenu", function (event, datum) {
+                if (!interactive) return;
+
+                onDatumContextMenu(datum, event);
+            })
             .transition("scatter")
             .duration(animationDuration)
             .attr("cx", (d) => xScale(d[x] as INumericValue) + bandwidth)
@@ -141,6 +147,7 @@ export function ScatterBase({
         onMouseOver,
         onMouseOut,
         onClick,
+        onDatumContextMenu,
     ]);
 
     return null;

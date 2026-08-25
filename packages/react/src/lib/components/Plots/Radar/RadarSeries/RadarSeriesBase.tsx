@@ -4,7 +4,7 @@ import type { IColor, ILabeller, IOnClick, IOnMouseOut, IOnMouseOver, IValue } f
 import React, { useMemo } from "react";
 import { shallowEqual, useSelector } from "react-redux";
 
-import { useLegendItem, useRender } from "../../../../hooks";
+import { useDatumContextMenu, useLegendItem, useRender } from "../../../../hooks";
 
 import { interpolatePoints } from "../../interpolatePoints";
 import { renderCanvas } from "../../renderCanvas";
@@ -166,6 +166,7 @@ export function RadarSeriesBase({
     useLegendItem(effectiveLabeller(seriesName), "square", showInLegend, seriesColor as IColor);
     const onTooltip = useTooltip();
     const onFocus = useFocused(theme);
+    const onDatumContextMenu = useDatumContextMenu();
 
     useRender(() => {
         if (!angleScale || !row || radiusScales.some((scale) => !scale)) {
@@ -252,6 +253,14 @@ export function RadarSeriesBase({
                 if (!interactive || d.type !== "marker") return;
 
                 onClick && onClick(row, this, event);
+            })
+            .on("contextmenu", function (event, d) {
+                // istanbul ignore next
+                if (!interactive || d.type !== "marker") return;
+
+                // Hides the whole series (row) - Radar has no notion of hiding a single field/vertex
+                // independently of the rest of its row
+                onDatumContextMenu(row, event);
             });
 
         // A single transition covers both the polygon "shape" (animating its points) and the
@@ -302,6 +311,7 @@ export function RadarSeriesBase({
         onMouseOver,
         onMouseOut,
         onClick,
+        onDatumContextMenu,
         theme,
     ]);
 

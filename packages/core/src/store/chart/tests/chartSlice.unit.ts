@@ -325,4 +325,30 @@ describe("chartSlice.reducer", () => {
             legend: { ...previousState.legend, hidden: false },
         });
     });
+
+    it("hideDataPoint() adds a datum to hiddenData", () => {
+        const action = chartActions.hideDataPoint({ a: "foo" });
+
+        expect(chartSlice.reducer(previousState, action)).toEqual({
+            ...previousState,
+            hiddenData: [{ a: "foo" }],
+        });
+    });
+
+    it("hideDataPoint() is a no-op if the datum is already hidden", () => {
+        const previousLocalState = { ...previousState, hiddenData: [{ a: "foo" }] };
+        const action = chartActions.hideDataPoint({ a: "foo" });
+
+        expect(chartSlice.reducer(previousLocalState, action)).toEqual(previousLocalState);
+    });
+
+    it("clearHiddenData() empties hiddenData", () => {
+        const previousLocalState = { ...previousState, hiddenData: [{ a: "foo" }, { b: "bar" }] };
+        const action = chartActions.clearHiddenData();
+
+        expect(chartSlice.reducer(previousLocalState, action)).toEqual({
+            ...previousState,
+            hiddenData: [],
+        });
+    });
 });

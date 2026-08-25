@@ -40,6 +40,25 @@ const triggerOnClick = (datum: IDatum, element: Element, e: MouseEvent) => {
 };
 
 /**
+ * Fire the ContextMenu event if it exists on the node
+ * @param  datum          The datum
+ * @param  element        The node that triggered the event
+ * @param  e              The MouseEventArgs
+ */
+const triggerOnContextMenu = (datum: IDatum, element: Element, e: MouseEvent) => {
+    const node = element as EventElement;
+    if (!node || !node.__on) {
+        // istanbul ignore next
+        return;
+    }
+
+    const onContextMenu = node.__on.find((handler) => handler.type === "contextmenu");
+    if (onContextMenu) {
+        onContextMenu.value.call(node, e, datum);
+    }
+};
+
+/**
  * Fire the MouseOver event if it exists on the node
  * @param  datum          The datum
  * @param  element        The node that triggered the event
@@ -168,12 +187,27 @@ export const addEventHandlers = (
         }
     }, MOUSE_MOVE_THROTTLE);
 
+    /**
+     * Respond to a ContextMenu (right-click) event - only prevents the browser's native menu and
+     * dispatches when it actually landed on a datum, so an empty area of the canvas keeps falling
+     * through to whatever background context menu handling is registered above it
+     * @param  {MouseEventArgs} e   The mouse event
+     */
+    const contextMenuHandler = (e: MouseEvent) => {
+        const lookup = getDatum(e);
+        if (lookup) {
+            const { datum, node } = lookup;
+            triggerOnContextMenu(datum, node, e);
+        }
+    };
+
     // Register the events
     canvas.addEventListener("click", clickHandler);
+    canvas.addEventListener("contextmenu", contextMenuHandler);
     canvas.addEventListener("mousemove", moveHandler);
     canvas.addEventListener("mouseout", () => dispatch(eventActions.mouseExit()));
     canvas.addEventListener("mouseover", (e) => dispatch(eventActions.mouseEnter(e)));
 
     // Return the events so they can be cleaned up, to prevent double registration
-    return { clickHandler, moveHandler };
+    return { clickHandler, moveHandler, contextMenuHandler };
 };

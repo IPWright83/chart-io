@@ -158,5 +158,42 @@ describe("LegendOverlay", () => {
 
             expect(store.dispatch).toHaveBeenCalledWith(chartActions.setLegendPosition("NW"));
         });
+
+        it("keeps the Legend's own size fixed for the duration of the drag, rather than resizing it", () => {
+            // Reproduces a real bug: picking the Legend up substituted generic, direction-agnostic
+            // max-width/max-height for whatever direction-specific clamp it was docked with (see
+            // getLegendMaxDimensions), which - since the box has no explicit size of its own, just
+            // maxWidth/maxHeight - visibly resized/clipped it the instant it was grabbed, before the
+            // pointer had even moved. Its rendered size should stay pinned to what it was at pickup
+            const { container } = render(
+                <Provider store={store}>
+                    <svg>
+                        <LegendOverlay position="E" />
+                    </svg>
+                </Provider>
+            );
+
+            const foreignObject = container.querySelector("foreignObject");
+            const legend = container.querySelector(".legend");
+
+            jest.spyOn(foreignObject as Element, "getBoundingClientRect").mockReturnValue({
+                left: 0,
+                top: 0,
+                width: 200,
+                height: 200,
+            } as DOMRect);
+            jest.spyOn(legend as Element, "getBoundingClientRect").mockReturnValue({
+                left: 150,
+                top: 90,
+                width: 40,
+                height: 20,
+            } as DOMRect);
+
+            fireEvent(legend as Element, pointerEvent("pointerdown", { clientX: 160, clientY: 100 }));
+            expect(legend).toHaveStyle({ width: "40px", height: "20px" });
+
+            fireEvent(legend as Element, pointerEvent("pointermove", { clientX: 20, clientY: 20 }));
+            expect(legend).toHaveStyle({ width: "40px", height: "20px" });
+        });
     });
 });

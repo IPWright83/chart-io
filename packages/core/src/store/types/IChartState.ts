@@ -1,5 +1,5 @@
 import type { ILabeller } from "../../utils";
-import type { ICompassPosition, IData, ILegendItem, IMargin, IScale, ISizeLegend, ITheme } from "../../types";
+import type { ICompassPosition, IData, IDatum, ILegendItem, IMargin, IScale, ISizeLegend, ITheme } from "../../types";
 
 export interface IChartScaleInfo {
   scale?: IScale;
@@ -51,6 +51,10 @@ export type IChartStateFilters = Record<string, unknown>;
 export interface IChartState {
   id: string;
   data: IData;
+  // Rows explicitly excluded from `data` via the "Hide data point" <ContextMenu> action - kept as
+  // the original datum references (see chartActions.hideDataPoint) rather than e.g. indices, so
+  // hiding survives `data` being re-ordered/re-filtered elsewhere
+  hiddenData: IDatum[];
   animationDuration?: number;
   scales: IChartStateScales;
   // axisScales: IChartStateScales;
