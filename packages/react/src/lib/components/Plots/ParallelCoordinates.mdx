@@ -58,7 +58,9 @@ axes/brushes underneath are unaffected:
 
 With 5,000+ rows (`PROGRESSIVE_RENDER_THRESHOLD`), Canvas rendering automatically switches to
 progressively batched passes so the browser stays responsive - brushing keeps working exactly the
-same at that scale too:
+same at that scale too. At this density, a single shared colour (rather than `color`) with a low
+`theme.series.opacity` reads better than one colour per category - overlapping rows blend into
+visibly darker bands wherever the data is denser:
 
 <Canvas of={ParallelCoordinatesStories.LargeDataset} />
 

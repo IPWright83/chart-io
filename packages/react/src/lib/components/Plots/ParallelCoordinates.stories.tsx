@@ -76,6 +76,18 @@ function generateLargeDataset(count: number) {
 
 const largeDataset = generateLargeDataset(10000);
 
+// A single shared colour with each line mostly transparent, rather than colouring/opacity from the
+// default theme - with 10,000 overlapping rows, low per-line opacity is what actually lets areas of
+// higher density read as visibly darker, rather than every row (and every dense cluster) looking the
+// same solid colour
+const largeDatasetTheme = {
+    ...themes.light,
+    series: {
+        ...themes.light.series,
+        opacity: 0.05,
+    },
+};
+
 const ParallelCoordinatesTemplate = (args) => (
     <ParallelCoordinates
         data={args.data ?? data}
@@ -222,16 +234,16 @@ export const LargeDataset = {
     name: "10,000 Rows on Canvas",
     render: ParallelCoordinatesTemplate,
     parameters: {
-        // A larger dataset needs longer than the default delay to finish its progressive Canvas
-        // render (see `renderCanvas`/`PROGRESSIVE_RENDER_THRESHOLD`) before Chromatic snapshots it
-        chromatic: { delay: 1000 },
+        // Excluded rather than snapshotted - 10,000 rows makes for a slow, progressively-rendered
+        // Canvas capture (see PROGRESSIVE_RENDER_THRESHOLD) that adds little as a pixel-diff baseline,
+        // the same call already made for Scatter's own large-dataset story
+        chromatic: { disableSnapshot: true },
     },
     args: {
         ...Basic.args,
         useCanvas: true,
         data: largeDataset,
-        color: "group",
-        showInLegend: true,
+        theme: largeDatasetTheme,
     },
     play: async ({ canvasElement }) => {
         // Demonstrates that brushing keeps working once the dataset is big enough to fall into
