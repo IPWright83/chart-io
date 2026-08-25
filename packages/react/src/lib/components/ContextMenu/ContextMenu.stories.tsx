@@ -32,6 +32,8 @@ const backgroundState = {
         zoom: { path: [] },
         scales: {},
         legend: { items: [], hidden: false },
+        pivotable: false,
+        pivot: "grid",
     },
 } as any;
 
@@ -40,12 +42,14 @@ const zoomedState = {
         zoom: { path: ["Europe"] },
         scales: {},
         legend: { items: [], hidden: false },
+        pivotable: true,
+        pivot: "grid",
     },
 } as any;
 
 const backgroundItems = [
     createResetZoomAction(zoomedState),
-    createPivotAction(),
+    createPivotAction(zoomedState),
     createDrawPolygonAction(),
     createToggleLegendAction(backgroundState),
 ];
@@ -81,7 +85,7 @@ export const DisabledItem = {
     render: ContextMenuTemplate,
     args: {
         open: true,
-        items: [createResetZoomAction(backgroundState), createPivotAction(), createDrawPolygonAction()],
+        items: [createResetZoomAction(backgroundState), createPivotAction(backgroundState), createDrawPolygonAction()],
     },
 };
 

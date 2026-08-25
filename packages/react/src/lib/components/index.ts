@@ -11,7 +11,6 @@ export * from "./XYChart";
 export * from "./RadialChart";
 export * from "./ZoomBreadcrumb";
 export * from "./ContextMenu";
-export * from "./PivotControl";
 export * from "./Crosshair";
 export * from "./Furniture";
 export * from "./ZoomBrush";

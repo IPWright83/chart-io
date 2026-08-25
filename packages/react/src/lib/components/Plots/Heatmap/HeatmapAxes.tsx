@@ -8,7 +8,7 @@ import { usePivot } from "../usePivot";
 export interface IHeatmapAxesProps extends IUseHeatmapDomainsProps {
     /**
      * Lets the user switch between the full grid, a row-stacked-bar-chart and a
-     * column-stacked-bar-chart - see `<PivotControl>`
+     * column-stacked-bar-chart via the chart's `<ContextMenu>` - see `<Heatmap>`
      * @default false
      */
     pivotable?: boolean;

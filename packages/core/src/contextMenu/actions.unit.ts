@@ -114,11 +114,39 @@ describe("createToggleLegendAction", () => {
     });
 });
 
+describe("createPivotAction", () => {
+    it("is disabled while the heatmap isn't pivotable", () => {
+        expect(createPivotAction(notZoomedState).disabled).toBe(true);
+    });
+
+    it("is enabled once pivotable is set", () => {
+        const pivotableState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true } };
+        expect(createPivotAction(pivotableState).disabled).toBe(false);
+    });
+
+    it("labels itself with the layout it will switch to, cycling grid -> rows -> columns -> grid", () => {
+        const gridState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "grid" as const } };
+        const rowsState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "rows" as const } };
+        const columnsState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "columns" as const } };
+
+        expect(createPivotAction(gridState).label).toBe("Pivot: rows");
+        expect(createPivotAction(rowsState).label).toBe("Pivot: columns");
+        expect(createPivotAction(columnsState).label).toBe("Pivot: grid");
+    });
+
+    it("dispatches chartActions.setPivot with the next layout when selected", () => {
+        const rowsState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "rows" as const } };
+        const dispatch = jest.fn();
+        createPivotAction(rowsState).onSelect(dispatch);
+
+        expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "chart/setPivot", payload: "columns" }));
+    });
+});
+
 describe("stubbed actions", () => {
     // These don't have any store state to wire up to yet - they should still be safely callable
     // and not throw
     it.each([
-        ["pivot", createPivotAction()],
         ["draw-polygon", createDrawPolygonAction()],
         ["focus-data-point", createFocusDataPointAction()],
         ["add-annotation", createAddAnnotationAction()],

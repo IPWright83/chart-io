@@ -1,6 +1,6 @@
 import { chartActions, chartSelectors } from "../store/chart";
 import type { IDispatch, IState } from "../store/types";
-import type { IContextMenuContext, IContextMenuItem } from "../types";
+import type { IContextMenuContext, IContextMenuItem, IPivot } from "../types";
 
 import { contextMenuIcons } from "./icons";
 
@@ -63,17 +63,29 @@ export function createToggleLegendAction(state: IState): IContextMenuItem {
 }
 
 /**
- * Placeholder for pivoting a heatmap-style plot between column/row/grid orientations. There's no
- * store concept of a pivot to dispatch to yet, so this just logs - replace `onSelect` with a real
- * dispatch once one exists
+ * The order a `<Heatmap>`'s pivot cycles through each time the "Pivot" action is selected
+ */
+const PIVOT_CYCLE: IPivot[] = ["grid", "rows", "columns"];
+
+/**
+ * Cycles a pivotable `<Heatmap>` between its grid/rows/columns layouts, fully wired up to the store
+ * via `chartActions.setPivot`. Disabled unless a `<Heatmap>` has opted in via `pivotable`, since
+ * there's nothing to pivot otherwise. Labelled with the layout selecting it will switch to
+ * @param  state     The current Redux state, used to read whether pivoting is enabled and the
+ *                    current pivot
  * @return           The "Pivot" `<ContextMenu>` item
  */
-export function createPivotAction(): IContextMenuItem {
+export function createPivotAction(state: IState): IContextMenuItem {
+    const pivotable = chartSelectors.pivotable(state);
+    const pivot = chartSelectors.pivot(state);
+    const next = PIVOT_CYCLE[(PIVOT_CYCLE.indexOf(pivot) + 1) % PIVOT_CYCLE.length];
+
     return {
         id: "pivot",
-        label: "Pivot",
+        label: `Pivot: ${next}`,
         icon: contextMenuIcons.pivot,
-        onSelect: () => console.debug("[ContextMenu] 'Pivot' isn't wired up to anything yet"),
+        disabled: !pivotable,
+        onSelect: (dispatch: IDispatch) => dispatch(chartActions.setPivot(next)),
     };
 }
 
@@ -152,7 +164,7 @@ export function getDefaultBackgroundItems(state: IState): IContextMenuItem[] {
     return [
         createResetZoomAction(state),
         createResetFiltersAction(state),
-        createPivotAction(),
+        createPivotAction(state),
         createDrawPolygonAction(),
         createToggleLegendAction(state),
     ];

@@ -67,7 +67,7 @@ export interface IHeatmapPlotProps {
  *
  * Computes the row/column layout once (see `useHeatmapLayout`) and renders the cells (via the generic
  * `<RectsPlot>`) and, in the full grid layout, a color legend. Every cell is keyed by its row/column
- * pair, so toggling `pivot` (see `<PivotControl>`) doesn't recreate anything - each cell transitions to
+ * pair, so toggling `pivot` (see `<Heatmap>`) doesn't recreate anything - each cell transitions to
  * its new position, animating the grid collapsing into a bar chart along either axis and back again
  * @param  props       The set of React properties
  * @return             The HeatmapPlot component

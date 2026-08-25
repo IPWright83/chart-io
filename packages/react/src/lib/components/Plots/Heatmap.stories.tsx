@@ -1,7 +1,7 @@
 import { themes } from "@chart-io/core";
 
 import type { Meta } from "@storybook/react";
-import { expect, fireEvent, fn, within } from "@storybook/test";
+import { expect, fireEvent, fn } from "@storybook/test";
 import React from "react";
 
 import { gdp_dataset } from "../../../data/gdp_dataset";
@@ -112,7 +112,6 @@ export const Pivotable = {
         pivotable: true,
     },
     play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
-        const canvas = within(canvasElement);
         await wait(800);
 
         const widthsFor = () => Array.from(canvasElement.querySelectorAll("rect.heatmap-cell")).map((cell) => cell.getAttribute("width"));
@@ -120,22 +119,33 @@ export const Pivotable = {
         // In the grid every cell shares its column's fixed band width
         expect(new Set(widthsFor()).size).toBe(1);
 
+        // The "Pivot" action lives on the chart's right-click <ContextMenu> (portaled to
+        // document.body) rather than an on-chart control - open it and select "Pivot" to cycle to
+        // the next layout
+        const svg = canvasElement.querySelector("svg");
+        const cyclePivot = () => {
+            fireEvent.click(svg, { bubbles: true, clientX: 400, clientY: 300 });
+            const items = document.body.querySelectorAll(".context-menu-item");
+            const pivotItem = Array.from(items).find((item) => item.textContent.trim().startsWith("Pivot"));
+            fireEvent.click(pivotItem.querySelector("path"));
+        };
+
         // Pivoting to rows collapses the sector (column) axis into a linear scale - each country's
         // cells now stack edge-to-edge, sized by their own share of that country's total GDP
-        fireEvent.click(canvas.getByText("Rows"));
+        cyclePivot();
         await wait(800);
         expect(new Set(widthsFor()).size).toBeGreaterThan(1);
         expect(canvasElement.querySelector(".heatmap-legend")).toBeNull();
 
         // Pivoting to columns instead collapses the country (row) axis - each sector's cells stack
         // vertically by height instead
-        fireEvent.click(canvas.getByText("Columns"));
+        cyclePivot();
         await wait(800);
         const heightsFor = Array.from(canvasElement.querySelectorAll("rect.heatmap-cell")).map((cell) => cell.getAttribute("height"));
         expect(new Set(heightsFor).size).toBeGreaterThan(1);
 
         // Back to the grid, and the legend returns
-        fireEvent.click(canvas.getByText("Grid"));
+        cyclePivot();
         await wait(800);
         expect(new Set(widthsFor()).size).toBe(1);
         expect(canvasElement.querySelector(".heatmap-legend")).not.toBeNull();

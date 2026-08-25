@@ -23,7 +23,7 @@ colored by `value` along a sequential (or diverging) scale. It's a self-containe
 | **`value`\***      | `string`   | `null`               | The key of the field containing each cell's value, mapped to a color via `colors`.                        |
 | `colors`           | `string[]` | Derived from Theme   | The color range a cell's `value` is mapped along - 2 or more colors, interpolated between as equally spaced stops. An odd-length palette (3, 5, ...) is treated as diverging - see below. |
 | `cornerRadius`     | `number`   | `0`                  | The corner radius, in pixels, to apply to each cell.                                                       |
-| `pivotable`        | `boolean`  | `false`               | Lets the user switch between the full grid, a row-stacked-bar-chart and a column-stacked-bar-chart via a `<PivotControl>`. See [Pivoting](#pivoting-grid-rows-columns) below. |
+| `pivotable`        | `boolean`  | `false`               | Lets the user switch between the full grid, a row-stacked-bar-chart and a column-stacked-bar-chart via the "Pivot" action on the chart's right-click `<ContextMenu>`. See [Pivoting](#pivoting-grid-rows-columns) below. |
 | `interactive`      | `boolean`  | `true`                | Whether the plot should be interactive. Setting this to false will disable tooltips from this plot.       |
 
 `<Heatmap>` also accepts the usual chart-level props - `data`, `width`, `height`, `plotMargin`,
@@ -46,10 +46,11 @@ Like other plots, a `<Heatmap>` can be rendered using an HTML Canvas instead of 
 ### Pivoting (Grid / Rows / Columns)
 
 This is the feature this component is built around, based on the "Desk Occupancy Heatmap" Observable
-notebook (a `View` radio switching between "Week"/"Day"/"Hour"). Set `pivotable` to render a
-`<PivotControl>` letting the user switch between three layouts, all sharing the same cells - keyed by
-their row/column pair, so switching layouts doesn't recreate anything, it just transitions each cell to
-its new position and size:
+notebook (a `View` radio switching between "Week"/"Day"/"Hour"). Set `pivotable` to let the user switch
+between three layouts via the "Pivot" action on the chart's right-click `<ContextMenu>` (see
+`<ContextMenuOverlay>`, enabled by default on `<XYChart>`) - each click cycles grid -> rows -> columns
+-> grid. All three share the same cells - keyed by their row/column pair, so switching layouts doesn't
+recreate anything, it just transitions each cell to its new position and size:
 
 - **Grid** - the full 2D grid, exactly like the basic example above.
 - **Rows** - the column axis collapses into a linear scale: each row's cells stack edge-to-edge in
@@ -63,8 +64,9 @@ its new position and size:
 <Heatmap rows="country" columns="sector" value="gdp" pivotable={true} />
 ```
 
-`<Heatmap>` reads and writes this pivot as chart-level state (alongside `<PivotControl>`), the same way
-`<Treemap zoomable>` and `<ZoomBreadcrumb>` share zoom state - so it isn't a plain controlled prop.
+`<Heatmap>` reads and writes this pivot as chart-level state (alongside the `<ContextMenu>`'s "Pivot"
+action), the same way `<Treemap zoomable>` and its `<ContextMenu>`'s "Reset zoom" action share zoom
+state - so it isn't a plain controlled prop.
 
 Here's the same mechanic on the notebook's own dataset - a week of hourly desk occupancy - for a direct
 comparison:
