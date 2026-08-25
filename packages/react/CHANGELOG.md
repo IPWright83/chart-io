@@ -1,5 +1,20 @@
 # @chart-io/react-d3
 
+## 0.73.0
+
+### Minor Changes
+
+- 904c3c2e: Fixed a `<ParallelCoordinates>` bug where hovering/clicking a row that a brush had faded out (via `BRUSHED_OUT_OPACITY`) still triggered its tooltip/`onMouseOver`/`onClick` - on Canvas this was especially visible, since the virtual hit-test canvas always hit-tests at full opacity/a widened stroke (see `renderPolyline`), so a brushed-out row could be "picked up" well beyond where it's actually visible. A brushed-out row now stays purely visual - it's still drawn faded for context, but no longer responds to any interaction. Added Storybook stories demonstrating brushing on Canvas, including with a 10,000-row dataset to exercise Canvas's progressive/batched rendering (`PROGRESSIVE_RENDER_THRESHOLD`) while brushing.
+
+  Fixed a `<LegendOverlay>` bug where picking the Legend up to drag it also resized it - the drag-mode `positionStyle` substituted generic, direction-agnostic `maxWidth`/`maxHeight` for whatever direction-specific clamp (`getLegendMaxDimensions`) it was rendered with while docked, and since the Legend has no explicit size of its own (just those max values), the mismatch reflowed/clipped it the instant it was grabbed. Its on-screen size is now pinned to whatever it was at pickup for the duration of the drag, so only its position follows the pointer.
+
+  Added a general mechanism for permanently excluding a datum from a chart: `chartActions.hideDataPoint`/`chartActions.clearHiddenData`, backed by `chartSelectors.data`, which now excludes any hidden datum for every plot/axis/scale that reads through it - unlike `chartActions.setFilter` (a `<ParallelCoordinates>` axis brush), a hidden datum is removed outright rather than faded. This wires up the previously-stubbed "Hide data point" `<ContextMenu>` action, and a new `useDatumContextMenu` hook lets a plot's own mark open a "datum" `<ContextMenu>` on left-click, alongside whatever its own `onClick` prop already does (`<ContextMenuOverlay>`'s default `getItems` now shows `getDefaultDatumItems` for that context automatically) - right-clicking a mark is left alone, reserved for the chart's own background menu. Supported on `<Scatter>`, `<Bar>`/`<GroupedBar>`/`<StackedBar>`, `<Column>`/`<GroupedColumn>`/`<StackedColumn>`, `<Pie>`/`<Donut>`, `<Line>`/`<Area>`/`<StackedArea>`, `<Radar>` (hides the whole series, its only natural granularity), `<RadialArea>`, `<Treemap>`, `<CirclePacking>` (leaf nodes only - a branch/group node has no single real datum to hide), `<WordCloud>` and `<Funnel>` - not `<ParallelCoordinates>`, which already has its own, more targeted brush-based filtering. The background "Reset filters" `<ContextMenu>` action (now also included in `getDefaultBackgroundItems`, alongside the existing `<ParallelCoordinates>`-specific one) clears hidden data too.
+
+### Patch Changes
+
+- Updated dependencies [904c3c2e]
+  - @chart-io/core@0.20.0
+
 ## 0.72.0
 
 ### Minor Changes
