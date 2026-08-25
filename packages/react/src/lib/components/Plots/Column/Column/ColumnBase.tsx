@@ -103,11 +103,6 @@ export function ColumnBase({
                 if (!interactive) return;
 
                 onClick && onClick(datum, this, event);
-            })
-            .on("contextmenu", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
-
                 onDatumContextMenu(datum, event);
             })
             .transition("position")

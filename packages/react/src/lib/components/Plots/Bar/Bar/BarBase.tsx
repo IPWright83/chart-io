@@ -103,11 +103,6 @@ export function BarBase({
                 if (!interactive) return;
 
                 onClick(datum, this, event);
-            })
-            .on("contextmenu", function (event, datum) {
-                // istanbul ignore next
-                if (!interactive) return;
-
                 onDatumContextMenu(datum, event);
             })
             .transition("position")

@@ -63,11 +63,11 @@ export function Markers({ layer, onlyNearest = true }: IMarkersBaseProps) {
             .style("stroke-width", theme.markers.strokeWidth)
             .style("filter", (d) => (theme.markers.shadow ? `drop-shadow(0px 0px 10px ${d.fill})` : undefined))
             .style("fill", (d) => `${d.fill ?? "none"}`)
-            // A marker only has a `datum` (and so is right-clickable) on a Line/Area/RadialArea's
+            // A marker only has a `datum` (and so is left-clickable) on a Line/Area/RadialArea's
             // nearest-point indicator - a Scatter's own hover halo, for example, has none and stays
             // non-interactive so it doesn't shadow the real, already-interactive point underneath it
             .attr("pointer-events", (d) => (d.datum ? "auto" : "none"))
-            .on("contextmenu", function (event, d) {
+            .on("click", function (event, d) {
                 if (!d.datum) return;
 
                 onDatumContextMenu(d.datum, event);

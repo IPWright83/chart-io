@@ -57,9 +57,11 @@ export interface IContextMenuOverlayProps {
  * component's own click handler can do
  *
  * Plots that support it (e.g. `<Scatter>`, `<Bar>`, `<Donut>`) dispatch `eventActions.openContextMenu`
- * with a `"datum"` context from their own right-click handler on each mark, which this menu also picks
- * up and shows `getDefaultDatumItems` for by default - see the Storybook docs for an example of wiring
- * this up on a custom plot
+ * with a `"datum"` context from their own left-click handler on each mark (alongside whatever their
+ * own `onClick` prop already does), which this menu also picks up and shows `getDefaultDatumItems`
+ * for by default - see the Storybook docs for an example of wiring this up on a custom plot. Right-
+ * clicking a mark is deliberately left alone (falling through to the browser's native menu), reserved
+ * for the background menu above
  * @return             The ContextMenuOverlay component
  */
 export function ContextMenuOverlay({
@@ -93,8 +95,8 @@ export function ContextMenuOverlay({
         // "Background" means the click landed on the bare <svg> itself or the invisible hit-target
         // rect XYChart/RadialChart render behind everything else (see <EventReceiver>) - anything
         // else means it hit a real mark, axis, brush or other interactive element sitting on top,
-        // which either opens its own "datum" context menu (see the plot's own right-click handler)
-        // or keeps the browser's native menu if it doesn't support one
+        // which keeps the browser's native menu on right-click; a mark's own "datum" context menu
+        // (see useDatumContextMenu) opens on left-click instead, so it never competes with this one
         const isBackground = (target: EventTarget | null) =>
             target === svg || (target instanceof Element && target.classList.contains("event-receiver"));
 

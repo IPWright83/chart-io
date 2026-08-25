@@ -138,11 +138,6 @@ export function StackedColumnBase({
                 if (!interactive) return;
 
                 onClick && onClick(d.data, this as Element, event);
-            })
-            .on("contextmenu", function (event: MouseEvent, d) {
-                // istanbul ignore next
-                if (!interactive) return;
-
                 onDatumContextMenu(d.data, event);
             })
             .transition("position")

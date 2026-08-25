@@ -207,11 +207,6 @@ export function FunnelBase({
                 if (!interactive) return;
 
                 onClick && onClick(d, this, event);
-            })
-            .on("contextmenu", function (event, d) {
-                // istanbul ignore next
-                if (!interactive) return;
-
                 onDatumContextMenu(d, event);
             })
             .transition("funnel-segment")

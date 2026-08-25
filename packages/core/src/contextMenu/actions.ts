@@ -95,7 +95,7 @@ export function createDrawPolygonAction(): IContextMenuItem {
 /**
  * Removes the datum the menu was opened on from the chart entirely, via `chartActions.hideDataPoint`
  * - see `chartSelectors.data`, which every plot reads its rows through. Intended for a menu opened
- * with a `"datum"` context (e.g. wired up to a plot's own right-click handler via
+ * with a `"datum"` context (e.g. wired up to a plot's own left-click handler via
  * `eventActions.openContextMenu`); a no-op if opened without one. Undone via the background's
  * "Reset filters" action (`createResetFiltersAction`)
  * @return           The "Hide data point" `<ContextMenu>` item
@@ -160,7 +160,7 @@ export function getDefaultBackgroundItems(state: IState): IContextMenuItem[] {
 
 /**
  * A default set of items suited to a menu opened on a specific datum, e.g. wired up to a plot's
- * right-click handler - "Hide data point" is fully wired up (see `createHideDataPointAction`);
+ * left-click handler - "Hide data point" is fully wired up (see `createHideDataPointAction`);
  * "Focus data point"/"Add annotation" are placeholders - see each action's own docs
  * @return           A default set of per-datum `<ContextMenu>` items
  */

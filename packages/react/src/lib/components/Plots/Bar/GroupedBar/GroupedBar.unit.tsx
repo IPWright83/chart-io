@@ -118,7 +118,7 @@ describe("GroupedColumn", () => {
                 testMouseClick(container, "rect", onClick, expectedDatum);
             });
 
-            it("right-click opens a datum context menu for the whole row, not just this bar's composite", async () => {
+            it("left-click opens a datum context menu for the whole row, not just this bar's composite", async () => {
                 const { container, store } = await renderChart({
                     children: <GroupedBar y="y" xs={["x", "x2"]} />,
                     data,
@@ -126,7 +126,7 @@ describe("GroupedColumn", () => {
                 });
 
                 jest.spyOn(store, "dispatch");
-                fireEvent.contextMenu(container.querySelector("rect"), { clientX: 42, clientY: 24 });
+                fireEvent.click(container.querySelector("rect"), { clientX: 42, clientY: 24 });
 
                 // The whole (unspread) row - data[0] - not `expectedDatum` (this bar's own composite
                 // with `key`/`value` flattened in), since hiding it should remove the row's other

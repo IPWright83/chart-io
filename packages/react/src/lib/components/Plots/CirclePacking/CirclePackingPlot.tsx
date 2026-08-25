@@ -147,6 +147,12 @@ export function CirclePackingPlot({
     const handleClick = (node: ICirclePackingNode, element: Element, event: MouseEvent) => {
         onClick && onClick(node.data.datum, element, event);
 
+        // Only a leaf node's `datum` is a real row - a group/branch node's is a synthetic aggregate
+        // (see buildHierarchy), which "hide data point" can't meaningfully apply to
+        if (!node.children) {
+            onDatumContextMenu(node.data.datum, event);
+        }
+
         if (!zoomable) return;
 
         if (node === focusedNode) {
@@ -154,14 +160,6 @@ export function CirclePackingPlot({
         } else if (node.children) {
             zoomTo(ancestry(node));
         }
-    };
-
-    // Only a leaf node's `datum` is a real row - a group/branch node's is a synthetic aggregate (see
-    // buildHierarchy), which "hide data point" can't meaningfully apply to
-    const handleContextMenu = (node: ICirclePackingNode, element: Element, event: MouseEvent) => {
-        if (node.children) return;
-
-        onDatumContextMenu(node.data.datum, event);
     };
 
     const Nodes = useCanvas ? CanvasNodesPlot : SVGNodesPlot;
@@ -185,7 +183,6 @@ export function CirclePackingPlot({
                 onMouseOver={handleMouseOver}
                 onMouseOut={handleMouseOut}
                 onClick={handleClick}
-                onContextMenu={handleContextMenu}
             />
             <Labels
                 renderVirtualCanvas={renderVirtualCanvas}

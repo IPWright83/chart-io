@@ -55,11 +55,6 @@ export interface INodesPlotProps<T> {
     onMouseOver?: (item: T, element: Element, event: MouseEvent) => void;
     onMouseOut?: (item: T, element: Element, event: MouseEvent) => void;
     onClick?: (item: T, element: Element, event: MouseEvent) => void;
-    /**
-     * Fired on right-click - a caller wires this up to `useDatumContextMenu` to show a "datum"
-     * `<ContextMenu>` (e.g. "Hide data point") for the node, where that makes sense for its data
-     */
-    onContextMenu?: (item: T, element: Element, event: MouseEvent) => void;
 }
 
 /**
@@ -89,7 +84,6 @@ export function NodesPlot<T>({
     onMouseOver,
     onMouseOut,
     onClick,
-    onContextMenu,
 }: INodesPlotProps<T>) {
     const width = useSelector((s: IState) => chartSelectors.dimensions.width(s));
     const height = useSelector((s: IState) => chartSelectors.dimensions.height(s));
@@ -135,12 +129,6 @@ export function NodesPlot<T>({
                 if (!interactive) return;
 
                 onClick && onClick(item, this, event);
-            })
-            .on("contextmenu", function (event, item) {
-                // istanbul ignore next
-                if (!interactive) return;
-
-                onContextMenu && onContextMenu(item, this, event);
             });
 
         const transition = update
@@ -167,7 +155,6 @@ export function NodesPlot<T>({
         onMouseOver,
         onMouseOut,
         onClick,
-        onContextMenu,
         canvas,
         renderVirtualCanvas,
         layer,

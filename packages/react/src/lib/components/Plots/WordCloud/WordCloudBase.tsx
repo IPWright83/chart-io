@@ -213,11 +213,6 @@ export function WordCloudBase({
                 if (!interactive) return;
 
                 onClick && onClick(word.datum, this, event);
-            })
-            .on("contextmenu", function (event, word) {
-                // istanbul ignore next
-                if (!interactive) return;
-
                 onDatumContextMenu(word.datum, event);
             });
 

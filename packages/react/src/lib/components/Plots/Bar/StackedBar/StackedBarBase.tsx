@@ -136,11 +136,6 @@ export function StackedBarBase({
                 if (!interactive) return;
 
                 onClick && onClick(d.data, this as Element, event);
-            })
-            .on("contextmenu", function (event: MouseEvent, d: { data: IDatum }) {
-                // istanbul ignore next
-                if (!interactive) return;
-
                 onDatumContextMenu(d.data, event);
             })
             .transition("position")

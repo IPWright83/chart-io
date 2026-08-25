@@ -59,14 +59,14 @@ describe("Markers", () => {
         expect(marker.getAttribute("pointer-events")).toBe("none");
 
         const dispatch = jest.spyOn(store, "dispatch");
-        fireEvent.contextMenu(marker, { clientX: 1, clientY: 2 });
+        fireEvent.click(marker, { clientX: 1, clientY: 2 });
 
         expect(dispatch).not.toHaveBeenCalledWith(
             expect.objectContaining({ type: "event/openContextMenu" }),
         );
     });
 
-    it("right-click opens a datum context menu for a marker that has one, e.g. a Line/Area's nearest-point indicator", () => {
+    it("left-click opens a datum context menu for a marker that has one, e.g. a Line/Area's nearest-point indicator", () => {
         const datum = { date: "2024-01-01", value: 42 };
         const datumStore = createMockStore({
             chart: { theme: themes.light },
@@ -86,7 +86,7 @@ describe("Markers", () => {
         const marker = container.querySelector(".marker");
         expect(marker.getAttribute("pointer-events")).toBe("auto");
 
-        fireEvent.contextMenu(marker, { clientX: 42, clientY: 24 });
+        fireEvent.click(marker, { clientX: 42, clientY: 24 });
 
         expect(datumStore.dispatch).toHaveBeenCalledWith(
             expect.objectContaining({

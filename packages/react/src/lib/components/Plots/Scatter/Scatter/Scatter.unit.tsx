@@ -118,7 +118,7 @@ describe("Scatter", () => {
                 await testMouseClick(container, "circle", onClick, expectedDatum);
             });
 
-            it("right-click opens a datum context menu for the point, via useDatumContextMenu", async () => {
+            it("left-click opens a datum context menu for the point, via useDatumContextMenu", async () => {
                 const { container, store } = await renderChart({
                     children: <Scatter x="x" y="y" />,
                     data,
@@ -126,7 +126,7 @@ describe("Scatter", () => {
                 });
 
                 jest.spyOn(store, "dispatch");
-                fireEvent.contextMenu(container.querySelector("circle"), { clientX: 42, clientY: 24 });
+                fireEvent.click(container.querySelector("circle"), { clientX: 42, clientY: 24 });
 
                 expect(store.dispatch).toHaveBeenCalledWith(
                     expect.objectContaining({

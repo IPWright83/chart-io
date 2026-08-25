@@ -118,10 +118,6 @@ export function GroupedBarBase({
                 if (!interactive) return;
 
                 onClick && onClick(datum, this as Element, event);
-            })
-            .on("contextmenu", function (event) {
-                // istanbul ignore next
-                if (!interactive) return;
 
                 // Hides the whole row, not just this one series' bar - the parent <g> (one per row,
                 // see groupJoin above) still carries the original, unspread row as its own bound

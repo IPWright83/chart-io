@@ -155,17 +155,19 @@ import { createResetZoomAction, createToggleLegendAction } from "@chart-io/core"
 
 ## Menus on a Data Point
 
-Right-clicking a mark on `<Scatter>`, `<Bar>`/`<GroupedBar>`/`<StackedBar>`, `<Column>`/
+Left-clicking a mark on `<Scatter>`, `<Bar>`/`<GroupedBar>`/`<StackedBar>`, `<Column>`/
 `<GroupedColumn>`/`<StackedColumn>`, `<Pie>`/`<Donut>`, `<Line>`/`<Area>`/`<StackedArea>`, `<Radar>`,
 `<RadialArea>`, `<Treemap>`, `<CirclePacking>`, `<WordCloud>` and `<Funnel>` already opens the same
 `<ContextMenuOverlay>` with `getDefaultDatumItems` - "Hide data point" (fully wired up, via
-`chartActions.hideDataPoint`), and stubbed "Focus data point"/"Add annotation" - nothing to set up.
-`<ParallelCoordinates>` is the one built-in exception, since its own brush-based filtering already
-covers this. `<XYChart>`/`<RadialChart>` still need `contextMenu` left at its default (`true`) for
-this to show, the same as the background menu.
+`chartActions.hideDataPoint`), and stubbed "Focus data point"/"Add annotation" - alongside whatever
+that plot's own `onClick` prop already does, nothing to set up. `<ParallelCoordinates>` is the one
+built-in exception, since its own brush-based filtering already covers this. `<XYChart>`/
+`<RadialChart>` still need `contextMenu` left at its default (`true`) for this to show, the same as
+the background menu. Right-clicking a mark is deliberately left alone (falling through to the
+browser's native menu) - only the background gets a right-click menu.
 
 For a custom plot without this built in, wire it up the same way those do: call `useDatumContextMenu`
-and attach the handler it returns to your mark's own `contextmenu` event:
+and call the handler it returns from your mark's own `click` handler:
 
 ```jsx
 import { useDatumContextMenu } from "@chart-io/react";
@@ -174,13 +176,15 @@ function MyPlot({ data }) {
     const onDatumContextMenu = useDatumContextMenu();
 
     // Inside your D3 join:
-    // .on("contextmenu", (event, datum) => onDatumContextMenu(datum, event))
+    // .on("click", (event, datum) => {
+    //     onClick && onClick(datum, event.currentTarget, event);
+    //     onDatumContextMenu(datum, event);
+    // })
 }
 ```
 
-That dispatches `eventActions.openContextMenu` with a `"datum"` context for you, suppressing the
-browser's native menu and stopping the event bubbling up to the background menu's own listener. To
-build the menu by hand instead - e.g. to show it somewhere other than `<ContextMenuOverlay>` - read
+That dispatches `eventActions.openContextMenu` with a `"datum"` context for you. To build the menu by
+hand instead - e.g. to show it somewhere other than `<ContextMenuOverlay>` - read
 `eventSelectors.contextMenu` back with a small connected component the same way
 `<ContextMenuOverlay>` does:
 

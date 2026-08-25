@@ -211,11 +211,6 @@ export function DonutBase({
                 if (!interactive) return;
 
                 onClick && onClick(d.data, this, event);
-            })
-            .on("contextmenu", function (event, d) {
-                // istanbul ignore next
-                if (!interactive) return;
-
                 onDatumContextMenu(d.data, event);
             })
             .transition("arc")

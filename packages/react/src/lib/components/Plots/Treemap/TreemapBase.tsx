@@ -253,6 +253,7 @@ export function TreemapBase({
                 if (!interactive) return;
 
                 onClick && onClick(node.data.datum, this, event);
+                onDatumContextMenu(node.data.datum, event);
 
                 if (!zoomable) return;
 
@@ -266,12 +267,6 @@ export function TreemapBase({
                 } else if (parent && parent.depth > 0) {
                     zoomTo(ancestry(parent));
                 }
-            })
-            .on("contextmenu", function (event, node) {
-                // istanbul ignore next
-                if (!interactive) return;
-
-                onDatumContextMenu(node.data.datum, event);
             })
             .transition("treemap-cell")
             .duration(animationDuration)

@@ -253,10 +253,6 @@ export function RadarSeriesBase({
                 if (!interactive || d.type !== "marker") return;
 
                 onClick && onClick(row, this, event);
-            })
-            .on("contextmenu", function (event, d) {
-                // istanbul ignore next
-                if (!interactive || d.type !== "marker") return;
 
                 // Hides the whole series (row) - Radar has no notion of hiding a single field/vertex
                 // independently of the rest of its row
