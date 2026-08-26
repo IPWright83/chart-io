@@ -4,6 +4,7 @@ import type { IColor } from "../types";
 
 import { renderArc } from "./renderArc";
 import { renderCircle } from "./renderCircle";
+import { renderGeoPath } from "./renderGeoPath";
 import { renderLink } from "./renderLink";
 import { renderLinkRadial } from "./renderLinkRadial";
 import { renderPolygon } from "./renderPolygon";
@@ -64,6 +65,10 @@ export function renderElements(
                 switch (node.getAttribute("data-path-type")) {
                     case "arc":
                         renderArc(context, node, overrideColor);
+                        break;
+
+                    case "geo":
+                        renderGeoPath(context, node, overrideColor);
                         break;
 
                     case "link":

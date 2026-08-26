@@ -69,6 +69,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/d3-scale": "^4.0.3",
     "@types/d3-selection": "^3.0.4",
+    "@types/geojson": "^7946.0.14",
     "@types/jest": "^29.4.0",
     "@types/mdx": "^2.0.3",
     "@types/node": "^18.13.0",

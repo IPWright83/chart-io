@@ -1,0 +1,104 @@
+import { Story, Canvas, Meta } from "@storybook/blocks";
+import * as GeoStories from "./Geo.stories"
+
+<Meta title="Charts/Geo/Geo" />
+
+# Geo/Map Plots
+
+`<Geo>` is a map chart. It's a composition root like `<XYChart>` - self-contained (no need to wrap it in
+another chart component), but rather than a single fixed plot, it composes any combination of layers as
+`children`, all sharing one [`d3-geo`](https://d3js.org/d3-geo) projection fitted to the plot area:
+
+- **`<Choropleth>`** shades each region of a geography by a quantized color scale, joined against the
+  chart's data by a region key - e.g. population by country/state.
+- **`<GeoPoints>`** plots a marker per row at its latitude/longitude, optionally sized by a value.
+- **`<GeoPie>`** plots a small Pie/Donut glyph per location, summarizing that location's rows by category.
+- **`<GeoArcs>`** draws a great-circle flow line between a source/target latitude/longitude pair per
+  row - e.g. migration or trade between regions.
+- **`<GeoPaths>`** connects each group's rows into a single ordered route across the map - e.g. a
+  tracked animal's individual GPS fixes stitched into its migration path.
+
+Any combination of layers can be composed onto the same `<Geo>` - see [Composing layers](#composing-layers) below.
+
+<Canvas of={GeoStories.Basic} />
+
+## `<Geo>` Component
+
+### Props
+
+| Prop         | Type                             | Default        | Note                                                                                                                    |
+| ------------ | --------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `features`   | GeoJSON or TopoJSON                | `undefined`    | The geography to render/fit the map to. Optional - a map of scattered points/arcs/paths doesn't need any region geometry, and fits the whole globe/plane instead. |
+| `object`     | `string`                           | First object   | Which TopoJSON object to extract, if `features` is a `Topology` with more than one (e.g. `"states"` vs `"counties"`).   |
+| `projection` | `string \| () => GeoProjection`    | `"equalEarth"` | One of `"equalEarth"`, `"mercator"`, `"naturalEarth1"`, `"orthographic"`, `"albersUsa"`, `"albers"`, `"azimuthalEqualArea"`, or a factory for a custom `d3-geo` projection. |
+| `rotate`     | `[number, number, number]`         | `undefined`    | An optional `[lambda, phi, gamma]` rotation, in degrees.                                                                |
+
+`features` accepts either plain GeoJSON (a `Feature` or `FeatureCollection`) or a TopoJSON `Topology` -
+e.g. from [`world-atlas`](https://www.npmjs.com/package/world-atlas) or
+[`us-atlas`](https://www.npmjs.com/package/us-atlas), which are usually a much smaller download than the
+equivalent GeoJSON.
+
+## `<Choropleth>` Component
+
+### Props
+
+| Prop           | Type                        | Default                    | Note                                                                                                    |
+| -------------- | ---------------------------- | --------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| **`regionKey`\*** | `string`                   | `null`                       | The key of the field, on each row of data, that identifies which region it belongs to.                     |
+| **`value`\***  | `string`                     | `null`                        | The key of the numeric field used to color each region.                                                    |
+| `featureKey`   | `(feature) => string`        | `feature.id`/`.properties.id` | Returns the ID for a GeoJSON feature, matched against `regionKey`.                                          |
+| `colors`       | `string[]`                   | A 6-shade blue palette       | The sequence of colors to quantize `value` into.                                                            |
+| `domain`       | `[number, number]`           | Extent of `value`             | Overrides the `[min, max]` domain colors are quantized across.                                              |
+| `noDataColor`  | `string`                     | `theme.background`            | The fill color for a region with no matching row of data.                                                   |
+| `stroke`       | `string`                     | `theme.background`            | The border color drawn between regions.                                                                     |
+| `interactive`  | `boolean`                    | `true`                        | Whether the plot should be interactive.                                                                     |
+| `showInLegend` | `boolean`                    | `true`                        | Whether a legend item is added per quantized color bucket.                                                  |
+
+### Using Canvas
+
+Like other plots, a `<Geo>` chart can be rendered using an HTML Canvas instead of SVG by setting `useCanvas`.
+
+<Canvas of={GeoStories.Canvas} />
+
+## `<GeoPoints>` Component
+
+Plots a circle marker at every row's `lat`/`lon`. Set `value` and a `radius` `[min, max]` range for
+area-proportional sizing, and/or `category` to color points categorically.
+
+<Canvas of={GeoStories.Points} />
+
+## `<GeoPie>` Component
+
+Plots a small Pie glyph (or Donut, via `innerRadius`) at every distinct `lat`/`lon` (or `group`),
+summarizing that location's rows by `category`/`value` - e.g. a city's electricity generation mix.
+
+<Canvas of={GeoStories.Pie} />
+
+## `<GeoArcs>` Component
+
+Draws a curved flow line for every row, from a `sourceLat`/`sourceLon` to a `targetLat`/`targetLon` -
+e.g. trade or migration between regions. Set `value` and a `strokeWidth` `[min, max]` range to scale
+each arc by its flow's magnitude.
+
+<Canvas of={GeoStories.Arcs} />
+
+## `<GeoPaths>` Component
+
+Connects every `group`'s rows (e.g. one tracked animal's individual position readings) into a single
+route, ordered by `order` if given - e.g. a bird's migration track.
+
+<Canvas of={GeoStories.Paths} />
+
+## Composing layers
+
+Any combination of layers can be composed together inside a single `<Geo>`, sharing one projection and
+one dataset - e.g. a Choropleth with `<GeoPoints>` markers on top:
+
+<Canvas of={GeoStories.Composed} />
+
+```jsx
+<Geo data={data} features={continentRegions} width={700} height={450}>
+    <Choropleth regionKey="continent" value="population" />
+    <GeoPoints lat="lat" lon="lon" color="#ffffff" radius={4} interactive={false} />
+</Geo>
+```

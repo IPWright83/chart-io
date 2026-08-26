@@ -93,6 +93,9 @@ importers:
       d3-format:
         specifier: ^3.1.0
         version: 3.1.0
+      d3-geo:
+        specifier: ^3.1.1
+        version: 3.1.1
       d3-hierarchy:
         specifier: ^3.1.2
         version: 3.1.2
@@ -129,6 +132,9 @@ importers:
       proxy-memoize:
         specifier: ^2.0.4
         version: 2.0.6
+      topojson-client:
+        specifier: ^3.1.0
+        version: 3.1.0
       uuid:
         specifier: ^9.0.0
         version: 9.0.1
@@ -166,6 +172,9 @@ importers:
       '@types/d3-format':
         specifier: ^3.0.1
         version: 3.0.4
+      '@types/d3-geo':
+        specifier: ^3.1.0
+        version: 3.1.1
       '@types/d3-hierarchy':
         specifier: ^3.1.7
         version: 3.1.7
@@ -193,9 +202,15 @@ importers:
       '@types/d3-transition':
         specifier: ^3.0.3
         version: 3.0.9
+      '@types/geojson':
+        specifier: ^7946.0.14
+        version: 7946.0.16
       '@types/jest':
         specifier: ^29.4.0
         version: 29.5.14
+      '@types/topojson-client':
+        specifier: ^3.1.4
+        version: 3.1.5
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.14.0
         version: 6.21.0(@typescript-eslint/parser@5.62.0)(eslint@8.57.1)(typescript@5.9.2)
@@ -320,6 +335,9 @@ importers:
       '@types/d3-selection':
         specifier: ^3.0.4
         version: 3.0.11
+      '@types/geojson':
+        specifier: ^7946.0.14
+        version: 7946.0.16
       '@types/jest':
         specifier: ^29.4.0
         version: 29.5.14
@@ -6089,6 +6107,12 @@ packages:
     resolution: {integrity: sha512-fALi2aI6shfg7vM5KiR1wNJnZ7r6UuggVqtDA+xiEdPZQwy/trcQaHnwShLuLdta2rTymCNpxYTiMZX/e09F4g==}
     dev: true
 
+  /@types/d3-geo@3.1.1:
+    resolution: {integrity: sha512-65Emv9fQiQQqphLlRkuQ5ypPsOmWPhtBGCMv61JDPEPMvsx+gzhGf74yw1a78xFKPj6zw4AgQICJoQv0vK9M2w==}
+    dependencies:
+      '@types/geojson': 7946.0.16
+    dev: true
+
   /@types/d3-hierarchy@3.1.7:
     resolution: {integrity: sha512-tJFtNoYBtRtkNysX1Xq4sxtjK8YgoWUNpIiUee0/jHGRwqvzYxkq0hGVbbOGSz+JgFxxRu4K8nb3YpG3CMARtg==}
     dev: true
@@ -6226,6 +6250,10 @@ packages:
 
   /@types/find-cache-dir@3.2.1:
     resolution: {integrity: sha512-frsJrz2t/CeGifcu/6uRo4b+SzAwT4NYCVPu1GN8IB9XTzrpPkGuV0tmh9mN+/L0PklAlsC3u5Fxt0ju00LXIw==}
+    dev: true
+
+  /@types/geojson@7946.0.16:
+    resolution: {integrity: sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==}
     dev: true
 
   /@types/graceful-fs@4.1.9:
@@ -6459,6 +6487,19 @@ packages:
       - '@types/react-dom'
       - react
       - react-dom
+    dev: true
+
+  /@types/topojson-client@3.1.5:
+    resolution: {integrity: sha512-C79rySTyPxnQNNguTZNI1Ct4D7IXgvyAs3p9HPecnl6mNrJ5+UhvGNYcZfpROYV2lMHI48kJPxwR+F9C6c7nmw==}
+    dependencies:
+      '@types/geojson': 7946.0.16
+      '@types/topojson-specification': 1.0.5
+    dev: true
+
+  /@types/topojson-specification@1.0.5:
+    resolution: {integrity: sha512-C7KvcQh+C2nr6Y2Ub4YfgvWvWCgP2nOQMtfhlnwsRL4pYmmwzBS7HclGiS87eQfDOU/DLQpX6GEscviaz4yLIQ==}
+    dependencies:
+      '@types/geojson': 7946.0.16
     dev: true
 
   /@types/tough-cookie@4.0.5:
@@ -9237,6 +9278,13 @@ packages:
   /d3-format@3.1.0:
     resolution: {integrity: sha512-YyUI6AEuY/Wpt8KWLgZHsIU86atmikuoOmCfommt0LYHiQSPjvX2AcFc38PX0CBpr2RCyZhjex+NS/LPOv6YqA==}
     engines: {node: '>=12'}
+    dev: false
+
+  /d3-geo@3.1.1:
+    resolution: {integrity: sha512-637ln3gXKXOwhalDzinUgY83KzNWZRKbYubaG+fGVuc/dxO64RRljtCTnf5ecMyE1RIdtqpkVcq0IbtU2S8j2Q==}
+    engines: {node: '>=12'}
+    dependencies:
+      d3-array: 3.2.4
     dev: false
 
   /d3-hierarchy@3.1.2:
@@ -18478,6 +18526,13 @@ packages:
   /toidentifier@1.0.1:
     resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
     engines: {node: '>=0.6'}
+    dev: false
+
+  /topojson-client@3.1.0:
+    resolution: {integrity: sha512-605uxS6bcYxGXw9qi62XyrV6Q3xwbndjachmNxu8HWTtVPxZfEJN9fd/SZS1Q54Sn2y0TMyMxFj/cJINqGHrKw==}
+    hasBin: true
+    dependencies:
+      commander: 2.20.3
     dev: false
 
   /totalist@3.0.1:
