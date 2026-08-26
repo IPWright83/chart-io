@@ -1,5 +1,5 @@
 import type { ILabeller } from "../../utils";
-import type { ICompassPosition, IData, IDatum, ILegendItem, IMargin, IPivot, IScale, ISizeLegend, ITheme } from "../../types";
+import type { ICompassPosition, IColorLegend, IData, IDatum, ILegendItem, IMargin, IPivot, IScale, ISizeLegend, ITheme } from "../../types";
 
 export interface IChartScaleInfo {
   scale?: IScale;
@@ -26,6 +26,8 @@ export interface IChartStateLegend {
   position?: ICompassPosition;
   // The size legend a <ZAxis> has registered, if any, explaining a Scatter/Scatters z encoding
   sizeLegend?: ISizeLegend | null;
+  // The gradient legend a plot with a continuous color scale (e.g. <Heatmap>) has registered, if any
+  colorLegend?: IColorLegend | null;
   // Whether the user has explicitly hidden the legend, e.g. via a <ContextMenu> action
   hidden?: boolean;
 }

@@ -9,4 +9,6 @@ Set `pivotable` to let the user switch, via the "Pivot" action on the chart's ri
 
 Pass an odd-length `colors` palette (3, 5, ...) - e.g. for a correlation matrix - and the color scale centers on 0 instead of the data's own midpoint, so equal-and-opposite values get equally saturated, opposite colors.
 
+In the full grid layout, the color scale shows as a gradient bar embedded at the bottom of the chart's `<Legend>` - the same convention a `<ZAxis>`'s size legend uses - via a new `useColorLegend` hook and `colorLegend`/`setColorLegend`/`clearColorLegend` store state in `@chart-io/core`, rather than a fixed element positioned under the plot.
+
 Also adds chart-level pivot state (`pivotable`/`pivot`, mirroring `zoomable`/`zoom`) to `@chart-io/core`, and wires the previously-stubbed "Pivot" `<ContextMenu>` action up to it - it now cycles a pivotable chart through grid/x/y and is disabled otherwise. `pivot` is generic to whichever axis is collapsed (`"x"` | `"y"` | `undefined` for the full grid), not tied to `<Heatmap>`'s own `rows`/`columns` vocabulary, so other chart types can reuse the same store state and `<ContextMenu>` action.

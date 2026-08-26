@@ -135,7 +135,7 @@ export const Pivotable = {
         cyclePivot();
         await wait(800);
         expect(new Set(widthsFor()).size).toBeGreaterThan(1);
-        expect(canvasElement.querySelector(".heatmap-legend")).toBeNull();
+        expect(canvasElement.querySelector(".color-legend")).toBeNull();
 
         // Pivoting to columns instead collapses the country (row) axis - each sector's cells stack
         // vertically by height instead
@@ -148,7 +148,7 @@ export const Pivotable = {
         cyclePivot();
         await wait(800);
         expect(new Set(widthsFor()).size).toBe(1);
-        expect(canvasElement.querySelector(".heatmap-legend")).not.toBeNull();
+        expect(canvasElement.querySelector(".color-legend")).not.toBeNull();
     },
 };
 

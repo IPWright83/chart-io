@@ -1,4 +1,5 @@
 import { d3 } from "../../../d3";
+import type { IColor } from "../../../types";
 
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../../constants";
 import { themes } from "../../../themes";
@@ -596,6 +597,33 @@ describe("chartSelectors", () => {
                 };
 
                 expect(chartSelectors.legend.sizeLegend(state)).toEqual(sizeLegend);
+            });
+        });
+
+        describe("colorLegend", () => {
+            it("defaults to null", () => {
+                const state = { event: defaultEventState, chart: { ...defaultChartState } };
+                expect(chartSelectors.legend.colorLegend(state)).toBeNull();
+            });
+
+            it("returns the registered color legend", () => {
+                const colorLegend = { colors: ["#fff", "#000"] as IColor[], domain: [0, 100] as [number, number] };
+                const state = {
+                    event: defaultEventState,
+                    chart: { ...defaultChartState, legend: { ...defaultChartState.legend, colorLegend } },
+                };
+
+                expect(chartSelectors.legend.colorLegend(state)).toEqual(colorLegend);
+            });
+
+            it("makes the legend visible even with no color items", () => {
+                const colorLegend = { colors: ["#fff", "#000"] as IColor[], domain: [0, 100] as [number, number] };
+                const state = {
+                    event: defaultEventState,
+                    chart: { ...defaultChartState, legend: { ...defaultChartState.legend, colorLegend } },
+                };
+
+                expect(chartSelectors.legend.isVisible(state)).toBe(true);
             });
         });
     });

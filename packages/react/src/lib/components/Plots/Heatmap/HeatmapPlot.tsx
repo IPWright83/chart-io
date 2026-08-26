@@ -5,11 +5,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { withCanvas, withSVG } from "../../../hoc";
+import { useColorLegend } from "../../../hooks";
 import { IRectsPlotProps, RectsPlot } from "../RectsPlot";
 import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
 
-import { HeatmapLegend } from "./HeatmapLegend";
 import { IHeatmapCell, useHeatmapLayout } from "./useHeatmapLayout";
 
 const CanvasCellsPlot = withCanvas<IRectsPlotProps<IHeatmapCell>>(RectsPlot, "plot heatmap-cells");
@@ -65,10 +65,13 @@ export interface IHeatmapPlotProps {
  * of your own. `<Heatmap>` also renders a `<HeatmapAxes>` alongside this, which supplies the `<XAxis>`/
  * `<YAxis>` this plot's cells are positioned against
  *
- * Computes the row/column layout once (see `useHeatmapLayout`) and renders the cells (via the generic
- * `<RectsPlot>`) and, in the full grid layout, a color legend. Every cell is keyed by its row/column
- * pair, so toggling `pivot` (see `<Heatmap>`) doesn't recreate anything - each cell transitions to
- * its new position, animating the grid collapsing into a bar chart along either axis and back again
+ * Computes the row/column layout once (see `useHeatmapLayout`) and renders the cells via the generic
+ * `<RectsPlot>`. In the full grid layout, also registers a color legend (see `useColorLegend`) that
+ * renders as a gradient bar at the bottom of the chart's `<Legend>` - the same convention `<ZAxis>`
+ * uses for its size legend - rather than a fixed element of its own. Every cell is keyed by its
+ * row/column pair, so toggling `pivot` (see `<Heatmap>`) doesn't recreate anything - each cell
+ * transitions to its new position, animating the grid collapsing into a bar chart along either axis
+ * and back again
  * @param  props       The set of React properties
  * @return             The HeatmapPlot component
  */
@@ -87,7 +90,17 @@ export function HeatmapPlot({
 }: IHeatmapPlotProps) {
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
 
-    const { pivot, cells, keyFor, xFor, yFor, widthFor, heightFor, colorFor, legendStops } = useHeatmapLayout({ rows, columns, value, colors });
+    const { pivot, cells, keyFor, xFor, yFor, widthFor, heightFor, colorFor, palette, colorDomain } = useHeatmapLayout({
+        rows,
+        columns,
+        value,
+        colors,
+    });
+
+    // Only shown in the full grid - once pivoted, cells stack into a stacked-bar chart rather than
+    // being colored by value, so there's nothing left for a color legend to explain
+    const isGrid = pivot === undefined;
+    useColorLegend(isGrid ? palette : undefined, isGrid ? colorDomain : undefined, formatLegendValue);
 
     const onTooltip = useTooltip();
     const onFocus = useFocused(theme);
@@ -114,26 +127,23 @@ export function HeatmapPlot({
     const Cells = useCanvas ? CanvasCellsPlot : SVGCellsPlot;
 
     return (
-        <React.Fragment>
-            <Cells
-                renderVirtualCanvas={renderVirtualCanvas}
-                className="heatmap-cell"
-                items={cells}
-                keyFor={keyFor}
-                x={xFor}
-                y={yFor}
-                width={widthFor}
-                height={heightFor}
-                color={colorFor}
-                cornerRadius={cornerRadius}
-                cursor={() => (interactive ? "pointer" : "default")}
-                interactive={interactive}
-                onMouseOver={handleMouseOver}
-                onMouseOut={handleMouseOut}
-                onClick={handleClick}
-            />
-            {pivot === undefined && <HeatmapLegend legendStops={legendStops} format={formatLegendValue} />}
-        </React.Fragment>
+        <Cells
+            renderVirtualCanvas={renderVirtualCanvas}
+            className="heatmap-cell"
+            items={cells}
+            keyFor={keyFor}
+            x={xFor}
+            y={yFor}
+            width={widthFor}
+            height={heightFor}
+            color={colorFor}
+            cornerRadius={cornerRadius}
+            cursor={() => (interactive ? "pointer" : "default")}
+            interactive={interactive}
+            onMouseOver={handleMouseOver}
+            onMouseOut={handleMouseOut}
+            onClick={handleClick}
+        />
     );
 }
 

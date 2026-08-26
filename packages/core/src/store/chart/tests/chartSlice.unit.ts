@@ -1,4 +1,5 @@
 import { d3 } from "../../../d3";
+import type { IColor } from "../../../types";
 
 import { themes } from "../../../themes";
 import { createLabeller } from "../../../utils";
@@ -235,6 +236,30 @@ describe("chartSlice.reducer", () => {
         expect(chartSlice.reducer(previousLocalState, action)).toEqual({
             ...previousState,
             legend: { ...previousState.legend, sizeLegend: null },
+        });
+    });
+
+    it("setColorLegend()", () => {
+        const colorLegend = { colors: ["#fff", "#000"] as IColor[], domain: [0, 100] as [number, number] };
+        const action = chartActions.setColorLegend(colorLegend);
+
+        expect(chartSlice.reducer(previousState, action)).toEqual({
+            ...previousState,
+            legend: { ...previousState.legend, colorLegend },
+        });
+    });
+
+    it("clearColorLegend()", () => {
+        const previousLocalState = {
+            ...previousState,
+            legend: { ...previousState.legend, colorLegend: { colors: ["#fff", "#000"] as IColor[], domain: [0, 100] as [number, number] } },
+        };
+
+        const action = chartActions.clearColorLegend();
+
+        expect(chartSlice.reducer(previousLocalState, action)).toEqual({
+            ...previousState,
+            legend: { ...previousState.legend, colorLegend: null },
         });
     });
 

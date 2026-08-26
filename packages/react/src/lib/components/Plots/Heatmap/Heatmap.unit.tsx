@@ -91,6 +91,10 @@ describe("Heatmap", () => {
         const gridWidths = new Set(cellsInGrid.map((cell) => cell.getAttribute("width")));
         expect(gridWidths.size).toBe(1);
 
+        // The color legend renders embedded in the chart's own <Legend> (the same convention a
+        // <ZAxis> size legend uses), not as a fixed element of its own
+        expect(container.querySelector(".color-legend")).not.toBeNull();
+
         await cyclePivot(container);
         await wait();
 
@@ -102,7 +106,7 @@ describe("Heatmap", () => {
         const rowWidths = cellsAsRows.map((cell) => Number(cell.getAttribute("width")));
         expect(new Set(rowWidths).size).toBeGreaterThan(1);
 
-        // No legend once pivoted away from the grid
-        expect(container.querySelector(".heatmap-legend")).toBeNull();
+        // No color legend once pivoted away from the grid
+        expect(container.querySelector(".color-legend")).toBeNull();
     });
 });

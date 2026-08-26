@@ -28,8 +28,12 @@ colored by `value` along a sequential (or diverging) scale. It's a self-containe
 
 `<Heatmap>` also accepts the usual chart-level props - `data`, `width`, `height`, `plotMargin`,
 `theme`, `animationDuration`, `onClick`/`onMouseOver`/`onMouseOut` and so on - directly, since it's a
-self-contained chart, as well as `<XYChart>`-level props like `zoomBrush`. Widen `plotMargin.left`/
-`plotMargin.bottom` to give the row/column axis ticks (and, in the grid layout, the color legend) room.
+self-contained chart, as well as `<XYChart>`-level props like `zoomBrush`. Widen `plotMargin.left` to
+give the row axis ticks room.
+
+In the grid layout, the color scale shows as a gradient bar at the bottom of the chart's `<Legend>` -
+the same convention a `<ZAxis>`'s size legend uses - rather than a fixed element under the plot, so it
+docks/drags along with the rest of the legend.
 
 > **Note**: Every combination of the fields listed in `rows`/`columns` should be unique in the data. If
 > your data has multiple rows for the same combination, aggregate it first. A `rows`/`columns` pair

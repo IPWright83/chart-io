@@ -2,7 +2,7 @@ import { isEqual } from "lodash";
 import { memoizeWithArgs } from "proxy-memoize";
 
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
-import type { ICompassPosition, IData, ILegendItem, IMargin, IPivot, IScale, IScaleMode, ISizeLegend, ITheme } from "../../types";
+import type { ICompassPosition, IColorLegend, IData, ILegendItem, IMargin, IPivot, IScale, IScaleMode, ISizeLegend, ITheme } from "../../types";
 import type { ILabeller } from "../../utils";
 import type {
     IChartScaleInfo,
@@ -257,6 +257,14 @@ interface IChartSelectors {
          * @return           The size legend, or null if none is registered
          */
         sizeLegend: (state: IState) => ISizeLegend | null;
+
+        /**
+         * Returns the color legend registered by a plot with a continuous color scale (e.g.
+         * `<Heatmap>`), if any
+         * @param  state     The application state
+         * @return           The color legend, or null if none is registered
+         */
+        colorLegend: (state: IState) => IColorLegend | null;
 
         /**
          * Has the user explicitly hidden the legend, e.g. via a `<ContextMenu>` action?
@@ -608,7 +616,9 @@ export const chartSelectors: IChartSelectors = {
         // @inheritDoc
         isVisible: (state) =>
             !chartSelectors.legend.isHidden(state) &&
-            (chartSelectors.legend.items(state).length > 1 || !!chartSelectors.legend.sizeLegend(state)),
+            (chartSelectors.legend.items(state).length > 1 ||
+                !!chartSelectors.legend.sizeLegend(state) ||
+                !!chartSelectors.legend.colorLegend(state)),
 
         // @inheritDoc
         items: (state) => chartSelectors.legend.store(state).items || EMPTY_ARRAY,
@@ -618,6 +628,9 @@ export const chartSelectors: IChartSelectors = {
 
         // @inheritDoc
         sizeLegend: (state) => chartSelectors.legend.store(state).sizeLegend ?? null,
+
+        // @inheritDoc
+        colorLegend: (state) => chartSelectors.legend.store(state).colorLegend ?? null,
 
         // @inheritDoc
         isHidden: (state) => chartSelectors.legend.store(state).hidden ?? false,

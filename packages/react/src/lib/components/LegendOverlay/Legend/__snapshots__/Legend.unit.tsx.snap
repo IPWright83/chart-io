@@ -77,6 +77,72 @@ exports[`Legend should render correctly 1`] = `
 
 exports[`Legend should render nothing if there are no items 1`] = `<DocumentFragment />`;
 
+exports[`Legend should render the color legend at the bottom, even with no color items 1`] = `
+<DocumentFragment>
+  <div
+    class="chart-io legend"
+    style="border: thin solid #ccc; display: flex; flex-direction: column; padding: 8px; background: rgb(255, 255, 255); opacity: 1; overflow: hidden; pointer-events: auto;"
+  >
+    <div
+      class="chart-io color-legend"
+      style="margin-top: 8px; padding-top: 8px; border-top: thin solid #ccc;"
+    >
+      <svg
+        height="34"
+        width="160"
+      >
+        <defs>
+          <lineargradient
+            id="color-legend-gradient-«r0»"
+            x1="0%"
+            x2="100%"
+            y1="0%"
+            y2="0%"
+          >
+            <stop
+              offset="0%"
+              stop-color="#fff"
+            />
+            <stop
+              offset="100%"
+              stop-color="#000"
+            />
+          </lineargradient>
+        </defs>
+        <rect
+          class="color-legend-gradient"
+          fill="url(#color-legend-gradient-«r0»)"
+          height="10"
+          stroke="#333333"
+          stroke-opacity="0.8"
+          width="160"
+          x="0"
+          y="0"
+        />
+        <text
+          class="color-legend-min"
+          style="fill: #333333; font-size: 12px; font-family: sans-serif;"
+          text-anchor="start"
+          x="0"
+          y="22"
+        >
+          0
+        </text>
+        <text
+          class="color-legend-max"
+          style="fill: #333333; font-size: 12px; font-family: sans-serif;"
+          text-anchor="end"
+          x="160"
+          y="22"
+        >
+          100
+        </text>
+      </svg>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
 exports[`Legend should render the size legend at the bottom, even with no color items 1`] = `
 <DocumentFragment>
   <div

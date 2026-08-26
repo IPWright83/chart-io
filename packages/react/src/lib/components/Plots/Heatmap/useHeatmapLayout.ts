@@ -196,12 +196,13 @@ export function heatmapAxisFor(
 }
 
 /**
- * Computes the layout for a Heatmap's cells and legend - per-cell position/color accessors (reading
- * the x/y scales `<HeatmapAxes>` registers) and the color legend's stops - so `<HeatmapPlot>` only
- * needs to render from the values this returns. Switching `pivot` doesn't change the set of cells -
- * every row/column combination is always rendered, missing ones defaulting to 0 - it only changes how
- * each cell's position is computed, so existing cells transition to their new position/size rather
- * than being re-created
+ * Computes the layout for a Heatmap's cells and color legend - per-cell position/color accessors
+ * (reading the x/y scales `<HeatmapAxes>` registers) and the palette/domain `<HeatmapPlot>` registers
+ * with the chart's `<Legend>` via `useColorLegend` - so `<HeatmapPlot>` only needs to render from the
+ * values this returns. Switching `pivot` doesn't change the set of cells - every row/column
+ * combination is always rendered, missing ones defaulting to 0 - it only changes how each cell's
+ * position is computed, so existing cells transition to their new position/size rather than being
+ * re-created
  * @param  props       The set of properties needed to build the layout
  * @return             The computed layout, plus the current pivot
  */
@@ -291,14 +292,9 @@ export function useHeatmapLayout({ rows, columns, value, colors }: IUseHeatmapLa
 
         const cellColorFor = (cell: IHeatmapCell) => colorFor(cell.value);
 
-        // 6 evenly spaced stops across the color domain, for the color legend
-        const legendStops =
-            colorMin === undefined
-                ? []
-                : d3.range(6).map((i) => {
-                      const stopValue = colorMin + (i / 5) * (colorMax - colorMin);
-                      return { value: stopValue, color: colorFor(stopValue) };
-                  });
+        // The palette itself doubles as the color legend's gradient stops (equally spaced across
+        // colorMin..colorMax, same as colorFor's own interpolation) - no need to resample it
+        const colorDomain: [number, number] | undefined = colorMin === undefined ? undefined : [colorMin, colorMax];
 
         return {
             pivot,
@@ -309,7 +305,8 @@ export function useHeatmapLayout({ rows, columns, value, colors }: IUseHeatmapLa
             widthFor,
             heightFor,
             colorFor: cellColorFor,
-            legendStops,
+            palette,
+            colorDomain,
             minValue,
             maxValue,
         };

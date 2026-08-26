@@ -137,8 +137,11 @@ describe("HeatmapPlot", () => {
             expect(fillFor("North", "Gadgets")).toBe(d3.rgb(colors[1] as string).toString());
         });
 
-        it("should render a color legend in the grid layout", async () => {
-            const { container } = await renderChart({
+        it("should register a color legend with the store in the grid layout", async () => {
+            // The gradient itself now renders wherever the chart's <Legend> docks (see
+            // useColorLegend/<ColorLegend>), not as a fixed element of HeatmapPlot's own - so this
+            // checks the dispatch that registers it rather than the DOM
+            const { store } = await renderChart({
                 children: <HeatmapPlot rows="region" columns="product" value="sales" />,
                 data,
                 store: gridStore(),
@@ -146,12 +149,13 @@ describe("HeatmapPlot", () => {
 
             await wait();
 
-            expect(container.querySelector(".heatmap-legend")).not.toBeNull();
+            const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
+            expect(dispatchCalls).toContain("chart/setColorLegend");
         });
 
-        it("should not render a color legend once pivoted to rows", async () => {
+        it("should not register a color legend once pivoted to rows", async () => {
             const valueScale = () => d3.scaleLinear().domain([0, 13]).range([0, 200]);
-            const store = gridStore({
+            const mockStore = gridStore({
                 pivot: "x",
                 scales: {
                     region: { domain: regionScale().domain(), range: regionScale().range(), scale: regionScale() },
@@ -159,15 +163,16 @@ describe("HeatmapPlot", () => {
                 },
             });
 
-            const { container } = await renderChart({
+            const { store } = await renderChart({
                 children: <HeatmapPlot rows="region" columns="product" value="sales" />,
                 data,
-                store,
+                store: mockStore,
             });
 
             await wait();
 
-            expect(container.querySelector(".heatmap-legend")).toBeNull();
+            const dispatchCalls = (store.dispatch as jest.Mock).mock.calls.map((c) => c[0].type);
+            expect(dispatchCalls).not.toContain("chart/setColorLegend");
         });
 
         it("should stack each row's cells edge-to-edge along a linear x-axis once pivoted to rows", async () => {
