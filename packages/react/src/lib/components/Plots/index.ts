@@ -12,6 +12,7 @@ export * from "./Dendrogram";
 export * from "./RadialDendrogram";
 export * from "./CirclePacking";
 export * from "./Chord";
+export * from "./Geo";
 export * from "./WordCloud";
 export * from "./ParallelCoordinates";
 export * from "./Sankey";

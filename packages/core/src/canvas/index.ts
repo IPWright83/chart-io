@@ -2,6 +2,7 @@ export * from "./canvasRenderLoop";
 export * from "./progressiveCanvasRenderLoop";
 export * from "./renderArc";
 export * from "./renderCircle";
+export * from "./renderGeoPath";
 export * from "./renderLink";
 export * from "./renderLinkRadial";
 export * from "./renderPolygon";
