@@ -109,4 +109,40 @@ describe("Heatmap", () => {
         // No color legend once pivoted away from the grid
         expect(container.querySelector(".color-legend")).toBeNull();
     });
+
+    it("should dock the Legend at SE by default", async () => {
+        const { container } = render(
+            <Heatmap rows="region" columns="product" value="sales" data={data} width={300} height={300} pivotable={true} />,
+        );
+
+        await wait();
+
+        // getLegendPosition("SE") sets bottom/right but leaves top/left unset - "E" (the generic
+        // <XYChart> default) would instead center vertically (top: "50%") and leave bottom unset
+        const legend = container.querySelector(".legend") as HTMLElement;
+        expect(legend.style.bottom).not.toBe("");
+        expect(legend.style.top).toBe("");
+    });
+
+    it("should dock the Legend elsewhere when legendPosition is set", async () => {
+        const { container } = render(
+            <Heatmap
+                rows="region"
+                columns="product"
+                value="sales"
+                data={data}
+                width={300}
+                height={300}
+                pivotable={true}
+                legendPosition="NW"
+            />,
+        );
+
+        await wait();
+
+        const legend = container.querySelector(".legend") as HTMLElement;
+        expect(legend.style.top).not.toBe("");
+        expect(legend.style.left).not.toBe("");
+        expect(legend.style.bottom).toBe("");
+    });
 });

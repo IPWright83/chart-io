@@ -121,31 +121,44 @@ export const Pivotable = {
 
         // The "Pivot" action lives on the chart's right-click <ContextMenu> (portaled to
         // document.body) rather than an on-chart control - right-click to open it, then select
-        // "Pivot" to cycle to the next layout
+        // "Pivot" to cycle to the next layout. Opening it renders imperatively via D3 inside a
+        // useEffect, so the item can take an extra tick to appear - poll briefly rather than
+        // assuming it's there the instant the opening event returns
         const svg = canvasElement.querySelector("svg");
-        const cyclePivot = () => {
+
+        async function findPivotItem(): Promise<Element> {
+            for (let attempt = 0; attempt < 10; attempt++) {
+                const items = document.body.querySelectorAll(".context-menu-item");
+                const pivotItem = Array.from(items).find((item) => item.textContent.trim().startsWith("Pivot"));
+                if (pivotItem) return pivotItem;
+                await wait(50);
+            }
+
+            throw new Error("The 'Pivot' context-menu item never appeared");
+        }
+
+        const cyclePivot = async () => {
             fireEvent.contextMenu(svg, { bubbles: true, clientX: 400, clientY: 300 });
-            const items = document.body.querySelectorAll(".context-menu-item");
-            const pivotItem = Array.from(items).find((item) => item.textContent.trim().startsWith("Pivot"));
+            const pivotItem = await findPivotItem();
             fireEvent.click(pivotItem.querySelector("path"));
         };
 
         // Pivoting to rows collapses the sector (column) axis into a linear scale - each country's
         // cells now stack edge-to-edge, sized by their own share of that country's total GDP
-        cyclePivot();
+        await cyclePivot();
         await wait(800);
         expect(new Set(widthsFor()).size).toBeGreaterThan(1);
         expect(canvasElement.querySelector(".color-legend")).toBeNull();
 
         // Pivoting to columns instead collapses the country (row) axis - each sector's cells stack
         // vertically by height instead
-        cyclePivot();
+        await cyclePivot();
         await wait(800);
         const heightsFor = Array.from(canvasElement.querySelectorAll("rect.heatmap-cell")).map((cell) => cell.getAttribute("height"));
         expect(new Set(heightsFor).size).toBeGreaterThan(1);
 
         // Back to the grid, and the legend returns
-        cyclePivot();
+        await cyclePivot();
         await wait(800);
         expect(new Set(widthsFor()).size).toBe(1);
         expect(canvasElement.querySelector(".color-legend")).not.toBeNull();

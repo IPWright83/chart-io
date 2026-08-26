@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import { IMargin } from "@chart-io/core";
+import { ICompassPosition, IMargin } from "@chart-io/core";
 
 import { Chart, IChartProps, IChartRef } from "../Chart";
 import { ContextMenuOverlay } from "../ContextMenu";
@@ -38,10 +38,17 @@ export interface IXYChartProps extends IChartProps {
      * @default true
      */
     contextMenu?: boolean;
+
+    /**
+     * The compass position the Legend docks at initially, before the user drags it elsewhere - see
+     * `<LegendOverlay>`
+     * @default "E"
+     */
+    legendPosition?: ICompassPosition;
 }
 
 export const XYChart = forwardRef<IChartRef, IXYChartProps>(
-    ({ children, groupEvents = false, contextMenu = true, ...props }, ref) => {
+    ({ children, groupEvents = false, contextMenu = true, legendPosition, ...props }, ref) => {
         const showDroplines = !groupEvents || shouldShowDroplines(children);
         const showCrosshair = !showDroplines;
 
@@ -59,7 +66,7 @@ export const XYChart = forwardRef<IChartRef, IXYChartProps>(
                     </ZoomBrush>
                 )}
                 <TooltipOverlay onlyNearest={!groupEvents} />
-                <LegendOverlay />
+                <LegendOverlay position={legendPosition} />
                 {contextMenu && <ContextMenuOverlay />}
             </Chart>
         );

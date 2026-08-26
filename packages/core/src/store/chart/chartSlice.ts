@@ -40,7 +40,10 @@ export const defaultChartState = {
     scales: {},
     legend: {
         items: [],
-        position: "E" as ICompassPosition,
+        // Deliberately undefined rather than "E" - `<LegendOverlay>` reads this raw value to tell
+        // whether the user has dragged the legend at all, distinct from a chart's own default
+        // `position` prop (which itself falls back to "E" - see `chartSelectors.legend.position`)
+        position: undefined as ICompassPosition | undefined,
         sizeLegend: null,
         colorLegend: null,
         hidden: false,

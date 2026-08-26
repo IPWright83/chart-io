@@ -33,7 +33,8 @@ give the row axis ticks room.
 
 In the grid layout, the color scale shows as a gradient bar at the bottom of the chart's `<Legend>` -
 the same convention a `<ZAxis>`'s size legend uses - rather than a fixed element under the plot, so it
-docks/drags along with the rest of the legend.
+docks/drags along with the rest of the legend. It docks at `"SE"` by default (rather than
+`<XYChart>`'s usual `"E"`) - pass `legendPosition` to dock it elsewhere.
 
 > **Note**: Every combination of the fields listed in `rows`/`columns` should be unique in the data. If
 > your data has multiple rows for the same combination, aggregate it first. A `rows`/`columns` pair

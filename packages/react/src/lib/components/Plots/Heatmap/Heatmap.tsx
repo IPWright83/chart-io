@@ -23,6 +23,9 @@ export interface IHeatmapProps
  * colored by `value`. A self-contained chart: no need to wrap it in `<XYChart>` (or add `<XAxis>`/
  * `<YAxis>`) yourself - `<Heatmap>` sets those up internally.
  *
+ * Docks its `<Legend>` (the color gradient in the grid layout - see `useColorLegend`) at `"SE"` by
+ * default rather than `<XYChart>`'s usual `"E"` - pass `legendPosition` to override.
+ *
  * Set `pivotable` to let the user switch between the full grid, a row-stacked-bar-chart (each row's
  * values summed into a single bar along a linear x-axis) and a column-stacked-bar-chart (the same,
  * summed down each column along a linear y-axis) - right-clicking the chart and selecting "Pivot"
@@ -32,9 +35,9 @@ export interface IHeatmapProps
  * @return             The Heatmap component
  */
 export const Heatmap = forwardRef<IChartRef, IHeatmapProps>(
-    ({ rows, columns, value, colors, cornerRadius, pivotable, interactive, ...chartProps }, ref) => {
+    ({ rows, columns, value, colors, cornerRadius, pivotable, interactive, legendPosition = "SE", ...chartProps }, ref) => {
         return (
-            <XYChart ref={ref} {...chartProps}>
+            <XYChart ref={ref} legendPosition={legendPosition} {...chartProps}>
                 <HeatmapAxes rows={rows} columns={columns} value={value} pivotable={pivotable} />
                 <HeatmapPlot rows={rows} columns={columns} value={value} colors={colors} cornerRadius={cornerRadius} interactive={interactive} />
             </XYChart>
