@@ -217,7 +217,10 @@ function EnablePivotedState() {
 /**
  * The same menu as `PivotAction`, but pre-pivoted to "y" (columns) rather than left at the grid - so
  * the "Pivot" item's label reads "Pivot: grid" instead of "Pivot: x", showing the "cancel" step of
- * the same cycle (see `nextPivot`) that resets a pivoted chart back to its full grid
+ * the same cycle (see `nextPivot`) that resets a pivoted chart back to its full grid. Left hovered
+ * (like `PivotActionHovered`) so its `activeSegments` are visible too - the "columns" segment swaps
+ * to a cancel (X) icon in this state, since selecting "Pivot" now cancels back to the grid rather
+ * than collapsing onto another axis
  */
 export const PivotActionCancel = {
     name: "Pivot Action (Cancel)",
@@ -233,5 +236,8 @@ export const PivotActionCancel = {
         await wait(300);
         const svg = canvasElement.querySelector("svg");
         fireEvent.contextMenu(svg, { bubbles: true, clientX: 300, clientY: 150 });
+
+        const pivotItem = await findMenuItem("Pivot");
+        fireEvent.mouseEnter(pivotItem.querySelector("path"));
     },
 };

@@ -141,6 +141,19 @@ describe("createPivotAction", () => {
 
         expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "chart/setPivot", payload: "y" }));
     });
+
+    it("swaps its columns activeSegment for a cancel icon once already on \"y\", since selecting it now returns to the grid", () => {
+        const gridState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: undefined } };
+        const xState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "x" as const } };
+        const yState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "y" as const } };
+
+        const [, columnsSegmentAtGrid] = createPivotAction(gridState).activeSegments;
+        const [, columnsSegmentAtX] = createPivotAction(xState).activeSegments;
+        const [, columnsSegmentAtY] = createPivotAction(yState).activeSegments;
+
+        expect(columnsSegmentAtGrid).toBe(columnsSegmentAtX);
+        expect(columnsSegmentAtY).not.toBe(columnsSegmentAtGrid);
+    });
 });
 
 describe("stubbed actions", () => {

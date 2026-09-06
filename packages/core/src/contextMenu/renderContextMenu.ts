@@ -173,13 +173,16 @@ function attachCloseListeners(container: HTMLElement, instance: IContextMenuInst
 }
 
 /** The gap, in pixels, left between the main ring and a hovered item's outer "active" band */
-const ACTIVE_BAND_GAP = 3;
+const ACTIVE_BAND_GAP = 4;
 
+// Deliberately not sized/spaced to match the main ring's own proportions - unlike the ring itself,
+// this band isn't standing in for real data (it's a menu hint, not a stacked-pie segment), so it's
+// free to be as deep and its icons as large as it takes to read clearly
 /** The depth, in pixels, of a hovered item's outer "active" band */
-const ACTIVE_BAND_THICKNESS = 12;
+const ACTIVE_BAND_THICKNESS = 26;
 
 /** The size, in pixels, a mini segment's own icon (see `IContextMenuItem.activeSegments`) is scaled to */
-const MINI_ICON_SIZE = 9;
+const MINI_ICON_SIZE = 22;
 
 /** One mini segment of a hovered item's outer "active" band - its own icon plus its angular bounds */
 interface IActiveSegment {

@@ -21,16 +21,36 @@ export const contextMenuIcons = {
         <path d="M7 22v-4.5h4.5" />
     </svg>`,
 
-    /** A single wide, short bar - used as one of the "Pivot" action's `activeSegments`, for the
-     * row-stacked-bar layout */
+    /** Three horizontal bars of different lengths, each capped with a rightward arrowhead - reads as
+     * a horizontal bar chart growing outward. Used as one of the "Pivot" action's `activeSegments`,
+     * for the row-stacked-bar layout */
     pivotRows: `<svg ${DEFAULTS}>
-        <rect x="3" y="9" width="18" height="6" fill="currentColor" stroke="none" />
+        <line x1="2" y1="4" x2="10" y2="4" />
+        <path d="M7.5 1.5 10 4l-2.5 2.5" />
+        <line x1="2" y1="12" x2="18" y2="12" />
+        <path d="M15.5 9.5 18 12l-2.5 2.5" />
+        <line x1="2" y1="20" x2="7" y2="20" />
+        <path d="M4.5 17.5 7 20l-2.5 2.5" />
     </svg>`,
 
-    /** A single narrow, tall bar - used as one of the "Pivot" action's `activeSegments`, for the
-     * column-stacked-bar layout */
+    /** Three vertical bars of different heights, each capped with an upward arrowhead - reads as a
+     * vertical (column) bar chart growing outward. Used as one of the "Pivot" action's
+     * `activeSegments`, for the column-stacked-bar layout */
     pivotColumns: `<svg ${DEFAULTS}>
-        <rect x="9" y="3" width="6" height="18" fill="currentColor" stroke="none" />
+        <line x1="4" y1="22" x2="4" y2="14" />
+        <path d="M1.5 16.5 4 14l2.5 2.5" />
+        <line x1="12" y1="22" x2="12" y2="6" />
+        <path d="M9.5 8.5 12 6l2.5 2.5" />
+        <line x1="20" y1="22" x2="20" y2="17" />
+        <path d="M17.5 19.5 20 17l2.5 2.5" />
+    </svg>`,
+
+    /** A simple X - used as one of the "Pivot" action's `activeSegments` in place of `pivotColumns`
+     * once already collapsed onto that axis, since selecting it now cancels back to the grid rather
+     * than collapsing further */
+    pivotCancel: `<svg ${DEFAULTS}>
+        <line x1="5" y1="5" x2="19" y2="19" />
+        <line x1="19" y1="5" x2="5" y2="19" />
     </svg>`,
 
     /** An outlined pentagon with a vertex highlighted - used for the "Draw polygon" action */
