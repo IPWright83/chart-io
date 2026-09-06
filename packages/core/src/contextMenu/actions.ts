@@ -81,9 +81,9 @@ export function createPivotAction(state: IState): IContextMenuItem {
         id: "pivot",
         label: `Pivot: ${next ?? "grid"}`,
         icon: contextMenuIcons.pivot,
-        // The two mini segments hint at the two collapsed-axis layouts ("x"/rows and "y"/columns)
-        // pivoting cycles between, alongside the grid
-        activeSegments: 2,
+        // Hints at the two collapsed-axis layouts ("x"/rows and "y"/columns) pivoting cycles between,
+        // alongside the grid
+        activeSegments: [contextMenuIcons.pivotRows, contextMenuIcons.pivotColumns],
         disabled: !pivotable,
         onSelect: (dispatch: IDispatch) => dispatch(chartActions.setPivot(next)),
     };
@@ -173,11 +173,14 @@ export function getDefaultBackgroundItems(state: IState): IContextMenuItem[] {
 /**
  * A default set of items suited to a menu opened on a specific datum, e.g. wired up to a plot's
  * left-click handler - "Hide data point" is fully wired up (see `createHideDataPointAction`);
- * "Focus data point"/"Add annotation" are placeholders - see each action's own docs
+ * "Focus data point"/"Add annotation" are placeholders - see each action's own docs. "Pivot" is the
+ * same action (and store state) the background menu uses - included here too since a pivotable
+ * chart's cells are themselves the data points a left-click would open this menu on
+ * @param  state     The current Redux state, passed through to `createPivotAction`
  * @return           A default set of per-datum `<ContextMenu>` items
  */
-export function getDefaultDatumItems(): IContextMenuItem[] {
-    return [createHideDataPointAction(), createFocusDataPointAction(), createAddAnnotationAction()];
+export function getDefaultDatumItems(state: IState): IContextMenuItem[] {
+    return [createHideDataPointAction(), createFocusDataPointAction(), createAddAnnotationAction(), createPivotAction(state)];
 }
 
 /**
@@ -188,5 +191,5 @@ export function getDefaultDatumItems(): IContextMenuItem[] {
  * @return           The default `<ContextMenu>` items for that context
  */
 export function getDefaultItems(state: IState, context?: IContextMenuContext): IContextMenuItem[] {
-    return context?.type === "datum" ? getDefaultDatumItems() : getDefaultBackgroundItems(state);
+    return context?.type === "datum" ? getDefaultDatumItems(state) : getDefaultBackgroundItems(state);
 }

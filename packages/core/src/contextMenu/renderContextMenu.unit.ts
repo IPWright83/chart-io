@@ -165,7 +165,13 @@ describe("renderContextMenu", () => {
 
     it("reveals an item's outer active-segments band on hover, and hides it again on mouseleave", () => {
         const itemsWithActive: IContextMenuItem[] = [
-            { id: "a", label: "Action A", icon: "<svg><circle /></svg>", activeSegments: 2, onSelect: jest.fn() },
+            {
+                id: "a",
+                label: "Action A",
+                icon: "<svg><circle /></svg>",
+                activeSegments: ["<svg><rect class='mini-a' /></svg>", "<svg><rect class='mini-b' /></svg>"],
+                onSelect: jest.fn(),
+            },
         ];
         const container = createContainer();
         renderContextMenu(container, { x: 0, y: 0, open: true, items: itemsWithActive, onSelect: jest.fn() });
@@ -174,7 +180,9 @@ describe("renderContextMenu", () => {
         const activeSegments = container.querySelector(".context-menu-active-segments") as HTMLElement;
 
         expect(activeSegments.style.opacity).toBe("0");
-        expect(activeSegments.querySelectorAll("path").length).toBe(2);
+        expect(activeSegments.querySelectorAll(".active-segment").length).toBe(2);
+        expect(activeSegments.querySelector(".mini-a")).not.toBeNull();
+        expect(activeSegments.querySelector(".mini-b")).not.toBeNull();
 
         path.dispatchEvent(new MouseEvent("mouseenter"));
         expect(activeSegments.style.opacity).toBe("1");
@@ -183,15 +191,21 @@ describe("renderContextMenu", () => {
         expect(activeSegments.style.opacity).toBe("0");
     });
 
-    it("renders as many mini arcs as activeSegments specifies", () => {
+    it("renders as many mini segments as activeSegments has icons", () => {
         const itemsWithActive: IContextMenuItem[] = [
-            { id: "a", label: "Action A", icon: "<svg><circle /></svg>", activeSegments: 3, onSelect: jest.fn() },
+            {
+                id: "a",
+                label: "Action A",
+                icon: "<svg><circle /></svg>",
+                activeSegments: ["<svg><rect /></svg>", "<svg><rect /></svg>", "<svg><rect /></svg>"],
+                onSelect: jest.fn(),
+            },
         ];
         const container = createContainer();
         renderContextMenu(container, { x: 0, y: 0, open: true, items: itemsWithActive, onSelect: jest.fn() });
 
         const activeSegments = container.querySelector(".context-menu-active-segments") as HTMLElement;
-        expect(activeSegments.querySelectorAll("path").length).toBe(3);
+        expect(activeSegments.querySelectorAll(".active-segment").length).toBe(3);
     });
 
     it("renders no active-segments band for an item without activeSegments", () => {
@@ -204,7 +218,7 @@ describe("renderContextMenu", () => {
         path.dispatchEvent(new MouseEvent("mouseenter"));
 
         expect(activeSegments.style.opacity).toBe("0");
-        expect(activeSegments.querySelectorAll("path").length).toBe(0);
+        expect(activeSegments.querySelectorAll(".active-segment").length).toBe(0);
     });
 
     it("updates in place (e.g. a disabled item becoming enabled) without throwing", () => {

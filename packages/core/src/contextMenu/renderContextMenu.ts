@@ -176,33 +176,34 @@ function attachCloseListeners(container: HTMLElement, instance: IContextMenuInst
 const ACTIVE_BAND_GAP = 3;
 
 /** The depth, in pixels, of a hovered item's outer "active" band */
-const ACTIVE_BAND_THICKNESS = 10;
+const ACTIVE_BAND_THICKNESS = 12;
+
+/** The size, in pixels, a mini segment's own icon (see `IContextMenuItem.activeSegments`) is scaled to */
+const MINI_ICON_SIZE = 9;
+
+/** One mini segment of a hovered item's outer "active" band - its own icon plus its angular bounds */
+interface IActiveSegment {
+    icon: string;
+    startAngle: number;
+    endAngle: number;
+}
 
 /**
- * Builds the `d` path string for each of `count` equal-width mini arcs spanning `[startAngle,
- * endAngle]` at `[innerRadius, outerRadius]`, with a small gap between them - the outer "active"
- * band revealed on a hovered segment (see `IContextMenuItem.activeSegments`)
+ * Splits `[startAngle, endAngle]` into `icons.length` equal mini segments, with a small gap between
+ * them, one per entry in `icons` - the outer "active" band revealed on a hovered segment (see
+ * `IContextMenuItem.activeSegments`)
  * @param  startAngle    The angular start (radians) of the segment this band sits over
  * @param  endAngle      The angular end (radians) of the segment this band sits over
- * @param  innerRadius   The band's inner radius, in pixels
- * @param  outerRadius   The band's outer radius, in pixels
- * @param  count         How many equal mini arcs to split the band into
- * @return               One `d` path string per mini arc
+ * @param  icons         One icon (raw SVG markup) per mini segment to create
+ * @return               Each mini segment's icon and angular bounds
  */
-function activeSegmentPaths(startAngle: number, endAngle: number, innerRadius: number, outerRadius: number, count: number): string[] {
+function activeSegmentsFor(startAngle: number, endAngle: number, icons: string[]): IActiveSegment[] {
     const miniGapAngle = 0.02;
-    const each = (endAngle - startAngle - miniGapAngle * (count - 1)) / count;
+    const each = (endAngle - startAngle - miniGapAngle * (icons.length - 1)) / icons.length;
 
-    return Array.from({ length: count }, (_, i) => {
+    return icons.map((icon, i) => {
         const segStart = startAngle + i * (each + miniGapAngle);
-
-        return d3
-            .arc()
-            .innerRadius(innerRadius)
-            .outerRadius(outerRadius)
-            .cornerRadius(1)
-            .startAngle(segStart)
-            .endAngle(segStart + each)(undefined);
+        return { icon, startAngle: segStart, endAngle: segStart + each };
     });
 }
 
@@ -235,14 +236,15 @@ function setIconContent(selection: d3.Selection<SVGGElement, IArc, any, unknown>
 }
 
 /**
- * Builds/updates each item's outer "active" band - the mini arcs revealed on hover (see
- * `IContextMenuItem.activeSegments`) - from its current angular position and `activeSegments` count.
- * Safe to call on both a freshly-entered and an already-rendered selection: re-running it just
- * reconciles the child `<path>`s (via `.join`) to whatever `activeSegments` currently resolves to
+ * Builds/updates each item's outer "active" band - the mini segments (each its own arc plus a
+ * centered icon) revealed on hover (see `IContextMenuItem.activeSegments`) - from its current
+ * angular position and `activeSegments` icons. Safe to call on both a freshly-entered and an
+ * already-rendered selection: re-running it just reconciles the child elements (via `.join`) to
+ * whatever `activeSegments` currently resolves to
  * @param  selection    A `.chart-io.context-menu-active-segments` group selection
  * @param  radius       The ring's inner radius, in pixels
  * @param  thickness    The ring's segment depth, in pixels
- * @param  colors       The menu's color palette, applied as the band's fill/stroke
+ * @param  colors       The menu's color palette, applied as each mini segment's fill/stroke/icon color
  */
 function renderActiveSegments(
     selection: d3.Selection<SVGGElement, IArc, any, unknown>,
@@ -250,20 +252,44 @@ function renderActiveSegments(
     thickness: number,
     colors: ITheme["menu"],
 ): void {
-    selection.each(function (d) {
-        const count = d.data.activeSegments ?? 0;
-        const paths = count
-            ? activeSegmentPaths(d.startAngle, d.endAngle, radius + thickness + ACTIVE_BAND_GAP, radius + thickness + ACTIVE_BAND_GAP + ACTIVE_BAND_THICKNESS, count)
-            : [];
+    const innerRadius = radius + thickness + ACTIVE_BAND_GAP;
+    const outerRadius = innerRadius + ACTIVE_BAND_THICKNESS;
+    const arcGenerator = d3.arc<IActiveSegment>().innerRadius(innerRadius).outerRadius(outerRadius).cornerRadius(1);
+    const midArcGenerator = d3.arc<IActiveSegment>().innerRadius((innerRadius + outerRadius) / 2).outerRadius((innerRadius + outerRadius) / 2);
 
-        d3.select(this)
-            .selectAll<SVGPathElement, string>("path")
-            .data(paths)
-            .join("path")
-            .attr("d", (p) => p)
+    selection.each(function (d) {
+        const segments = activeSegmentsFor(d.startAngle, d.endAngle, d.data.activeSegments ?? []);
+
+        const join = d3.select(this).selectAll<SVGGElement, IActiveSegment>(".chart-io.active-segment").data(segments);
+        join.exit().remove();
+
+        const enter = join.enter().append("g").attr("class", "chart-io active-segment");
+        enter.append("path");
+        enter.append("g").attr("class", "chart-io active-segment-icon").style("pointer-events", "none");
+
+        const merged = enter.merge(join);
+
+        merged
+            .select<SVGPathElement>("path")
+            .attr("d", (s) => arcGenerator(s))
             .attr("fill", colors.background?.toString() ?? null)
             .attr("stroke", colors.border?.toString() ?? null)
             .attr("stroke-width", 1);
+
+        merged
+            .select<SVGGElement>(".chart-io.active-segment-icon")
+            .style("color", colors.text?.toString() ?? null)
+            .each(function (s) {
+                const node = d3.select(this);
+                if (node.attr("data-icon") !== s.icon) {
+                    node.attr("data-icon", s.icon).html(s.icon);
+                }
+                node.select("svg").attr("width", MINI_ICON_SIZE).attr("height", MINI_ICON_SIZE);
+            })
+            .attr("transform", (s) => {
+                const [ix, iy] = midArcGenerator.centroid(s);
+                return `translate(${ix - MINI_ICON_SIZE / 2}, ${iy - MINI_ICON_SIZE / 2})`;
+            });
     });
 }
 

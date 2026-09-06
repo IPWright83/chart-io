@@ -54,7 +54,7 @@ const backgroundItems = [
     createToggleLegendAction(backgroundState),
 ];
 
-const datumItems = getDefaultDatumItems();
+const datumItems = getDefaultDatumItems(zoomedState);
 
 const ContextMenuTemplate = (args) => (
     <svg width="400px" height="400px" style={{ background: themes.light.background.toString() }}>

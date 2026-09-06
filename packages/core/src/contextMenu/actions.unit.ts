@@ -164,9 +164,16 @@ describe("getDefaultBackgroundItems", () => {
 });
 
 describe("getDefaultDatumItems", () => {
-    it("includes hide, focus and annotate", () => {
-        const ids = getDefaultDatumItems().map((item) => item.id);
-        expect(ids).toEqual(["hide-data-point", "focus-data-point", "add-annotation"]);
+    it("includes hide, focus, annotate and pivot", () => {
+        const ids = getDefaultDatumItems(notZoomedState).map((item) => item.id);
+        expect(ids).toEqual(["hide-data-point", "focus-data-point", "add-annotation", "pivot"]);
+    });
+
+    it("passes state through to its pivot item, e.g. so it's disabled unless pivotable", () => {
+        const pivotableState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true } };
+
+        expect(getDefaultDatumItems(notZoomedState).find((item) => item.id === "pivot").disabled).toBe(true);
+        expect(getDefaultDatumItems(pivotableState).find((item) => item.id === "pivot").disabled).toBe(false);
     });
 });
 
@@ -182,6 +189,6 @@ describe("getDefaultItems", () => {
 
     it("returns the datum items when opened with a datum context", () => {
         const ids = getDefaultItems(notZoomedState, { type: "datum", datum: { a: 1 } }).map((item) => item.id);
-        expect(ids).toEqual(getDefaultDatumItems().map((item) => item.id));
+        expect(ids).toEqual(getDefaultDatumItems(notZoomedState).map((item) => item.id));
     });
 });

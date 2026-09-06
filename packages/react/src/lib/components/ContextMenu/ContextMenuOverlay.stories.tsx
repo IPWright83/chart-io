@@ -3,7 +3,7 @@ import type { IContextMenuContext, IState, IStore } from "@chart-io/core";
 
 import type { Meta } from "@storybook/react";
 import { fireEvent } from "@storybook/test";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { wait } from "../../testUtils";
@@ -57,6 +57,7 @@ export const OnChartBackground = {
  */
 function DatumMenu() {
     const dispatch = useDispatch();
+    const state = useSelector((s: IState) => s);
     const isOpen = useSelector((s: IState) => eventSelectors.contextMenu.isOpen(s));
     const position = useSelector((s: IState) => eventSelectors.contextMenu.position(s));
     const context = useSelector((s: IState) => eventSelectors.contextMenu.context(s)) as
@@ -70,7 +71,7 @@ function DatumMenu() {
             x={position?.x ?? 0}
             y={position?.y ?? 0}
             open={isOpen}
-            items={getDefaultDatumItems()}
+            items={getDefaultDatumItems(state)}
             colors={themes.light.menu}
             onSelect={(item) => {
                 item.onSelect(dispatch, context);
@@ -81,13 +82,24 @@ function DatumMenu() {
     );
 }
 
+// `pivotable` is dispatched into the store by `usePivot` (the same hook `<HeatmapAxes>` calls) -
+// there's no generic chart-level prop for it, since only `<Heatmap>` currently has a layout that
+// reacts to `pivot`. Rendered as a plain child so it registers on mount without affecting layout
+function EnablePivotable() {
+    usePivot(true);
+    return null;
+}
+
 /**
- * Demonstrates opening a per-datum menu ("Hide data point"/"Focus data point"/"Add annotation") by
- * dispatching `eventActions.openContextMenu` from a plot's existing `onClick` prop - the same
- * extension point already used for tooltips. `x`/`y` are just the click event's own `clientX`/
+ * Demonstrates opening a per-datum menu ("Hide data point"/"Focus data point"/"Add annotation"/
+ * "Pivot") by dispatching `eventActions.openContextMenu` from a plot's existing `onClick` prop - the
+ * same extension point already used for tooltips. `x`/`y` are just the click event's own `clientX`/
  * `clientY` - `<ContextMenu>` is portaled to `document.body` and positioned in viewport space, so
  * no coordinate-space conversion is needed. `contextMenu={false}` turns off the chart's own default
- * background menu here, since both would otherwise race to open on the same click
+ * background menu here, since both would otherwise race to open on the same click. `<EnablePivotable>`
+ * is included so "Pivot" shows enabled rather than disabled - it's included in the datum menu (see
+ * `getDefaultDatumItems`) since a pivotable chart's cells are themselves the data points a
+ * left-click would open this menu on
  *
  * The click handler needs the store before `<XYChart>` has rendered it into context, so it grabs it
  * via `onStoreCreated` rather than `useDispatch` - inside a chart, a plot's own click handler would
@@ -119,6 +131,7 @@ function DatumMenuDemo() {
             <XAxis fields={["value"]} />
             <Bar x="value" y="category" color="#fc998e" />
             <DatumMenu />
+            <EnablePivotable />
         </XYChart>
     );
 }
@@ -132,14 +145,6 @@ export const OnADataPoint = {
         fireEvent.click(bar, { bubbles: true, clientX: 300, clientY: 150 });
     },
 };
-
-// `pivotable` is dispatched into the store by `usePivot` (the same hook `<HeatmapAxes>` calls) -
-// there's no generic chart-level prop for it, since only `<Heatmap>` currently has a layout that
-// reacts to `pivot`. Rendered as a plain child so it registers on mount without affecting layout
-function EnablePivotable() {
-    usePivot(true);
-    return null;
-}
 
 /**
  * The "Pivot" action (see `createPivotAction`) is enabled purely by a chart's `pivotable` flag - it
@@ -193,5 +198,40 @@ export const PivotActionHovered = {
 
         const pivotItem = await findMenuItem("Pivot");
         fireEvent.mouseEnter(pivotItem.querySelector("path"));
+    },
+};
+
+// Pre-pivots to "y" (columns) on mount, rather than leaving it at the grid - `usePivot`'s own
+// `pivotTo` is what a real interaction (e.g. selecting "Pivot" itself, or the cycle completing)
+// would call, so this reuses it rather than reaching into the store directly
+function EnablePivotedState() {
+    const { pivotTo } = usePivot(true);
+
+    useEffect(() => {
+        pivotTo("y");
+    }, [pivotTo]);
+
+    return null;
+}
+
+/**
+ * The same menu as `PivotAction`, but pre-pivoted to "y" (columns) rather than left at the grid - so
+ * the "Pivot" item's label reads "Pivot: grid" instead of "Pivot: x", showing the "cancel" step of
+ * the same cycle (see `nextPivot`) that resets a pivoted chart back to its full grid
+ */
+export const PivotActionCancel = {
+    name: "Pivot Action (Cancel)",
+    render: () => (
+        <XYChart data={data} width={500} height={350} theme={themes.light}>
+            <YAxis fields={["category"]} scaleType="band" showGridlines={false} />
+            <XAxis fields={["value"]} />
+            <Bar x="value" y="category" color="#99C1DC" />
+            <EnablePivotedState />
+        </XYChart>
+    ),
+    play: async ({ canvasElement }) => {
+        await wait(300);
+        const svg = canvasElement.querySelector("svg");
+        fireEvent.contextMenu(svg, { bubbles: true, clientX: 300, clientY: 150 });
     },
 };

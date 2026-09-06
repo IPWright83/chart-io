@@ -50,8 +50,7 @@ Like other plots, a `<Heatmap>` can be rendered using an HTML Canvas instead of 
 
 ### Pivoting (Grid / Rows / Columns)
 
-This is the feature this component is built around, based on the "Desk Occupancy Heatmap" Observable
-notebook (a `View` radio switching between "Week"/"Day"/"Hour"). Set `pivotable` to let the user switch
+This is the feature this component is built around. Set `pivotable` to let the user switch
 between three layouts - left-clicking any cell, or using the "Pivot" action on the chart's right-click
 `<ContextMenu>` (see `<ContextMenuOverlay>`, enabled by default on `<XYChart>`) - each cycles grid ->
 rows -> columns -> grid. All three share the same cells - keyed by their row/column pair, so switching
@@ -77,10 +76,10 @@ so coloring it by value too would just look like an arbitrary per-segment gradie
 action), the same way `<Treemap zoomable>` and its `<ContextMenu>`'s "Reset zoom" action share zoom
 state - so it isn't a plain controlled prop.
 
-Here's the same mechanic on the notebook's own dataset - a week of hourly desk occupancy - for a direct
+Here's the same mechanic on a larger, denser dataset - a full week of hourly readings - for a direct
 comparison:
 
-<Canvas of={HeatmapStories.DeskOccupancy} />
+<Canvas of={HeatmapStories.WeeklyPattern} />
 
 ### Diverging colors
 

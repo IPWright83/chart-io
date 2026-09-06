@@ -21,6 +21,18 @@ export const contextMenuIcons = {
         <path d="M7 22v-4.5h4.5" />
     </svg>`,
 
+    /** A single wide, short bar - used as one of the "Pivot" action's `activeSegments`, for the
+     * row-stacked-bar layout */
+    pivotRows: `<svg ${DEFAULTS}>
+        <rect x="3" y="9" width="18" height="6" fill="currentColor" stroke="none" />
+    </svg>`,
+
+    /** A single narrow, tall bar - used as one of the "Pivot" action's `activeSegments`, for the
+     * column-stacked-bar layout */
+    pivotColumns: `<svg ${DEFAULTS}>
+        <rect x="9" y="3" width="6" height="18" fill="currentColor" stroke="none" />
+    </svg>`,
+
     /** An outlined pentagon with a vertex highlighted - used for the "Draw polygon" action */
     drawPolygon: `<svg ${DEFAULTS}>
         <path d="M12 3 20 9.5 17 19H7L4 9.5Z" />

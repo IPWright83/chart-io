@@ -204,15 +204,15 @@ export const PivotedToColumns = {
     },
 };
 
-// A deterministic (not random) stand-in for the "Desk Occupancy Heatmap" Observable notebook
-// (https://observablehq.com/d/2eaec302ac0bbfb4) this feature is based on - a bell curve peaking
-// mid-afternoon, lower on weekends, with a little day-to-day variation. `pivotable` reproduces the
-// notebook's Week/Day/Hour view toggle: Grid is "Week", Rows is "Day" (each weekday's hourly cells
-// stacked into one bar), Columns is "Hour" (each hour's cells stacked across the whole week instead)
+// A larger, denser dataset (a full week of hourly readings) than the 4-cell Basic example, to show
+// pivoting at scale. Deterministic (not random, so it's stable for visual regression) - a bell curve
+// peaking mid-afternoon, lower on weekends, with a little day-to-day variation. `pivotable` cycles
+// Grid -> Rows (each weekday's hourly cells stacked into one bar) -> Columns (each hour's cells
+// stacked across the whole week instead)
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const HOURS = Array.from({ length: 24 }, (_, hour) => hour);
 
-function occupancyFor(dayIndex: number, hour: number): number {
+function levelFor(dayIndex: number, hour: number): number {
     const peak = 14;
     const spread = 5;
     const base = 20 * Math.exp(-((hour - peak) ** 2) / (2 * spread * spread));
@@ -221,23 +221,23 @@ function occupancyFor(dayIndex: number, hour: number): number {
     return Math.max(0, Math.round(base * weekendFactor + dailyVariation));
 }
 
-const deskOccupancyData = DAYS.flatMap((day, dayIndex) =>
+const weeklyPatternData = DAYS.flatMap((day, dayIndex) =>
     HOURS.map((hour) => ({
         day,
         hour: `${String(hour).padStart(2, "0")}:00`,
-        occupancy: occupancyFor(dayIndex, hour),
+        level: levelFor(dayIndex, hour),
     })),
 );
 
-export const DeskOccupancy = {
-    name: "Desk Occupancy (Observable notebook)",
+export const WeeklyPattern = {
+    name: "Weekly Pattern (Day / Hour)",
     render: HeatmapTemplate,
     args: {
         ...Basic.args,
-        data: deskOccupancyData,
+        data: weeklyPatternData,
         rows: "day",
         columns: "hour",
-        value: "occupancy",
+        value: "level",
         colors: ["#f7fbff", "#08306b"],
         leftMargin: 60,
         pivotable: true,
