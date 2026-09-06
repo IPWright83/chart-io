@@ -86,7 +86,9 @@ export function createPivotAction(state: IState): IContextMenuItem {
         id: "pivot",
         label: `Pivot: ${next ?? "grid"}`,
         icon: contextMenuIcons.pivot,
-        activeIcon: contextMenuIcons.pivotActive,
+        // The two mini segments hint at the two collapsed-axis layouts ("x"/rows and "y"/columns)
+        // pivoting cycles between, alongside the grid
+        activeSegments: 2,
         disabled: !pivotable,
         onSelect: (dispatch: IDispatch) => dispatch(chartActions.setPivot(next)),
     };

@@ -37,11 +37,12 @@ export interface IContextMenuItem {
     icon: string;
 
     /**
-     * An alternate icon (same markup rules as `icon`) that crossfades in over `icon` while this
-     * segment is hovered/active, and back out on mouseleave - a way to reveal more detail (e.g.
-     * what the action actually does) without cluttering the segment's resting state
+     * The number of equal-width mini segments to reveal as an extra ring band just outside this
+     * segment's own arc, while it's hovered/active (and hidden on mouseleave) - a way to hint at
+     * what the action actually does (e.g. splitting into this many outcomes) without cluttering the
+     * segment's resting state. Omit for no outer band
      */
-    activeIcon?: string;
+    activeSegments?: number;
 
     /**
      * Renders the segment in a disabled state and prevents it from being selected. Useful for

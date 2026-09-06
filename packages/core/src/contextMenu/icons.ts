@@ -21,14 +21,6 @@ export const contextMenuIcons = {
         <path d="M7 22v-4.5h4.5" />
     </svg>`,
 
-    /** Two bars of different heights - crossfades in over `pivot` while the segment is hovered, to
-     * reinforce that the action turns the grid into a stacked bar chart - used as the "Pivot"
-     * action's `activeIcon` */
-    pivotActive: `<svg ${DEFAULTS}>
-        <rect x="5" y="9" width="5" height="12" fill="currentColor" stroke="none" />
-        <rect x="14" y="3" width="5" height="8" fill="currentColor" stroke="none" />
-    </svg>`,
-
     /** An outlined pentagon with a vertex highlighted - used for the "Draw polygon" action */
     drawPolygon: `<svg ${DEFAULTS}>
         <path d="M12 3 20 9.5 17 19H7L4 9.5Z" />

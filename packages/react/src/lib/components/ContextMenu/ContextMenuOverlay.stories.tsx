@@ -179,9 +179,9 @@ async function findMenuItem(label: string): Promise<Element> {
 }
 
 /**
- * The same menu as `PivotAction`, but with the "Pivot" segment left hovered - `activeIcon`
- * crossfades in over `icon` on hover (see `IContextMenuItem`), so this is the easiest way to review
- * the hovered state without a human actually having to hold the mouse over it
+ * The same menu as `PivotAction`, but with the "Pivot" segment left hovered - its two `activeSegments`
+ * reveal as an outer ring band on hover (see `IContextMenuItem`), so this is the easiest way to
+ * review the hovered state without a human actually having to hold the mouse over it
  */
 export const PivotActionHovered = {
     name: "Pivot Action (Hovered)",
