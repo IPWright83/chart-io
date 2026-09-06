@@ -63,6 +63,10 @@ recreate anything, it just transitions each cell to its new position and size:
 - **Columns** - the row axis collapses instead: each column's cells stack into one vertical bar,
   sized by that column's total.
 
+Once pivoted, every cell renders in the same flat color (the palette's own "high" stop) instead of
+the value-driven gradient - a cell's height/width already encodes its value once it's a bar segment,
+so coloring it by value too would just look like an arbitrary per-segment gradient.
+
 <Canvas of={HeatmapStories.Pivotable} />
 
 ```jsx

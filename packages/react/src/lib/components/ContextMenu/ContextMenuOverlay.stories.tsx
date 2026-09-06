@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { wait } from "../../testUtils";
 import { XAxis, YAxis } from "../Axis";
 import { Bar } from "../Plots/Bar";
+import { usePivot } from "../Plots/usePivot";
 import { XYChart } from "../XYChart";
 
 import { ContextMenu } from "./ContextMenu";
@@ -129,5 +130,36 @@ export const OnADataPoint = {
         await wait(300);
         const bar = canvasElement.querySelector("rect.bar");
         fireEvent.click(bar, { bubbles: true, clientX: 300, clientY: 150 });
+    },
+};
+
+// `pivotable` is dispatched into the store by `usePivot` (the same hook `<HeatmapAxes>` calls) -
+// there's no generic chart-level prop for it, since only `<Heatmap>` currently has a layout that
+// reacts to `pivot`. Rendered as a plain child so it registers on mount without affecting layout
+function EnablePivotable() {
+    usePivot(true);
+    return null;
+}
+
+/**
+ * The "Pivot" action (see `createPivotAction`) is enabled purely by a chart's `pivotable` flag - it
+ * doesn't need an actual `<Heatmap>` to demonstrate, just any pivotable chart. Tested here in
+ * isolation (leaving the menu open, rather than selecting anything) so its icon/label are easy to
+ * review on their own, without needing to right-click a full Heatmap first
+ */
+export const PivotAction = {
+    name: "Pivot Action",
+    render: () => (
+        <XYChart data={data} width={500} height={350} theme={themes.light}>
+            <YAxis fields={["category"]} scaleType="band" showGridlines={false} />
+            <XAxis fields={["value"]} />
+            <Bar x="value" y="category" color="#99C1DC" />
+            <EnablePivotable />
+        </XYChart>
+    ),
+    play: async ({ canvasElement }) => {
+        await wait(300);
+        const svg = canvasElement.querySelector("svg");
+        fireEvent.contextMenu(svg, { bubbles: true, clientX: 300, clientY: 150 });
     },
 };

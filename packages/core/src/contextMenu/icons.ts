@@ -13,12 +13,14 @@ export const contextMenuIcons = {
         <line x1="7.5" y1="10.5" x2="13.5" y2="10.5" />
     </svg>`,
 
-    /** Two curved arrows swapping direction - used for the "Pivot" action */
+    /** Two separate cells folding into one bar divided into their segments - used for the "Pivot"
+     * action */
     pivot: `<svg ${DEFAULTS}>
-        <path d="M4 8a6 6 0 0 1 10-4.5L17 6" />
-        <path d="M17 2v4.5h-4.5" />
-        <path d="M20 16a6 6 0 0 1-10 4.5L7 18" />
-        <path d="M7 22v-4.5h4.5" />
+        <rect x="2" y="4" width="8" height="7" />
+        <rect x="2" y="13" width="8" height="7" />
+        <path d="M12 12h4l-1.5-1.5m1.5 1.5-1.5 1.5" />
+        <rect x="18" y="4" width="5" height="16" />
+        <line x1="18" y1="12" x2="23" y2="12" />
     </svg>`,
 
     /** An outlined pentagon with a vertex highlighted - used for the "Draw polygon" action */

@@ -244,6 +244,28 @@ describe("HeatmapPlot", () => {
             expect(Number(widgetsCells[0].getAttribute("width"))).toBeCloseTo(100);
         });
 
+        it("should color every segment the same flat colour once pivoted to rows, rather than by value", async () => {
+            const valueScale = () => d3.scaleLinear().domain([0, 13]).range([0, 200]);
+            const store = gridStore({
+                pivot: "x",
+                scales: {
+                    region: { domain: regionScale().domain(), range: regionScale().range(), scale: regionScale() },
+                    sales: { domain: valueScale().domain(), range: valueScale().range(), scale: valueScale() },
+                },
+            });
+
+            const { container } = await renderChart({
+                children: <HeatmapPlot rows="region" columns="product" value="sales" />,
+                data,
+                store,
+            });
+
+            await wait();
+
+            const fills = Array.from(container.querySelectorAll("rect.heatmap-cell")).map((cell) => (cell as SVGElement).style.fill);
+            expect(new Set(fills).size).toBe(1);
+        });
+
         describe("should handle event", () => {
             it("mouseover correctly on a cell", async () => {
                 const onMouseOver = jest.fn();

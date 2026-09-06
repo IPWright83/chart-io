@@ -204,24 +204,6 @@ export const PivotedToColumns = {
     },
 };
 
-// Leaves the right-click <ContextMenu> open (rather than selecting anything) so its "Pivot: ..."
-// action is visible for review - labelled with whichever layout selecting it would switch to next,
-// the same convention `<ContextMenuOverlay>`'s own stories use to show a menu at rest
-export const PivotContextMenu = {
-    name: "Pivot Context-Menu Action",
-    render: HeatmapTemplate,
-    args: {
-        ...Basic.args,
-        pivotable: true,
-    },
-    play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
-        await wait(800);
-        const svg = canvasElement.querySelector("svg");
-        fireEvent.contextMenu(svg, { bubbles: true, clientX: 400, clientY: 300 });
-        await findPivotItem();
-    },
-};
-
 // A deterministic (not random) stand-in for the "Desk Occupancy Heatmap" Observable notebook
 // (https://observablehq.com/d/2eaec302ac0bbfb4) this feature is based on - a bell curve peaking
 // mid-afternoon, lower on weekends, with a little day-to-day variation. `pivotable` reproduces the

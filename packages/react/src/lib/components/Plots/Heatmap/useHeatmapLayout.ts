@@ -290,7 +290,13 @@ export function useHeatmapLayout({ rows, columns, value, colors }: IUseHeatmapLa
             return (yScale as IBandwidthScale).bandwidth();
         };
 
-        const cellColorFor = (cell: IHeatmapCell) => colorFor(cell.value);
+        // Once pivoted, a cell no longer stands alone - it's one segment of a row's/column's single
+        // stacked bar, so coloring it by its own value (rather than the bar's total) would read as an
+        // arbitrary per-segment gradient rather than a value-driven heatmap. Every segment contributing
+        // to a bar gets the same flat color instead - the palette's own "high" stop, so a custom
+        // `colors` still carries through - matching `<HeatmapPlot>` already dropping the color legend
+        // once pivoted, since there's nothing left for it to explain
+        const cellColorFor = (cell: IHeatmapCell) => (pivot === undefined ? colorFor(cell.value) : `${palette[palette.length - 1]}`);
 
         // The palette itself doubles as the color legend's gradient stops (equally spaced across
         // colorMin..colorMax, same as colorFor's own interpolation) - no need to resample it
