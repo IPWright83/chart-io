@@ -173,6 +173,44 @@ function attachCloseListeners(container: HTMLElement, instance: IContextMenuInst
 }
 
 /**
+ * Crossfades an item's `.context-menu-active-icon` in over its resting `.context-menu-icon` (or
+ * back out), via the CSS `transition` set on both groups when they're first created. Called on
+ * hover/unhover - hovering an item with no `activeIcon` is a harmless no-op, since its (empty)
+ * active-icon group just fades in nothing
+ * @param  item     The `<g class="chart-io context-menu-item">` selection for one segment
+ * @param  shown    Whether the active icon should be the one visible
+ */
+function setActiveIconShown(item: d3.Selection<SVGGElement, unknown, null, undefined>, shown: boolean): void {
+    // `.interrupt()` first - a freshly-opened menu's icon is still mid-way through its own opening
+    // fade-in transition (see `buildAndGrow`), which would otherwise keep writing its own opacity
+    // over whatever a fast hover sets here, right up until that transition finishes on its own
+    item.select(".chart-io.context-menu-icon").interrupt().style("opacity", shown ? 0 : 1);
+    item.select(".chart-io.context-menu-active-icon").interrupt().style("opacity", shown ? 1 : 0);
+}
+
+/**
+ * Writes each item's icon markup (from `iconFor`) into `selection`'s `<g>`, and tints it via the
+ * menu's `colors.text`. Only touches the DOM when the icon has actually changed, keyed by item id -
+ * without this, re-selecting an already-rendered menu (e.g. `updateInPlace`) would rewrite identical
+ * markup on every call
+ * @param  selection    A `.chart-io.context-menu-icon`/`.context-menu-active-icon` group selection
+ * @param  colors       The menu's color palette, applied as the icon's `currentColor`
+ * @param  iconFor      Reads the raw SVG markup (e.g. `d.data.icon`) to render for a given arc datum
+ */
+function setIconContent(
+    selection: d3.Selection<SVGGElement, IArc, any, unknown>,
+    colors: ITheme["menu"],
+    iconFor: (d: IArc) => string,
+): void {
+    selection.style("color", colors.text?.toString() ?? null).each(function (d) {
+        const node = d3.select(this);
+        if (node.attr("data-icon") !== d.data.id) {
+            node.attr("data-icon", d.data.id).html(iconFor(d));
+        }
+    });
+}
+
+/**
  * Renders the ring of segments for a freshly-opened menu, growing each segment's outer radius out
  * from the center
  * @param  root         A selection wrapping the menu's root `<svg>` element
@@ -193,7 +231,12 @@ function buildAndGrow(root: ID3RootSelection, options: Required<IContextMenuOpti
 
     const enter = join.enter().append("g").attr("class", "chart-io context-menu-item");
     enter.append("path");
-    enter.append("g").attr("class", "chart-io context-menu-icon");
+    enter.append("g").attr("class", "chart-io context-menu-icon").style("transition", "opacity 120ms ease-out");
+    enter
+        .append("g")
+        .attr("class", "chart-io context-menu-active-icon")
+        .style("opacity", 0)
+        .style("transition", "opacity 120ms ease-out");
 
     const merged = enter.merge(join).attr("data-disabled", (d) => String(!!d.data.disabled));
 
@@ -207,10 +250,12 @@ function buildAndGrow(root: ID3RootSelection, options: Required<IContextMenuOpti
         .on("mouseenter", function (_event, d) {
             if (d.data.disabled) return;
             d3.select(this).style("fill", colors.backgroundHover?.toString() ?? null);
+            setActiveIconShown(d3.select(this.parentNode as SVGGElement), !!d.data.activeIcon);
         })
         .on("mouseleave", function (_event, d) {
             if (d.data.disabled) return;
             d3.select(this).style("fill", colors.background?.toString() ?? null);
+            setActiveIconShown(d3.select(this.parentNode as SVGGElement), false);
         })
         .on("click", (_event, d) => {
             if (d.data.disabled) return;
@@ -219,17 +264,14 @@ function buildAndGrow(root: ID3RootSelection, options: Required<IContextMenuOpti
 
     paths.selectAll("title").data((d) => [d]).join("title").text((d) => d.data.label);
 
+    setIconContent(merged.select<SVGGElement>(".chart-io.context-menu-icon"), colors, (d) => d.data.icon);
+    setIconContent(merged.select<SVGGElement>(".chart-io.context-menu-active-icon"), colors, (d) => d.data.activeIcon ?? "");
+
     merged
-        .select<SVGGElement>(".chart-io.context-menu-icon")
+        .selectAll<SVGGElement, IArc>(".chart-io.context-menu-icon, .chart-io.context-menu-active-icon")
         .style("pointer-events", "none")
-        .style("color", colors.text?.toString() ?? null)
-        .each(function (d) {
-            const node = d3.select(this);
-            // Only (re)write markup when the icon actually changes, to avoid clobbering it every render
-            if (node.attr("data-icon") !== d.data.id) {
-                node.attr("data-icon", d.data.id).html(d.data.icon);
-            }
-            node.select("svg").attr("width", iconSize).attr("height", iconSize);
+        .each(function () {
+            d3.select(this).select("svg").attr("width", iconSize).attr("height", iconSize);
         })
         .attr("transform", (d) => {
             const [ix, iy] = arcGenerator.outerRadius(radius + thickness).centroid(d);
@@ -283,15 +325,18 @@ function updateInPlace(root: ID3RootSelection, options: Required<IContextMenuOpt
             onSelect(d.data);
         });
 
+    setIconContent(merged.select<SVGGElement>(".chart-io.context-menu-icon"), colors, (d) => d.data.icon);
+    setIconContent(merged.select<SVGGElement>(".chart-io.context-menu-active-icon"), colors, (d) => d.data.activeIcon ?? "");
+
     merged
-        .select<SVGGElement>(".chart-io.context-menu-icon")
+        .selectAll<SVGGElement, IArc>(".chart-io.context-menu-icon, .chart-io.context-menu-active-icon")
         .attr("transform", (d) => {
             const [ix, iy] = arcGenerator.centroid(d);
             return `translate(${ix - iconSize / 2}, ${iy - iconSize / 2})`;
         })
-        .select("svg")
-        .attr("width", iconSize)
-        .attr("height", iconSize);
+        .each(function () {
+            d3.select(this).select("svg").attr("width", iconSize).attr("height", iconSize);
+        });
 }
 
 /**

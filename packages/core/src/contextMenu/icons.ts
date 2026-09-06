@@ -13,14 +13,20 @@ export const contextMenuIcons = {
         <line x1="7.5" y1="10.5" x2="13.5" y2="10.5" />
     </svg>`,
 
-    /** Two separate cells folding into one bar divided into their segments - used for the "Pivot"
-     * action */
+    /** Two curved arrows swapping direction - used for the "Pivot" action */
     pivot: `<svg ${DEFAULTS}>
-        <rect x="2" y="4" width="8" height="7" />
-        <rect x="2" y="13" width="8" height="7" />
-        <path d="M12 12h4l-1.5-1.5m1.5 1.5-1.5 1.5" />
-        <rect x="18" y="4" width="5" height="16" />
-        <line x1="18" y1="12" x2="23" y2="12" />
+        <path d="M4 8a6 6 0 0 1 10-4.5L17 6" />
+        <path d="M17 2v4.5h-4.5" />
+        <path d="M20 16a6 6 0 0 1-10 4.5L7 18" />
+        <path d="M7 22v-4.5h4.5" />
+    </svg>`,
+
+    /** Two bars of different heights - crossfades in over `pivot` while the segment is hovered, to
+     * reinforce that the action turns the grid into a stacked bar chart - used as the "Pivot"
+     * action's `activeIcon` */
+    pivotActive: `<svg ${DEFAULTS}>
+        <rect x="5" y="9" width="5" height="12" fill="currentColor" stroke="none" />
+        <rect x="14" y="3" width="5" height="8" fill="currentColor" stroke="none" />
     </svg>`,
 
     /** An outlined pentagon with a vertex highlighted - used for the "Draw polygon" action */

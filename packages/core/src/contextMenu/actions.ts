@@ -86,6 +86,7 @@ export function createPivotAction(state: IState): IContextMenuItem {
         id: "pivot",
         label: `Pivot: ${next ?? "grid"}`,
         icon: contextMenuIcons.pivot,
+        activeIcon: contextMenuIcons.pivotActive,
         disabled: !pivotable,
         onSelect: (dispatch: IDispatch) => dispatch(chartActions.setPivot(next)),
     };

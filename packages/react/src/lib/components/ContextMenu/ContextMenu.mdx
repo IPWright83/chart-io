@@ -74,6 +74,7 @@ directly.
 | **`id`\***   | `string`                                                          | A unique identifier                                                                       |
 | **`label`\***| `string`                                                          | Shown in a tooltip on hover, and used for accessibility                                  |
 | **`icon`\*** | `string`                                                          | Raw SVG markup (e.g. `<path d="..."/>`), sized automatically to fit. See `contextMenuIcons` for a ready-made set |
+| `activeIcon` | `string`                                                          | An alternate icon (same rules as `icon`) that crossfades in over it while the segment is hovered - a way to reveal more detail without cluttering the resting state. See `createPivotAction`'s icon for an example |
 | `disabled`   | `boolean`                                                         | Renders the segment disabled rather than removing it, so the ring doesn't reflow         |
 | **`onSelect`\*** | `(dispatch: IDispatch, context?: IContextMenuContext) => void`| Called when this item is selected                                                        |
 

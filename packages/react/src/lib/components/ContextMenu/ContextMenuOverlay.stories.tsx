@@ -163,3 +163,35 @@ export const PivotAction = {
         fireEvent.contextMenu(svg, { bubbles: true, clientX: 300, clientY: 150 });
     },
 };
+
+// The menu renders imperatively via D3 inside a useEffect, so an item can take an extra tick to
+// appear after the opening event returns - poll briefly rather than assuming it's there immediately
+// (see the Heatmap Pivotable story's own findPivotItem for the same pattern)
+async function findMenuItem(label: string): Promise<Element> {
+    for (let attempt = 0; attempt < 10; attempt++) {
+        const items = Array.from(document.body.querySelectorAll(".context-menu-item"));
+        const item = items.find((el) => el.textContent.trim().startsWith(label));
+        if (item) return item;
+        await wait(50);
+    }
+
+    throw new Error(`The '${label}' context-menu item never appeared`);
+}
+
+/**
+ * The same menu as `PivotAction`, but with the "Pivot" segment left hovered - `activeIcon`
+ * crossfades in over `icon` on hover (see `IContextMenuItem`), so this is the easiest way to review
+ * the hovered state without a human actually having to hold the mouse over it
+ */
+export const PivotActionHovered = {
+    name: "Pivot Action (Hovered)",
+    render: PivotAction.render,
+    play: async ({ canvasElement }) => {
+        await wait(300);
+        const svg = canvasElement.querySelector("svg");
+        fireEvent.contextMenu(svg, { bubbles: true, clientX: 300, clientY: 150 });
+
+        const pivotItem = await findMenuItem("Pivot");
+        fireEvent.mouseEnter(pivotItem.querySelector("path"));
+    },
+};

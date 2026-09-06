@@ -37,6 +37,13 @@ export interface IContextMenuItem {
     icon: string;
 
     /**
+     * An alternate icon (same markup rules as `icon`) that crossfades in over `icon` while this
+     * segment is hovered/active, and back out on mouseleave - a way to reveal more detail (e.g.
+     * what the action actually does) without cluttering the segment's resting state
+     */
+    activeIcon?: string;
+
+    /**
      * Renders the segment in a disabled state and prevents it from being selected. Useful for
      * actions that aren't currently applicable (e.g. "Reset zoom" while nothing is zoomed in)
      * rather than removing the item outright, which would reflow the rest of the ring

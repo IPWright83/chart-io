@@ -163,6 +163,76 @@ describe("renderContextMenu", () => {
         expect(onClose).not.toHaveBeenCalled();
     });
 
+    it("crossfades in an item's activeIcon on hover, and back out on mouseleave", () => {
+        const itemsWithActive: IContextMenuItem[] = [
+            {
+                id: "a",
+                label: "Action A",
+                icon: "<svg><circle /></svg>",
+                activeIcon: "<svg><rect /></svg>",
+                onSelect: jest.fn(),
+            },
+        ];
+        const container = createContainer();
+        renderContextMenu(container, { x: 0, y: 0, open: true, items: itemsWithActive, onSelect: jest.fn() });
+
+        const path = container.querySelector(".context-menu-item > path");
+        const activeIcon = container.querySelector(".context-menu-active-icon") as HTMLElement;
+
+        expect(activeIcon.style.opacity).toBe("0");
+        expect(activeIcon.querySelector("rect")).not.toBeNull();
+
+        path.dispatchEvent(new MouseEvent("mouseenter"));
+        expect(activeIcon.style.opacity).toBe("1");
+
+        path.dispatchEvent(new MouseEvent("mouseleave"));
+        expect(activeIcon.style.opacity).toBe("0");
+    });
+
+    it("keeps a hover's crossfade even when it lands mid the icon's own opening fade-in transition", async () => {
+        // The icon's opening fade-in (see buildAndGrow) is a d3 transition that keeps writing its
+        // own opacity for `animationDuration` (default 220ms) after the menu opens - a hover that
+        // starts anywhere in that window must still win, not get silently overwritten once that
+        // transition finishes on its own
+        const itemsWithActive: IContextMenuItem[] = [
+            {
+                id: "a",
+                label: "Action A",
+                icon: "<svg><circle /></svg>",
+                activeIcon: "<svg><rect /></svg>",
+                onSelect: jest.fn(),
+            },
+        ];
+        const container = createContainer();
+        renderContextMenu(container, { x: 0, y: 0, open: true, items: itemsWithActive, onSelect: jest.fn() });
+
+        const path = container.querySelector(".context-menu-item > path");
+        const icon = container.querySelector(".context-menu-icon") as HTMLElement;
+        const activeIcon = container.querySelector(".context-menu-active-icon") as HTMLElement;
+
+        // Hovers synchronously, right as the menu opens - well before the opening transition's own
+        // delay (animationDuration * 0.4) has even elapsed
+        path.dispatchEvent(new MouseEvent("mouseenter"));
+
+        await new Promise((resolve) => setTimeout(resolve, 300));
+
+        expect(icon.style.opacity).toBe("0");
+        expect(activeIcon.style.opacity).toBe("1");
+    });
+
+    it("doesn't reveal anything on hover for an item without an activeIcon", () => {
+        const container = createContainer();
+        renderContextMenu(container, { x: 0, y: 0, open: true, items, onSelect: jest.fn() });
+
+        const path = container.querySelector(".context-menu-item > path");
+        const activeIcon = container.querySelector(".context-menu-active-icon") as HTMLElement;
+
+        path.dispatchEvent(new MouseEvent("mouseenter"));
+
+        expect(activeIcon.style.opacity).toBe("0");
+        expect(activeIcon.innerHTML).toBe("");
+    });
+
     it("updates in place (e.g. a disabled item becoming enabled) without throwing", () => {
         const container = createContainer();
         const options = { x: 0, y: 0, open: true, items, onSelect: jest.fn() };
