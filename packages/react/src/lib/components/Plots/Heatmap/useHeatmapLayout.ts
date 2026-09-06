@@ -252,11 +252,20 @@ export function useHeatmapLayout({ rows, columns, value, colors }: IUseHeatmapLa
 
         const keyFor = (cell: IHeatmapCell) => `${cell.row}::${cell.column}`;
 
+        // Rounds a pivoted axis's linear scale to the nearest whole pixel. Two adjacent stacked
+        // segments share a boundary (one's "current" is the next one's "previous") - scaling that
+        // boundary independently for each cell's position vs. width can each land on a slightly
+        // different fractional pixel, and two SVG rects meeting at a fractional boundary render with
+        // a visible anti-aliased seam between them (very noticeable once many same-colored segments
+        // are stacked into one bar - see the flat pivoted `colorFor` below). Rounding both sides
+        // through this same function guarantees they resolve to the exact same edge
+        const roundedScale = (scale: IScale, value: number) => Math.round(scale(value) as number);
+
         const xFor = (cell: IHeatmapCell) => {
             if (!xScale) return 0;
             if (pivot === "x") {
                 const { previous } = rowCumulative.get(keyFor(cell));
-                return (xScale as IScale)(previous) as number;
+                return roundedScale(xScale as IScale, previous);
             }
             // @ts-ignore: TODO: Need to work out casting
             return (xScale as IScale)(cell.column) as number;
@@ -266,7 +275,7 @@ export function useHeatmapLayout({ rows, columns, value, colors }: IUseHeatmapLa
             if (!xScale) return 0;
             if (pivot === "x") {
                 const { previous, current } = rowCumulative.get(keyFor(cell));
-                return ((xScale as IScale)(current) as number) - ((xScale as IScale)(previous) as number);
+                return roundedScale(xScale as IScale, current) - roundedScale(xScale as IScale, previous);
             }
             return (xScale as IBandwidthScale).bandwidth();
         };
@@ -275,7 +284,7 @@ export function useHeatmapLayout({ rows, columns, value, colors }: IUseHeatmapLa
             if (!yScale) return 0;
             if (pivot === "y") {
                 const { current } = columnCumulative.get(keyFor(cell));
-                return (yScale as IScale)(current) as number;
+                return roundedScale(yScale as IScale, current);
             }
             // @ts-ignore: TODO: Need to work out casting
             return (yScale as IScale)(cell.row) as number;
@@ -285,7 +294,7 @@ export function useHeatmapLayout({ rows, columns, value, colors }: IUseHeatmapLa
             if (!yScale) return 0;
             if (pivot === "y") {
                 const { previous, current } = columnCumulative.get(keyFor(cell));
-                return ((yScale as IScale)(previous) as number) - ((yScale as IScale)(current) as number);
+                return roundedScale(yScale as IScale, previous) - roundedScale(yScale as IScale, current);
             }
             return (yScale as IBandwidthScale).bandwidth();
         };

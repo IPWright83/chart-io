@@ -110,6 +110,44 @@ describe("Heatmap", () => {
         expect(container.querySelector(".color-legend")).toBeNull();
     });
 
+    it("should square off a rounded cornerRadius once pivoted, since cells persist rather than being recreated", async () => {
+        // Regression test - a stacked bar's segments sit edge-to-edge, so rounding every cell's
+        // corners individually (as the grid layout does) leaves a visible rounded notch at every
+        // internal segment boundary. Cells are keyed by row/column and transition rather than being
+        // recreated across a pivot, so this also exercises RectsPlot actually picking up the changed
+        // cornerRadius on an already-rendered rect, not just one it's drawing for the first time
+        const { container } = render(
+            <Heatmap
+                rows="region"
+                columns="product"
+                value="sales"
+                data={data}
+                width={300}
+                height={300}
+                animationDuration={0}
+                cornerRadius={4}
+                pivotable={true}
+            />,
+        );
+
+        await wait();
+
+        const cellsInGrid = Array.from(container.querySelectorAll("rect.heatmap-cell"));
+        for (const cell of cellsInGrid) {
+            expect(cell.getAttribute("rx")).toBe("4");
+            expect(cell.getAttribute("ry")).toBe("4");
+        }
+
+        await cyclePivot(container);
+        await wait();
+
+        const cellsPivoted = Array.from(container.querySelectorAll("rect.heatmap-cell"));
+        for (const cell of cellsPivoted) {
+            expect(cell.getAttribute("rx")).toBe("0");
+            expect(cell.getAttribute("ry")).toBe("0");
+        }
+    });
+
     it("should dock the Legend at SE by default", async () => {
         const { container } = render(
             <Heatmap rows="region" columns="product" value="sales" data={data} width={300} height={300} pivotable={true} />,

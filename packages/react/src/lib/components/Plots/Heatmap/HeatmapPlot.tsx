@@ -102,6 +102,11 @@ export function HeatmapPlot({
     const isGrid = pivot === undefined;
     useColorLegend(isGrid ? palette : undefined, isGrid ? colorDomain : undefined, formatLegendValue);
 
+    // Rounding every cell's corners is only right in the grid, where cells are visually distinct.
+    // Once pivoted, cells sit edge-to-edge as segments of one bar - rounding each one's corners
+    // individually leaves a visible rounded notch at every internal segment boundary
+    const effectiveCornerRadius = isGrid ? cornerRadius : 0;
+
     const onTooltip = useTooltip();
     const onFocus = useFocused(theme);
 
@@ -137,7 +142,7 @@ export function HeatmapPlot({
             width={widthFor}
             height={heightFor}
             color={colorFor}
-            cornerRadius={cornerRadius}
+            cornerRadius={effectiveCornerRadius}
             cursor={() => (interactive ? "pointer" : "default")}
             interactive={interactive}
             onMouseOver={handleMouseOver}

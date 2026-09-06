@@ -244,6 +244,52 @@ describe("HeatmapPlot", () => {
             expect(Number(widgetsCells[0].getAttribute("width"))).toBeCloseTo(100);
         });
 
+        it("should leave zero gap between many stacked segments, even at fractional pixel boundaries", async () => {
+            // Regression test: values chosen so the cumulative sums scale to fractional pixel
+            // boundaries (not round numbers) - scaling each segment's start/end independently used
+            // to leave a hairline anti-aliased seam between adjacent segments, invisible in the grid
+            // layout (where cells aren't adjacent) but glaring once pivoted flattens every segment of
+            // a bar to the same color, since many thin seams line up into visible stripes across it
+            const oneRowData = [
+                { region: "North", product: "A", sales: 3 },
+                { region: "North", product: "B", sales: 7 },
+                { region: "North", product: "C", sales: 2 },
+                { region: "North", product: "D", sales: 9 },
+                { region: "North", product: "E", sales: 4 },
+                { region: "North", product: "F", sales: 6 },
+                { region: "North", product: "G", sales: 5 },
+            ];
+            const oneRegionScale = () => d3.scaleBand().domain(["North"]).range([0, 100]).paddingInner(0).paddingOuter(0);
+            const valueScale = () => d3.scaleLinear().domain([0, 36]).range([0, 233]);
+
+            const { container } = await renderChart({
+                children: <HeatmapPlot rows="region" columns="product" value="sales" />,
+                data: oneRowData,
+                store: gridStore({
+                    data: oneRowData,
+                    pivot: "x",
+                    scales: {
+                        region: { domain: oneRegionScale().domain(), range: oneRegionScale().range(), scale: oneRegionScale() },
+                        sales: { domain: valueScale().domain(), range: valueScale().range(), scale: valueScale() },
+                    },
+                }),
+            });
+
+            await wait();
+
+            const cells = Array.from(container.querySelectorAll("rect.heatmap-cell")).sort(
+                (a, b) => Number(a.getAttribute("x")) - Number(b.getAttribute("x")),
+            );
+
+            expect(cells.length).toBe(7);
+            for (let i = 0; i < cells.length - 1; i++) {
+                const end = Number(cells[i].getAttribute("x")) + Number(cells[i].getAttribute("width"));
+                // Exact equality, not toBeCloseTo - the whole point of the fix is that these round to
+                // the identical pixel, leaving neither a gap nor an overlap
+                expect(end).toBe(Number(cells[i + 1].getAttribute("x")));
+            }
+        });
+
         it("should color every segment the same flat colour once pivoted to rows, rather than by value", async () => {
             const valueScale = () => d3.scaleLinear().domain([0, 13]).range([0, 200]);
             const store = gridStore({
