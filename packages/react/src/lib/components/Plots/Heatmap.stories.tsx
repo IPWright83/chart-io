@@ -104,6 +104,29 @@ export const Canvas = {
     play: createCanvasTest({ clientX: 400, clientY: 300 }),
 };
 
+// The "Pivot" action lives on the chart's right-click <ContextMenu> (portaled to document.body)
+// rather than an on-chart control - right-click to open it, then select "Pivot" to cycle to the
+// next layout (grid -> rows -> columns -> grid). Opening it renders imperatively via D3 inside a
+// useEffect, so the item can take an extra tick to appear - poll briefly rather than assuming it's
+// there the instant the opening event returns
+async function findPivotItem(): Promise<Element> {
+    for (let attempt = 0; attempt < 10; attempt++) {
+        const items = document.body.querySelectorAll(".context-menu-item");
+        const pivotItem = Array.from(items).find((item) => item.textContent.trim().startsWith("Pivot"));
+        if (pivotItem) return pivotItem;
+        await wait(50);
+    }
+
+    throw new Error("The 'Pivot' context-menu item never appeared");
+}
+
+async function cyclePivot(canvasElement: HTMLElement, clientX = 400, clientY = 300): Promise<void> {
+    const svg = canvasElement.querySelector("svg");
+    fireEvent.contextMenu(svg, { bubbles: true, clientX, clientY });
+    const pivotItem = await findPivotItem();
+    fireEvent.click(pivotItem.querySelector("path"));
+}
+
 export const Pivotable = {
     name: "Pivotable (Grid / Rows / Columns)",
     render: HeatmapTemplate,
@@ -119,49 +142,83 @@ export const Pivotable = {
         // In the grid every cell shares its column's fixed band width
         expect(new Set(widthsFor()).size).toBe(1);
 
-        // The "Pivot" action lives on the chart's right-click <ContextMenu> (portaled to
-        // document.body) rather than an on-chart control - right-click to open it, then select
-        // "Pivot" to cycle to the next layout. Opening it renders imperatively via D3 inside a
-        // useEffect, so the item can take an extra tick to appear - poll briefly rather than
-        // assuming it's there the instant the opening event returns
-        const svg = canvasElement.querySelector("svg");
-
-        async function findPivotItem(): Promise<Element> {
-            for (let attempt = 0; attempt < 10; attempt++) {
-                const items = document.body.querySelectorAll(".context-menu-item");
-                const pivotItem = Array.from(items).find((item) => item.textContent.trim().startsWith("Pivot"));
-                if (pivotItem) return pivotItem;
-                await wait(50);
-            }
-
-            throw new Error("The 'Pivot' context-menu item never appeared");
-        }
-
-        const cyclePivot = async () => {
-            fireEvent.contextMenu(svg, { bubbles: true, clientX: 400, clientY: 300 });
-            const pivotItem = await findPivotItem();
-            fireEvent.click(pivotItem.querySelector("path"));
-        };
-
         // Pivoting to rows collapses the sector (column) axis into a linear scale - each country's
         // cells now stack edge-to-edge, sized by their own share of that country's total GDP
-        await cyclePivot();
+        await cyclePivot(canvasElement);
         await wait(800);
         expect(new Set(widthsFor()).size).toBeGreaterThan(1);
         expect(canvasElement.querySelector(".color-legend")).toBeNull();
 
         // Pivoting to columns instead collapses the country (row) axis - each sector's cells stack
         // vertically by height instead
-        await cyclePivot();
+        await cyclePivot(canvasElement);
         await wait(800);
         const heightsFor = Array.from(canvasElement.querySelectorAll("rect.heatmap-cell")).map((cell) => cell.getAttribute("height"));
         expect(new Set(heightsFor).size).toBeGreaterThan(1);
 
         // Back to the grid, and the legend returns
-        await cyclePivot();
+        await cyclePivot(canvasElement);
         await wait(800);
         expect(new Set(widthsFor()).size).toBe(1);
         expect(canvasElement.querySelector(".color-legend")).not.toBeNull();
+    },
+};
+
+// Shows the "Rows" layout at rest (rather than mid-cycle, as in the Pivotable story above) - each
+// country's cells stacked edge-to-edge into a single horizontal bar, sized by that country's share
+// of its own total GDP, with the column (sector) axis collapsed into a shared linear scale
+export const PivotedToRows = {
+    name: "Pivoted to Rows",
+    render: HeatmapTemplate,
+    args: {
+        ...Basic.args,
+        pivotable: true,
+    },
+    play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+        await wait(800);
+        await cyclePivot(canvasElement);
+        await wait(800);
+
+        const widths = Array.from(canvasElement.querySelectorAll("rect.heatmap-cell")).map((cell) => cell.getAttribute("width"));
+        expect(new Set(widths).size).toBeGreaterThan(1);
+    },
+};
+
+// The "Columns" layout at rest - the row (country) axis collapses instead, so each sector's cells
+// stack into a single vertical bar sized by that sector's share of its own total across countries
+export const PivotedToColumns = {
+    name: "Pivoted to Columns",
+    render: HeatmapTemplate,
+    args: {
+        ...Basic.args,
+        pivotable: true,
+    },
+    play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+        await wait(800);
+        await cyclePivot(canvasElement);
+        await cyclePivot(canvasElement);
+        await wait(800);
+
+        const heights = Array.from(canvasElement.querySelectorAll("rect.heatmap-cell")).map((cell) => cell.getAttribute("height"));
+        expect(new Set(heights).size).toBeGreaterThan(1);
+    },
+};
+
+// Leaves the right-click <ContextMenu> open (rather than selecting anything) so its "Pivot: ..."
+// action is visible for review - labelled with whichever layout selecting it would switch to next,
+// the same convention `<ContextMenuOverlay>`'s own stories use to show a menu at rest
+export const PivotContextMenu = {
+    name: "Pivot Context-Menu Action",
+    render: HeatmapTemplate,
+    args: {
+        ...Basic.args,
+        pivotable: true,
+    },
+    play: async ({ canvasElement }: { canvasElement: HTMLElement }) => {
+        await wait(800);
+        const svg = canvasElement.querySelector("svg");
+        fireEvent.contextMenu(svg, { bubbles: true, clientX: 400, clientY: 300 });
+        await findPivotItem();
     },
 };
 
