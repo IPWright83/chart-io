@@ -1,6 +1,7 @@
 import { chartActions, chartSelectors } from "../store/chart";
 import type { IDispatch, IState } from "../store/types";
-import type { IContextMenuContext, IContextMenuItem, IPivot } from "../types";
+import type { IContextMenuContext, IContextMenuItem } from "../types";
+import { nextPivot } from "../utils";
 
 import { contextMenuIcons } from "./icons";
 
@@ -63,12 +64,6 @@ export function createToggleLegendAction(state: IState): IContextMenuItem {
 }
 
 /**
- * The order the pivot cycles through each time the "Pivot" action is selected - `undefined` (the
- * full grid, neither axis collapsed) first, then each axis in turn
- */
-const PIVOT_CYCLE: Array<IPivot | undefined> = [undefined, "x", "y"];
-
-/**
  * Cycles a pivotable chart (currently `<Heatmap>`) between the full grid and each axis collapsed
  * into a single cumulative linear scale, fully wired up to the store via `chartActions.setPivot`.
  * Disabled unless a chart has opted in via `pivotable`, since there's nothing to pivot otherwise.
@@ -80,7 +75,7 @@ const PIVOT_CYCLE: Array<IPivot | undefined> = [undefined, "x", "y"];
 export function createPivotAction(state: IState): IContextMenuItem {
     const pivotable = chartSelectors.pivotable(state);
     const pivot = chartSelectors.pivot(state);
-    const next = PIVOT_CYCLE[(PIVOT_CYCLE.indexOf(pivot) + 1) % PIVOT_CYCLE.length];
+    const next = nextPivot(pivot);
 
     return {
         id: "pivot",

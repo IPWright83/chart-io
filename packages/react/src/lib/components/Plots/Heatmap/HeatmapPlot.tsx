@@ -1,4 +1,4 @@
-import { chartSelectors, d3, IState } from "@chart-io/core";
+import { chartSelectors, d3, IState, nextPivot } from "@chart-io/core";
 import type { IColor, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
 
 import React from "react";
@@ -89,8 +89,9 @@ export function HeatmapPlot({
     onClick,
 }: IHeatmapPlotProps) {
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
+    const pivotable = useSelector((s: IState) => chartSelectors.pivotable(s));
 
-    const { pivot, cells, keyFor, xFor, yFor, widthFor, heightFor, colorFor, palette, colorDomain } = useHeatmapLayout({
+    const { pivot, pivotTo, cells, keyFor, xFor, yFor, widthFor, heightFor, colorFor, palette, colorDomain } = useHeatmapLayout({
         rows,
         columns,
         value,
@@ -127,6 +128,10 @@ export function HeatmapPlot({
 
     const handleClick = (cell: IHeatmapCell, element: Element, event: MouseEvent) => {
         onClick && onClick(cell.datum, element, event);
+        // Left-clicking any cell advances the pivot by one step, the same as selecting "Pivot" from
+        // the chart's right-click <ContextMenu> - a quicker path to the same cycle, not a different
+        // one, so it stays a no-op unless the chart has actually opted in via `pivotable`
+        if (pivotable) pivotTo(nextPivot(pivot));
     };
 
     const Cells = useCanvas ? CanvasCellsPlot : SVGCellsPlot;

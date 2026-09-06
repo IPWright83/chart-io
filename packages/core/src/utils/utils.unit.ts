@@ -9,6 +9,7 @@ import { getXYFromTransform } from "./getXYFromTransform";
 import { isNullOrUndefined } from "./isNullOrUndefined";
 import { linkStores } from "./linkStores";
 import { logAndThrowError, logDebug, logError, logWarning } from "./logger";
+import { nextPivot } from "./nextPivot";
 
 describe("utils", () => {
     describe("areValuesUnique", () => {
@@ -270,6 +271,14 @@ describe("utils", () => {
             downloadFile(url, filename);
 
             expect(window.location.replace).toHaveBeenCalledWith(url);
+        });
+    });
+
+    describe("nextPivot", () => {
+        it("cycles grid -> x -> y -> grid", () => {
+            expect(nextPivot(undefined)).toBe("x");
+            expect(nextPivot("x")).toBe("y");
+            expect(nextPivot("y")).toBe(undefined);
         });
     });
 });

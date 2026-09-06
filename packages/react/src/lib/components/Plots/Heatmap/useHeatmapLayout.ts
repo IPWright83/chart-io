@@ -208,7 +208,7 @@ export function heatmapAxisFor(
  */
 export function useHeatmapLayout({ rows, columns, value, colors }: IUseHeatmapLayoutProps) {
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
-    const { pivot } = usePivot();
+    const { pivot, pivotTo } = usePivot();
 
     const { rowValues, columnValues, valueAt, datumAt, minValue, maxValue, rowCumulative, columnCumulative, maxRowTotal, maxColumnTotal } =
         useHeatmapDomains({ rows, columns, value });
@@ -313,6 +313,7 @@ export function useHeatmapLayout({ rows, columns, value, colors }: IUseHeatmapLa
 
         return {
             pivot,
+            pivotTo,
             cells,
             keyFor,
             xFor,
@@ -327,6 +328,7 @@ export function useHeatmapLayout({ rows, columns, value, colors }: IUseHeatmapLa
         };
     }, [
         pivot,
+        pivotTo,
         xScale,
         yScale,
         rowValues,

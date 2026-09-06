@@ -50,6 +50,49 @@ describe("Heatmap", () => {
         fireEvent.click(pivotItem.querySelector("path"));
     }
 
+    it("should also cycle the pivot when left-clicking a cell, not just via the context-menu action", async () => {
+        const { container } = render(
+            <Heatmap
+                rows="region"
+                columns="product"
+                value="sales"
+                data={data}
+                width={300}
+                height={300}
+                animationDuration={0}
+                pivotable={true}
+            />,
+        );
+
+        await wait();
+
+        const widthsFor = () => Array.from(container.querySelectorAll("rect.heatmap-cell")).map((cell) => cell.getAttribute("width"));
+        expect(new Set(widthsFor()).size).toBe(1);
+
+        fireEvent.click(container.querySelector("rect.heatmap-cell"));
+        await wait();
+
+        // Advanced one step in the same grid -> rows -> columns -> grid cycle the context-menu
+        // "Pivot" action uses - cells no longer share the grid's fixed column band width
+        expect(new Set(widthsFor()).size).toBeGreaterThan(1);
+    });
+
+    it("should not cycle the pivot on a cell click unless pivotable is set", async () => {
+        const { container } = render(
+            <Heatmap rows="region" columns="product" value="sales" data={data} width={300} height={300} animationDuration={0} />,
+        );
+
+        await wait();
+
+        const widthsFor = () => Array.from(container.querySelectorAll("rect.heatmap-cell")).map((cell) => cell.getAttribute("width"));
+        expect(new Set(widthsFor()).size).toBe(1);
+
+        fireEvent.click(container.querySelector("rect.heatmap-cell"));
+        await wait();
+
+        expect(new Set(widthsFor()).size).toBe(1);
+    });
+
     it("should disable the Pivot context-menu action unless pivotable is set", async () => {
         const { container } = render(
             <Heatmap rows="region" columns="product" value="sales" data={data} width={300} height={300} />,
