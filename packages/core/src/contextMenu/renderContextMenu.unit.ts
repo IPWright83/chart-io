@@ -44,7 +44,7 @@ describe("renderContextMenu", () => {
         expect(container.style.top).toBe("99px");
         expect(container.style.transform).toBe("translate(-50%, -50%)");
         expect(container.querySelectorAll(".context-menu-item")).toHaveLength(3);
-        expect(container.querySelectorAll(".context-menu-item > path")).toHaveLength(3);
+        expect(container.querySelectorAll(".context-menu-wedge")).toHaveLength(3);
         expect(container.textContent).toContain("Action A");
         expect(container.textContent).toContain("Action B");
         expect(container.textContent).toContain("Action C");
@@ -70,7 +70,7 @@ describe("renderContextMenu", () => {
             onClose: undefined,
         });
 
-        const path = container.querySelector(".context-menu-item > path");
+        const path = container.querySelector(".context-menu-wedge");
         expect(path.getAttribute("d")).not.toContain("NaN");
 
         const icon = container.querySelector(".context-menu-icon");
@@ -102,7 +102,7 @@ describe("renderContextMenu", () => {
         const container = createContainer();
         renderContextMenu(container, { x: 0, y: 0, open: true, items, onSelect });
 
-        const paths = container.querySelectorAll(".context-menu-item > path");
+        const paths = container.querySelectorAll(".context-menu-wedge");
         paths[0].dispatchEvent(new MouseEvent("click", { bubbles: true }));
 
         expect(onSelect).toHaveBeenCalledTimes(1);
@@ -114,7 +114,7 @@ describe("renderContextMenu", () => {
         const container = createContainer();
         renderContextMenu(container, { x: 0, y: 0, open: true, items, onSelect });
 
-        const paths = container.querySelectorAll(".context-menu-item > path");
+        const paths = container.querySelectorAll(".context-menu-wedge");
         paths[2].dispatchEvent(new MouseEvent("click", { bubbles: true }));
 
         expect(onSelect).not.toHaveBeenCalled();
@@ -145,7 +145,7 @@ describe("renderContextMenu", () => {
         const container = createContainer();
         renderContextMenu(container, { x: 0, y: 0, open: true, items, onSelect: jest.fn(), onClose });
 
-        container.querySelector(".context-menu-item > path").dispatchEvent(new MouseEvent("pointerdown", { bubbles: true }));
+        container.querySelector(".context-menu-wedge").dispatchEvent(new MouseEvent("pointerdown", { bubbles: true }));
 
         expect(onClose).not.toHaveBeenCalled();
     });
@@ -176,7 +176,7 @@ describe("renderContextMenu", () => {
         const container = createContainer();
         renderContextMenu(container, { x: 0, y: 0, open: true, items: itemsWithActive, onSelect: jest.fn() });
 
-        const path = container.querySelector(".context-menu-item > path");
+        const path = container.querySelector(".context-menu-wedge");
         const activeSegments = container.querySelector(".context-menu-active-segments") as HTMLElement;
 
         expect(activeSegments.style.opacity).toBe("0");
@@ -188,6 +188,39 @@ describe("renderContextMenu", () => {
         expect(activeSegments.style.opacity).toBe("1");
 
         path.dispatchEvent(new MouseEvent("mouseleave"));
+        expect(activeSegments.style.opacity).toBe("0");
+    });
+
+    // Regression test: the wedge's outer edge and its active-segments band are separated by a small
+    // radial gap (`ACTIVE_BAND_GAP`) with nothing painted in it - without the invisible hover-bridge
+    // spanning that gap (see `buildAndGrow`), moving the pointer from the wedge towards its own band
+    // crossed a dead zone that read as leaving the item, hiding the band before it was ever reached
+    it("keeps an item's active-segments band shown when the pointer crosses from its wedge onto its hover-bridge, rather than hiding at the gap between them", () => {
+        const itemsWithActive: IContextMenuItem[] = [
+            {
+                id: "a",
+                label: "Action A",
+                icon: "<svg><circle /></svg>",
+                activeSegments: ["<svg><rect class='mini-a' /></svg>", "<svg><rect class='mini-b' /></svg>"],
+                onSelect: jest.fn(),
+            },
+        ];
+        const container = createContainer();
+        renderContextMenu(container, { x: 0, y: 0, open: true, items: itemsWithActive, onSelect: jest.fn() });
+
+        const wedge = container.querySelector(".context-menu-wedge");
+        const bridge = container.querySelector(".context-menu-hover-bridge");
+        const activeSegments = container.querySelector(".context-menu-active-segments") as HTMLElement;
+
+        wedge.dispatchEvent(new MouseEvent("mouseenter"));
+        expect(activeSegments.style.opacity).toBe("1");
+
+        // Leaving the wedge for the bridge it's flush against should still read as hovering this item
+        wedge.dispatchEvent(new MouseEvent("mouseleave"));
+        bridge.dispatchEvent(new MouseEvent("mouseenter"));
+        expect(activeSegments.style.opacity).toBe("1");
+
+        bridge.dispatchEvent(new MouseEvent("mouseleave"));
         expect(activeSegments.style.opacity).toBe("0");
     });
 
@@ -212,7 +245,7 @@ describe("renderContextMenu", () => {
         const container = createContainer();
         renderContextMenu(container, { x: 0, y: 0, open: true, items, onSelect: jest.fn() });
 
-        const path = container.querySelector(".context-menu-item > path");
+        const path = container.querySelector(".context-menu-wedge");
         const activeSegments = container.querySelector(".context-menu-active-segments") as HTMLElement;
 
         path.dispatchEvent(new MouseEvent("mouseenter"));

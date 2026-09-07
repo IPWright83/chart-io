@@ -25,7 +25,7 @@ describe("ContextMenu", () => {
         const { getByText } = render(<ContextMenu x={10} y={20} open items={items} iconSize={24} onSelect={jest.fn()} />);
 
         expect(document.body.querySelectorAll(".context-menu-item")).toHaveLength(3);
-        expect(document.body.querySelectorAll(".context-menu-item > path")).toHaveLength(3);
+        expect(document.body.querySelectorAll(".context-menu-wedge")).toHaveLength(3);
         expect(document.body.textContent).toContain("Action A");
         expect(document.body.textContent).toContain("Action B");
         expect(document.body.textContent).toContain("Action C (disabled)");
@@ -50,7 +50,7 @@ describe("ContextMenu", () => {
         const onSelect = jest.fn();
         render(<ContextMenu x={0} y={0} open items={items} onSelect={onSelect} />);
 
-        const paths = document.body.querySelectorAll(".context-menu-item > path");
+        const paths = document.body.querySelectorAll(".context-menu-wedge");
         fireEvent.click(paths[0]);
 
         expect(onSelect).toHaveBeenCalledTimes(1);
@@ -61,7 +61,7 @@ describe("ContextMenu", () => {
         const onSelect = jest.fn();
         render(<ContextMenu x={0} y={0} open items={items} onSelect={onSelect} />);
 
-        const paths = document.body.querySelectorAll(".context-menu-item > path");
+        const paths = document.body.querySelectorAll(".context-menu-wedge");
         fireEvent.click(paths[2]);
 
         expect(onSelect).not.toHaveBeenCalled();
@@ -94,7 +94,7 @@ describe("ContextMenu", () => {
         const onClose = jest.fn();
         render(<ContextMenu x={0} y={0} open items={items} onSelect={jest.fn()} onClose={onClose} />);
 
-        fireEvent.pointerDown(document.body.querySelector(".context-menu-item > path"));
+        fireEvent.pointerDown(document.body.querySelector(".context-menu-wedge"));
 
         expect(onClose).not.toHaveBeenCalled();
     });

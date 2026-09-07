@@ -22,27 +22,32 @@ export const contextMenuIcons = {
     </svg>`,
 
     /** Three horizontal bars of different lengths - reads as a horizontal bar chart. Used as one of
-     * the "Pivot" action's `activeSegments`, for the row-stacked-bar layout */
+     * the "Pivot" action's `activeSegments`, for the row-stacked-bar layout. Thicker than the default
+     * `stroke-width`, and inset a bit further from the viewBox edges than a regular icon - this is a
+     * mini segment of its own outer band, not a full-size icon, so it needs the extra weight/padding
+     * to still read clearly at that size */
     pivotRows: `<svg ${DEFAULTS}>
-        <line x1="2" y1="4" x2="10" y2="4" />
-        <line x1="2" y1="12" x2="18" y2="12" />
-        <line x1="2" y1="20" x2="7" y2="20" />
+        <line x1="4" y1="5" x2="9" y2="5" stroke-width="3" />
+        <line x1="4" y1="12" x2="20" y2="12" stroke-width="3" />
+        <line x1="4" y1="19" x2="13" y2="19" stroke-width="3" />
     </svg>`,
 
     /** Three vertical bars of different heights - reads as a vertical (column) bar chart. Used as
-     * one of the "Pivot" action's `activeSegments`, for the column-stacked-bar layout */
+     * one of the "Pivot" action's `activeSegments`, for the column-stacked-bar layout. See `pivotRows`
+     * for why it's thicker/more inset than a regular icon */
     pivotColumns: `<svg ${DEFAULTS}>
-        <line x1="4" y1="22" x2="4" y2="14" />
-        <line x1="12" y1="22" x2="12" y2="6" />
-        <line x1="20" y1="22" x2="20" y2="17" />
+        <line x1="5" y1="20" x2="5" y2="15" stroke-width="3" />
+        <line x1="12" y1="20" x2="12" y2="4" stroke-width="3" />
+        <line x1="19" y1="20" x2="19" y2="11" stroke-width="3" />
     </svg>`,
 
     /** A simple X - used as one of the "Pivot" action's `activeSegments` in place of `pivotColumns`
      * once already collapsed onto that axis, since selecting it now cancels back to the grid rather
-     * than collapsing further */
+     * than collapsing further. Matches `pivotRows`/`pivotColumns`' extra `stroke-width` so it reads
+     * with the same visual weight in that slot */
     pivotCancel: `<svg ${DEFAULTS}>
-        <line x1="5" y1="5" x2="19" y2="19" />
-        <line x1="19" y1="5" x2="5" y2="19" />
+        <line x1="5" y1="5" x2="19" y2="19" stroke-width="3" />
+        <line x1="19" y1="5" x2="5" y2="19" stroke-width="3" />
     </svg>`,
 
     /** An outlined pentagon with a vertex highlighted - used for the "Draw polygon" action */

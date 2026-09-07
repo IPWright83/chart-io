@@ -1,11 +1,11 @@
 import { chartSelectors, d3, IState, nextPivot } from "@chart-io/core";
 import type { IColor, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
 
-import React from "react";
+import React, { useCallback, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import { withCanvas, withSVG } from "../../../hoc";
-import { useColorLegend } from "../../../hooks";
+import { useColorLegend, useDatumContextMenu } from "../../../hooks";
 import { IRectsPlotProps, RectsPlot } from "../RectsPlot";
 import { useFocused } from "../useFocused";
 import { useTooltip } from "../useTooltip";
@@ -110,31 +110,55 @@ export function HeatmapPlot({
 
     const onTooltip = useTooltip();
     const onFocus = useFocused(theme);
+    // Opens the same default datum `<ContextMenu>` (see `<ContextMenuOverlay>`) every other
+    // interactive plot's left-click wires up - includes "Pivot", alongside "Hide data point" etc.,
+    // since a pivotable Heatmap's cells are themselves the data points that menu opens on
+    const onDatumContextMenu = useDatumContextMenu();
 
-    const handleMouseOver = (cell: IHeatmapCell, element: Element, event: MouseEvent) => {
+    // `<RectsPlot>` re-runs its whole D3 join (and restarts its position transition) whenever
+    // `onMouseOver`/`onMouseOut`/`onClick` change identity - `useTooltip` in particular returns a
+    // brand new function every render, so defining these plainly would recreate them (and so
+    // interrupt/restart an in-flight pivot transition) on every incidental render, e.g. merely
+    // hovering a different cell while the grid is still animating into its stacked-bar layout. A
+    // ref keeps the latest values reachable without the callbacks themselves ever changing identity
+    const latest = useRef({ onMouseOver, onMouseOut, onClick, onFocus, onTooltip, onDatumContextMenu, colorFor, pivotable, pivotTo, pivot });
+    latest.current = { onMouseOver, onMouseOut, onClick, onFocus, onTooltip, onDatumContextMenu, colorFor, pivotable, pivotTo, pivot };
+
+    const handleMouseOver = useCallback((cell: IHeatmapCell, element: Element, event: MouseEvent) => {
+        const { onMouseOver, onFocus, onTooltip, colorFor } = latest.current;
         const color = colorFor(cell) as IColor;
         const name = `${cell.row} / ${cell.column}`;
 
         onMouseOver && onMouseOver(cell.datum, element, event);
         onFocus && onFocus({ element, event, datum: cell.datum });
         onTooltip && onTooltip({ datum: cell.datum, event, name, value: cell.value, color });
-    };
+    }, []);
 
-    const handleMouseOut = (cell: IHeatmapCell, element: Element, event: MouseEvent) => {
+    const handleMouseOut = useCallback((cell: IHeatmapCell, element: Element, event: MouseEvent) => {
+        const { onMouseOut, onFocus, onTooltip } = latest.current;
         onMouseOut && onMouseOut(cell.datum, element, event);
         onFocus && onFocus(null);
         onTooltip && onTooltip(null);
-    };
+    }, []);
 
-    const handleClick = (cell: IHeatmapCell, element: Element, event: MouseEvent) => {
+    const handleClick = useCallback((cell: IHeatmapCell, element: Element, event: MouseEvent) => {
+        const { onClick, onDatumContextMenu, pivotable, pivotTo, pivot } = latest.current;
         onClick && onClick(cell.datum, element, event);
         // Left-clicking any cell advances the pivot by one step, the same as selecting "Pivot" from
         // the chart's right-click <ContextMenu> - a quicker path to the same cycle, not a different
         // one, so it stays a no-op unless the chart has actually opted in via `pivotable`
         if (pivotable) pivotTo(nextPivot(pivot));
-    };
+        // Also opens the datum menu, same as every other interactive plot's left-click - lets the
+        // same click that just pivoted also expose the rest of the datum actions (or pivot again/
+        // back from there), rather than the instant cycle being the only way to reach them
+        onDatumContextMenu(cell.datum, event);
+    }, []);
 
     const Cells = useCanvas ? CanvasCellsPlot : SVGCellsPlot;
+
+    // Also kept referentially stable (see `handleMouseOver` above) - an inline arrow here would
+    // change identity on every render just the same, for the same "cursor" it always returns
+    const cellCursor = useCallback(() => (interactive ? "pointer" : "default"), [interactive]);
 
     return (
         <Cells
@@ -148,7 +172,7 @@ export function HeatmapPlot({
             height={heightFor}
             color={colorFor}
             cornerRadius={effectiveCornerRadius}
-            cursor={() => (interactive ? "pointer" : "default")}
+            cursor={cellCursor}
             interactive={interactive}
             onMouseOver={handleMouseOver}
             onMouseOut={handleMouseOut}

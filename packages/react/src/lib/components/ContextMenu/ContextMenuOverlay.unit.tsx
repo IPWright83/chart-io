@@ -194,7 +194,7 @@ describe("ContextMenuOverlay", () => {
         expect(document.body.textContent).toContain("Custom Action");
         expect(document.body.textContent).not.toContain("Reset zoom");
 
-        fireEvent.click(document.body.querySelector(".context-menu-item > path"));
+        fireEvent.click(document.body.querySelector(".context-menu-wedge"));
         expect(onSelect).toHaveBeenCalledWith(dispatch, { type: "background" });
     });
 });

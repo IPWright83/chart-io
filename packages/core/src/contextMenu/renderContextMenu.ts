@@ -222,6 +222,22 @@ function setActiveSegmentsShown(item: d3.Selection<SVGGElement, unknown, null, u
 }
 
 /**
+ * Applies (or clears) an item's hover state - the wedge's own highlight fill, plus its outer
+ * "active" band. Shared by both the wedge itself and its invisible hover-bridge (see `buildAndGrow`)
+ * so entering/leaving either has the same effect
+ * @param  item     The `<g class="chart-io context-menu-item">` selection for one segment
+ * @param  d        That segment's arc datum
+ * @param  hovered  Whether it should now read as hovered
+ * @param  colors   The menu's color palette
+ */
+function setHovered(item: d3.Selection<SVGGElement, unknown, null, undefined>, d: IArc, hovered: boolean, colors: ITheme["menu"]): void {
+    item
+        .select<SVGPathElement>(".chart-io.context-menu-wedge")
+        .style("fill", (hovered ? colors.backgroundHover : colors.background)?.toString() ?? null);
+    setActiveSegmentsShown(item, hovered && !!d.data.activeSegments);
+}
+
+/**
  * Writes each item's icon markup (from `d.data.icon`) into `selection`'s `<g>`, and tints it via the
  * menu's `colors.text`. Only touches the DOM when the icon has actually changed, keyed by item id -
  * without this, re-selecting an already-rendered menu (e.g. `updateInPlace`) would rewrite identical
@@ -316,7 +332,7 @@ function buildAndGrow(root: ID3RootSelection, options: Required<IContextMenuOpti
     join.exit().remove();
 
     const enter = join.enter().append("g").attr("class", "chart-io context-menu-item");
-    enter.append("path");
+    enter.append("path").attr("class", "chart-io context-menu-wedge");
     enter.append("g").attr("class", "chart-io context-menu-icon");
     enter
         .append("g")
@@ -324,35 +340,56 @@ function buildAndGrow(root: ID3RootSelection, options: Required<IContextMenuOpti
         .style("opacity", 0)
         .style("transition", "opacity 120ms ease-out")
         .style("pointer-events", "none");
+    // Invisible, sits flush against the wedge's outer edge and extends out through the (otherwise
+    // dead) `ACTIVE_BAND_GAP` to cover the active band too - without it, moving the pointer from the
+    // wedge out towards its own active band crosses a small stretch with no element under it at all,
+    // which reads as leaving the item entirely (hiding the band) before ever reaching it. Sharing
+    // `setHovered` with the wedge itself means crossing straight from one onto the other (zero gap
+    // between them) still fires leave-then-enter within the same tick, so the band never flickers
+    enter
+        .append("path")
+        .attr("class", "chart-io context-menu-hover-bridge")
+        .style("fill", "transparent")
+        .style("pointer-events", "all");
 
     const merged = enter.merge(join).attr("data-disabled", (d) => String(!!d.data.disabled));
 
     const paths = merged
-        .select<SVGPathElement>("path")
+        .select<SVGPathElement>(".chart-io.context-menu-wedge")
         .style("cursor", (d) => (d.data.disabled ? "default" : "pointer"))
         .style("transition", "fill 120ms ease-out")
         .style("fill", (d) => (d.data.disabled ? colors.backgroundDisabled : colors.background)?.toString() ?? null)
         .attr("stroke", colors.border?.toString() ?? null)
         .attr("stroke-width", 1)
-        .on("mouseenter", function (_event, d) {
-            if (d.data.disabled) return;
-            d3.select(this).style("fill", colors.backgroundHover?.toString() ?? null);
-            setActiveSegmentsShown(d3.select(this.parentNode as SVGGElement), !!d.data.activeSegments);
-        })
-        .on("mouseleave", function (_event, d) {
-            if (d.data.disabled) return;
-            d3.select(this).style("fill", colors.background?.toString() ?? null);
-            setActiveSegmentsShown(d3.select(this.parentNode as SVGGElement), false);
-        })
         .on("click", (_event, d) => {
             if (d.data.disabled) return;
             onSelect(d.data);
+        });
+
+    const hoverTargets = merged.selectAll<SVGPathElement, IArc>(".chart-io.context-menu-wedge, .chart-io.context-menu-hover-bridge");
+
+    hoverTargets
+        .on("mouseenter", function (_event, d) {
+            if (d.data.disabled) return;
+            setHovered(d3.select(this.parentNode as SVGGElement), d, true, colors);
+        })
+        .on("mouseleave", function (_event, d) {
+            if (d.data.disabled) return;
+            setHovered(d3.select(this.parentNode as SVGGElement), d, false, colors);
         });
 
     paths.selectAll("title").data((d) => [d]).join("title").text((d) => d.data.label);
 
     setIconContent(merged.select<SVGGElement>(".chart-io.context-menu-icon"), colors);
     renderActiveSegments(merged.select<SVGGElement>(".chart-io.context-menu-active-segments"), radius, thickness, colors);
+
+    merged
+        .select<SVGPathElement>(".chart-io.context-menu-hover-bridge")
+        .attr("d", (d) => {
+            const innerRadius = radius + thickness;
+            const outerRadius = innerRadius + ACTIVE_BAND_GAP + ACTIVE_BAND_THICKNESS;
+            return d3.arc<IArc>().innerRadius(innerRadius).outerRadius(outerRadius)(d);
+        });
 
     merged
         .select<SVGGElement>(".chart-io.context-menu-icon")
@@ -403,13 +440,23 @@ function updateInPlace(root: ID3RootSelection, options: Required<IContextMenuOpt
         .attr("data-disabled", (d) => String(!!d.data.disabled));
 
     merged
-        .select<SVGPathElement>("path")
+        .select<SVGPathElement>(".chart-io.context-menu-wedge")
         .attr("d", (d) => arcGenerator(d))
         .style("cursor", (d) => (d.data.disabled ? "default" : "pointer"))
         .style("fill", (d) => (d.data.disabled ? colors.backgroundDisabled : colors.background)?.toString() ?? null)
         .on("click", (_event, d) => {
             if (d.data.disabled) return;
             onSelect(d.data);
+        });
+
+    // Keeps the hover-bridge's angular span in sync with its wedge - e.g. items being added/removed
+    // shifts everyone else's angles too, even though the radii it spans never change (see `buildAndGrow`)
+    merged
+        .select<SVGPathElement>(".chart-io.context-menu-hover-bridge")
+        .attr("d", (d) => {
+            const innerRadius = radius + thickness;
+            const outerRadius = innerRadius + ACTIVE_BAND_GAP + ACTIVE_BAND_THICKNESS;
+            return d3.arc<IArc>().innerRadius(innerRadius).outerRadius(outerRadius)(d);
         });
 
     setIconContent(merged.select<SVGGElement>(".chart-io.context-menu-icon"), colors);
@@ -445,7 +492,7 @@ function shrinkAndRemove(root: ID3RootSelection, instance: IContextMenuInstance,
     items.select(".chart-io.context-menu-icon").transition().duration(animationDuration * 0.4).style("opacity", 0);
 
     items
-        .select<SVGPathElement>("path")
+        .select<SVGPathElement>(".chart-io.context-menu-wedge")
         .transition()
         .duration(animationDuration)
         .attrTween("d", function (d) {
