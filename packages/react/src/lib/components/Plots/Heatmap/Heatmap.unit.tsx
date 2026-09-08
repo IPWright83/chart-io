@@ -50,7 +50,11 @@ describe("Heatmap", () => {
         fireEvent.click(pivotItem.querySelector("path"));
     }
 
-    it("should also cycle the pivot when left-clicking a cell, not just via the context-menu action", async () => {
+    // Left-clicking a cell used to also cycle the pivot instantly, racing the menu it opens at the
+    // same time - the layout had already changed by the time there was anything to choose from (see
+    // HeatmapPlot's handleClick). It should only open the menu now; selecting "Pivot" from it is what
+    // actually changes the layout, exercised below
+    it("should open a cell's datum menu on left-click, without immediately changing the pivot", async () => {
         const { container } = render(
             <Heatmap
                 rows="region"
@@ -72,14 +76,25 @@ describe("Heatmap", () => {
         fireEvent.click(container.querySelector("rect.heatmap-cell"));
         await wait();
 
-        // Advanced one step in the same grid -> rows -> columns -> grid cycle the context-menu
-        // "Pivot" action uses - cells no longer share the grid's fixed column band width
-        expect(new Set(widthsFor()).size).toBeGreaterThan(1);
+        // Still the grid - clicking a cell no longer pivots by itself
+        expect(new Set(widthsFor()).size).toBe(1);
+
+        const pivotItem = await findPivotItem();
+        expect(pivotItem.getAttribute("data-disabled")).toBe("false");
     });
 
-    it("should not cycle the pivot on a cell click unless pivotable is set", async () => {
+    it("should morph the grid into a row-stacked bar chart once Pivot is selected from a cell's own left-click menu", async () => {
         const { container } = render(
-            <Heatmap rows="region" columns="product" value="sales" data={data} width={300} height={300} animationDuration={0} />,
+            <Heatmap
+                rows="region"
+                columns="product"
+                value="sales"
+                data={data}
+                width={300}
+                height={300}
+                animationDuration={0}
+                pivotable={true}
+            />,
         );
 
         await wait();
@@ -88,9 +103,27 @@ describe("Heatmap", () => {
         expect(new Set(widthsFor()).size).toBe(1);
 
         fireEvent.click(container.querySelector("rect.heatmap-cell"));
+
+        const pivotItem = await findPivotItem();
+        fireEvent.click(pivotItem.querySelector("path"));
         await wait();
 
-        expect(new Set(widthsFor()).size).toBe(1);
+        // Advanced one step in the same grid -> rows -> columns -> grid cycle the background
+        // context-menu "Pivot" action uses - cells no longer share the grid's fixed column band width
+        expect(new Set(widthsFor()).size).toBeGreaterThan(1);
+    });
+
+    it("should disable the Pivot action in a cell's own left-click menu unless pivotable is set", async () => {
+        const { container } = render(
+            <Heatmap rows="region" columns="product" value="sales" data={data} width={300} height={300} animationDuration={0} />,
+        );
+
+        await wait();
+
+        fireEvent.click(container.querySelector("rect.heatmap-cell"));
+
+        const pivotItem = await findPivotItem();
+        expect(pivotItem.getAttribute("data-disabled")).toBe("true");
     });
 
     it("should disable the Pivot context-menu action unless pivotable is set", async () => {

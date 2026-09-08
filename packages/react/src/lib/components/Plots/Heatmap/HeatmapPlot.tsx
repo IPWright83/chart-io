@@ -1,4 +1,4 @@
-import { chartSelectors, d3, IState, nextPivot } from "@chart-io/core";
+import { chartSelectors, d3, IState } from "@chart-io/core";
 import type { IColor, IOnClick, IOnMouseOut, IOnMouseOver } from "@chart-io/core";
 
 import React, { useCallback, useRef } from "react";
@@ -89,9 +89,8 @@ export function HeatmapPlot({
     onClick,
 }: IHeatmapPlotProps) {
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
-    const pivotable = useSelector((s: IState) => chartSelectors.pivotable(s));
 
-    const { pivot, pivotTo, cells, keyFor, xFor, yFor, widthFor, heightFor, colorFor, palette, colorDomain } = useHeatmapLayout({
+    const { pivot, cells, keyFor, xFor, yFor, widthFor, heightFor, colorFor, palette, colorDomain } = useHeatmapLayout({
         rows,
         columns,
         value,
@@ -112,7 +111,10 @@ export function HeatmapPlot({
     const onFocus = useFocused(theme);
     // Opens the same default datum `<ContextMenu>` (see `<ContextMenuOverlay>`) every other
     // interactive plot's left-click wires up - includes "Pivot", alongside "Hide data point" etc.,
-    // since a pivotable Heatmap's cells are themselves the data points that menu opens on
+    // since a pivotable Heatmap's cells are themselves the data points that menu opens on. Pivoting
+    // itself only happens once the user actually selects "Pivot" from that menu (see
+    // `createPivotAction`) - it used to also cycle instantly on the same click, but that raced the
+    // menu opening: the layout had already changed by the time there was anything to choose from
     const onDatumContextMenu = useDatumContextMenu();
 
     // `<RectsPlot>` re-runs its whole D3 join (and restarts its position transition) whenever
@@ -121,8 +123,8 @@ export function HeatmapPlot({
     // interrupt/restart an in-flight pivot transition) on every incidental render, e.g. merely
     // hovering a different cell while the grid is still animating into its stacked-bar layout. A
     // ref keeps the latest values reachable without the callbacks themselves ever changing identity
-    const latest = useRef({ onMouseOver, onMouseOut, onClick, onFocus, onTooltip, onDatumContextMenu, colorFor, pivotable, pivotTo, pivot });
-    latest.current = { onMouseOver, onMouseOut, onClick, onFocus, onTooltip, onDatumContextMenu, colorFor, pivotable, pivotTo, pivot };
+    const latest = useRef({ onMouseOver, onMouseOut, onClick, onFocus, onTooltip, onDatumContextMenu, colorFor });
+    latest.current = { onMouseOver, onMouseOut, onClick, onFocus, onTooltip, onDatumContextMenu, colorFor };
 
     const handleMouseOver = useCallback((cell: IHeatmapCell, element: Element, event: MouseEvent) => {
         const { onMouseOver, onFocus, onTooltip, colorFor } = latest.current;
@@ -142,15 +144,11 @@ export function HeatmapPlot({
     }, []);
 
     const handleClick = useCallback((cell: IHeatmapCell, element: Element, event: MouseEvent) => {
-        const { onClick, onDatumContextMenu, pivotable, pivotTo, pivot } = latest.current;
+        const { onClick, onDatumContextMenu } = latest.current;
         onClick && onClick(cell.datum, element, event);
-        // Left-clicking any cell advances the pivot by one step, the same as selecting "Pivot" from
-        // the chart's right-click <ContextMenu> - a quicker path to the same cycle, not a different
-        // one, so it stays a no-op unless the chart has actually opted in via `pivotable`
-        if (pivotable) pivotTo(nextPivot(pivot));
-        // Also opens the datum menu, same as every other interactive plot's left-click - lets the
-        // same click that just pivoted also expose the rest of the datum actions (or pivot again/
-        // back from there), rather than the instant cycle being the only way to reach them
+        // Opens the datum menu, same as every other interactive plot's left-click - "Pivot" (see
+        // `createPivotAction`) is one of its items, so the user picks it themselves rather than the
+        // chart jumping straight to the next layout before they've had a chance to see the menu
         onDatumContextMenu(cell.datum, event);
     }, []);
 
