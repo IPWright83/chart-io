@@ -1,6 +1,7 @@
 import { chartActions, chartSelectors } from "../store/chart";
 import type { IDispatch, IState } from "../store/types";
 import type { IContextMenuContext, IContextMenuItem } from "../types";
+import { nextPivot } from "../utils";
 
 import { contextMenuIcons } from "./icons";
 
@@ -63,17 +64,29 @@ export function createToggleLegendAction(state: IState): IContextMenuItem {
 }
 
 /**
- * Placeholder for pivoting a heatmap-style plot between column/row/grid orientations. There's no
- * store concept of a pivot to dispatch to yet, so this just logs - replace `onSelect` with a real
- * dispatch once one exists
+ * Cycles a pivotable chart (currently `<Heatmap>`) between the full grid and each axis collapsed
+ * into a single cumulative linear scale, fully wired up to the store via `chartActions.setPivot`.
+ * Disabled unless a chart has opted in via `pivotable`, since there's nothing to pivot otherwise.
+ * Labelled with the pivot selecting it will switch to
+ * @param  state     The current Redux state, used to read whether pivoting is enabled and the
+ *                    current pivot
  * @return           The "Pivot" `<ContextMenu>` item
  */
-export function createPivotAction(): IContextMenuItem {
+export function createPivotAction(state: IState): IContextMenuItem {
+    const pivotable = chartSelectors.pivotable(state);
+    const pivot = chartSelectors.pivot(state);
+    const next = nextPivot(pivot);
+
     return {
         id: "pivot",
-        label: "Pivot",
+        label: `Pivot: ${next ?? "grid"}`,
         icon: contextMenuIcons.pivot,
-        onSelect: () => console.debug("[ContextMenu] 'Pivot' isn't wired up to anything yet"),
+        // Hints at the two collapsed-axis layouts ("x"/rows and "y"/columns) pivoting cycles between -
+        // except once already on "y" (columns), where selecting this now cancels back to the grid
+        // rather than collapsing further, so its slot swaps to a cancel icon instead
+        activeSegments: [contextMenuIcons.pivotRows, pivot === "y" ? contextMenuIcons.pivotCancel : contextMenuIcons.pivotColumns],
+        disabled: !pivotable,
+        onSelect: (dispatch: IDispatch) => dispatch(chartActions.setPivot(next)),
     };
 }
 
@@ -152,7 +165,7 @@ export function getDefaultBackgroundItems(state: IState): IContextMenuItem[] {
     return [
         createResetZoomAction(state),
         createResetFiltersAction(state),
-        createPivotAction(),
+        createPivotAction(state),
         createDrawPolygonAction(),
         createToggleLegendAction(state),
     ];
@@ -161,11 +174,14 @@ export function getDefaultBackgroundItems(state: IState): IContextMenuItem[] {
 /**
  * A default set of items suited to a menu opened on a specific datum, e.g. wired up to a plot's
  * left-click handler - "Hide data point" is fully wired up (see `createHideDataPointAction`);
- * "Focus data point"/"Add annotation" are placeholders - see each action's own docs
+ * "Focus data point"/"Add annotation" are placeholders - see each action's own docs. "Pivot" is the
+ * same action (and store state) the background menu uses - included here too since a pivotable
+ * chart's cells are themselves the data points a left-click would open this menu on
+ * @param  state     The current Redux state, passed through to `createPivotAction`
  * @return           A default set of per-datum `<ContextMenu>` items
  */
-export function getDefaultDatumItems(): IContextMenuItem[] {
-    return [createHideDataPointAction(), createFocusDataPointAction(), createAddAnnotationAction()];
+export function getDefaultDatumItems(state: IState): IContextMenuItem[] {
+    return [createHideDataPointAction(), createFocusDataPointAction(), createAddAnnotationAction(), createPivotAction(state)];
 }
 
 /**
@@ -176,5 +192,5 @@ export function getDefaultDatumItems(): IContextMenuItem[] {
  * @return           The default `<ContextMenu>` items for that context
  */
 export function getDefaultItems(state: IState, context?: IContextMenuContext): IContextMenuItem[] {
-    return context?.type === "datum" ? getDefaultDatumItems() : getDefaultBackgroundItems(state);
+    return context?.type === "datum" ? getDefaultDatumItems(state) : getDefaultBackgroundItems(state);
 }

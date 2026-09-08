@@ -74,6 +74,7 @@ directly.
 | **`id`\***   | `string`                                                          | A unique identifier                                                                       |
 | **`label`\***| `string`                                                          | Shown in a tooltip on hover, and used for accessibility                                  |
 | **`icon`\*** | `string`                                                          | Raw SVG markup (e.g. `<path d="..."/>`), sized automatically to fit. See `contextMenuIcons` for a ready-made set |
+| `activeSegments` | `number`                                                      | Reveals this many equal-width mini segments as an extra ring band just outside the segment's own arc while it's hovered - a way to hint at what the action does without cluttering the resting state. See `createPivotAction`, which sets this to `2` for its two collapsed-axis layouts |
 | `disabled`   | `boolean`                                                         | Renders the segment disabled rather than removing it, so the ring doesn't reflow         |
 | **`onSelect`\*** | `(dispatch: IDispatch, context?: IContextMenuContext) => void`| Called when this item is selected                                                        |
 
@@ -131,7 +132,7 @@ replace any of them:
 | **Reset zoom**          | Fully wired up - clears a zoomable plot's zoom path and any `<ZoomBrush>` domain. Disabled while nothing is zoomed in |
 | **Reset filters**      | Fully wired up - clears any `<ParallelCoordinates>` axis brush and any datum hidden via "Hide data point" below. Disabled while neither is set |
 | **Hide legend**/**Show legend** | Fully wired up via `chartActions.setLegendVisible`                                    |
-| **Pivot**              | A stub - there's no store concept of a heatmap pivot yet                                      |
+| **Pivot**              | Fully wired up via `chartActions.setPivot` - cycles a pivotable chart (currently `<Heatmap>`) between the full grid and each axis collapsed into a stacked bar. Disabled unless the chart has opted in via `pivotable` |
 | **Draw polygon**       | A stub - there's no interactive drawing mode yet                                              |
 
 ```jsx
@@ -139,6 +140,12 @@ import { createResetZoomAction, createToggleLegendAction } from "@chart-io/core"
 
 <ContextMenuOverlay getItems={(state) => [createResetZoomAction(state), createToggleLegendAction(state)]} />
 ```
+
+`pivotable` isn't a generic `<ContextMenuOverlay>`/chart-level prop - it's only meaningful to a plot
+whose layout actually reacts to a pivot (currently just `<Heatmap>`, via `<HeatmapAxes>`), so a chart
+opts in the same way it registers any other chart-level state, by dispatching it itself:
+
+<Canvas of={ContextMenuOverlayStories.PivotAction} />
 
 ### `<ContextMenuOverlay>` Props
 

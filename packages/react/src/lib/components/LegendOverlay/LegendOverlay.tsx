@@ -33,6 +33,7 @@ export function LegendOverlay({ position = "E", formatters = {} }: ILegendOverla
     // to an explicit position or not
     const draggedPosition = useSelector((s: IState) => chartSelectors.legend.store(s).position);
     const sizeLegend = useSelector((s: IState) => chartSelectors.legend.sizeLegend(s));
+    const colorLegend = useSelector((s: IState) => chartSelectors.legend.colorLegend(s));
     const theme = useSelector((s: IState) => chartSelectors.theme(s));
 
     // The prop is the default position; once the user drags the legend, the store tracks where
@@ -104,9 +105,9 @@ export function LegendOverlay({ position = "E", formatters = {} }: ILegendOverla
     };
 
     const isHorizontal = dockedPosition !== "E" && dockedPosition !== "W";
-    // A size legend can be considerably taller than the default row of color swatches - let it grow
-    // to fit rather than clipping it against the (deliberately small) theme default
-    const defaultMaxHeight = sizeLegend ? height - 4 * LEGEND_MARGIN : theme.legend.defaultMaxHeight;
+    // A size or color legend can be considerably taller than the default row of color swatches -
+    // let it grow to fit rather than clipping it against the (deliberately small) theme default
+    const defaultMaxHeight = sizeLegend || colorLegend ? height - 4 * LEGEND_MARGIN : theme.legend.defaultMaxHeight;
 
     const positionStyle = dragPosition
         ? {
@@ -135,6 +136,7 @@ export function LegendOverlay({ position = "E", formatters = {} }: ILegendOverla
             <Legend
                 items={items}
                 sizeLegend={sizeLegend}
+                colorLegend={colorLegend}
                 horizontal={isHorizontal}
                 positionStyle={positionStyle}
                 formatters={formatters}

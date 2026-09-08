@@ -32,6 +32,8 @@ const backgroundState = {
         zoom: { path: [] },
         scales: {},
         legend: { items: [], hidden: false },
+        pivotable: false,
+        pivot: undefined,
     },
 } as any;
 
@@ -40,17 +42,19 @@ const zoomedState = {
         zoom: { path: ["Europe"] },
         scales: {},
         legend: { items: [], hidden: false },
+        pivotable: true,
+        pivot: undefined,
     },
 } as any;
 
 const backgroundItems = [
     createResetZoomAction(zoomedState),
-    createPivotAction(),
+    createPivotAction(zoomedState),
     createDrawPolygonAction(),
     createToggleLegendAction(backgroundState),
 ];
 
-const datumItems = getDefaultDatumItems();
+const datumItems = getDefaultDatumItems(zoomedState);
 
 const ContextMenuTemplate = (args) => (
     <svg width="400px" height="400px" style={{ background: themes.light.background.toString() }}>
@@ -81,7 +85,7 @@ export const DisabledItem = {
     render: ContextMenuTemplate,
     args: {
         open: true,
-        items: [createResetZoomAction(backgroundState), createPivotAction(), createDrawPolygonAction()],
+        items: [createResetZoomAction(backgroundState), createPivotAction(backgroundState), createDrawPolygonAction()],
     },
 };
 

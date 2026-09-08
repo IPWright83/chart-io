@@ -1,4 +1,5 @@
 import { d3 } from "../../../d3";
+import type { IColor } from "../../../types";
 
 import { themes } from "../../../themes";
 import { createLabeller } from "../../../utils";
@@ -238,6 +239,30 @@ describe("chartSlice.reducer", () => {
         });
     });
 
+    it("setColorLegend()", () => {
+        const colorLegend = { colors: ["#fff", "#000"] as IColor[], domain: [0, 100] as [number, number] };
+        const action = chartActions.setColorLegend(colorLegend);
+
+        expect(chartSlice.reducer(previousState, action)).toEqual({
+            ...previousState,
+            legend: { ...previousState.legend, colorLegend },
+        });
+    });
+
+    it("clearColorLegend()", () => {
+        const previousLocalState = {
+            ...previousState,
+            legend: { ...previousState.legend, colorLegend: { colors: ["#fff", "#000"] as IColor[], domain: [0, 100] as [number, number] } },
+        };
+
+        const action = chartActions.clearColorLegend();
+
+        expect(chartSlice.reducer(previousLocalState, action)).toEqual({
+            ...previousState,
+            legend: { ...previousState.legend, colorLegend: null },
+        });
+    });
+
     it("setTheme()", () => {
         const action = chartActions.setTheme(themes.dark);
 
@@ -349,6 +374,35 @@ describe("chartSlice.reducer", () => {
         expect(chartSlice.reducer(previousLocalState, action)).toEqual({
             ...previousState,
             hiddenData: [],
+        });
+    });
+
+    it("setPivotable()", () => {
+        const action = chartActions.setPivotable(true);
+
+        expect(chartSlice.reducer(previousState, action)).toEqual({
+            ...previousState,
+            pivotable: true,
+        });
+    });
+
+    it("setPivotable() resets the pivot to the grid (undefined) when disabled", () => {
+        const pivotedState = { ...previousState, pivotable: true, pivot: "x" as const };
+        const action = chartActions.setPivotable(false);
+
+        expect(chartSlice.reducer(pivotedState, action)).toEqual({
+            ...previousState,
+            pivotable: false,
+            pivot: undefined,
+        });
+    });
+
+    it("setPivot()", () => {
+        const action = chartActions.setPivot("y");
+
+        expect(chartSlice.reducer(previousState, action)).toEqual({
+            ...previousState,
+            pivot: "y",
         });
     });
 });

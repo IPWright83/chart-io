@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeatmapPlot using SVG should render correctly 1`] = `
+<DocumentFragment>
+  <svg>
+    <g
+      class="g-plot heatmap-cells"
+    >
+      <rect
+        class="heatmap-cell"
+        height="100"
+        rx="0"
+        ry="0"
+        style="fill: rgb(226, 237, 245); cursor: pointer;"
+        width="100"
+        x="0"
+        y="0"
+      />
+      <rect
+        class="heatmap-cell"
+        height="100"
+        rx="0"
+        ry="0"
+        style="fill: rgb(182, 211, 230); cursor: pointer;"
+        width="100"
+        x="100"
+        y="0"
+      />
+      <rect
+        class="heatmap-cell"
+        height="100"
+        rx="0"
+        ry="0"
+        style="fill: rgb(153, 193, 220); cursor: pointer;"
+        width="100"
+        x="0"
+        y="100"
+      />
+      <rect
+        class="heatmap-cell"
+        height="100"
+        rx="0"
+        ry="0"
+        style="fill: rgb(255, 255, 255); cursor: pointer;"
+        width="100"
+        x="100"
+        y="100"
+      />
+    </g>
+  </svg>
+</DocumentFragment>
+`;

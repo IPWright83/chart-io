@@ -130,7 +130,13 @@ export function RectsPlot<T>({
             .attr("x", (item) => x(item))
             .attr("y", (item) => y(item))
             .attr("width", (item) => Math.max(0, width(item)))
-            .attr("height", (item) => Math.max(0, height(item)));
+            .attr("height", (item) => Math.max(0, height(item)))
+            // On the merged (enter + update) selection, not just enter - `cornerRadius` can change
+            // for an existing, already-rendered item (e.g. `<Heatmap>` zeroing it out once pivoted,
+            // since its cells persist and transition rather than being recreated), and this is what
+            // picks that change up rather than leaving it stuck at whatever it was when first drawn
+            .attr("rx", cornerRadius)
+            .attr("ry", cornerRadius);
 
         renderCanvas(canvas, renderVirtualCanvas, chartWidth, chartHeight, transition);
     }, [

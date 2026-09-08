@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { isEqual } from "lodash";
 
 import { themes } from "../../themes";
-import type { ICompassPosition, IData, IDatum, ILegendItem, IMargin, IScale, ISizeLegend, ITheme } from "../../types";
+import type { ICompassPosition, IColorLegend, IData, IDatum, ILegendItem, IMargin, IPivot, IScale, ISizeLegend, ITheme } from "../../types";
 import type { ILabeller } from "../../utils";
 import { createLabeller } from "../../utils";
 import type { IChartState } from "../types";
@@ -40,8 +40,12 @@ export const defaultChartState = {
     scales: {},
     legend: {
         items: [],
-        position: "E" as ICompassPosition,
+        // Deliberately undefined rather than "E" - `<LegendOverlay>` reads this raw value to tell
+        // whether the user has dragged the legend at all, distinct from a chart's own default
+        // `position` prop (which itself falls back to "E" - see `chartSelectors.legend.position`)
+        position: undefined as ICompassPosition | undefined,
         sizeLegend: null,
+        colorLegend: null,
         hidden: false,
     },
     brush: {
@@ -53,6 +57,8 @@ export const defaultChartState = {
     zoom: {
         path: [],
     },
+    pivotable: false,
+    pivot: undefined as IPivot | undefined,
 };
 
 const chartSlice = createSlice({
@@ -303,6 +309,24 @@ const chartSlice = createSlice({
         },
 
         /**
+         * Sets the color legend (registered by a plot with a continuous color scale, e.g. `<Heatmap>`)
+         * to show at the bottom of the Legend in the Redux store
+         * @param state                      The current Redux store state
+         * @param action                     The payload containing the color legend
+         */
+        setColorLegend: (state: IChartState, action: PayloadAction<IColorLegend>) => {
+            state.legend.colorLegend = action.payload;
+        },
+
+        /**
+         * Clears the color legend from the Redux store
+         * @param state                      The current Redux store state
+         */
+        clearColorLegend: (state: IChartState) => {
+            state.legend.colorLegend = null;
+        },
+
+        /**
          * Sets whether the Legend should be visible in the Redux store, e.g. in response to a
          * "Hide legend"/"Show legend" `<ContextMenu>` action. Doesn't affect whether the chart has
          * enough legend items to be worth showing in the first place - see `chartSelectors.legend.isVisible`
@@ -373,6 +397,29 @@ const chartSlice = createSlice({
             for (const field of Object.keys(state.scales)) {
                 state.scales[field].zoomedDomain = undefined;
             }
+        },
+
+        /**
+         * Sets whether a `<Heatmap>` should offer switching between its grid/rows/columns layouts
+         * @param state                      The current Redux store state
+         * @param action                     The payload containing whether pivoting is enabled
+         */
+        setPivotable: (state: IChartState, action: PayloadAction<boolean>) => {
+            state.pivotable = action.payload;
+
+            if (!action.payload) {
+                state.pivot = undefined;
+            }
+        },
+
+        /**
+         * Sets which axis (if any) is currently collapsed into a single cumulative linear scale
+         * @param state                      The current Redux store state
+         * @param action                     The payload containing the new pivot, or `undefined` for
+         *                                   the full grid (neither axis collapsed)
+         */
+        setPivot: (state: IChartState, action: PayloadAction<IPivot | undefined>) => {
+            state.pivot = action.payload;
         },
     },
 });

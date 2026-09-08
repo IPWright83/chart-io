@@ -1,5 +1,6 @@
 export * from "./IBandwidthScale";
 export * from "./IColor";
+export * from "./IColorLegend";
 export * from "./IColorLegendItem";
 export * from "./ICompassPosition";
 export * from "./IContextMenuItem";
@@ -17,6 +18,7 @@ export * from "./IMarker";
 export * from "./IMouseEvents";
 export * from "./IMouseEventType";
 export * from "./IOrientation";
+export * from "./IPivot";
 export * from "./IPlotProps";
 export * from "./IPlotsProps";
 export * from "./IPosition";

@@ -2,7 +2,7 @@ import { isEqual } from "lodash";
 import { memoizeWithArgs } from "proxy-memoize";
 
 import { PROGRESSIVE_RENDER_THRESHOLD } from "../../constants";
-import type { ICompassPosition, IData, ILegendItem, IMargin, IScale, IScaleMode, ISizeLegend, ITheme } from "../../types";
+import type { ICompassPosition, IColorLegend, IData, ILegendItem, IMargin, IPivot, IScale, IScaleMode, ISizeLegend, ITheme } from "../../types";
 import type { ILabeller } from "../../utils";
 import type {
     IChartScaleInfo,
@@ -259,6 +259,14 @@ interface IChartSelectors {
         sizeLegend: (state: IState) => ISizeLegend | null;
 
         /**
+         * Returns the color legend registered by a plot with a continuous color scale (e.g.
+         * `<Heatmap>`), if any
+         * @param  state     The application state
+         * @return           The color legend, or null if none is registered
+         */
+        colorLegend: (state: IState) => IColorLegend | null;
+
+        /**
          * Has the user explicitly hidden the legend, e.g. via a `<ContextMenu>` action?
          * @param  state     The application state
          * @return           True if the legend has been explicitly hidden
@@ -371,6 +379,21 @@ interface IChartSelectors {
      * @return True if any zoom is currently applied
      */
     isZoomed: (state: IState) => boolean;
+
+    /**
+     * Returns whether a `<Heatmap>` should offer switching between its grid/rows/columns layouts
+     * @param  state The application state
+     * @return True if pivoting is enabled
+     */
+    pivotable: (state: IState) => boolean;
+
+    /**
+     * Returns which axis (if any) is currently collapsed into a single cumulative linear scale -
+     * `undefined` means neither (the full grid)
+     * @param  state The application state
+     * @return       The current pivot, or `undefined` for the full grid
+     */
+    pivot: (state: IState) => IPivot | undefined;
 }
 
 export const chartSelectors: IChartSelectors = {
@@ -593,7 +616,9 @@ export const chartSelectors: IChartSelectors = {
         // @inheritDoc
         isVisible: (state) =>
             !chartSelectors.legend.isHidden(state) &&
-            (chartSelectors.legend.items(state).length > 1 || !!chartSelectors.legend.sizeLegend(state)),
+            (chartSelectors.legend.items(state).length > 1 ||
+                !!chartSelectors.legend.sizeLegend(state) ||
+                !!chartSelectors.legend.colorLegend(state)),
 
         // @inheritDoc
         items: (state) => chartSelectors.legend.store(state).items || EMPTY_ARRAY,
@@ -603,6 +628,9 @@ export const chartSelectors: IChartSelectors = {
 
         // @inheritDoc
         sizeLegend: (state) => chartSelectors.legend.store(state).sizeLegend ?? null,
+
+        // @inheritDoc
+        colorLegend: (state) => chartSelectors.legend.store(state).colorLegend ?? null,
 
         // @inheritDoc
         isHidden: (state) => chartSelectors.legend.store(state).hidden ?? false,
@@ -634,4 +662,10 @@ export const chartSelectors: IChartSelectors = {
 
         return Object.values(chartSelectors.store(state).scales).some((scale) => scale.zoomedDomain != null);
     },
+
+    // @inheritDoc
+    pivotable: (state) => chartSelectors.store(state).pivotable ?? false,
+
+    // @inheritDoc
+    pivot: (state) => chartSelectors.store(state).pivot,
 };

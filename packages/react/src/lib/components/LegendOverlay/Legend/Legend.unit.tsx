@@ -97,6 +97,30 @@ describe("Legend", () => {
         rings.forEach((ring) => expect(ring).toHaveAttribute("stroke", "steelblue"));
     });
 
+    it("should render the color legend at the bottom, even with no color items", async () => {
+        const { asFragment } = render(
+            <Provider store={store}>
+                <Legend items={[]} colorLegend={{ colors: ["#fff", "#000"] as IColor[], domain: [0, 100] }} />
+            </Provider>
+        );
+
+        expect(asFragment()).toMatchSnapshot();
+    });
+
+    it("should label the color legend's gradient with its domain's min and max", async () => {
+        const { container } = render(
+            <Provider store={store}>
+                <Legend
+                    items={[]}
+                    colorLegend={{ colors: ["#fff", "#000"] as IColor[], domain: [3, 10], format: (v) => `${v}%` }}
+                />
+            </Provider>
+        );
+
+        expect(container.querySelector(".color-legend-min")?.textContent).toBe("3%");
+        expect(container.querySelector(".color-legend-max")?.textContent).toBe("10%");
+    });
+
     it("should show a grabbing cursor while being dragged", async () => {
         const items = [{ name: "a", icon: "circle" as const, color: "blue" as IColor }];
 

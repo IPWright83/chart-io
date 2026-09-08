@@ -1,9 +1,10 @@
 import { chartSelectors, IState } from "@chart-io/core";
-import type { ILegendFormatter, ILegendItem, ISizeLegend as ISizeLegendData } from "@chart-io/core";
+import type { IColorLegend as IColorLegendData, ILegendFormatter, ILegendItem, ISizeLegend as ISizeLegendData } from "@chart-io/core";
 
 import React from "react";
 import { useSelector } from "react-redux";
 
+import { ColorLegend } from "./ColorLegend";
 import { LegendItem } from "./LegendItem";
 import { SizeLegend } from "./SizeLegend";
 
@@ -22,6 +23,11 @@ export interface ILegendProps {
      * The size legend registered by a `<ZAxis>`, if any - rendered at the bottom of the Legend
      */
     sizeLegend?: ISizeLegendData | null;
+    /**
+     * The color legend registered by a plot with a continuous color scale (e.g. `<Heatmap>`), if
+     * any - rendered at the bottom of the Legend
+     */
+    colorLegend?: IColorLegendData | null;
     /**
      * True if the legend should be displayed in a horizontal appearance
      */
@@ -59,6 +65,7 @@ export interface ILegendProps {
 export function Legend({
     items,
     sizeLegend,
+    colorLegend,
     positionStyle,
     horizontal = false,
     formatters = {},
@@ -96,7 +103,7 @@ export function Legend({
         flexWrap: "wrap" as const,
     };
 
-    if ((!items || items.length === 0) && !sizeLegend) {
+    if ((!items || items.length === 0) && !sizeLegend && !colorLegend) {
         return null;
     }
 
@@ -124,6 +131,7 @@ export function Legend({
                     })}
                 </div>
             )}
+            {colorLegend && <ColorLegend colorLegend={colorLegend} />}
             {sizeLegend && <SizeLegend sizeLegend={sizeLegend} />}
         </div>
     );

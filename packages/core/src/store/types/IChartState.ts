@@ -1,5 +1,5 @@
 import type { ILabeller } from "../../utils";
-import type { ICompassPosition, IData, IDatum, ILegendItem, IMargin, IScale, ISizeLegend, ITheme } from "../../types";
+import type { ICompassPosition, IColorLegend, IData, IDatum, ILegendItem, IMargin, IPivot, IScale, ISizeLegend, ITheme } from "../../types";
 
 export interface IChartScaleInfo {
   scale?: IScale;
@@ -26,6 +26,8 @@ export interface IChartStateLegend {
   position?: ICompassPosition;
   // The size legend a <ZAxis> has registered, if any, explaining a Scatter/Scatters z encoding
   sizeLegend?: ISizeLegend | null;
+  // The gradient legend a plot with a continuous color scale (e.g. <Heatmap>) has registered, if any
+  colorLegend?: IColorLegend | null;
   // Whether the user has explicitly hidden the legend, e.g. via a <ContextMenu> action
   hidden?: boolean;
 }
@@ -66,4 +68,9 @@ export interface IChartState {
   labeller: ILabeller;
   zoomable: boolean;
   zoom: IChartStateZoom;
+  // Whether a <Heatmap> should offer switching between its grid/rows/columns layouts
+  pivotable: boolean;
+  // Which axis (if any) is currently collapsed into a single cumulative linear scale, undefined
+  // meaning the full grid - see IPivot
+  pivot: IPivot | undefined;
 }

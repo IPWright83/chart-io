@@ -37,6 +37,14 @@ export interface IContextMenuItem {
     icon: string;
 
     /**
+     * Icons (raw SVG markup, same rules as `icon`) for the mini segments revealed as an extra ring
+     * band just outside this segment's own arc while it's hovered/active (and hidden on mouseleave) -
+     * one entry per mini segment, each hinting at one possible outcome of the action (e.g. the two
+     * axes a pivot could collapse to). Omit for no outer band
+     */
+    activeSegments?: string[];
+
+    /**
      * Renders the segment in a disabled state and prevents it from being selected. Useful for
      * actions that aren't currently applicable (e.g. "Reset zoom" while nothing is zoomed in)
      * rather than removing the item outright, which would reflow the rest of the ring

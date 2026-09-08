@@ -172,6 +172,146 @@ function attachCloseListeners(container: HTMLElement, instance: IContextMenuInst
     };
 }
 
+/** The gap, in pixels, left between the main ring and a hovered item's outer "active" band */
+const ACTIVE_BAND_GAP = 4;
+
+// Deliberately not sized/spaced to match the main ring's own proportions - unlike the ring itself,
+// this band isn't standing in for real data (it's a menu hint, not a stacked-pie segment), so it's
+// free to be as deep and its icons as large as it takes to read clearly
+/** The depth, in pixels, of a hovered item's outer "active" band */
+const ACTIVE_BAND_THICKNESS = 26;
+
+/** The size, in pixels, a mini segment's own icon (see `IContextMenuItem.activeSegments`) is scaled to */
+const MINI_ICON_SIZE = 22;
+
+/** One mini segment of a hovered item's outer "active" band - its own icon plus its angular bounds */
+interface IActiveSegment {
+    icon: string;
+    startAngle: number;
+    endAngle: number;
+}
+
+/**
+ * Splits `[startAngle, endAngle]` into `icons.length` equal mini segments, with a small gap between
+ * them, one per entry in `icons` - the outer "active" band revealed on a hovered segment (see
+ * `IContextMenuItem.activeSegments`)
+ * @param  startAngle    The angular start (radians) of the segment this band sits over
+ * @param  endAngle      The angular end (radians) of the segment this band sits over
+ * @param  icons         One icon (raw SVG markup) per mini segment to create
+ * @return               Each mini segment's icon and angular bounds
+ */
+function activeSegmentsFor(startAngle: number, endAngle: number, icons: string[]): IActiveSegment[] {
+    const miniGapAngle = 0.02;
+    const each = (endAngle - startAngle - miniGapAngle * (icons.length - 1)) / icons.length;
+
+    return icons.map((icon, i) => {
+        const segStart = startAngle + i * (each + miniGapAngle);
+        return { icon, startAngle: segStart, endAngle: segStart + each };
+    });
+}
+
+/**
+ * Toggles a hovered item's outer "active" band on/off, via the CSS `transition` set on the group
+ * when it's first created. Hovering an item with no `activeSegments` is a harmless no-op, since its
+ * (empty) band group has nothing to fade in
+ * @param  item     The `<g class="chart-io context-menu-item">` selection for one segment
+ * @param  shown    Whether the band should be shown
+ */
+function setActiveSegmentsShown(item: d3.Selection<SVGGElement, unknown, null, undefined>, shown: boolean): void {
+    item.select(".chart-io.context-menu-active-segments").style("opacity", shown ? 1 : 0);
+}
+
+/**
+ * Applies (or clears) an item's hover state - the wedge's own highlight fill, plus its outer
+ * "active" band. Shared by both the wedge itself and its invisible hover-bridge (see `buildAndGrow`)
+ * so entering/leaving either has the same effect
+ * @param  item     The `<g class="chart-io context-menu-item">` selection for one segment
+ * @param  d        That segment's arc datum
+ * @param  hovered  Whether it should now read as hovered
+ * @param  colors   The menu's color palette
+ */
+function setHovered(item: d3.Selection<SVGGElement, unknown, null, undefined>, d: IArc, hovered: boolean, colors: ITheme["menu"]): void {
+    item
+        .select<SVGPathElement>(".chart-io.context-menu-wedge")
+        .style("fill", (hovered ? colors.backgroundHover : colors.background)?.toString() ?? null);
+    setActiveSegmentsShown(item, hovered && !!d.data.activeSegments);
+}
+
+/**
+ * Writes each item's icon markup (from `d.data.icon`) into `selection`'s `<g>`, and tints it via the
+ * menu's `colors.text`. Only touches the DOM when the icon has actually changed, keyed by item id -
+ * without this, re-selecting an already-rendered menu (e.g. `updateInPlace`) would rewrite identical
+ * markup on every call
+ * @param  selection    A `.chart-io.context-menu-icon` group selection
+ * @param  colors       The menu's color palette, applied as the icon's `currentColor`
+ */
+function setIconContent(selection: d3.Selection<SVGGElement, IArc, any, unknown>, colors: ITheme["menu"]): void {
+    selection.style("color", colors.text?.toString() ?? null).each(function (d) {
+        const node = d3.select(this);
+        if (node.attr("data-icon") !== d.data.id) {
+            node.attr("data-icon", d.data.id).html(d.data.icon);
+        }
+    });
+}
+
+/**
+ * Builds/updates each item's outer "active" band - the mini segments (each its own arc plus a
+ * centered icon) revealed on hover (see `IContextMenuItem.activeSegments`) - from its current
+ * angular position and `activeSegments` icons. Safe to call on both a freshly-entered and an
+ * already-rendered selection: re-running it just reconciles the child elements (via `.join`) to
+ * whatever `activeSegments` currently resolves to
+ * @param  selection    A `.chart-io.context-menu-active-segments` group selection
+ * @param  radius       The ring's inner radius, in pixels
+ * @param  thickness    The ring's segment depth, in pixels
+ * @param  colors       The menu's color palette, applied as each mini segment's fill/stroke/icon color
+ */
+function renderActiveSegments(
+    selection: d3.Selection<SVGGElement, IArc, any, unknown>,
+    radius: number,
+    thickness: number,
+    colors: ITheme["menu"],
+): void {
+    const innerRadius = radius + thickness + ACTIVE_BAND_GAP;
+    const outerRadius = innerRadius + ACTIVE_BAND_THICKNESS;
+    const arcGenerator = d3.arc<IActiveSegment>().innerRadius(innerRadius).outerRadius(outerRadius).cornerRadius(1);
+    const midArcGenerator = d3.arc<IActiveSegment>().innerRadius((innerRadius + outerRadius) / 2).outerRadius((innerRadius + outerRadius) / 2);
+
+    selection.each(function (d) {
+        const segments = activeSegmentsFor(d.startAngle, d.endAngle, d.data.activeSegments ?? []);
+
+        const join = d3.select(this).selectAll<SVGGElement, IActiveSegment>(".chart-io.active-segment").data(segments);
+        join.exit().remove();
+
+        const enter = join.enter().append("g").attr("class", "chart-io active-segment");
+        enter.append("path");
+        enter.append("g").attr("class", "chart-io active-segment-icon").style("pointer-events", "none");
+
+        const merged = enter.merge(join);
+
+        merged
+            .select<SVGPathElement>("path")
+            .attr("d", (s) => arcGenerator(s))
+            .attr("fill", colors.background?.toString() ?? null)
+            .attr("stroke", colors.border?.toString() ?? null)
+            .attr("stroke-width", 1);
+
+        merged
+            .select<SVGGElement>(".chart-io.active-segment-icon")
+            .style("color", colors.text?.toString() ?? null)
+            .each(function (s) {
+                const node = d3.select(this);
+                if (node.attr("data-icon") !== s.icon) {
+                    node.attr("data-icon", s.icon).html(s.icon);
+                }
+                node.select("svg").attr("width", MINI_ICON_SIZE).attr("height", MINI_ICON_SIZE);
+            })
+            .attr("transform", (s) => {
+                const [ix, iy] = midArcGenerator.centroid(s);
+                return `translate(${ix - MINI_ICON_SIZE / 2}, ${iy - MINI_ICON_SIZE / 2})`;
+            });
+    });
+}
+
 /**
  * Renders the ring of segments for a freshly-opened menu, growing each segment's outer radius out
  * from the center
@@ -192,44 +332,70 @@ function buildAndGrow(root: ID3RootSelection, options: Required<IContextMenuOpti
     join.exit().remove();
 
     const enter = join.enter().append("g").attr("class", "chart-io context-menu-item");
-    enter.append("path");
+    enter.append("path").attr("class", "chart-io context-menu-wedge");
     enter.append("g").attr("class", "chart-io context-menu-icon");
+    enter
+        .append("g")
+        .attr("class", "chart-io context-menu-active-segments")
+        .style("opacity", 0)
+        .style("transition", "opacity 120ms ease-out")
+        .style("pointer-events", "none");
+    // Invisible, sits flush against the wedge's outer edge and extends out through the (otherwise
+    // dead) `ACTIVE_BAND_GAP` to cover the active band too - without it, moving the pointer from the
+    // wedge out towards its own active band crosses a small stretch with no element under it at all,
+    // which reads as leaving the item entirely (hiding the band) before ever reaching it. Sharing
+    // `setHovered` with the wedge itself means crossing straight from one onto the other (zero gap
+    // between them) still fires leave-then-enter within the same tick, so the band never flickers
+    enter
+        .append("path")
+        .attr("class", "chart-io context-menu-hover-bridge")
+        .style("fill", "transparent")
+        .style("pointer-events", "all");
 
     const merged = enter.merge(join).attr("data-disabled", (d) => String(!!d.data.disabled));
 
     const paths = merged
-        .select<SVGPathElement>("path")
+        .select<SVGPathElement>(".chart-io.context-menu-wedge")
         .style("cursor", (d) => (d.data.disabled ? "default" : "pointer"))
         .style("transition", "fill 120ms ease-out")
         .style("fill", (d) => (d.data.disabled ? colors.backgroundDisabled : colors.background)?.toString() ?? null)
         .attr("stroke", colors.border?.toString() ?? null)
         .attr("stroke-width", 1)
-        .on("mouseenter", function (_event, d) {
-            if (d.data.disabled) return;
-            d3.select(this).style("fill", colors.backgroundHover?.toString() ?? null);
-        })
-        .on("mouseleave", function (_event, d) {
-            if (d.data.disabled) return;
-            d3.select(this).style("fill", colors.background?.toString() ?? null);
-        })
         .on("click", (_event, d) => {
             if (d.data.disabled) return;
             onSelect(d.data);
         });
 
+    const hoverTargets = merged.selectAll<SVGPathElement, IArc>(".chart-io.context-menu-wedge, .chart-io.context-menu-hover-bridge");
+
+    hoverTargets
+        .on("mouseenter", function (_event, d) {
+            if (d.data.disabled) return;
+            setHovered(d3.select(this.parentNode as SVGGElement), d, true, colors);
+        })
+        .on("mouseleave", function (_event, d) {
+            if (d.data.disabled) return;
+            setHovered(d3.select(this.parentNode as SVGGElement), d, false, colors);
+        });
+
     paths.selectAll("title").data((d) => [d]).join("title").text((d) => d.data.label);
+
+    setIconContent(merged.select<SVGGElement>(".chart-io.context-menu-icon"), colors);
+    renderActiveSegments(merged.select<SVGGElement>(".chart-io.context-menu-active-segments"), radius, thickness, colors);
+
+    merged
+        .select<SVGPathElement>(".chart-io.context-menu-hover-bridge")
+        .attr("d", (d) => {
+            const innerRadius = radius + thickness;
+            const outerRadius = innerRadius + ACTIVE_BAND_GAP + ACTIVE_BAND_THICKNESS;
+            return d3.arc<IArc>().innerRadius(innerRadius).outerRadius(outerRadius)(d);
+        });
 
     merged
         .select<SVGGElement>(".chart-io.context-menu-icon")
         .style("pointer-events", "none")
-        .style("color", colors.text?.toString() ?? null)
-        .each(function (d) {
-            const node = d3.select(this);
-            // Only (re)write markup when the icon actually changes, to avoid clobbering it every render
-            if (node.attr("data-icon") !== d.data.id) {
-                node.attr("data-icon", d.data.id).html(d.data.icon);
-            }
-            node.select("svg").attr("width", iconSize).attr("height", iconSize);
+        .each(function () {
+            d3.select(this).select("svg").attr("width", iconSize).attr("height", iconSize);
         })
         .attr("transform", (d) => {
             const [ix, iy] = arcGenerator.outerRadius(radius + thickness).centroid(d);
@@ -274,7 +440,7 @@ function updateInPlace(root: ID3RootSelection, options: Required<IContextMenuOpt
         .attr("data-disabled", (d) => String(!!d.data.disabled));
 
     merged
-        .select<SVGPathElement>("path")
+        .select<SVGPathElement>(".chart-io.context-menu-wedge")
         .attr("d", (d) => arcGenerator(d))
         .style("cursor", (d) => (d.data.disabled ? "default" : "pointer"))
         .style("fill", (d) => (d.data.disabled ? colors.backgroundDisabled : colors.background)?.toString() ?? null)
@@ -283,15 +449,28 @@ function updateInPlace(root: ID3RootSelection, options: Required<IContextMenuOpt
             onSelect(d.data);
         });
 
+    // Keeps the hover-bridge's angular span in sync with its wedge - e.g. items being added/removed
+    // shifts everyone else's angles too, even though the radii it spans never change (see `buildAndGrow`)
+    merged
+        .select<SVGPathElement>(".chart-io.context-menu-hover-bridge")
+        .attr("d", (d) => {
+            const innerRadius = radius + thickness;
+            const outerRadius = innerRadius + ACTIVE_BAND_GAP + ACTIVE_BAND_THICKNESS;
+            return d3.arc<IArc>().innerRadius(innerRadius).outerRadius(outerRadius)(d);
+        });
+
+    setIconContent(merged.select<SVGGElement>(".chart-io.context-menu-icon"), colors);
+    renderActiveSegments(merged.select<SVGGElement>(".chart-io.context-menu-active-segments"), radius, thickness, colors);
+
     merged
         .select<SVGGElement>(".chart-io.context-menu-icon")
         .attr("transform", (d) => {
             const [ix, iy] = arcGenerator.centroid(d);
             return `translate(${ix - iconSize / 2}, ${iy - iconSize / 2})`;
         })
-        .select("svg")
-        .attr("width", iconSize)
-        .attr("height", iconSize);
+        .each(function () {
+            d3.select(this).select("svg").attr("width", iconSize).attr("height", iconSize);
+        });
 }
 
 /**
@@ -313,7 +492,7 @@ function shrinkAndRemove(root: ID3RootSelection, instance: IContextMenuInstance,
     items.select(".chart-io.context-menu-icon").transition().duration(animationDuration * 0.4).style("opacity", 0);
 
     items
-        .select<SVGPathElement>("path")
+        .select<SVGPathElement>(".chart-io.context-menu-wedge")
         .transition()
         .duration(animationDuration)
         .attrTween("d", function (d) {
@@ -396,7 +575,9 @@ export function renderContextMenu(container: HTMLElement, options: IContextMenuO
     container.style.pointerEvents = "auto";
     container.style.zIndex = "9999";
 
-    const size = (resolved.radius + resolved.thickness) * 2;
+    // Wide enough to fit a hovered item's outer "active" band without clipping it, even though most
+    // menus never actually grow one - the extra space is transparent, so it costs nothing visually
+    const size = (resolved.radius + resolved.thickness + ACTIVE_BAND_GAP + ACTIVE_BAND_THICKNESS) * 2;
     const root = ensureSvg(container, size)
         .attr("class", "chart-io context-menu")
         .on("contextmenu", (event: MouseEvent) => event.preventDefault());

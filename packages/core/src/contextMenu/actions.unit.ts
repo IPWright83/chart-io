@@ -114,11 +114,52 @@ describe("createToggleLegendAction", () => {
     });
 });
 
+describe("createPivotAction", () => {
+    it("is disabled while the heatmap isn't pivotable", () => {
+        expect(createPivotAction(notZoomedState).disabled).toBe(true);
+    });
+
+    it("is enabled once pivotable is set", () => {
+        const pivotableState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true } };
+        expect(createPivotAction(pivotableState).disabled).toBe(false);
+    });
+
+    it("labels itself with the pivot it will switch to, cycling grid -> x -> y -> grid", () => {
+        const gridState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: undefined } };
+        const xState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "x" as const } };
+        const yState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "y" as const } };
+
+        expect(createPivotAction(gridState).label).toBe("Pivot: x");
+        expect(createPivotAction(xState).label).toBe("Pivot: y");
+        expect(createPivotAction(yState).label).toBe("Pivot: grid");
+    });
+
+    it("dispatches chartActions.setPivot with the next pivot when selected", () => {
+        const xState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "x" as const } };
+        const dispatch = jest.fn();
+        createPivotAction(xState).onSelect(dispatch);
+
+        expect(dispatch).toHaveBeenCalledWith(expect.objectContaining({ type: "chart/setPivot", payload: "y" }));
+    });
+
+    it("swaps its columns activeSegment for a cancel icon once already on \"y\", since selecting it now returns to the grid", () => {
+        const gridState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: undefined } };
+        const xState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "x" as const } };
+        const yState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true, pivot: "y" as const } };
+
+        const [, columnsSegmentAtGrid] = createPivotAction(gridState).activeSegments;
+        const [, columnsSegmentAtX] = createPivotAction(xState).activeSegments;
+        const [, columnsSegmentAtY] = createPivotAction(yState).activeSegments;
+
+        expect(columnsSegmentAtGrid).toBe(columnsSegmentAtX);
+        expect(columnsSegmentAtY).not.toBe(columnsSegmentAtGrid);
+    });
+});
+
 describe("stubbed actions", () => {
     // These don't have any store state to wire up to yet - they should still be safely callable
     // and not throw
     it.each([
-        ["pivot", createPivotAction()],
         ["draw-polygon", createDrawPolygonAction()],
         ["focus-data-point", createFocusDataPointAction()],
         ["add-annotation", createAddAnnotationAction()],
@@ -136,9 +177,16 @@ describe("getDefaultBackgroundItems", () => {
 });
 
 describe("getDefaultDatumItems", () => {
-    it("includes hide, focus and annotate", () => {
-        const ids = getDefaultDatumItems().map((item) => item.id);
-        expect(ids).toEqual(["hide-data-point", "focus-data-point", "add-annotation"]);
+    it("includes hide, focus, annotate and pivot", () => {
+        const ids = getDefaultDatumItems(notZoomedState).map((item) => item.id);
+        expect(ids).toEqual(["hide-data-point", "focus-data-point", "add-annotation", "pivot"]);
+    });
+
+    it("passes state through to its pivot item, e.g. so it's disabled unless pivotable", () => {
+        const pivotableState = { event: defaultEventState, chart: { ...defaultChartState, pivotable: true } };
+
+        expect(getDefaultDatumItems(notZoomedState).find((item) => item.id === "pivot").disabled).toBe(true);
+        expect(getDefaultDatumItems(pivotableState).find((item) => item.id === "pivot").disabled).toBe(false);
     });
 });
 
@@ -154,6 +202,6 @@ describe("getDefaultItems", () => {
 
     it("returns the datum items when opened with a datum context", () => {
         const ids = getDefaultItems(notZoomedState, { type: "datum", datum: { a: 1 } }).map((item) => item.id);
-        expect(ids).toEqual(getDefaultDatumItems().map((item) => item.id));
+        expect(ids).toEqual(getDefaultDatumItems(notZoomedState).map((item) => item.id));
     });
 });
